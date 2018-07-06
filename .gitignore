@@ -1,0 +1,10 @@
+# Latex output
+*.toc
+*.aux
+*.log
+*.lot
+*.out
+*.lof
+
+# Swap files
+*.swp
