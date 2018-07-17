@@ -1,3 +1,20 @@
 \chapter{Reformulating the amplitude equations}
     \label{app:ccsd-dot-products}
-    We will \cite{gauss1995coupled}
+    We will in this appendix show how to formulate the tensor contractions
+    occuring in the the coupled cluster equations from Gauss et
+    al.\cite{gauss1995coupled} as matrix products. The reason we wish to do this
+    is to be able to perform these contractions as dot products (or matrix
+    products) as there exists highly optimized code performing these operations,
+    e.g., BLAS\footnote{BLAS can be found here:
+    \url{http://www.netlib.org/blas/}}.
+
+    To be able to treat tensors of rank $> 2$ as matrices we have to create
+    \emph{compound indices} by stacking the dimensions after one another. For
+    instance, by looking at the tensor $g \in \mathbb{C}^{I \times J \times K
+    \times L}$ where we denote a single element by $g_{ijkl}$. Here $g$ denotes
+    a tensor of rank 4. By creating compound indices $\tilde{I} = IJ$ and
+    $\tilde{K} = KL$ we can create a new tensor $\tilde{g} =
+    \mathbb{C}^{\tilde{I} \times \tilde{K}}$ of rank 2 (represented as a
+    matrix). Using the indices $\tilde{i} = iJ + j$ and $\tilde{k} = kL + l$ we
+    now construct $\tilde{g}$ in such a way that $\tilde{g}_{\tilde{i}\tilde{k}}
+    = g_{ijkl}$.
