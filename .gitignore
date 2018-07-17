@@ -5,6 +5,10 @@
 *.lot
 *.out
 *.lof
+*.bbl
+*.bcf
+*.blg
+*.run.xml
 
 # Swap files
 *.swp
