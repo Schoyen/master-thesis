@@ -27,7 +27,7 @@
     the compound indices and their sizes, but we will instead indicate with a
     comma where we construct new indices.
     % TODO: Explain the notation with paranthesis for reshapes and the use of
-    % tilde when build a new u-matrix.
+    % tilde when building a new u-matrix.
 
     \section{Reformulating the CCD equations}
 
@@ -82,5 +82,11 @@
             F_{m, i} = f_{m, i}
             + \frac{1}{2}f_{m, e} t_{e, i}
             + \left(t_{en}\tilde{u}_{en, mi}\right)_{m, i}
-            + \frac{1}{2}\tilde{u}_{m, nef}\tilde{\xi}_{nef, i}.
+            + \frac{1}{2}\tilde{u}_{m, nef}\tilde{\xi}_{nef, i},
+            \\
+            F_{me} = f_{me} + t^{f}_{n}u^{mn}_{ef}
+            \\
+            \implies
+            F_{m, e} = f_{m, e}
+            + \left(t_{fn}\tilde{u}_{fn, me}\right)_{m, e}.
         \end{gather}
