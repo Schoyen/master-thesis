@@ -1,20 +1,86 @@
-\chapter{Reformulating the amplitude equations}
+\chapter{Reformulating the amplitude equations as matrix products}
     \label{app:ccsd-dot-products}
     We will in this appendix show how to formulate the tensor contractions
-    occuring in the the coupled cluster equations from Gauss et
-    al.\cite{gauss1995coupled} as matrix products. The reason we wish to do this
-    is to be able to perform these contractions as dot products (or matrix
-    products) as there exists highly optimized code performing these operations,
-    e.g., BLAS\footnote{BLAS can be found here:
+    occuring in the coupled cluster equations as matrix products. The reason we
+    wish to do this is to be able to perform these contractions as dot products
+    (or matrix products) as there exists highly optimized code performing these
+    operations, e.g., BLAS\footnote{BLAS can be found here:
     \url{http://www.netlib.org/blas/}}.
 
     To be able to treat tensors of rank $> 2$ as matrices we have to create
     \emph{compound indices} by stacking the dimensions after one another. For
     instance, by looking at the tensor $g \in \mathbb{C}^{I \times J \times K
-    \times L}$ where we denote a single element by $g_{ijkl}$. Here $g$ denotes
-    a tensor of rank 4. By creating compound indices $\tilde{I} = IJ$ and
+    \times L}$, where we denote a single element by $g_{ijkl}$. Here $g$ is a
+    tensor of rank 4. By creating compound indices $\tilde{I} = IJ$ and
     $\tilde{K} = KL$ we can create a new tensor $\tilde{g} =
     \mathbb{C}^{\tilde{I} \times \tilde{K}}$ of rank 2 (represented as a
     matrix). Using the indices $\tilde{i} = iJ + j$ and $\tilde{k} = kL + l$ we
     now construct $\tilde{g}$ in such a way that $\tilde{g}_{\tilde{i}\tilde{k}}
     = g_{ijkl}$.
+
+    It is also possible to create compound indices of more than two indices. For
+    instance; choosing $\tilde{J} = JKL$ and setting $\tilde{j} = jKL + kL + l$
+    we can construct $\bar{g} = \mathbb{C}^{I\times \tilde{J}}$ where
+    $\bar{g}_{i\tilde{j}} = g_{ijkl}$.
+
+    For the sake of brevity and clarity we will in the following avoid renaming
+    the compound indices and their sizes, but we will instead indicate with a
+    comma where we construct new indices.
+    % TODO: Explain the notation with paranthesis for reshapes and the use of
+    % tilde when build a new u-matrix.
+
+    \section{Reformulating the CCD equations}
+
+    \section{Reformulating the CCSD equations}
+        We use the expressions for the CCSD equations derived by Gauss et
+        al.\cite{gauss1995coupled}. We start with the \emph{effective double
+        excitation amplitudes} found at the bottom of table 3 in their article.
+        Note that we rename $\tilde{\tau} \to \xi$ thus reserving the twiddle
+        for intermediate calculations.
+
+        \begin{gather}
+            \tau^{ab}_{ij} = t^{ab}_{ij}
+            + \frac{1}{2}P(ij)P(ab)t^{a}_{i} t^{b}_{j}
+            \\
+            \implies \tau_{ab, ij} = t_{ab, ij}
+            + \frac{1}{2}P(ij)P(ab)\left(t_{a, i} t_{b, j}\right)_{ab, ij},
+            \\
+            \xi^{ab}_{ij} = t^{ab}_{ij}
+            + \frac{1}{4}P(ij)P(ab)t^{a}_{i}t^{b}_{j}
+            \\
+            \implies
+            \xi_{ab, ij} = t_{ab, ij}
+            + \frac{1}{4}P(ij)P(ab)\left(t_{a, i} t_{b, j}\right)_{ab, ij}.
+        \end{gather}
+
+        Next we look at the one-body intermediates found at the top of table 3
+        in the article by Gauss et al.\cite{gauss1995coupled}. We use the
+        notation
+        \begin{align}
+            u^{am}_{ef} \equiv \bra{am}\ket{ef},
+        \end{align}
+        that is, we treat the matrix elements $u$ as the antisymmetric matrix
+        elements of the two-body operator.
+
+        \begin{gather}
+            F_{ae} = f_{ae}
+            - \frac{1}{2}f_{me}t^{a}_{m}
+            + t^{f}_{m}u^{am}_{ef}
+            - \frac{1}{2}\xi^{af}_{mn}u^{mn}_{ef}
+            \\
+            \implies
+            F_{a, e} = f_{a, e}
+            - \frac{1}{2}t_{a, m}f_{m, e}
+            + \left(t_{fm}\tilde{u}_{fm, ae}\right)_{a, e}
+            - \frac{1}{2}\xi_{a, fmn}\tilde{u}_{fmn, e},
+            \\
+            F_{mi} = f_{mi} + \frac{1}{2}f_{me}t^{e}_{i}
+            + t^{e}_{n}u^{mn}_{ie}
+            + \frac{1}{2}\xi^{ef}_{in}u^{mn}_{ef}
+            \\
+            \implies
+            F_{m, i} = f_{m, i}
+            + \frac{1}{2}f_{m, e} t_{e, i}
+            + \left(t_{en}\tilde{u}_{en, mi}\right)_{m, i}
+            + \frac{1}{2}\tilde{u}_{m, nef}\tilde{\xi}_{nef, i}.
+        \end{gather}
