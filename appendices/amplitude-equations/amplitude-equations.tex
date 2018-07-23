@@ -28,6 +28,12 @@
     comma where we construct new indices.
     % TODO: Explain the notation with paranthesis for reshapes and the use of
     % tilde when building a new u-matrix.
+    % TODO: Add examples of the notation with twiddle u, reshapes and compound
+    % indices.
+    % TODO: Explain the index ordering with upper indices as the most
+    % significant and lower indices as the least significant.
+    % TODO: Explain the cost with reshapes and how this is potentially faster
+    % than the price of cache misses with a slanted view on a matrix.
 
     \section{Reformulating the CCD equations}
 
@@ -61,10 +67,9 @@
         \end{align}
         that is, we treat the matrix elements $u$ as the antisymmetric matrix
         elements of the two-body operator.
-
         \begin{gather}
-            F_{ae} = f_{ae}
-            - \frac{1}{2}f_{me}t^{a}_{m}
+            F^{a}_{e} = f^{a}_{e}
+            - \frac{1}{2}f^{m}_{e}t^{a}_{m}
             + t^{f}_{m}u^{am}_{ef}
             - \frac{1}{2}\xi^{af}_{mn}u^{mn}_{ef}
             \\
@@ -74,7 +79,7 @@
             + \left(t_{fm}\tilde{u}_{fm, ae}\right)_{a, e}
             - \frac{1}{2}\xi_{a, fmn}\tilde{u}_{fmn, e},
             \\
-            F_{mi} = f_{mi} + \frac{1}{2}f_{me}t^{e}_{i}
+            F^{m}_{i} = f^{m}_{i} + \frac{1}{2}f^{m}_{e}t^{e}_{i}
             + t^{e}_{n}u^{mn}_{ie}
             + \frac{1}{2}\xi^{ef}_{in}u^{mn}_{ef}
             \\
@@ -84,9 +89,23 @@
             + \left(t_{en}\tilde{u}_{en, mi}\right)_{m, i}
             + \frac{1}{2}\tilde{u}_{m, nef}\tilde{\xi}_{nef, i},
             \\
-            F_{me} = f_{me} + t^{f}_{n}u^{mn}_{ef}
+            F^{m}_{e} = f^{m}_{e} + t^{f}_{n}u^{mn}_{ef}
             \\
             \implies
             F_{m, e} = f_{m, e}
             + \left(t_{fn}\tilde{u}_{fn, me}\right)_{m, e}.
         \end{gather}
+
+        % TODO: Add an overview of new views on top of the tensors that is
+        % needed.
+
+        We now move on to the two-body intermediates found just below the
+        one-body intermediates in table 3 in the article by Gauss et
+        al.\cite{gauss1995coupled}. To avoid storing two matrices with $M^4$
+        elements we will not create the intermediate $W^{ab}_{ef}$ but rather
+        compute the products in place in the amplitude equations by splitting up
+        the products and do them one-by-one (this will shown in due time).
+        % TODO: Add link to the explicit amplitude equations where this occurs.
+        We will therefore still preserve the asymptotical scaling
+        $\mathcal{O}(M^4N^2)$ but add a constant term at the price of saving
+        memory.
