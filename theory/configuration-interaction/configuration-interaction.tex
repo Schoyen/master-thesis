@@ -1,2 +1,19 @@
 \chapter{Configuration interaction}
-    Lets diagonalize!
+     A popular post Hartree-Fock method is \textit{configuration interaction}.
+     It consists of expressing the wavefunction as a linear combination of
+     excited Slater determinants in a truncated single-particle and Slater
+     determinant basis.
+     \begin{align}
+         \ket{\Psi_{\text{CI}}}
+         &= A_0\ket{\Phi_0}
+         \sum_{ai}A^a_i\ket{\Phi^a_i}
+         + \frac{1}{4}\sum_{abij}A^{ab}_{ij}\ket{\Phi^{ab}_{ij}}
+         + \dots,
+     \end{align}
+     where we have divided by a factor $4$ in the double sum to avoid over
+     counting as both the coefficients and the excited determinants are
+     antisymmetric. By generating all the possible Slater determinants from the
+     $L$ single-particle functions we employ the \textit{full configuration
+     interaction} method. This will give the most accurate value of the energy
+     for the system, but quickly becomes computationally impossible as the FCI
+     space grows in dimensions as $\binom{L}{N}$.
