@@ -6,7 +6,7 @@
      \begin{align}
          \ket{\Psi_{\text{CI}}}
          &= A_0\ket{\Phi_0}
-         \sum_{ai}A^a_i\ket{\Phi^a_i}
+         + \sum_{ai}A^a_i\ket{\Phi^a_i}
          + \frac{1}{4}\sum_{abij}A^{ab}_{ij}\ket{\Phi^{ab}_{ij}}
          + \dots,
      \end{align}
@@ -17,3 +17,50 @@
      interaction} method. This will give the most accurate value of the energy
      for the system, but quickly becomes computationally impossible as the FCI
      space grows in dimensions as $\binom{L}{N}$.
+     \cite{kvaal2017notes}
+
+     \section{Time-independent configuration interaction theory}
+        We start with the time-independent Schrödinger equation
+        \begin{align}
+            \hat{H}\ket{\Psi_J} = E_J\ket{\Psi_J},
+            \label{eq:ci_tise}
+        \end{align}
+        where $(E_J, \ket{\Psi_J})$ is an eigenpair for $\hat{H}$. Expanding the
+        CI wavefunction in a Slater determinant basis.
+        \begin{align}
+            \ket{\Psi_J} = \sum_{K} A_{KJ}\ket{\Phi_K},
+            \label{eq:expanded_ci_wavefunction}
+        \end{align}
+        where $A_{KJ}$ are the amplitudes for a certain excitation $K$ for a
+        specific energy level $J$. Inserting
+        \autoref{eq:expanded_ci_wavefunction} into \autoref{eq:ci_tise} and left
+        projecting on a state $\ket{\Phi_I}$ we get
+        \begin{align}
+            \sum_{K}\bra{\Phi_I}\hat{H}\ket{\Phi_K}A_{KJ}
+            = E_J\sum_{K}\braket{\Phi_I}{\Phi_K}A_{KJ}.
+        \end{align}
+        We now define the Hamiltonian matrix $H_{IK} =
+        \bra{\Phi_I}\hat{H}\ket{\Phi_K}$ and the overlap matrix $S_{IK} =
+        \braket{\Phi_I}{\Phi_K}$. We can thus formulate the generalized
+        eigenvalue equation
+        \begin{gather}
+            \sum_{K}H_{IK}A_{KJ} = E_J\sum_{K}S_{IK}A_{KJ}
+            \\
+            \implies
+            HA = ESA,
+        \end{gather}
+        where $S_{IK} = 1 \iff \braket{\Phi_I}{\Phi_K} = \delta_{IK}$. We will
+        in this text only care about systems where the Slater determinants are
+        orthonormal. Thus the eigenvalue equation we will solve will be
+        \begin{align}
+            HA = EA,
+        \end{align}
+        which means our job is to construct $H_{IJ}$ and diagonalize the
+        matrix\cite{karwowski}. The elements $H_{IJ}$ are computed by
+        \begin{align}
+            \bra{\Phi_I}\hat{H}\ket{\Phi_J}
+            &= \sum_{pq}\bra{p}\hat{h}\ket{q}
+            \bra{\Phi_I}\ccr{p}\can{q}\ket{\Phi_J}
+            + \frac{1}{4}\sum_{pqrs}\bra{pq}\ket{rs}
+            \bra{\Phi_I}\ccr{p}\ccr{q}\can{s}\can{r}\ket{\Phi_J}.
+        \end{align}
