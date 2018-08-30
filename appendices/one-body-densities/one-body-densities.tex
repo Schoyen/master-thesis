@@ -1,0 +1,97 @@
+\chapter{Computing the one-body density matrices}
+    From Kvaal\cite{kvaal2012ab} we have an expression for the one-body density
+    matrices $\rho^q_p$\footnote{Note the ordering of the indices. We use the
+    same convention as Kvaal in his article.} as a function of the coupled
+    cluster amplitudes $t$ and $\lambda$.
+    \begin{align}
+        \rho^{q}_{p}
+        &= \bra{\tilde{\Psi}}\ccr{p}\can{q}\ket{\Psi}
+        = \bra{\tilde{\Phi}}(1 + \Lambda)e^{-T}\ccr{p}\can{q}e^T\ket{\Phi}.
+    \end{align}
+    We wish to find an expression for $\rho^{q}_{p}$ in terms of the amplitudes
+    $t$ and $\lambda$ which we can contract. We start by splitting up the
+    expression to
+    \begin{align}
+        \rho^q_p
+        &= \bra{\tilde{\Phi}}e^{-T}\ccr{p}\can{q}e^T\ket{\Phi}
+        + \bra{\tilde{\Phi}}\Lambda e^{-T}\ccr{p}\can{q}e^T\ket{\Phi}.
+    \end{align}
+    Next we expand the exponentials and use the Baker-Campbell-Hausdorff
+    formula. This lets us write
+    \begin{align}
+        e^{-T}\ccr{p}\can{q}e^T
+        &= \ccr{p}\can{q}
+        + \com{\ccr{p}\can{q}}{T}
+        + \frac{1}{2!}\com{\com{\ccr{p}\can{q}}{T}}{T}
+        + \dots.
+    \end{align}
+    To determine how many terms to include we have to look at the number of
+    excitations that will be performed by the excitation operators $T$ and
+    relaxation operators $\Lambda$. We know that $T$ will \textit{at least}
+    excite the reference by $1$. The combined operator $\ccr{p}\can{q}$ is able
+    to excite and relax the reference with at most 1 or leave it unchanged. The
+    relaxation operator $\Lambda$ will \textit{at least} relax the reference by
+    $1$. As $\braket{\tilde{\Phi}_X}{\Phi_Y} = \delta_{XY}$, where $X$ and $Y$
+    are arbitrary excitations, the only non-zero contributions to $\rho^q_p$
+    will be the operator combinations that leave the reference unchanged after
+    applying the total operator chain. For the term without $\Lambda$ in
+    $\rho^q_p$ this leaves us with
+    \begin{align}
+        \bra{\tilde{\Phi}}e^{-T}\ccr{p}\can{q}e^T\ket{\Phi}
+        &= \bra{\tilde{\Phi}}\ccr{p}\can{q}\ket{\Phi}
+        + \bra{\tilde{\Phi}}\com{\ccr{p}\can{q}}{T}\ket{\Phi},
+    \end{align}
+    where the last term of the commutator will not contribute as leaving a $T$
+    on the left hand side of $\ccr{p}\can{q}$ will leave the reference excited.
+    \begin{align}
+        \bra{\tilde{\Phi}}\Lambda e^{-T}\ccr{p}\can{q}e^T\ket{\Phi}
+        &= \bra{\tilde{\Phi}}\Lambda \ccr{p}\can{q}\ket{\Phi}
+        + \bra{\tilde{\Phi}}\Lambda \com{\ccr{p}\can{q}}{T}\ket{\Phi}
+        \nonumber \\
+        &\qquad
+        + \frac{1}{2!}
+        \bra{\tilde{\Phi}}\Lambda \com{\com{\ccr{p}\can{q}}{T}}{T}\ket{\Phi}
+        + \dots.
+        \label{eq:rho_q_p_lambda_part}
+    \end{align}
+    Depending on the truncation level of the coupled cluster equations, e.g.,
+    singles, doubles etc, this will provide a natural truncation for
+    \autoref{eq:rho_q_p_lambda_part}.
+
+    \section{One-body density matrices for CCSD}
+        Truncating at CCSD \autoref{eq:rho_q_p_lambda_part} will truncate at the
+        double commutator as written. Employing SymPy\cite{sympy} we can compute
+        an expression for the one-body density matrices. Keeping only fully
+        contracted terms yield
+        \begin{align}
+            \rho^{q}_{p}
+            &= \bra{\tilde{\Phi}}\ccr{p}\can{q}\ket{\Phi}
+            + \bra{\tilde{\Phi}}\com{\ccr{p}\can{q}}{T}\ket{\Phi}
+            + \bra{\tilde{\Phi}}\Lambda \ccr{p}\can{q}\ket{\Phi}
+            \nonumber \\
+            &\qquad
+            + \bra{\tilde{\Phi}}\Lambda \com{\ccr{p}\can{q}}{T}\ket{\Phi}
+            + \frac{1}{2!}
+            \bra{\tilde{\Phi}}\Lambda \com{\com{\ccr{p}\can{q}}{T}}{T}\ket{\Phi}
+            \\
+            &=
+            \delta_{a p} \delta_{b q} l^{i}_{a} t^{b}_{i}
+            + \delta_{a q} \delta_{i p} l^{i}_{a}
+            + \delta_{a q} \delta_{i p} t^{a}_{i}
+            + \frac{l^{ji}_{ab} t^{ac}_{ji}}{2} \delta_{b p} \delta_{c q}
+            - \delta_{b q} \delta_{j p} l^{i}_{a} t^{a}_{j} t^{b}_{i}
+            \nonumber \\
+            &\qquad
+            - \delta_{b q} \delta_{j p} l^{i}_{a} t^{ab}_{ji}
+            - \frac{l^{ji}_{ab} t^{b}_{k}}{2} \delta_{c q} \delta_{k p} t^{ac}_{ji}
+            - \frac{l^{ji}_{ab} t^{c}_{j}}{2} \delta_{c q} \delta_{k p} t^{ab}_{ki}
+            \nonumber \\
+            &\qquad
+            - \delta_{i p} \delta_{j q} l^{i}_{a} t^{a}_{j}
+            + \delta_{i p}
+            - \frac{l^{ji}_{ab} t^{ab}_{ki}}{2} \delta_{j p} \delta_{k q}.
+        \end{align}
+        In this expression the indices are somewhat arbitrarily set from SymPy
+        and we will in the following sort these out. We'll also split up the
+        one-body density matrix into four parts, one for each configuration of
+        occupied and virtual states.
