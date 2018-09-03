@@ -61,8 +61,7 @@
     \section{One-body density matrices for CCSD}
         Truncating at CCSD \autoref{eq:rho_q_p_lambda_part} will truncate at the
         double commutator as written. Employing SymPy\cite{sympy} we can compute
-        an expression for the one-body density matrices. Keeping only fully
-        contracted terms yield
+        an expression for the one-body density matrices.
         \begin{align}
             \rho^{q}_{p}
             &= \bra{\tilde{\Phi}}\ccr{p}\can{q}\ket{\Phi}
@@ -75,23 +74,30 @@
             \bra{\tilde{\Phi}}\Lambda \com{\com{\ccr{p}\can{q}}{T}}{T}\ket{\Phi}
             \\
             &=
-            \delta_{a p} \delta_{b q} l^{i}_{a} t^{b}_{i}
-            + \delta_{a q} \delta_{i p} l^{i}_{a}
-            + \delta_{a q} \delta_{i p} t^{a}_{i}
-            + \frac{l^{ji}_{ab} t^{ac}_{ji}}{2} \delta_{b p} \delta_{c q}
-            - \delta_{b q} \delta_{j p} l^{i}_{a} t^{a}_{j} t^{b}_{i}
+            \delta^a_p \delta^q_b \para{
+                l^i_a t^b_i + \frac{1}{2} l^{ij}_{ac} t^{bc}_{ij}
+            }
+            + \delta^a_p \delta^q_i l^i_a
+            + \delta^q_j \delta^i_p \para{
+                \delta^j_i
+                - l^j_a t^a_i
+                + \half l^{jk}_{ab} t^{ab}_{ki}
+            }
             \nonumber \\
             &\qquad
-            - \delta_{b q} \delta_{j p} l^{i}_{a} t^{ab}_{ji}
-            - \frac{l^{ji}_{ab} t^{b}_{k}}{2} \delta_{c q} \delta_{k p} t^{ac}_{ji}
-            - \frac{l^{ji}_{ab} t^{c}_{j}}{2} \delta_{c q} \delta_{k p} t^{ab}_{ki}
-            \nonumber \\
-            &\qquad
-            - \delta_{i p} \delta_{j q} l^{i}_{a} t^{a}_{j}
-            + \delta_{i p}
-            - \frac{l^{ji}_{ab} t^{ab}_{ki}}{2} \delta_{j p} \delta_{k q}.
+            + \delta^q_a \delta^i_p \para{
+                t^a_i
+                + l^j_b \brak{
+                    t^{ab}_{ij} - t^b_i t^a_j
+                }
+                + \half l^{kj}_{cb} \brak{
+                    t^{b}_{i} t^{ac}_{kj}
+                    - t^a_j t^{cb}_{ki}
+                }
+            }.
+            \label{eq:rho_q_p_ccsd}
         \end{align}
-        In this expression the indices are somewhat arbitrarily set from SymPy
-        and we will in the following sort these out. We'll also split up the
-        one-body density matrix into four parts, one for each configuration of
-        occupied and virtual states.
+        In this expression we have only kept the fully contracted terms. SymPy
+        sets the indices arbitrarily so the expression shown in
+        \autoref{eq:rho_q_p_ccsd} has been factorized and had a relabeling of
+        the indices for improved readability.
