@@ -1,0 +1,60 @@
+\chapter{Time evolution of the coupled cluster wavefunction}
+    We compute the time evolution of any wavefunction from an initial state at
+    time $t_0$ to a later time $t$ by
+    \begin{align}
+        P(t_0 \to t)
+        \equiv |\braket{\psi(t)}{\psi(t_0)}|^2.
+    \end{align}
+    That is, we compute the squared overlap between the initial state
+    $\ket{\psi(t_0)}$ and the final state $\ket{\psi(t)}$. In the case of
+    coupled cluster and the use of the bivariational principle some care must be
+    taken as to how the squared overlap should be computed. We get
+    \begin{align}
+        P(t_0 \to t)
+        &\equiv |\braket{\tilde{\Psi}(t)}{\Psi(t_0)}|^2
+        = \braket{\tilde{\Psi}(t)}{\Psi(t_0)}
+        \braket{\tilde{\Psi}(t_0)}{\Psi(t)}.
+    \end{align}
+    Choosing $t_0 = 0$ as the ground state we can compute the overlap of the
+    ground state to all later states $t$. For time-independent spin-orbitals we
+    only evolve the amplitudes in time. We thus have to find an expression for
+    the two inner-products below.
+    \begin{align}
+        \braket{\tilde{\Psi}(t)}{\Psi(0)}
+        &=
+        \bra{\tilde{\Phi}}\brak{1 + \Lambda(t)}e^{-T(t)}
+        e^{T}\ket{\Phi},
+        \\
+        \braket{\tilde{\Psi}(0)}{\Psi(t)}
+        &=
+        \bra{\tilde{\Phi}}\brak{1 + \Lambda}e^{-T}
+        e^{T(t)}\ket{\Phi}.
+    \end{align}
+    Note that $T(t) \neq T$ and $\Lambda(t) \neq \Lambda$.  We split up the
+    equations on $\Lambda$ and expand the exponentials. As $T$ provides a net
+    excitation of at least $1$ and $\Lambda$ a net relaxation of at least
+    $1$\footnote{Note that this applies to the time-dependent versions of these
+    operators as well as it is only the amplitudes that are time-dependent and
+    not the creation nor the annihilation operators.}, only terms with a
+    combination of $\Lambda$ and $T$ will survive. This yields
+    \begin{align}
+        \braket{\tilde{\Psi}(t)}{\Psi(0)}
+        &=
+        \bra{\tilde{\Psi}(t)}e^{-T(t)}e^T\ket{\Psi(0)}
+        +
+        \bra{\tilde{\Psi}(t)}\Lambda(t)e^{-T(t)}e^T\ket{\Psi(0)}
+        \\
+        &=
+        1
+        + \sum_{n = 0}^{\infty}\sum_{m = 0}^{\infty}
+        \frac{1}{n!m!}
+        \bra{\tilde{\Psi}(t)}\Lambda(t)[-T(t)]^nT^m\ket{\Psi(0)}.
+    \end{align}
+    This equation looks the same with the time-dependent state switched to the
+    ket-side except that only the rightmost $T$ is now time-dependent.
+
+    \section{Time evolution of the CCSD wavefunction}
+        Restricting ourselves to singles and doubles approximation we will get
+        that the $T$ operator can yield a net excitation of 1 and 2, whereas
+        $\Lambda$ yields a net relaxation of 1 and 2. This truncates the
+        infinite sums to $n, m \in \brac{0, 1, 2}$.
