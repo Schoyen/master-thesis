@@ -80,3 +80,32 @@
             }\ket{\Phi}.
         \end{align}
         We again utilize SymPy\cite{sympy} to get explicit tensor contractions.
+        This yields
+        \begin{align}
+            \braket{\tilde{\Psi}(t)}{\Psi(0)}
+            &=
+            1
+            + l(t)^{i}_{a}
+            \brak{
+                t^{a}_{i}
+                - t(t)^{a}_{i}
+            }
+            + l(t)^{ij}_{ab}\brak{
+                \frac{1}{4} t^{ab}_{ij}
+                - \frac{1}{4} t(t)^{ab}_{ij}
+                - t(t)^{a}_{i} t^{b}_{j}
+            },
+            \\
+            \braket{\tilde{\Psi}(0)}{\Psi(t)}
+            &=
+            1
+            + l^{i}_{a}\brak{
+                t(t)^{a}_{i}
+                - t^{a}_{i}
+            }
+            + l^{ij}_{ab}\brak{
+                \frac{1}{4} t(t)^{ab}_{ij}
+                - \frac{1}{4} t^{ab}_{ij}
+                - t(t)^{a}_{i} t^{b}_{j}
+            }.
+        \end{align}
