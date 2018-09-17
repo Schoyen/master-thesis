@@ -40,21 +40,43 @@
     \begin{align}
         \braket{\tilde{\Psi}(t)}{\Psi(0)}
         &=
-        \bra{\tilde{\Psi}(t)}e^{-T(t)}e^T\ket{\Psi(0)}
+        \bra{\tilde{\Phi}}e^{-T(t)}e^T\ket{\Phi}
         +
-        \bra{\tilde{\Psi}(t)}\Lambda(t)e^{-T(t)}e^T\ket{\Psi(0)}
+        \bra{\tilde{\Phi}}\Lambda(t)e^{-T(t)}e^T\ket{\Phi}
         \\
         &=
         1
         + \sum_{n = 0}^{\infty}\sum_{m = 0}^{\infty}
         \frac{1}{n!m!}
-        \bra{\tilde{\Psi}(t)}\Lambda(t)[-T(t)]^nT^m\ket{\Psi(0)}.
+        \bra{\tilde{\Phi}}\Lambda(t)[-T(t)]^nT^m\ket{\Phi}.
     \end{align}
-    This equation looks the same with the time-dependent state switched to the
-    ket-side except that only the rightmost $T$ is now time-dependent.
+    The conjugate of this equation is then
+    \begin{align}
+        \braket{\tilde{\Psi}(0)}{\Psi(t)}
+        &=
+        1 + \sum_{n = 0}^{\infty}\sum_{m = 0}^{\infty}
+        \frac{1}{n!m!}
+        \bra{\tilde{\Phi}}\Lambda \brak{-T^n} T(t)^m\ket{\Phi}.
+    \end{align}
 
     \section{Time evolution of the CCSD wavefunction}
-        Restricting ourselves to singles and doubles approximation we will get
-        that the $T$ operator can yield a net excitation of 1 and 2, whereas
+        Restricting ourselves to the singles and doubles approximation we will
+        get that the $T$ operator can yield a net excitation of 1 and 2, whereas
         $\Lambda$ yields a net relaxation of 1 and 2. This truncates the
-        infinite sums to $n, m \in \brac{0, 1, 2}$.
+        infinite sums to $n, m \in \brac{0, 1, 2}$. We get
+        \begin{align}
+            \braket{\tilde{\Psi}(t)}{\Psi(0)}
+            &= 1
+            + \bra{\tilde{\Phi}}\Lambda(t)\brak{
+                1 - T(t) + T - T(t)T
+                + \half T(t)^2 + \half T^2
+            }\ket{\Phi},
+            \\
+            \braket{\tilde{\Psi}(0)}{\Psi(t)}
+            &= 1
+            + \bra{\tilde{\Phi}}\Lambda\brak{
+                1 - T + T(t) - TT(t)
+                + \half T^2 + \half T(t)^2
+            }\ket{\Phi}.
+        \end{align}
+        We again utilize SymPy\cite{sympy} to get explicit tensor contractions.
