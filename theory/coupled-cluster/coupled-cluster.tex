@@ -1,0 +1,22 @@
+\chapter{Coupled cluster theory}
+    In coupled cluster theory one seeks to approximate the ``true'' many-body
+    wavefunction using an \emph{exponential ansatz}.
+    \begin{align}
+        \ketcc \equiv e^{\clust}\ketslat
+        = \sum_{n = 0}^{\infty}\frac{1}{n!}\clust^n\ketslat,
+        \label{eq:exponential_ansatz}
+    \end{align}
+    where the \emph{cluster operator} $\clust$ is given by a sum of excitation
+    operators $\clust_{p}$.
+    \begin{align}
+        \clust &= \sum_{p = 1}^{n} \clust_p
+        = \clustamp^a_i\ccr{a}\can{i}
+        + \para{\frac{1}{2!}}^2\clustamp^{ab}_{ij}\ccr{a}\ccr{b}\can{i}\can{j}
+        + \para{\frac{1}{3!}}^2\clustamp^{abc}_{ijk}
+        \ccr{a}\ccr{b}\ccr{c}\can{i}\can{j}\can{k}
+        + \dots.
+    \end{align}
+    Here the \emph{coupled cluster amplitudes} $\clustamp^{ab\dots}_{ij\dots}$
+    are the unknowns. As the method only uses a single reference Slater
+    determinant in \autoref{eq:exponential_ansatz} the approximation is called
+    single-reference coupled cluster theory.
