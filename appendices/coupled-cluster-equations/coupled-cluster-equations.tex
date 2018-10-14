@@ -89,39 +89,41 @@
             + t^{c}_{k} t^{d}_{i} t^{ab}_{jl} u^{kl}_{cd} P(ij)
             + t^{c}_{k} t^{a}_{l} t^{bd}_{ij} u^{kl}_{cd} P(ab)
             - t^{c}_{k} t^{ad}_{ij} u^{bk}_{cd} P(ab)
-            + t^{c}_{k} t^{ab}_{il} u^{kl}_{jc} P(ij)
             \nonumber \\
             &\qquad
+            + t^{c}_{k} t^{ab}_{il} u^{kl}_{jc} P(ij)
             + t^{c}_{i} t^{d}_{j} t^{a}_{k} t^{b}_{l} u^{kl}_{cd}
             + t^{c}_{i} t^{d}_{j} t^{a}_{k} u^{bk}_{cd} P(ab)
             + \frac{1}{2} t^{c}_{i} t^{d}_{j} t^{ab}_{kl} u^{kl}_{cd} 1
-            + t^{c}_{i} t^{d}_{j} u^{ab}_{cd}
             \nonumber \\
             &\qquad
+            + t^{c}_{i} t^{d}_{j} u^{ab}_{cd}
             - t^{c}_{i} t^{a}_{k} t^{b}_{l} u^{kl}_{jc} P(ij)
             - t^{c}_{i} t^{a}_{k} t^{bd}_{jl} u^{kl}_{cd} P(ab) P(ij)
-            - t^{c}_{i} t^{a}_{k} u^{bk}_{jc} P(ab) P(ij)
             \nonumber \\
             &\qquad
+            - t^{c}_{i} t^{a}_{k} u^{bk}_{jc} P(ab) P(ij)
             - t^{c}_{i} t^{ad}_{jk} u^{bk}_{cd} P(ab) P(ij)
             - \frac{1}{2} t^{c}_{i} t^{ab}_{kl} u^{kl}_{jc} P(ij)
+            \nonumber \\
+            &\qquad
             - t^{c}_{i} u^{ab}_{jc} P(ij)
             + \frac{1}{2} t^{a}_{k} t^{b}_{l} t^{cd}_{ij} u^{kl}_{cd}
-            \nonumber \\
-            &\qquad
             + t^{a}_{k} t^{b}_{l} u^{kl}_{ij}
             + \frac{1}{2} t^{a}_{k} t^{cd}_{ij} u^{bk}_{cd} 1 P(ab)
+            \nonumber \\
+            &\qquad
             + t^{a}_{k} t^{bc}_{il} u^{kl}_{jc} P(ab) P(ij)
             + t^{a}_{k} u^{bk}_{ij} P(ab)
-            \nonumber \\
-            &\qquad
             + \frac{1}{4} t^{cd}_{ij} t^{ab}_{kl} u^{kl}_{cd} 1
             + \frac{1}{2} t^{cd}_{ij} u^{ab}_{cd}
-            + \frac{1}{2} t^{cd}_{jk} t^{ab}_{il} u^{kl}_{cd} P(ij)
-            + t^{ac}_{ik} t^{bd}_{jl} u^{kl}_{cd} P(ab)
             \nonumber \\
             &\qquad
+            + \frac{1}{2} t^{cd}_{jk} t^{ab}_{il} u^{kl}_{cd} P(ij)
+            + t^{ac}_{ik} t^{bd}_{jl} u^{kl}_{cd} P(ab)
             + t^{ac}_{ik} u^{bk}_{jc} P(ab) P(ij)
+            \nonumber \\
+            &\qquad
             - \frac{1}{2} t^{ac}_{ij} t^{bd}_{kl} u^{kl}_{cd} P(ab)
             + \frac{1}{2} t^{ab}_{kl} u^{kl}_{ij} 1
             + u^{ab}_{ij}.
@@ -129,4 +131,154 @@
         % TODO: Introduce intermediates
 
     \section{Coupled cluster doubles triples}
+        The energy of the doubles-triples truncation is given by
+        \begin{align}
+            \energyccdt
+            &= \energyref
+            + \braslat e^{-\clust_2 - \clust_3} \HN e^{\clust_2 + \clust_3}
+            \ketslat
+            \\
+            &=
+            E_0
+            + \frac{1}{4} t^{de}_{lm} u^{lm}_{de}.
+        \end{align}
+        The doubles amplitude equations are
+        \begin{align}
+            0 & = \braslate{ab}{ij} e^{-\clust_2 - \clust_3} \HN
+            e^{\clust_2 + \clust_3}\ketslat
+            \\
+            &=
+			f^{l}_{d} t^{abd}_{ijl}
+            + f^{l}_{i} t^{ab}_{jl} P(ij)
+            - f^{a}_{d} t^{bd}_{ij} P(ab)
+            + \frac{1}{4} t^{de}_{ij} t^{ab}_{lm} u^{lm}_{de}
+            \nonumber \\
+            &\qquad
+            + \frac{1}{2} t^{de}_{ij} u^{ab}_{de}
+            + \frac{1}{2} t^{de}_{jl} t^{ab}_{im} u^{lm}_{de} P(ij)
+            + t^{ad}_{il} t^{be}_{jm} u^{lm}_{de} P(ab)
+            \nonumber \\
+            &\qquad
+            + t^{ad}_{il} u^{bl}_{jd} P(ab) P(ij)
+            - \frac{1}{2} t^{ad}_{ij} t^{be}_{lm} u^{lm}_{de} P(ab)
+            + \frac{1}{2} t^{ab}_{lm} u^{lm}_{ij}
+            \nonumber \\
+            &\qquad
+            + \frac{1}{2} t^{ade}_{ijl} u^{bl}_{de} P(ab)
+            - \frac{1}{2} t^{abd}_{ilm} u^{lm}_{jd} P(ij)
+            + u^{ab}_{ij}.
+        \end{align}
+        Now to the beast...
 
+        The triples amplitude equations are
+        \begin{align}
+            0 & = \braslate{abc}{ijk} e^{-\clust_2 - \clust_3} \HN
+            e^{\clust_2 + \clust_3}\ketslat
+            \\
+            &=
+			f^{l}_{d} t^{ad}_{ij} t^{bc}_{kl} P(ab) P(ik)
+            + f^{l}_{d} t^{ab}_{il} t^{cd}_{jk} P(ij)
+            + f^{l}_{d} t^{ab}_{kl} t^{cd}_{ij}
+            + f^{l}_{d} t^{ac}_{jl} t^{bd}_{ik} P(ab)
+            \nonumber \\
+            &\qquad
+            - f^{l}_{i} t^{abc}_{jkl} P(ij)
+            - f^{l}_{k} t^{abc}_{ijl}
+            + f^{a}_{d} t^{bcd}_{ijk} P(ab)
+            + f^{c}_{d} t^{abd}_{ijk}
+            \nonumber \\
+            &\qquad
+            + \frac{1}{2} t^{de}_{il} t^{abc}_{jkm} u^{lm}_{de} P(ij)
+            + \frac{1}{2} t^{de}_{ij} t^{ab}_{kl} u^{cl}_{de}
+            - \frac{1}{2} t^{de}_{ij} t^{ac}_{kl} u^{bl}_{de} P(ab)
+            \nonumber \\
+            &\qquad
+            + \frac{1}{4} t^{de}_{ij} t^{abc}_{klm} u^{lm}_{de}
+            - \frac{1}{4} t^{de}_{ik} t^{abc}_{jlm} u^{lm}_{de} P(ij)
+            + \frac{1}{2} t^{de}_{jk} t^{ab}_{il} u^{cl}_{de} P(ij)
+            \nonumber \\
+            &\qquad
+            - \frac{1}{2} t^{de}_{jk} t^{ac}_{il} u^{bl}_{de} P(ab) P(ij)
+            + \frac{1}{2} t^{de}_{kl} t^{abc}_{ijm} u^{lm}_{de}
+            + \frac{1}{2} t^{ad}_{lm} t^{bce}_{ijk} u^{lm}_{de} P(ab)
+            \nonumber \\
+            &\qquad
+            + t^{ad}_{il} t^{bc}_{jm} u^{lm}_{kd} P(ab)
+            + t^{ad}_{il} t^{ce}_{jk} u^{bl}_{de} P(ab) P(ij)
+            + t^{ad}_{il} t^{bce}_{jkm} u^{lm}_{de} P(ab) P(ij)
+            \nonumber \\
+            &\qquad
+            - t^{ad}_{ij} t^{be}_{kl} u^{cl}_{de} P(ab)
+            + t^{ad}_{ij} t^{ce}_{kl} u^{bl}_{de} P(ab)
+            + \frac{1}{2} t^{ad}_{ij} t^{bce}_{klm} u^{lm}_{de} P(ab)
+            \nonumber \\
+            &\qquad
+            - t^{ad}_{ij} u^{bc}_{kd} P(ab)
+            + t^{ad}_{ik} t^{be}_{jl} u^{cl}_{de} P(ab) P(ij)
+            + \frac{1}{2} t^{ad}_{ik} t^{bc}_{lm} u^{lm}_{jd} P(ab) P(ij)
+            \nonumber \\
+            &\qquad
+            - t^{ad}_{ik} t^{ce}_{jl} u^{bl}_{de} P(ab) P(ij)
+            - \frac{1}{2} t^{ad}_{ik} t^{bce}_{jlm} u^{lm}_{de} P(ab) P(ij)
+            + t^{ad}_{ik} u^{bc}_{jd} P(ab) P(ij)
+            \nonumber \\
+            &\qquad
+            + t^{ad}_{kl} t^{ce}_{ij} u^{bl}_{de} P(ab)
+            + t^{ad}_{kl} t^{bce}_{ijm} u^{lm}_{de} P(ab)
+            - \frac{1}{2} t^{ab}_{lm} t^{cd}_{ij} u^{lm}_{kd}
+            \nonumber \\
+            &\qquad
+            + \frac{1}{2} t^{ab}_{lm} t^{cd}_{ik} u^{lm}_{jd} P(ij)
+            + \frac{1}{4} t^{ab}_{lm} t^{cde}_{ijk} u^{lm}_{de}
+            + t^{ab}_{il} t^{cd}_{jm} u^{lm}_{kd} P(ij)
+            \nonumber \\
+            &\qquad
+            - t^{ab}_{il} t^{cd}_{km} u^{lm}_{jd} P(ij)
+            + \frac{1}{2} t^{ab}_{il} t^{cde}_{jkm} u^{lm}_{de} P(ij)
+            + t^{ab}_{il} u^{cl}_{jk} P(ij)
+            \nonumber \\
+            &\qquad
+            + t^{ab}_{kl} t^{cd}_{im} u^{lm}_{jd} P(ij)
+            + \frac{1}{2} t^{ab}_{kl} t^{cde}_{ijm} u^{lm}_{de}
+            + t^{ab}_{kl} u^{cl}_{ij}
+            \nonumber \\
+            &\qquad
+            + \frac{1}{2} t^{ac}_{lm} t^{bd}_{ij} u^{lm}_{kd} P(ab)
+            - \frac{1}{4} t^{ac}_{lm} t^{bde}_{ijk} u^{lm}_{de} P(ab)
+            - t^{ac}_{il} t^{bd}_{jm} u^{lm}_{kd} P(ab)
+            \nonumber \\
+            &\qquad
+            + t^{ac}_{il} t^{bd}_{km} u^{lm}_{jd} P(ab) P(ij)
+            - \frac{1}{2} t^{ac}_{il} t^{bde}_{jkm} u^{lm}_{de} P(ab) P(ij)
+            - t^{ac}_{il} u^{bl}_{jk} P(ab) P(ij)
+            \nonumber \\
+            &\qquad
+            - t^{ac}_{kl} t^{bd}_{im} u^{lm}_{jd} P(ab) P(ij)
+            - \frac{1}{2} t^{ac}_{kl} t^{bde}_{ijm} u^{lm}_{de} P(ab)
+            - t^{ac}_{kl} u^{bl}_{ij} P(ab)
+            \nonumber \\
+            &\qquad
+            - t^{cd}_{ij} u^{ab}_{kd}
+            + t^{cd}_{ik} u^{ab}_{jd} P(ij)
+            - \frac{1}{2} t^{ce}_{lm} t^{abd}_{ijk} u^{lm}_{de}
+            \nonumber \\
+            &\qquad
+            + t^{ce}_{im} t^{abd}_{jkl} u^{lm}_{de} P(ij)
+            - \frac{1}{2} t^{ce}_{ij} t^{abd}_{klm} u^{lm}_{de}
+            + \frac{1}{2} t^{ce}_{ik} t^{abd}_{jlm} u^{lm}_{de} P(ij)
+            \nonumber \\
+            &\qquad
+            + t^{ce}_{km} t^{abd}_{ijl} u^{lm}_{de}
+            + \frac{1}{2} t^{ade}_{ijk} u^{bc}_{de} P(ab)
+            + t^{abd}_{ijl} u^{cl}_{kd}
+            \nonumber \\
+            &\qquad
+            - t^{abd}_{ikl} u^{cl}_{jd} P(ij)
+            + \frac{1}{2} t^{abc}_{ilm} u^{lm}_{jk} P(ij)
+            + \frac{1}{2} t^{abc}_{klm} u^{lm}_{ij}
+            \nonumber \\
+            &\qquad
+            - t^{acd}_{ijl} u^{bl}_{kd} P(ab)
+            + t^{acd}_{ikl} u^{bl}_{jd} P(ab) P(ij)
+            + \frac{1}{2} t^{cde}_{ijk} u^{ab}_{de}.
+        \end{align}
