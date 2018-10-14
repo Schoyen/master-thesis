@@ -1,0 +1,132 @@
+\chapter{Coupled cluster equations}
+    In this appendix we will show the explicit equations used for ground state
+    calculations in coupled cluster for different truncation levels.
+
+    \section{Coupled cluster doubles}
+        The energy for the doubles truncation is given by
+        \begin{align}
+            \energyccd
+            &= \energyref
+            + \braslat e^{-\clust_2}\HN e^{\clust_2}\ketslat
+            = \energyref
+            + \frac{1}{4}t^{cd}_{kl} u^{kl}_{cd}.
+        \end{align}
+        The doubles amplitude equations is given by
+        \begin{align}
+            0 &= \braslate{ab}{ij}e^{-\clust_2}\HN e^{\clust_2}\ketslat
+            \\
+            &=
+            f^{k}_{i} t^{ab}_{jk} P(ij)
+            - f^{a}_{c} t^{bc}_{ij} P(ab)
+            + \frac{1}{4} t^{cd}_{ij} t^{ab}_{kl} u^{kl}_{cd}
+            + \half t^{cd}_{ij} u^{ab}_{cd}
+            \nonumber \\
+            &\qquad
+            + \half t^{cd}_{jk} t^{ab}_{il} u^{kl}_{cd} P(ij)
+            + t^{ac}_{ik} t^{bd}_{jl} u^{kl}_{cd} P(ab)
+            + t^{ac}_{ik} u^{bk}_{jc} P(ab) P(ij)
+            \nonumber \\
+            &\qquad
+            - \half t^{ac}_{ij} t^{bd}_{kl} u^{kl}_{cd} P(ab)
+            + \half t^{ab}_{kl} u^{kl}_{ij}
+            + u^{ab}_{ij}.
+        \end{align}
+        % TODO: Introduce intermediates
+
+    \section{Coupled cluster singles doubles}
+        The energy for the singles-doubles truncation is given by
+        \begin{align}
+            \energyccsd
+            &= \energyref
+            + \braslat e^{-\clust_1 - \clust_2} \HN e^{\clust_1 + \clust_2}
+            \ketslat
+            \\
+            &=
+            \energyref
+            +
+            f^{k}_{c} t^{c}_{k}
+            - \half t^{c}_{l} t^{d}_{k} u^{kl}_{cd}
+            + \frac{1}{4} t^{cd}_{kl} u^{kl}_{cd}.
+        \end{align}
+        The singles amplitude equations becomes
+        \begin{align}
+            0 & = \braslate{a}{i} e^{-\clust_1 - \clust_2} \HN
+            e^{\clust_1 + \clust_2}\ketslat
+            \\
+            &=
+            f^{a}_{i}
+            - f^{k}_{c} t^{c}_{i} t^{a}_{k}
+            + f^{k}_{c} t^{ac}_{ik}
+            - f^{k}_{i} t^{a}_{k}
+            + f^{a}_{c} t^{c}_{i}
+            - t^{c}_{k} t^{d}_{i} t^{a}_{l} u^{kl}_{cd}
+            - t^{c}_{k} t^{d}_{i} u^{ak}_{cd}
+            \nonumber \\
+            &\qquad
+            + t^{c}_{k} t^{a}_{l} u^{kl}_{ic}
+            + t^{c}_{k} t^{ad}_{il} u^{kl}_{cd}
+            + t^{c}_{k} u^{ak}_{ic}
+            - \frac{1}{2} t^{c}_{i} t^{ad}_{kl} u^{kl}_{cd}
+            \nonumber \\
+            &\qquad
+            + \frac{1}{2} t^{a}_{l} t^{cd}_{ik} u^{kl}_{cd}
+            + \frac{1}{2} t^{cd}_{ik} u^{ak}_{cd}
+            - \frac{1}{2} t^{ac}_{kl} u^{kl}_{ic}.
+        \end{align}
+        % TODO: Introduce intermediates
+        The doubles amplitude equations are
+        \begin{align}
+            0 & = \braslate{ab}{ij} e^{-\clust_1 - \clust_2} \HN
+            e^{\clust_1 + \clust_2}\ketslat
+            \\
+            &=
+            f^{k}_{c} t^{c}_{i} t^{ab}_{jk} P(ij)
+            + f^{k}_{c} t^{a}_{k} t^{bc}_{ij} P(ab)
+            + f^{k}_{i} t^{ab}_{jk} P(ij)
+            - f^{a}_{c} t^{bc}_{ij} P(ab)
+            \nonumber \\
+            &\qquad
+            + t^{c}_{k} t^{d}_{i} t^{ab}_{jl} u^{kl}_{cd} P(ij)
+            + t^{c}_{k} t^{a}_{l} t^{bd}_{ij} u^{kl}_{cd} P(ab)
+            - t^{c}_{k} t^{ad}_{ij} u^{bk}_{cd} P(ab)
+            + t^{c}_{k} t^{ab}_{il} u^{kl}_{jc} P(ij)
+            \nonumber \\
+            &\qquad
+            + t^{c}_{i} t^{d}_{j} t^{a}_{k} t^{b}_{l} u^{kl}_{cd}
+            + t^{c}_{i} t^{d}_{j} t^{a}_{k} u^{bk}_{cd} P(ab)
+            + \frac{1}{2} t^{c}_{i} t^{d}_{j} t^{ab}_{kl} u^{kl}_{cd} 1
+            + t^{c}_{i} t^{d}_{j} u^{ab}_{cd}
+            \nonumber \\
+            &\qquad
+            - t^{c}_{i} t^{a}_{k} t^{b}_{l} u^{kl}_{jc} P(ij)
+            - t^{c}_{i} t^{a}_{k} t^{bd}_{jl} u^{kl}_{cd} P(ab) P(ij)
+            - t^{c}_{i} t^{a}_{k} u^{bk}_{jc} P(ab) P(ij)
+            \nonumber \\
+            &\qquad
+            - t^{c}_{i} t^{ad}_{jk} u^{bk}_{cd} P(ab) P(ij)
+            - \frac{1}{2} t^{c}_{i} t^{ab}_{kl} u^{kl}_{jc} P(ij)
+            - t^{c}_{i} u^{ab}_{jc} P(ij)
+            + \frac{1}{2} t^{a}_{k} t^{b}_{l} t^{cd}_{ij} u^{kl}_{cd}
+            \nonumber \\
+            &\qquad
+            + t^{a}_{k} t^{b}_{l} u^{kl}_{ij}
+            + \frac{1}{2} t^{a}_{k} t^{cd}_{ij} u^{bk}_{cd} 1 P(ab)
+            + t^{a}_{k} t^{bc}_{il} u^{kl}_{jc} P(ab) P(ij)
+            + t^{a}_{k} u^{bk}_{ij} P(ab)
+            \nonumber \\
+            &\qquad
+            + \frac{1}{4} t^{cd}_{ij} t^{ab}_{kl} u^{kl}_{cd} 1
+            + \frac{1}{2} t^{cd}_{ij} u^{ab}_{cd}
+            + \frac{1}{2} t^{cd}_{jk} t^{ab}_{il} u^{kl}_{cd} P(ij)
+            + t^{ac}_{ik} t^{bd}_{jl} u^{kl}_{cd} P(ab)
+            \nonumber \\
+            &\qquad
+            + t^{ac}_{ik} u^{bk}_{jc} P(ab) P(ij)
+            - \frac{1}{2} t^{ac}_{ij} t^{bd}_{kl} u^{kl}_{cd} P(ab)
+            + \frac{1}{2} t^{ab}_{kl} u^{kl}_{ij} 1
+            + u^{ab}_{ij}.
+        \end{align}
+        % TODO: Introduce intermediates
+
+    \section{Coupled cluster doubles triples}
+
