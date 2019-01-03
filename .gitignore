@@ -11,6 +11,7 @@
 *.run.xml
 *.fdb_*
 *.fls
+*.sqlite
 
 # Swap files
 *.swp
