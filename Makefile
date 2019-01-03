@@ -1,7 +1,4 @@
 
 
-build:
-	pdflatex main
-	biber main
-	pdflatex main
-	pdflatex main
+build: main.tex
+	latexmk -lualatex
