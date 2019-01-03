@@ -9,6 +9,8 @@
 *.bcf
 *.blg
 *.run.xml
+*.fdb_*
+*.fls
 
 # Swap files
 *.swp
