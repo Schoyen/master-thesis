@@ -31,7 +31,21 @@
             + \half t^{ab}_{kl} u^{kl}_{ij}
             + u^{ab}_{ij}.
         \end{align}
-        % TODO: Introduce intermediates
+        In order to reduce the number of FLOPS when contracting the tensors, we
+        introduce so-called \emph{intermediates}. In practice, this consists of
+        precomputing some of the terms by choosing which tensors to contract
+        first. For the equations above, we have the following four
+        intermediates.
+        \begin{gather}
+            \chi^{ab}_{cd} = \frac{1}{4}t^{ab}_{kl} u^{kl}_{cd}
+            + \half u^{ab}_{cd},
+            \\
+            \chi^{l}_{j} = \half t^{cd}_{jk} u^{kl}_{cd},
+            \\
+            \chi^{b}_{c} = \half t^{bd}_{kl} u^{kl}_{cd},
+            \\
+            \chi^{bm}_{jc} = u^{bm}_{jc} + \half t^{bd}_{jn} u^{mn}_{cd}
+        \end{gather}
 
     \section{Coupled cluster singles doubles}
         The energy for the singles-doubles truncation is given by
@@ -148,7 +162,7 @@
             e^{\clust_2 + \clust_3}\ketslat
             \\
             &=
-			f^{l}_{d} t^{abd}_{ijl}
+            f^{l}_{d} t^{abd}_{ijl}
             + f^{l}_{i} t^{ab}_{jl} P(ij)
             - f^{a}_{d} t^{bd}_{ij} P(ab)
             + \frac{1}{4} t^{de}_{ij} t^{ab}_{lm} u^{lm}_{de}
@@ -176,7 +190,7 @@
             e^{\clust_2 + \clust_3}\ketslat
             \\
             &=
-			f^{l}_{d} t^{ad}_{ij} t^{bc}_{kl} P(ab) P(ik)
+            f^{l}_{d} t^{ad}_{ij} t^{bc}_{kl} P(ab) P(ik)
             + f^{l}_{d} t^{ab}_{il} t^{cd}_{jk} P(ij)
             + f^{l}_{d} t^{ab}_{kl} t^{cd}_{ij}
             + f^{l}_{d} t^{ac}_{jl} t^{bd}_{ik} P(ab)
