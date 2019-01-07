@@ -17,8 +17,8 @@
             \equiv \braslate{ab}{ij}e^{-\clust_2}\HN e^{\clust_2}\ketslat
             \\
             &=
-            f^{k}_{i} t^{ab}_{jk} P(ij)
-            - f^{a}_{c} t^{bc}_{ij} P(ab)
+            f^{b}_{c} t^{ac}_{ij} P(ab)
+            - f^{k}_{j} t^{ab}_{ik} P(ij)
             + \frac{1}{4} t^{cd}_{ij} t^{ab}_{kl} u^{kl}_{cd}
             + \half t^{cd}_{ij} u^{ab}_{cd}
             \nonumber \\
@@ -30,7 +30,6 @@
             &\qquad
             - \half t^{ac}_{ij} t^{bd}_{kl} u^{kl}_{cd} P(ab)
             + \half t^{ab}_{kl} u^{kl}_{ij}
-            + u^{ab}_{ij}.
         \end{align}
         In order to reduce the number of FLOPS when contracting the tensors, we
         introduce so-called \emph{intermediates}\cite{hjorth2017advanced}. In
@@ -90,8 +89,8 @@
         \begin{align}
             g(f, u, t)
             &=
-            f^{k}_{i} t^{ab}_{jk} P(ij)
-            - f^{a}_{c} t^{bc}_{ij} P(ab)
+            f^{b}_{c} t^{ac}_{ij} P(ab)
+            - f^{k}_{j} t^{ab}_{ik} P(ij)
             + t^{cd}_{ij} W^{ab}_{cd}
             + t^{ab}_{il} W^{l}_{j} P(ij)
             \nonumber \\
@@ -131,7 +130,7 @@
                 $W^{b}_{c}
                 = \half t^{bd}_{kl} u^{kl}_{cd}$
                 &
-                $\mathcal{O}(m^3 n2)$
+                $\mathcal{O}(m^3 n^2)$
                 \\
                 \addlinespace
                 $W^{bk}_{jc}
