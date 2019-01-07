@@ -13,7 +13,8 @@
         \end{align}
         The doubles amplitude equations is given by
         \begin{align}
-            0 &= \braslate{ab}{ij}e^{-\clust_2}\HN e^{\clust_2}\ketslat
+            0 &= g(f, u, t)
+            \equiv \braslate{ab}{ij}e^{-\clust_2}\HN e^{\clust_2}\ketslat
             \\
             &=
             f^{k}_{i} t^{ab}_{jk} P(ij)
@@ -34,18 +35,113 @@
         In order to reduce the number of FLOPS when contracting the tensors, we
         introduce so-called \emph{intermediates}. In practice, this consists of
         precomputing some of the terms by choosing which tensors to contract
-        first. For the equations above, we have the following four
-        intermediates.
+        first. In the doubles approximation there are four sensible
+        intermediates we can define\footnote{Note that we use the notation
+        "$\gets$" to signify part of the expression, i.e., some of the terms
+        contained in the function.}.
         \begin{gather}
-            \chi^{ab}_{cd} = \frac{1}{4}t^{ab}_{kl} u^{kl}_{cd}
-            + \half u^{ab}_{cd},
+            g(f, u, t)
+            \gets
+            \frac{1}{4} t^{cd}_{ij} t^{ab}_{kl} u^{kl}_{cd}
+            + \half t^{cd}_{ij} u^{ab}_{cd}
+            =
+            t^{cd}_{ij}\para{
+                \frac{1}{4} t^{ab}_{kl} u^{kl}_{cd}
+                + \half u^{ab}_{cd}
+            }
+            = t^{cd}_{ij}W^{ab}_{cd},
             \\
-            \chi^{l}_{j} = \half t^{cd}_{jk} u^{kl}_{cd},
+            g(f, u, t)
+            \gets
+            \half t^{cd}_{jk} t^{ab}_{il} u^{kl}_{cd} P(ij)
+            = t^{ab}_{il}\para{
+                \half t^{cd}_{jk} u^{kl}_{cd}
+            } P(ij)
+            = t^{ab}_{il} W^{l}_{j} P(ij),
             \\
-            \chi^{b}_{c} = \half t^{bd}_{kl} u^{kl}_{cd},
-            \\
-            \chi^{bm}_{jc} = u^{bm}_{jc} + \half t^{bd}_{jn} u^{mn}_{cd}
+            g(f, u, t)
+            \gets
+            \half t^{ac}_{ij} t^{bd}_{kl} u^{kl}_{cd} P(ab)
+            = t^{ac}_{ij}\para{
+                \half t^{bd}_{kl} u^{kl}_{cd}
+            } P(ab)
+            = t^{ac}_{ij} W^{b}_{c} P(ab).
         \end{gather}
+        The last intermediate requires a little work, as we have to insert an
+        extra exchange operator, $P(ij)$, in one of the terms in order to group
+        two terms into a single intermediate.
+        \begin{align}
+            g(f, u, t)
+            &\gets
+            t^{ac}_{ik} t^{bd}_{jl} u^{kl}_{cd} P(ab)
+            + t^{ac}_{ik} u^{bk}_{jc} P(ab) P(ij)
+            \\
+            &= t^{ac}_{ik}\para{
+                \half t^{bd}_{jl} u^{kl}_{cd}
+                + u^{bk}_{jc}
+            } P(ab) P(ij)
+            \\
+            &= t^{ac}_{ik} W^{bk}_{jc} P(ab) P(ij).
+        \end{align}
+        We summarize the expression for the intermediates in
+        \autoref{tab:intermediates_ccd}, along with their computational
+        complexity. The total right-hand side of the $t$-amplitudes in the
+        doubles approximation using the intermediate calculations is thus
+        \begin{align}
+            g(f, u, t)
+            &=
+            f^{k}_{i} t^{ab}_{jk} P(ij)
+            - f^{a}_{c} t^{bc}_{ij} P(ab)
+            + t^{cd}_{ij} W^{ab}_{cd}
+            + t^{ab}_{il} W^{l}_{j} P(ij)
+            \nonumber \\
+            &\qquad
+            + t^{ac}_{ik} W^{bk}_{jc} P(ab) P(ij)
+            - t^{ac}_{ij} W^{b}_{c} P(ab)
+            + \half t^{ab}_{kl} u^{kl}_{ij}
+            + u^{ab}_{ij}.
+        \end{align}
+        The most time-consuming contraction is now the term $t^{cd}_{ij}
+        W^{ab}_{cd}$. This term uses $\mathcal{O}(m^4 n^2)$ FLOPS, which is a
+        reduction from $\mathcal{O}(m^4 n^4)$ when computing $t^{cd}_{ij}
+        t^{ab}_{kl} u^{kl}_{cd}$ directly.
+
+        \begin{table}
+            \centering
+            \caption{In this table we summarize the intermediates used in
+            the $t$-amplitudes of the coupled cluster doubles approximation. We
+            also list the computational complexity in FLOPS needed to construct
+            the intermediate. Recall that $n$ is the number of holes and $m$ the
+            number of particles.}
+            \begin{tabular}{cc}
+                Intermediate & Complexity [FLOPS] \\
+                \midrule
+                $W^{ab}_{cd}
+                = \frac{1}{4} t^{ab}_{kl} u^{kl}_{cd}
+                + \half u^{ab}_{cd}$
+                &
+                $\mathcal{O}(m^4 n^2)$ \\
+                \addlinespace
+                $W^{l}_{j}
+                = \half t^{cd}_{jk} u^{kl}_{cd}$
+                &
+                $\mathcal{O}(m^2 n^3)$
+                \\
+                \addlinespace
+                $W^{b}_{c}
+                = \half t^{bd}_{kl} u^{kl}_{cd}$
+                &
+                $\mathcal{O}(m^3 n2)$
+                \\
+                \addlinespace
+                $W^{bk}_{jc}
+                = \half t^{bd}_{jl} u^{kl}_{cd}
+                + u^{bk}_{jc}$
+                &
+                $\mathcal{O}(m^3n^3)$
+            \end{tabular}
+            \label{tab:intermediates_ccd}
+        \end{table}
 
     \section{Coupled cluster singles doubles}
         The energy for the singles-doubles truncation is given by
