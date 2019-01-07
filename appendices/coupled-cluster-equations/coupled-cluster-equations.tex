@@ -33,12 +33,12 @@
             + u^{ab}_{ij}.
         \end{align}
         In order to reduce the number of FLOPS when contracting the tensors, we
-        introduce so-called \emph{intermediates}. In practice, this consists of
-        precomputing some of the terms by choosing which tensors to contract
-        first. In the doubles approximation there are four sensible
-        intermediates we can define\footnote{Note that we use the notation
-        "$\gets$" to signify part of the expression, i.e., some of the terms
-        contained in the function.}.
+        introduce so-called \emph{intermediates}\cite{hjorth2017advanced}. In
+        practice, this consists of precomputing some of the terms by choosing
+        which tensors to contract first. In the doubles approximation there are
+        four sensible intermediates we can define\footnote{Note that we use the
+        notation "$\gets$" to signify part of the expression, i.e., some of the
+        terms contained in the function.}.
         \begin{gather}
             g(f, u, t)
             \gets
