@@ -11,25 +11,26 @@
             = \energyref
             + \frac{1}{4}t^{cd}_{kl} u^{kl}_{cd}.
         \end{align}
-        The doubles amplitude equations is given by
+        The doubles amplitude equations is given by\cite{shavitt2009many}
         \begin{align}
             0 &= g(f, u, t)
             \equiv \braslate{ab}{ij}e^{-\clust_2}\HN e^{\clust_2}\ketslat
             \\
             &=
-            f^{b}_{c} t^{ac}_{ij} P(ab)
+            u^{ab}_{ij}
+            + f^{b}_{c} t^{ac}_{ij} P(ab)
             - f^{k}_{j} t^{ab}_{ik} P(ij)
-            + \frac{1}{4} t^{cd}_{ij} t^{ab}_{kl} u^{kl}_{cd}
             + \half t^{cd}_{ij} u^{ab}_{cd}
-            \nonumber \\
-            &\qquad
-            + \half t^{cd}_{jk} t^{ab}_{il} u^{kl}_{cd} P(ij)
-            + t^{ac}_{ik} t^{bd}_{jl} u^{kl}_{cd} P(ab)
-            + t^{ac}_{ik} u^{bk}_{jc} P(ab) P(ij)
-            \nonumber \\
-            &\qquad
-            - \half t^{ac}_{ij} t^{bd}_{kl} u^{kl}_{cd} P(ab)
             + \half t^{ab}_{kl} u^{kl}_{ij}
+            \nonumber \\
+            &\qquad
+            + t^{ac}_{ik} u^{bk}_{jc} P(ab) P(ij)
+            + \frac{1}{4} t^{cd}_{ij} t^{ab}_{kl} u^{kl}_{cd}
+            + t^{ac}_{ik} t^{bd}_{jl} u^{kl}_{cd} P(ij)
+            \nonumber \\
+            &\qquad
+            - \half t^{ab}_{lj} t^{dc}_{ik} u^{kl}_{cd} P(ij)
+            - \half t^{ac}_{lk} t^{db}_{ij} u^{kl}_{cd} P(ab).
         \end{align}
         In order to reduce the number of FLOPS when contracting the tensors, we
         introduce so-called \emph{intermediates}\cite{hjorth2017advanced}. In
