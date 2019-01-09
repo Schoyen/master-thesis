@@ -1,2 +1,23 @@
 \chapter{Hartree-Fock theory}
-    Because its all about that energy, 'bout that energy, 'bout that energy!
+    One can not tackle the subject of many-body theory without meeting the
+    Hartree-Fock approximation. It serves as an excellent initial approximation,
+    and in many cases the \emph{only} approximation, to the many-body
+    wavefunction for a given system. It is a rather inexpensive approximation,
+    in terms of computational intensity, and explains much of the underlying
+    physics of a given system of many particles.
+
+    \section{Deriving the Hartree-Fock equations}
+        The main goal of the Hartree-Fock approximation is to solve the
+        time-independent Schrödinger equation,
+        \begin{align}
+            \hamil\ket{\Psi} = E\ket{\Psi},
+        \end{align}
+        for a given Hamiltonian, $\hamil$. The goal of Hartree-Fock is to find
+        the ``best'' wavefunction, $\ket{\Psi}$, under the constraints that it
+        consists of a single Slater determinant,
+        \begin{align}
+            \ket{\Psi} = \ketslat
+            = \ket{\mo{1}\dots\mo{N}}
+        \end{align}
+        where $\brac{\mo{i}}_{i = 1}^{L}$ is the basis of unknown
+        \emph{molecular orbitals}, and $N$ is the number of occupied orbitals.
