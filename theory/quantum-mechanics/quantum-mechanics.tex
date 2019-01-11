@@ -1,2 +1,71 @@
 \chapter{Quantum Mechanics}
     \epigraph{YOLO}{P. A. M. Dirac}
+
+    \section{Density matrices}
+        When working with many-body quantum mechanics, computing expectation
+        values can at times prove easier when done using density matrices. A
+        general density matrix of a \emph{pure state} is on the form
+        \begin{align}
+            \densitymatrix = \ket{\psi}\bra{\psi},
+        \end{align}
+        that is, a pure state is a quantum state $\ket{\psi}$ containing the
+        maximum amount of information about a given system. For a \emph{mixed
+        state}, i.e., a linear combination of pure states $\ket{\psi_k}$ with a
+        classical probability $p_k$ associated with the state, we get a density
+        matrix on the form
+        \begin{align}
+            \densitymatrix = \sum_{k} p_k \ket{\psi_k}\bra{\psi_k}.
+        \end{align}
+        Any density operator must satisfy the following
+        properties \cite{modern-qm}:
+        \begin{enumerate}
+            \item Hermiticity, that is
+                \begin{align}
+                    p_k = p_k^{*} \implies \densitymatrix = \densitymatrix^{\dagger}.
+                \end{align}
+                This translates to the probabilities being real, $p_k \in
+                \mathbb{R}$.
+            \item Positivity,
+                \begin{align}
+                    p_k \geq 0 \implies \bra{\chi}\densitymatrix\ket{\chi} \geq 0.
+                \end{align}
+                In other words, density matrices are \emph{positive
+                semidefinite}.
+            \item Normalization of the probabilities,
+                \begin{align}
+                    \sum_{k} p_k = 1 \implies \tr(\densitymatrix),
+                \end{align}
+                that is, the probabilities must sum up to one.
+        \end{enumerate}
+        Furthermore, by squaring the density matrix and taking the trace we can
+        infer if the system we are perusing is in a mixed state or a pure state
+        \cite{modern-qm}.
+        \begin{align}
+            \tr(\densitymatrix^2) = \sum_{k} p_k^2 \leq 1,
+        \end{align}
+        with equality if, and only if, the system is in a pure state, viz.
+        \begin{align}
+            \densitymatrix = \ket{\psi}\bra{\psi}
+            \implies \densitymatrix^2 = \densitymatrix
+            \implies \tr(\densitymatrix^2) = 1.
+        \end{align}
+        Using density matrices, we can compute the expectation value of any
+        operator $\hat{O}$, by \cite{modern-qm}
+        \begin{align}
+            \expv{\hat{O}} = \tr(\hat{O}\densitymatrix).
+        \end{align}
+        % TODO: Work this out further
+
+        \subsection{Many-body density matrices}
+            In a seminal paper by Löwdin \cite{lowdin-density-matrices}, the
+            concept of a many-body density matrix in terms of the orbitals of a
+            Slater determinant is discussed. These are dubbed $N$-body density
+            matrices, where $N$ depends on the $N$-body interaction, that is,
+            the number of particles included in the interaction. Of the most
+            useful for our work, we have the one- and two-body density matrices.
+            As we will work almost exclusively in second quantization, we will
+            follow the derivation of the one- and two-body density matrices done
+            by \citeauthor{helgaker-molecular}. Löwdin's paper
+            \cite{lowdin-density-matrices} did not employ second quantization,
+            and all matrices are expressed in the coordinate representation. We
+            will list these as they arrive.
