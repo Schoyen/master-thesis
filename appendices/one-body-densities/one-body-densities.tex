@@ -1,4 +1,4 @@
-\chapter{Computing the one-body density matrices}
+\chapter{Computing one-body density matrices}
     From Kvaal\cite{kvaal2012ab} we have an expression for the one-body density
     matrices $\rho^q_p$\footnote{Note the ordering of the indices. We use the
     same convention as Kvaal in his article.} as a function of the coupled
@@ -58,10 +58,26 @@
     singles, doubles etc, this will provide a natural truncation for
     \autoref{eq:rho_q_p_lambda_part}.
 
-    \section{One-body density matrices for CCSD}
-        Truncating at CCSD \autoref{eq:rho_q_p_lambda_part} will truncate at the
-        double commutator as written. Employing SymPy\cite{sympy} we can compute
-        an expression for the one-body density matrices.
+    \section{The one-body density matrix for doubles excitation}
+        In the doubles truncation, the only contribution to
+        \autoref{eq:rho_q_p_lambda_part} will be
+        \begin{align}
+            \bra{\tilde{\Phi}}\Lambda e^{-T}\ccr{p}\can{q}e^T\ket{\Phi}
+            &= \bra{\tilde{\Phi}}\Lambda \com{\ccr{p}\can{q}}{T}\ket{\Phi}.
+        \end{align}
+        This happens as the first term in \autoref{eq:rho_q_p_lambda_part} will
+        at best leave the reference relaxed by $1$ as $\ccr{p}\can{q}$ can only
+        excite a single particle. The next commutator will suffer the same
+        effect, but in reverse. Two $T$ operators will leave the reference in a
+        $+4$ state, $\ccr{p}\can{q}$ will at best relax this to a $+3$ state.
+        Then, $\Lambda$, will only be able to relax the total down to a $+1$,
+        thus annihilating the overlap.
+
+    \section{The one-body density matrix for singles and doubles excitations}
+        For coupled cluster singles-and-doubles \autoref{eq:rho_q_p_lambda_part}
+        will truncate at the double commutator as written. Employing
+        SymPy\cite{sympy} we can compute an expression for the one-body density
+        matrices.
         \begin{align}
             \rho^{q}_{p}
             &= \bra{\tilde{\Phi}}\ccr{p}\can{q}\ket{\Phi}
