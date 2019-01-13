@@ -71,7 +71,28 @@
         effect, but in reverse. Two $T$ operators will leave the reference in a
         $+4$ state, $\ccr{p}\can{q}$ will at best relax this to a $+3$ state.
         Then, $\Lambda$, will only be able to relax the total down to a $+1$,
-        thus annihilating the overlap.
+        thus annihilating the overlap. The one-body density matrix for coupled
+        cluster doubles is then
+        \begin{align}
+            \rho^{q}_{p}
+            &= \bra{\tilde{\Phi}}\ccr{p}\can{q}\ket{\Phi}
+            + \bra{\tilde{\Phi}}\com{\ccr{p}\can{q}}{T}\ket{\Phi}
+            + \bra{\tilde{\Phi}}\Lambda \com{\ccr{p}\can{q}}{T}\ket{\Phi}
+            \\
+            &=
+            \delta^{q}_{j} \delta^{i}_{p} \para{
+                \delta^{j}_{i}
+                + \half l^{ik}_{ab} t^{ab}_{kj}
+            }
+            - \half \delta^{q}_{b} \delta^{a}_{p} l^{ij}_{ac} t^{cb}_{ij}.
+        \end{align}
+        We note that there are no contribution to the terms with an occupied and
+        a virtual index, that is, $\rho^{i}_{a} = \rho^{a}_{i} = 0$. This is a
+        direct consequence of the lack of single excitations. The density
+        operators $\ccr{a}\can{i}$ and $\ccr{i}\can{a}$ will excite and relax a
+        single particle respectively. But, $\Lambda$ and $T$ only works on pairs
+        therefore leaving the reference oddly excited or relaxed thus
+        annihilating the overlap.
 
     \section{The one-body density matrix for singles and doubles excitations}
         For coupled cluster singles-and-doubles \autoref{eq:rho_q_p_lambda_part}
