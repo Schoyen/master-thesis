@@ -1,6 +1,6 @@
-\chapter{Time evolution of the coupled cluster wavefunction}
-    We compute the time evolution of any wavefunction from an initial state at
-    time $t_0$ to a later time $t$ by
+\chapter{Overlap between time-evolved coupled cluster wavefunctions}
+    We compute the overlap of any wavefunction from an initial state at time
+    $t_0$ to a later time $t$ by
     \begin{align}
         P(t_0 \to t)
         \equiv |\braket{\psi(t)}{\psi(t_0)}|^2.
@@ -15,40 +15,41 @@
         = \braket{\tilde{\Psi}(t)}{\Psi(t_0)}
         \braket{\tilde{\Psi}(t_0)}{\Psi(t)}.
     \end{align}
-    Choosing $t_0 = 0$ as the ground state we can compute the overlap of the
-    ground state to all later states $t$. For time-independent spin-orbitals we
-    only evolve the amplitudes in time. We thus have to find an expression for
-    the two inner-products below.
+    This is a consequence of treating the two different Hilbert spaces
+    indepedently.  Choosing $t_0 = 0$ as the ground state we can compute the
+    overlap of the ground state to all later states $t$. For time-independent
+    spin-orbitals we only evolve the amplitudes in time. We thus have to find an
+    expression for the two inner-products below.
     \begin{align}
         \braket{\tilde{\Psi}(t)}{\Psi(0)}
         &=
-        \bra{\tilde{\Phi}}\brak{1 + \Lambda(t)}e^{-T(t)}
-        e^{T}\ket{\Phi},
+        \bra{\tilde{\Phi}}\brak{1 + \clustl(t)}e^{-\clust(t)}
+        e^{\clust}\ket{\Phi},
         \\
         \braket{\tilde{\Psi}(0)}{\Psi(t)}
         &=
-        \bra{\tilde{\Phi}}\brak{1 + \Lambda}e^{-T}
-        e^{T(t)}\ket{\Phi}.
+        \bra{\tilde{\Phi}}\brak{1 + \clustl}e^{-\clust}
+        e^{\clust(t)}\ket{\Phi}.
     \end{align}
-    Note that $T(t) \neq T$ and $\Lambda(t) \neq \Lambda$.  We split up the
-    equations on $\Lambda$ and expand the exponentials. As $T$ provides a net
-    excitation of at least $1$ and $\Lambda$ a net relaxation of at least
-    $1$\footnote{Note that this applies to the time-dependent versions of these
-    operators as well as it is only the amplitudes that are time-dependent and
-    not the creation nor the annihilation operators.}, only terms with a
-    combination of $\Lambda$ and $T$ will survive. This yields
+    Note that $\clust(t) \neq \clust$ and $\clustl(t) \neq \clustl$.  We split
+    up the equations on $\clustl$ and expand the exponentials. As $\clust$
+    provides a net excitation of at least $1$ and $\clustl$ a net relaxation of
+    at least $1$\footnote{Note that this applies to the time-dependent versions
+    of these operators as well. It is only the amplitudes that are
+    time-dependent and not the creation nor the annihilation operators.}, only
+    terms with a combination of $\clustl$ and $\clust$ will survive. This yields
     \begin{align}
         \braket{\tilde{\Psi}(t)}{\Psi(0)}
         &=
-        \bra{\tilde{\Phi}}e^{-T(t)}e^T\ket{\Phi}
+        \bra{\tilde{\Phi}}e^{-\clust(t)}e^{\clust}\ket{\Phi}
         +
-        \bra{\tilde{\Phi}}\Lambda(t)e^{-T(t)}e^T\ket{\Phi}
+        \bra{\tilde{\Phi}}\clustl(t)e^{-\clust(t)}e^{\clust}\ket{\Phi}
         \\
         &=
         1
         + \sum_{n = 0}^{\infty}\sum_{m = 0}^{\infty}
         \frac{1}{n!m!}
-        \bra{\tilde{\Phi}}\Lambda(t)[-T(t)]^nT^m\ket{\Phi}.
+        \bra{\tilde{\Phi}}\clustl(t)[-\clust(t)]^n \clust^m\ket{\Phi}.
     \end{align}
     The conjugate of this equation is then
     \begin{align}
@@ -56,62 +57,66 @@
         &=
         1 + \sum_{n = 0}^{\infty}\sum_{m = 0}^{\infty}
         \frac{1}{n!m!}
-        \bra{\tilde{\Phi}}\Lambda \brak{-T^n} T(t)^m\ket{\Phi}.
+        \bra{\tilde{\Phi}}\clustl \brak{-\clust^n} \clust(t)^m\ket{\Phi}.
     \end{align}
 
-    \section{Time evolution of the CCSD wavefunction}
+    \section{Time-dependent overlap for the coupled cluster doubles
+    wavefunction}
+
+    \section{Time-dependent overlap for the coupled cluster singles-and-doubles
+    wavefuntion}
         Restricting ourselves to the singles and doubles approximation we will
-        get that the $T$ operator can yield a net excitation of 1 and 2, whereas
-        $\Lambda$ yields a net relaxation of 1 and 2. This truncates the
+        get that the $\clust$ operator can yield a net excitation of 1 and 2, whereas
+        $\clustl$ yields a net relaxation of 1 and 2. This truncates the
         infinite sums to $n, m \in \brac{0, 1, 2}$. We get
         \begin{align}
             \braket{\tilde{\Psi}(t)}{\Psi(0)}
             &= 1
-            + \bra{\tilde{\Phi}}\Lambda(t)\brak{
-                1 - T(t) + T - T(t)T
-                + \half T(t)^2 + \half T^2
+            + \bra{\tilde{\Phi}}\clustl(t)\brak{
+                1 - \clust(t) + \clust - \clust(t)\clust
+                + \half \clust(t)^2 + \half \clust^2
             }\ket{\Phi},
             \\
             \braket{\tilde{\Psi}(0)}{\Psi(t)}
             &= 1
-            + \bra{\tilde{\Phi}}\Lambda\brak{
-                1 - T + T(t) - TT(t)
-                + \half T^2 + \half T(t)^2
+            + \bra{\tilde{\Phi}}\clustl\brak{
+                1 - \clust + \clust(t) - \clust\clust(t)
+                + \half \clust^2 + \half \clust(t)^2
             }\ket{\Phi}.
         \end{align}
-        We again utilize SymPy\cite{sympy} to get explicit tensor contractions.
+        We again utilize SymPy \cite{sympy} to get explicit tensor contractions.
         This yields
         \begin{align}
             \braket{\tilde{\Psi}(t)}{\Psi(0)}
             &=
             1
-            + l(t)^{i}_{a} \brak{
-                t^{a}_{i} - t(t)^{a}_{i}
+            + \clustlamp(t)^{i}_{a} \brak{
+                \clustamp^{a}_{i} - \clustamp(t)^{a}_{i}
             }
             \nonumber \\
             &\qquad
-            + l(t)^{ij}_{ab} \brak{
-                \frac{1}{4}t^{ab}_{ij}
-                - \half t^{a}_{j} t^{b}_{i}
-                - t(t)^{a}_{i} t^{b}_{j}
-                - \half t(t)^{a}_{j} t(t)^{b}_{i}
-                - \frac{1}{4} t(t)^{ab}_{ij}
+            + \clustlamp(t)^{ij}_{ab} \brak{
+                \frac{1}{4}\clustamp^{ab}_{ij}
+                - \half \clustamp^{a}_{j} \clustamp^{b}_{i}
+                - \clustamp(t)^{a}_{i} \clustamp^{b}_{j}
+                - \half \clustamp(t)^{a}_{j} \clustamp(t)^{b}_{i}
+                - \frac{1}{4} \clustamp(t)^{ab}_{ij}
             },
             \\
             \braket{\tilde{\Psi}(0)}{\Psi(t)}
             &=
             1
-            + l^{i}_{a} \brak{
-                t(t)^{a}_{i}
-                - t^{a}_{i}
+            + \clustlamp^{i}_{a} \brak{
+                \clustamp(t)^{a}_{i}
+                - \clustamp^{a}_{i}
             }
             \nonumber \\
             &\qquad
-            + l^{ij}_{ab} \brak{
-                \frac{1}{4}t(t)^{ab}_{ij}
-                - \half t^{a}_{j} t^{b}_{i}
-                - t(t)^{a}_{i}t^{b}_{j}
-                - \half t(t)^{a}_{j} t(t)^{b}_{i}
-                - \frac{1}{4} t^{ab}_{ij}
+            + \clustlamp^{ij}_{ab} \brak{
+                \frac{1}{4}\clustamp(t)^{ab}_{ij}
+                - \half \clustamp^{a}_{j} \clustamp^{b}_{i}
+                - \clustamp(t)^{a}_{i}\clustamp^{b}_{j}
+                - \half \clustamp(t)^{a}_{j} \clustamp(t)^{b}_{i}
+                - \frac{1}{4} \clustamp^{ab}_{ij}
             }.
         \end{align}
