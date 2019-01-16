@@ -62,25 +62,43 @@
 
     \section{Time-dependent overlap for the coupled cluster doubles
     wavefunction}
+        In the doubles approximation $\clust$ and $\clustl$ yield a net
+        excitation and relaxation of 2, respectively. This means that $n, m \in
+        \brac{0, 1}$ as any higher exponentials will leave the reference
+        excited. Furthermore, for $n = m = 0$ $\clustl$ will annihilate the
+        reference. We also have for $n = m = 1$ that the reference will be left
+        doubly excited thus annihilating the overlap. We then get
+        \begin{align}
+            \braket{\tilde{\Psi}(t)}{\Psi(0)}
+            &= 1 + \brabislat\clustl(t)\brak{
+                -\clust(t) + \clust
+            }\ketslat,
+            \\
+            \braket{\tilde{\Psi}(0)}{\Psi(t)}
+            &= 1 + \brabislat\clustl\brak{
+                -\clust + \clust(t)
+            }\ketslat.
+        \end{align}
 
     \section{Time-dependent overlap for the coupled cluster singles-and-doubles
     wavefuntion}
         Restricting ourselves to the singles and doubles approximation we will
         get that the $\clust$ operator can yield a net excitation of 1 and 2, whereas
         $\clustl$ yields a net relaxation of 1 and 2. This truncates the
-        infinite sums to $n, m \in \brac{0, 1, 2}$. We get
+        infinite sums to $n, m \in \brac{0, 1, 2}$. Note however that for $n = m
+        = 0$, $\clustl$ will annihilate the vacuum. We are then left with
         \begin{align}
             \braket{\tilde{\Psi}(t)}{\Psi(0)}
             &= 1
             + \bra{\tilde{\Phi}}\clustl(t)\brak{
-                1 - \clust(t) + \clust - \clust(t)\clust
+                - \clust(t) + \clust - \clust(t)\clust
                 + \half \clust(t)^2 + \half \clust^2
             }\ket{\Phi},
             \\
             \braket{\tilde{\Psi}(0)}{\Psi(t)}
             &= 1
             + \bra{\tilde{\Phi}}\clustl\brak{
-                1 - \clust + \clust(t) - \clust\clust(t)
+                - \clust + \clust(t) - \clust\clust(t)
                 + \half \clust^2 + \half \clust(t)^2
             }\ket{\Phi}.
         \end{align}
