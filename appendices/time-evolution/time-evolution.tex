@@ -79,6 +79,19 @@
                 -\clust + \clust(t)
             }\ketslat.
         \end{align}
+        Using SymPy \cite{sympy} to construct the tensor contractions we are
+        left with
+        \begin{align}
+            \braket{\tilde{\Psi}(t)}{\Psi(0)}
+            &= 1 + \frac{1}{4}\clustamp^{ab}_{ij} \clustlamp(t)^{ij}_{ab}
+            - \frac{1}{4}\clustlamp(t)^{ij}_{ab}
+            \clustamp(t)^{ab}_{ij},
+            \\
+            \braket{\tilde{\Psi}(0)}{\Psi(t)}
+            &= 1 - \frac{1}{4}\clustlamp^{ij}_{ab} \clustamp^{ab}_{ij}
+            + \frac{1}{4}\clustlamp^{ij}_{ab}
+            \clustamp(t)^{ab}_{ij}.
+        \end{align}
 
     \section{Time-dependent overlap for the coupled cluster singles-and-doubles
     wavefuntion}
