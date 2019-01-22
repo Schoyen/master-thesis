@@ -9,28 +9,28 @@
             &= \energyref
             + \braslat e^{-\clust_2}\HN e^{\clust_2}\ketslat
             = \energyref
-            + \frac{1}{4}t^{cd}_{kl} u^{kl}_{cd}.
+            + \frac{1}{4}\clustamp^{cd}_{kl} u^{kl}_{cd}.
         \end{align}
         The doubles amplitude equations is given by\cite{shavitt2009many}
         \begin{align}
-            0 &= g(f, u, t)
+            0 &= g(f, u, \clustamp)
             \equiv \braslate{ab}{ij}e^{-\clust_2}\HN e^{\clust_2}\ketslat
             \\
             &=
             u^{ab}_{ij}
-            + f^{b}_{c} t^{ac}_{ij} P(ab)
-            - f^{k}_{j} t^{ab}_{ik} P(ij)
-            + \half t^{cd}_{ij} u^{ab}_{cd}
-            + \half t^{ab}_{kl} u^{kl}_{ij}
+            + f^{b}_{c} \clustamp^{ac}_{ij} P(ab)
+            - f^{k}_{j} \clustamp^{ab}_{ik} P(ij)
+            + \half \clustamp^{cd}_{ij} u^{ab}_{cd}
+            + \half \clustamp^{ab}_{kl} u^{kl}_{ij}
             \nonumber \\
             &\qquad
-            + t^{ac}_{ik} u^{bk}_{jc} P(ab) P(ij)
-            + \frac{1}{4} t^{cd}_{ij} t^{ab}_{kl} u^{kl}_{cd}
-            + t^{ac}_{ik} t^{bd}_{jl} u^{kl}_{cd} P(ij)
+            + \clustamp^{ac}_{ik} u^{bk}_{jc} P(ab) P(ij)
+            + \frac{1}{4} \clustamp^{cd}_{ij} \clustamp^{ab}_{kl} u^{kl}_{cd}
+            + \clustamp^{ac}_{ik} \clustamp^{bd}_{jl} u^{kl}_{cd} P(ij)
             \nonumber \\
             &\qquad
-            - \half t^{ab}_{lj} t^{dc}_{ik} u^{kl}_{cd} P(ij)
-            - \half t^{ac}_{lk} t^{db}_{ij} u^{kl}_{cd} P(ab).
+            - \half \clustamp^{ab}_{lj} \clustamp^{dc}_{ik} u^{kl}_{cd} P(ij)
+            - \half \clustamp^{ac}_{lk} \clustamp^{db}_{ij} u^{kl}_{cd} P(ab).
         \end{align}
         In order to reduce the number of FLOPS when contracting the tensors, we
         introduce so-called \emph{intermediates}\cite{hjorth2017advanced}. In
@@ -40,76 +40,76 @@
         notation "$\gets$" to signify part of the expression, i.e., some of the
         terms contained in the function.}.
         \begin{gather}
-            g(f, u, t)
+            g(f, u, \clustamp)
             \gets
-            \frac{1}{4} t^{cd}_{ij} t^{ab}_{kl} u^{kl}_{cd}
-            + \half t^{cd}_{ij} u^{ab}_{cd}
+            \frac{1}{4} \clustamp^{cd}_{ij} \clustamp^{ab}_{kl} u^{kl}_{cd}
+            + \half \clustamp^{cd}_{ij} u^{ab}_{cd}
             =
-            t^{cd}_{ij}\para{
-                \frac{1}{4} t^{ab}_{kl} u^{kl}_{cd}
+            \clustamp^{cd}_{ij}\para{
+                \frac{1}{4} \clustamp^{ab}_{kl} u^{kl}_{cd}
                 + \half u^{ab}_{cd}
             }
-            = t^{cd}_{ij}W^{ab}_{cd},
+            = \clustamp^{cd}_{ij}W^{ab}_{cd},
             \\
-            g(f, u, t)
+            g(f, u, \clustamp)
             \gets
-            \half t^{cd}_{jk} t^{ab}_{il} u^{kl}_{cd} P(ij)
-            = t^{ab}_{il}\para{
-                \half t^{cd}_{jk} u^{kl}_{cd}
+            \half \clustamp^{cd}_{jk} \clustamp^{ab}_{il} u^{kl}_{cd} P(ij)
+            = \clustamp^{ab}_{il}\para{
+                \half \clustamp^{cd}_{jk} u^{kl}_{cd}
             } P(ij)
-            = t^{ab}_{il} W^{l}_{j} P(ij),
+            = \clustamp^{ab}_{il} W^{l}_{j} P(ij),
             \\
-            g(f, u, t)
+            g(f, u, \clustamp)
             \gets
-            \half t^{ac}_{ij} t^{bd}_{kl} u^{kl}_{cd} P(ab)
-            = t^{ac}_{ij}\para{
-                \half t^{bd}_{kl} u^{kl}_{cd}
+            \half \clustamp^{ac}_{ij} \clustamp^{bd}_{kl} u^{kl}_{cd} P(ab)
+            = \clustamp^{ac}_{ij}\para{
+                \half \clustamp^{bd}_{kl} u^{kl}_{cd}
             } P(ab)
-            = t^{ac}_{ij} W^{b}_{c} P(ab).
+            = \clustamp^{ac}_{ij} W^{b}_{c} P(ab).
         \end{gather}
         The last intermediate requires a little work, as we have to insert an
         extra exchange operator, $P(ij)$, in one of the terms in order to group
         two terms into a single intermediate.
         \begin{align}
-            g(f, u, t)
+            g(f, u, \clustamp)
             &\gets
-            t^{ac}_{ik} t^{bd}_{jl} u^{kl}_{cd} P(ab)
-            + t^{ac}_{ik} u^{bk}_{jc} P(ab) P(ij)
+            \clustamp^{ac}_{ik} \clustamp^{bd}_{jl} u^{kl}_{cd} P(ab)
+            + \clustamp^{ac}_{ik} u^{bk}_{jc} P(ab) P(ij)
             \\
-            &= t^{ac}_{ik}\para{
-                \half t^{bd}_{jl} u^{kl}_{cd}
+            &= \clustamp^{ac}_{ik}\para{
+                \half \clustamp^{bd}_{jl} u^{kl}_{cd}
                 + u^{bk}_{jc}
             } P(ab) P(ij)
             \\
-            &= t^{ac}_{ik} W^{bk}_{jc} P(ab) P(ij).
+            &= \clustamp^{ac}_{ik} W^{bk}_{jc} P(ab) P(ij).
         \end{align}
         We summarize the expression for the intermediates in
         \autoref{tab:intermediates_ccd}, along with their computational
-        complexity. The total right-hand side of the $t$-amplitudes in the
+        complexity. The total right-hand side of the $\clustamp$-amplitudes in the
         doubles approximation using the intermediate calculations is thus
         \begin{align}
-            g(f, u, t)
+            g(f, u, \clustamp)
             &=
-            f^{b}_{c} t^{ac}_{ij} P(ab)
-            - f^{k}_{j} t^{ab}_{ik} P(ij)
-            + t^{cd}_{ij} W^{ab}_{cd}
-            + t^{ab}_{il} W^{l}_{j} P(ij)
+            f^{b}_{c} \clustamp^{ac}_{ij} P(ab)
+            - f^{k}_{j} \clustamp^{ab}_{ik} P(ij)
+            + \clustamp^{cd}_{ij} W^{ab}_{cd}
+            + \clustamp^{ab}_{il} W^{l}_{j} P(ij)
             \nonumber \\
             &\qquad
-            + t^{ac}_{ik} W^{bk}_{jc} P(ab) P(ij)
-            - t^{ac}_{ij} W^{b}_{c} P(ab)
-            + \half t^{ab}_{kl} u^{kl}_{ij}
+            + \clustamp^{ac}_{ik} W^{bk}_{jc} P(ab) P(ij)
+            - \clustamp^{ac}_{ij} W^{b}_{c} P(ab)
+            + \half \clustamp^{ab}_{kl} u^{kl}_{ij}
             + u^{ab}_{ij}.
         \end{align}
-        The most time-consuming contraction is now the term $t^{cd}_{ij}
+        The most time-consuming contraction is now the term $\clustamp^{cd}_{ij}
         W^{ab}_{cd}$. This term uses $\mathcal{O}(m^4 n^2)$ FLOPS, which is a
-        reduction from $\mathcal{O}(m^4 n^4)$ when computing $t^{cd}_{ij}
-        t^{ab}_{kl} u^{kl}_{cd}$ directly.
+        reduction from $\mathcal{O}(m^4 n^4)$ when computing $\clustamp^{cd}_{ij}
+        \clustamp^{ab}_{kl} u^{kl}_{cd}$ directly.
 
         \begin{table}
             \centering
             \caption{In this table we summarize the intermediates used in
-            the $t$-amplitudes of the coupled cluster doubles approximation. We
+            the $\clustamp$-amplitudes of the coupled cluster doubles approximation. We
             also list the computational complexity in FLOPS needed to construct
             the intermediate. Recall that $n$ is the number of holes and $m$ the
             number of particles.}
@@ -117,31 +117,36 @@
                 Intermediate & Complexity [FLOPS] \\
                 \midrule
                 $W^{ab}_{cd}
-                = \frac{1}{4} t^{ab}_{kl} u^{kl}_{cd}
+                = \frac{1}{4} \clustamp^{ab}_{kl} u^{kl}_{cd}
                 + \half u^{ab}_{cd}$
                 &
                 $\mathcal{O}(m^4 n^2)$ \\
                 \addlinespace
                 $W^{l}_{j}
-                = \half t^{cd}_{jk} u^{kl}_{cd}$
+                = \half \clustamp^{cd}_{jk} u^{kl}_{cd}$
                 &
                 $\mathcal{O}(m^2 n^3)$
                 \\
                 \addlinespace
                 $W^{b}_{c}
-                = \half t^{bd}_{kl} u^{kl}_{cd}$
+                = \half \clustamp^{bd}_{kl} u^{kl}_{cd}$
                 &
                 $\mathcal{O}(m^3 n^2)$
                 \\
                 \addlinespace
                 $W^{bk}_{jc}
-                = \half t^{bd}_{jl} u^{kl}_{cd}
+                = \half \clustamp^{bd}_{jl} u^{kl}_{cd}
                 + u^{bk}_{jc}$
                 &
                 $\mathcal{O}(m^3n^3)$
             \end{tabular}
             \label{tab:intermediates_ccd}
         \end{table}
+        Moving on to the $\clustl$-equations we have for the doubles
+        approximation
+        \begin{align}
+            0 &=
+        \end{align}
 
     \section{Coupled cluster singles doubles}
         The energy for the singles-doubles truncation is given by
@@ -154,9 +159,9 @@
             &=
             \energyref
             +
-            f^{k}_{c} t^{c}_{k}
-            - \half t^{c}_{l} t^{d}_{k} u^{kl}_{cd}
-            + \frac{1}{4} t^{cd}_{kl} u^{kl}_{cd}.
+            f^{k}_{c} \clustamp^{c}_{k}
+            - \half \clustamp^{c}_{l} \clustamp^{d}_{k} u^{kl}_{cd}
+            + \frac{1}{4} \clustamp^{cd}_{kl} u^{kl}_{cd}.
         \end{align}
         The singles amplitude equations becomes
         \begin{align}
@@ -165,23 +170,23 @@
             \\
             &=
             f^{a}_{i}
-            - f^{k}_{c} t^{c}_{i} t^{a}_{k}
-            + f^{k}_{c} t^{ac}_{ik}
-            - f^{k}_{i} t^{a}_{k}
-            + f^{a}_{c} t^{c}_{i}
-            - t^{c}_{k} t^{d}_{i} t^{a}_{l} u^{kl}_{cd}
-            - t^{c}_{k} t^{d}_{i} u^{ak}_{cd}
+            - f^{k}_{c} \clustamp^{c}_{i} \clustamp^{a}_{k}
+            + f^{k}_{c} \clustamp^{ac}_{ik}
+            - f^{k}_{i} \clustamp^{a}_{k}
+            + f^{a}_{c} \clustamp^{c}_{i}
+            - \clustamp^{c}_{k} \clustamp^{d}_{i} \clustamp^{a}_{l} u^{kl}_{cd}
+            - \clustamp^{c}_{k} \clustamp^{d}_{i} u^{ak}_{cd}
             \nonumber \\
             &\qquad
-            + t^{c}_{k} t^{a}_{l} u^{kl}_{ic}
-            + t^{c}_{k} t^{ad}_{il} u^{kl}_{cd}
-            + t^{c}_{k} u^{ak}_{ic}
-            - \frac{1}{2} t^{c}_{i} t^{ad}_{kl} u^{kl}_{cd}
+            + \clustamp^{c}_{k} \clustamp^{a}_{l} u^{kl}_{ic}
+            + \clustamp^{c}_{k} \clustamp^{ad}_{il} u^{kl}_{cd}
+            + \clustamp^{c}_{k} u^{ak}_{ic}
+            - \frac{1}{2} \clustamp^{c}_{i} \clustamp^{ad}_{kl} u^{kl}_{cd}
             \nonumber \\
             &\qquad
-            + \frac{1}{2} t^{a}_{l} t^{cd}_{ik} u^{kl}_{cd}
-            + \frac{1}{2} t^{cd}_{ik} u^{ak}_{cd}
-            - \frac{1}{2} t^{ac}_{kl} u^{kl}_{ic}.
+            + \frac{1}{2} \clustamp^{a}_{l} \clustamp^{cd}_{ik} u^{kl}_{cd}
+            + \frac{1}{2} \clustamp^{cd}_{ik} u^{ak}_{cd}
+            - \frac{1}{2} \clustamp^{ac}_{kl} u^{kl}_{ic}.
         \end{align}
         % TODO: Introduce intermediates
         The doubles amplitude equations are
@@ -190,52 +195,52 @@
             e^{\clust_1 + \clust_2}\ketslat
             \\
             &=
-            f^{k}_{c} t^{c}_{i} t^{ab}_{jk} P(ij)
-            + f^{k}_{c} t^{a}_{k} t^{bc}_{ij} P(ab)
-            + f^{k}_{i} t^{ab}_{jk} P(ij)
-            - f^{a}_{c} t^{bc}_{ij} P(ab)
+            f^{k}_{c} \clustamp^{c}_{i} \clustamp^{ab}_{jk} P(ij)
+            + f^{k}_{c} \clustamp^{a}_{k} \clustamp^{bc}_{ij} P(ab)
+            + f^{k}_{i} \clustamp^{ab}_{jk} P(ij)
+            - f^{a}_{c} \clustamp^{bc}_{ij} P(ab)
             \nonumber \\
             &\qquad
-            + t^{c}_{k} t^{d}_{i} t^{ab}_{jl} u^{kl}_{cd} P(ij)
-            + t^{c}_{k} t^{a}_{l} t^{bd}_{ij} u^{kl}_{cd} P(ab)
-            - t^{c}_{k} t^{ad}_{ij} u^{bk}_{cd} P(ab)
+            + \clustamp^{c}_{k} \clustamp^{d}_{i} \clustamp^{ab}_{jl} u^{kl}_{cd} P(ij)
+            + \clustamp^{c}_{k} \clustamp^{a}_{l} \clustamp^{bd}_{ij} u^{kl}_{cd} P(ab)
+            - \clustamp^{c}_{k} \clustamp^{ad}_{ij} u^{bk}_{cd} P(ab)
             \nonumber \\
             &\qquad
-            + t^{c}_{k} t^{ab}_{il} u^{kl}_{jc} P(ij)
-            + t^{c}_{i} t^{d}_{j} t^{a}_{k} t^{b}_{l} u^{kl}_{cd}
-            + t^{c}_{i} t^{d}_{j} t^{a}_{k} u^{bk}_{cd} P(ab)
-            + \frac{1}{2} t^{c}_{i} t^{d}_{j} t^{ab}_{kl} u^{kl}_{cd} 1
+            + \clustamp^{c}_{k} \clustamp^{ab}_{il} u^{kl}_{jc} P(ij)
+            + \clustamp^{c}_{i} \clustamp^{d}_{j} \clustamp^{a}_{k} \clustamp^{b}_{l} u^{kl}_{cd}
+            + \clustamp^{c}_{i} \clustamp^{d}_{j} \clustamp^{a}_{k} u^{bk}_{cd} P(ab)
+            + \frac{1}{2} \clustamp^{c}_{i} \clustamp^{d}_{j} \clustamp^{ab}_{kl} u^{kl}_{cd} 1
             \nonumber \\
             &\qquad
-            + t^{c}_{i} t^{d}_{j} u^{ab}_{cd}
-            - t^{c}_{i} t^{a}_{k} t^{b}_{l} u^{kl}_{jc} P(ij)
-            - t^{c}_{i} t^{a}_{k} t^{bd}_{jl} u^{kl}_{cd} P(ab) P(ij)
+            + \clustamp^{c}_{i} \clustamp^{d}_{j} u^{ab}_{cd}
+            - \clustamp^{c}_{i} \clustamp^{a}_{k} \clustamp^{b}_{l} u^{kl}_{jc} P(ij)
+            - \clustamp^{c}_{i} \clustamp^{a}_{k} \clustamp^{bd}_{jl} u^{kl}_{cd} P(ab) P(ij)
             \nonumber \\
             &\qquad
-            - t^{c}_{i} t^{a}_{k} u^{bk}_{jc} P(ab) P(ij)
-            - t^{c}_{i} t^{ad}_{jk} u^{bk}_{cd} P(ab) P(ij)
-            - \frac{1}{2} t^{c}_{i} t^{ab}_{kl} u^{kl}_{jc} P(ij)
+            - \clustamp^{c}_{i} \clustamp^{a}_{k} u^{bk}_{jc} P(ab) P(ij)
+            - \clustamp^{c}_{i} \clustamp^{ad}_{jk} u^{bk}_{cd} P(ab) P(ij)
+            - \frac{1}{2} \clustamp^{c}_{i} \clustamp^{ab}_{kl} u^{kl}_{jc} P(ij)
             \nonumber \\
             &\qquad
-            - t^{c}_{i} u^{ab}_{jc} P(ij)
-            + \frac{1}{2} t^{a}_{k} t^{b}_{l} t^{cd}_{ij} u^{kl}_{cd}
-            + t^{a}_{k} t^{b}_{l} u^{kl}_{ij}
-            + \frac{1}{2} t^{a}_{k} t^{cd}_{ij} u^{bk}_{cd} 1 P(ab)
+            - \clustamp^{c}_{i} u^{ab}_{jc} P(ij)
+            + \frac{1}{2} \clustamp^{a}_{k} \clustamp^{b}_{l} \clustamp^{cd}_{ij} u^{kl}_{cd}
+            + \clustamp^{a}_{k} \clustamp^{b}_{l} u^{kl}_{ij}
+            + \frac{1}{2} \clustamp^{a}_{k} \clustamp^{cd}_{ij} u^{bk}_{cd} 1 P(ab)
             \nonumber \\
             &\qquad
-            + t^{a}_{k} t^{bc}_{il} u^{kl}_{jc} P(ab) P(ij)
-            + t^{a}_{k} u^{bk}_{ij} P(ab)
-            + \frac{1}{4} t^{cd}_{ij} t^{ab}_{kl} u^{kl}_{cd} 1
-            + \frac{1}{2} t^{cd}_{ij} u^{ab}_{cd}
+            + \clustamp^{a}_{k} \clustamp^{bc}_{il} u^{kl}_{jc} P(ab) P(ij)
+            + \clustamp^{a}_{k} u^{bk}_{ij} P(ab)
+            + \frac{1}{4} \clustamp^{cd}_{ij} \clustamp^{ab}_{kl} u^{kl}_{cd} 1
+            + \frac{1}{2} \clustamp^{cd}_{ij} u^{ab}_{cd}
             \nonumber \\
             &\qquad
-            + \frac{1}{2} t^{cd}_{jk} t^{ab}_{il} u^{kl}_{cd} P(ij)
-            + t^{ac}_{ik} t^{bd}_{jl} u^{kl}_{cd} P(ab)
-            + t^{ac}_{ik} u^{bk}_{jc} P(ab) P(ij)
+            + \frac{1}{2} \clustamp^{cd}_{jk} \clustamp^{ab}_{il} u^{kl}_{cd} P(ij)
+            + \clustamp^{ac}_{ik} \clustamp^{bd}_{jl} u^{kl}_{cd} P(ab)
+            + \clustamp^{ac}_{ik} u^{bk}_{jc} P(ab) P(ij)
             \nonumber \\
             &\qquad
-            - \frac{1}{2} t^{ac}_{ij} t^{bd}_{kl} u^{kl}_{cd} P(ab)
-            + \frac{1}{2} t^{ab}_{kl} u^{kl}_{ij} 1
+            - \frac{1}{2} \clustamp^{ac}_{ij} \clustamp^{bd}_{kl} u^{kl}_{cd} P(ab)
+            + \frac{1}{2} \clustamp^{ab}_{kl} u^{kl}_{ij} 1
             + u^{ab}_{ij}.
         \end{align}
         % TODO: Introduce intermediates
@@ -250,7 +255,7 @@
             \\
             &=
             E_0
-            + \frac{1}{4} t^{de}_{lm} u^{lm}_{de}.
+            + \frac{1}{4} \clustamp^{de}_{lm} u^{lm}_{de}.
         \end{align}
         The doubles amplitude equations are
         \begin{align}
@@ -258,24 +263,24 @@
             e^{\clust_2 + \clust_3}\ketslat
             \\
             &=
-            f^{l}_{d} t^{abd}_{ijl}
-            + f^{l}_{i} t^{ab}_{jl} P(ij)
-            - f^{a}_{d} t^{bd}_{ij} P(ab)
-            + \frac{1}{4} t^{de}_{ij} t^{ab}_{lm} u^{lm}_{de}
+            f^{l}_{d} \clustamp^{abd}_{ijl}
+            + f^{l}_{i} \clustamp^{ab}_{jl} P(ij)
+            - f^{a}_{d} \clustamp^{bd}_{ij} P(ab)
+            + \frac{1}{4} \clustamp^{de}_{ij} \clustamp^{ab}_{lm} u^{lm}_{de}
             \nonumber \\
             &\qquad
-            + \frac{1}{2} t^{de}_{ij} u^{ab}_{de}
-            + \frac{1}{2} t^{de}_{jl} t^{ab}_{im} u^{lm}_{de} P(ij)
-            + t^{ad}_{il} t^{be}_{jm} u^{lm}_{de} P(ab)
+            + \frac{1}{2} \clustamp^{de}_{ij} u^{ab}_{de}
+            + \frac{1}{2} \clustamp^{de}_{jl} \clustamp^{ab}_{im} u^{lm}_{de} P(ij)
+            + \clustamp^{ad}_{il} \clustamp^{be}_{jm} u^{lm}_{de} P(ab)
             \nonumber \\
             &\qquad
-            + t^{ad}_{il} u^{bl}_{jd} P(ab) P(ij)
-            - \frac{1}{2} t^{ad}_{ij} t^{be}_{lm} u^{lm}_{de} P(ab)
-            + \frac{1}{2} t^{ab}_{lm} u^{lm}_{ij}
+            + \clustamp^{ad}_{il} u^{bl}_{jd} P(ab) P(ij)
+            - \frac{1}{2} \clustamp^{ad}_{ij} \clustamp^{be}_{lm} u^{lm}_{de} P(ab)
+            + \frac{1}{2} \clustamp^{ab}_{lm} u^{lm}_{ij}
             \nonumber \\
             &\qquad
-            + \frac{1}{2} t^{ade}_{ijl} u^{bl}_{de} P(ab)
-            - \frac{1}{2} t^{abd}_{ilm} u^{lm}_{jd} P(ij)
+            + \frac{1}{2} \clustamp^{ade}_{ijl} u^{bl}_{de} P(ab)
+            - \frac{1}{2} \clustamp^{abd}_{ilm} u^{lm}_{jd} P(ij)
             + u^{ab}_{ij}.
         \end{align}
         Now to the beast...
@@ -286,109 +291,109 @@
             e^{\clust_2 + \clust_3}\ketslat
             \\
             &=
-            f^{l}_{d} t^{ad}_{ij} t^{bc}_{kl} P(ab) P(ik)
-            + f^{l}_{d} t^{ab}_{il} t^{cd}_{jk} P(ij)
-            + f^{l}_{d} t^{ab}_{kl} t^{cd}_{ij}
-            + f^{l}_{d} t^{ac}_{jl} t^{bd}_{ik} P(ab)
+            f^{l}_{d} \clustamp^{ad}_{ij} \clustamp^{bc}_{kl} P(ab) P(ik)
+            + f^{l}_{d} \clustamp^{ab}_{il} \clustamp^{cd}_{jk} P(ij)
+            + f^{l}_{d} \clustamp^{ab}_{kl} \clustamp^{cd}_{ij}
+            + f^{l}_{d} \clustamp^{ac}_{jl} \clustamp^{bd}_{ik} P(ab)
             \nonumber \\
             &\qquad
-            - f^{l}_{i} t^{abc}_{jkl} P(ij)
-            - f^{l}_{k} t^{abc}_{ijl}
-            + f^{a}_{d} t^{bcd}_{ijk} P(ab)
-            + f^{c}_{d} t^{abd}_{ijk}
+            - f^{l}_{i} \clustamp^{abc}_{jkl} P(ij)
+            - f^{l}_{k} \clustamp^{abc}_{ijl}
+            + f^{a}_{d} \clustamp^{bcd}_{ijk} P(ab)
+            + f^{c}_{d} \clustamp^{abd}_{ijk}
             \nonumber \\
             &\qquad
-            + \frac{1}{2} t^{de}_{il} t^{abc}_{jkm} u^{lm}_{de} P(ij)
-            + \frac{1}{2} t^{de}_{ij} t^{ab}_{kl} u^{cl}_{de}
-            - \frac{1}{2} t^{de}_{ij} t^{ac}_{kl} u^{bl}_{de} P(ab)
+            + \frac{1}{2} \clustamp^{de}_{il} \clustamp^{abc}_{jkm} u^{lm}_{de} P(ij)
+            + \frac{1}{2} \clustamp^{de}_{ij} \clustamp^{ab}_{kl} u^{cl}_{de}
+            - \frac{1}{2} \clustamp^{de}_{ij} \clustamp^{ac}_{kl} u^{bl}_{de} P(ab)
             \nonumber \\
             &\qquad
-            + \frac{1}{4} t^{de}_{ij} t^{abc}_{klm} u^{lm}_{de}
-            - \frac{1}{4} t^{de}_{ik} t^{abc}_{jlm} u^{lm}_{de} P(ij)
-            + \frac{1}{2} t^{de}_{jk} t^{ab}_{il} u^{cl}_{de} P(ij)
+            + \frac{1}{4} \clustamp^{de}_{ij} \clustamp^{abc}_{klm} u^{lm}_{de}
+            - \frac{1}{4} \clustamp^{de}_{ik} \clustamp^{abc}_{jlm} u^{lm}_{de} P(ij)
+            + \frac{1}{2} \clustamp^{de}_{jk} \clustamp^{ab}_{il} u^{cl}_{de} P(ij)
             \nonumber \\
             &\qquad
-            - \frac{1}{2} t^{de}_{jk} t^{ac}_{il} u^{bl}_{de} P(ab) P(ij)
-            + \frac{1}{2} t^{de}_{kl} t^{abc}_{ijm} u^{lm}_{de}
-            + \frac{1}{2} t^{ad}_{lm} t^{bce}_{ijk} u^{lm}_{de} P(ab)
+            - \frac{1}{2} \clustamp^{de}_{jk} \clustamp^{ac}_{il} u^{bl}_{de} P(ab) P(ij)
+            + \frac{1}{2} \clustamp^{de}_{kl} \clustamp^{abc}_{ijm} u^{lm}_{de}
+            + \frac{1}{2} \clustamp^{ad}_{lm} \clustamp^{bce}_{ijk} u^{lm}_{de} P(ab)
             \nonumber \\
             &\qquad
-            + t^{ad}_{il} t^{bc}_{jm} u^{lm}_{kd} P(ab)
-            + t^{ad}_{il} t^{ce}_{jk} u^{bl}_{de} P(ab) P(ij)
-            + t^{ad}_{il} t^{bce}_{jkm} u^{lm}_{de} P(ab) P(ij)
+            + \clustamp^{ad}_{il} \clustamp^{bc}_{jm} u^{lm}_{kd} P(ab)
+            + \clustamp^{ad}_{il} \clustamp^{ce}_{jk} u^{bl}_{de} P(ab) P(ij)
+            + \clustamp^{ad}_{il} \clustamp^{bce}_{jkm} u^{lm}_{de} P(ab) P(ij)
             \nonumber \\
             &\qquad
-            - t^{ad}_{ij} t^{be}_{kl} u^{cl}_{de} P(ab)
-            + t^{ad}_{ij} t^{ce}_{kl} u^{bl}_{de} P(ab)
-            + \frac{1}{2} t^{ad}_{ij} t^{bce}_{klm} u^{lm}_{de} P(ab)
+            - \clustamp^{ad}_{ij} \clustamp^{be}_{kl} u^{cl}_{de} P(ab)
+            + \clustamp^{ad}_{ij} \clustamp^{ce}_{kl} u^{bl}_{de} P(ab)
+            + \frac{1}{2} \clustamp^{ad}_{ij} \clustamp^{bce}_{klm} u^{lm}_{de} P(ab)
             \nonumber \\
             &\qquad
-            - t^{ad}_{ij} u^{bc}_{kd} P(ab)
-            + t^{ad}_{ik} t^{be}_{jl} u^{cl}_{de} P(ab) P(ij)
-            + \frac{1}{2} t^{ad}_{ik} t^{bc}_{lm} u^{lm}_{jd} P(ab) P(ij)
+            - \clustamp^{ad}_{ij} u^{bc}_{kd} P(ab)
+            + \clustamp^{ad}_{ik} \clustamp^{be}_{jl} u^{cl}_{de} P(ab) P(ij)
+            + \frac{1}{2} \clustamp^{ad}_{ik} \clustamp^{bc}_{lm} u^{lm}_{jd} P(ab) P(ij)
             \nonumber \\
             &\qquad
-            - t^{ad}_{ik} t^{ce}_{jl} u^{bl}_{de} P(ab) P(ij)
-            - \frac{1}{2} t^{ad}_{ik} t^{bce}_{jlm} u^{lm}_{de} P(ab) P(ij)
-            + t^{ad}_{ik} u^{bc}_{jd} P(ab) P(ij)
+            - \clustamp^{ad}_{ik} \clustamp^{ce}_{jl} u^{bl}_{de} P(ab) P(ij)
+            - \frac{1}{2} \clustamp^{ad}_{ik} \clustamp^{bce}_{jlm} u^{lm}_{de} P(ab) P(ij)
+            + \clustamp^{ad}_{ik} u^{bc}_{jd} P(ab) P(ij)
             \nonumber \\
             &\qquad
-            + t^{ad}_{kl} t^{ce}_{ij} u^{bl}_{de} P(ab)
-            + t^{ad}_{kl} t^{bce}_{ijm} u^{lm}_{de} P(ab)
-            - \frac{1}{2} t^{ab}_{lm} t^{cd}_{ij} u^{lm}_{kd}
+            + \clustamp^{ad}_{kl} \clustamp^{ce}_{ij} u^{bl}_{de} P(ab)
+            + \clustamp^{ad}_{kl} \clustamp^{bce}_{ijm} u^{lm}_{de} P(ab)
+            - \frac{1}{2} \clustamp^{ab}_{lm} \clustamp^{cd}_{ij} u^{lm}_{kd}
             \nonumber \\
             &\qquad
-            + \frac{1}{2} t^{ab}_{lm} t^{cd}_{ik} u^{lm}_{jd} P(ij)
-            + \frac{1}{4} t^{ab}_{lm} t^{cde}_{ijk} u^{lm}_{de}
-            + t^{ab}_{il} t^{cd}_{jm} u^{lm}_{kd} P(ij)
+            + \frac{1}{2} \clustamp^{ab}_{lm} \clustamp^{cd}_{ik} u^{lm}_{jd} P(ij)
+            + \frac{1}{4} \clustamp^{ab}_{lm} \clustamp^{cde}_{ijk} u^{lm}_{de}
+            + \clustamp^{ab}_{il} \clustamp^{cd}_{jm} u^{lm}_{kd} P(ij)
             \nonumber \\
             &\qquad
-            - t^{ab}_{il} t^{cd}_{km} u^{lm}_{jd} P(ij)
-            + \frac{1}{2} t^{ab}_{il} t^{cde}_{jkm} u^{lm}_{de} P(ij)
-            + t^{ab}_{il} u^{cl}_{jk} P(ij)
+            - \clustamp^{ab}_{il} \clustamp^{cd}_{km} u^{lm}_{jd} P(ij)
+            + \frac{1}{2} \clustamp^{ab}_{il} \clustamp^{cde}_{jkm} u^{lm}_{de} P(ij)
+            + \clustamp^{ab}_{il} u^{cl}_{jk} P(ij)
             \nonumber \\
             &\qquad
-            + t^{ab}_{kl} t^{cd}_{im} u^{lm}_{jd} P(ij)
-            + \frac{1}{2} t^{ab}_{kl} t^{cde}_{ijm} u^{lm}_{de}
-            + t^{ab}_{kl} u^{cl}_{ij}
+            + \clustamp^{ab}_{kl} \clustamp^{cd}_{im} u^{lm}_{jd} P(ij)
+            + \frac{1}{2} \clustamp^{ab}_{kl} \clustamp^{cde}_{ijm} u^{lm}_{de}
+            + \clustamp^{ab}_{kl} u^{cl}_{ij}
             \nonumber \\
             &\qquad
-            + \frac{1}{2} t^{ac}_{lm} t^{bd}_{ij} u^{lm}_{kd} P(ab)
-            - \frac{1}{4} t^{ac}_{lm} t^{bde}_{ijk} u^{lm}_{de} P(ab)
-            - t^{ac}_{il} t^{bd}_{jm} u^{lm}_{kd} P(ab)
+            + \frac{1}{2} \clustamp^{ac}_{lm} \clustamp^{bd}_{ij} u^{lm}_{kd} P(ab)
+            - \frac{1}{4} \clustamp^{ac}_{lm} \clustamp^{bde}_{ijk} u^{lm}_{de} P(ab)
+            - \clustamp^{ac}_{il} \clustamp^{bd}_{jm} u^{lm}_{kd} P(ab)
             \nonumber \\
             &\qquad
-            + t^{ac}_{il} t^{bd}_{km} u^{lm}_{jd} P(ab) P(ij)
-            - \frac{1}{2} t^{ac}_{il} t^{bde}_{jkm} u^{lm}_{de} P(ab) P(ij)
-            - t^{ac}_{il} u^{bl}_{jk} P(ab) P(ij)
+            + \clustamp^{ac}_{il} \clustamp^{bd}_{km} u^{lm}_{jd} P(ab) P(ij)
+            - \frac{1}{2} \clustamp^{ac}_{il} \clustamp^{bde}_{jkm} u^{lm}_{de} P(ab) P(ij)
+            - \clustamp^{ac}_{il} u^{bl}_{jk} P(ab) P(ij)
             \nonumber \\
             &\qquad
-            - t^{ac}_{kl} t^{bd}_{im} u^{lm}_{jd} P(ab) P(ij)
-            - \frac{1}{2} t^{ac}_{kl} t^{bde}_{ijm} u^{lm}_{de} P(ab)
-            - t^{ac}_{kl} u^{bl}_{ij} P(ab)
+            - \clustamp^{ac}_{kl} \clustamp^{bd}_{im} u^{lm}_{jd} P(ab) P(ij)
+            - \frac{1}{2} \clustamp^{ac}_{kl} \clustamp^{bde}_{ijm} u^{lm}_{de} P(ab)
+            - \clustamp^{ac}_{kl} u^{bl}_{ij} P(ab)
             \nonumber \\
             &\qquad
-            - t^{cd}_{ij} u^{ab}_{kd}
-            + t^{cd}_{ik} u^{ab}_{jd} P(ij)
-            - \frac{1}{2} t^{ce}_{lm} t^{abd}_{ijk} u^{lm}_{de}
+            - \clustamp^{cd}_{ij} u^{ab}_{kd}
+            + \clustamp^{cd}_{ik} u^{ab}_{jd} P(ij)
+            - \frac{1}{2} \clustamp^{ce}_{lm} \clustamp^{abd}_{ijk} u^{lm}_{de}
             \nonumber \\
             &\qquad
-            + t^{ce}_{im} t^{abd}_{jkl} u^{lm}_{de} P(ij)
-            - \frac{1}{2} t^{ce}_{ij} t^{abd}_{klm} u^{lm}_{de}
-            + \frac{1}{2} t^{ce}_{ik} t^{abd}_{jlm} u^{lm}_{de} P(ij)
+            + \clustamp^{ce}_{im} \clustamp^{abd}_{jkl} u^{lm}_{de} P(ij)
+            - \frac{1}{2} \clustamp^{ce}_{ij} \clustamp^{abd}_{klm} u^{lm}_{de}
+            + \frac{1}{2} \clustamp^{ce}_{ik} \clustamp^{abd}_{jlm} u^{lm}_{de} P(ij)
             \nonumber \\
             &\qquad
-            + t^{ce}_{km} t^{abd}_{ijl} u^{lm}_{de}
-            + \frac{1}{2} t^{ade}_{ijk} u^{bc}_{de} P(ab)
-            + t^{abd}_{ijl} u^{cl}_{kd}
+            + \clustamp^{ce}_{km} \clustamp^{abd}_{ijl} u^{lm}_{de}
+            + \frac{1}{2} \clustamp^{ade}_{ijk} u^{bc}_{de} P(ab)
+            + \clustamp^{abd}_{ijl} u^{cl}_{kd}
             \nonumber \\
             &\qquad
-            - t^{abd}_{ikl} u^{cl}_{jd} P(ij)
-            + \frac{1}{2} t^{abc}_{ilm} u^{lm}_{jk} P(ij)
-            + \frac{1}{2} t^{abc}_{klm} u^{lm}_{ij}
+            - \clustamp^{abd}_{ikl} u^{cl}_{jd} P(ij)
+            + \frac{1}{2} \clustamp^{abc}_{ilm} u^{lm}_{jk} P(ij)
+            + \frac{1}{2} \clustamp^{abc}_{klm} u^{lm}_{ij}
             \nonumber \\
             &\qquad
-            - t^{acd}_{ijl} u^{bl}_{kd} P(ab)
-            + t^{acd}_{ikl} u^{bl}_{jd} P(ab) P(ij)
-            + \frac{1}{2} t^{cde}_{ijk} u^{ab}_{de}.
+            - \clustamp^{acd}_{ijl} u^{bl}_{kd} P(ab)
+            + \clustamp^{acd}_{ikl} u^{bl}_{jd} P(ab) P(ij)
+            + \frac{1}{2} \clustamp^{cde}_{ijk} u^{ab}_{de}.
         \end{align}
