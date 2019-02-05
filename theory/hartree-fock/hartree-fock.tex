@@ -1,23 +1,80 @@
 \chapter{Hartree-Fock theory}
-    One can not tackle the subject of many-body theory without meeting the
-    Hartree-Fock approximation. It serves as an excellent initial approximation,
-    and in many cases the \emph{only} approximation, to the many-body
-    wavefunction for a given system. It is a rather inexpensive approximation,
-    in terms of computational intensity, and explains much of the underlying
-    physics of a given system of many particles.
+    One can not tackle the subject of many-body theory without a discussion of
+    the Hartree-Fock approximation. It serves as an excellent initial
+    approximation, and in many cases the \emph{only} approximation, to the
+    many-body wavefunction for a given system. It is a rather cheap
+    approximation, in terms of computational intensity, and explains much of the
+    underlying physics of a given system of many particles.
 
-    \section{Deriving the Hartree-Fock equations}
-        The main goal of the Hartree-Fock approximation is to solve the
-        time-independent Schrödinger equation,
+    \section{Assumptions used in the Hartree-Fock method}
+        In the Hartree-Fock method we make five assumptions in order to make the
+        many-body problem tractable.
+        \begin{enumerate}
+            \item We assume that the \emph{Born-Oppenheimer approximation} is a
+                good approximation.
+                % TODO: Add theory on the Born-Oppenheimer approximation
+            \item We assume that the motion of the electrons can be described
+                non-relativistically.
+            \item We assume that the solution to the variational problem can be
+                represented as a linear combination of a finite number of basis
+                functions.
+            \item The energy eigenfunctions of the time-independent Schrödinger
+                equation can be described by a single Slater determinant.
+            \item We assume that correlation between particles can be described
+                in the \emph{mean-field approximation}.
+        \end{enumerate}
+        These assumptions provides the basis for the Hartree-Fock method. We
+        shall see later that we quickly reach a limit where these assumptions
+        break apart thus motivating the use of \emph{post Hartree-Fock methods}
+        such as the coupled cluster method.
+
+    \section{Deriving the time-independent Hartree-Fock equations}
+        Much of the theory shown in this section draws from the excellent
+        lecture notes by \citeauthor{kvaal2017notes} and
+        \citeauthor{szabo1996modern}.  We start by making the ansatz that the
+        full many-body wavefunction is a single Slater determinant. For a given
+        system Hamiltonian
         \begin{align}
-            \hamil\ket{\Psi} = E\ket{\Psi},
+            \hamil = \onehamil + \twohamil,
         \end{align}
-        for a given Hamiltonian, $\hamil$. The goal of Hartree-Fock is to find
-        the ``best'' wavefunction, $\ket{\Psi}$, under the constraints that it
-        consists of a single Slater determinant,
+        where $\onehamil$ is the one-body part of the Hamiltonian and
+        $\twohamil$ the higher order correlations. In our case we will limit
+        ourselves to Coulomb two-body interactions. We know that the ground
+        state of $\onehamil$ will be a single Slater determinant. If the
+        two-body interactions are ``small'' we can assume that there will exist
+        a Slater determinant which will capture most of the true ground state of
+        the full Hamiltonian\footnote{We will see that it does not take much
+        before the two-body interaction becomes a little more than just a small
+        perturbation.}.
+
+        Our many-body wavefunction will now be represented as a single Slater
+        determinant
         \begin{align}
-            \ket{\Psi} = \ketslat
-            = \ket{\mo{1}\dots\mo{N}}
+            \ketslat = \ket{\phi_1, \phi_2, \dots, \phi_N},
         \end{align}
-        where $\brac{\mo{i}}_{i = 1}^{L}$ is the basis of unknown
-        \emph{molecular orbitals}, and $N$ is the number of occupied orbitals.
+        where the \emph{molecular orbitals} $\brac{\phi_i}_{i = 1}^{N}$ are the
+        primary unknowns subject to the constraint that they are orthonormal.
+        That is,
+        \begin{align}
+            \braket{\phi_i}{\phi_j} = \delta_{ij}
+            \implies \braket{\slat}{\slat} = 1.
+            % TODO: Check if this is an actual implication
+        \end{align}
+        Defining the energy functional
+        \begin{align}
+            \energyfunc{\slat}
+            = \braslat\hamil\ketslat,
+            \label{eq:energy_func_hf}
+        \end{align}
+        the variational principle tells us that the true ground state energy,
+        $\energygs$, will be a lower bound to the energy found from
+        \autoref{eq:energy_func_hf} for any normalized trial wavefunction
+        $\ketslat$. That is,
+        \begin{align}
+            \energygs
+            \leq \energyfunc{\slat} = \braslat\hamil\ketslat.
+        \end{align}
+        Our task is now to find the molecular orbitals $\brac{\phi_i}_{i =
+        1}^{N}$ such that $\energyfunc{\slat}$ becomes stationary\footnote{This
+        does not guarantee that we have found a minimum, but often the
+        stationary state will be a minimum.}.
