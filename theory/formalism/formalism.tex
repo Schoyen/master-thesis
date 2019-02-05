@@ -1,14 +1,39 @@
 \chapter{Formalism}
-    Given a basis of $L$ single particle functions $\ket{p}$ where
-    \begin{align}
-        \left\{\ket{p}\right\}_{p = 1}^{L}
-        &=
-        \left\{\ket{i}\right\}_{i = 1}^{N}
-        \cup \left\{\ket{a}\right\}_{a = N + 1}^{L}.
-    \end{align}
-    Here $i, j, k, \dots$ represents the $N$ first occupied states of the
-    reference Slater determinant whereas $a, b, c, \dots$ represent the
-    remaining $M = L - N$ virtual states in the total basis $p, q, r,
-    \dots$\footnote{Occupied and virtual states are also known as hole and
-    particle states if we treat the reference Slater determinant as the
-    \textit{Fermi level}}.
+    In this chapter we'll describe some of the formalism used when describing
+    many-body quantum mechanics.
+
+    \section{Basis sets}
+        In this document we will rely heavily on basis transformations and
+        creating linear combinations from a basis to another. When creating
+        many-body wavefunctions we will use a finite basis of \emph{orbitals}
+        $\brac{\ket{\chi_{\alpha}}}_{\alpha = 1}^{L}$ as our \emph{atomic
+        orbitals}. These represent known basis states, e.g., the harmonic
+        oscillator eigenstates, etc. We can construct many-body wavefunctions
+        from a linear combination of tensor products of single-particle states,
+        \begin{align}
+            \ket{\Psi}
+            = \sum_{\sigma \in S} c_{\sigma}
+            % TODO: Figure out how to label the coefficients c
+            \ket{\chi_{\sigma(1)}}\otimes\dots\otimes\ket{\chi_{\sigma(L)}},
+        \end{align}
+        where we have assumed normalized single-particle functions
+        $\braket{\chi_{\alpha}}{\chi_{\alpha}} = 1$, but not necessarily
+        orthonormal.
+        % TODO: Review these statements. Can the total wave function be
+        % normalized if the single particle functions are normalized but not
+        % orthonormal?
+
+        \subsection{Fermi level}
+            Given a basis of $L$ single particle functions $\ket{p}$ where
+            \begin{align}
+                \left\{\ket{p}\right\}_{p = 1}^{L}
+                &=
+                \left\{\ket{i}\right\}_{i = 1}^{N}
+                \cup \left\{\ket{a}\right\}_{a = N + 1}^{L}.
+            \end{align}
+            Here $i, j, k, \dots$ represents the $N$ first occupied states of
+            the reference Slater determinant whereas $a, b, c, \dots$ represent
+            the remaining $M = L - N$ virtual states in the total basis $p, q,
+            r, \dots$\footnote{Occupied and virtual states are also known as
+            hole and particle states if we treat the reference Slater
+            determinant as the \textit{Fermi level}}.
