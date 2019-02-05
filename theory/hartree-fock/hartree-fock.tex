@@ -1,10 +1,10 @@
 \chapter{Hartree-Fock theory}
     One can not tackle the subject of many-body theory without a discussion of
-    the Hartree-Fock approximation. It serves as an excellent initial
-    approximation, and in many cases the \emph{only} approximation, to the
-    many-body wavefunction for a given system. It is a rather cheap
-    approximation, in terms of computational intensity, and explains much of the
-    underlying physics of a given system of many particles.
+    the Hartree-Fock method. It serves as an excellent initial approximation,
+    and in many cases the \emph{only} approximation, to the many-body
+    wavefunction for a given system. It is a rather cheap method, in terms of
+    computational intensity, and explains much of the underlying physics of a
+    given system of many particles.
 
     \section{Assumptions used in the Hartree-Fock method}
         In the Hartree-Fock method we make five assumptions in order to make the
@@ -75,6 +75,50 @@
             \leq \energyfunc{\slat} = \braslat\hamil\ketslat.
         \end{align}
         Our task is now to find the molecular orbitals $\brac{\phi_i}_{i =
-        1}^{N}$ such that $\energyfunc{\slat}$ becomes stationary\footnote{This
-        does not guarantee that we have found a minimum, but often the
-        stationary state will be a minimum.}.
+        1}^{N}$ that minimizes $\energyfunc{\slat}$\footnote{This is done by
+        finding a stationary state for $\energyfunc{\slat}$, which does not
+        guarantee that we have found a minimum, but often the stationary state
+        will be a minimum.}. By performing a variation in the Slater
+        determinant,
+        \begin{align}
+            \slat \to \slat + \delta\slat,
+        \end{align}
+        we find the that the energy functional is changed by
+        \begin{align}
+            \energyfunc{\slat + \delta\slat}
+            &=
+            \bra{\slat + \delta\slat}\hamil\ket{\slat + \delta\slat}
+            \\
+            &= \energyfunc{\slat}
+            + \bra{\delta\slat}\hamil\ketslat + \braslat\hamil\ket{\delta\slat}
+            + \dots
+            \\
+            &= \energyfunc{\slat} + \delta\energyfunc{\slat}
+            + \dots,
+        \end{align}
+        where the \emph{first variation} in $\energyfunc{\slat}$ is given by
+        \begin{align}
+            \delta\energyfunc{\slat}
+            \equiv
+            \bra{\delta\slat}\hamil\ketslat + \braslat\hamil\ket{\delta\slat}.
+        \end{align}
+        Note that we treat $\delta$ as a linear differential operator. Higher
+        order variations are ignored and we are thus only interested in finding
+        the Slater $\ketslat$ for which
+        \begin{align}
+            \delta\energyfunc{\slat} = 0,
+        \end{align}
+        i.e., the stationary point of the energy functional in terms of $\slat$.
+        Note however that $\energyfunc{\slat}$ does not incorporate the
+        constraint that the molecular orbitals should be orthonormal. To ensure
+        this we use the method of Lagrange multipliers, with one multiplier for
+        every constraint. We thus construct the Lagrangian functional
+        \begin{align}
+            \lagrangianfunc{\slat, \lambda}
+            = \energyfunc{\slat}
+            - \lambda_{ji}\para{
+                \braket{\phi_i}{\phi_j}
+                - \delta_{ij}
+            },
+        \end{align}
+        where the Einstein summation convention is implied.
