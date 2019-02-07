@@ -115,10 +115,47 @@
         every constraint. We thus construct the Lagrangian functional
         \begin{align}
             \lagrangianfunc{\slat, \lambda}
-            = \energyfunc{\slat}
+            &= \energyfunc{\slat}
+            - \lambda_{ji}\para{
+                \braket{\phi_i}{\phi_j}
+                - \delta_{ij}
+            }
+            \\
+            &=
+            \bra{\phi_i}\onehamil\ket{\phi_i}
+            + \half\bra{\phi_i\phi_j}\twohamil\ket{\phi_i\phi_j}_{AS}
             - \lambda_{ji}\para{
                 \braket{\phi_i}{\phi_j}
                 - \delta_{ij}
             },
         \end{align}
-        where the Einstein summation convention is implied.
+        where the Einstein summation convention is implied. The Lagrange
+        multipliers, $\lambda_{ji}$, are taken to be Hermitian.
+
+        \begin{proof}[Proof that the Lagrange multipliers are Hermitian]
+            For any matrix $\vf{A}$ with elements $a_{ij}$, not necessarily
+            Hermitian, we get
+            \begin{align}
+                a_{ij}\para{
+                    \braket{\phi_i}{\phi_j} - \delta_{ij}
+                }
+                &= a_{ij}\para{
+                    \braket{\phi_j}{\phi_i}^{*} - \delta_{ji}
+                }
+                \\
+                &= a_{ji}\para{
+                    \braket{\phi_i}{\phi_j}^{*} - \delta_{ij}
+                }
+                \\
+                &= \brak{
+                    a_{ji}^{*}\para{
+                        \braket{\phi_i}{\phi_j} - \delta_{ij}
+                    }
+                }^{*}
+            \end{align}
+            where we've used that the inner product is Hermitian and that the
+            Kronecker-Delta is symmetric. Furthermore, we've interchanged the
+            summation indices $i$ and $j$ at the price of a complex conjugate
+            for the inner product of the orbitals, since the summation indices
+            are arbitrary as long as the summation axes are the same.
+        \end{proof}
