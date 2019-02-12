@@ -129,33 +129,75 @@
                 - \delta_{ij}
             },
         \end{align}
-        where the Einstein summation convention is implied. The Lagrange
-        multipliers, $\lambda_{ji}$, are taken to be Hermitian.
+        where the Einstein summation convention is implied. As the Lagrangian
+        functional, $\lagrangianfunc{\slat, \lambda}$, is real, and as the
+        constraint is Hermitian, the Lagrange multipliers, $\lambda_{ji}$, can
+        be taken to be Hermitian as well.
 
-        \begin{proof}[Proof that the Lagrange multipliers are Hermitian]
-            For any matrix $\vf{A}$ with elements $a_{ij}$, not necessarily
-            Hermitian, we get
+        \begin{proof}[%
+                Proof that the Lagrange multipliers can be chosen Hermitian%
+            ]
+            Following the derivation done by Mayer \cite{mayer2003simple}, we
+            start by noticing that the constraint is Hermitian, i.e.,
             \begin{align}
-                a_{ij}\para{
-                    \braket{\phi_i}{\phi_j} - \delta_{ij}
-                }
-                &= a_{ij}\para{
-                    \braket{\phi_j}{\phi_i}^{*} - \delta_{ji}
-                }
-                \\
-                &= a_{ji}\para{
-                    \braket{\phi_i}{\phi_j}^{*} - \delta_{ij}
-                }
-                \\
-                &= \brak{
-                    a_{ji}^{*}\para{
-                        \braket{\phi_i}{\phi_j} - \delta_{ij}
-                    }
-                }^{*}
+                \braket{\phi_i}{\phi_j} - \delta_{ij}
+                = \braket{\phi_j}{\phi_i}^{*} - \delta_{ji}.
             \end{align}
-            where we've used that the inner product is Hermitian and that the
-            Kronecker-Delta is symmetric. Furthermore, we've interchanged the
-            summation indices $i$ and $j$ at the price of a complex conjugate
-            for the inner product of the orbitals, since the summation indices
-            are arbitrary as long as the summation axes are the same.
+            As of now we have two independent Lagrange multipliers for overlap
+            $\braket{\phi_i}{\phi_j}$ and the complex conjugate
+            $\braket{\phi_j}{\phi_i}$. We can formulate the constraint for the
+            real and imaginary part separately. This yields
+            \begin{align}
+                \Re\brac{
+                    \braket{\phi_i}{\phi_j}
+                }
+                &=
+                \half\brac{
+                    \braket{\phi_i}{\phi_j}
+                    + \braket{\phi_j}{\phi_i}
+                }
+                = 0,
+                \\
+                \Im\brac{
+                    \braket{\phi_i}{\phi_j}
+                }
+                &=
+                \frac{1}{2i}\brac{
+                    \braket{\phi_i}{\phi_j}
+                    - \braket{\phi_j}{\phi_i}
+                }
+                = 0.
+            \end{align}
+            Introducing two separate Lagrange multipliers $\mu_{ij}$ and
+            $\nu_{ij}$ for the two latter conditions, we get
+            \begin{align}
+                \mu_{ij}\Re\brac{
+                    \braket{\phi_i}{\phi_j}
+                }
+                + \nu_{ij}\Im\brac{
+                    \braket{\phi_i}{\phi_j}
+                }
+                =
+                \half\brak{
+                    \mu_{ij} - i\nu_{ij}
+                }
+                \braket{\phi_i}{\phi_j}
+                + \half\brak{
+                    \mu_{ij} + i\nu_{ij}
+                }
+                \braket{\phi_j}{\phi_i}.
+            \end{align}
+            Denoting the combined multipliers
+            \begin{align}
+                \lambda_{ji} &=
+                -\half\brak{
+                    \mu_{ij} - i\nu_{ij}
+                }, \\
+                \lambda_{ij} &=
+                -\half\brak{
+                    \mu_{ij} + i\nu_{ij}
+                },
+            \end{align}
+            which implies that $\lambda_{ji} = \lambda_{ij}^{*}$, as was to be
+            shown.
         \end{proof}
