@@ -15,6 +15,8 @@
 \usepackage{booktabs}
 \usepackage{xifthen}
 \usepackage{epigraph}
+\usepackage{commath}
+\usepackage{tikz}
 
 \newcommand{\vf}[1]{\mathbf{#1}}
 \newcommand{\vfg}[1]{\boldsymbol{#1}}
@@ -76,7 +78,7 @@
 % Commands for many operators
 \newcommand{\hamil}{\hat{H}} % Hamiltonian
 \newcommand{\momentum}{\hat{p}} % Momentum operator
-\newcommand{\position}{\hat{x}} % Position operator
+\newcommand{\position}[1][x]{\hat{#1}} % Position operator
 \newcommand{\onehamil}{\hat{h}} % One-body Hamiltonian
 \newcommand{\twohamil}{\hat{u}} % Two-body Hamiltonian
 

@@ -17,6 +17,7 @@
         one-dimensional harmonic oscillator is given by
         \begin{align}
             \onehamil = -\frac{\momentum^2}{2m} + \half m\omega^2 \position^2,
+            \label{eq:1dho-hamiltonian}
         \end{align}
         where the latter term, i.e., the one-body potential, gives rise to the
         name of the system. Plugging this operator into the time-independent
@@ -41,7 +42,7 @@
             + \half m\omega^2\para{
                 \position^2
                 + \frac{1}{4}l^2
-                - l|\position|
+                - l\abs{\position}
             },
         \end{align}
         where $l$ is the ``width'' of the potential barrier in the bottom of the
@@ -49,6 +50,166 @@
         % TODO: What is the width? RMS?
 
     \subsection{Two-dimensional harmonic oscillator}
-        The two-dimensional harmonic oscillator
+        The one-body Hamiltonian of the two-dimensional harmonic oscillator is
+        virtually identical to the one-body Hamiltonian of the one-dimensional
+        harmonic oscillator, i.e., \autoref{eq:1dho-hamiltonian}, but with the
+        position and momentum operators being represented in two-dimensions. We
+        will be looking at a circular, symmetric potential. We will thus be
+        working in a polar coordinate basis. The main reason we choose
+        the polar coordinate representation is due to the evaluation of the
+        two-body Coulomb integral elements. This is the most costly part of the
+        construction of the matrix elements and in a polar basis we have
+        \emph{analytical} expressions for these elements
+        \cite{anisimovas1998energy}.  The Hamiltonian can thus be represented by
+        \begin{align}
+            \onehamil &= -\frac{\hslash^2}{2m}\vfg{\nabla}^2
+            + \half m\omega^2\para{\position^2 + \position[y]^2}
+            = -\frac{\hslash^2}{2m}\brak{
+                \dpd[2]{}{r}
+                + \frac{1}{r}\dpd[]{}{r}
+                + \frac{1}{r^2}\dpd[2]{}{\theta}
+            }
+            + \half m \omega^2 \position[r]^2,
+        \end{align}
+        where $\position[r]^2 = \position^2 + \position[y]^2$. Next we insert
+        the Hamiltonian into the time-independent Schrödinger equation
+        \begin{align}
+            \onehamil\ket{nm} = \epsilon_{nm}\ket{nm},
+        \end{align}
+        and diagonalize in order to find the eigenstates, $\ket{nm}$.
+        Representing the eigenstates in polar coordinates
+        \begin{align}
+            \phi_{nm}(\vf{r}) = \phi_{nm}(r, \theta)
+            \equiv \braket{r\theta}{nm},
+        \end{align}
+        we solve the eigenvalue problem by separating the radial and the angular
+        part of the eigenstate and solve each term individually. That is,
+        \begin{align}
+            \phi_{nm}(r, \theta) = N_{nm}R_{nm}(r)\Theta_{m}(\theta).
+        \end{align}
+        % TODO: Complete this derivation, i.e., solve the differential equation and
+        % find the normalization constant.
+        % TODO: Talk about angular momentum.
+        Solving the two coupled ordinary differential equations and finding the
+        normalization constant, we find the terms
+        \begin{align}
+            N_{nm} = a\sqrt{\frac{n!}{\pi(n + \abs{m})!}},
+        \end{align}
+        as the normalization factor with
+        \begin{align}
+            a = \sqrt{\frac{m\omega}{\hslash}},
+        \end{align}
+        the Bohr radius. The radial contribution is given by
+        \begin{align}
+            R_{nm}(r)
+            &= (ar)^{\abs{m}}L^{\abs{m}}_{n}(a^2r^2)
+            \exp\brac{-\frac{a^2 r^2}{2}},
+        \end{align}
+        where $L^{m}_{n}(r)$ is the \emph{associated Laguerre polynomials}. The
+        angular part is given by
+        \begin{align}
+            \Theta_m(\theta) = \exp\brac{im\theta}.
+        \end{align}
+        The eigenenergy, $\epsilon_{nm}$, of the two-dimensional eigenstates is
+        given by
+        \begin{align}
+            \epsilon_{nm} = \hslash\omega\brak{
+                2n + \abs{m} + 1
+            }.
+        \end{align}
+        Staring at the eigenenergy equation we notice quite fast that the states
+        are degenerate in the energy. A drawing of the first three energy levels
+        with their corresponding quantum numbers is shown in
+        \autoref{fig:2dho-energy-levels}.
+        \begin{figure}
+            \begin{center}
+                \begin{tikzpicture}
+                    \begin{scope}
+                        \foreach \i in {1, 2, 3} {
+                            \draw(-1, \i - 1) node[anchor=east]
+                            {$\epsilon = \i$};
+                        }
+
+                        % Highest energy level
+                        \foreach \i in {0, 3, 6} {
+                            \draw (\i, 2) -- (\i + 2, 2);
+                            \node at (\i + 0.75, 2) {$\uparrow$};
+                            \node at (\i + 1.25, 2) {$\downarrow$};
+                        }
+                        \node[below, inner sep=.2cm] at (1, 2)
+                        {$n = 0, m = -2$};
+                        \node[below, inner sep=.2cm] at (4, 2)
+                        {$n = 1, m = 0$};
+                        \node[below, inner sep=.2cm] at (7, 2)
+                        {$n = 0, m = 2$};
+
+                        % Middle energy level
+                        \foreach \i in {1.5, 4.5} {
+                            \draw (\i, 1) -- (\i + 2, 1);
+                            \node at (\i + 0.75, 1) {$\uparrow$};
+                            \node at (\i + 1.25, 1) {$\downarrow$};
+                        }
+                        \node[below, inner sep=.2cm] at (2.5, 1)
+                        {$n = 0, m = -1$};
+                        \node[below, inner sep=.2cm] at (5.5, 1)
+                        {$n = 0, m = 1$};
+
+                        % Lowest energy level
+                        \draw (3, 0) -- (5, 0);
+                        \node at (3 + 0.75, 0) {$\uparrow$};
+                        \node at (3 + 1.25, 0) {$\downarrow$};
+                        \node[below, inner sep=.2cm] at (4, 0)
+                        {$n = 0, m = 0$};
+                    \end{scope}
+                \end{tikzpicture}
+            \end{center}
+            \caption{In this plot we can see the energy degeneracy of the lowest
+            three energy levels in the two-dimensional quantum dot.  Each arrow
+            representes a spin up or a spin down state with the quantum numbers
+            $n$ and $m$ as listed below. This pattern goes on indefinitly with
+            the addition of one bar (two oscillators) per level.}
+            \label{fig:2dho-energy-levels}
+        \end{figure}
+        The basis functions are orthonormal. By including spin as a quantum
+        number $\sigma$, we can represent this by
+        \begin{align}
+            \braket{n_1 m_1 \sigma_1}{n_2 m_2 \sigma_2}
+            = \delta_{n_1 n_2}\delta_{m_1 m_2} \delta_{\sigma_1 \sigma_2}.
+        \end{align}
+
+        \subsubsection{Mapping the quantum numbers to a single value}
+            When working with second quantized operators, we distinguish single
+            particle functions in a Slater determinant by a single index.
+            Including spin in the two-dimensional harmonic oscillator
+            eigenstates we have to deal with three quantum numbers $n$, $m$ and
+            $\sigma$ per state.  We are thus interested in finding a mapping
+            $(n, m) \mapsto p$ and the inverse mapping $p \mapsto (n,
+            m)$\footnote{The spin quantum number is easiest to deal with in the
+            end as we can double each dimension in every tensor and label all
+            odd or even indices by a spin direction.}.  Due to the degeneracy of
+            the eigenenergies such a mapping will not be unique. We thus have to
+            decide in advance how we should count the basis states. In this
+            thesis we choose the convention that we start from the lowest energy
+            level and move up by counting from left to right. Tabulating
+            \autoref{fig:2dho-energy-levels} we get the table shown in
+            \autoref{tab:2dho-mapping}.
+            \begin{table}
+                \centering
+                \caption{In this table we show an example of how our mapping
+                convention will index the states shown in
+                \autoref{fig:2dho-energy-levels}.}
+                \begin{tabular}{c|ll}
+                    $\epsilon_{nm}$ & $(n, m)$ & $p$ \\
+                    \hline
+                    \\
+                    1 & $(0, 0)$ & $0$ \\
+                    2 & $(0, -1)$ & $1$ \\
+                    2 & $(0, 1)$ & $2$ \\
+                    3 & $(0, -2)$ & $3$ \\
+                    3 & $(1, 0)$ & $4$ \\
+                    3 & $(0, 2)$ & $5$
+                \end{tabular}
+                \label{tab:2dho-mapping}
+            \end{table}
 
     \subsection{Two-dimensional double well quantum dot}
