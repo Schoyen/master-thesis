@@ -1,0 +1,54 @@
+\section{Quantum dots}
+    Artificial atoms, or the so-called quantum dots, constitute a hot topic in
+    condensed matter physics and material sciences. We will be exploring several
+    types of quantum dots in both one and two dimensions in this thesis. The
+    difference between the types of quantum dots is found in the one-body
+    potential. All of the dots share the characteristic of being in an infinite
+    well which makes the systems \emph{bound}. In our study of systems subject
+    to intense laser fields, this will prove to be a bad approximation as the
+    particles have no way of being excited, i.e., escape the potential well.
+    Even so, for weak laser fields and for ground state calculations, they serve
+    as excellent candidates for our methods.
+
+    \subsection{One-dimensional harmonic oscillator}
+        One of the simplest theoretical models studied. The one-dimensional
+        harmonic oscillator is usually one of the first models studied in
+        undergraduate quantum mechanics courses. The one-body Hamiltonian of the
+        one-dimensional harmonic oscillator is given by
+        \begin{align}
+            \onehamil = -\frac{\momentum^2}{2m} + \half m\omega^2 \position^2,
+        \end{align}
+        where the latter term, i.e., the one-body potential, gives rise to the
+        name of the system. Plugging this operator into the time-independent
+        Schrödinger equation
+        \begin{gather}
+            \onehamil\ket{n} = \epsilon_n\ket{n},
+        \end{gather}
+        which results in an energy eigenvalue equation we wish to solve in order
+        to find an expression for $\ket{n}$.
+        % TODO: Discuss both the algebraic derivation and the solution using
+        % diagonalization on a grid.
+        % TODO: Include analytic solution to \ket{n}.
+        % TODO: Include figues of the potential and the eigenstates.
+
+    \subsection{One-dimensional double well quantum dot}
+        A slightly more complicated model is the \emph{double well} quantum dot.
+        Succintly named due to its ``bump'' in the bottom of the parabolic
+        potential from the harmonic oscillator. The one-body hamiltonian is
+        given by
+        \begin{align}
+            \onehamil = -\frac{\momentum^2}{2m}
+            + \half m\omega^2\para{
+                \position^2
+                + \frac{1}{4}l^2
+                - l|\position|
+            },
+        \end{align}
+        where $l$ is the ``width'' of the potential barrier in the bottom of the
+        parabola.
+        % TODO: What is the width? RMS?
+
+    \subsection{Two-dimensional harmonic oscillator}
+        The two-dimensional harmonic oscillator
+
+    \subsection{Two-dimensional double well quantum dot}
