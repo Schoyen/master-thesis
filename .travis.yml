@@ -6,6 +6,6 @@ before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y texlive-base texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra latexmk texlive-generic-extra texlive-bibtex-extra biber texlive-science
 
-
 script:
   - make
+  - bash push_pdf.sh
