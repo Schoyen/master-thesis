@@ -12,6 +12,7 @@
 *.fdb_*
 *.fls
 *.sqlite
+main.pdf
 
 # Swap files
 *.swp
