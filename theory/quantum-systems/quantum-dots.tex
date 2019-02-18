@@ -1,14 +1,15 @@
 \section{Quantum dots}
     Artificial atoms, or the so-called quantum dots, constitute a hot topic in
-    condensed matter physics and material sciences. We will be exploring several
-    types of quantum dots in both one and two dimensions in this thesis. The
-    difference between the types of quantum dots is found in the one-body
-    potential. All of the dots share the characteristic of being in an infinite
-    well which makes the systems \emph{bound}. In our study of systems subject
-    to intense laser fields, this will prove to be a bad approximation as the
-    particles have no way of being excited, i.e., escape the potential well.
-    Even so, for weak laser fields and for ground state calculations, they serve
-    as excellent candidates for our methods.
+    condensed matter physics and material sciences. We will be exploring
+    several types of quantum dots in both one and two dimensions in this
+    thesis. The difference between the types of quantum dots is found in the
+    one-body potential. All of the dots share the characteristic of being in an
+    infinite well which makes the systems \emph{bound}. In our study of systems
+    subject to intense laser fields, this will prove to be a bad approximation
+    when the laser becomes very strong as the particles have no way of being
+    ionized, i.e., escape the potential well.  Even so, for weak laser fields
+    and for ground state calculations, they serve as excellent candidates for
+    our methods.
 
     \subsection{One-dimensional harmonic oscillator}
         One of the simplest theoretical models studied. The one-dimensional
@@ -211,5 +212,41 @@
                 \end{tabular}
                 \label{tab:2dho-mapping}
             \end{table}
+            In \autoref{alg:nm-to-p} we give a sketch of the algorithm we use
+            to compute $(n, m) \mapsto p$.
+            \begin{algorithm}
+                \KwData{Given $(n, m)$.}
+                \KwResult{A single, unique index $p$.}
+                \tcc{Compute shell number $s$}
+                $s = 2n + \abs{m} + 1$\;
+                \tcc{Count the number of states up to shell $s$}
+                $n_0 = \sum_{i = 1}^{s - 1} i$\;
+                \tcc{Count the number of states including $s$}
+                $n_f = n_0 + s$\;
+
+                \If{$m = 0$}{
+                    \If{$n = 0$}{
+                        \tcc{Lowest state, i.e., $p = 0$}
+                        \KwRet{$0$}
+                    }
+                    \tcc{We must be in the middle of a shell where $s = 2n + 1$}
+                    $p = n_0 + (n_f - n_0)/2$\;
+                    \KwRet{$p$}
+                }
+                \ElseIf{$m < 0$}{
+                    \tcc{Count the number of states from previous shell}
+                    $p = n_0 + n$\;
+                    \KwRet{$p$}
+                }
+                \Else{
+                    \tcc{Count the number of states from top of current shell}
+                    $p = n_f - (n + 1)$\;
+                    \KwRet{$p$}
+                }
+                \caption{In this algorithm we describe how we can find $(n, m)
+                \mapsto p$ with relative ease without having to tabulate all maps.}
+                \label{alg:nm-to-p}
+            \end{algorithm}
+
 
     \subsection{Two-dimensional double well quantum dot}
