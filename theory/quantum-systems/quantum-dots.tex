@@ -215,37 +215,39 @@
             In \autoref{alg:nm-to-p} we give a sketch of the algorithm we use
             to compute $(n, m) \mapsto p$.
             \begin{algorithm}
-                \KwData{Given $(n, m)$.}
-                \KwResult{A single, unique index $p$.}
-                \tcc{Compute shell number $s$}
-                $s = 2n + \abs{m} + 1$\;
-                \tcc{Count the number of states up to shell $s$}
-                $n_0 = \sum_{i = 1}^{s - 1} i$\;
-                \tcc{Count the number of states including $s$}
-                $n_f = n_0 + s$\;
-
-                \If{$m = 0$}{
-                    \If{$n = 0$}{
-                        \tcc{Lowest state, i.e., $p = 0$}
-                        \KwRet{$0$}
-                    }
-                    \tcc{We must be in the middle of a shell where $s = 2n + 1$}
-                    $p = n_0 + (n_f - n_0)/2$\;
-                    \KwRet{$p$}
-                }
-                \ElseIf{$m < 0$}{
-                    \tcc{Count the number of states from previous shell}
-                    $p = n_0 + n$\;
-                    \KwRet{$p$}
-                }
-                \Else{
-                    \tcc{Count the number of states from top of current shell}
-                    $p = n_f - (n + 1)$\;
-                    \KwRet{$p$}
-                }
                 \caption{In this algorithm we describe how we can find $(n, m)
-                \mapsto p$ with relative ease without having to tabulate all maps.}
+                \mapsto p$ relatively quick without having to tabulate all
+                maps.}
                 \label{alg:nm-to-p}
+                \begin{algorithmic}[1]
+                    \Procedure{map-to-p}{$n, m$}
+                    \State $s \gets 2n + \abs{m} + 1$
+                    \Comment{Compute shell number $s$}
+                    \State $n_0 \gets \sum_{i = 1}^{s - 1} i$
+                    \Comment{Count the number of states up to shell $s$}
+                    \State $n_f \gets n_0 + s$
+                    \Comment{Count the number of states including $s$}
+                    \If{$m = 0$}
+                        \If{$n = 0$}
+                            \State \textbf{return} $0$
+                            \Comment{Lowest state, i.e., $p = 0$}
+                        \EndIf
+                        \State $p = n_0 + (n_f - n_0)/2$
+                        \Comment{We must be in the middle of a shell where $s =
+                        2n + 1$}
+                        \State \textbf{return} $p$
+                    \ElsIf{$m < 0$}
+                        \State $p = n_0 + n$
+                        \Comment{Count the number of states from previous shell}
+                        \State \textbf{return} $p$
+                    \Else
+                        \State $p = n_f - (n + 1)$
+                        \Comment{Count the number of states from top of current
+                        shell}
+                        \State \textbf{return} $p$
+                    \EndIf
+                    \EndProcedure
+                \end{algorithmic}
             \end{algorithm}
 
 
