@@ -373,10 +373,27 @@
                         -1 + e^{2i\pi(m_j - m_i)}
                     }\brak{m_j - m_i}
                 }{
-                    \brak{m_j - m_n}^2 - 1
+                    \brak{m_j - m_i}^2 - 1
                 }.
             \end{align}
-            % TODO: Discuss what happens when denominator is zero.
+            Paying close attention to the case when $\abs{m_j - m_i} = 1$ as
+            this seems to blow up. Luckily, this yields $I_{\theta_1} = \pi$
+            \cite{wolframalphai1-zero}. For the $I_{\theta_2}$-integral we get
+            \cite{wolframalphai2}
+            \begin{align}
+                I_{\theta_2}
+                &=
+                \int_{0}^{2\pi} \dd \theta \sin(\theta)
+                \Theta_{m_i}^{*}(\theta) \Theta_{m_j}(\theta)
+                =
+                \int_{0}^{2\pi} \dd \theta \sin(\theta)
+                e^{i(m_j - m_i)\theta}
+                =
+                \frac{e^{2i\pi(m_j - m_i)} - 1}{\brak{m_j - m_i}^2 - 1},
+            \end{align}
+            where we again explicitly check that we get a finite result for
+            $\abs{m_j - m_i} = 1$. This yields $I_{\theta_2} = i\pi$
+            \cite{wolframalphai2-zero}.
 
         \subsubsection{Computing the Coulomb elements}
             Having found the basis functions and the elements of the one-body
