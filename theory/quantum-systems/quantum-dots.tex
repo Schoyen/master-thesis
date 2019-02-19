@@ -87,6 +87,7 @@
         part of the eigenstate and solve each term individually. That is,
         \begin{align}
             \phi_{nm}(r, \theta) = N_{nm}R_{nm}(r)\Theta_{m}(\theta).
+            \label{eq:spf-2dqd}
         \end{align}
         % TODO: Complete this derivation, i.e., solve the differential equation and
         % find the normalization constant.
@@ -177,6 +178,7 @@
             \braket{n_1 m_1 \sigma_1}{n_2 m_2 \sigma_2}
             = \delta_{n_1 n_2}\delta_{m_1 m_2} \delta_{\sigma_1 \sigma_2}.
         \end{align}
+        % TODO: Add "mexican-hat" plots of probability density
 
         \subsubsection{Mapping the quantum numbers to a single value}
             When working with second quantized operators, we distinguish single
@@ -196,6 +198,11 @@
             \autoref{tab:2dho-mapping}.  In \autoref{alg:nm-to-p} we give a
             sketch of the algorithm we use to compute $(n, m) \mapsto p$. We
             show the inverse algorithm in \autoref{alg:p-to-nm}.
+
+            Using the aforementioned mapping we can find indices $p$ such that
+            \begin{align}
+                \ket{nm} \mapsto \ket{p}.
+            \end{align}
 
             \begin{table}
                 \centering
@@ -304,6 +311,72 @@
                     \EndFunction
                 \end{algorithmic}
             \end{algorithm}
+
+        \subsubsection{Computing the dipole moments}
+            The matrix elements of the dipole moment of the two-dimensional
+            harmonic oscillator quantum dot is given by
+            \begin{align}
+                \vf{d}_{ij}
+                \equiv \bra{i}\position[\vf{r}]\ket{j},
+            \end{align}
+            where we get a dipole moment for each coordinate in $\vf{r}$. As
+            we've expressed the single particle functions in polar coordinates,
+            but wish to express the dipole moments in a cartesian coordiate
+            system, we have to compute the two integrals
+            \begin{align}
+                \vf{d}_{ij}
+                &= \vf{i}\bra{i} \position\ket{j}
+                + \vf{j}\bra{i} \position[y]\ket{j}
+                = \vf{i}\bra{i} r \cos(\theta)\ket{j}
+                + \vf{j}\bra{i} r \sin(\theta)\ket{j}.
+            \end{align}
+            Using \autoref{eq:spf-2dqd} we are able to find analytical
+            expressions for the angular integral. The radial integral must be
+            evaluated from $0$ to $\infty$, but lucikly SymPy \cite{sympy}
+            handles this for us. Note that we use the notation $i \mapsto (n_i,
+            m_i)$ from the mapping algorithms described above. We then get the
+            following integrals
+            \begin{align}
+                \bra{i} r \cos(\theta) \ket{j}
+                &= N^{*}_{n_i m_i} N_{n_j m_j}
+                \int_{0}^{\infty} \dd r r^2
+                R_{n_i m_i}^{*}(r) R_{n_j m_j}(r)
+                \int_{0}^{2\pi} \dd \theta \cos(\theta)
+                \Theta_{m_i}^{*}(\theta) \Theta_{m_j}(\theta)
+                \\
+                &= N^{*}_{n_i m_i} N_{n_j m_j} I_{r} I_{\theta_1},
+                \\
+                \bra{i} r \sin(\theta) \ket{j}
+                &= N^{*}_{n_i m_i} N_{n_j m_j}
+                \int_{0}^{\infty} \dd r r^2
+                R_{n_i m_i}^{*}(r) R_{n_j m_j}(r)
+                \int_{0}^{2\pi} \dd \theta \sin(\theta)
+                \Theta_{m_i}^{*}(\theta) \Theta_{m_j}(\theta)
+                \\
+                &= N^{*}_{n_i m_i} N_{n_j m_j} I_{r} I_{\theta_2}.
+            \end{align}
+            We use Wolfram Alpha to solve the $I_{\theta_1}$ and $I_{\theta_2}$
+            integrals giving a closed form solution. For $I_{\theta_1}$ we get
+            \cite{wolframalphai1}
+            \begin{align}
+                I_{\theta_1}
+                &=
+                \int_{0}^{2\pi} \dd \theta \cos(\theta)
+                \Theta_{m_i}^{*}(\theta) \Theta_{m_j}(\theta)
+                =
+                \int_{0}^{2\pi} \dd \theta \cos(\theta)
+                e^{i(m_j - m_i)\theta}
+                \\
+                &=
+                - \frac{
+                    i\brak{
+                        -1 + e^{2i\pi(m_j - m_i)}
+                    }\brak{m_j - m_i}
+                }{
+                    \brak{m_j - m_n}^2 - 1
+                }.
+            \end{align}
+            % TODO: Discuss what happens when denominator is zero.
 
         \subsubsection{Computing the Coulomb elements}
             Having found the basis functions and the elements of the one-body
