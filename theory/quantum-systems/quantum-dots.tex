@@ -128,7 +128,7 @@
                     \begin{scope}
                         \foreach \i in {1, 2, 3} {
                             \draw(-1, \i - 1) node[anchor=east]
-                            {$\epsilon = \i$};
+                            {$\epsilon = \i\hslash\omega$};
                         }
 
                         % Highest energy level
@@ -206,12 +206,12 @@
                     $\epsilon_{nm}$ & $(n, m)$ & $p$ \\
                     \hline
                     \\
-                    1 & $(0, 0)$ & $0$ \\
-                    2 & $(0, -1)$ & $1$ \\
-                    2 & $(0, 1)$ & $2$ \\
-                    3 & $(0, -2)$ & $3$ \\
-                    3 & $(1, 0)$ & $4$ \\
-                    3 & $(0, 2)$ & $5$
+                    \hslash\omega & $(0, 0)$ & $0$ \\
+                    2\hslash\omega & $(0, -1)$ & $1$ \\
+                    2\hslash\omega & $(0, 1)$ & $2$ \\
+                    3\hslash\omega & $(0, -2)$ & $3$ \\
+                    3\hslash\omega & $(1, 0)$ & $4$ \\
+                    3\hslash\omega & $(0, 2)$ & $5$
                 \end{tabular}
                 \label{tab:2dho-mapping}
             \end{table}
@@ -310,8 +310,24 @@
             hamiltonian, we are left with the task of finding the two-body
             elements from the Coulomb interaction. Luckily, there exists an
             analytic formula finding these elements. This formula is shown in
-            appendix A of the article \citetitle{anisimovas1998energy}
-            \cite{anisimovas1998energy}.
+            appendix A in the article \citetitle{anisimovas1998energy} by
+            \citeauthor{anisimovas1998energy} \cite{anisimovas1998energy}. Note
+            that \citeauthor{anisimovas1998energy} interchanges the indices in
+            the ket-part of their two-body integrals as opposed to our
+            convention. That is, in our notation we would write
+            \begin{align}
+                \bra{ij}\twohamil\ket{kl}
+                &= \delta_{ik}\delta_{jl}
+                \int\dd x_1\dd x_2
+                \phi_{i}^{*}(x_1) \phi_{j}^{*}(x_2)
+                \twohamil
+                \phi_{k}(x_1)\phi_{l}(x_2)
+                \equiv
+                \bra{ij}\twohamil\ket{lk}_{AM},
+            \end{align}
+            where $ \bra{ij}\twohamil\ket{lk}_{AM}$ is the convention used by
+            \citeauthor{anisimovas1998energy}.
+            % TODO: Consider writing the full formula.
 
 
     \subsection{Two-dimensional double well quantum dot}
