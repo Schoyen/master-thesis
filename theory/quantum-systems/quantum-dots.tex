@@ -193,7 +193,10 @@
             thesis we choose the convention that we start from the lowest energy
             level and move up by counting from left to right. Tabulating
             \autoref{fig:2dho-energy-levels} we get the table shown in
-            \autoref{tab:2dho-mapping}.
+            \autoref{tab:2dho-mapping}.  In \autoref{alg:nm-to-p} we give a
+            sketch of the algorithm we use to compute $(n, m) \mapsto p$. We
+            show the inverse algorithm in \autoref{alg:p-to-nm}.
+
             \begin{table}
                 \centering
                 \caption{In this table we show an example of how our mapping
@@ -212,9 +215,6 @@
                 \end{tabular}
                 \label{tab:2dho-mapping}
             \end{table}
-            In \autoref{alg:nm-to-p} we give a sketch of the algorithm we use
-            to compute $(n, m) \mapsto p$. We show the inverse algorithm in
-            \autoref{alg:p-to-nm}.
 
             \begin{algorithm}
                 \caption{In this algorithm we describe how we can find $(n, m)
@@ -304,6 +304,14 @@
                     \EndFunction
                 \end{algorithmic}
             \end{algorithm}
+
+        \subsubsection{Computing the Coulomb elements}
+            Having found the basis functions and the elements of the one-body
+            hamiltonian, we are left with the task of finding the two-body
+            elements from the Coulomb interaction. Luckily, there exists an
+            analytic formula finding these elements. This formula is shown in
+            appendix A of the article \citetitle{anisimovas1998energy}
+            \cite{anisimovas1998energy}.
 
 
     \subsection{Two-dimensional double well quantum dot}
