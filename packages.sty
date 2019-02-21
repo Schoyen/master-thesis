@@ -19,6 +19,8 @@
 \usepackage{tikz}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+% Include font for the identity operator
+\usepackage{dsfont}
 
 \newcommand{\vf}[1]{\mathbf{#1}}
 \newcommand{\vfg}[1]{\boldsymbol{#1}}
@@ -27,6 +29,7 @@
 \newcommand{\bket}[1]{\right| #1 \right\rangle} % for Dirac bras
 \newcommand{\bbra}[1]{\left\langle #1 \left|} % for Dirac kets
 \newcommand{\dd}{\mathrm{d}}
+\newcommand{\1}{\mathds{1}}
 
 \newcommand{\braket}[2]{\langle #1 | #2 \rangle}
 
@@ -36,6 +39,10 @@
 
 \newcommand{\ccr}[1]{\hat{#1}^{\dagger}}
 \newcommand{\can}[1]{\hat{#1}}
+
+\newcommand{\dfd}[2][]{
+    \frac{\delta #1}{\delta #2}
+}
 
 \newcommand{\com}[2]{\left[#1, #2\right]}
 \newcommand{\acom}[2]{\left\{#1, #2\right\}}
