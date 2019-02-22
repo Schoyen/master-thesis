@@ -6,10 +6,59 @@
     {--- P. A. M. Dirac}
 
     \section{Spin-orbitals}
-        In this thesis we will be looking at many-particle systems. This means
-        that we will have multiple wave functions, the so called
-        \emph{spin-orbitals}, serving as building blocks for a total
-        \emph{antisymmetric} wavefunction of the full system.
+        In this thesis we will be looking at many-particle systems. Wave
+        functions of many-particle systems depend on the coordinates of all the
+        particles contained in the system. We will typically build the wave
+        functions of the full system from \emph{single particle functions}. In
+        this work we'll limit our attention to particles with spin one half ,
+        i.e., fermions, which means that the total wave function must satisfy
+        the \emph{Pauli exclusion principle}. The single particle functions
+        will as a consequence depend on the particle's spatial
+        orientation\footnote{Note that this covers both position and momentum
+        space as well as an arbitrary dimensionality.} and spin. We call
+        these wave functions \emph{spin-orbitals}. In a functional basis we
+        denote the spin-orbitals by
+        \begin{align}
+            \psi(x) \equiv \psi(\vf{r}, \sigma) = \psi(\vf{r})\ket{\sigma},
+        \end{align}
+        where $\vf{r}$ is a spatial position and $\sigma \in \brac{\upspin,
+        \downspin}$, is either spin up, $\upspin$, or spin down, $\downspin$.
+        For brevity we introduce $x = (\vf{r}, \sigma)$ as a generalized
+        coordinate. A general spin-orbital can be written as a linear
+        combination of two spatial orbitals\footnote{We will refer to the
+        spatial part of a spin-orbital simply as an orbital.} where each orbital
+        is combined with a spin direction. %TODO: Re-phrase this sentence.  This
+        can be represented by
+        \begin{align}
+            \psi(x)
+            &= \psi_1(\vf{r})\ket{\upspin} + \psi_2(\vf{r})\ket{\downspin}
+            =
+            \begin{pmatrix}
+                \psi_1(\vf{r}) \\
+                \psi_2(\vf{r})
+            \end{pmatrix},
+        \end{align}
+        where we've in the last equation expressed the two spin directions as
+        unit vectors in two-dimensional vector space\footnote{The choice which
+        spin direction will be which unit vector is arbitrary. Feel free to
+        create any orthonormal unit vectors in two dimensions.}, viz.
+        \begin{align}
+            \ket{\upspin}
+            =
+            \begin{pmatrix}
+                1 \\
+                0
+            \end{pmatrix},
+            \qquad
+            \ket{\downspin}
+            =
+            \begin{pmatrix}
+                0 \\
+                1
+            \end{pmatrix}.
+        \end{align}
+        % TODO: Reconsider use of kets when representing the wavefunction in a
+        % functional basis.
 
     \section{Slater determinants}
 
