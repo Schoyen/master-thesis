@@ -5,6 +5,9 @@
     these laws leads to equations much too complicated to be soluble.}
     {--- P. A. M. Dirac}
 
+    \section{Pauli exclusion principle}
+        % TODO: Include the spin-statistics theorem.
+
     \section{Spin-orbitals}
         In this thesis we will be looking at many-particle systems. Wave
         functions of many-particle systems depend on the coordinates of all the
@@ -135,6 +138,33 @@
 
 
     \section{Slater determinants}
+        As we are working with fermions the total many-body wave function must
+        be \emph{antisymmetric} with respect to interchange of
+        particles\footnote{We will restrict ourselves to the interchange of a
+        full spin-orbital.}. Mathematically the full wave function of $n$
+        fermions should satisfy
+        \begin{align}
+            \Psi(1, \dots, i, \dots, j, \dots, n)
+            =
+            -\Psi(1, \dots, j, \dots, i, \dots, n),
+        \end{align}
+        where we for brevity have introduced the notation $i \equiv x_i =
+        (\vf{r}_i, \sigma_i)$. A fully antisymmetric, normalized, $n$-body wave
+        function is given by the \emph{Slater determinant} built from $n$
+        individual spin-orbitals with $n$ generalized coordinates.
+        \begin{align}
+            \Psi(1, \dots, n)
+            &= \frac{1}{\sqrt{n!}}
+            \begin{vmatrix}
+                \psi_1(1) & \dots & \psi_n(1) \\
+                \vdots & \ddots & \vdots \\
+                \psi_1(n) & \dots & \psi_n(n)
+            \end{vmatrix},
+        \end{align}
+        where $\psi_i(j) \equiv \psi_i(\vf{r}_j, \sigma_j)$ for the
+        spin-orbitals\footnote{Note that the index on the spin-orbitals has
+        nothing to do with which spin component is used as in the previous
+        section on spin-orbitals.}.
 
     \section{Second quantization}
 
