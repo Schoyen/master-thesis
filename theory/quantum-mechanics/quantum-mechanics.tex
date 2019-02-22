@@ -16,32 +16,25 @@
         will as a consequence depend on the particle's spatial
         orientation\footnote{Note that this covers both position and momentum
         space as well as an arbitrary dimensionality.} and spin. We call
-        these wave functions \emph{spin-orbitals}. In a functional basis we
-        denote the spin-orbitals by
+        these wave functions \emph{spin-orbitals}. The spatial part of a
+        spin-orbtial will be denoted \emph{orbital} whereas the spin-part is
+        simply called spin. A general spin-orbital is a two-level system where
+        the coefficients of the two spin-directions serve as the spatial part of
+        the wave function, viz.
         \begin{align}
-            \psi(x) \equiv \psi(\vf{r}, \sigma) = \psi(\vf{r})\ket{\sigma},
-        \end{align}
-        where $\vf{r}$ is a spatial position and $\sigma \in \brac{\upspin,
-        \downspin}$, is either spin up, $\upspin$, or spin down, $\downspin$.
-        For brevity we introduce $x = (\vf{r}, \sigma)$ as a generalized
-        coordinate. A general spin-orbital can be written as a linear
-        combination of two spatial orbitals\footnote{We will refer to the
-        spatial part of a spin-orbital simply as an orbital.} where each orbital
-        is combined with a spin direction. %TODO: Re-phrase this sentence.  This
-        can be represented by
-        \begin{align}
-            \psi(x)
-            &= \psi_1(\vf{r})\ket{\upspin} + \psi_2(\vf{r})\ket{\downspin}
+            \ket{\psi} = \psi_1\ket{\upspin} + \psi_2\ket{\downspin}
             =
             \begin{pmatrix}
-                \psi_1(\vf{r}) \\
-                \psi_2(\vf{r})
+                \psi_1 \\
+                \psi_2
             \end{pmatrix},
         \end{align}
-        where we've in the last equation expressed the two spin directions as
-        unit vectors in two-dimensional vector space\footnote{The choice which
-        spin direction will be which unit vector is arbitrary. Feel free to
-        create any orthonormal unit vectors in two dimensions.}, viz.
+        where $\psi_i$ can be function of position, $\vf{r}$, or momentum,
+        $\vf{p}$, or any other desirable coordinate.  In the last equation we've
+        expressed the two spin directions as unit vectors in a two-dimensional
+        vector space\footnote{The choice which spin direction will represent
+        which unit vector is arbitrary. Feel free to create any orthonormal unit
+        vectors in two dimensions.}, viz.
         \begin{align}
             \ket{\upspin}
             =
@@ -57,8 +50,49 @@
                 1
             \end{pmatrix}.
         \end{align}
-        % TODO: Reconsider use of kets when representing the wavefunction in a
-        % functional basis.
+
+
+        %In a functional basis we
+        %denote the spin-orbitals by
+        %\begin{align}
+        %    \psi(x) \equiv \psi(\vf{r}, \sigma) = \psi(\vf{r})\ket{\sigma},
+        %\end{align}
+        %where $\vf{r}$ is a spatial position and $\sigma \in \brac{\upspin,
+        %\downspin}$, is either spin up, $\upspin$, or spin down, $\downspin$.
+        %For brevity we introduce $x = (\vf{r}, \sigma)$ as a generalized
+        %coordinate. A general spin-orbital can be written as a linear
+        %combination of two spatial orbitals\footnote{We will refer to the
+        %spatial part of a spin-orbital simply as an orbital.} where each orbital
+        %is combined with a spin direction. %TODO: Re-phrase this sentence.  This
+        %can be represented by
+        %\begin{align}
+        %    \psi(x)
+        %    &= \psi_1(\vf{r})\ket{\upspin} + \psi_2(\vf{r})\ket{\downspin}
+        %    =
+        %    \begin{pmatrix}
+        %        \psi_1(\vf{r}) \\
+        %        \psi_2(\vf{r})
+        %    \end{pmatrix},
+        %\end{align}
+        %where we've in the last equation expressed the two spin directions as
+        %unit vectors in two-dimensional vector space\footnote{The choice which
+        %spin direction will be which unit vector is arbitrary. Feel free to
+        %create any orthonormal unit vectors in two dimensions.}, viz.
+        %\begin{align}
+        %    \ket{\upspin}
+        %    =
+        %    \begin{pmatrix}
+        %        1 \\
+        %        0
+        %    \end{pmatrix},
+        %    \qquad
+        %    \ket{\downspin}
+        %    =
+        %    \begin{pmatrix}
+        %        0 \\
+        %        1
+        %    \end{pmatrix}.
+        %\end{align}
 
     \section{Slater determinants}
 

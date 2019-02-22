@@ -321,21 +321,22 @@
             \end{align}
             where we get a dipole moment for each coordinate in $\vf{r}$. As
             we've expressed the single particle functions in polar coordinates,
-            but wish to express the dipole moments in a cartesian coordiate
+            but wish to express the dipole moments in a cartesian coordinate
             system, we have to compute the two integrals
             \begin{align}
                 \vf{d}_{ij}
                 &= \vf{i}\bra{i} \position\ket{j}
                 + \vf{j}\bra{i} \position[y]\ket{j}
                 = \vf{i}\bra{i} r \cos(\theta)\ket{j}
-                + \vf{j}\bra{i} r \sin(\theta)\ket{j}.
+                + \vf{j}\bra{i} r \sin(\theta)\ket{j},
             \end{align}
-            Using \autoref{eq:spf-2dqd} we are able to find analytical
-            expressions for the angular integral. The radial integral must be
-            evaluated from $0$ to $\infty$, but lucikly SymPy \cite{sympy}
-            handles this for us. Note that we use the notation $i \mapsto (n_i,
-            m_i)$ from the mapping algorithms described above. We then get the
-            following integrals
+            where $\vf{i}$ and $\vf{j}$ are the unit vectors along the $x$- and
+            $y$-axis respectively.  Using \autoref{eq:spf-2dqd} we are able to
+            find analytical expressions for the angular integral. The radial
+            integral must be evaluated from $0$ to $\infty$, but lucikly SymPy
+            \cite{sympy} handles this for us. Note that we use the notation $i
+            \mapsto (n_i, m_i)$ from the mapping algorithms described above. We
+            then get the following integrals
             \begin{align}
                 \bra{i} r \cos(\theta) \ket{j}
                 &= N^{*}_{n_i m_i} N_{n_j m_j}
