@@ -28,6 +28,7 @@
                 \psi_1 \\
                 \psi_2
             \end{pmatrix},
+            \label{eq:general-spin-orbital}
         \end{align}
         where $\psi_i$ can be function of position, $\vf{r}$, or momentum,
         $\vf{p}$, or any other desirable coordinate.  In the last equation we've
@@ -50,49 +51,13 @@
                 1
             \end{pmatrix}.
         \end{align}
+        However, we will usually work with spin-orbitals that are either
+        definitely in the spin-up or the spin-down state, that is, we refrain
+        from using general spin-orbitals such as in
+        \autoref{eq:general-spin-orbital} when we construct our systems.
+        % TODO: Reconsider this statement.
+        % TODO: Consider including longer discussion of spin as in Mayer.
 
-
-        %In a functional basis we
-        %denote the spin-orbitals by
-        %\begin{align}
-        %    \psi(x) \equiv \psi(\vf{r}, \sigma) = \psi(\vf{r})\ket{\sigma},
-        %\end{align}
-        %where $\vf{r}$ is a spatial position and $\sigma \in \brac{\upspin,
-        %\downspin}$, is either spin up, $\upspin$, or spin down, $\downspin$.
-        %For brevity we introduce $x = (\vf{r}, \sigma)$ as a generalized
-        %coordinate. A general spin-orbital can be written as a linear
-        %combination of two spatial orbitals\footnote{We will refer to the
-        %spatial part of a spin-orbital simply as an orbital.} where each orbital
-        %is combined with a spin direction. %TODO: Re-phrase this sentence.  This
-        %can be represented by
-        %\begin{align}
-        %    \psi(x)
-        %    &= \psi_1(\vf{r})\ket{\upspin} + \psi_2(\vf{r})\ket{\downspin}
-        %    =
-        %    \begin{pmatrix}
-        %        \psi_1(\vf{r}) \\
-        %        \psi_2(\vf{r})
-        %    \end{pmatrix},
-        %\end{align}
-        %where we've in the last equation expressed the two spin directions as
-        %unit vectors in two-dimensional vector space\footnote{The choice which
-        %spin direction will be which unit vector is arbitrary. Feel free to
-        %create any orthonormal unit vectors in two dimensions.}, viz.
-        %\begin{align}
-        %    \ket{\upspin}
-        %    =
-        %    \begin{pmatrix}
-        %        1 \\
-        %        0
-        %    \end{pmatrix},
-        %    \qquad
-        %    \ket{\downspin}
-        %    =
-        %    \begin{pmatrix}
-        %        0 \\
-        %        1
-        %    \end{pmatrix}.
-        %\end{align}
 
     \section{Slater determinants}
 
