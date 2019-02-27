@@ -161,10 +161,109 @@
                 \psi_1(n) & \dots & \psi_n(n)
             \end{vmatrix},
         \end{align}
-        where $\psi_i(j) \equiv \psi_i(\vf{r}_j, \sigma_j)$ for the
-        spin-orbitals\footnote{Note that the index on the spin-orbitals has
-        nothing to do with which spin component is used as in the previous
-        section on spin-orbitals.}.
+        where $\psi_i(j) \equiv \psi_i(\vf{r}_j, \sigma_j)$ for the $i$'th
+        spin-orbital in generalized coordinate $j$ \footnote{Note that the index
+        on the spin-orbitals has nothing to do with which spin component is used
+        as in the previous section on spin-orbitals.}. Exchanging a row in the
+        determinant results in a sign change as we required from the
+        antiysmmetric full wave function for the many-body problem. Furthermore,
+        exchanging a column in the determinant also results in a sign-change.
+        This means that there can not be two, or more, of the same spin-orbitals
+        in the wave function perfectly encapsulating the Pauli principle as two
+        of the same spin-orbitals translates to two particles being in the same
+        state. Generally, the spin-orbitals in a Slater determinant are linearly
+        independent, otherwise $\Psi = 0$. This is a consequence of the
+        properties of a determinant that adding a scalar multiple of a column to
+        another column does not change the determinant.
+
+        The factor in front of the Slater determinant makes the many-body wave
+        function normalized to unity as long as the spin-orbitals are
+        orthonormalized.
+
+        % TODO: Introduce proof
+        \begin{proof}[Proof that Slater determinants are invariant under unitary
+            transformations]
+            \label{proof:slater_determinants_invariant}
+            Given a basis $\brac{\ket{\phi_i}}_{i = 1}^{N}$ that spans the
+            $N$-dimensional Hilbert space. We can then do a unitary
+            transformation from this basis to a new basis
+            $\brac{\ket{\psi_i}}_{i = 1}^{N}$ in the same Hilbert space by
+            \begin{align}
+                \ket{\psi_i} = u_{ji}\ket{\phi_j},
+                \label{eq:unitary_transformation}
+            \end{align}
+            where $u_{ji} = u_{ij}^{*}$. For a set of coordinates
+            $\brac{x_1, \dots, x_N}$, we write
+            \begin{align}
+                \psi_{ij} \equiv \psi_j(x_i)
+                \equiv \braket{x_i}{\psi_j},
+            \end{align}
+            and equivalently for $\phi_{ij}$. Projecting onto the coordinate
+            basis we can write \autoref{eq:unitary_transformation} as
+            \begin{gather}
+                \braket{x_k}{\psi_i}
+                = u_{ji}\braket{x_k}{\phi_j}
+                \implies
+                \psi_{ki} = u_{ji}\phi_{kj} = \phi_{kj}u_{ji}
+                \implies \vfg{\Psi} = \vfg{\Phi}\vfg{U},
+            \end{gather}
+            where the matrices $\vfg{\Psi}$, $\vfg{\Phi}$ and $\vfg{U}$ are
+            the matrices with elements
+            \begin{align}
+                \vfg{\Psi}
+                &= \begin{pmatrix}
+                    \psi_{11} & \psi_{12} & \dots & \psi_{1N} \\
+                    \vdots & \vdots & \ddots & \vdots \\
+                    \psi_{N1} & \psi_{N2} & \dots & \psi_{NN}
+                \end{pmatrix}, \\
+                \vfg{\Phi}
+                &= \begin{pmatrix}
+                    \phi_{11} & \phi_{12} & \dots & \phi_{1N} \\
+                    \vdots & \vdots & \ddots & \vdots \\
+                    \phi_{N1} & \phi_{N2} & \dots & \phi_{NN}
+                \end{pmatrix}, \\
+                \vfg{U}
+                &= \begin{pmatrix}
+                    u_{11} & u_{12} & \dots & u_{1N} \\
+                    \vdots & \vdots & \ddots & \vdots \\
+                    u_{N1} & u_{N2} & \dots & u_{NN}
+                \end{pmatrix},
+            \end{align}
+            and where $U^{\dagger}U = \1$. Creating the fully antisymmetrized
+            normalized wave function, i.e., the Slater determinant, from
+            $\vfg{\Psi}$ and $\vfg{\Phi}$ we see that
+            % TODO: Fix description, the determinant of the "Slater matrices"
+            % are not necessarily normalized without the pre-factor.
+            \begin{gather}
+                \det(\vfg{\Psi}) = \det(\vfg{\Phi}\vfg{U})
+                = \det(\vfg{\Phi})\det(\vfg{U})
+            \end{gather}
+            We now take the squared norm on both sides.
+            \begin{align}
+                \norm{\det(\vfg{\Psi})}^2
+                = \norm{\det(\vfg{\Phi})\det(\vfg{U})}^2
+                \leq
+                \norm{\det(\vfg{\Phi})}^2\norm{\det(\vfg{U})}^2
+                = \norm{\det(\vfg{\Phi})}^2,
+                \label{eq:squared_determinant}
+            \end{align}
+            where we have used that
+            \begin{align}
+                \norm{\det(\vfg{U})}^2
+                &= \norm{\det(\vfg{U^{\dagger}})\det(\vfg{U})}
+                = \norm{\det(\vfg{U}^{\dagger}\vfg{U})}
+                = \norm{\det(\1)} = 1.
+            \end{align}
+            Now, in \autoref{eq:squared_determinant}, since the Slater
+            determinant of $\vfg{\Phi}$ is orthonormalized and a unitary
+            transformation preserves the normalization this means that the norm
+            of $\det(\vfg{\Phi})$ and the norm of $\det(\vfg{\Psi})$ must be
+            unity.  Thus, the equality in the splitting of the norm is preserved
+            thus yielding
+            \begin{gather}
+                \norm{\det(\vfg{\Psi})}^2 = \norm{\det(\vfg{\Phi})}^2.
+            \end{gather}
+        \end{proof}
 
     \section{Second quantization}
 
