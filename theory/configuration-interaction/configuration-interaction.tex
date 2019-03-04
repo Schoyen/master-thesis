@@ -56,11 +56,18 @@
             HA = EA,
         \end{align}
         which means our job is to construct $H_{IJ}$ and diagonalize the
-        matrix\cite{karwowski}. The elements $H_{IJ}$ are computed by
+        matrix \cite{karwowski}. The elements $H_{IJ}$ are computed by
         \begin{align}
             \bra{\Phi_I}\hat{H}\ket{\Phi_J}
-            &= \sum_{pq}\bra{p}\hat{h}\ket{q}
+            &= \sum_{pq}h^{p}_{q}
             \bra{\Phi_I}\ccr{p}\can{q}\ket{\Phi_J}
-            + \frac{1}{4}\sum_{pqrs}\bra{pq}\ket{rs}
+            + \frac{1}{4}\sum_{pqrs}u^{pq}_{rs}
             \bra{\Phi_I}\ccr{p}\ccr{q}\can{s}\can{r}\ket{\Phi_J}.
         \end{align}
+        Having constructed the one- and two-body elements $h^{p}_{q}$ and
+        $u^{pq}_{rs}$ what remains is for us to evaluate the integrals
+        $\bra{\Phi_I}\ccr{p}\can{q}\ket{\Phi_J}$ and
+        $\bra{\Phi_I}\ccr{p}\ccr{q}\can{s}\can{r}\ket{\Phi_J}$. The total
+        process of evaluating the matrix elements
+        $\bra{\Phi_I}\hamil\ket{\Phi_J}$ can be done using the so-called
+        \emph{Slater-Condon rules}.
