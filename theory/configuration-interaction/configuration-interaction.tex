@@ -1,13 +1,14 @@
 \chapter{Configuration interaction}
      A popular post Hartree-Fock method is \textit{configuration interaction}.
+     % TODO: Discuss that FCI is "exact" for any choice of basis functions
      It consists of expressing the wavefunction as a linear combination of
      excited Slater determinants in a truncated single-particle and Slater
      determinant basis.
      \begin{align}
          \ket{\Psi}
-         &= A_0\ketslat
-         + \sum_{ai}A^a_i\ketslate{a}{i}
-         + \frac{1}{4}\sum_{abij}A^{ab}_{ij}\ketslate{ab}{ij}
+         &= C_0\ketslat
+         + \sum_{ai}C^a_i\ketslate{a}{i}
+         + \frac{1}{4}\sum_{abij}C^{ab}_{ij}\ketslate{ab}{ij}
          + \dots,
      \end{align}
      where we have divided by a factor $4$ in the double sum to avoid over
@@ -28,32 +29,32 @@
         where $(E_J, \ket{\Psi_J})$ is an eigenpair for $\hat{H}$. Expanding the
         CI wavefunction in a Slater determinant basis.
         \begin{align}
-            \ket{\Psi_J} = \sum_{K} A_{KJ}\ket{\Phi_K},
+            \ket{\Psi_J} = \sum_{K} C_{KJ}\ket{\Phi_K},
             \label{eq:expanded_ci_wavefunction}
         \end{align}
-        where $A_{KJ}$ are the amplitudes for a certain excitation $K$ for a
+        where $C_{KJ}$ are the amplitudes for a certain excitation $K$ for a
         specific energy level $J$. Inserting
         \autoref{eq:expanded_ci_wavefunction} into \autoref{eq:ci_tise} and left
         projecting on a state $\ket{\Phi_I}$ we get
         \begin{align}
-            \sum_{K}\bra{\Phi_I}\hat{H}\ket{\Phi_K}A_{KJ}
-            = E_J\sum_{K}\braket{\Phi_I}{\Phi_K}A_{KJ}.
+            \sum_{K}\bra{\Phi_I}\hat{H}\ket{\Phi_K}C_{KJ}
+            = E_J\sum_{K}\braket{\Phi_I}{\Phi_K}C_{KJ}.
         \end{align}
         We now define the Hamiltonian matrix $H_{IK} =
         \bra{\Phi_I}\hat{H}\ket{\Phi_K}$ and the overlap matrix $S_{IK} =
         \braket{\Phi_I}{\Phi_K}$. We can thus formulate the generalized
         eigenvalue equation
         \begin{gather}
-            \sum_{K}H_{IK}A_{KJ} = E_J\sum_{K}S_{IK}A_{KJ}
+            \sum_{K}H_{IK}C_{KJ} = E_J\sum_{K}S_{IK}C_{KJ}
             \\
             \implies
-            HA = ESA,
+            HC = ESC,
         \end{gather}
         where $S_{IK} = 1 \iff \braket{\Phi_I}{\Phi_K} = \delta_{IK}$. We will
         in this text only care about systems where the Slater determinants are
         orthonormal. Thus the eigenvalue equation we will solve will be
         \begin{align}
-            HA = EA,
+            HC = EC,
         \end{align}
         which means our job is to construct $H_{IJ}$ and diagonalize the
         matrix \cite{karwowski}. The elements $H_{IJ}$ are computed by
