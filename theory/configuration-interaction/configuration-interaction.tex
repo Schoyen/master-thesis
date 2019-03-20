@@ -73,9 +73,17 @@
         $\bra{\Phi_I}\hamil\ket{\Phi_J}$ can be done using the so-called
         \emph{Slater-Condon rules} which we'll describe below.
 
-        \subsection{One-body density matrix}
-
         \subsection{The Slater-Condon rules}
+
+        \subsection{One-body density matrix}
+            For a given eigenstate $\ket{\Psi_I}$ of the many-body Hamiltonian
+            shown in \autoref{eq:ci_tise} we can compute the one-body density
+            matrix ${\rho_I}^{q}_{p}$ by
+            \begin{align}
+                {\rho_I}^{q}_{p}
+                &= \bra{\Psi_I}\ccr{p}\can{q}\ket{\Psi_I}
+                = C_{JI}^{*}C_{KI}\bra{\Phi_J}\ccr{p}\can{q}\ket{\Phi_K}.
+            \end{align}
 
     \section{Time-dependent configuration interaction}
         Having found the eigenstates $\ket{\Psi_J}$ given by
