@@ -86,55 +86,55 @@
             \end{align}
 
     \section{Time-dependent configuration interaction}
-        Having found the eigenstates $\ket{\Psi_J}$ given by
+        Starting from the time-depdendent Schrödinger equation, we can formulate
+        the time-evolution of the many-body wave function.
         \begin{align}
-            \ket{\Psi_J} = C_{KJ}\ket{\Phi_K},
-        \end{align}
-        where $C_{KJ}$ are the coefficients for the Slater determinants
-        $\ket{\Phi_K}$,
-        we can use these states as our initial guess in a time-propagation of
-        the system.
-        Inserted into the time-dependent Schrödinger equation we can formulate
-        the time-evolution of the coefficients.
-        \begin{align}
-            i\hslash \dpd[]{}{t}\ket{\Psi_J(t)}
-            = \hamil(t)\ket{\Psi_J(t)},
+            i\hslash \dpd[]{}{t}\ket{\Psi(t)}
+            = \hamil(t)\ket{\Psi(t)},
             \label{eq:ci_tdse}
         \end{align}
-        where $\ket{\Psi_J(0)} \equiv \ket{\Psi_J}$, that is, the eigenstates of
-        the time-independent Schrödinger equation from \autoref{eq:ci_tise}.
-        In time-dependent configuration interaction we treat our initial basis
-        of orbitals, and by extension our basis of Slater determinants, as a
-        \emph{static basis}.
-        By that we mean that the orbitals are time-independent.
-        It is only the coefficients that change in time, viz.
+        Here the time-dependent wave function $\ket{\Psi(t)}$ is given as a
+        linear combination of Slater determinants
         \begin{align}
-            \ket{\Psi_J(t)} = C_{KJ}(t)\ket{\Phi_K}.
+            \ket{\Psi(t)} = c_{I}(t) \ket{\Phi_I},
+            \label{eq:ci_td_wave}
         \end{align}
-        This means that we can write \autoref{eq:ci_tdse} on the form
+        where the orbitals in the Slater determinants are static, i.e.,
+        time-independent, meaning that the time-evolution happens in the
+        coefficients $c_{I}(t)$.
+        Our choice of initial state $\ket{\Psi(0)}$ is to a large degree
+        arbitrary as long as the coefficients are normalized and the
+        determinants span the entire space we are looking at.
+        A natural choice is to choose $\ket{\Psi(0)} = \ket{\Psi_J}$, where
+        $\ket{\Psi_J}$ is an eigenstate from the time-independent Schrödinger
+        equation in \autoref{eq:ci_tise}.
+        It is common to choose $J = 0$, i.e., the ground state, but there is
+        nothing stopping us from choosing an arbitrary initial guess.
+        For example, we can choose a single Slater determinant from our basis of
+        determinants as an initial guess.
+        This can be a good guess, especially if we use Hartree-Fock orbitals as
+        our basis of spin-orbitals.
+
+        Inserting \autoref{eq:ci_td_wave} into \autoref{eq:ci_tdse} we get an
+        equation for time-evolution of the coefficients.
         \begin{align}
-            i\hslash \dpd[]{}{t}C_{KJ}(t)\ket{\Phi_K}
-            = \hamil(t) C_{KJ}(t)\ket{\Phi_K}.
+            i\hslash \dpd[]{}{t}c_{J}(t)\ket{\Phi_J}
+            = \hamil(t) c_{J}(t)\ket{\Phi_J}.
         \end{align}
         Left-projecting with a Slater determinant $\ket{\Phi_I}$ then yields
         \begin{gather}
-            i\hslash \dpd[]{}{t}C_{KJ}(t)\braket{\Phi_I}{\Phi_K}
-            = \bra{\Phi_I}\hamil(t)\ket{\Phi_K} C_{KJ}(t) \\
+            i\hslash \dpd[]{}{t}c_{J}(t)\braket{\Phi_I}{\Phi_J}
+            = \bra{\Phi_I}\hamil(t)\ket{\Phi_J} C_{J}(t) \\
             \implies
-            i\hslash \dpd[]{}{t}C_{KJ}(t) S_{IK}
-            = H_{IK}(t) C_{KJ}(t),
+            i\hslash \dpd[]{}{t}c_{J}(t) S_{IJ}
+            = H_{IJ}(t) c_{J}(t),
         \end{gather}
-        where we've again introduced the matrix $S_{IK}$ with overlaps between
+        where we've again introduced the matrix $S_{IJ}$ with overlaps between
         the Slater determinants and the time-dependent Hamiltonian matrix
-        $H_{IK}(t)$.
-        We'll again limit our attention to systems where the Slater
-        determinants are orthonormal, thus leaving us with the equation
+        $H_{IJ}(t)$.
+        We'll limit our attention to systems where the Slater determinants are
+        orthonormal, thus leaving us with the equation
         \begin{align}
-            i\hslash \dpd[]{}{t}C_{IJ}(t)
-            = H_{IK}(t) C_{KJ}(t).
-            \label{eq:ci_tdse_full_coeff}
+            i\hslash \dpd[]{}{t}c_{I}(t)
+            = H_{IJ}(t) c_{J}(t).
         \end{align}
-        In \autoref{eq:ci_tdse_full_coeff} demonstrate how we evolve any of the
-        eigenstates $\ket{\Psi_J}$ to a later state $\ket{\Psi_J(t)}$.
-        We will for the most part limit ourselves to using the ground state as
-        our initial guess, that is, we set $J = 0$.
