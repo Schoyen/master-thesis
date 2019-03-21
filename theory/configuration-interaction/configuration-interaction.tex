@@ -93,6 +93,38 @@
 
         \subsection{The Slater-Condon rules}
 
+        \subsection{Brillouin's theorem}
+            Brillouin's theorem states that given an orthonormal single-particle
+            basis $\brac{\ket{\phi_p}}_{i = 1}^{L}$, which is used to build a basis of
+            Slater determinants $\brac{\ket{\Phi_I}}_{I = 1}^{N_s}$, then
+            \begin{align}
+                \bra{\Phi}\hamil\ket{\Phi^{a}_{i}} = 0,
+            \end{align}
+            is true iff the single-particle basis is found from solving the
+            Hartree-Fock equations and $\ket{\Phi^{a}_{i}}$ is any singly
+            excited determinant from the reference determinant $\ket{\Phi}$
+            \cite{kvaal2017notes}.
+            An important consequence of this is that all single excitations,
+            from the reference state, can be neglected if we choose the
+            Hartree-Fock reference state as our reference determinant.
+            \begin{proof}
+                We prove Brillouin's theorem directly by evaluating the matrix
+                element
+                \begin{align}
+                    \bra{\Phi}\hamil\ket{\Phi^{a}_{i}}
+                    &= \bra{\Phi}\onehamil\ket{\Phi^{a}_{i}}
+                    + \frac{1}{4}\bra{\Phi}\twohamil\ket{\Phi^{a}_{i}}
+                    = h^{a}_{i} + u^{aj}_{ij}
+                    = f^{a}_{i} = 0,
+                \end{align}
+                when the single-particle basis is the molecular orbitals found
+                from solving the Hartree-Fock equations
+                \begin{align}
+                    \fock\ket{\phi_p} = \varepsilon_p\ket{\phi_p},
+                \end{align}
+                making the Fock matrix diagonal.
+            \end{proof}
+
         \subsection{One-body density matrix}
             For a given eigenstate $\ket{\Psi_I}$ of the many-body Hamiltonian
             shown in \autoref{eq:ci_tise} we can compute the one-body density
