@@ -134,6 +134,122 @@
             As an example of <size extensivity/size consitency> we demonstrate
             the troubles arising when we restrict ourselves to a system of two
             particles and four basis functions.
+            Our basis thus consists of the spin-orbitals $\brac{\ket{\phi_1},
+            \ket{\phi_2}, \ket{\phi_3}, \ket{\phi_4}}$, with the reference
+            Slater determinant
+            \begin{align}
+                \ket{\Phi}
+                &= \frac{1}{\sqrt{2}}\brac{
+                    \ket{\phi_1\phi_2}
+                    - \ket{\phi_2\phi_1}
+                }.
+                % TODO: It might not be necessary to show what the determinant
+                % looks like.
+            \end{align}
+            Using truncated configuration interaction with singles excitations
+            only, we get the many-body wave function
+            \begin{align}
+                \ket{\Psi}
+                &= C\ket{\Phi}
+                + C^{a}_{i}\ket{\Phi^{a}_{i}}
+                = C\ket{\Phi}
+                + C^{3}_{1}\ket{\Phi^{3}_{1}}
+                + C^{4}_{1}\ket{\Phi^{4}_{1}}
+                + C^{3}_{2}\ket{\Phi^{3}_{2}}
+                + C^{4}_{2}\ket{\Phi^{4}_{2}}.
+                \label{eq:cis_wave_function}
+            \end{align}
+            Graphically we can represent the full space of the Slater determinants
+            by \autoref{fig:tiny-slater-basis}.
+            Comparing with \autoref{eq:cis_wave_function} we see that the only
+            determinant missing in the truncated wave function is the doubly
+            excited determinant $\ket{\Phi^{34}_{12}}$.
+            % TODO: Explain how this problem becomes worse for more basis
+            % functions.
+            % TODO: Explain how coupled cluster fixes this problem in the
+            % chapter on coupled cluster.
+            \begin{figure}
+                \begin{center}
+                    \begin{tikzpicture}[scale=0.7]
+                        % State 1
+                        \begin{scope}
+                            \foreach \i in {1,...,4} {
+                                \draw (-1, \i - 1) node[anchor=east]
+                                {$\ket{\phi_{\i}}$} -- (1, \i - 1);
+                            }
+                            \filldraw (0,4.2) node[anchor=north]
+                                {$\ket{\Phi}$};
+                            \filldraw (0, 0) circle (0.25cm);
+                            \filldraw (0, 1) circle (0.25cm);
+                        \end{scope}
+
+                        % State 2
+                        \begin{scope}[xshift=5cm]
+                            \foreach \i in {1,...,4} {
+                                \draw (-1, \i - 1) node[anchor=east]
+                                {$\ket{\phi_{\i}}$} -- (1, \i - 1);
+                            }
+                            \filldraw (0,4.2) node[anchor=north]
+                                {$\ket{\Phi^{3}_{1}}$};
+                            \filldraw (0, 2) circle (0.25cm);
+                            \filldraw (0, 1) circle (0.25cm);
+                        \end{scope}
+
+                        % State 3
+                        \begin{scope}[xshift=10cm]
+                            \foreach \i in {1,...,4} {
+                                \draw (-1, \i - 1) node[anchor=east]
+                                {$\ket{\phi_{\i}}$} -- (1, \i - 1);
+                            }
+                            \filldraw (0,4.2) node[anchor=north]
+                                {$\ket{\Phi^{4}_{1}}$};
+                            \filldraw (0, 3) circle (0.25cm);
+                            \filldraw (0, 1) circle (0.25cm);
+                        \end{scope}
+
+                        % State 4
+                        \begin{scope}[yshift=-5.5cm]
+                            \foreach \i in {1,...,4} {
+                                \draw (-1, \i - 1) node[anchor=east]
+                                {$\ket{\phi_{\i}}$} -- (1, \i - 1);
+                            }
+                            \filldraw (0,4.2) node[anchor=north]
+                                {$\ket{\Phi^{3}_{2}}$};
+                            \filldraw (0, 0) circle (0.25cm);
+                            \filldraw (0, 2) circle (0.25cm);
+                        \end{scope}
+
+                        % State 5
+                        \begin{scope}[yshift=-5.5cm, xshift=5cm]
+                            \foreach \i in {1,...,4} {
+                                \draw (-1, \i - 1) node[anchor=east]
+                                {$\ket{\phi_{\i}}$} -- (1, \i - 1);
+                            }
+                            \filldraw (0,4.2) node[anchor=north]
+                                {$\ket{\Phi^{4}_{2}}$};
+                            \filldraw (0, 0) circle (0.25cm);
+                            \filldraw (0, 3) circle (0.25cm);
+                        \end{scope}
+
+                        % State 6
+                        \begin{scope}[yshift=-5.5cm, xshift=10cm]
+                            \foreach \i in {1,...,4} {
+                                \draw (-1, \i - 1) node[anchor=east]
+                                {$\ket{\phi_{\i}}$} -- (1, \i - 1);
+                            }
+                            \filldraw (0,4.2) node[anchor=north]
+                                {$\ket{\Phi^{34}_{12}}$};
+                            \filldraw (0, 3) circle (0.25cm);
+                            \filldraw (0, 2) circle (0.25cm);
+                        \end{scope}
+                    \end{tikzpicture}
+                \end{center}
+                \caption{In this figure we can see the six possible Slater
+                determinants, i.e., all the basis Slater determinants, made from
+                the four basis functions $\brac{\ket{\phi_1}, \ket{\phi_2},
+                \ket{\phi_3}, \ket{\phi_4}}$ with two particles.}
+                \label{fig:tiny-slater-basis}
+            \end{figure}
 
         \subsection{Constructing the Slater determinants}
             % TODO: Explain how to construct bit strings representing
