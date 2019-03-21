@@ -88,6 +88,44 @@
         $u^{pq}_{rs}$ what remains is for us to evaluate the integrals
         $\bra{\Phi_I}\ccr{p}\can{q}\ket{\Phi_J}$ and
         $\bra{\Phi_I}\ccr{p}\ccr{q}\can{s}\can{r}\ket{\Phi_J}$.
+        We are then able to construct the configuration interaction matrix
+        \begin{align}
+            \vfg{\hamilmat}
+            &=
+            \begin{pmatrix}
+                \bra{\Phi_0}\hamil\ket{\Phi_0} &
+                \bra{\Phi_0}\hamil\ket{\Phi_1} &
+                \dots &
+                \bra{\Phi_0}\hamil\ket{\Phi_{N_s}} \\
+                \bra{\Phi_1}\hamil\ket{\Phi_0} &
+                \bra{\Phi_1}\hamil\ket{\Phi_1} &
+                \dots &
+                \bra{\Phi_1}\hamil\ket{\Phi_{N_s}} \\
+                \vdots & \vdots & \ddots & \vdots \\
+                \bra{\Phi_{N_s}}\hamil\ket{\Phi_0} &
+                \bra{\Phi_{N_s}}\hamil\ket{\Phi_1} &
+                \dots &
+                \bra{\Phi_{N_s}}\hamil\ket{\Phi_{N_s}}
+            \end{pmatrix}.
+        \end{align}
+        It is common to see this matrix in block form where we collect
+        the different excitation levels in separate blocks.
+        For the singles and doubles excitations we get the block matrix
+        \begin{align}
+            \vfg{\hamilmat}_{\text{CISD}}
+            &=
+            \begin{pmatrix}
+                \bra{\Phi}\hamil\ket{\Phi} &
+                \bra{\Phi}\hamil\ket{\Phi^{a}_{i}} &
+                \bra{\Phi}\hamil\ket{\Phi^{ab}_{ij}} \\
+                \bra{\Phi^{c}_{k}}\hamil\ket{\Phi} &
+                \bra{\Phi^{c}_{k}}\hamil\ket{\Phi^{a}_{i}} &
+                \bra{\Phi^{c}_{k}}\hamil\ket{\Phi^{ab}_{ij}} \\
+                \bra{\Phi^{cd}_{kl}}\hamil\ket{\Phi} &
+                \bra{\Phi^{cd}_{kl}}\hamil\ket{\Phi^{a}_{i}} &
+                \bra{\Phi^{cd}_{kl}}\hamil\ket{\Phi^{ab}_{ij}} \\
+            \end{pmatrix}.
+        \end{align}
 
         \subsection{Constructing the Slater determinants}
 
