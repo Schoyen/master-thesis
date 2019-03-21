@@ -142,4 +142,23 @@
         As the initial coefficients $c_{I}(0)$ are known, we need to compute the
         matrix elements of the time-dependent Hamiltonian at each time step
         before using a time-evolution scheme to solve \autoref{eq:tdci}.
-        % TODO: Explain how to compute the matrix elements in more depth
+        Depending on the nature of the time-dependent interaction in the
+        Hamiltonian, we can compute the time-dependent matrix elements by
+        \begin{align}
+            H_{IJ}(t)
+            &= \bra{\Phi_I}\hamil(t)\ket{\Phi_J}
+            = \bra{\Phi_I}\onehamil(t)\ket{\Phi_J}
+            + \frac{1}{4}\bra{\Phi_I}\twohamil(t)\ket{\Phi_J}
+            \\
+            &=
+            \oneten^{p}_{q}(t)
+            \bra{\Phi_I}\ccr{p}\can{q}\ket{\Phi_J}
+            + \frac{1}{4}\twoten^{pq}_{rs}(t)
+            \bra{\Phi_I}\ccr{p}\ccr{q}\can{s}\can{r}\ket{\Phi_J}
+            \\
+            &=
+            \oneten^{p}_{q}(t) \densityten^{q}_{p}
+            + \frac{1}{4} \twoten^{pq}_{rs}(t) \densityten^{rs}_{pq},
+        \end{align}
+        where we in the last line have used the one- and two-body density
+        matrices to evaluate the operator strings.
