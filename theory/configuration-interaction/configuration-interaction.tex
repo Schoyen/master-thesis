@@ -18,8 +18,21 @@
      $L$ single-particle functions we employ the \textit{full configuration
      interaction} method. This will give the most accurate value of the energy
      for the system, but quickly becomes computationally impossible as the FCI
-     space grows in dimensions as $\binom{L}{N}$.
-     \cite{kvaal2017notes}
+     space grows in dimensions as $\binom{L}{N}$ \cite{kvaal2017notes}.
+
+     A word on notation, we will in the following refrain from using explicit
+     excitation indices $a, b, \dots$ and $i, j, \dots$, but rather label the
+     coefficients and the Slater determinants by capital letter $I, J, K,
+     \dots$.
+     That is, we can write \autoref{eq:ci_wavefunction} on the short form
+     \begin{align}
+         \ket{\Psi}
+         &= C_{I}\ket{\Phi_I}.
+     \end{align}
+     The capital indices will then run over the total number of Slater
+     determinants $N_s$ in the full Slater determinant basis.
+     This number will depend on the truncation level of the configuration
+     interaction wave function.
 
      \section{Time-independent configuration interaction theory}
         We start with the time-independent Schrödinger equation
