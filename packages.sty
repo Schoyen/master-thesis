@@ -88,12 +88,18 @@
 \newcommand{\ci}{\Psi_{\text{CI}}}
 \newcommand{\ketci}{\ket{\ci}}
 
-% Commands for many operators
-\newcommand{\hamil}{\hat{H}} % Hamiltonian
+% Commands for many-body operators
+\newcommand{\hamilmat}{H} % Hamiltonian matrix elements
+\newcommand{\hamil}{\hat{\hamilmat}} % Hamiltonian
 \newcommand{\momentum}{\hat{p}} % Momentum operator
 \newcommand{\position}[1][x]{\hat{#1}} % Position operator
-\newcommand{\onehamil}{\hat{h}} % One-body Hamiltonian
-\newcommand{\twohamil}{\hat{u}} % Two-body Hamiltonian
+\newcommand{\oneten}{h} % One-body tensor
+\newcommand{\onehamil}{\hat{\oneten}} % One-body Hamiltonian
+\newcommand{\twoten}{u} % Two-body tensor
+\newcommand{\twohamil}{\hat{\twoten}} % Two-body Hamiltonian
+
+\newcommand{\densityten}{\rho} % Density tensor
+\newcommand{\density}{\hat{\rho}}
 
 % Commands for Hartree-Fock
 \newcommand{\ao}[1]{\chi_{#1}} % Atomic orbital functions
