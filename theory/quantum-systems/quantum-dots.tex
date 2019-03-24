@@ -17,7 +17,7 @@
         undergraduate quantum mechanics courses. The one-body Hamiltonian of the
         one-dimensional harmonic oscillator is given by
         \begin{align}
-            \onehamil = -\frac{\momentum^2}{2m} + \half m\omega^2 \position^2,
+            \onehamil = \frac{\momentum^2}{2m} + \half m\omega^2 \position^2,
             \label{eq:1dho-hamiltonian}
         \end{align}
         where the latter term, i.e., the one-body potential, gives rise to the
@@ -39,7 +39,7 @@
         potential from the harmonic oscillator. The one-body hamiltonian is
         given by
         \begin{align}
-            \onehamil = -\frac{\momentum^2}{2m}
+            \onehamil = \frac{\momentum^2}{2m}
             + \half m\omega^2\para{
                 \position^2
                 + \frac{1}{4}l^2
@@ -63,8 +63,9 @@
         \emph{analytical} expressions for these elements
         \cite{anisimovas1998energy}.  The Hamiltonian can thus be represented by
         \begin{align}
-            \onehamil &= -\frac{\hslash^2}{2m}\vfg{\nabla}^2
-            + \half m\omega^2\para{\position^2 + \position[y]^2}
+            \onehamil &=
+            \frac{\momentum^2}{2m}
+            + \half m\omega^2\position[r]^2
             = -\frac{\hslash^2}{2m}\brak{
                 \dpd[2]{}{r}
                 + \frac{1}{r}\dpd[]{}{r}
@@ -118,6 +119,7 @@
             \epsilon_{nm} = \hslash\omega\brak{
                 2n + \abs{m} + 1
             }.
+            \label{eq:eigenenergies_2dqd}
         \end{align}
         Staring at the eigenenergy equation we notice quite fast that the states
         are degenerate in the energy. A drawing of the first three energy levels
@@ -419,6 +421,50 @@
             where $ \bra{ij}\twohamil\ket{lk}_{AM}$ is the convention used by
             \citeauthor{anisimovas1998energy}.
             % TODO: Consider writing the full formula.
+            % This can be added in the appendix.
+            % Add comment on implementation, and who gave it to you.
 
 
     \subsection{Two-dimensional double well quantum dot}
+        A more interesting system to peruse is the double well quantum dot.
+        We'll specifically be looking at the two-dimensional double well quantum
+        dot as this lets us reuse the machinery from the two-dimensional
+        harmonic oscillator quantum dot.
+        The one-body Hamiltonian of the double well is given by
+        \begin{align}
+            \onehamil
+            &=
+            \frac{\momentum^2}{2m}
+            + \half m \omega^2 \position[r]^2
+            + \half m \omega^2 \para{
+                \frac{1}{4} l^2 - l\abs{\position[r]}
+            }.
+            \label{eq:one-body-2ddw}
+        \end{align}
+        % TODO: Give motivation for the shape of the double-well.
+        In \autoref{eq:one-body-2ddw} we recognize the two first terms as the
+        kinetic energy and the harmonic oscillator confining potential.
+        Instead of finding an analytical expression for the full one-body
+        Hamiltonian, as we did for the harmonic oscillator, we'll instead re-use
+        the single-particle functions in \autoref{eq:spf-2dqd}.
+        The one-body matrix elements is thus given by
+        \begin{align}
+            \oneten^{p}_{q}
+            &= \epsilon_{p}\delta^{p}_{q}
+            + \half m \omega^2\bra{p}\para{
+                \frac{1}{4} l^2 - l \abs{\position[r]}
+            }\ket{q}
+            \\
+            &= \epsilon_{p}\delta^{p}_{q}
+            + \frac{1}{8} m \omega^2 l^2 \delta^{p}_{q}
+            - \half m \omega^2 l \bra{p}\abs{\position[r]}\ket{q},
+        \end{align}
+        where we have used the mapping $(n, m) \to p$ described above and where
+        the eigenenergies $\epsilon_p$ are given by
+        \autoref{eq:eigenenergies_2dqd}.
+        The two first terms give a shifted harmonic oscillator potential, viz.
+        \begin{align}
+            \epsilon_p' = \epsilon_p + \frac{1}{8} m \omega^2 l^2.
+        \end{align}
+        For the last term in the one-body matrix elements, we find the double
+        well potential barrier.
