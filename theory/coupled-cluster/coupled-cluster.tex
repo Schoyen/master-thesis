@@ -1,31 +1,60 @@
 \chapter{Coupled cluster theory}
-    In coupled cluster theory one seeks to approximate the ``true'' many-body
-    wavefunction using an \emph{exponential ansatz}.
-    \begin{align}
-        \ketcc \equiv e^{\clust}\ketslat
-        = \sum_{n = 0}^{\infty}\frac{1}{n!}\clust^n\ketslat,
-        \label{eq:exponential_ansatz}
-    \end{align}
-    where the \emph{cluster operator} $\clust$ is given by a sum of excitation
-    operators $\clust_{p}$.
-    \begin{align}
-        \clust &= \sum_{p = 1}^{n} \clust_p
-        = \clustamp^a_i\ccr{a}\can{i}
-        + \para{\frac{1}{2!}}^2\clustamp^{ab}_{ij}\ccr{a}\ccr{b}\can{i}\can{j}
-        + \para{\frac{1}{3!}}^2\clustamp^{abc}_{ijk}
-        \ccr{a}\ccr{b}\ccr{c}\can{i}\can{j}\can{k}
-        + \dots.
-    \end{align}
-    Here the \emph{coupled cluster amplitudes} $\clustamp^{ab\dots}_{ij\dots}$
-    are the unknowns. As the method only uses a single reference Slater
-    determinant in \autoref{eq:exponential_ansatz} the approximation is called
-    single-reference coupled cluster theory.
+    % TODO: Why is coupled cluster so awesome?
+    % Discuss size-consistency and size-extensivity.
+    % See Crawford & Schaefer for a good intro to these topics.
 
 
     \section{Time-independent coupled cluster theory}
+        This section follows closely the derivation done in
+        \citetitle{crawford2000introduction} by
+        \citeauthor{crawford2000introduction} \cite{crawford2000introduction}.
         Starting with the time-independent Schrödinger equation, the coupled
-        cluster method seeks to find a many-body wavefunction $\ketcc$ which
+        cluster method seeks to find a many-body wave function $\ketcc$ which
         solves
         \begin{align}
-            \hamil\ketcc = \energycc\ketcc
+            \hamil\ketcc = \energycc\ketcc.
+        \end{align}
+        Start from a single reference Slater determinant $\ketslat$ coupled
+        cluster makes the ansatz that the true many-body wave function is given
+        by
+        \begin{align}
+            \ketcc \equiv e^{\clust}\ketslat
+            = \sum_{n = 0}^{\infty}\frac{1}{n!}\clust^n\ketslat,
+            \label{eq:cc_wave_function}
+        \end{align}
+        where the \emph{cluster operator} $\clust$ is given by a sum of excitation
+        operators $\clust_{p}$.
+        \begin{align}
+            \clust &= \sum_{p = 1}^{n} \clust_p
+            = \clustamp^a_i\ccr{a}\can{i}
+            + \para{\frac{1}{2!}}^2\clustamp^{ab}_{ij}\ccr{a}\ccr{b}\can{i}\can{j}
+            + \para{\frac{1}{3!}}^2\clustamp^{abc}_{ijk}
+            \ccr{a}\ccr{b}\ccr{c}\can{i}\can{j}\can{k}
+            + \dots,
+        \end{align}
+        where the cluster amplitudes $\clustamp^{abc...}_{ijk...}$ are the
+        primary unknowns.
+        By inserting \autoref{eq:cc_wave_function} into the time-independent
+        Schrödinger equation we get
+        \begin{align}
+            \hamil\ketcc
+            = e^{\clust}\ketslat
+            = \energycc e^{\clust}\ketslat
+            = \energycc \ketcc.
+        \end{align}
+        Projecting onto the reference Slater determinant we are left with
+        \begin{align}
+            \braslat\hamil\ketcc
+            &= \braslat\energycc e^{\clust}\ketslat
+            = \energycc \braslat e^{\clust}\ketslat
+            = \energycc,
+        \end{align}
+        where for orthonormal Slater determinants, the coupled cluster wave
+        function assumes \emph{intermediate normalization}, viz.
+        \begin{align}
+            \braket{\slat}{\cc}
+            &= \bra{\slat}\para{
+                \1 + \clust + \frac{1}{2!}\clust^2 + \dots
+            }\ket{\slat}
+            = 1.
         \end{align}
