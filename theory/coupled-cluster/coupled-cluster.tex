@@ -23,14 +23,15 @@
             \label{eq:cc_wave_function}
         \end{align}
         where the \emph{cluster operator} $\clust$ is given by a sum of excitation
-        operators $\clust_{p}$.
+        operators $\clust_{\mu}$.
         \begin{align}
-            \clust &= \sum_{p = 1}^{n} \clust_p
+            \clust &= \sum_{\mu = 1}^{\infty} \clust_{\mu}
             = \clustamp^a_i\ccr{a}\can{i}
             + \para{\frac{1}{2!}}^2\clustamp^{ab}_{ij}\ccr{a}\ccr{b}\can{i}\can{j}
             + \para{\frac{1}{3!}}^2\clustamp^{abc}_{ijk}
             \ccr{a}\ccr{b}\ccr{c}\can{i}\can{j}\can{k}
             + \dots,
+            \label{eq:cluster-operator}
         \end{align}
         where the cluster amplitudes $\clustamp^{abc\dots}_{ijk\dots}$ are the
         primary unknowns.
