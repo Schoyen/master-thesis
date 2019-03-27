@@ -166,3 +166,33 @@
             Note that the inclusion of $\clustamp_0(t)$ is in no way able to be
             used as a amplitude to lower the presence of the reference as in the
             configuration interaction method.
+            We also see that for $\clustamp_0(t) = 0$ we recover intermediate
+            normalization and the known time-dependent coupled cluster method.
+            The question remains how we can evaluate $\clustamp_0(t)$ from the
+            coupled cluster equations.
+            In general we find the time derivative of the cluster amplitudes
+            from
+            \begin{align}
+                i\hslash \dpd[]{}{t}\clustamp_{\mu}
+                &=
+                \bra{\slat_{\mu}} e^{-\clust(t)} \hamil(t) e^{\clust(t)}
+                \ketslat,
+            \end{align}
+            where $\mu$ denotes the excitation level of the reference slater
+            determinant and the order of the cluster amplitudes as in
+            \autoref{eq:cluster-operator}.
+            By choosing $\mu = 0$ we are left with
+            \begin{align}
+                i\hslash \dpd[]{}{t}\clustamp_{0}
+                &=
+                \bra{\slat} e^{-\clust(t)} \hamil(t) e^{\clust(t)}
+                \ketslat
+                =
+                \bra{\slat} \hamil(t) e^{\clust(t)}
+                \ketslat,
+            \end{align}
+            which should look familiar as the equation for the ground state
+            energy in the time-independent coupled cluster method if the
+            explicit time-dependence is removed from the Hamiltonian and the
+            cluster amplitudes.
+            % TODO: Elaborate on why lambda_0(t) = 1.
