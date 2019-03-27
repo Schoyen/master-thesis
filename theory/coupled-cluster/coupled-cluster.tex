@@ -69,3 +69,92 @@
             }\ket{\slat}
             = 1.
         \end{align}
+
+    \section{Time-dependent coupled cluster theory}
+        Stuff!
+
+
+        \subsection{Measuring the quality of the reference state in time}
+            When evolving a system in time, we can -- and will -- get in a
+            situation where the our initial state has little to no overlap with
+            the time-evolved state.
+            That is, we can get in a situation where
+            \begin{align}
+                \braket{\psi(t)}{\psi(0)} \approx 0.
+            \end{align}
+            In time-dependent configuration interaction theory\footnote{
+                Without intermediate normalization.
+                % TODO: Check if this applies in general
+            } this is handled automatically by the
+            zero-order amplitude.
+            \begin{gather}
+                \ket{\ci(t)} = C_0(t)\ketslat + C^{a}_{i}(t)\ket{\slat^{a}_{i}} + \dots
+                \implies \braket{\slat}{\ci(t)} = C_0(t),
+            \end{gather}
+            where $\ketslat$ is the reference determinant and we have
+            orthonormal determinants.
+            In time-dependent coupled cluster theory where we assume
+            intermediate normalization, there is however a different story to be
+            told.
+            For the time-dependent coupled cluster wavefunction we have that
+            \begin{gather}
+                \ket{\cc(t)} = e^{\clust(t)}\ketslat
+                = \para{
+                    \1
+                    + \clust(t)
+                    + \dots
+                }\ketslat
+                \implies
+                \braket{\slat}{\cc(t)} = 1.
+            \end{gather}
+            This might not look like much, but for strong fields, or long
+            time-evolution, we quickly find states which have little to no
+            overlap with the original reference state.
+            When this is the case the cluster amplitudes are left with the job
+            of both ``removing'' the reference state from the cluster wave
+            function \emph{and} providing contribution from higher excited
+            determinants \cite{pedersen2018symplectic}.
+            Frustratingly enough the formulation of time-dependent coupled
+            cluster with static spin-orbitals is not able to solve this problem.
+            When $\braket{\slat}{\cc(t)} \to 0$, the magnitude of the amplitudes
+            sky-rocket, the energy is no longer conserved (when the
+            time-dependence in the Hamiltonian is turned off), and the data
+            produced can no longer be trusted.
+            Luckily, there is a solution\footnote{
+                As far as the author can tell.
+            } where we allow the spin-orbitals change in time along with the
+            amplitudes.
+            We will in the coming sections explore two versions of this scheme
+            and demonstrate that this fixes the problems described by
+            \citeauthor{pedersen2018symplectic} \cite{pedersen2018symplectic}.
+
+            But, before we try to solve the problem, we can formulate a
+            ``zero-order'' amplitude for the time-dependent coupled cluster wave
+            function which does not solve the problem, but at least lets us
+            measure how good or bad the reference state is in time.
+            This is done by introducing a phase factor $\clustamp_0(t) \in
+            \mathbb{C}$ which we insert in the exponential ansatz.
+            \begin{gather}
+                \ket{\cc(t)}
+                = e^{\clustamp_0(t) + \clust(t)}\ketslat
+                = e^{\clustamp_0(t)} e^{\clust(t)}\ketslat,
+                \\
+                \bra{\bicc(t)}
+                = \braslat\para{\1 + \clustl(t)}
+                e^{-\clustamp_0(t) - \clust(t)}
+                = \braslat\para{\1 + \clustl(t)}
+                e^{-\clust(t)} e^{-\clustamp_0(t)},
+            \end{gather}
+            where we've used that $\clustamp_0(t)$ is a number to separate it
+            from the cluster amplitudes in the exponential.
+            Regardless if $\clustamp_0(t)$ is real or not, the inclusion of the
+            phase does not change any of the equations used in coupled cluster.
+            However, we can now see that
+            \begin{align}
+                \braket{\slat}{\cc(t)} = e^{\clustamp_0(t)},
+            \end{align}
+            which tells us how good the reference state $\ketslat$ is at a later
+            time $t$.
+            Note that the inclusion of $\clustamp_0(t)$ is in no way able to be
+            used as a amplitude to lower the presence of the reference as in the
+            configuration interaction method.
