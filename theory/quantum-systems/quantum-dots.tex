@@ -331,6 +331,7 @@
                 + \vf{j}\bra{i} \position[y]\ket{j}
                 = \vf{i}\bra{i} r \cos(\theta)\ket{j}
                 + \vf{j}\bra{i} r \sin(\theta)\ket{j},
+                \label{eq:dipole_elements}
             \end{align}
             where $\vf{i}$ and $\vf{j}$ are the unit vectors along the $x$- and
             $y$-axis respectively.  Using \autoref{eq:spf-2dqd} we are able to
@@ -368,12 +369,12 @@
                 \Theta_{m_i}^{*}(\theta) \Theta_{m_j}(\theta)
                 =
                 \int_{0}^{2\pi} \dd \theta \cos(\theta)
-                e^{i(m_j - m_i)\theta}
+                \exp\brac{i(m_j - m_i)\theta}
                 \\
                 &=
                 - \frac{
                     i\brak{
-                        -1 + e^{2i\pi(m_j - m_i)}
+                        -1 + \exp\brac{2i\pi(m_j - m_i)}
                     }\brak{m_j - m_i}
                 }{
                     \brak{m_j - m_i}^2 - 1
@@ -390,9 +391,10 @@
                 \Theta_{m_i}^{*}(\theta) \Theta_{m_j}(\theta)
                 =
                 \int_{0}^{2\pi} \dd \theta \sin(\theta)
-                e^{i(m_j - m_i)\theta}
-                =
-                \frac{e^{2i\pi(m_j - m_i)} - 1}{\brak{m_j - m_i}^2 - 1},
+                \exp\brac{i(m_j - m_i)\theta}
+                \\
+                &=
+                \frac{\exp\brac{2i\pi(m_j - m_i)} - 1}{\brak{m_j - m_i}^2 - 1},
             \end{align}
             where we again explicitly check that we get a finite result for
             $\abs{m_j - m_i} = 1$. This yields $I_{\theta_2} = i\pi$
@@ -430,14 +432,19 @@
         We'll specifically be looking at the two-dimensional double well quantum
         dot as this lets us reuse the machinery from the two-dimensional
         harmonic oscillator quantum dot.
-        The one-body Hamiltonian of the double well is given by
+        There are a multitude of ways to create a confining double well
+        potential.
+        In the following we'll be focusing on a double well with a sharp
+        boundary for the barrier in either $x$- or $y$-direction.
+        The one-body Hamiltonian of the double well with the barrier in the
+        $x$-direction is given by
         \begin{align}
             \onehamil
             &=
             \frac{\momentum^2}{2m}
             + \half m \omega^2 \position[r]^2
             + \half m \omega^2 \para{
-                \frac{1}{4} l^2 - l\abs{\position[r]}
+                \frac{1}{4} l^2 - l\abs{\position}
             }.
             \label{eq:one-body-2ddw}
         \end{align}
@@ -447,17 +454,17 @@
         Instead of finding an analytical expression for the full one-body
         Hamiltonian, as we did for the harmonic oscillator, we'll instead re-use
         the single-particle functions in \autoref{eq:spf-2dqd}.
-        The one-body matrix elements is thus given by
+        The one-body matrix elements can then be found from
         \begin{align}
             \oneten^{p}_{q}
             &= \epsilon_{p}\delta^{p}_{q}
             + \half m \omega^2\bra{p}\para{
-                \frac{1}{4} l^2 - l \abs{\position[r]}
+                \frac{1}{4} l^2 - l \abs{\position}
             }\ket{q}
             \\
             &= \epsilon_{p}\delta^{p}_{q}
             + \frac{1}{8} m \omega^2 l^2 \delta^{p}_{q}
-            - \half m \omega^2 l \bra{p}\abs{\position[r]}\ket{q},
+            - \half m \omega^2 l \bra{p}\abs{\position}\ket{q},
         \end{align}
         where we have used the mapping $(n, m) \to p$ described above and where
         the eigenenergies $\epsilon_p$ are given by
@@ -466,5 +473,56 @@
         \begin{align}
             \epsilon_p' = \epsilon_p + \frac{1}{8} m \omega^2 l^2.
         \end{align}
-        For the last term in the one-body matrix elements, we find the double
-        well potential barrier.
+        The last term is the double well barrier and resembles the dipole matrix
+        elements from \autoref{eq:dipole_elements} except for the absolute
+        value.
+        As we've expressed the harmonic oscillator eigenfunctions in a radial
+        basis, we'll compute the integrals in a radial coordinate system.
+        \begin{align}
+            \bra{p}\abs{\position}\ket{q}
+            &=
+            \int_{0}^{\infty}\int_{0}^{2\pi}
+            \dd r \dd\theta
+            \phi_{n_p m_p}^{*}(r, \theta)
+            r^2\abs{\cos(\theta)}
+            \phi_{n_q m_q}(r, \theta).
+        \end{align}
+        If we were to have a barrier in the $y$-direction we would replace the
+        cosine with a sine. Using \autoref{eq:spf-2dqd} for the basis functions,
+        we see that the normalization factor and the radial integral is the same
+        as for the dipole moment of the two-dimensional harmonic oscillator
+        quantum dot. The only difference is the absolute value on the periodic
+        function in the polar integral. This gives \cite{wolframalphatildei1}
+        \begin{align}
+            \tilde{I}_{\theta_1}
+            &=
+            \int_{0}^{2\pi}\dd \theta \abs{\cos(\theta)}
+            \Theta_{m_p}^{*}(\theta)
+            \Theta_{m_q}(\theta)
+            =
+            \int_{0}^{2\pi}\dd \theta \abs{\cos(\theta)}
+            \exp\brac{i(m_q - m_p)\theta}
+            \\
+            &=
+            -i\brak{
+                p + q
+                + (p - q)\exp\brac{i\pi(p - q)}
+                - 2i\exp\brac{
+                    i\pi(p - q)/2
+                }
+            }
+            \\
+            &\qquad
+            \times
+            \frac{
+                % This term should be 1:
+                % \exp\brac{-2i\pi(m_p - m_q)}
+                \brak{
+                    1 + \exp\brac{i\pi(m_p - m_q)}
+                }
+            }{
+                \para{m_q - m_p}^2 - 1
+            }.
+        \end{align}
+        When $\abs{m_q - m_p} = 1$ we get $\tilde{I}_{\theta_1} = 0$
+        \cite{wolframalphatildei1-zero}.
