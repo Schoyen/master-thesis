@@ -76,6 +76,29 @@
             }\ket{\slat}
             = 1.
         \end{align}
+        Using the same projection technique as for the energy equation, we can
+        obtain expressions for the cluster amplitudes.
+        All we have to do is project onto an excited reference state, where the
+        order of the excitation decides which order of the amplitudes we are
+        solving for.
+        \begin{align}
+            \bra{\slat_{\mu}}\hamil e^{\clust}\ketslat
+            &= \energycc \bra{\slat_{\mu}} e^{\clust}\ketslat.
+            \label{eq:cc_amp}
+        \end{align}
+        Here the excitation order $\mu$ decides which amplitudes we are solving
+        for, e.g., for the doubles cluster amplitudes $\clustamp^{ab}_{ij}$ we
+        project onto the doubly excited reference state $\ket{\slat^{ab}_{ij}}$.
+        These equations are non-linear due to the presences of the exponential
+        function creating cross terms with other excited amplitudes.
+        Furthermore, if we don't truncate the cluster operatar, $\clust$, we
+        recover the exact wave function as in full configuration interaction,
+        that is, within the space spanned by the basis of single-particle
+        functions we are perusing.
+        % TODO: Add proof of recovery of the exact wave function.
+        The amplitude equations in \autoref{eq:cc_amp} must be solved
+        iteratively in order to find a minimum of the energy.
+        % TODO: Check this sentence again.
 
 
         \subsection{Truncated coupled cluster theory}
