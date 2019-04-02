@@ -522,7 +522,31 @@
                 }
             }{
                 \para{m_q - m_p}^2 - 1
-            }.
+            },
         \end{align}
+        where we've labeled the integral in the $x$-direction
+        $\tilde{I}_{\theta_1}$.
         When $\abs{m_q - m_p} = 1$ we get $\tilde{I}_{\theta_1} = 0$
         \cite{wolframalphatildei1-zero}.
+        For the $y$-direction we get the integral \cite{wolframalphatildei2}
+        \begin{align}
+            \tilde{I}_{\theta_2}
+            &=
+            \int_{0}^{2\pi}\dd \theta \abs{\sin(\theta)}
+            \Theta_{m_p}^{*}(\theta)
+            \Theta_{m_q}(\theta)
+            =
+            \int_{0}^{2\pi}\dd \theta \abs{\sin(\theta)}
+            \exp\brac{i(m_q - m_p)\theta}
+            \\
+            &=
+            -\frac{
+                \brak{
+                    1 + \exp\brac{i \pi (m_q - m_p)}
+                }^2
+            }{
+                \para{m_q - m_p}^2 - 1
+            }.
+        \end{align}
+        When $\abs{m_q - m_p} = 1$ this integral yields $\tilde{I}_{\theta_2} =
+        0$ \cite{wolframalphatildei2-zero}.
