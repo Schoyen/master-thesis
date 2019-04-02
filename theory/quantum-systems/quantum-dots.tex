@@ -490,11 +490,13 @@
             \phi_{n_q m_q}(r, \theta).
         \end{align}
         If we were to have a barrier in the $y$-direction we would replace the
-        cosine with a sine. Using \autoref{eq:spf-2dqd} for the basis functions,
-        we see that the normalization factor and the radial integral is the same
-        as for the dipole moment of the two-dimensional harmonic oscillator
-        quantum dot. The only difference is the absolute value on the periodic
-        function in the polar integral. This gives \cite{wolframalphatildei1}
+        cosine with a sine.
+        Using \autoref{eq:spf-2dqd} for the basis functions, we see that the
+        normalization factor and the radial integral is the same as for the
+        dipole moment of the two-dimensional harmonic oscillator quantum dot.
+        The only difference is the absolute value on the periodic function in
+        the polar integral.
+        This gives \cite{wolframalphatildei1}
         \begin{align}
             \tilde{I}_{\theta_1}
             &=
@@ -552,3 +554,78 @@
         \end{align}
         When $\abs{m_q - m_p} = 1$ this integral yields $\tilde{I}_{\theta_2} =
         0$ \cite{wolframalphatildei2-zero}.
+
+        Having constructed the full one-body Hamiltonian, we can diagonalize it
+        in order to find coefficients, $\vf{C}$, which we use to transform the
+        single-particle functions and the two-body elements from the harmonic
+        oscillator basis to an approximate double-well basis.
+        That is, we construct the single-particle functions
+        \begin{align}
+            \ket{\psi_{\alpha}} = C^{p}_{\alpha}\ket{\phi_p},
+        \end{align}
+        where we label the double-well single-particle functions by
+        $\ket{\psi_{\alpha}}$ with greek indices to distinguish from the known
+        harmonic oscillator single-particle functions $\ket{\phi_p}$.
+        Stated as an eigenequation for the double-well one-body Hamiltonian
+        \begin{gather}
+            \onehamil \ket{\psi_{\alpha}}
+            = \varepsilon_{\alpha} \ket{\psi_{\alpha}}
+            \implies
+            \onehamil C^{q}_{\alpha} \ket{\phi_q}
+            = \varepsilon_{\alpha} C^{q}_{\alpha} \ket{\phi_q},
+        \end{gather}
+        where we've inserted the known single-particle functions along with the
+        coefficients.
+        The eigenenergy $\varepsilon_{\alpha}$ is the eigenenergy of the
+        double-well single-particle functions.
+        Projecting onto the harmonic oscillator basis, we find a generalized
+        eigenvalue equation.
+        \begin{gather}
+            \bra{\phi_{p}}\onehamil\ket{\phi_q} C^{q}_{\alpha}
+            = \varepsilon_{\alpha} C^{q}_{\alpha} \braket{\phi_{p}}{\phi_{q}}.
+        \end{gather}
+        Recalling that the harmonic oscillator basis is orthonormal and
+        inserting the matrix elements for the one-body Hamiltonian we are left
+        with
+        \begin{align}
+            \oneten^{p}_{q} C^{q}_{\alpha}
+            = \delta^{p}_{q} C^{q}_{\alpha} \varepsilon_{\alpha}
+            = C^{p}_{\alpha} \varepsilon_{\alpha}.
+        \end{align}
+        Solving this generalized eigenvalue equation yields the coefficient
+        matrix, $\vf{C} \in \mathbb{C}^{L\times L}$, and the eigenenergy matrix
+        $\vfg{\varepsilon} = \diag(\varepsilon_1, \dots, \varepsilon_L)$, where
+        $L$ is the number of harmonic oscillator basis functions.
+        Having found the coefficient matrix we can transform the two-body
+        elements from the harmonic oscillator basis to the double-well basis by
+        \begin{align}
+            \bra{\psi_{\alpha} \psi_{\beta}}
+            \twohamil
+            \ket{\psi_{\gamma} \psi_{\delta}}
+            = {C^{p}_{\alpha}}^{*}
+            {C^{q}_{\beta}}^{*}
+            \bra{\phi_{p} \phi_{q}}
+            \twohamil
+            \ket{\phi_{r} \phi_{s}}
+            C^{r}_{\gamma}
+            C^{s}_{\delta}.
+        \end{align}
+        The same procedure can also be used on other matrix elements defined in
+        the harmonic oscillator basis. For example, the dipole matrix elements
+        yields
+        \begin{align}
+            \bra{\psi_{\alpha}}
+            \vf{d}
+            \ket{\psi_{\beta}}
+            = {C^{p}_{\alpha}}^{*}
+            \bra{\phi_{p}}
+            \vf{d}
+            \ket{\phi_{q}}
+            C^{q}_{\beta}.
+        \end{align}
+
+        \subsubsection{Quality of the transformed single-particle functions}
+            As the harmonic oscillator basis in no way is a complete basis
+            covering enough of the Hilbert space in order to accurately describe
+            the double-well basis, we need to make a choice on how many basis
+            functions we deem ``good enough''.
