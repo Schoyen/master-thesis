@@ -66,6 +66,7 @@
             &= \braslat\energycc e^{\clust}\ketslat
             = \energycc \braslat e^{\clust}\ketslat
             = \energycc,
+            \label{eq:cc_energy}
         \end{align}
         where for orthonormal Slater determinants, the coupled cluster wave
         function assumes \emph{intermediate normalization}, viz.
@@ -101,6 +102,66 @@
         The amplitude equations in \autoref{eq:cc_amp} must be solved
         iteratively in order to find a minimum of the energy.
         % TODO: Check this sentence again.
+
+        By expanding the exponential cluster operator in a power series, as in
+        \autoref{eq:cc_wave_function}, and inserting it into
+        \autoref{eq:cc_energy} we get
+        \begin{align}
+            \bra{\slat}\hamil \ketcc
+            &=
+            \bra{\slat}\hamil
+            \sum_{n = 0}^{\infty} \frac{1}{n!}\clust^n
+            \ket{\slat}
+            =
+            \bra{\slat}\hamil\ket{\slat}
+            + \bra{\slat}\hamil \clust \ket{\slat}
+            + \frac{1}{2!}
+            \bra{\slat} \hamil \clust^2 \ket{\slat}
+            + \dots
+            = \energycc.
+        \end{align}
+        Depending on the form of the Hamiltonian, we will get a natural
+        truncation of the cluster operators.
+        As a single cluster operator is at
+        least an operator exciting a single particle in our reference state, an
+        $n$-times exponentiated cluster operator will excite $n$ particles from
+        the reference.
+        Except for some rare cases in nuclear physics,
+        % TODO: Find references for some articles dealing with three-body
+        % problems.
+        the Hamiltonian will \emph{at most} contain two-body elements and thus
+        will only be able to excite or relax a pair of particles.
+        As we are projecting onto the reference state the Hamiltonian is forced
+        to relax the excitation done by the cluster operators in order to get a
+        non-zero contribution.
+        Thus, for a Hamiltonian with at most two-body operators the exponential
+        power series gets truncated at $n = 2$ for the cluster operators, viz.
+        \begin{align}
+            \bra{\slat}\hamil \ketcc
+            &=
+            \bra{\slat}\hamil\ket{\slat}
+            + \bra{\slat}\hamil \clust \ket{\slat}
+            + \frac{1}{2!}
+            \bra{\slat} \hamil \clust^2 \ket{\slat}
+            = \energycc.
+        \end{align}
+        Note that this result is general irrespective of the truncation level
+        chosen for the cluster operators themselves, which we'll discuss
+        shortly.
+
+        \subsection{Rewriting the coupled cluster equations}
+            In order to get amiable equations for the coupled cluster energy and
+            amplitudes, we left multiply the Hamiltonian by the inverse of the
+            exponential cluster operator. We then get the equations
+            \begin{gather}
+                \braslat e^{-\clust} \hamil e^{\clust} \ketslat
+                = \energycc,
+                \label{eq:cc_energy_sim}
+                \\
+                \bra{\slat_{\mu}} e^{-\clust} \hamil e^{\clust} \ketslat
+                = 0.
+                \label{eq:cc_amp_sim}
+            \end{gather}
 
 
         \subsection{Truncated coupled cluster theory}
