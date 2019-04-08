@@ -152,7 +152,8 @@
         \subsection{Rewriting the coupled cluster equations}
             In order to get amiable equations for the coupled cluster energy and
             amplitudes, we left multiply the Hamiltonian by the inverse of the
-            exponential cluster operator. We then get the equations
+            exponential cluster operator.
+            We then get the equations
             \begin{gather}
                 \braslat e^{-\clust} \hamil e^{\clust} \ketslat
                 = \energycc,
@@ -162,6 +163,33 @@
                 = 0.
                 \label{eq:cc_amp_sim}
             \end{gather}
+            Even though \autoref{eq:cc_energy} and \autoref{eq:cc_amp} are
+            theoretically correct, they are not tractable for a numerical
+            implementation, unlike \autoref{eq:cc_energy_sim} and
+            \autoref{eq:cc_amp_sim}.
+            Furthermore, the amplitude equations are
+            now decoupled from the energy equation, which will help conserve
+            size-extensivity.
+            % TODO: Elaborate on this point, see Crawford & Schaefer
+            By applying the Baker-Campbell-Hausdorff formula, we are able to
+            rewrite the Hamiltonian and the exponential operators as linear
+            combination of nested commutators between $\hamil$ and $\clust$.
+            \begin{align}
+                e^{-\clust} \hamil e^{\clust}
+                &=
+                \hamil
+                + \com{\hamil}{\clust}
+                + \frac{1}{2!}\com{
+                    \com{
+                        \hamil
+                    }{
+                        \clust
+                    }
+                }{
+                    \clust
+                }
+                + \dots
+            \end{align}
 
 
         \subsection{Truncated coupled cluster theory}
