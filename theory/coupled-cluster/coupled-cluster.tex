@@ -175,11 +175,13 @@
             size-extensivity.
             % TODO: Elaborate on this point, see Crawford & Schaefer
             By applying the Baker-Campbell-Hausdorff formula, we are able to
-            rewrite the Hamiltonian and the exponential operators as linear
+            rewrite the Hamiltonian and the exponential operators as a linear
             combination of nested commutators between $\hamil$ and $\clust$.
             \begin{align}
-                e^{-\clust} \hamil e^{\clust}
+                \simhamil
                 &=
+                e^{-\clust} \hamil e^{\clust}
+                =
                 \hamil
                 + \com{\hamil}{\clust}
                 + \frac{1}{2!}\com{
@@ -191,8 +193,24 @@
                 }{
                     \clust
                 }
-                + \dots
+                + \dots,
             \end{align}
+            where $\simhamil$ is dubbed the \emph{similarity transformed
+            Hamiltonian}.
+            Introducing the normal-ordered Hamiltonian, $\hamil_N$, given by
+            \begin{align}
+                \hamil_N
+                &= \hamil - \braslat\hamil\ketslat,
+            \end{align}
+            where the latter term is known as the \emph{reference energy} of the
+            system.
+            In quantum chemistry all energy contribution beyond the reference
+            energy\footnote{
+                The reference state is more or less always the Hartree-Fock
+                state in quantum chemistry computations.
+            } is known as the \emph{correlation energy}.
+            As the reference energy is just a number, the similarity transformed
+            normal ordered Hamiltonian
 
 
         \subsection{Truncated coupled cluster theory}
