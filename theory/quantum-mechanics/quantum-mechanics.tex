@@ -138,10 +138,8 @@
         \end{align}
         This equation is quite suggestive in the sense that we can see that the
         spin decouples from the spatial part of the wave function.
-        The two spin-directions constitute two separate Hilbert spaces for the
-        orbital equations.
-        % TODO: These statements _must_ be review properly!
-        % They sound like mumbo-jumbo!
+        Spin is two-level system that can be represented as a vector in a
+        two-dimensional Hilbert space.
         Unless an operator contains a spin-coupling, the two spin-directions are
         completely independent of one another.
         For example, given a spin-independent operator, $\hat{O}$, the
@@ -151,13 +149,35 @@
             &= \bra{\phi_p}\hat{O}\ket{\phi_q}\braket{\xi_{\alpha}}{\xi_{\beta}}
             = \delta_{\alpha\beta}
             \int\dd\vf{r}\phi^{*}_{p}(\vf{r})\hat{O}\phi_q(\vf{r}).
+            \label{eq:example-spin-decoupling}
         \end{align}
         This motivates the coordinate representation independent notation
         \begin{align}
             \ket{\psi_P}
             &= \ket{\phi_p}\otimes\ket{\xi_{\alpha}},
         \end{align}
-        where the tensor product
+        where the tensor product combines the two-dimensional Hilbert space from
+        the spin $\ket{\xi_{\alpha}}$ and the $L$-dimensional Hilbert space
+        containing the orbital basis function.
+        A general operator on the combined Hilbert space can thus be represented
+        by
+        \begin{align}
+            \hat{O}
+            &= \sum_{ij} \hat{R}_i \otimes \hat{S}_j,
+        \end{align}
+        where $\hat{R}_i$ is an operator on the Hilbert space containing the
+        orbitals and $\hat{S}_j$ an operator on the two-dimensional Hilbert
+        space containing the spin functions.
+        The important point is now that the elements of this operator in terms
+        of spin-orbitals is given by
+        \begin{align}
+            \bra{\psi_{P}}\hat{O}\ket{\psi_{Q}}
+            &=
+            \sum_{ij}\bra{\phi_p}\hat{R}_i\ket{\phi_q}
+            \bra{\xi_{\alpha}}\hat{S}_j\ket{\xi_{\beta}}.
+        \end{align}
+        Looking back at \autoref{eq:example-spin-decoupling} we see that a
+        spin-independent operator $\hat{O}$ corresponds to $\hat{S}_j = \1$.
 
     \section{Slater determinants}
         As we are working with fermions the total many-body wave function must
