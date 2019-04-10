@@ -1,7 +1,7 @@
 #!/bin/bash
 
-user_name='Travis CI'
-user_email='travis@travis-ci.org'
+user_name="$GH_USER_NAME"
+user_email="$GH_USER_EMAIL"
 
 if [[ "$user_name" != "$(git log -1 --pretty=format:'%an')" ]]; then
     git checkout --orphan $TRAVIS_BRANCH-pdf
@@ -9,5 +9,5 @@ if [[ "$user_name" != "$(git log -1 --pretty=format:'%an')" ]]; then
     git checkout master main.pdf
     git add -f main.pdf
     git -c user.name="$user_name" -c user.email="$user_email" commit -m "Add built pdf"
-    git push -f https://$GITHUB_USER:$GITHUB_API_KEY@github.com/$TRAVIS_REPO_SLUG $TRAVIS_BRANCH-pdf --quiet
+    git push -f git@github.com:$TRAVIS_REPO_SLUG $TRAVIS_BRANCH-pdf --quiet
 fi
