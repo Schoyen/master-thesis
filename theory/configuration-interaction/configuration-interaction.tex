@@ -392,3 +392,34 @@
             + \frac{1}{4}\twoten^{pq}_{rs}(t)
             \bra{\Phi_I}\ccr{p}\ccr{q}\can{s}\can{r}\ket{\Phi_J}.
         \end{align}
+
+        \subsection{Time-dependent energy}
+            For a time-evolved state $\ket{\Psi(t)}$ with a time-evolved
+            Hamiltonian $\hamil(t)$, we can compute the energy of the state at a
+            certain time $t$ by
+            \begin{align}
+                E(t) = \bra{\Psi(t)}\hamil(t)\ket{\Psi(t)}.
+            \end{align}
+            Expanding the time-evolved state in the static basis of Slater
+            determinants with time-dependent coefficients, $c_I(t)$, as in
+            \autoref{eq:ci_td_wave}, we find the energy to be
+            \begin{align}
+                E(t)
+                &= \bra{\Psi(t)}\hamil(t)\ket{\Psi(t)}
+                = \bra{\Phi_I}c^{*}_I(t) \hamil(t) c_J(t)\ket{\Phi_J}
+                = c^{*}_I(t) \hamilmat_{IJ}(t) c_J(t)
+                = \vf{c}^{\dagger}(t)\vf{\hamilmat}(t)\vf{c}(t),
+            \end{align}
+            that is, the energy is given by the inner-product between the
+            time-evolved coefficients and the time-evolved Hamiltonian.
+            Note that the norm of the coefficients in \autoref{eq:ci_td_wave}
+            found from \autoref{eq:tdci} does not necessarily stay normalized in
+            time.
+            It might therefore be necessary to explicitly normalize by
+            \begin{align}
+                \abs{N(t)}^2
+                = \braket{\Psi(t)}{\Psi(t)}
+                = \vf{c}^{\dagger}(t)\vf{c}(t).
+            \end{align}
+
+        \subsection{Time-dependent overlap}
