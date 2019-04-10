@@ -9,37 +9,42 @@
         % TODO: Include the spin-statistics theorem.
 
     \section{Spin-orbitals}
-        In this thesis we will be looking at many-particle systems. Wave
-        functions of many-particle systems depend on the coordinates of all the
-        particles contained in the system. We will typically build the wave
-        functions of the full system from \emph{single particle functions}. In
-        this work we'll limit our attention to particles with spin one half ,
+        In this thesis we will be looking at many-particle systems.
+        Wave functions of many-particle systems depend on the coordinates of all
+        the particles contained in the system.
+        We will typically build the wave functions of the full system from
+        \emph{single particle functions}.
+        In this work we'll limit our attention to particles with spin one half ,
         i.e., fermions, which means that the total wave function must satisfy
         the \emph{Pauli exclusion principle} due to the particles being
-        indistinguishable. The single particle functions will as a consequence
-        depend on the particle's spatial orientation, i.e., the \emph{orbital}
-        part, and the spin. We call these wave functions \emph{spin-orbitals}.
+        indistinguishable.
+        The single particle functions will as a consequence depend on the
+        particle's spatial orientation, i.e., the \emph{orbital} part, and the
+        spin.
+        We call these wave functions \emph{spin-orbitals}.
         \begin{align}
             \psi(x) \equiv \psi(\vf{r}, \sigma),
         \end{align}
         where $x = (\vf{r}, \sigma)$ is a generalized coordinate of both
-        position, $\vf{r}$, and spin, $\sigma$. For fermions we have only two
-        allowed spin states
+        position, $\vf{r}$, and spin, $\sigma$.
+        For fermions we have only two allowed spin states
         \begin{align}
             s_z = \pm \half\hslash,
         \end{align}
-        where $s_z$ is the spin along $z$-direction. As there are only two
-        allowed states we have that $\sigma \in \brac{\upspin, \downspin}$,
-        where a positive value for $s_z$ corresponds to $\sigma = \upspin$,
-        i.e., spin up, and a negative value for $s_z$ to $\sigma = \downspin$,
-        i.e., spin down.  We denote
+        where $s_z$ is the spin along $z$-direction.
+        As there are only two allowed states we have that $\sigma \in
+        \brac{\upspin, \downspin}$, where a positive value for $s_z$ corresponds
+        to $\sigma = \upspin$, i.e., spin up, and a negative value for $s_z$ to
+        $\sigma = \downspin$, i.e., spin down.
+        We denote
         \begin{align}
             \psi_1(\vf{r}) \equiv \psi\para{\vf{r}, \upspin},
             \qquad
             \psi_2(\vf{r}) \equiv \psi\para{\vf{r}, \downspin},
         \end{align}
-        for the two different spin-directions. We can thus represent the
-        generalized spin-orbital $\psi(x)$ as a two-dimensional vector
+        for the two different spin-directions.
+        We can thus represent the generalized spin-orbital $\psi(x)$ as a
+        two-dimensional vector
         \begin{align}
             \psi(x) = \begin{pmatrix}
                 \psi_1(\vf{r}) \\
@@ -48,7 +53,8 @@
         \end{align}
         We separate the spin dependence from the spatial part of the
         spin-orbitals by introducing separate ``spin functions'' for spin-up and
-        spin-down, viz.
+        spin-down.
+        For example, choosing the basis
         \begin{align}
             \alpha \equiv \alpha(\sigma) = \begin{pmatrix}
                 1 \\
@@ -61,9 +67,10 @@
             \end{pmatrix},
             \label{eq:spin-basis}
         \end{align}
-        where we use the same convention as in much of the many-body quantum
-        mechanics litterature in labelling $\alpha$ as spin up and $\beta$ as
-        spin down. Evaluating the spin functions thus yields
+        we use the same convention as in much of the many-body quantum mechanics
+        litterature in labelling $\alpha$ as spin up and $\beta$ as spin down in
+        the $z$-direction.
+        Evaluating the spin functions thus yields
         \begin{gather}
             \alpha\para{\upspin} = 1, \qquad \alpha\para{\downspin} = 0, \\
             \beta\para{\upspin} = 0, \qquad \beta\para{\downspin} = 1.
@@ -75,67 +82,82 @@
             \psi(x)
             = \psi_1(\vf{r})\alpha(\sigma)
             + \psi_2(\vf{r})\beta(\sigma).
+            \label{eq:general-spin-orbital}
         \end{align}
         % TODO: Consider adding theory on spin as in Mayer.
-
-
-
-        %A general spin-orbital
-        %can thus be written as a linear combination of both spin directions
-        %\begin{align}
-        %    \psi(x)
-        %    &= \psi\para{\vf{r}, \half} + \psi\para{\vf{r}, -\half}
-        %    \equiv \psi_1(\vf{r}) + \psi_2(\vf{r})
-        %    = \begin{pmatrix}
-        %        \psi_1(\vf{r}) \\
-        %        \psi_2(\vf{r})
-        %    \end{pmatrix},
-        %\end{align}
-        %where we've in the last equality consider the two different
-        %spin-directions as unit vectors in a two-dimensional space.
-
-        %A general spin-orbital is a two-level system where the coefficients of
-        %the two spin-directions serve as the spatial part of the wave function,
-        %viz.
-        %\begin{align}
-        %    \ket{\psi}
-        %    = \ket{\psi_1}\otimes\ket{\upspin}
-        %    + \ket{\psi_2}\otimes\ket{\downspin}
-        %    =
-        %    \begin{pmatrix}
-        %        \ket{\psi_1} \\
-        %        \ket{\psi_2}
-        %    \end{pmatrix},
-        %    \label{eq:general-spin-orbital}
-        %\end{align}
-        %where $\psi_i$ can be function of position, $\vf{r}$, or momentum,
-        %$\vf{p}$, or any other desirable coordinate.  In the last equation we've
-        %expressed the two spin directions as unit vectors in a two-dimensional
-        %vector space\footnote{The choice which spin direction will represent
-        %which unit vector is arbitrary. Feel free to create any orthonormal unit
-        %vectors in two dimensions.}, viz.
-        %\begin{align}
-        %    \ket{\upspin}
-        %    =
-        %    \begin{pmatrix}
-        %        1 \\
-        %        0
-        %    \end{pmatrix},
-        %    \qquad
-        %    \ket{\downspin}
-        %    =
-        %    \begin{pmatrix}
-        %        0 \\
-        %        1
-        %    \end{pmatrix}.
-        %\end{align}
-        %However, we will usually work with spin-orbitals that are either
-        %definitely in the spin-up or the spin-down state, that is, we refrain
-        %from using general spin-orbitals such as in
-        %\autoref{eq:general-spin-orbital} when we construct our systems.
-        %% TODO: Reconsider this statement.
-        %% TODO: Consider including longer discussion of spin as in Mayer.
-
+        We will for the most part work with spin-orbitals in a definite
+        spin-direction, viz.
+        \begin{align}
+            \psi(x) = \phi(\vf{r})\xi(\sigma),
+            \label{eq:spin-orbital}
+        \end{align}
+        where $\xi(\sigma)$ is either spin up $\alpha(\sigma)$ or spin down
+        $\beta(\sigma)$ and we've denoted the spatial orbital by $\phi(\vf{r})$.
+        The reason we avoid using a general spin-orbital as in
+        \autoref{eq:general-spin-orbital} is convenience.
+        It is simpler to generate a basis of spin-orbitals where we use a
+        definite basis of analytic orbitals, e.g., harmonic oscillator basis
+        functions, Gauss functions, etc, before deciding the spin direction of
+        each orbital\footnote{
+            For those that might find this frustrating, note that there is
+            nothing stopping us from using orbitals and spin-functions which are
+            linear combinations of an underlying basis of orbitals and
+            spin-functions as well.
+            There's linear combinations all the way down!
+        }.
+        When labelling the different spin-orbitals from
+        \autoref{eq:spin-orbital} we use the notation
+        \begin{align}
+            \psi_P(x) = \phi_p(\vf{r})\xi_{\alpha}(\sigma),
+        \end{align}
+        where $P = (p, \alpha)$ is a composite index with $p$ labelling a
+        specific orbital and $\alpha$ a specific spin-function\footnote{
+            The index $\alpha$ must not be mistaken for the spin-function
+            $\alpha(\sigma)$.
+            The author wishes to extend an apology to everyone who might be
+            confused by this notation.
+        }.
+        In the spin basis shown in \autoref{eq:spin-basis} we have that the
+        inner product of two spin functions
+        \begin{align}
+            \braket{\xi_{\alpha}}{\xi_{\beta}}
+            &=
+            \xi_{\alpha}(\upspin)\xi_{\beta}(\upspin)
+            + \xi_{\alpha}(\downspin)\xi_{\beta}(\downspin)
+            = \delta_{\alpha\beta},
+        \end{align}
+        that is, they are orthonormal.
+        The inner product of two spin-orbitals from \autoref{eq:spin-orbital} is
+        then separated into an orbital and a spin inner product.
+        \begin{align}
+            \braket{\psi_P}{\psi_Q}
+            &= \braket{\phi_p}{\phi_q}\braket{\xi_{\alpha}}{\xi_{\beta}}
+            = \delta_{\alpha\beta}
+            \int\dd\vf{r}\phi^{*}_{p}(\vf{r})\phi_{q}(\vf{r}).
+            \label{eq:inner-spin-orbital}
+        \end{align}
+        This equation is quite suggestive in the sense that we can see that the
+        spin decouples from the spatial part of the wave function.
+        The two spin-directions constitute two separate Hilbert spaces for the
+        orbital equations.
+        % TODO: These statements _must_ be review properly!
+        % They sound like mumbo-jumbo!
+        Unless an operator contains a spin-coupling, the two spin-directions are
+        completely independent of one another.
+        For example, given a spin-independent operator, $\hat{O}$, the
+        matrix element between two spin-orbitals become
+        \begin{align}
+            \bra{\psi_P}\hat{O}\ket{\psi_Q}
+            &= \bra{\phi_p}\hat{O}\ket{\phi_q}\braket{\xi_{\alpha}}{\xi_{\beta}}
+            = \delta_{\alpha\beta}
+            \int\dd\vf{r}\phi^{*}_{p}(\vf{r})\hat{O}\phi_q(\vf{r}).
+        \end{align}
+        This motivates the coordinate representation independent notation
+        \begin{align}
+            \ket{\psi_P}
+            &= \ket{\phi_p}\otimes\ket{\xi_{\alpha}},
+        \end{align}
+        where the tensor product
 
     \section{Slater determinants}
         As we are working with fermions the total many-body wave function must
