@@ -423,3 +423,22 @@
             \end{align}
 
         \subsection{Time-dependent overlap}
+            It is interesting to track the evolution of the many-body wave
+            function in time. A way to do this is by computing the overlap
+            between the initial state, often the ground state, and the
+            time-evolved state. This gives a measure of how much of the ground
+            state is left in the evolved state, or, how similar the two states
+            are. This is computed by
+            \begin{align}
+                P(t_0, t)
+                &= \abs{\braket{\Psi(t)}{\Psi(t_0)}}^2,
+            \end{align}
+            where $t_0$ is the time at the initial state and $t$ at some other
+            time. In configuration interaction this is computed by
+            \begin{align}
+                P(t_0, t)
+                &= \abs{\braket{\Psi(t)}{\Psi(t_0)}}^2
+                = \abs{\bra{\Phi_I}c^{*}_I(t) c_J(t_0)\ket{\Phi_J}}^2
+                = \abs{c^{*}_I(t)c_I(t_0)}^2
+                = \abs{\vf{c}^{\dagger}(t)\vf{c}(t_0)}^2.
+            \end{align}
