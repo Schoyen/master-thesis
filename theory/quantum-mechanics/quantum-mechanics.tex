@@ -5,6 +5,9 @@
     these laws leads to equations much too complicated to be soluble.}
     {--- P. A. M. Dirac}
 
+    \section{First quantization}
+        Discuss the meaning of first quantization.
+
     \section{Pauli exclusion principle}
         % TODO: Include the spin-statistics theorem.
 
@@ -183,25 +186,26 @@
         As we are working with fermions the total many-body wave function must
         be \emph{antisymmetric} with respect to interchange of
         particles\footnote{We will restrict ourselves to the interchange of a
-        full spin-orbital.}. Mathematically the full wave function of $n$
+        full spin-orbital.}. Mathematically the full wave function of $N$
         fermions should satisfy
         \begin{align}
-            \Psi(1, \dots, i, \dots, j, \dots, n)
+            \Psi(1, \dots, i, \dots, j, \dots, N)
             =
-            -\Psi(1, \dots, j, \dots, i, \dots, n),
+            -\Psi(1, \dots, j, \dots, i, \dots, N),
         \end{align}
         where we for brevity have introduced the notation $i \equiv x_i =
-        (\vf{r}_i, \sigma_i)$. A fully antisymmetric, normalized, $n$-body wave
-        function is given by the \emph{Slater determinant} built from $n$
-        individual spin-orbitals with $n$ generalized coordinates.
+        (\vf{r}_i, \sigma_i)$. A fully antisymmetric, normalized, $N$-body wave
+        function is given by the \emph{Slater determinant} built from $N$
+        individual spin-orbitals with $N$ generalized coordinates.
         \begin{align}
-            \Psi(1, \dots, n)
-            &= \frac{1}{\sqrt{n!}}
+            \Psi(1, \dots, N)
+            &= \frac{1}{\sqrt{N!}}
             \begin{vmatrix}
-                \psi_1(1) & \dots & \psi_n(1) \\
+                \psi_1(1) & \dots & \psi_N(1) \\
                 \vdots & \ddots & \vdots \\
-                \psi_1(n) & \dots & \psi_n(n)
+                \psi_1(N) & \dots & \psi_N(N)
             \end{vmatrix},
+            \label{eq:coord_slater}
         \end{align}
         where $\psi_i(j) \equiv \psi_i(\vf{r}_j, \sigma_j)$ for the $i$'th
         spin-orbital in generalized coordinate $j$ \footnote{Note that the index
@@ -363,21 +367,82 @@
         % TODO: Work this out further
 
     \section{Second quantization}
-        When working with many-body quantum mechanics where the wave functions
-        are linear combination of Slater determinants, we find that
+        So far, we have worked with quantum mechanics formulated in first
+        quantization where observables are operators and states are functions
+        defined in some space.
+        Moving to second quantization we will express wave functions as creation
+        and annihilation operators working on the vacuum state.
+        Depending on the algebra for the operators, we can look at antisymmetric
+        fermions or symmetric bosons.
+        Expressing the first quantized observables in the same creation and
+        annihilation operators, we are able to unify much of quantum mechanics
+        to a single set of elementary operators \cite{helgaker-molecular}.
 
-        \subsection{Many-body density matrices}
-            In a seminal paper by Löwdin \cite{lowdin-density-matrices}, the
-            concept of a many-body density matrix in terms of the orbitals of a
-            Slater determinant is discussed. These are dubbed $N$-body density
-            matrices, where $N$ depends on the $N$-body interaction, that is,
-            the number of particles included in the interaction. Of the most
-            useful for our work, we have the one- and two-body density matrices.
-            As we will work almost exclusively in second quantization, we will
-            follow the derivation of the one- and two-body density matrices done
-            by \citeauthor{helgaker-molecular}. Löwdin's paper
-            \cite{lowdin-density-matrices} did not employ second quantization,
-            and all matrices are expressed in the coordinate representation. We
-            will list these as they arrive.
+        \subsection{Fock space}
+            In second quantization, we express a general many-body wave function
+            as a vector in the abstract linear vector space called \emph{Fock
+            space}.
+            In a basis of $L$ single-particle function, $\brac{\phi_p}_{p =
+            1}^{L}$, this \emph{occupation number vector} can be represented by
+            \begin{align}
+                \ket{\Psi}
+                &= \ket{n_1, n_2, \dots, n_L}
+                \equiv \ket{\vf{n}},
+            \end{align}
+            where $n_i$ signifies how many of state $i$ is contained in
+            $\ket{\Psi}$ and we've defined the set $\vf{n}$ as the set
+            containing all $n_i$.
+            Already, we can choose the particle type we are working with based
+            on the allowed values of $n_i$.
+            We have that
+            \begin{align}
+                n_i =
+                \begin{cases}
+                    0, 1 & \text{fermions}, \\
+                    0, 1, 2, \dots & \text{bosons},
+                \end{cases}
+            \end{align}
+            where a $0$ means that the state is unoccupied and a $1$, or higher,
+            means that the state is occupied by that amount of particles.
+            We thus see that for fermions we can only have a state occupied by
+            single particle, whereas for bosons there are no limitiations to the
+            amount of particles that can be in the same state.
+
+            If the basis of spin-orbitals are orthonormal, we have that the
+            overlap between two vectors in Fock space is given by
+            \begin{align}
+                \braket{\Psi}{\Phi}
+                = \braket{\vf{n}}{\vf{m}}
+                = \delta_{\vf{n}\vf{m}}
+                \equiv \prod_{i = 1}^{L} \delta_{n_i m_i},
+            \end{align}
+            that is, the two states must share the exact same occupied states.
+            However, if the basis is non-orthogonal, viz.
+            \begin{align}
+                \braket{\phi_p}{\phi_q} = S_{pq} \neq \delta_{pq},
+            \end{align}
+            with $S_{pq}$ the overlap integral between the two spin-orbitals.
+            We then have that the overlap between two occupation numbers vectors
+            is given by
+            \begin{align}
+                \braket{\Psi}{\Phi}
+                = \delta_{\vf{n}\vf{m}}\det\para{\vf{S}},
+            \end{align}
+            where $\vf{S}$ is the matrix with all the overlap integrals between
+            the spin-orbitals.
 
         \subsection{Wick's theorem}
+
+    \section{Many-body density matrices}
+        In a seminal paper by Löwdin \cite{lowdin-density-matrices}, the
+        concept of a many-body density matrix in terms of the orbitals of a
+        Slater determinant is discussed. These are dubbed $N$-body density
+        matrices, where $N$ depends on the $N$-body interaction, that is,
+        the number of particles included in the interaction. Of the most
+        useful for our work, we have the one- and two-body density matrices.
+        As we will work almost exclusively in second quantization, we will
+        follow the derivation of the one- and two-body density matrices done
+        by \citeauthor{helgaker-molecular}. Löwdin's paper
+        \cite{lowdin-density-matrices} did not employ second quantization,
+        and all matrices are expressed in the coordinate representation. We
+        will list these as they arrive.
