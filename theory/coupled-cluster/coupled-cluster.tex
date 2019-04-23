@@ -203,14 +203,22 @@
                 &= \hamil - \braslat\hamil\ketslat,
             \end{align}
             where the latter term is known as the \emph{reference energy} of the
-            system.
-            In quantum chemistry all energy contribution beyond the reference
-            energy\footnote{
+            system, $\energyref \equiv \braslat\hamil\ketslat$.
+            If the reference state is the Hartree-Fock state%
+            \footnote{
                 The reference state is more or less always the Hartree-Fock
                 state in quantum chemistry computations.
-            } is known as the \emph{correlation energy}.
+            }
+            all energy contribution beyond the reference energy is known as the
+            \emph{correlation energy}.
             As the reference energy is just a number, the similarity transformed
-            normal ordered Hamiltonian
+            normal-ordered Hamiltonian takes on the form
+            \begin{align}
+                \simhamil_N
+                &= e^{-\clust}\hamil_N e^{\clust}
+                = e^{-\clust}\hamil e^{\clust} - \braslat\hamil\ketslat
+                = \simhamil - \energyref.
+            \end{align}
 
 
         \subsection{Truncated coupled cluster theory}
