@@ -1,0 +1,221 @@
+\chapter{Quantum Mechanics}
+    In this appendix we'll add proofs and derivations of expressions arising
+    from the theory section on quantum mechanics and many-body theory.
+
+    \section{Deriving the reference energy}
+        \label{sec:deriving-the-reference-energy}
+        For the orthormal basis $\brac{\ket{\phi_p}}_{p = 1}^{L}$ with the $N$
+        first states occupied in the reference state $\ket{\refslat}$, we
+        compute the reference energy from \autoref{eq:reference-energy}.
+        We use Wick's theorem with normal ordering relative to the Fermi vacuum,
+        that is, we treat the reference state as our vacuum state.
+        Starting with the expectation value of the one-body operator, we get
+        \begin{align}
+            \bra{\refslat}\onehamil\ket{\refslat}
+            &=
+            \oneten^{p}_{q}
+            \bra{\refslat}\ccr{p}\can{q}\ket{\refslat}
+            =
+            \oneten^{p}_{q}
+            \bra{\refslat}\para{
+                \wick{
+                    \c {\ccr{p}}
+                    \c {\can{q}}
+                }
+                + \brac{
+                    \ccr{p}\can{q}
+                }
+            }
+            \ket{\refslat}
+            \\
+            &=
+            \oneten^{p}_{q}
+            \delta_{p \in o}
+            \delta_{pq}
+            \braket{\refslat}{\refslat}
+            +
+            0
+            = \oneten^{i}_{i},
+        \end{align}
+        where we use $\delta_{p \in o}$ to denote that the general index
+        $p$ must be contained in the set of occupied indices $o = \brac{1,
+        \dots, N}$.
+        This notation is similar to the one used by
+        \citeauthor{crawford2000introduction} in
+        \citetitle{crawford2000introduction}\cite{crawford2000introduction}.
+        To see why the latter term becomes zero, we have to consider the four
+        combinations of indices that can be summed over in the operators.
+        From \autoref{sec:fermi-vacuum} we know that only terms with both
+        occupied or both virtual indices will contribute to the expectation
+        value.
+        As the operators are normal-ordered relative to the Fermi vacuum they
+        will destroy the reference state.
+        The expectation value of the two-body term is given by
+        \begin{align}
+            \bra{\refslat}\twohamil\ket{\refslat}
+            &=
+            \frac{1}{4}u^{pq}_{rs}
+            \bra{\refslat}\ccr{p}\ccr{q}\can{s}\can{r}\ket{\refslat}.
+        \end{align}
+        For brevity, we will only write out the operator strings.
+        \begin{align}
+            \ccr{p}\ccr{q}\can{s}\can{r}
+            &=
+            \wick{
+                \c1 {\ccr{p}}
+                \c2 {\ccr{q}}
+                \c1 {\can{s}}
+                \c2 {\can{r}}
+            }
+            +
+            \wick{
+                \c2 {\ccr{p}}
+                \c1 {\ccr{q}}
+                \c1 {\can{s}}
+                \c2 {\can{r}}
+            }
+            + \brac{
+                \wick{
+                    \c {\ccr{p}}
+                    {\ccr{q}}
+                    \c {\can{s}}
+                    {\can{r}}
+                }
+            }
+            + \brac{
+                \wick{
+                    \c {\ccr{p}}
+                    {\ccr{q}}
+                    {\can{s}}
+                    \c {\can{r}}
+                }
+            }
+            \nonumber \\
+            &\qquad
+            + \brac{
+                \wick{
+                    {\ccr{p}}
+                    \c {\ccr{q}}
+                    \c {\can{s}}
+                    {\can{r}}
+                }
+            }
+            + \brac{
+                \wick{
+                    {\ccr{p}}
+                    \c {\ccr{q}}
+                    {\can{s}}
+                    \c {\can{r}}
+                }
+            }
+            + \brac{
+                {\ccr{p}}
+                {\ccr{q}}
+                {\can{s}}
+                {\can{r}}
+            }
+            \\
+            &=
+            -\delta_{p \in o}
+            \delta_{q \in o}
+            \delta_{ps}
+            \delta_{qr}
+            + \delta_{p \in o}
+            \delta_{q \in o}
+            \delta_{pr}
+            \delta_{qs}
+            - \delta_{p \in o}
+            \delta_{ps}
+            \brac{
+                \ccr{q}
+                \can{r}
+            }
+            \nonumber \\
+            &\qquad
+            + \delta_{p \in o}
+            \delta_{pr}
+            \brac{
+                \ccr{q}
+                \can{s}
+            }
+            + \delta_{q \in o}
+            \delta_{qs}
+            \brac{
+                \ccr{p}
+                \can{r}
+            }
+            - \delta_{q \in o}
+            \delta_{qr}
+            \brac{
+                \ccr{p}
+                \can{s}
+            }
+            \nonumber \\
+            &\qquad
+            + \brac{
+                {\ccr{p}}
+                {\ccr{q}}
+                {\can{s}}
+                {\can{r}}
+            }.
+        \end{align}
+        For the same reason as with the expectation value of the one-body
+        operator, all terms with a normal-ordered pair of creation and
+        annihilation operators will be zero.
+        This means that we are left with the two fully contracted terms and the
+        normal-ordered product with two pairs of creation and annihilation
+        operators.
+        We note that there exists a combination of indices which will \emph{not}
+        destroy the reference even though the operators are normal-ordered.
+        This occurs when both creation operators act on virtual states and the
+        two annihilation operators act on occupied states, viz.
+        \begin{align}
+            \brac{
+                {\ccr{a}}
+                {\ccr{b}}
+                {\can{j}}
+                {\can{i}}
+            }
+            \ket{\refslat}
+            = A\ket{\slat^{ab}_{ij}},
+        \end{align}
+        where $A$ is some phase factor.
+        In other words, this combination of operators will leave the reference
+        state excited, but due to the orthonormality of the basis states, the
+        overlap between the reference state and the excited state will be zero.
+        We are thus left with
+        \begin{align}
+            \bra{\refslat}\twohamil\ket{\refslat}
+            &=
+            \frac{1}{4}\twoten^{pq}_{rs}\brac{
+                -\delta_{p \in o}
+                \delta_{q \in o}
+                \delta_{ps}
+                \delta_{qr}
+                + \delta_{p \in o}
+                \delta_{q \in o}
+                \delta_{pr}
+                \delta_{qs}
+            }\braket{\refslat}{\refslat}
+            \\
+            &=
+            -\frac{1}{4} \twoten^{ij}_{ji}
+            + \frac{1}{4} \twoten^{ij}_{ij}
+            = \half \twoten^{ij}_{ij},
+        \end{align}
+        where we've used the anti-symmetry of the two-body tensor to collect the
+        two remaining terms, that is, $\twoten^{ij}_{ij} =-\twoten^{ij}_{ji}$.
+        In total we are left with the reference energy of the electronic
+        Hamiltonian
+        \begin{align}
+            \energyref
+            &=
+            \bra{\refslat}\hamil\ket{\refslat}
+            =
+            \bra{\refslat}\onehamil\ket{\refslat}
+            + \bra{\refslat}\twohamil\ket{\refslat}
+            =
+            \oneten^{i}_{i}
+            + \half \twoten^{ij}_{ij},
+        \end{align}
+        which is what we wanted to show.
