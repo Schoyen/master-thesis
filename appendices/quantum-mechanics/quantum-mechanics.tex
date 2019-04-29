@@ -9,47 +9,74 @@
         compute the reference energy from \autoref{eq:reference-energy}.
         We use Wick's theorem with normal ordering relative to the Fermi vacuum,
         that is, we treat the reference state as our vacuum state.
-        Starting with the expectation value of the one-body operator, we get
+        Starting with the one-body operator, we get
         \begin{align}
-            \bra{\refslat}\onehamil\ket{\refslat}
+            \onehamil
             &=
             \oneten^{p}_{q}
-            \bra{\refslat}\ccr{p}\can{q}\ket{\refslat}
+            \ccr{p}
+            \can{q}
             =
             \oneten^{p}_{q}
-            \bra{\refslat}\para{
+            \para{
+                \brac{
+                    \ccr{p}
+                    \can{q}
+                }
+                +
                 \wick{
                     \c {\ccr{p}}
                     \c {\can{q}}
                 }
-                + \brac{
-                    \ccr{p}\can{q}
-                }
             }
-            \ket{\refslat}
-            \\
-            &=
+            =
             \oneten^{p}_{q}
-            \delta_{p \in o}
-            \delta_{pq}
-            \braket{\refslat}{\refslat}
+            \brac{
+                \ccr{p}
+                \can{q}
+            }
             +
-            0
-            = \oneten^{i}_{i},
+            \oneten^{p}_{q}
+            \delta_{p \in O}
+            \delta_{pq},
+            \label{eq:one-hamil-wick}
         \end{align}
-        where we use $\delta_{p \in o}$ to denote that the general index
-        $p$ must be contained in the set of occupied indices $o = \brac{1,
+        where we use $\delta_{p \in O}$ to denote that the general index
+        $p$ must be contained in the set of occupied indices $O = \brac{1,
         \dots, N}$.
         This notation is similar to the one used by
         \citeauthor{crawford2000introduction} in
         \citetitle{crawford2000introduction}\cite{crawford2000introduction}.
-        To see why the latter term becomes zero, we have to consider the four
+        We call the first term, the \emph{normal-ordered one-body Hamiltonian},
+        \begin{align}
+            \onehamil_N \equiv \oneten^{p}_{q}\brac{
+                \ccr{p}
+                \can{q}
+            }.
+            \label{eq:one-hamil-normal}
+        \end{align}
+        Computing the expectation value of the one-body Hamiltonian on the
+        reference state, we get
+        \begin{align}
+            \bra{\refslat}\onehamil\ket{\refslat}
+            =
+            \bra{\refslat}\onehamil_N\ket{\refslat}
+            +
+            \oneten^{p}_{q}
+            \delta_{p \in O}
+            \delta_{pq}
+            \braket{\refslat}{\refslat}
+            = 0 + \oneten^{i}_{i}.
+        \end{align}
+        To see why the former term becomes zero, we have to consider the four
         combinations of indices that can be summed over in the operators.
         From \autoref{sec:fermi-vacuum} we know that only terms with both
         occupied or both virtual indices will contribute to the expectation
         value.
         As the operators are normal-ordered relative to the Fermi vacuum they
-        will destroy the reference state.
+        will destroy the reference state by either creating a particle that is
+        already present in the reference state, or destroying a particle that is
+        not in the reference state.
         The expectation value of the two-body term is given by
         \begin{align}
             \bra{\refslat}\twohamil\ket{\refslat}
@@ -116,15 +143,15 @@
             }
             \\
             &=
-            -\delta_{p \in o}
-            \delta_{q \in o}
+            -\delta_{p \in O}
+            \delta_{q \in O}
             \delta_{ps}
             \delta_{qr}
-            + \delta_{p \in o}
-            \delta_{q \in o}
+            + \delta_{p \in O}
+            \delta_{q \in O}
             \delta_{pr}
             \delta_{qs}
-            - \delta_{p \in o}
+            - \delta_{p \in O}
             \delta_{ps}
             \brac{
                 \ccr{q}
@@ -132,19 +159,19 @@
             }
             \nonumber \\
             &\qquad
-            + \delta_{p \in o}
+            + \delta_{p \in O}
             \delta_{pr}
             \brac{
                 \ccr{q}
                 \can{s}
             }
-            + \delta_{q \in o}
+            + \delta_{q \in O}
             \delta_{qs}
             \brac{
                 \ccr{p}
                 \can{r}
             }
-            - \delta_{q \in o}
+            - \delta_{q \in O}
             \delta_{qr}
             \brac{
                 \ccr{p}
@@ -158,6 +185,7 @@
                 {\can{s}}
                 {\can{r}}
             }.
+            \label{eq:two-hamil-op-wick}
         \end{align}
         For the same reason as with the expectation value of the one-body
         operator, all terms with a normal-ordered pair of creation and
@@ -188,12 +216,12 @@
             \bra{\refslat}\twohamil\ket{\refslat}
             &=
             \frac{1}{4}\twoten^{pq}_{rs}\brac{
-                -\delta_{p \in o}
-                \delta_{q \in o}
+                -\delta_{p \in O}
+                \delta_{q \in O}
                 \delta_{ps}
                 \delta_{qr}
-                + \delta_{p \in o}
-                \delta_{q \in o}
+                + \delta_{p \in O}
+                \delta_{q \in O}
                 \delta_{pr}
                 \delta_{qs}
             }\braket{\refslat}{\refslat}
@@ -219,3 +247,150 @@
             + \half \twoten^{ij}_{ij},
         \end{align}
         which is what we wanted to show.
+
+    \section{The normal-ordered Hamiltonian}
+        Given an orthonormal basis $\brac{\ket{\phi_p}}_{p = 1}^{L}$, with the
+        $N$ first states occupied in the reference state $\ket{\refslat}$, we
+        can construct the normal-ordered Hamiltonian, $\hamil_N$, relative to
+        the Fermi vacuum by using Wick's theorem.
+        Starting with the one-body Hamiltonian, we know from
+        \autoref{eq:one-hamil-wick} that we can write the one-body Hamiltonian
+        as
+        \begin{align}
+            \onehamil = \onehamil_N + \oneten^{i}_{i},
+        \end{align}
+        where $\onehamil_N$ is the normal-ordered one-body Hamiltonian from
+        \autoref{eq:one-hamil-normal}.
+        For the two-body operator, we use \autoref{eq:two-hamil-op-wick} and
+        perform the summation.
+        This gives
+        \begin{align}
+            \twohamil
+            &=
+            - \frac{1}{4}\twoten^{ij}_{ji}
+            + \frac{1}{4}\twoten^{ij}_{ij}
+            - \frac{1}{4}\twoten^{iq}_{ri}\brac{
+                \ccr{q}
+                \can{r}
+            }
+            + \frac{1}{4}\twoten^{iq}_{is}\brac{
+                \ccr{q}
+                \can{s}
+            }
+            \nonumber \\
+            &\qquad
+            + \frac{1}{4}\twoten^{pj}_{rj}\brac{
+                \ccr{p}
+                \can{r}
+            }
+            - \frac{1}{4}\twoten^{pj}_{js}\brac{
+                \ccr{p}
+                \can{s}
+            }
+            + \frac{1}{4}\twoten^{pq}_{rs}\brac{
+                \ccr{p}
+                \ccr{q}
+                \can{s}
+                \can{r}
+            }.
+        \end{align}
+        Using the anti-symmetric properties of the anti-symmetric two-body
+        matrix elements,
+        \begin{align}
+            \twoten^{pq}_{rs}
+            =
+            -\twoten^{qp}_{rs}
+            =
+            -\twoten^{pq}_{sr}
+            =
+            \twoten^{qp}_{sr},
+        \end{align}
+        and relabeling some of the indidces, we can collect terms and rewrite
+        the two-body operator to
+        \begin{align}
+            \twohamil
+            &=
+            \half \twoten^{ij}_{ij}
+            + \twoten^{pi}_{qi}\brac{
+                \ccr{p}
+                \can{q}
+            }
+            + \twohamil_N.
+        \end{align}
+        Here we have introduced the \emph{normal-ordered two-body operator} to
+        be
+        \begin{align}
+            \twohamil_N
+            &\equiv
+            \frac{1}{4}\twoten^{pq}_{rs}\brac{
+                \ccr{p}
+                \ccr{q}
+                \can{s}
+                \can{r}
+            }.
+        \end{align}
+        Combining the one- and two-body operators, we get the full Hamiltonian
+        \begin{align}
+            \hamil
+            &=
+            \onehamil + \twohamil
+            =
+            \oneten^{i}_{i}
+            + \half \twoten^{ij}_{ij}
+            + \para{
+                \oneten^{p}_{q}
+                +
+                \twoten^{pi}_{qi}
+            }
+            \brac{
+                \ccr{p}
+                \can{q}
+            }
+            +
+            \frac{1}{4}\twoten^{pq}_{rs}
+            \brac{
+                \ccr{p}
+                \ccr{q}
+                \can{s}
+                \can{r}
+            },
+        \end{align}
+        where we've collected the constant terms, the one-body terms and the
+        two-body term.
+        We recognize the two first constant terms as the reference energy from
+        \autoref{eq:reference-energy}.
+        The two next terms constitute the normal-ordered Fock operator given by
+        \begin{align}
+            \fock_N
+            &\equiv
+            \para{
+                \oneten^{p}_{q}
+                +
+                \twoten^{pi}_{qi}
+            }
+            \brac{
+                \ccr{p}
+                \can{q}
+            }
+            \equiv
+            \fockten^{p}_{q}
+            \brac{
+                \ccr{p}
+                \can{q}
+            }.
+        \end{align}
+        Inserted into the full Hamiltonian we are able to discern the
+        normal-ordered Hamiltonian.
+        \begin{align}
+            \hamil
+            &=
+            \energyref
+            +
+            \fock_N
+            +
+            \twohamil_N
+            \equiv
+            \energyref
+            +
+            \hamil_N.
+        \end{align}
