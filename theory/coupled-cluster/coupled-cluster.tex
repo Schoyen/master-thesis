@@ -218,7 +218,21 @@
                 &= e^{-\clust}\hamil_N e^{\clust}
                 = e^{-\clust}\hamil e^{\clust} - \braslat\hamil\ketslat
                 = \simhamil - \energyref.
+                \label{eq:sim-normal-hamil}
             \end{align}
+            Next, we apply Baker-Campbell-Hausdorff formula to
+            \autoref{eq:sim-normal-hamil} and use the generalized Wick's theorem
+            to contract the Hamiltonian and the cluster operators.
+            The only nonzero terms in this expansion will be the terms
+            containing at least one contraction between the normal-ordered
+            Hamiltonian and ever cluster operator on its right.
+            This is called the ``connected cluster'' theorem and yields a
+            natural truncation of the Baker-Campbell-Hausdorff expansion.
+            % TODO: Prove this.
+            % TODO: Cite sources on this.
+            For a Hamiltonian with at most two-body interactions, this means
+            that the expansion gets truncated at quartic terms, i.e., at most
+            four cluster operators to the right of the Hamiltonian.
 
 
         \subsection{Truncated coupled cluster theory}
