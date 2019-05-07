@@ -246,6 +246,23 @@
             It is therefore applicable even for the amplitude equations.
 
         \subsection{Truncated coupled cluster theory}
+            As discussed in \autoref{sub:truncated-configuration-interaction},
+            we demonstrated how the truncated configuration interaction wave
+            function was unable to represent the full Slater determinant basis
+            in a small toy system.
+            Repeating the same discussion, but now for $\clust = \clust_1$,
+            i.e., truncating the cluster operator at singles excitations, we can
+            construct the \emph{coupled cluster singles} wave function
+            \begin{align}
+                \ket{\Psi} &= e^{\clust_1}\ketslat
+                = \ketslat + \clust_1\ketslat + \frac{1}{2!}\clust_1^2\ketslat
+                \\
+                &= \ketslat
+                + \clustamp^{3}_{1}\ket{\slat^{3}_{1}}
+                + \clustamp^{4}_{1}\ket{\slat^{4}_{1}}
+                + \clustamp^{3}_{2}\ket{\slat^{3}_{2}}
+                + \clustamp^{4}_{2}\ket{\slat^{4}_{2}}
+            \end{align}
 
     \section{Time-dependent coupled cluster theory}
         Stuff!
@@ -257,7 +274,7 @@
             the time-evolved state.
             That is, we can get in a situation where
             \begin{align}
-                \braket{\psi(t)}{\psi(0)} \approx 0,
+                \braket{\psi(t)}{\psi(0)} \to 0,
             \end{align}
             where $\ket{\psi(0)}$ is some initial state and $\ket{\psi(t)}$ is
             the time-evolved state at a later time $t$.
