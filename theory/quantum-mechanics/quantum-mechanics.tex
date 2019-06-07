@@ -275,10 +275,11 @@
             transformation from this basis to a new basis
             $\brac{\ket{\psi_i}}_{i = 1}^{N}$ in the same Hilbert space by
             \begin{align}
-                \ket{\psi_i} = u_{ji}\ket{\phi_j},
+                \ket{\psi_i} = U_{ji}\ket{\phi_j},
                 \label{eq:unitary_transformation}
             \end{align}
-            where $u_{ji} = u_{ij}^{*}$. For a set of coordinates
+            where $U_{ji}$ is an element in the unitary matrix $\vfg{U}$.
+            For a set of coordinates
             $\brac{x_1, \dots, x_N}$, we write
             \begin{align}
                 \psi_{ij} \equiv \psi_j(x_i)
@@ -288,9 +289,9 @@
             basis we can write \autoref{eq:unitary_transformation} as
             \begin{gather}
                 \braket{x_k}{\psi_i}
-                = u_{ji}\braket{x_k}{\phi_j}
+                = U_{ji}\braket{x_k}{\phi_j}
                 \implies
-                \psi_{ki} = u_{ji}\phi_{kj} = \phi_{kj}u_{ji}
+                \psi_{ki} = U_{ji}\phi_{kj} = \phi_{kj}U_{ji}
                 \implies \vfg{\Psi} = \vfg{\Phi}\vfg{U},
             \end{gather}
             where the matrices $\vfg{\Psi}$, $\vfg{\Phi}$ and $\vfg{U}$ are
@@ -310,14 +311,15 @@
                 \end{pmatrix}, \\
                 \vfg{U}
                 &= \begin{pmatrix}
-                    u_{11} & u_{12} & \dots & u_{1N} \\
+                    U_{11} & U_{12} & \dots & U_{1N} \\
                     \vdots & \vdots & \ddots & \vdots \\
-                    u_{N1} & u_{N2} & \dots & u_{NN}
+                    U_{N1} & U_{N2} & \dots & U_{NN}
                 \end{pmatrix},
             \end{align}
-            and where $U^{\dagger}U = \1$. Creating the fully antisymmetrized
-            normalized wave function, i.e., the Slater determinant, from
-            $\vfg{\Psi}$ and $\vfg{\Phi}$ we see that
+            and where $\vfg{U}^{\dagger}\vfg{U} = \1$.
+            Creating the fully antisymmetrized normalized wave function, i.e.,
+            the Slater determinant, from $\vfg{\Psi}$ and $\vfg{\Phi}$ we see
+            that
             % TODO: Fix description, the determinant of the "Slater matrices"
             % are not necessarily normalized without the pre-factor.
             \begin{gather}
