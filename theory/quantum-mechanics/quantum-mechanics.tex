@@ -26,19 +26,19 @@
         spin.
         We call these wave functions \emph{spin-orbitals}.
         \begin{align}
-            \psi(x) \equiv \psi(\vf{r}, \sigma),
+            \psi(x) \equiv \psi(\vf{r}, m_s
         \end{align}
-        where $x = (\vf{r}, \sigma)$ is a generalized coordinate of both
-        position, $\vf{r}$, and spin, $\sigma$.
+        where $x = (\vf{r}, m_s)$ is a generalized coordinate of both
+        position, $\vf{r}$, and spin quantum number, $m_s$.
         For fermions we have only two allowed spin states
         \begin{align}
             s_z = \pm \half\hslash,
         \end{align}
         where $s_z$ is the spin along $z$-direction.
-        As there are only two allowed states we have that $\sigma \in
+        As there are only two allowed states we have that $m_s \in
         \brac{\upspin, \downspin}$, where a positive value for $s_z$ corresponds
-        to $\sigma = \upspin$, i.e., spin up, and a negative value for $s_z$ to
-        $\sigma = \downspin$, i.e., spin down.
+        to $m_s = \upspin$, i.e., spin up, and a negative value for $s_z$ to
+        $m_s = \downspin$, i.e., spin down.
         We denote
         \begin{align}
             \psi_1(\vf{r}) \equiv \psi\para{\vf{r}, \upspin},
@@ -59,12 +59,12 @@
         spin-down.
         For example, choosing the basis
         \begin{align}
-            \alpha \equiv \alpha(\sigma) = \begin{pmatrix}
+            \alpha \equiv \alpha(m_s) = \begin{pmatrix}
                 1 \\
                 0
             \end{pmatrix},
             \qquad
-            \beta \equiv \beta(\sigma) = \begin{pmatrix}
+            \beta \equiv \beta(m_s) = \begin{pmatrix}
                 0 \\
                 1
             \end{pmatrix},
@@ -83,19 +83,19 @@
         functions by
         \begin{align}
             \psi(x)
-            = \psi_1(\vf{r})\alpha(\sigma)
-            + \psi_2(\vf{r})\beta(\sigma).
+            = \psi_1(\vf{r})\alpha(m_s)
+            + \psi_2(\vf{r})\beta(m_s).
             \label{eq:general-spin-orbital}
         \end{align}
         % TODO: Consider adding theory on spin as in Mayer.
         We will for the most part work with spin-orbitals in a definite
         spin-direction, viz.
         \begin{align}
-            \psi(x) = \phi(\vf{r})\xi(\sigma),
+            \psi(x) = \phi(\vf{r})\sigma(m_s),
             \label{eq:spin-orbital}
         \end{align}
-        where $\xi(\sigma)$ is either spin up $\alpha(\sigma)$ or spin down
-        $\beta(\sigma)$ and we've denoted the spatial orbital by $\phi(\vf{r})$.
+        where $\sigma(m_s)$ is either spin up $\alpha(m_s)$ or spin down
+        $\beta(m_s)$ and we've denoted the spatial orbital by $\phi(\vf{r})$.
         The reason we avoid using a general spin-orbital as in
         \autoref{eq:general-spin-orbital} is convenience.
         It is simpler to generate a basis of spin-orbitals where we use a
@@ -111,31 +111,26 @@
         When labelling the different spin-orbitals from
         \autoref{eq:spin-orbital} we use the notation
         \begin{align}
-            \psi_P(x) = \phi_p(\vf{r})\xi_{\alpha}(\sigma),
+            \psi_P(x) = \phi_p(\vf{r})\sigma(m_s),
         \end{align}
-        where $P = (p, \alpha)$ is a composite index with $p$ labelling a
-        specific orbital and $\alpha$ a specific spin-function\footnote{
-            The index $\alpha$ must not be mistaken for the spin-function
-            $\alpha(\sigma)$.
-            The author wishes to extend an apology to everyone who might be
-            confused by this notation.
-        }.
+        where $P = (p, \sigma)$ is a composite index with $p$ labelling a
+        specific orbital and $\sigma$ a specific spin-function.
         In the spin basis shown in \autoref{eq:spin-basis} we have that the
         inner product of two spin functions
         \begin{align}
-            \braket{\xi_{\alpha}}{\xi_{\beta}}
+            \braket{\sigma}{\tau}
             &=
-            \xi_{\alpha}(\upspin)\xi_{\beta}(\upspin)
-            + \xi_{\alpha}(\downspin)\xi_{\beta}(\downspin)
-            = \delta_{\alpha\beta},
+            \sigma(\upspin)\tau(\upspin)
+            + \sigma(\downspin)\tau(\downspin)
+            = \delta_{\sigma\tau},
         \end{align}
         that is, they are orthonormal.
         The inner product of two spin-orbitals from \autoref{eq:spin-orbital} is
         then separated into an orbital and a spin inner product.
         \begin{align}
             \braket{\psi_P}{\psi_Q}
-            &= \braket{\phi_p}{\phi_q}\braket{\xi_{\alpha}}{\xi_{\beta}}
-            = \delta_{\alpha\beta}
+            &= \braket{\phi_p}{\phi_q}\braket{\sigma}{\tau}
+            = \delta_{\sigma\tau}
             \int\dd\vf{r}\phi^{*}_{p}(\vf{r})\phi_{q}(\vf{r}).
             \label{eq:inner-spin-orbital}
         \end{align}
@@ -149,18 +144,18 @@
         matrix element between two spin-orbitals become
         \begin{align}
             \bra{\psi_P}\hat{O}\ket{\psi_Q}
-            &= \bra{\phi_p}\hat{O}\ket{\phi_q}\braket{\xi_{\alpha}}{\xi_{\beta}}
-            = \delta_{\alpha\beta}
+            &= \bra{\phi_p}\hat{O}\ket{\phi_q}\braket{\sigma}{\tau}
+            = \delta_{\sigma\tau}
             \int\dd\vf{r}\phi^{*}_{p}(\vf{r})\hat{O}\phi_q(\vf{r}).
             \label{eq:example-spin-decoupling}
         \end{align}
         This motivates the coordinate representation independent notation
         \begin{align}
             \ket{\psi_P}
-            &= \ket{\phi_p}\otimes\ket{\xi_{\alpha}},
+            &= \ket{\phi_p}\otimes\ket{\sigma},
         \end{align}
         where the tensor product combines the two-dimensional Hilbert space from
-        the spin $\ket{\xi_{\alpha}}$ and the $L$-dimensional Hilbert space
+        the spin $\ket{\sigma}$ and the $L$-dimensional Hilbert space
         containing the orbital basis function.
         A general operator on the combined Hilbert space can thus be represented
         by
@@ -177,10 +172,55 @@
             \bra{\psi_{P}}\hat{O}\ket{\psi_{Q}}
             &=
             \sum_{ij}\bra{\phi_p}\hat{R}_i\ket{\phi_q}
-            \bra{\xi_{\alpha}}\hat{S}_j\ket{\xi_{\beta}}.
+            \bra{\sigma}\hat{S}_j\ket{\tau}.
         \end{align}
         Looking back at \autoref{eq:example-spin-decoupling} we see that a
         spin-independent operator $\hat{O}$ corresponds to $\hat{S}_j = \1$.
+
+        \subsection{Restrictions on the choice of spin-orbitals}
+            As mentioned earlier, choosing completely general spin-orbitals,
+            i.e,. spin-orbitals that are linear combinations of the two
+            spin-directions, can become cumbersome.
+            We'll discuss an aspect of this phenomenom called
+            \emph{spin-contamination} in the section on Hartree-Fock theory
+            later.
+            % TODO: Discuss spin-contamination in relation to the completely
+            % unrestriced Hartree-Fock method.
+            Some common choices of spin-orbitals can be categorized in the
+            following manner.
+            \begin{enumerate}
+                \item The general spin-orbital on the form
+                    \begin{align}
+                        \psi(x, t)
+                        = \psi_1(\vf{r}, t) \alpha(m_s)
+                        + \psi_2(\vf{r}, t) \beta(m_s).
+                    \end{align}
+                    These spin-orbitals can lead to mixing between both
+                    spin-directions, known as spin-contamination, that is, the
+                    spin-orbitals are no longer eigen states of the
+                    spin-projection operator $\spinproj$.
+                    This is often an unwanted effect as this greatly limits some
+                    of the optimizations that can be employed for some of the
+                    computational methods.
+                \item The spin-unrestricted spin-orbital on the form
+                    \begin{align}
+                        \psi(x, t)
+                        = \psi_{\sigma}(\vf{r}, t) \sigma(m_s),
+                    \end{align}
+                    where the orbital $\psi_{\sigma}$ depends on the
+                    spin-direction $\sigma$.
+                    Often this type of spin-orbitals are dubbed unrestricted
+                    spin-orbitals, which is somewhat of a misnomer as the
+                    spin-orbitals are restricted in the choice of spin-direction
+                    as opposed to the (truly) unrestricted generalized
+                    spin-orbitals shown in \autoref{eq:general-spin-orbital}.
+                \item The spin-restricted spin-orbitals given by
+                    \begin{align}
+                        \psi(x, t)
+                        = \psi(\vf{r}, t) \sigma(m_s),
+                    \end{align}
+                    where each orbital is doubly occupied.
+            \end{enumerate}
 
     \section{Slater determinants}
         As we are working with fermions the total many-body wave function must
