@@ -473,6 +473,28 @@
 
         \subsection{Wick's theorem}
 
+    \section{The electronic many-body Hamiltonian}
+        We denote the general electronic many-body Hamiltonian by
+        \begin{align}
+            \hamil(t) &= \onehamil(t) + \twohamil(t),
+        \end{align}
+        where $\onehamil(t)$ and $\twohamil(t)$ is the time-dependent one-body
+        and two-body operators respectively.
+        The expectation value of the Hamiltonian in terms of a Slater
+        determinant is then
+        \begin{align}
+            \bra{\Phi}\hat{H}\ket{\Phi}
+            &= \bra{\phi_i}\hat{h}\ket{\phi_i}
+            + \frac{1}{2}\bra{\phi_i\phi_j}\hat{u}\ket{\phi_i\phi_j}_{AS},
+        \end{align}
+        where the antisymmetric matrix elements are given by
+        \begin{align}
+            \bra{\phi_i\phi_j}\hat{u}\ket{\phi_i\phi_j}_{AS}
+            &= \bra{\phi_i\phi_j}\hat{u}\ket{\phi_i\phi_j}
+            - \bra{\phi_i\phi_j}\hat{u}\ket{\phi_j\phi_i}.
+            \label{eq:antisymmetric_two_body}
+        \end{align}
+
     \section{Many-body density matrices}
         In a seminal paper by Löwdin \cite{lowdin-density-matrices}, the
         concept of a many-body density matrix in terms of the orbitals of a

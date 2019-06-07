@@ -218,7 +218,75 @@
             shown.
         \end{proof}
         We are now interested in finding a stationary point in the Lagrangian
-        with respect to the molecular orbitals $\phi_i$ subject to the
+        with respect to the molecular orbitals $\phi_k$ subject to the
         constraint that they are orthonormal.
+        As we are trying to find a stationary point of the Lagrangian functional
+        with respect to the molecular orbitals, we will use \emph{functional
+        derivatives} as the orbitals are functions.
+        % TODO: Read up on functional derivative theory
+        The action of a functional derivative on the matrix elements in the
+        Lagrangian functional is given by
+        \begin{gather}
+            \dfd{\phi_k^{*}}\braket{\phi_i}{\phi_j}
+            = \delta_{ik}\ket{\phi_j}, \\
+            \dfd{\phi_k^{*}}\bra{\phi_i}\hat{h}\ket{\phi_i}
+            = \hat{h}\ket{\phi_k}, \\
+            \dfd{\phi_k^{*}}\bra{\phi_i}\dpd{}{t}\ket{\phi_i}
+            = \dpd{}{t}\ket{\phi_k}, \\
+            \dfd{\phi_k^{*}}\bra{\phi_i\phi_j}\hat{u}\ket{\phi_i\phi_j}_{AS}
+            = 2\bra{\cdot\phi_j}\hat{u}\ket{\phi_k\phi_j}_{AS},
+        \end{gather}
+        where the "dot" is defined in terms of the tensor product by
+        \begin{align}
+            \ket{\phi_i\phi_j} = \ket{\phi_i}\otimes\ket{\phi_j}
+            \implies \ket{\cdot\phi_j} \equiv \1 \otimes\ket{\phi_j}.
+        \end{align}
+        The last derivative can be found by expanding the antisymmetrix matrix
+        elements by \autoref{eq:antisymmetric_two_body} and applying the
+        functional derivative two times on each term. Collecting the four terms
+        and using the symmetric property of the two-body elements that
+        \begin{align}
+            \bra{\phi_i\phi_j}\hat{u}\ket{\phi_k\phi_l}
+            = \bra{\phi_j\phi_i}\hat{u}\ket{\phi_l\phi_k}.
+        \end{align}
+        We treat $\phi_k(x)$ and $\phi_k^{*}(x)$ as independent
+        variables and taking the functional derivative of the Lagrangian
+        function with respect to either form yields the same equations but
+        complex conjugated of one another, we will restrict our attention to
+        finding the functional derivative of the Lagrangian functional with
+        respect to $\phi_k^{*}(x)$.
+        \begin{align}
+            \dfd{\phi_k^{*}}\lagrangianfunc{\slat, \lambda}
+            = \dfd{\phi_k^{*}}\energyfunc{\slat}
+            - \lambda_{jk}\ket{\phi_{j}},
+        \end{align}
+        where the functional derivative of the energy functional is given by
+        \begin{align}
+            \dfd{\phi_k^{*}}\energyfunc{\slat}
+            = \onehamil\ket{\phi_k}
+            + \bra{\cdot\phi_j}\twohamil\ket{\phi_k\phi_j}_{AS}.
+        \end{align}
+        Inserted back into the functional derivative of the Lagrangian and
+        equating to zero we get
+        \begin{gather}
+            \onehamil\ket{\phi_k}
+            + \bra{\cdot\phi_j}\twohamil\ket{\phi_k\phi_j}_{AS}
+            - \lambda_{jk}\ket{\phi_{j}} = 0.
+            \label{eq:min_lagrangian_phi_k}
+        \end{gather}
+        To go from here we introduce the Fock operator
+        \begin{align}
+            \fock\ket{\phi_k}
+            = \onehamil\ket{\phi_k}
+            + \bra{\cdot\phi_j}\twohamil\ket{\phi_k\phi_j}_{AS},
+        \end{align}
+        which we insert into \autoref{eq:min_lagrangian_phi_k}.
+        We also move the Lagrange multipliers to the right hand side of the
+        equation.
+        This yields the equation
+        \begin{align}
+            \fock\ket{\phi_k} = \lambda_{jk}\ket{\phi_j},
+        \end{align}
+        known as the \emph{non-canonical Hartree-Fock equations}.
 
 \input{theory/hartree-fock/time-dependent-hartree-fock.tex}
