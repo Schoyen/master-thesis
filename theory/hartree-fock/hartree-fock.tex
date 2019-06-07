@@ -23,37 +23,42 @@
             \item We assume that correlation between particles can be described
                 in the \emph{mean-field approximation}.
         \end{enumerate}
-        These assumptions provides the basis for the Hartree-Fock method. We
+        These assumptions provide the basis for the Hartree-Fock method. We
         shall see later that we quickly reach a limit where these assumptions
         break apart thus motivating the use of \emph{post Hartree-Fock methods}
         such as the coupled cluster method.
 
     \section{Deriving the time-independent Hartree-Fock equations}
         Much of the theory shown in this section draws from the excellent
-        lecture notes by \citeauthor{kvaal2017notes} and
-        \citeauthor{szabo1996modern}.  We start by making the ansatz that the
-        full many-body wavefunction is a single Slater determinant. For a given
-        system Hamiltonian
+        lecture notes by \citeauthor{kvaal2017notes} \cite{kvaal2017notes} and
+        the book \citetitle{szabo1996modern} by \citeauthor{szabo1996modern}
+        \cite{szabo1996modern}.
+        Starting from the Schrödinger equation
+        \begin{align}
+            \hamil\ket{\Psi} = \energy\ket{\Psi},
+        \end{align}
+        where $\hamil$ is the electronic Hamiltonian with at most two-body
+        interactions on the form
         \begin{align}
             \hamil = \onehamil + \twohamil,
         \end{align}
         where $\onehamil$ is the one-body part of the Hamiltonian and
-        $\twohamil$ the higher order correlations. In our case we will limit
-        ourselves to Coulomb two-body interactions. We know that the ground
-        state of $\onehamil$ will be a single Slater determinant. If the
-        two-body interactions are ``small'' we can assume that there will exist
-        a Slater determinant which will capture most of the true ground state of
-        the full Hamiltonian\footnote{We will see that it does not take much
-        before the two-body interaction becomes a little more than just a small
-        perturbation.}.
-
-        Our many-body wavefunction will now be represented as a single Slater
-        determinant
+        $\twohamil$ the higher order correlations.
+        We know that the ground state of $\onehamil$ will be a single Slater
+        determinant.
+        If the two-body interactions are ``small'' we can assume that there will
+        exist a Slater determinant which will capture most of the true ground
+        state of the full Hamiltonian\footnote{We will see that it does not take
+        much before the two-body interaction becomes a little more than just a
+        small perturbation.}.
+        This motivates the approximation that our many-body wave function
+        $\ket{\Psi}$ can be approximated by a single Slater determinant.
         \begin{align}
-            \ketslat = \ket{\phi_1, \phi_2, \dots, \phi_N},
+            \ket{\Psi} = \ketslat = \ket{\phi_1, \phi_2, \dots, \phi_N},
         \end{align}
         where the \emph{molecular orbitals} $\brac{\phi_i}_{i = 1}^{N}$ are the
-        primary unknowns subject to the constraint that they are orthonormal.
+        primary unknowns.
+        They are subject to the constraint that they are orthonormal.
         That is,
         \begin{align}
             \braket{\phi_i}{\phi_j} = \delta_{ij}
@@ -63,23 +68,35 @@
         Defining the energy functional
         \begin{align}
             \energyfunc{\slat}
-            = \braslat\hamil\ketslat,
+            \equiv \braslat\hamil\ketslat
+            =
+            \bra{\phi_i}\onehamil\ket{\phi_i}
+            + \half\bra{\phi_i\phi_j}\twohamil\ket{\phi_i\phi_j}_{AS},
             \label{eq:energy_func_hf}
         \end{align}
-        the variational principle tells us that the true ground state energy,
-        $\energygs$, will be a lower bound to the energy found from
+        where the Einstein summation convention is understood.
+        The variational principle\footnote{%
+            Note that we treat the Slater determinants as orthonormal thus
+            removing the need to include the normalization factor in the energy
+            functional.
+        }
+        tells us that the true ground state energy, $\energygs$, will be a lower
+        bound to the energy found from the energy functional in
         \autoref{eq:energy_func_hf} for any normalized trial wavefunction
-        $\ketslat$. That is,
+        $\ketslat$.
+        That is,
         \begin{align}
             \energygs
             \leq \energyfunc{\slat} = \braslat\hamil\ketslat.
         \end{align}
         Our task is now to find the molecular orbitals $\brac{\phi_i}_{i =
-        1}^{N}$ that minimizes $\energyfunc{\slat}$\footnote{This is done by
-        finding a stationary state for $\energyfunc{\slat}$, which does not
-        guarantee that we have found a minimum, but often the stationary state
-        will be a minimum.}. By performing a variation in the Slater
-        determinant,
+        1}^{N}$ that minimizes the energy functional%
+        \footnote{%
+            This is done by finding a stationary state for $\energyfunc{\slat}$,
+            which does not guarantee that we have found a minimum, but often the
+            stationary state will be a minimum.
+        }.
+        By performing a variation in the Slater determinant,
         \begin{align}
             \slat \to \slat + \delta\slat,
         \end{align}
@@ -100,39 +117,33 @@
         \begin{align}
             \delta\energyfunc{\slat}
             \equiv
-            \bra{\delta\slat}\hamil\ketslat + \braslat\hamil\ket{\delta\slat}.
+            \bra{\delta\slat}\hamil\ketslat + \braslat\hamil\ket{\delta\slat},
         \end{align}
-        Note that we treat $\delta$ as a linear differential operator. Higher
-        order variations are ignored and we are thus only interested in finding
-        the Slater $\ketslat$ for which
+        where we treat $\delta$ as a linear differential operator.
+        Higher order variations are ignored and we are thus only interested in
+        finding the Slater determinant, $\ketslat$, for which
         \begin{align}
             \delta\energyfunc{\slat} = 0,
         \end{align}
-        i.e., the stationary point of the energy functional in terms of $\slat$.
-        Note however that $\energyfunc{\slat}$ does not incorporate the
-        constraint that the molecular orbitals should be orthonormal. To ensure
-        this we use the method of Lagrange multipliers, with one multiplier for
-        every constraint. We thus construct the Lagrangian functional
+        i.e., the stationary point of the energy functional in terms of the
+        function $\slat$.
+        However the energy functional, $\energyfunc{\slat}$, does not
+        incorporate the constraint that the molecular orbitals should be
+        orthonormal.
+        To ensure this constraing we use the method of Lagrange multipliers,
+        with one multiplier for every constraint.
+        We thus construct the Lagrangian functional
         \begin{align}
             \lagrangianfunc{\slat, \lambda}
             &= \energyfunc{\slat}
             - \lambda_{ji}\para{
                 \braket{\phi_i}{\phi_j}
                 - \delta_{ij}
-            }
-            \\
-            &=
-            \bra{\phi_i}\onehamil\ket{\phi_i}
-            + \half\bra{\phi_i\phi_j}\twohamil\ket{\phi_i\phi_j}_{AS}
-            - \lambda_{ji}\para{
-                \braket{\phi_i}{\phi_j}
-                - \delta_{ij}
-            },
+            }.
         \end{align}
-        where the Einstein summation convention is implied. As the Lagrangian
-        functional, $\lagrangianfunc{\slat, \lambda}$, is real, and as the
-        constraint is Hermitian, the Lagrange multipliers, $\lambda_{ji}$, can
-        be taken to be Hermitian as well.
+        As the Lagrangian functional, $\lagrangianfunc{\slat, \lambda}$, is
+        real, and as the constraint is Hermitian, the Lagrange multipliers,
+        $\lambda_{ji}$, can be taken to be Hermitian as well.
 
         \begin{proof}[%
                 Proof that the Lagrange multipliers can be chosen Hermitian%
@@ -143,10 +154,12 @@
                 \braket{\phi_i}{\phi_j} - \delta_{ij}
                 = \braket{\phi_j}{\phi_i}^{*} - \delta_{ji}.
             \end{align}
-            As of now we have two independent Lagrange multipliers for overlap
-            $\braket{\phi_i}{\phi_j}$ and the complex conjugate
-            $\braket{\phi_j}{\phi_i}$. We can formulate the constraint for the
-            real and imaginary part separately. This yields
+            As of now we have two independent Lagrange multipliers; one for the
+            overlap $\braket{\phi_i}{\phi_j}$ and another for the the complex
+            conjugate $\braket{\phi_j}{\phi_i}$.
+            We can formulate the constraint for the real and imaginary part
+            separately.
+            This yields
             \begin{align}
                 \Re\brac{
                     \braket{\phi_i}{\phi_j}
@@ -177,11 +190,14 @@
                 + \nu_{ij}\Im\brac{
                     \braket{\phi_i}{\phi_j}
                 }
-                =
+                &=
                 \half\brak{
                     \mu_{ij} - i\nu_{ij}
                 }
                 \braket{\phi_i}{\phi_j}
+                \nonumber
+                \\
+                &\qquad
                 + \half\brak{
                     \mu_{ij} + i\nu_{ij}
                 }
@@ -201,5 +217,8 @@
             which implies that $\lambda_{ji} = \lambda_{ij}^{*}$, as was to be
             shown.
         \end{proof}
+        We are now interested in finding a stationary point in the Lagrangian
+        with respect to the molecular orbitals $\phi_i$ subject to the
+        constraint that they are orthonormal.
 
 \input{theory/hartree-fock/time-dependent-hartree-fock.tex}
