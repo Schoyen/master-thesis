@@ -347,5 +347,137 @@
         \begin{align}
             \vfg{\Lambda} = \vfg{U} \vfg{\energy} \vfg{U}^{\dagger}.
         \end{align}
+        This procedure is also known as \emph{Schur decomposition}.
+        In tensor notation we introduce a Kronkecker Delta of rank 3 defined as
+        \begin{align}
+            \delta^{i}_{jk} = \begin{cases}
+                1 & i = j = k, \\
+                0 & else.
+            \end{cases}
+        \end{align}
+        The Schur decomposition of the Lagrange multipliers then take on the
+        form
+        \begin{align}
+            \lambda_{ij} = U_{ik} E_{kl} U^{*}_{jl}
+            = U_{ik} \delta^{m}_{kl} \epsilon_{m} U^{*}_{jl},
+        \end{align}
+        where $\epsilon_m$ are the diagonal entries in the matrix $\vfg{E}$.
+        Starting from the non-canonical Hartree-Fock equations in
+        \autoref{eq:non-canonical-hartree-fock} and inserting the transformed
+        spin-orbitals we get
+        \begin{gather}
+            \fock\ket{\phi_k} = \lambda_{jk}\ket{\phi_j}
+            \\
+            \implies
+            \fock U^{*}_{kl}\ket{\psi_{l}} = \lambda_{jk} U^{*}_{jl} \ket{\psi_l}
+            \\
+            \implies
+            U_{km} U^{*}_{kl} \fock\ket{\psi_l}
+            = U_{km} \lambda_{jk} U^{*}_{jl} \ket{\psi_l}
+            \\
+            \implies
+            \delta_{ml} \fock \ket{\psi_l}
+            = \delta^{n}_{ml} \epsilon_{n} \ket{\psi_l}
+            \\
+            \implies
+            \fock\ket{\psi_m}
+            = \epsilon_{m} \ket{\psi_m},
+            \label{eq:canonical-hartree-fock}
+        \end{gather}
+        where we are left with the \emph{canonical Hartree-Fock equations}.
+        These equations constitute an eigenvalue equation that only depends on
+        the choice of basis.
+        That is, they make no assumption on which orbitals are occupied or not.
+        As mentioned earlier, the Hartree-Fock equations does not guarantee that
+        we find a global minimum.
+        In fact, it does not even guarantee that we find a minimum!
+        We might just as well stumble upon a saddle point.
+        % TODO: Discuss how to determine if we have found a minimum.
+
+    \section{Solving the Hartree-Fock equations in a basis}
+        Having found the canonical Hartree-Fock equations, we are interested
+        in utilizing the method in order to find molecular orbitals
+        $\brac{\ket{\phi_p}}_{p = 1}^{L}$ serving as an improvement to our
+        known atomic orbital basis $\brac{\ket{\chi_{\alpha}}}_{\alpha =
+        1}^{L}$.
+        We will in the following demonstrate three different procedures that
+        lets us find the molecular orbitals.
+        These procedures are related to the restrictions put on the
+        spin-orbitals as discussed in
+        \autoref{subsec:restrictions-on-spin-orbitals}.
+        In fact, each procedure provides a way to choose which restriction we
+        want on our molecular orbitals.
+        First we'll discuss a general Hartree-Fock method which puts no
+        restrictions on the molecular orbitals.
+        This method leads to general spin-orbitals as shown in
+        \autoref{eq:general-spin-orbital}.
+        The second method is known as the \emph{restricted Hartree-Fock} method
+        as it assumes restricted spin-orbitals.
+        This leads to molecular orbitals that are restricted spin-orbitals as
+        shown in \autoref{eq:restricted-spin-orbital}.
+        Finally, we'll demonstrate the \emph{unrestricted Hartree-Fock method}
+        yielding unrestricted spin-orbitals for the molecular orbitals as
+        shown in \autoref{eq:unrestricted-spin-orbital}.
+
+        \subsection{Hartree-Fock with general spin-orbitals}
+            Given an atomic orbital basis, e.g., harmonic oscillator basis,
+            $\brac{\ket{\chi_{\alpha}}}_{\alpha = 1}^{L}$ we wish to find an
+            orthonomal basis of molecular orbitals $\brac{\ket{\phi_{p}}}_{p =
+            1}^{L}$ satisfying the canonical Hartree-Fock equations.
+            We can transform from the known atomic orbital basis to the unknown
+            molecular orbital basis by
+            \begin{align}
+                \ket{\phi_p} = C_{\alpha p}\ket{\chi_{\alpha}},
+            \end{align}
+            where $\vfg{C} \in \mathbb{C}^{L\times L}$ is now our unknown
+            coefficient matrix.
+            By left-projecting with a state from our atomic orbital basis onto
+            the canonical Hartree-Fock equations, we can create a set of
+            equations in order to find the coefficients.
+            \begin{gather}
+                \bra{\chi_{\alpha}}\fock\ket{\phi_q}
+                = \epsilon_{q} \braket{\chi_{\alpha}}{\phi_q}
+                \\
+                \implies
+                \bra{\chi_{\alpha}}\fock\ket{\chi_{\beta}} C_{\beta q}
+                = \epsilon_q C_{\beta q} \braket{\chi_{\alpha}}{\chi_{\beta}}.
+            \end{gather}
+            We denote the matrix elements of the Fock operator in the atomic
+            orbital basis by
+            \begin{align}
+                \bra{\chi_{\alpha}}\fock\ket{\chi_{\beta}}
+                \equiv \fockten_{\alpha \beta},
+            \end{align}
+            and the overlap in the atomic orbital basis by
+            \begin{align}
+                \braket{\chi_{\alpha}}{\chi_{\beta}} = \overlapten_{\alpha\beta}.
+            \end{align}
+            In the case of an orthonormal basis of atomic orbitals, the overlap
+            matrix $\overlapmat \in \mathbb{C}^{L \times L}$ reduces to the identity
+            matrix.
+            The projected Hartree-Fock equations can then be written
+            \begin{gather}
+                \fockten_{\alpha\beta} C_{\beta q}
+                = \overlapten_{\alpha \beta} C_{\beta q} \epsilon_{q}
+                \\
+                \implies
+                \fockmat \vfg{C} = \overlapmat \vfg{C} \vfg{\epsilon},
+                \label{eq:roothan-hall-general}
+            \end{gather}
+            where $\fockmat \in \mathbb{C}^{L \times L}$ is the \emph{Fock
+            matrix} with elements from the atomic orbital basis on the Fock
+            operator.
+            The diagonal matrix $\vfg{\epsilon} = \diag(\epsilon_1, \dots,
+            \epsilon_L)$ is the matrix with the eigenenergies from the canonical
+            Hartree-Fock equation.
+            The equation in \autoref{eq:roothan-hall-general} is known as the
+            \emph{Roothan-Hall} equations \cite{roothan, hall}.
+            They constitute a formulation of the integro-differential equations
+            that are the canonical Hartree-Fock equations to a generalized
+            eigenvalue equation formulated as matrices.
+
+        \subsection{The restricted Hartree-Fock method}
+        \subsection{The unrestricted Hartree-Fock method}
+
 
 \input{theory/hartree-fock/time-dependent-hartree-fock.tex}
