@@ -566,7 +566,66 @@
             \end{align}
 
         \subsection{The restricted Hartree-Fock method}
+            In the restricted Hartree-Fock method we make the assumption that
+            each spin-direction is doubly occupied by an orbital.
+            This can be a valid assumption if the Hamiltonian is
+            spin-independent\footnote{%
+                We write \emph{can} as there are situations where the
+                Hamiltonian in principle is spin-independent, but subject to
+                conditions where the spin-symmetry of the restricted
+                spin-orbitals break.
+            }.
+            To be even more specific, we will look at the \emph{closed-shell
+            restricted Hartree-Fock} method, i.e., each spin-orbital \emph{must}
+            be doubly occupied and each energy shell must be completely filled.
+            This yields the spin-restricted spin-orbitals from
+            \autoref{eq:restricted-spin-orbital}.
+            For $L$ basis functions, we then get $L/2$ orbitals, where $L$ must
+            be an even number.
+            We label the states by
+            \begin{align}
+                \phi_{P}(x) = \varphi_p(\vf{r}) \sigma(m_s)
+                \implies
+                \ket{\phi_P} = \ket{\varphi_p\sigma},
+            \end{align}
+            where $P \in \brac{1, \dots, L}$ and $p \in \brac{1, \dots, L / 2}$.
+            That is, we use capital letters to refer to composite indices and
+            lowercase letters for the orbitals.
+            We write the ground state Slater determinant as
+            \begin{align}
+                \ketslat = \ket{\phi_1 \phi_2 \dots \phi_{L - 1} \phi_L}
+                = \ket{
+                    (\varphi_1 \alpha)
+                    (\varphi_1 \beta)
+                    \dots
+                    (\varphi_{L / 2} \alpha)
+                    (\varphi_{L / 2}\beta)
+                }.
+            \end{align}
+            The restricted molecular orbitals are orthonormal.
+            As a consequence both the spin-directions and the orbitals are
+            orthonormal.
+            \begin{align}
+                \braket{\phi_P}{\phi_Q}
+                = \braket{\sigma}{\tau}
+                \braket{\varphi_p}{\varphi_q}
+                = \delta_{\sigma \tau}
+                \delta_{pq}
+                = \delta_{PQ}.
+            \end{align}
+            We now insert the restricted spin-orbitals into the canonical
+            Hartree-Fock equation.
+            \begin{align}
+                \fock\ket{\phi_P} = \epsilon_P\ket{\phi_P}
+                \implies
+                \fock\ket{\varphi_p\sigma}
+                = \epsilon_P\ket{\varphi_p\sigma}.
+            \end{align}
+            By projecting onto another spin-orbital we demonstrate how we can
+            construct the Fock matrix elements.
+
         \subsection{The unrestricted Hartree-Fock method}
+
 
 
 \input{theory/hartree-fock/time-dependent-hartree-fock.tex}
