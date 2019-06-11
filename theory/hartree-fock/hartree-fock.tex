@@ -446,7 +446,7 @@
         in utilizing the method in order to find molecular orbitals
         $\brac{\ket{\phi_p}}_{p = 1}^{L}$ serving as an improvement to our
         known atomic orbital basis $\brac{\ket{\chi_{\alpha}}}_{\alpha =
-        1}^{L}$.
+        1}^{K}$.
         We will in the following demonstrate three different procedures that
         lets us find the molecular orbitals.
         These procedures are related to the restrictions put on the
@@ -468,7 +468,7 @@
 
         \subsection{Hartree-Fock with general spin-orbitals}
             Given an atomic orbital basis, e.g., harmonic oscillator basis,
-            $\brac{\ket{\chi_{\alpha}}}_{\alpha = 1}^{L}$ we wish to find an
+            $\brac{\ket{\chi_{\alpha}}}_{\alpha = 1}^{K}$ we wish to find an
             orthonomal basis of molecular orbitals $\brac{\ket{\phi_{p}}}_{p =
             1}^{L}$ satisfying the canonical Hartree-Fock equations.
             We can transform from the known atomic orbital basis to the unknown
@@ -476,7 +476,7 @@
             \begin{align}
                 \ket{\phi_p} = C_{\alpha p}\ket{\chi_{\alpha}},
             \end{align}
-            where $\vfg{C} \in \mathbb{C}^{L\times L}$ is now our unknown
+            where $\vfg{C} \in \mathbb{C}^{K\times L}$ is now our unknown
             coefficient matrix.
             By left-projecting with a state from our atomic orbital basis onto
             the canonical Hartree-Fock equations, we can create a set of
@@ -500,7 +500,7 @@
                 \braket{\chi_{\alpha}}{\chi_{\beta}} = \overlapten_{\alpha\beta}.
             \end{align}
             In the case of an orthonormal basis of atomic orbitals, the overlap
-            matrix $\overlapmat \in \mathbb{C}^{L \times L}$ reduces to the identity
+            matrix $\overlapmat \in \mathbb{C}^{K \times K}$ reduces to the identity
             matrix.
             The projected Hartree-Fock equations can then be written
             \begin{gather}
@@ -511,7 +511,7 @@
                 \fockmat \vfg{C} = \overlapmat \vfg{C} \vfg{\epsilon},
                 \label{eq:roothan-hall-general}
             \end{gather}
-            where $\fockmat \in \mathbb{C}^{L \times L}$ is the \emph{Fock
+            where $\fockmat \in \mathbb{C}^{K \times K}$ is the \emph{Fock
             matrix} with elements from the atomic orbital basis on the Fock
             operator.
             The diagonal matrix $\vfg{\epsilon} = \diag(\epsilon_1, \dots,
