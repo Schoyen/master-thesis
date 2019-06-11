@@ -522,6 +522,48 @@
             They constitute a formulation of the integro-differential equations
             that are the canonical Hartree-Fock equations to a generalized
             eigenvalue equation formulated as matrices.
+            An important point to note is that the Fock operator is an operator
+            that includes the molecular orbitals which are dependent on the
+            coefficient matrix $\vfg{C}$.
+            That is,
+            \begin{align}
+                \fockten_{\alpha\beta}
+                &= \bra{\chi_{\alpha}}\fock\ket{\chi_{\beta}}
+                = \bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
+                +
+                \bra{\chi_{\alpha}\phi_j}\twohamil\ket{\chi_{\beta}\phi_j}_{AS},
+            \end{align}
+            where $j$ only sums over the $N$ occupied indices in the ground state
+            Slater determinant.
+            We see that only the anti-symmetric two-body elements depends on the
+            coefficient matrix.
+            Formulating the elements in terms of the known atomic orbitals and
+            the coefficient matrix we get
+            \begin{align}
+                \bra{\chi_{\alpha}\phi_j}\twohamil\ket{\chi_{\beta}\phi_j}
+                &=
+                C^{*}_{\gamma j} C_{\delta j}
+                \bra{\chi_{\alpha}\chi_{\gamma}}\twohamil\ket{\chi_{\beta}\chi_{\delta}},
+                \\
+                \bra{\chi_{\alpha}\phi_j}\twohamil\ket{\phi_j\chi_{\beta}}
+                &=
+                C^{*}_{\gamma j} C_{\delta j}
+                \bra{\chi_{\alpha}\chi_{\gamma}}\twohamil\ket{\chi_{\delta}\chi_{\beta}}.
+            \end{align}
+            Introducing the denisty matrix of the occupied orbitals
+            \begin{align}
+                D_{\gamma\delta} \equiv
+                C^{*}_{\gamma j} C_{\delta j},
+            \end{align}
+            we can write the matrix elements of the Fock operator in terms of
+            the atomic orbitals and the density matrix as
+            \begin{align}
+                \fockten_{\alpha\beta}
+                &= \bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
+                +
+                D_{\gamma\delta}
+                \bra{\chi_{\alpha}\chi_{\gamma}}\twohamil\ket{\chi_{\beta}\chi_{\delta}}_{AS}.
+            \end{align}
 
         \subsection{The restricted Hartree-Fock method}
         \subsection{The unrestricted Hartree-Fock method}
