@@ -629,9 +629,9 @@
             This can be a valid assumption if the Hamiltonian is
             spin-independent\footnote{%
                 We write \emph{can} as there are situations where the
-                Hamiltonian in principle is spin-independent, but subject to
-                conditions where the spin-symmetry of the restricted
-                spin-orbitals break.
+                Hamiltonian is spin-independent, but subject to conditions where
+                the spin-symmetry of the restricted spin-orbitals break.
+                % TODO: This needs to be explained properly
             }.
             To be even more specific, we will look at the \emph{closed-shell
             restricted Hartree-Fock} method, i.e., each spin-orbital \emph{must}
@@ -661,7 +661,7 @@
                 }.
             \end{align}
             The restricted molecular orbitals are orthonormal.
-            As a consequence both the spin-directions and the orbitals are
+            As a consequence both the spin basis functions and the orbitals are
             orthonormal.
             \begin{align}
                 \braket{\phi_P}{\phi_Q}
@@ -680,7 +680,89 @@
                 = \epsilon_P\ket{\varphi_p\sigma}.
             \end{align}
             By projecting onto another spin-orbital we demonstrate how we can
-            construct the Fock matrix elements.
+            construct the Fock matrix elements when the Hamiltonian is
+            spin-independent.
+            \begin{align}
+                \bra{\phi_P}\fock\ket{\phi_Q}
+                = \bra{\phi_P}\onehamil\ket{\phi_Q}
+                + \bra{\phi_P\phi_J}\twohamil\ket{\phi_Q\phi_J}_{AS}.
+            \end{align}
+            Looking at the one-body and the two-body parts separately we will
+            demonstrate how the spin can be integrated out of the matrix
+            elements.
+            \begin{align}
+                \bra{\phi_P}\onehamil\ket{\phi_Q}
+                &= \braket{\sigma}{\tau}\bra{\varphi_p}\onehamil\ket{\varphi_q}
+                = \delta_{\sigma\tau}\bra{\varphi_p}\onehamil\ket{\varphi_q}.
+            \end{align}
+            We split up the anti-symmetric elements into its constituent parts
+            and show the spin-dependence in each explicitly.
+            \begin{align}
+                \bra{\phi_P\phi_J}\twohamil\ket{\phi_Q\phi_J}
+                &= \braket{\sigma}{\tau}\braket{\nu}{\nu}
+                \bra{\varphi_p\varphi_j}\twohamil\ket{\varphi_q\varphi_j}
+                = 2 \delta_{\sigma\tau}
+                \bra{\varphi_p\varphi_j}\twohamil\ket{\varphi_q\varphi_j},
+            \end{align}
+            where we've summed over the spin-dependence $\ket{\nu}$ from the two
+            occupied orbitals in the two-body elements.
+            That is,
+            \begin{align}
+                \braket{\nu}{\nu} = \delta_{\nu\nu} = 2.
+            \end{align}
+            For the second integral in the anti-symmetric two body elements we
+            get
+            \begin{align}
+                \bra{\phi_P\phi_J}\twohamil\ket{\phi_J\phi_Q}
+                &= \braket{\sigma}{\nu}\braket{\nu}{\tau}
+                \bra{\varphi_p\varphi_j}\twohamil\ket{\varphi_j\varphi_q}
+                = \delta_{\sigma\tau}
+                \bra{\varphi_p\varphi_j}\twohamil\ket{\varphi_j\varphi_q},
+            \end{align}
+            where we've used the completness relation for the spin of the
+            occupied molecular orbitals, viz.
+            \begin{align}
+                \ket{\nu}\bra{\nu}
+                = \1 \in \mathbb{R}^{2 \times 2}.
+            \end{align}
+            Collecting terms, we get the Fock matrix elements
+            \begin{align}
+                \bra{\phi_P}\fock\ket{\phi_Q}
+                &=
+                \delta_{\sigma\tau}
+                \para{
+                    \bra{\varphi_p}\onehamil\ket{\varphi_q}
+                    +
+                    2
+                    \bra{\varphi_p\varphi_j}\twohamil\ket{\varphi_q\varphi_j}
+                    -
+                    \bra{\varphi_p\varphi_j}\twohamil\ket{\varphi_j\varphi_q}
+                },
+            \end{align}
+            where we see that the spin-dependence has been removed from the
+            orbital integrals.
+            We can therefore restrict ourselves to the orbital integrals for the
+            Fock matrix elements.
+            \begin{align}
+                \bra{\varphi_p}\fock\ket{\varphi_q}
+                &=
+                \bra{\varphi_p}\onehamil\ket{\varphi_q}
+                +
+                2
+                \bra{\varphi_p\varphi_j}\twohamil\ket{\varphi_q\varphi_j}
+                -
+                \bra{\varphi_p\varphi_j}\twohamil\ket{\varphi_j\varphi_q}.
+            \end{align}
+            This lets us look for coefficients for the orbitals that are
+            independent of the spin.
+            \begin{align}
+                \ket{\varphi_p} = C_{\alpha p} \ket{\chi_{\alpha}},
+            \end{align}
+            where $\brac{\ket{\chi_{\alpha}}}_{\alpha = 1}^{K}$ is our basis of
+            known atomic orbitals, without spin.
+            By projecting the canonical Hartree-Fock equations for the orbitals
+            onto the atomic orbitals we will again be left with the Roothan-Hall
+            equations.
 
         \subsection{The unrestricted Hartree-Fock method}
 
