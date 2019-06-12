@@ -552,18 +552,76 @@
             \end{align}
             Introducing the density matrix of the occupied orbitals
             \begin{align}
-                D_{\gamma\delta} \equiv
+                D_{\delta\gamma} \equiv
                 C^{*}_{\gamma j} C_{\delta j},
             \end{align}
-            we can write the matrix elements of the Fock operator in terms of
-            the atomic orbitals and the density matrix as
+            where it is important to note the ordering of the indices.
+            We can then write the matrix elements of the Fock operator in terms
+            of the atomic orbitals and the density matrix as
             \begin{align}
                 \fockten_{\alpha\beta}
                 &= \bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
                 +
-                D_{\gamma\delta}
+                D_{\delta\gamma}
                 \bra{\chi_{\alpha}\chi_{\gamma}}\twohamil\ket{\chi_{\beta}\chi_{\delta}}_{AS}.
             \end{align}
+            % TODO: Describe the SCF-procedure
+            % TODO: Describe how to handle non-orthogonal atomic orbitals
+
+            Having found the coefficients from the self-consistent field
+            iterations and therefore the molecular orbitals and the ground state
+            in the Hartree-Fock regime, we are at liberty to compute various
+            observables.
+
+            \subsubsection{General Hartree-Fock energy}
+                The Hartree-Fock energy can be found by inserting the expansion
+                of the molecular orbitals in the energy functional from
+                \autoref{eq:energy_func_hf}.
+                \begin{align}
+                    \energy
+                    &= \bra{\phi_i}\onehamil\ket{\phi_i}
+                    + \half\bra{\phi_i\phi_j}\twohamil\ket{\phi_i\phi_j}_{AS}
+                    \\
+                    &=
+                    C^{*}_{\alpha i} C_{\beta i}
+                    \bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
+                    + \half
+                    C^{*}_{\alpha i} C_{\gamma i}
+                    C^{*}_{\beta j} C_{\delta j}
+                    \bra{\chi_{\alpha}\chi_{\beta}}\twohamil
+                    \ket{\chi_{\gamma}\chi_{\delta}}_{AS}
+                    \\
+                    &=
+                    D^{\beta}_{\alpha} \oneten^{\alpha}_{\beta}
+                    + \half
+                    D^{\gamma}_{\alpha} D^{\delta}_{\beta}
+                    \twoten^{\alpha \beta}_{\gamma \delta}.
+                    \label{eq:general-hartree-fock-energy}
+                \end{align}
+
+            \subsubsection{General Hartree-Fock one-body density matrix}
+                Due to the orthonormality of the molecular orbitals, the
+                one-body density matrix is particularly comfortable to compute.
+                \begin{align}
+                    \densityten^{p}_{q}
+                    = \braslat
+                    \ccr{q}
+                    \can{p}
+                    \ketslat
+                    = \delta_{p \in o}\delta_{pq},
+                \end{align}
+                where we have labelled the set of occupied indices in the Slater
+                determinants by $o = \brac{1, \dots N}$.
+                We can represent the one-body density matrix as a block matrix
+                by
+                \begin{align}
+                    \vfg{\densityten}
+                    = \begin{pmatrix}
+                        \1_{N \times N} & \vfg{0}_{N \times M} \\
+                        \vfg{0}_{M \times N} & \vfg{0}_{M \times M}
+                    \end{pmatrix},
+                \end{align}
+                where $M = L - N$, i.e., the number of virtual basis states.
 
         \subsection{The restricted Hartree-Fock method}
             In the restricted Hartree-Fock method we make the assumption that
