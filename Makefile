@@ -1,4 +1,4 @@
 
 
 build: main.tex
-	latexmk -lualatex
+	latexmk -lualatex -shell-escape
