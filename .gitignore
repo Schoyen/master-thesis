@@ -12,7 +12,11 @@
 *.fdb_*
 *.fls
 *.sqlite
+*.auxlock
 main.pdf
+
+# Figure output
+figures/main-figure*
 
 # Swap files
 *.swp
