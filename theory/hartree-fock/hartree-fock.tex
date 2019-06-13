@@ -762,7 +762,106 @@
             known atomic orbitals, without spin.
             By projecting the canonical Hartree-Fock equations for the orbitals
             onto the atomic orbitals we will again be left with the Roothan-Hall
-            equations.
+            equations as in the case of the general Hartree-Fock method.
+            However, the difference between the restricted and the general
+            Hartree-Fock methods lies in our calculation of the Fock matrix
+            elements in the atomic orbital basis.
+            \begin{align}
+                \fockten_{\alpha\beta}
+                &\equiv \bra{\chi_{\alpha}}\fock\ket{\chi_{\beta}}
+                =
+                \bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
+                +
+                2 \bra{\chi_{\alpha}\varphi_j}
+                \twohamil
+                \ket{\chi_{\beta}\varphi_j}
+                - \bra{\chi_{\alpha}\varphi_j}
+                \twohamil
+                \ket{\varphi_j\chi_{\beta}}
+                \\
+                &=
+                \bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
+                + 2 C^{*}_{j\gamma} C_{j\delta}
+                \bra{\chi_{\alpha}\chi_{\gamma}}
+                \twohamil
+                \ket{\chi_{\beta}\chi_{\delta}}
+                - C^{*}_{j\gamma} C_{j\delta}
+                \bra{\chi_{\alpha}\chi_{\gamma}}
+                \twohamil
+                \ket{\chi_{\delta}\chi_{\beta}}
+                \\
+                &=
+                \bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
+                + D_{\delta\gamma}
+                \para{
+                    2
+                    \bra{\chi_{\alpha}\chi_{\gamma}}
+                    \twohamil
+                    \ket{\chi_{\beta}\chi_{\delta}}
+                    -
+                    \bra{\chi_{\alpha}\chi_{\gamma}}
+                    \twohamil
+                    \ket{\chi_{\delta}\chi_{\beta}}
+                }.
+                \label{eq:atomic-fock-rhf}
+            \end{align}
+
+            By proceeding witht the self-consistent field iterations solving the
+            Roothan-Hall equations with \autoref{eq:atomic-fock-rhf} as the
+            definition of the Fock matrix elements, we find the orbital
+            coefficient matrix $\vfg{C} \in \mathbb{C}^{K \times L/2}$ which we
+            use to transform to the restricted molecular orbitals.
+            Once transformed, we are at liberty to introduce spin-redundancy to
+            open up for more general post Hartree-Fock methods.
+
+            \subsubsection{Restricted Hartree-Fock energy}
+                We can compute the ground-state restricted Hartree-Fock energy
+                by inserting our expression for the restricted molecular
+                orbitals into the energy functional in
+                \autoref{eq:energy_func_hf}.
+                \begin{align}
+                    \energy
+                    &= \bra{\Phi}\hamil\ket{\Phi}
+                    = \bra{\phi_I}\onehamil\ket{\phi_I}
+                    + \half
+                    \bra{\phi_I\phi_J}
+                    \twohamil
+                    \ket{\phi_I\phi_J}_{AS}
+                    \\
+                    &=
+                    \delta_{\sigma\sigma}
+                    \bra{\varphi_i}\onehamil\ket{\varphi_i}
+                    + \half\para{
+                        \delta_{\sigma\sigma}\delta_{\tau\tau}
+                        \bra{\varphi_i\varphi_j}
+                        \twohamil
+                        \ket{\varphi_i\varphi_j}
+                        - \delta_{\sigma\tau}\delta_{\tau\sigma}
+                        \bra{\varphi_i\varphi_j}
+                        \twohamil
+                        \ket{\varphi_j\varphi_i}
+                    }
+                    \\
+                    &=
+                    2
+                    D_{\beta \alpha}
+                    %C^{*}_{\alpha i} C_{\beta i}
+                    \bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
+                    + \para{
+                        2
+                        D_{\gamma\alpha} D_{\delta\beta}
+                        %C^{*}_{\alpha i} C_{\gamma i}
+                        %C^{*}_{\beta j} C_{\delta j}
+                        -
+                        D_{\delta\alpha}
+                        D_{\gamma\beta}
+                        %C^{*}_{\alpha i} C_{\delta i}
+                        %C^{*}_{\beta j} C_{\gamma j}
+                    }
+                    \bra{\chi_{\alpha}\chi_{\beta}}
+                    \twohamil
+                    \ket{\chi_{\gamma}\chi_{\delta}}.
+                \end{align}
 
         \subsection{The unrestricted Hartree-Fock method}
 
