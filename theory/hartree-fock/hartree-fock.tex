@@ -794,17 +794,24 @@
                 \bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
                 + D_{\delta\gamma}
                 \para{
-                    2
                     \bra{\chi_{\alpha}\chi_{\gamma}}
                     \twohamil
                     \ket{\chi_{\beta}\chi_{\delta}}
                     -
+                    \half
                     \bra{\chi_{\alpha}\chi_{\gamma}}
                     \twohamil
                     \ket{\chi_{\delta}\chi_{\beta}}
-                }.
+                },
                 \label{eq:atomic-fock-rhf}
             \end{align}
+            where we've introduced the restriced density matrix
+            \begin{align}
+                D_{\beta \alpha}
+                = 2 C^{*}_{\alpha i} C_{\beta i},
+            \end{align}
+            as the index $i \in \brac{1, \dots, N / 2}$, where $N$ is the number
+            of occupied states in the Hartree-Fock Slater determinant.
 
             By proceeding witht the self-consistent field iterations solving the
             Roothan-Hall equations with \autoref{eq:atomic-fock-rhf} as the
@@ -843,25 +850,56 @@
                     }
                     \\
                     &=
-                    2
-                    D_{\beta \alpha}
-                    %C^{*}_{\alpha i} C_{\beta i}
-                    \bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
-                    + \para{
-                        2
-                        D_{\gamma\alpha} D_{\delta\beta}
-                        %C^{*}_{\alpha i} C_{\gamma i}
-                        %C^{*}_{\beta j} C_{\delta j}
-                        -
-                        D_{\delta\alpha}
-                        D_{\gamma\beta}
-                        %C^{*}_{\alpha i} C_{\delta i}
-                        %C^{*}_{\beta j} C_{\gamma j}
+                    D^{\beta}_{\alpha}
+                    \oneten^{\alpha}_{\beta}
+                    + \half\para{
+                        D^{\beta}_{\alpha}
+                        D^{\delta}_{\gamma}
+                        \twotensym^{\alpha\gamma}_{\beta\delta}
+                        - \half
+                        D^{\beta}_{\alpha}
+                        D^{\delta}_{\gamma}
+                        \twotensym^{\alpha\gamma}_{\delta\beta}
                     }
-                    \bra{\chi_{\alpha}\chi_{\beta}}
-                    \twohamil
-                    \ket{\chi_{\gamma}\chi_{\delta}}.
+                    \\
+                    &=
+                    D^{\beta}_{\alpha}
+                    \brac{
+                        \oneten^{\alpha}_{\beta}
+                        + \half D^{\delta}_{\gamma}
+                        \para{
+                            \twotensym^{\alpha\gamma}_{\beta\delta}
+                            - \half
+                            \twotensym^{\alpha\gamma}_{\delta\beta}
+                        }
+                    },
+                    %&=
+                    %D_{\beta \alpha}
+                    %%C^{*}_{\alpha i} C_{\beta i}
+                    %\bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
+                    %+ \half\para{
+                    %    D_{\gamma\alpha} D_{\delta\beta}
+                    %    %C^{*}_{\alpha i} C_{\gamma i}
+                    %    %C^{*}_{\beta j} C_{\delta j}
+                    %    -
+                    %    \half
+                    %    D_{\delta\alpha}
+                    %    D_{\gamma\beta}
+                    %    %C^{*}_{\alpha i} C_{\delta i}
+                    %    %C^{*}_{\beta j} C_{\gamma j}
+                    %}
+                    %\bra{\chi_{\alpha}\chi_{\beta}}
+                    %\twohamil
+                    %\ket{\chi_{\gamma}\chi_{\delta}}.
                 \end{align}
+                where we've introduced the notation
+                \begin{align}
+                    \twotensym^{\alpha\beta}_{\gamma\delta}
+                    \equiv \bra{\chi_{\alpha}\chi_{\beta}}
+                    \twohamil
+                    \ket{\chi_{\gamma}\chi_{\delta}},
+                \end{align}
+                for the two-body integrals.
 
         \subsection{The unrestricted Hartree-Fock method}
 
