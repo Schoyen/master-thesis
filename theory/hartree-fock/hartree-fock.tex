@@ -686,6 +686,7 @@
                 \bra{\phi_P}\fock\ket{\phi_Q}
                 = \bra{\phi_P}\onehamil\ket{\phi_Q}
                 + \bra{\phi_P\phi_J}\twohamil\ket{\phi_Q\phi_J}_{AS}.
+                \label{eq:mo-fock-elements}
             \end{align}
             Looking at the one-body and the two-body parts separately we will
             demonstrate how the spin can be integrated out of the matrix
@@ -902,7 +903,135 @@
                 for the two-body integrals.
 
         \subsection{The unrestricted Hartree-Fock method}
-
+            The unrestricted Hartree-Fock method allows the molecular orbitals
+            to have independent orbitals for each spin-direction.
+            Hence, we assume that the molecular orbitals can be described by
+            spin-unrestricted spin-orbitals as seen in
+            \autoref{eq:unrestricted-spin-orbital}.
+            Introducing indices for the different molecular orbitals, we denote
+            the spin-unrestricted molecular orbitals by
+            \begin{align}
+                \phi_P(x)
+                &=
+                \varphi_{p\sigma}(\vf{r})
+                \sigma(m_s)
+                \implies
+                \ket{\phi_P}
+                = \ket{\varphi_{p\sigma}\sigma},
+            \end{align}
+            where $P \in \brac{1, \dots, L}$, $p \in \brac{1, \dots, L / 2}$,
+            and $\sigma \in \brac{\alpha, \beta}$.
+            Note that there is no implicit sum over the index $\sigma$ in the
+            compound index $\varphi_{p\sigma}$ and the spin-function
+            $\sigma(m_s)$.
+            We can collect the orbitals in two sets
+            $\brac{\ket{\varphi_{p\alpha}}_{p = 1}^{L / 2}}$ and
+            $\brac{\ket{\varphi_{p\beta}}_{p = 1}^{L / 2}}$.
+            The ground state Slater determinant can then be written
+            \begin{align}
+                \ketslat
+                &=
+                \ket{\phi_1 \phi_2 \dots \phi_{L - 1} \phi_L}
+                =
+                \ket{
+                    (\varphi_{1\alpha}\alpha)
+                    (\varphi_{1\beta}\beta)
+                    \dots
+                    (\varphi_{L/2\alpha}\alpha)
+                    (\varphi_{L/2\beta}\beta)
+                }.
+            \end{align}
+            The orthonormality of the molecular orbitals is given by
+            \begin{align}
+                \braket{\phi_P}{\phi_Q}
+                &= \delta^{P}_{Q}
+                = \braket{\sigma}{\tau}
+                \braket{\varphi_{p\sigma}}{\varphi_{q\tau}}
+                = \delta^{\sigma}_{\tau}
+                S^{p\sigma}_{q\tau},
+            \end{align}
+            where the overlap between two orbitals with differing spin is not
+            necessarily zero.
+            However, if the two spin-directions are the same, i.e., $\sigma =
+            \tau$, we get
+            \begin{align}
+                S^{p\sigma}_{q\sigma}
+                \equiv
+                \braket{\varphi_{p\sigma}}{\varphi_{q\sigma}}
+                = \delta^{p}_{q}.
+            \end{align}
+            Inserting the unrestricted spin-orbitals into the canonical
+            Hartree-Fock equation yields
+            \begin{align}
+                \fock\ket{\phi_P}
+                = \epsilon_P\ket{\phi_P}
+                \implies
+                \fock\ket{\varphi_{p\sigma}\sigma}
+                = \epsilon_{p\sigma}\ket{\varphi_{p\sigma} \sigma},
+            \end{align}
+            which demonstrates how each spin-component yields a different
+            equation as the Fock eigen energies $\epsilon_{p\alpha}$ is in
+            general different from $\epsilon_{p\beta}$.
+            By projecting onto another molecular orbital as in
+            \autoref{eq:mo-fock-elements} we demonstrate how the spin decouples
+            and yields two separate Fock matrices, one for each spin-direction.
+            The one-body elements in the molecular orbital basis is given by
+            \begin{align}
+                \bra{\phi_P}\onehamil\ket{\phi_Q}
+                &= \braket{\sigma}{\tau}
+                \bra{\varphi_{p\sigma}}
+                \onehamil
+                \ket{\varphi_{q\tau}}
+                = \delta^{\sigma}_{\tau}
+                \oneten^{p\sigma}_{q\tau},
+            \end{align}
+            where we again stress that the compound indices $p\sigma$ and
+            $q\tau$ should not be summed with the spin-functions occuring in the
+            Kronecker-Delta.
+            The two-body elements yield
+            \begin{align}
+                \bra{\phi_P\phi_J}
+                \twohamil
+                \ket{\phi_Q\phi_J}
+                &=
+                \braket{\sigma}{\tau}
+                \braket{\nu}{\nu}
+                \bra{\varphi_{p\sigma}\varphi_{j\nu}}
+                \twohamil
+                \ket{\varphi_{q\tau}\varphi_{j\nu}}
+                =
+                \delta^{\sigma}_{\tau}
+                \twotensym^{p\sigma j\nu}_{q\tau j\nu},
+            \end{align}
+            where, unlike in the restricted scheme, we get no factor $2$ from
+            the Kronecker-Delta $\delta^{\nu}_{\nu}$ as the orbitals in the two
+            different spin-directions are unequal.
+            \begin{align}
+                \bra{\phi_P\phi_J}
+                \twohamil
+                \ket{\phi_J\phi_Q}
+                &=
+                \braket{\sigma}{\nu}
+                \braket{\nu}{\tau}
+                \bra{\varphi_{p\sigma}\varphi_{j\nu}}
+                \twohamil
+                \ket{\varphi_{j\nu}\varphi_{q\tau}}
+                =
+                \delta^{\sigma}_{\tau}
+                \twotensym^{p\sigma j\sigma}_{j \tau q\tau}.
+            \end{align}
+            Collecting terms we are then left with
+            \begin{align}
+                \bra{\phi_P}\fock\ket{\phi_Q}
+                &=
+                \delta^{\sigma}_{\tau}
+                \para{
+                    \oneten^{p\sigma}_{q\tau}
+                    + \twotensym^{p\sigma j\nu}_{q\tau j\nu}
+                    - \twotensym^{p\sigma j\sigma}_{j\tau q\tau}
+                }
+                = \delta^{\sigma}_{\tau} \fockten^{p\sigma}_{q\tau}.
+            \end{align}
 
 
 \input{theory/hartree-fock/time-dependent-hartree-fock.tex}
