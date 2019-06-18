@@ -286,6 +286,74 @@
     \section{Time-dependent coupled cluster theory}
         Stuff!
 
+        \subsection{Normalization of the coupled cluster wave functions in time}
+            We compute the normalization of the coupled cluster wave function by
+            \begin{align}
+                \braket{\tilde{\Psi}(t)}{\Psi(t)} = N(t).
+            \end{align}
+            When using static orbitals this reduces to
+            \begin{align}
+                \braket{\tilde{\Psi}(t)}{\Psi(t)}
+                = \bra{\slat}\para{
+                    \1 + \clustl(t)
+                } e^{-\clust(t)}
+                e^{\clust(t)}
+                \ket{\slat}
+                = \braket{\slat}{\slat}
+                = 1,
+            \end{align}
+            where we assume that the reference determinant is normalized to
+            unity.
+            We can then see that the static formulation of the coupled cluster
+            methods are, by construction, normalized to unity.
+            However, for the orbital-adaptive method where the orbitals are
+            allowed to vary in time, the picture changes.
+            \begin{align}
+                \braket{\tilde{\Psi}(t)}{\Psi(t)}
+                &=
+                \bra{\tilde{\Phi}(t)}
+                \para{
+                    \1 + \clustl(t)
+                }
+                e^{-\clust(t)}
+                e^{\clust(t)}
+                \ket{\slat(t)}
+                \\
+                &= \braket{\tilde{\Phi}(t)}{\Phi(t)}
+                = \det\brak{\vfg{T}(t)}
+                = N(t),
+                \label{eq:norm-oatdcc}
+            \end{align}
+            where we have introduced the matrix $\vfg{T}(t)$ as the product of
+            the coefficient matrices for occupied indices.
+            That is,
+            \begin{align}
+                T^{i}_{j}(t) = \tilde{C}^{i}_{\alpha}(t) C^{\alpha}_j(t)
+            \end{align}
+            where the coefficients are limited to run over the occupied orbitals
+            in the reference Slater determinants, but $\alpha$ runs over all the
+            atomic orbitals\footnote{%
+                There is no problem in computing the determinant of the full
+                product between the coefficient matrices as this should yield
+                the identity, but formally only the occupied orbitals are
+                included in the reference states.
+            }.
+            Here we observe that the normalization constant can change in time.
+            Mathematically, we construct the product between the coefficients to
+            be the identity, i.e.,
+            \begin{align}
+                \tilde{\vfg{C}}(t)\vfg{C}(t)
+                = \1,
+                \label{eq:oatdcc-coeff-identity}
+            \end{align}
+            where this product runs over all indices $p$ and $q$.
+            We therefore expect that $N(t) = 1$ for all times $t$, but due to
+            integration errors in the numerical differential equation solvers we
+            will observe a time-dependent drift.
+            By measuring the time-dependent norm from \autoref{eq:norm-oatdcc}
+            and the preservation of the identity for the coefficients from
+            \autoref{eq:oatdcc-coeff-identity} in the orbital-adaptive regime,
+            we can make an educated guess as to when the integration breaks.
 
         \subsection{Measuring the quality of the reference state in time}
             When evolving a system in time, we can -- and will -- get in a
