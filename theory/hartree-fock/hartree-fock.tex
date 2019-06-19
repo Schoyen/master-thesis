@@ -913,20 +913,19 @@
             \begin{align}
                 \phi_P(x)
                 &=
-                \varphi_{p\sigma}(\vf{r})
+                \varphi^{\sigma}_{p}(\vf{r})
                 \sigma(m_s)
                 \implies
                 \ket{\phi_P}
-                = \ket{\varphi_{p\sigma}\sigma},
+                = \ket{\varphi^{\sigma}_{p}\sigma},
             \end{align}
             where $P \in \brac{1, \dots, L}$, $p \in \brac{1, \dots, L / 2}$,
             and $\sigma \in \brac{\alpha, \beta}$.
-            Note that there is no implicit sum over the index $\sigma$ in the
-            compound index $\varphi_{p\sigma}$ and the spin-function
-            $\sigma(m_s)$.
+            Note that there is no implicit sum over the label $\sigma$ in the
+            orbital $\varphi^{\sigma}_{p}$ and the spin-function $\sigma(m_s)$.
             We can collect the orbitals in two sets
-            $\brac{\ket{\varphi_{p\alpha}}_{p = 1}^{L / 2}}$ and
-            $\brac{\ket{\varphi_{p\beta}}_{p = 1}^{L / 2}}$.
+            $\brac{\ket{\varphi^{\alpha}_{p}}_{p = 1}^{L / 2}}$ and
+            $\brac{\ket{\varphi^{\beta}_{p}}_{p = 1}^{L / 2}}$.
             The ground state Slater determinant can then be written
             \begin{align}
                 \ketslat
@@ -934,11 +933,11 @@
                 \ket{\phi_1 \phi_2 \dots \phi_{L - 1} \phi_L}
                 =
                 \ket{
-                    (\varphi_{1\alpha}\alpha)
-                    (\varphi_{1\beta}\beta)
+                    (\varphi^{\alpha}_{1}\alpha)
+                    (\varphi^{\beta}_{1}\beta)
                     \dots
-                    (\varphi_{L/2\alpha}\alpha)
-                    (\varphi_{L/2\beta}\beta)
+                    (\varphi^{\alpha}_{L/2}\alpha)
+                    (\varphi^{\beta}_{L/2}\beta)
                 }.
             \end{align}
             The orthonormality of the molecular orbitals is given by
@@ -946,18 +945,14 @@
                 \braket{\phi_P}{\phi_Q}
                 &= \delta^{P}_{Q}
                 = \braket{\sigma}{\tau}
-                \braket{\varphi_{p\sigma}}{\varphi_{q\tau}}
-                = \delta^{\sigma}_{\tau}
-                S^{p\sigma}_{q\tau},
+                \braket{\varphi^{\sigma}_{p}}{\varphi^{\tau}_{q}},
             \end{align}
             where the overlap between two orbitals with differing spin is not
             necessarily zero.
             However, if the two spin-directions are the same, i.e., $\sigma =
             \tau$, we get
             \begin{align}
-                S^{p\sigma}_{q\sigma}
-                \equiv
-                \braket{\varphi_{p\sigma}}{\varphi_{q\sigma}}
+                \braket{\varphi^{\sigma}_{p}}{\varphi^{\sigma}_{q}}
                 = \delta^{p}_{q}.
             \end{align}
             Inserting the unrestricted spin-orbitals into the canonical
@@ -966,28 +961,33 @@
                 \fock\ket{\phi_P}
                 = \epsilon_P\ket{\phi_P}
                 \implies
-                \fock\ket{\varphi_{p\sigma}\sigma}
-                = \epsilon_{p\sigma}\ket{\varphi_{p\sigma} \sigma},
+                \fock\ket{\varphi^{\sigma}_{p}\sigma}
+                = \epsilon^{\sigma}_{p}\ket{\varphi^{\sigma}_{p} \sigma},
             \end{align}
             which demonstrates how each spin-component yields a different
-            equation as the Fock eigen energies $\epsilon_{p\alpha}$ is in
-            general different from $\epsilon_{p\beta}$.
+            equation as the Fock eigenenergies $\epsilon^{\alpha}_{p}$ is in
+            general different from $\epsilon^{\beta}_{p}$.
             By projecting onto another molecular orbital as in
             \autoref{eq:mo-fock-elements} we demonstrate how the spin decouples
-            and yields two separate Fock matrices, one for each spin-direction.
+            and yields two separate Fock matrices, one for each
+            spin-direction.\footnote{%
+                Note that this assumes a spin-independent Hamiltonian.
+            }
             The one-body elements in the molecular orbital basis is given by
             \begin{align}
                 \bra{\phi_P}\onehamil\ket{\phi_Q}
                 &= \braket{\sigma}{\tau}
-                \bra{\varphi_{p\sigma}}
+                \bra{\varphi^{\sigma}_{p}}
                 \onehamil
-                \ket{\varphi_{q\tau}}
+                \ket{\varphi^{\tau}_{q}}
                 = \delta^{\sigma}_{\tau}
-                \oneten^{p\sigma}_{q\tau},
+                \bra{\varphi^{\sigma}_{p}}
+                \onehamil
+                \ket{\varphi^{\tau}_{q}}
             \end{align}
-            where we again stress that the compound indices $p\sigma$ and
-            $q\tau$ should not be summed with the spin-functions occuring in the
-            Kronecker-Delta.
+            where we again stress that the spin indices $\sigma$ and $\tau$ in
+            the orbitals serve as labels and are not to be summed with the spin
+            Kronecker-Deltas.
             The two-body elements yield
             \begin{align}
                 \bra{\phi_P\phi_J}
@@ -996,12 +996,14 @@
                 &=
                 \braket{\sigma}{\tau}
                 \braket{\nu}{\nu}
-                \bra{\varphi_{p\sigma}\varphi_{j\nu}}
+                \bra{\varphi^{\sigma}_{p}\varphi^{\nu}_{j}}
                 \twohamil
-                \ket{\varphi_{q\tau}\varphi_{j\nu}}
+                \ket{\varphi^{\tau}_{q}\varphi^{\nu}_{j}}
                 =
                 \delta^{\sigma}_{\tau}
-                \twotensym^{p\sigma j\nu}_{q\tau j\nu},
+                \bra{\varphi^{\sigma}_{p}\varphi^{\nu}_{j}}
+                \twohamil
+                \ket{\varphi^{\tau}_{q}\varphi^{\nu}_{j}},
             \end{align}
             where, unlike in the restricted scheme, we get no factor $2$ from
             the Kronecker-Delta $\delta^{\nu}_{\nu}$ as the orbitals in the two
@@ -1030,8 +1032,55 @@
                     + \twotensym^{p\sigma j\nu}_{q\tau j\nu}
                     - \twotensym^{p\sigma j\sigma}_{j\tau q\tau}
                 }
-                = \delta^{\sigma}_{\tau} \fockten^{p\sigma}_{q\tau}.
+                =
+                \delta^{\sigma}_{\tau}
+                \bra{\varphi_{p\sigma}}\fock\ket{\varphi_{q\tau}}
+                = \delta^{\sigma}_{\tau} \fockten^{p\sigma}_{q\tau},
             \end{align}
+            where we've demonstrated how the spin factors out of the canonical
+            Hartree-Fock equations, but we do note in the first term of the
+            anti-symmetric two-body elements that we sum over both
+            spin-directions.
+            This provides a coupling between the orbitals of different spin.
+            We now look for a set of coefficients for the orbitals in each
+            spin-direction in terms of our original atomic orbital basis.
+            \begin{align}
+                \ket{\varphi_{p\sigma}}
+                &= C^{\kappa}_{p\sigma} \ket{\chi_{\kappa}},
+            \end{align}
+            where we use the greek letters $\kappa$, $\lambda$, $\mu$, and $\nu$
+            for the atomic orbitals to avoid confusion with the spin-functions
+            $\alpha(m_s)$ and $\beta(m_s)$.
+            Left-projecting the atomic orbital basis on the canonical
+            Hartree-Fock equations acting on an orbital in the unrestriced
+            regime yields
+            \begin{gather}
+                \bra{\chi_{\kappa}}\fock\ket{\varphi_{p\sigma}}
+                = \epsilon_{p\sigma}
+                \braket{\chi_{\kappa}}{\varphi_{p\sigma}}
+                \\
+                \implies
+                C^{\lambda}_{p\sigma}
+                \bra{\chi_{\kappa}}\fock\ket{\chi_{\lambda}}
+                = C^{\lambda}_{p\sigma} \epsilon_{p\sigma}
+                \braket{\chi_{\kappa}}{\chi_{\lambda}}
+                \\
+                \implies
+                \fockten^{\kappa}_{\lambda}
+                C^{\lambda}_{p\sigma}
+                =
+                S^{\kappa}_{\lambda}
+                C^{\lambda}_{p\sigma}
+                \epsilon_{p\sigma}
+                \\
+                \implies
+                \vfg{F}^{\sigma}
+                \vfg{C}^{\sigma}
+                =
+                \vfg{S}
+                \vfg{C}^{\sigma}
+                \vfg{\epsilon}^{\sigma}
+            \end{gather}
 
 
 \input{theory/hartree-fock/time-dependent-hartree-fock.tex}
