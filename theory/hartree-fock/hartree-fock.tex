@@ -968,9 +968,8 @@
             equation as the Fock eigenenergies $\epsilon^{\alpha}_{p}$ is in
             general different from $\epsilon^{\beta}_{p}$.
             By projecting onto another molecular orbital as in
-            \autoref{eq:mo-fock-elements} we demonstrate how the spin decouples
-            and yields two separate Fock matrices, one for each
-            spin-direction.\footnote{%
+            \autoref{eq:mo-fock-elements} we demonstrate how the spin yields two
+            separate Fock matrices, one for each spin-direction.\footnote{%
                 Note that this assumes a spin-independent Hamiltonian.
             }
             The one-body elements in the molecular orbital basis is given by
@@ -985,9 +984,6 @@
                 \onehamil
                 \ket{\varphi^{\tau}_{q}}
             \end{align}
-            where we again stress that the spin indices $\sigma$ and $\tau$ in
-            the orbitals serve as labels and are not to be summed with the spin
-            Kronecker-Deltas.
             The two-body elements yield
             \begin{align}
                 \bra{\phi_P\phi_J}
@@ -995,32 +991,49 @@
                 \ket{\phi_Q\phi_J}
                 &=
                 \braket{\sigma}{\tau}
-                \braket{\nu}{\nu}
-                \bra{\varphi^{\sigma}_{p}\varphi^{\nu}_{j}}
+                \braket{\rho}{\rho}
+                \bra{\varphi^{\sigma}_{p}\varphi^{\rho}_{j}}
                 \twohamil
-                \ket{\varphi^{\tau}_{q}\varphi^{\nu}_{j}}
+                \ket{\varphi^{\tau}_{q}\varphi^{\rho}_{j}}
                 =
                 \delta^{\sigma}_{\tau}
-                \bra{\varphi^{\sigma}_{p}\varphi^{\nu}_{j}}
+                \bra{\varphi^{\sigma}_{p}\varphi^{\rho}_{j}}
                 \twohamil
-                \ket{\varphi^{\tau}_{q}\varphi^{\nu}_{j}},
+                \ket{\varphi^{\tau}_{q}\varphi^{\rho}_{j}}
+                \\
+                &=
+                \delta^{\sigma}_{\tau}
+                \para{
+                    \bra{\varphi^{\sigma}_{p}\varphi^{\alpha}_{j}}
+                    \twohamil
+                    \ket{\varphi^{\tau}_{q}\varphi^{\alpha}_{j}}
+                    +
+                    \bra{\varphi^{\sigma}_{p}\varphi^{\beta}_{j}}
+                    \twohamil
+                    \ket{\varphi^{\tau}_{q}\varphi^{\beta}_{j}}
+                },
             \end{align}
             where, unlike in the restricted scheme, we get no factor $2$ from
-            the Kronecker-Delta $\delta^{\nu}_{\nu}$ as the orbitals in the two
+            the Kronecker-Delta $\delta^{\rho}_{\rho}$ as the orbitals in the two
             different spin-directions are unequal.
+            We note that this term provides a coupling between the orbitals in
+            both spin-directions.
+            The last term in the anti-symmetric two-body elements is given by
             \begin{align}
                 \bra{\phi_P\phi_J}
                 \twohamil
                 \ket{\phi_J\phi_Q}
                 &=
-                \braket{\sigma}{\nu}
-                \braket{\nu}{\tau}
-                \bra{\varphi_{p\sigma}\varphi_{j\nu}}
+                \braket{\sigma}{\rho}
+                \braket{\rho}{\tau}
+                \bra{\varphi^{\sigma}_{p}\varphi^{\rho}_{j}}
                 \twohamil
-                \ket{\varphi_{j\nu}\varphi_{q\tau}}
+                \ket{\varphi^{\rho}_{j}\varphi^{\tau}_{q}}
                 =
                 \delta^{\sigma}_{\tau}
-                \twotensym^{p\sigma j\sigma}_{j \tau q\tau}.
+                \bra{\varphi^{\sigma}_{p}\varphi^{\tau}_{j}}
+                \twohamil
+                \ket{\varphi^{\sigma}_{j}\varphi^{\tau}_{q}}.
             \end{align}
             Collecting terms we are then left with
             \begin{align}
@@ -1028,59 +1041,127 @@
                 &=
                 \delta^{\sigma}_{\tau}
                 \para{
-                    \oneten^{p\sigma}_{q\tau}
-                    + \twotensym^{p\sigma j\nu}_{q\tau j\nu}
-                    - \twotensym^{p\sigma j\sigma}_{j\tau q\tau}
-                }
-                =
-                \delta^{\sigma}_{\tau}
-                \bra{\varphi_{p\sigma}}\fock\ket{\varphi_{q\tau}}
-                = \delta^{\sigma}_{\tau} \fockten^{p\sigma}_{q\tau},
+                    \bra{\varphi^{\sigma}_{p}}
+                    \onehamil
+                    \ket{\varphi^{\tau}_{q}}
+                    +
+                    \bra{\varphi^{\sigma}_{p}\varphi^{\rho}_{j}}
+                    \twohamil
+                    \ket{\varphi^{\tau}_{q}\varphi^{\rho}_{j}}
+                    -
+                    \bra{\varphi^{\sigma}_{p}\varphi^{\tau}_{j}}
+                    \twohamil
+                    \ket{\varphi^{\sigma}_{j}\varphi^{\tau}_{q}}
+                },
             \end{align}
-            where we've demonstrated how the spin factors out of the canonical
-            Hartree-Fock equations, but we do note in the first term of the
-            anti-symmetric two-body elements that we sum over both
-            spin-directions.
-            This provides a coupling between the orbitals of different spin.
+            where we've demonstrated how the spin yields two different Fock
+            matrices from the canonical Hartree-Fock equations.
+            That is,
+            \begin{align}
+                \bra{\varphi^{\sigma}_{p}}\fock\ket{\varphi^{\sigma}_{q}}
+                &=
+                \bra{\varphi^{\sigma}_{p}}
+                \onehamil
+                \ket{\varphi^{\sigma}_{q}}
+                +
+                \bra{\varphi^{\sigma}_{p}\varphi^{\rho}_{j}}
+                \twohamil
+                \ket{\varphi^{\sigma}_{q}\varphi^{\rho}_{j}}
+                -
+                \bra{\varphi^{\sigma}_{p}\varphi^{\sigma}_{j}}
+                \twohamil
+                \ket{\varphi^{\sigma}_{j}\varphi^{\sigma}_{q}},
+            \end{align}
             We now look for a set of coefficients for the orbitals in each
             spin-direction in terms of our original atomic orbital basis.
             \begin{align}
-                \ket{\varphi_{p\sigma}}
-                &= C^{\kappa}_{p\sigma} \ket{\chi_{\kappa}},
+                \ket{\varphi^{\sigma}_{p}}
+                &= C^{\sigma}_{\kappa p} \ket{\chi_{\kappa}},
             \end{align}
             where we use the greek letters $\kappa$, $\lambda$, $\mu$, and $\nu$
             for the atomic orbitals to avoid confusion with the spin-functions
             $\alpha(m_s)$ and $\beta(m_s)$.
+            Before we demonstrate how we can generate a set of equations in
+            order to find the coefficient matrices $\vfg{C}^{\sigma}$, we
+            motivate the spin-labelling of the Fock matrices in the atomic
+            orbital basis.
+            \begin{align}
+                \fockten^{\sigma}_{\kappa\lambda}
+                &\equiv
+                \bra{\chi_{\kappa}}\fock^{\sigma}\ket{\chi_{\lambda}}
+                =
+                \oneten_{\kappa\lambda}
+                + \bra{\chi_{\kappa}\varphi^{\rho}_{j}}
+                \twohamil
+                \ket{\chi_{\lambda}\varphi^{\rho}_{j}}
+                - \bra{\chi_{\kappa}\varphi^{\sigma}_{j}}
+                \twohamil
+                \ket{\varphi^{\sigma}_{j}\chi_{\lambda}}
+                \\
+                &=
+                \oneten_{\kappa\lambda}
+                +
+                (C^{\rho}_{\mu j})^{*}
+                C^{\rho}_{\nu j}
+                \twotensym^{\kappa\mu}_{\lambda\nu}
+                -
+                (C^{\sigma}_{\mu j})^{*}
+                C^{\sigma}_{\nu j}
+                \twotensym^{\kappa\mu}_{\nu\lambda}
+                \\
+                &=
+                \oneten_{\kappa\lambda}
+                +
+                D^{\rho}_{\nu\mu}
+                \twotensym^{\kappa\mu}_{\lambda\nu}
+                -
+                D^{\sigma}_{\nu\mu}
+                \twotensym^{\kappa\mu}_{\nu\lambda},
+            \end{align}
+            where the density matrix $D^{\rho}_{\nu\mu}$ with the free
+            spin-index $\rho$ is summed yielding
+            \begin{align}
+                D^{\rho}_{\nu\mu}
+                = D^{\alpha}_{\nu\mu}
+                + D^{\beta}_{\nu\mu},
+            \end{align}
+            as opposed to the density matrix with the same spin-index as the
+            left-hand side, that is, $\sigma$.
             Left-projecting the atomic orbital basis on the canonical
             Hartree-Fock equations acting on an orbital in the unrestriced
             regime yields
             \begin{gather}
-                \bra{\chi_{\kappa}}\fock\ket{\varphi_{p\sigma}}
-                = \epsilon_{p\sigma}
-                \braket{\chi_{\kappa}}{\varphi_{p\sigma}}
+                \bra{\chi_{\kappa}}\fock^{\sigma}\ket{\varphi^{\sigma}_{p}}
+                = \epsilon^{\sigma}_{p}
+                \braket{\chi_{\kappa}}{\varphi^{\sigma}_{p}}
                 \\
                 \implies
-                C^{\lambda}_{p\sigma}
-                \bra{\chi_{\kappa}}\fock\ket{\chi_{\lambda}}
-                = C^{\lambda}_{p\sigma} \epsilon_{p\sigma}
+                C^{\sigma}_{\lambda p}
+                \bra{\chi_{\kappa}}\fock^{\sigma}\ket{\chi_{\lambda}}
+                = C^{\sigma}_{\lambda p} \epsilon^{\sigma}_{p}
                 \braket{\chi_{\kappa}}{\chi_{\lambda}}
                 \\
                 \implies
-                \fockten^{\kappa}_{\lambda}
-                C^{\lambda}_{p\sigma}
+                \fockten^{\sigma}_{\kappa \lambda}
+                C^{\sigma}_{\lambda p}
                 =
-                S^{\kappa}_{\lambda}
-                C^{\lambda}_{p\sigma}
-                \epsilon_{p\sigma}
+                \overlapten_{\kappa\lambda}
+                C^{\sigma}_{\lambda p}
+                \epsilon^{\sigma}_{p}
                 \\
                 \implies
                 \vfg{F}^{\sigma}
                 \vfg{C}^{\sigma}
                 =
-                \vfg{S}
+                \overlapmat
                 \vfg{C}^{\sigma}
-                \vfg{\epsilon}^{\sigma}
+                \vfg{\epsilon}^{\sigma}.
             \end{gather}
+            These coupled equations constitute the \emph{Pople-Nesbet
+            equations}.
+            They resemble the Roothan-Hall equations seen in the two previous
+            methods in that they are generalized eigenvalue equations, but now
+            we solve two sets of eigenvalue equations simulataneously.
 
 
 \input{theory/hartree-fock/time-dependent-hartree-fock.tex}
