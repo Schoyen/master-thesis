@@ -1163,5 +1163,50 @@
             methods in that they are generalized eigenvalue equations, but now
             we solve two sets of eigenvalue equations simulataneously.
 
+            \subsubsection{The unrestricted Hartree-Fock energy}
+                Inserting our expression for the molecular orbitals into the
+                energy functional we find the unrestricted Hartree-Fock energy.
+                \begin{align}
+                    \energy
+                    &=
+                    \bra{\slat}\hamil\ket{\slat}
+                    =
+                    \bra{\phi_I}\onehamil\ket{\phi_I}
+                    +
+                    \half
+                    \bra{\phi_I\phi_J}
+                    \twohamil
+                    \ket{\phi_I\phi_J}_{AS}
+                    \\
+                    &=
+                    \bra{\varphi^{\sigma}_{i}}
+                    \onehamil
+                    \ket{\varphi^{\sigma}_{i}}
+                    + \half\para{
+                        \bra{\varphi^{\sigma}_{i}\varphi^{\tau}_{j}}
+                        \twohamil
+                        \ket{\varphi^{\sigma}_{i}\varphi^{\tau}_{j}}
+                        -
+                        \bra{\varphi^{\sigma}_{i}\varphi^{\sigma}_{j}}
+                        \twohamil
+                        \ket{\varphi^{\sigma}_{j}\varphi^{\sigma}_{i}}
+                    }
+                    \\
+                    &=
+                    D^{\sigma}_{\beta\alpha}
+                    \oneten^{\alpha}_{\beta}
+                    + \half
+                    D^{\sigma}_{\beta\alpha}
+                    D^{\tau}_{\delta\gamma}
+                    \twotensym^{\alpha\gamma}_{\beta\delta}
+                    - \half
+                    D^{\sigma}_{\beta\alpha}
+                    D^{\sigma}_{\delta\gamma}
+                    \twotensym^{\alpha\gamma}_{\delta\beta},
+                \end{align}
+                where we've carried out the spin-sums implicitly and skipped the
+                step where we show the coefficient matrices that go into the
+                density matrices.
+
 
 \input{theory/hartree-fock/time-dependent-hartree-fock.tex}
