@@ -237,6 +237,7 @@
                     + \frac{1}{3!} \hamil_N \clust^3
                     + \frac{1}{4!} \hamil_N \clust^4
                 }_c,
+                \label{eq:connected-hamil}
             \end{align}
             where the subscript $c$ signifies that we only include the terms
             that are connected, i.e., the Hamiltonian has at least one
@@ -309,6 +310,45 @@
             That is, we are able to use all basis functions as seen in
             \autoref{fig:tiny-slater-basis}.
 
+        \subsection{Energy equations}
+            We are now ready to generate equations for the energy of the
+            many-body system using the coupled cluster method.
+            We do this by computing
+            \begin{align}
+                \bra{\slat}e^{-\clust}\hamil e^{\clust}\ket{\slat}
+                = \bra{\slat}\simhamil\ket{\slat}
+                = \bra{\slat}\simhamil_N\ket{\slat}
+                + \bra{\slat}\hamil\ket{\slat}
+                = \energycc.
+            \end{align}
+            Having already found an expression for the reference energy
+            \begin{align}
+                \energyref \equiv \bra{\slat}\hamil\ket{\slat},
+            \end{align}
+            our job is now to compute the expectation value of the similarity
+            transformed normal-ordered Hamiltonian, or more concisely, the
+            coupled cluster correlation energy.
+            Inserting the expression in \autoref{eq:connected-hamil} for the
+            Hamiltonian, we analyze term by term.
+            The first term is the expectation value of the normal-ordered
+            Hamiltonian.
+            This term is zero by construction, viz.
+            \begin{align}
+                \bra{\slat}\hamil_N\ket{\slat} = 0.
+            \end{align}
+            As we are perusing a Hamiltonian with at most two-body operators,
+            this means that the reference state can at most be twice excited by
+            the cluster ampltudes in order for the Hamiltonian to be able to
+            relax the excited state back to the reference state.
+            If not, the overlap with the reference state will become zero.
+
+
+        \subsection{Amplitude equations}
+        \subsection{Non-variational}
+        \subsection{Bi-variational principle}
+        \subsection{Hellmann-Feynman theorem}
+        \subsection{Functional formulation of the coupled cluster method}
+        \subsection{Density matrices}
 
     \section{Time-dependent coupled cluster theory}
         Stuff!
