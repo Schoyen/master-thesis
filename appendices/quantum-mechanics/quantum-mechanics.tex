@@ -394,3 +394,35 @@
             +
             \hamil_N.
         \end{align}
+        In terms of the second quantized operator the normal-ordered Hamiltonian
+        is given by
+        \begin{align}
+            \hamil_N
+            &=
+            \fock_N + \twohamil_N
+            =
+            \fockten^{p}_{q}\brac{
+                \ccr{p}
+                \can{q}
+            }
+            +
+            \frac{1}{4}
+            \twoten^{pq}_{rs}\brac{
+                \ccr{p}
+                \ccr{q}
+                \can{s}
+                \can{r}
+            }.
+        \end{align}
+        The normal-ordered Hamiltonian relative to the Fermi vacuum is defined
+        in such a manner that
+        \begin{align}
+            \bra{\slat}\hamil_N\ket{\slat}
+            = \bra{\slat}\fock_N\ket{\slat}
+            + \bra{\slat}\twohamil_N\ket{\slat}
+            = 0.
+        \end{align}
+        You can convince yourself of this by noting that the only terms that
+        do not destroy the reference state must leave it excited.
+        For an orthonormal basis of Slater determinants, this will necessarily
+        leave the overlap between the reference state and an excited state zero.
