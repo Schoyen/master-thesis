@@ -106,28 +106,197 @@
                 \can{j}
                 \can{i}
             }
+            \ket{\slat},
+        \end{align}
+        where the factor $1/16$ comes from the two factors $1/4$ of the doubles
+        amplitudes and the two-body operator to avoid overcounting.
+        For the sake of brevity we will restrict our attention to the operator
+        strings when utilizing Wick's theorem.
+        \begin{align}
+            \brac{
+                \ccr{p}
+                \ccr{q}
+                \can{s}
+                \can{r}
+            }
+            \brac{
+                \ccr{a}
+                \ccr{b}
+                \can{j}
+                \can{i}
+            }
+            &=
+            \wick{
+                \Big\{
+                    \c4 {\ccr{p}}
+                    \c3 {\ccr{q}}
+                    \c2 {\can{s}}
+                    \c1 {\can{r}}
+                \Big\}
+                \Big\{
+                    \c1 {\ccr{a}}
+                    \c2 {\ccr{b}}
+                    \c3 {\can{j}}
+                    \c4 {\can{i}}
+                \Big\}
+            }
+            \nonumber \\
+            &\qquad
+            +
+            \wick{
+                \Big\{
+                    \c4 {\ccr{p}}
+                    \c3 {\ccr{q}}
+                    \c2 {\can{s}}
+                    \c1 {\can{r}}
+                \Big\}
+                \Big\{
+                    \c2 {\ccr{a}}
+                    \c1 {\ccr{b}}
+                    \c3 {\can{j}}
+                    \c4 {\can{i}}
+                \Big\}
+            }
+            \nonumber \\
+            &\qquad
+            +
+            \wick{
+                \Big\{
+                    \c4 {\ccr{p}}
+                    \c3 {\ccr{q}}
+                    \c2 {\can{s}}
+                    \c1 {\can{r}}
+                \Big\}
+                \Big\{
+                    \c1 {\ccr{a}}
+                    \c2 {\ccr{b}}
+                    \c4 {\can{j}}
+                    \c3 {\can{i}}
+                \Big\}
+            }
+            \nonumber \\
+            &\qquad
+            +
+            \wick{
+                \Big\{
+                    \c4 {\ccr{p}}
+                    \c3 {\ccr{q}}
+                    \c2 {\can{s}}
+                    \c1 {\can{r}}
+                \Big\}
+                \Big\{
+                    \c2 {\ccr{a}}
+                    \c1 {\ccr{b}}
+                    \c4 {\can{j}}
+                    \c3 {\can{i}}
+                \Big\}
+            }
+            \\
+            &=
+            \delta_{ra}
+            \delta_{sb}
+            \delta_{qj}
+            \delta_{pi}
+            -
+            \delta_{rb}
+            \delta_{sa}
+            \delta_{qj}
+            \delta_{pi}
+            \nonumber \\
+            &\qquad
+            -
+            \delta_{ra}
+            \delta_{sb}
+            \delta_{qi}
+            \delta_{pj}
+            +
+            \delta_{rb}
+            \delta_{sa}
+            \delta_{qi}
+            \delta_{pj}.
+        \end{align}
+        Inserting the Kronecker-delta functions back into the energy
+        contribution and summing, we get
+        \begin{align}
+            \bra{\slat}\brak{
+                \twohamil_N \clust_2
+            }_c
+            \ket{\slat}
+            &=
+            \frac{1}{16}\brak{
+                \twoten^{ij}_{ab}
+                - \twoten^{ij}_{ba}
+                - \twoten^{ji}_{ab}
+                + \twoten^{ji}_{ba}
+            }\clustamp^{ab}_{ij}
+            =
+            \frac{1}{4}\twoten^{ij}_{ab}\clustamp^{ab}_{ij},
+        \end{align}
+        where we've used the anti-symmetric properties of the two-body
+        elements.
+
+        Moving on to the squared cluster operator contribution we note that the
+        only non-zero contribution to the energy can come from the singles
+        cluster operator as this provides a doubly excited state from the
+        reference state.
+        This also means that we can only get a coupling with the two-body
+        operator.
+        We are thus left with
+        \begin{align}
+            \bra{\slat}\brak{
+                \hamil_N \clust^2
+            }_c
+            \ket{\slat}
+            &=
+            \bra{\slat}\brak{
+                \twohamil_N \clust_1^2
+            }_c
             \ket{\slat}
             \\
             &=
-            \frac{1}{16}\twoten^{pq}_{rs}\clustamp^{ab}_{ij}
-            \bra{\slat}\brak{
-                \wick{
-                    \Big\{
-                        \c4 {\ccr{p}}
-                        \c3 {\ccr{q}}
-                        \c2 {\can{s}}
-                        \c1 {\can{r}}
-                    \Big\}
-                    \Big\{
-                        \c1 {\ccr{a}}
-                        \c2 {\ccr{b}}
-                        \c3 {\can{j}}
-                        \c4 {\can{i}}
-                    \Big\}
-                }
+            \frac{1}{4}\twoten^{pq}_{rs}\clustamp^{a}_{i}\clustamp^{b}_{j}
+            \bra{\slat}
+            \brac{
+                \ccr{p}
+                \ccr{q}
+                \can{s}
+                \can{r}
+            }
+            \brac{
+                \ccr{a}
+                \can{i}
+            }
+            \brac{
+                \ccr{b}
+                \can{j}
             }
             \ket{\slat}
+            \\
+            &=
+            \twoten^{ij}_{ab}\clustamp^{a}_{i}\clustamp^{b}_{j},
         \end{align}
+        where we note that the same contractions as in the previous term is
+        performed for the squared cluster operators.
+        Collecting all the contributions to the correlation energy we get
+        \begin{align}
+            \bra{\slat}\simhamil_N\ket{\slat}
+            &=
+            \bra{\slat}\brak{
+                \hamil_N\clust
+            }_{c}\ket{\slat}
+            + \frac{1}{2!}
+            \bra{\slat}\brak{
+                \hamil_N\clust^2
+            }_{c}\ket{\slat}
+            \\
+            &=
+            \fockten^{i}_{a}\clustamp^{a}_{i}
+            + \half \twoten^{ij}_{ab}\para{
+                \clustamp^{ab}_{ij}
+                + \clustamp^{a}_{i}\clustamp^{b}_{j}
+            },
+        \end{align}
+        which is what we wanted to show.
 
     \section{Coupled cluster doubles}
         The energy for the doubles truncation is given by
