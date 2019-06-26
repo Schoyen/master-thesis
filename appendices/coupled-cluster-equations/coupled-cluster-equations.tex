@@ -66,14 +66,67 @@
             }\ket{\slat}
             \\
             &=
-            % TODO: Start Wick'in!
             \fockten^{p}_{q}\clustamp^{a}_{i}
-            \bra{\slat}\brac{
-                \ccr{p}\can{q}
-            }\brac{
+            \bra{\slat}
+            \wick{
+                \Big\{
+                    \c2 {\ccr{p}}
+                    \c1 {\can{q}}
+                \Big\}
+                \Big\{
+                    \c1 {\ccr{a}}
+                    \c2 {\can{i}}
+                \Big\}
+            }
+            \ket{\slat}
+            \\
+            &=
+            \fockten^{p}_{q}\clustamp^{a}_{i}
+            \delta_{qa}\delta_{pi}
+            = \fockten^{i}_{a}\clustamp^{a}_{i}.
+        \end{align}
+        The doubles operator on the two-body operator yields
+        \begin{align}
+            \bra{\slat}\brak{
+                \twohamil_N \clust_2
+            }_c
+            \ket{\slat}
+            &=
+            \frac{1}{16}\twoten^{pq}_{rs}\clustamp^{ab}_{ij}
+            \bra{\slat}
+            \brac{
+                \ccr{p}
+                \ccr{q}
+                \can{s}
+                \can{r}
+            }
+            \brac{
                 \ccr{a}
+                \ccr{b}
+                \can{j}
                 \can{i}
-            }\ket{\slat}
+            }
+            \ket{\slat}
+            \\
+            &=
+            \frac{1}{16}\twoten^{pq}_{rs}\clustamp^{ab}_{ij}
+            \bra{\slat}\brak{
+                \wick{
+                    \Big\{
+                        \c4 {\ccr{p}}
+                        \c3 {\ccr{q}}
+                        \c2 {\can{s}}
+                        \c1 {\can{r}}
+                    \Big\}
+                    \Big\{
+                        \c1 {\ccr{a}}
+                        \c2 {\ccr{b}}
+                        \c3 {\can{j}}
+                        \c4 {\can{i}}
+                    \Big\}
+                }
+            }
+            \ket{\slat}
         \end{align}
 
     \section{Coupled cluster doubles}
