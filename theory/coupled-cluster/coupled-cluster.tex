@@ -323,7 +323,11 @@
             \end{align}
             Having already found an expression for the reference energy
             \begin{align}
-                \energyref \equiv \bra{\slat}\hamil\ket{\slat},
+                \energyref \equiv \bra{\slat}\hamil\ket{\slat}
+                = \oneten^{i}_{i}
+                + \half \twoten^{ij}_{ij}
+                = \fockten^{i}_{i}
+                - \half\twoten^{ij}_{ij},
             \end{align}
             our job is now to compute the expectation value of the similarity
             transformed normal-ordered Hamiltonian, or more concisely, the
@@ -341,6 +345,89 @@
             the cluster ampltudes in order for the Hamiltonian to be able to
             relax the excited state back to the reference state.
             If not, the overlap with the reference state will become zero.
+            The cluster operators provide a net excitation of at least one each,
+            thus
+            \begin{align}
+                \frac{1}{3!}
+                \bra{\slat}\brak{
+                    \hamil_N
+                    \clust^3
+                }_c\ket{\slat}
+                =
+                \frac{1}{4!}
+                \bra{\slat}\brak{
+                    \hamil_N
+                    \clust^4
+                }_c\ket{\slat}
+                = 0,
+            \end{align}
+            where we again use the subscript $c$ to denote that we only include
+            connected cluster operators.
+            By virtue of the same argument as above, we come to realize that
+            only singles and doubles amplitudes can contribute to the energy
+            equations.
+            All higher order amplitudes will contribute by ``removing stress''
+            from the singles and doubles amplitudes.
+            This can in many ways be seen as a technique leading to more correct
+            singles and doubles amplitudes thus yielding better correlation
+            energies.
+            If we assume that the cluster operators contain at least the
+            singles and doubles cluster operators, that is,
+            \begin{align}
+                \clust = \clust_1 + \clust_2 + \dots,
+            \end{align}
+            we get the energy contributions
+            \begin{align}
+                \bra{\slat}\brak{
+                    \hamil_N \clust
+                }_c\ket{\slat}
+                =
+                \fockten^{i}_{a}\clustamp^{a}_{i}
+                +
+                \frac{1}{4}\twoten^{ij}_{ab} \clustamp^{ab}_{ij},
+            \end{align}
+            for the lone cluster operator, whereas the squared operator yields
+            \begin{align}
+                \frac{1}{2!}\bra{\slat}\brak{
+                    \hamil_N \clust^2
+                }_c\ket{\slat}
+                &=
+                \half \twoten^{ij}_{ab}\clustamp^{a}_{i}\clustamp^{b}_{j}.
+            \end{align}
+            Including the reference energy, the total energy equation in the
+            coupled cluster method is given by
+            \begin{align}
+                \energycc
+                &= \bra{\slat}\simhamil\ket{\slat}
+                =
+                \fockten^{i}_{i}
+                - \half \twoten^{ij}_{ij}
+                + \fockten^{i}_{a}\clustamp^{a}_{i}
+                + \half\twoten^{ij}_{ab}\brak{
+                    \half\clustamp^{ab}_{ij}
+                    + \clustamp^{a}_{i}\clustamp^{b}_{j}
+                }.
+                \label{eq:cc-energy-equation}
+            \end{align}
+            Depending on the truncation level of the cluster operators, we can
+            adjust the energy expression in \autoref{eq:cc-energy-equation}.
+            For example, in the coupled cluster doubles approximation, we get
+            the energy equation
+            \begin{align}
+                \energyccd
+                &= \bra{\slat}e^{-\clust_2}\hamil e^{\clust_2}\ket{\slat}
+                =
+                \fockten^{i}_{i}
+                - \half \twoten^{ij}_{ij}
+                + \frac{1}{4}\twoten^{ij}_{ab} \clustamp^{ab}_{ij}.
+                \label{eq:ccd-energy-equation}
+            \end{align}
+            It is a sobering situation that only the reference, singly and
+            doubly excited states do contribute to the final energy expression.
+            All higher excitations couple to the energy, but the do not directly
+            occur in the energy equation.
+            % TODO: Why is it only singles and doubles excitations contributing
+            % to the overall energy?
 
 
         \subsection{Amplitude equations}
