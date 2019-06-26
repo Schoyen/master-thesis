@@ -311,6 +311,7 @@
             \autoref{fig:tiny-slater-basis}.
 
         \subsection{Energy equations}
+            \label{subsec:cc-energy-equations}
             We are now ready to generate equations for the energy of the
             many-body system using the coupled cluster method.
             We do this by computing
@@ -385,6 +386,7 @@
                 \fockten^{i}_{a}\clustamp^{a}_{i}
                 +
                 \frac{1}{4}\twoten^{ij}_{ab} \clustamp^{ab}_{ij},
+                \label{eq:cc-energy-linear-contrib}
             \end{align}
             for the lone cluster operator, whereas the squared operator yields
             \begin{align}
@@ -393,7 +395,10 @@
                 }_c\ket{\slat}
                 &=
                 \half \twoten^{ij}_{ab}\clustamp^{a}_{i}\clustamp^{b}_{j}.
+                \label{eq:cc-energy-squared-contrib}
             \end{align}
+            For a complete derivation of these expressions see
+            \autoref{app:cc-energy-equations}.
             Including the reference energy, the total energy equation in the
             coupled cluster method is given by
             \begin{align}

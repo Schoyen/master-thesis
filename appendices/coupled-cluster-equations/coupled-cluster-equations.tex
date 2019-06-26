@@ -2,6 +2,80 @@
     In this appendix we will show the explicit equations used for ground state
     calculations in coupled cluster for different truncation levels.
 
+    \section{Energy equations}
+        \label{app:cc-energy-equations}
+        In this section we demonstrate how we can derive the energy contribution
+        to the coupled cluster energy from the contribution linear in the
+        cluster operator in \autoref{eq:cc-energy-linear-contrib} and the squared
+        cluster contribution in \autoref{eq:cc-energy-squared-contrib}.
+        As stated in \autoref{subsec:cc-energy-equations}, we need only concern
+        ourselves with the case where the cluster operator is given by
+        \begin{align}
+            \clust
+            &= \clust_1 + \clust_2
+            = \clustamp^{a}_{i}\brac{\ccr{a}\can{i}}
+            + \frac{1}{4}\clustamp^{ab}_{ij}\brac{\ccr{a}\ccr{b}\can{j}\can{i}},
+        \end{align}
+        where we note that the cluster operators are normal-ordered by
+        construction.
+        Looking at the energy contribution linear in the cluster operator we get
+        \begin{align}
+            \bra{\slat}\brak{
+                \hamil_N
+                \clust
+            }_c\ket{\slat}
+            &=
+            \bra{\slat}\brak{
+                \hamil_N
+                \clust_1
+            }_c
+            + \brak{
+                \hamil_N
+                \clust_2
+            }_c\ket{\slat}
+            \\
+            &=
+            \bra{\slat}\brak{
+                \fock_N
+                \clust_1
+            }_c
+            + \brak{
+                \twohamil_N
+                \clust_2
+            }_c\ket{\slat},
+        \end{align}
+        where we have collected the non-zero contributions.
+        As we are projecting onto the reference determinant, we are dependent on
+        the operators being fully contracted.
+        This means that all non-contracted operators will destroy the overlap
+        and hence the doubles cluster operator cannot couple with the
+        Fock-operator nor can a single singles cluster operator couple with the
+        two-body-operator.
+        Looking at each operator pair separately we get
+        \begin{align}
+            \bra{\slat}\brak{
+                \fock_N\clust_1
+            }_c\ket{\slat}
+            &=
+            \fockten^{p}_{q}\clustamp^{a}_{i}
+            \bra{\slat}\brac{
+                \ccr{p}\can{q}
+            }\brac{
+                \ccr{a}
+                \can{i}
+            }\ket{\slat}
+            \\
+            &=
+            % TODO: Start Wick'in!
+            \fockten^{p}_{q}\clustamp^{a}_{i}
+            \bra{\slat}\brac{
+                \ccr{p}\can{q}
+            }\brac{
+                \ccr{a}
+                \can{i}
+            }\ket{\slat}
+        \end{align}
+
     \section{Coupled cluster doubles}
         The energy for the doubles truncation is given by
         \begin{align}
