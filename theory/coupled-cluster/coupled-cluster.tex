@@ -436,6 +436,26 @@
 
 
         \subsection{Amplitude equations}
+            Using \autoref{eq:cc_amp_sim} and Wick's theorem we find a set of
+            non-linear equations which we solve iteratively to construct the
+            coupled cluster amplitudes.
+            Unlike the energy equations in \autoref{eq:cc_energy_sim}, we are no
+            longer projecting onto the reference state.
+            This means that in addition to the similarity transformed
+            Hamiltonian, we get an extra set of normal-ordered creation and
+            annihilation operators from the excited state we are projecting
+            onto.
+            This seemingly benign inclusion of pairs of operators leads to a
+            quite significant increase in the number of terms arising from
+            Wick's theorem and can quickly lead to long and winded computations
+            prone to much error.
+            There are several ways to attack this problem, either by direct
+            computation using Wick's theorem or the more elegant solution of
+            using diagrams as popularized by
+            \citeauthor{shavitt2009many} \cite{shavitt2009many}.
+            % TODO: Remember to discuss the D-matrix
+
+
         \subsection{Non-variational}
         \subsection{Bi-variational principle}
         \subsection{Hellmann-Feynman theorem}
