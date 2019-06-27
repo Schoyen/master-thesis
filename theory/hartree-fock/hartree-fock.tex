@@ -13,8 +13,8 @@
             \item We assume that the \emph{Born-Oppenheimer approximation} is a
                 good approximation.
                 % TODO: Add theory on the Born-Oppenheimer approximation
-            \item We assume that the motion of the electrons can be described
-                non-relativistically.
+            \item We assume that the motion of the electrons can be treated in
+                the non-relativistical limit.
             \item We assume that the solution to the variational problem can be
                 represented as a linear combination of a finite number of basis
                 functions.
@@ -28,7 +28,7 @@
         break apart thus motivating the use of \emph{post Hartree-Fock methods}
         such as the coupled cluster method.
 
-    \section{Deriving the time-independent Hartree-Fock equations}
+    \section{Time-independent Hartree-Fock theory}
         Much of the theory shown in this section draws from the excellent
         lecture notes by \citeauthor{kvaal2017notes} \cite{kvaal2017notes} and
         the book \citetitle{szabo1996modern} by \citeauthor{szabo1996modern}
@@ -148,8 +148,9 @@
         \begin{proof}[%
                 Proof that the Lagrange multipliers can be chosen Hermitian%
             ]
-            Following the derivation done by Mayer \cite{mayer2003simple}, we
-            start by noticing that the constraint is Hermitian, i.e.,
+            We follow closely the derivation done by Mayer
+            \cite{mayer2003simple}, we start by noticing that the constraint is
+            Hermitian, i.e.,
             \begin{align}
                 \braket{\phi_i}{\phi_j} - \delta_{ij}
                 = \braket{\phi_j}{\phi_i}^{*} - \delta_{ji}.
