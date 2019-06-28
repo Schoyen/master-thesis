@@ -518,10 +518,77 @@
                 \simhamil_N\ketslat
                 = 0.
             \end{gather}
+            Having found expressions for the amplitudes, we do self-consistent
+            field iterations in order to find amplitudes which satisfies the
+            equations for the amplitudes.
+            % TODO: Discuss the SCF-procedure for CC
+            % TODO: Discuss the use of SymPy to find the amplitude equations
             % TODO: Remember to discuss the D-matrix
 
 
-        \subsection{Non-variational}
+        \subsection{Non-variational coupled cluster}
+            From the postulates of quantum mechanics we know that every physical
+            observable $q$ is described by a Hermitian operator $\hat{Q}$ acting
+            on the Hilbert space of state vectors.
+            Having defined the coupled cluster wave function $\ket{\Psi}$ by
+            \begin{align}
+                \ket{\Psi} = e^{\clust}\ketslat,
+            \end{align}
+            we would expect to be able to construct a solution to the amplitudes
+            by virtue of the variational principle.
+            That is, by requiring that the amplitudes minimize the expression
+            \begin{align}
+                \energygs
+                \leq \energycc
+                = \frac{\bra{\Psi}\hamil\ket{\Psi}}{\braket{\Psi}{\Psi}}
+                = \frac{
+                    \braslat (e^{\clust})^{\dagger}\hamil e^{\clust}\ketslat
+                }{
+                    \braslat (e^{\clust})^{\dagger} e^{\clust}\ketslat
+                }.
+                \label{eq:variational-cc}
+            \end{align}
+            However, there are some serious limitations in
+            \autoref{eq:variational-cc}.
+            The cluster operators are not Hermitian.
+            This can be observed from the fact that taking the Hermitian
+            conjugate of a cluster operator yields a relaxation operator instead
+            of an excitation operator.
+            By computing the series expansion of the exponential operators we
+            find
+            \begin{align}
+                \braslat (e^{\clust})^{\dagger}\hamil e^{\clust}\ketslat
+                = \braslat\para{
+                    \1 + \clust^{\dagger} + \dots
+                }
+                \hamil
+                \para{
+                    \1 + \clust + \dots
+                }
+                \ketslat,
+                \label{eq:expansion-variational-cc}
+            \end{align}
+            where the relaxation operators on the left will act as excitation
+            operators on the reference state we are projecting onto.
+            This means that we no longer get a natural truncation with respect
+            to the Hamiltonian.
+            In \autoref{subsec:cc-energy-equations} we discussed how the
+            Hamiltonian at most can net relax an exited state by $2$.
+            This truncates the Baker-Campbell-Hausdorff expansion naturally at
+            squared cluster operators which can provide a net excitation of $2$.
+            In \autoref{eq:expansion-variational-cc} we no longer get this
+            truncation.
+
+            As the variational formulation of coupled cluster yields intractable
+            equations and we note that the similarity transformed Hamiltonian is
+            non-Hermitian thus violating the postulates of quantum mechanics, we
+            are seemingly in a lot of trouble.
+            Luckily, by not truncating the cluster operator\footnote{%
+                Or, for $N$ particles we truncate at $\clust_N$.
+            } we will recover the formally exact solution within the space
+            spanned by our basis of spin-orbitals \cite{coester1958421,
+            monkhorst1977421}.
+
         \subsection{Bi-variational principle}
         \subsection{Hellmann-Feynman theorem}
         \subsection{Functional formulation of the coupled cluster method}
