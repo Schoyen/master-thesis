@@ -450,9 +450,74 @@
             Wick's theorem and can quickly lead to long and winded computations
             prone to much error.
             There are several ways to attack this problem, either by direct
-            computation using Wick's theorem or the more elegant solution of
-            using diagrams as popularized by
-            \citeauthor{shavitt2009many} \cite{shavitt2009many}.
+            computation using Wick's theorem \cite{crawford2000introduction} or
+            the more elegant solution of using diagrams \cite{shavitt2009many,
+            crawford2000introduction}.
+            The task at hand is to evaluate the equations
+            \begin{align}
+                \bra{\slat_{\mu}}\simhamil\ket{\slat}
+                = \bra{\slat_{\mu}}\simhamil_N\ket{\slat}
+                = \bra{\slat}\hat{X}^{\dagger}_{\mu}\simhamil_N\ket{\slat}
+                = 0,
+            \end{align}
+            where we we've simplified by similarity transformed Hamiltonian
+            by inserting the normal ordered similiarty transformed Hamiltonian
+            as the overlap between the excited state and the reference state is
+            zero.
+            Furthermore, we've introduced the excitation operator
+            $\hat{X}_{\mu}$ consisting of creation and annihilation operators
+            such that
+            \begin{align}
+                \ket{\slat_{\mu}} = \hat{X}_{\mu}\ket{\slat}.
+            \end{align}
+            As $\hat{X}_{\mu}$ is an excitation operator, this means that
+            $\hat{X}^{\dagger}_{\mu}$ is a relaxation operator annihilating the
+            reference state.
+            As an example we'll look at the excitation operator for a doubly
+            excited reference state
+            \begin{align}
+                \ket{\slat^{ab}_{ij}}
+                &= \hat{X}^{ab}_{ij}\ket{\slat}
+                = \ccr{b}\can{j}\ccr{a}\can{i}\ketslat
+                \\
+                \bra{\slat^{ab}_{ij}}
+                &= \bra{\slat}(\hat{X}^{ab}_{ij})^{\dagger}
+                = \braslat \ccr{i}\can{a}\ccr{j}\can{b},
+            \end{align}
+            where we note that the last operator string is on normal ordered
+            form relative to the Fermi vacuum.
+            As the operator $\hat{X}^{\dagger}_{\mu}$ relaxes the incoming state
+            by an order $\mu$ we need only keep terms from the normal ordered
+            similarity transformed Hamiltonian that leaves the reference state
+            excited at $\mu$.
+            We will therefore look for terms in \autoref{eq:connected-hamil}
+            that yields
+            \begin{align}
+                \simhamil_N\ketslat
+                &\propto \ket{\slat_{\mu}},
+            \end{align}
+            as all other terms will vanish.
+            For each set of amplitudes we get a corresponding set of amplitude
+            equations.
+            As an example, for the coupled cluster singles and doubles method we
+            get the pair of amplitude equations
+            \begin{gather}
+                \bra{\slat^{a}_{i}}
+                \simhamil_N\ketslat
+                =
+                \bra{\slat}
+                (\hat{X}^{a}_{i})^{\dagger}
+                \simhamil_N\ketslat
+                = 0,
+                \\
+                \bra{\slat^{ab}_{ij}}
+                \simhamil_N\ketslat
+                =
+                \bra{\slat}
+                (\hat{X}^{ab}_{ij})^{\dagger}
+                \simhamil_N\ketslat
+                = 0.
+            \end{gather}
             % TODO: Remember to discuss the D-matrix
 
 
