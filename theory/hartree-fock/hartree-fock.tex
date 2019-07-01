@@ -29,8 +29,7 @@
         shall see later that we quickly reach a limit where these assumptions
         break apart thus motivating the use of \emph{post Hartree-Fock methods}
         such as the coupled cluster method.
-
-    \section{Time-independent Hartree-Fock theory}
+\section{Time-independent Hartree-Fock theory}
         Much of the theory shown in this section draws from the excellent
         lecture notes by \citeauthor{kvaal2017notes} \cite{kvaal2017notes} and
         the book \citetitle{szabo1996modern} by \citeauthor{szabo1996modern}
@@ -67,339 +66,343 @@
             \implies \braket{\slat}{\slat} = 1.
             % TODO: Check if this is an actual implication
         \end{align}
-        Defining the energy functional
-        \begin{align}
-            \energyfunc{\slat}
-            \equiv \braslat\hamil\ketslat
-            =
-            \bra{\phi_i}\onehamil\ket{\phi_i}
-            + \half\bra{\phi_i\phi_j}\twohamil\ket{\phi_i\phi_j}_{AS},
-            \label{eq:energy_func_hf}
-        \end{align}
-        where the Einstein summation convention is understood.
-        The variational principle\footnote{%
-            Note that we treat the Slater determinants as orthonormal thus
-            removing the need to include the normalization factor in the energy
-            functional.
-        }
-        tells us that the true ground state energy, $\energygs$, will be a lower
-        bound to the energy found from the energy functional in
-        \autoref{eq:energy_func_hf} for any normalized trial wavefunction
-        $\ketslat$.
-        That is,
-        \begin{align}
-            \energygs
-            \leq \energyfunc{\slat} = \braslat\hamil\ketslat.
-        \end{align}
-        Our task is now to find the molecular orbitals $\brac{\phi_i}_{i =
-        1}^{N}$ that minimizes the energy functional%
-        \footnote{%
-            This is done by finding a stationary state for $\energyfunc{\slat}$,
-            which does not guarantee that we have found a minimum, but often the
-            stationary state will be a minimum.
-        }.
-        By performing a variation in the Slater determinant,
-        \begin{align}
-            \slat \to \slat + \delta\slat,
-        \end{align}
-        we find the that the energy functional is changed by
-        \begin{align}
-            \energyfunc{\slat + \delta\slat}
-            &=
-            \bra{\slat + \delta\slat}\hamil\ket{\slat + \delta\slat}
-            \\
-            &= \energyfunc{\slat}
-            + \bra{\delta\slat}\hamil\ketslat + \braslat\hamil\ket{\delta\slat}
-            + \dots
-            \\
-            &= \energyfunc{\slat} + \delta\energyfunc{\slat}
-            + \dots,
-        \end{align}
-        where the \emph{first variation} in $\energyfunc{\slat}$ is given by
-        \begin{align}
-            \delta\energyfunc{\slat}
-            \equiv
-            \bra{\delta\slat}\hamil\ketslat + \braslat\hamil\ket{\delta\slat},
-        \end{align}
-        where we treat $\delta$ as a linear differential operator.
-        Higher order variations are ignored and we are thus only interested in
-        finding the Slater determinant, $\ketslat$, for which
-        \begin{align}
-            \delta\energyfunc{\slat} = 0,
-        \end{align}
-        i.e., the stationary point of the energy functional in terms of the
-        function $\slat$.
-        However the energy functional, $\energyfunc{\slat}$, does not
-        incorporate the constraint that the molecular orbitals should be
-        orthonormal.
-        To ensure this constraing we use the method of Lagrange multipliers,
-        with one multiplier for every constraint.
-        We thus construct the Lagrangian functional
-        \begin{align}
-            \lagrangianfunc{\slat, \lambda}
-            &= \energyfunc{\slat}
-            - \lambda_{ji}\para{
-                \braket{\phi_i}{\phi_j}
-                - \delta_{ij}
-            }.
-        \end{align}
-        As the Lagrangian functional, $\lagrangianfunc{\slat, \lambda}$, is
-        real, and as the constraint is Hermitian, the Lagrange multipliers,
-        $\lambda_{ji}$, can be taken to be Hermitian as well.
 
-        \begin{proof}[%
-                Proof that the Lagrange multipliers can be chosen Hermitian%
+        \subsection{Non-canonical Hartree-Fock equations}
+            Defining the energy functional
+            \begin{align}
+                \energyfunc{\slat}
+                \equiv \braslat\hamil\ketslat
+                =
+                \bra{\phi_i}\onehamil\ket{\phi_i}
+                + \half\bra{\phi_i\phi_j}\twohamil\ket{\phi_i\phi_j}_{AS},
+                \label{eq:energy_func_hf}
+            \end{align}
+            where the Einstein summation convention is understood.
+            The variational principle\footnote{%
+                Note that we treat the Slater determinants as orthonormal thus
+                removing the need to include the normalization factor in the energy
+                functional.
+            }
+            tells us that the true ground state energy, $\energygs$, will be a lower
+            bound to the energy found from the energy functional in
+            \autoref{eq:energy_func_hf} for any normalized trial wavefunction
+            $\ketslat$.
+            That is,
+            \begin{align}
+                \energygs
+                \leq \energyfunc{\slat} = \braslat\hamil\ketslat.
+            \end{align}
+            Our task is now to find the molecular orbitals $\brac{\phi_i}_{i =
+            1}^{N}$ that minimizes the energy functional%
+            \footnote{%
+                This is done by finding a stationary state for $\energyfunc{\slat}$,
+                which does not guarantee that we have found a minimum, but often the
+                stationary state will be a minimum.
+            }.
+            By performing a variation in the Slater determinant,
+            \begin{align}
+                \slat \to \slat + \delta\slat,
+            \end{align}
+            we find the that the energy functional is changed by
+            \begin{align}
+                \energyfunc{\slat + \delta\slat}
+                &=
+                \bra{\slat + \delta\slat}\hamil\ket{\slat + \delta\slat}
+                \\
+                &= \energyfunc{\slat}
+                + \bra{\delta\slat}\hamil\ketslat + \braslat\hamil\ket{\delta\slat}
+                + \dots
+                \\
+                &= \energyfunc{\slat} + \delta\energyfunc{\slat}
+                + \dots,
+            \end{align}
+            where the \emph{first variation} in $\energyfunc{\slat}$ is given by
+            \begin{align}
+                \delta\energyfunc{\slat}
+                \equiv
+                \bra{\delta\slat}\hamil\ketslat + \braslat\hamil\ket{\delta\slat},
+            \end{align}
+            where we treat $\delta$ as a linear differential operator.
+            Higher order variations are ignored and we are thus only interested in
+            finding the Slater determinant, $\ketslat$, for which
+            \begin{align}
+                \delta\energyfunc{\slat} = 0,
+            \end{align}
+            i.e., the stationary point of the energy functional in terms of the
+            function $\slat$.
+            However the energy functional, $\energyfunc{\slat}$, does not
+            incorporate the constraint that the molecular orbitals should be
+            orthonormal.
+            To ensure this constraing we use the method of Lagrange multipliers,
+            with one multiplier for every constraint.
+            We thus construct the Lagrangian functional
+            \begin{align}
+                \lagrangianfunc{\slat, \lambda}
+                &= \energyfunc{\slat}
+                - \lambda_{ji}\para{
+                    \braket{\phi_i}{\phi_j}
+                    - \delta_{ij}
+                }.
+            \end{align}
+            As the Lagrangian functional, $\lagrangianfunc{\slat, \lambda}$, is
+            real, and as the constraint is Hermitian, the Lagrange multipliers,
+            $\lambda_{ji}$, can be taken to be Hermitian as well.
+
+            \begin{proof}[%
+                    Proof that the Lagrange multipliers can be chosen Hermitian%
+                ]
+                We follow closely the derivation done by Mayer
+                \cite{mayer2003simple}, we start by noticing that the constraint is
+                Hermitian, i.e.,
+                \begin{align}
+                    \braket{\phi_i}{\phi_j} - \delta_{ij}
+                    = \braket{\phi_j}{\phi_i}^{*} - \delta_{ji}.
+                \end{align}
+                As of now we have two independent Lagrange multipliers; one for the
+                overlap $\braket{\phi_i}{\phi_j}$ and another for the the complex
+                conjugate $\braket{\phi_j}{\phi_i}$.
+                We can formulate the constraint for the real and imaginary part
+                separately.
+                This yields
+                \begin{align}
+                    \Re\brac{
+                        \braket{\phi_i}{\phi_j}
+                    }
+                    &=
+                    \half\brac{
+                        \braket{\phi_i}{\phi_j}
+                        + \braket{\phi_j}{\phi_i}
+                    }
+                    = 0,
+                    \\
+                    \Im\brac{
+                        \braket{\phi_i}{\phi_j}
+                    }
+                    &=
+                    \frac{1}{2i}\brac{
+                        \braket{\phi_i}{\phi_j}
+                        - \braket{\phi_j}{\phi_i}
+                    }
+                    = 0.
+                \end{align}
+                Introducing two separate Lagrange multipliers $\mu_{ij}$ and
+                $\nu_{ij}$ for the two latter conditions, we get
+                \begin{align}
+                    \mu_{ij}\Re\brac{
+                        \braket{\phi_i}{\phi_j}
+                    }
+                    + \nu_{ij}\Im\brac{
+                        \braket{\phi_i}{\phi_j}
+                    }
+                    &=
+                    \half\brak{
+                        \mu_{ij} - i\nu_{ij}
+                    }
+                    \braket{\phi_i}{\phi_j}
+                    \nonumber
+                    \\
+                    &\qquad
+                    + \half\brak{
+                        \mu_{ij} + i\nu_{ij}
+                    }
+                    \braket{\phi_j}{\phi_i}.
+                \end{align}
+                We now choose our combined Lagrange multipliers to be
+                \begin{align}
+                    \lambda_{ji} &=
+                    -\half\brak{
+                        \mu_{ij} - i\nu_{ij}
+                    }, \\
+                    \lambda_{ij} &=
+                    -\half\brak{
+                        \mu_{ij} + i\nu_{ij}
+                    },
+                \end{align}
+                which implies that $\lambda_{ji} = \lambda_{ij}^{*}$, as was to be
+                shown.
+            \end{proof}
+            We are now interested in finding a stationary point in the Lagrangian
+            with respect to the molecular orbitals $\phi_k$ subject to the
+            constraint that they are orthonormal.
+            As we are trying to find a stationary point of the Lagrangian functional
+            with respect to the molecular orbitals, we will use \emph{functional
+            derivatives} as the orbitals are functions.
+            % TODO: Read up on functional derivative theory
+            The action of a functional derivative on the matrix elements in the
+            Lagrangian functional is given by
+            \begin{gather}
+                \dfd{\phi_k^{*}}\braket{\phi_i}{\phi_j}
+                = \delta_{ik}\ket{\phi_j}, \\
+                \dfd{\phi_k^{*}}\bra{\phi_i}\hat{h}\ket{\phi_i}
+                = \hat{h}\ket{\phi_k}, \\
+                \dfd{\phi_k^{*}}\bra{\phi_i}\dpd{}{t}\ket{\phi_i}
+                = \dpd{}{t}\ket{\phi_k}, \\
+                \dfd{\phi_k^{*}}\bra{\phi_i\phi_j}\hat{u}\ket{\phi_i\phi_j}_{AS}
+                = 2\bra{\cdot\phi_j}\hat{u}\ket{\phi_k\phi_j}_{AS},
+            \end{gather}
+            where the "dot" is defined in terms of the tensor product by
+            \begin{align}
+                \ket{\phi_i\phi_j} = \ket{\phi_i}\otimes\ket{\phi_j}
+                \implies \ket{\cdot\phi_j} \equiv \1 \otimes\ket{\phi_j}.
+            \end{align}
+            The last derivative can be found by expanding the antisymmetrix matrix
+            elements by \autoref{eq:antisymmetric_two_body} and applying the
+            functional derivative two times on each term. Collecting the four terms
+            and using the symmetric property of the two-body elements that
+            \begin{align}
+                \bra{\phi_i\phi_j}\hat{u}\ket{\phi_k\phi_l}
+                = \bra{\phi_j\phi_i}\hat{u}\ket{\phi_l\phi_k}.
+            \end{align}
+            We treat $\phi_k(x)$ and $\phi_k^{*}(x)$ as independent
+            variables and taking the functional derivative of the Lagrangian
+            function with respect to either form yields the same equations but
+            complex conjugated of one another, we will restrict our attention to
+            finding the functional derivative of the Lagrangian functional with
+            respect to $\phi_k^{*}(x)$.
+            \begin{align}
+                \dfd{\phi_k^{*}}\lagrangianfunc{\slat, \lambda}
+                = \dfd{\phi_k^{*}}\energyfunc{\slat}
+                - \lambda_{jk}\ket{\phi_{j}},
+            \end{align}
+            where the functional derivative of the energy functional is given by
+            \begin{align}
+                \dfd{\phi_k^{*}}\energyfunc{\slat}
+                = \onehamil\ket{\phi_k}
+                + \bra{\cdot\phi_j}\twohamil\ket{\phi_k\phi_j}_{AS}.
+            \end{align}
+            Inserted back into the functional derivative of the Lagrangian and
+            equating to zero we get
+            \begin{gather}
+                \onehamil\ket{\phi_k}
+                + \bra{\cdot\phi_j}\twohamil\ket{\phi_k\phi_j}_{AS}
+                - \lambda_{jk}\ket{\phi_{j}} = 0.
+                \label{eq:min_lagrangian_phi_k}
+            \end{gather}
+            To go from here we introduce the Fock operator
+            \begin{align}
+                \fock\ket{\phi_k}
+                = \onehamil\ket{\phi_k}
+                + \bra{\cdot\phi_j}\twohamil\ket{\phi_k\phi_j}_{AS},
+            \end{align}
+            where the states $\ket{\phi_j}$ are contained in the Slater determinant,
+            whereas $\ket{\phi_k}$ can be any molecular orbital in the basis.
+            % TODO: The point on the occupied orbitals needs to made more explicit.
+            We insert the expression for the Fock operator into
+            \autoref{eq:min_lagrangian_phi_k}.
+            We also move the Lagrange multipliers to the right hand side of the
+            equation.
+            This yields the equation
+            \begin{align}
+                \fock\ket{\phi_k} = \lambda_{jk}\ket{\phi_j},
+                \label{eq:non-canonical-hartree-fock}
+            \end{align}
+            known as the \emph{non-canonical Hartree-Fock equations}.
+
+        \subsection{Canonical Hartree-Fock equations}
+            This equation will yield the correct Hartree-Fock energy, but we are
+            interested in an eigenvalue equation without a summation over the matrix
+            of Lagrange multipliers.
+            To reach this goal we define a new set of spin-orbitals
+            $\brac{\ket{\psi_p}}$ which is given by
+            \begin{align}
+                \ket{\psi_p} = U_{qp}\ket{\phi_q},
+            \end{align}
+            where $\brac{\phi_q}$ is the set of spin-orbitals from the non-canonical
+            Hartree-Fock equations and $U_{qp}$ is an element in the unitary matrix
+            $\vfg{U}$.
+            In other words, we perform a unitary transformation from the
+            non-canonical spin-orbitals to the new set of spin-orbitals.
+            As the transformation is unitary, this means that the orthonormality
+            condition in the new spin-orbitals is preserved from the old
+            spin-orbitals.
+            \begin{proof}[%
+                    Proof that a unitary transformation preserves orthonormality%
             ]
-            We follow closely the derivation done by Mayer
-            \cite{mayer2003simple}, we start by noticing that the constraint is
-            Hermitian, i.e.,
+                Given a set of orthonormal basis states
+                $\brac{\ket{\chi_{\alpha}}}_{\alpha = 1}^{L}$,
+                we perform a unitary transformation from this basis set to a new
+                basis set defined by
+                \begin{align}
+                    \ket{\phi_p} = U_{\alpha p}\ket{\chi_{\alpha}},
+                \end{align}
+                where $U_{\alpha p}$ is an element in the unitary matrix $\vfg{U} \in
+                \mathbb{C}^{L \times L}$ satisfying
+                \begin{align}
+                    \vfg{U}^{\dagger}\vfg{U} = \vfg{U}\vfg{U}^{\dagger} = \1.
+                \end{align}
+                Taking the inner product between two states in the new basis set we
+                get
+                \begin{align}
+                    \braket{\phi_p}{\phi_q}
+                    = U^{*}_{\alpha p}
+                    \braket{\chi_{\alpha}}{\chi_{\beta}}
+                    U_{\beta q}
+                    = U^{*}_{\alpha p} U_{\beta q} \delta_{\alpha \beta}
+                    = U^{*}_{\alpha p} U_{\alpha q}
+                    = \delta_{pq},
+                \end{align}
+                which shows that the new basis set $\brac{\ket{\phi_p}}_{p = 1}^L$
+                preserves the orthonormality after the unitary transfomation.
+                % TODO: This proof should probably be moved to the quantum-mechanics
+                % section.
+            \end{proof}
+            Furthermore, the orthonormality of the Slater determinants are also
+            preserved as shown in the proof in the subsection on Slater determinants.
+            % TODO: Reference this properly
+            As the Lagrange multipliers $\lambda_{ji}$ are Hermitian, we can
+            construct a matrix $\vfg{\Lambda}$ of the multipliers which will be
+            Hermitian.
+            This means that we can construct a diagonal matrix $\vfg{\energy}$ from
+            the Lagrange multipliers using the spectral theorem, viz.
             \begin{align}
-                \braket{\phi_i}{\phi_j} - \delta_{ij}
-                = \braket{\phi_j}{\phi_i}^{*} - \delta_{ji}.
+                \vfg{\Lambda} = \vfg{U} \vfg{\energy} \vfg{U}^{\dagger}.
             \end{align}
-            As of now we have two independent Lagrange multipliers; one for the
-            overlap $\braket{\phi_i}{\phi_j}$ and another for the the complex
-            conjugate $\braket{\phi_j}{\phi_i}$.
-            We can formulate the constraint for the real and imaginary part
-            separately.
-            This yields
+            This procedure is also known as \emph{Schur decomposition}.
+            In tensor notation we introduce a Kronkecker Delta of rank 3 defined as
             \begin{align}
-                \Re\brac{
-                    \braket{\phi_i}{\phi_j}
-                }
-                &=
-                \half\brac{
-                    \braket{\phi_i}{\phi_j}
-                    + \braket{\phi_j}{\phi_i}
-                }
-                = 0,
+                \delta^{i}_{jk} = \begin{cases}
+                    1 & i = j = k, \\
+                    0 & else.
+                \end{cases}
+            \end{align}
+            The Schur decomposition of the Lagrange multipliers then take on the
+            form
+            \begin{align}
+                \lambda_{ij} = U_{ik} E_{kl} U^{*}_{jl}
+                = U_{ik} \delta^{m}_{kl} \epsilon_{m} U^{*}_{jl},
+            \end{align}
+            where $\epsilon_m$ are the diagonal entries in the matrix $\vfg{E}$.
+            Starting from the non-canonical Hartree-Fock equations in
+            \autoref{eq:non-canonical-hartree-fock} and inserting the transformed
+            spin-orbitals we get
+            \begin{gather}
+                \fock\ket{\phi_k} = \lambda_{jk}\ket{\phi_j}
                 \\
-                \Im\brac{
-                    \braket{\phi_i}{\phi_j}
-                }
-                &=
-                \frac{1}{2i}\brac{
-                    \braket{\phi_i}{\phi_j}
-                    - \braket{\phi_j}{\phi_i}
-                }
-                = 0.
-            \end{align}
-            Introducing two separate Lagrange multipliers $\mu_{ij}$ and
-            $\nu_{ij}$ for the two latter conditions, we get
-            \begin{align}
-                \mu_{ij}\Re\brac{
-                    \braket{\phi_i}{\phi_j}
-                }
-                + \nu_{ij}\Im\brac{
-                    \braket{\phi_i}{\phi_j}
-                }
-                &=
-                \half\brak{
-                    \mu_{ij} - i\nu_{ij}
-                }
-                \braket{\phi_i}{\phi_j}
-                \nonumber
+                \implies
+                \fock U^{*}_{kl}\ket{\psi_{l}} = \lambda_{jk} U^{*}_{jl} \ket{\psi_l}
                 \\
-                &\qquad
-                + \half\brak{
-                    \mu_{ij} + i\nu_{ij}
-                }
-                \braket{\phi_j}{\phi_i}.
-            \end{align}
-            We now choose our combined Lagrange multipliers to be
-            \begin{align}
-                \lambda_{ji} &=
-                -\half\brak{
-                    \mu_{ij} - i\nu_{ij}
-                }, \\
-                \lambda_{ij} &=
-                -\half\brak{
-                    \mu_{ij} + i\nu_{ij}
-                },
-            \end{align}
-            which implies that $\lambda_{ji} = \lambda_{ij}^{*}$, as was to be
-            shown.
-        \end{proof}
-        We are now interested in finding a stationary point in the Lagrangian
-        with respect to the molecular orbitals $\phi_k$ subject to the
-        constraint that they are orthonormal.
-        As we are trying to find a stationary point of the Lagrangian functional
-        with respect to the molecular orbitals, we will use \emph{functional
-        derivatives} as the orbitals are functions.
-        % TODO: Read up on functional derivative theory
-        The action of a functional derivative on the matrix elements in the
-        Lagrangian functional is given by
-        \begin{gather}
-            \dfd{\phi_k^{*}}\braket{\phi_i}{\phi_j}
-            = \delta_{ik}\ket{\phi_j}, \\
-            \dfd{\phi_k^{*}}\bra{\phi_i}\hat{h}\ket{\phi_i}
-            = \hat{h}\ket{\phi_k}, \\
-            \dfd{\phi_k^{*}}\bra{\phi_i}\dpd{}{t}\ket{\phi_i}
-            = \dpd{}{t}\ket{\phi_k}, \\
-            \dfd{\phi_k^{*}}\bra{\phi_i\phi_j}\hat{u}\ket{\phi_i\phi_j}_{AS}
-            = 2\bra{\cdot\phi_j}\hat{u}\ket{\phi_k\phi_j}_{AS},
-        \end{gather}
-        where the "dot" is defined in terms of the tensor product by
-        \begin{align}
-            \ket{\phi_i\phi_j} = \ket{\phi_i}\otimes\ket{\phi_j}
-            \implies \ket{\cdot\phi_j} \equiv \1 \otimes\ket{\phi_j}.
-        \end{align}
-        The last derivative can be found by expanding the antisymmetrix matrix
-        elements by \autoref{eq:antisymmetric_two_body} and applying the
-        functional derivative two times on each term. Collecting the four terms
-        and using the symmetric property of the two-body elements that
-        \begin{align}
-            \bra{\phi_i\phi_j}\hat{u}\ket{\phi_k\phi_l}
-            = \bra{\phi_j\phi_i}\hat{u}\ket{\phi_l\phi_k}.
-        \end{align}
-        We treat $\phi_k(x)$ and $\phi_k^{*}(x)$ as independent
-        variables and taking the functional derivative of the Lagrangian
-        function with respect to either form yields the same equations but
-        complex conjugated of one another, we will restrict our attention to
-        finding the functional derivative of the Lagrangian functional with
-        respect to $\phi_k^{*}(x)$.
-        \begin{align}
-            \dfd{\phi_k^{*}}\lagrangianfunc{\slat, \lambda}
-            = \dfd{\phi_k^{*}}\energyfunc{\slat}
-            - \lambda_{jk}\ket{\phi_{j}},
-        \end{align}
-        where the functional derivative of the energy functional is given by
-        \begin{align}
-            \dfd{\phi_k^{*}}\energyfunc{\slat}
-            = \onehamil\ket{\phi_k}
-            + \bra{\cdot\phi_j}\twohamil\ket{\phi_k\phi_j}_{AS}.
-        \end{align}
-        Inserted back into the functional derivative of the Lagrangian and
-        equating to zero we get
-        \begin{gather}
-            \onehamil\ket{\phi_k}
-            + \bra{\cdot\phi_j}\twohamil\ket{\phi_k\phi_j}_{AS}
-            - \lambda_{jk}\ket{\phi_{j}} = 0.
-            \label{eq:min_lagrangian_phi_k}
-        \end{gather}
-        To go from here we introduce the Fock operator
-        \begin{align}
-            \fock\ket{\phi_k}
-            = \onehamil\ket{\phi_k}
-            + \bra{\cdot\phi_j}\twohamil\ket{\phi_k\phi_j}_{AS},
-        \end{align}
-        where the states $\ket{\phi_j}$ are contained in the Slater determinant,
-        whereas $\ket{\phi_k}$ can be any molecular orbital in the basis.
-        % TODO: The point on the occupied orbitals needs to made more explicit.
-        We insert the expression for the Fock operator into
-        \autoref{eq:min_lagrangian_phi_k}.
-        We also move the Lagrange multipliers to the right hand side of the
-        equation.
-        This yields the equation
-        \begin{align}
-            \fock\ket{\phi_k} = \lambda_{jk}\ket{\phi_j},
-            \label{eq:non-canonical-hartree-fock}
-        \end{align}
-        known as the \emph{non-canonical Hartree-Fock equations}.
-        This equation will yield the correct Hartree-Fock energy, but we are
-        interested in an eigenvalue equation without a summation over the matrix
-        of Lagrange multipliers.
-        To reach this goal we define a new set of spin-orbitals
-        $\brac{\ket{\psi_p}}$ which is given by
-        \begin{align}
-            \ket{\psi_p} = U_{qp}\ket{\phi_q},
-        \end{align}
-        where $\brac{\phi_q}$ is the set of spin-orbitals from the non-canonical
-        Hartree-Fock equations and $U_{qp}$ is an element in the unitary matrix
-        $\vfg{U}$.
-        In other words, we perform a unitary transformation from the
-        non-canonical spin-orbitals to the new set of spin-orbitals.
-        As the transformation is unitary, this means that the orthonormality
-        condition in the new spin-orbitals is preserved from the old
-        spin-orbitals.
-        \begin{proof}[%
-                Proof that a unitary transformation preserves orthonormality%
-        ]
-            Given a set of orthonormal basis states
-            $\brac{\ket{\chi_{\alpha}}}_{\alpha = 1}^{L}$,
-            we perform a unitary transformation from this basis set to a new
-            basis set defined by
-            \begin{align}
-                \ket{\phi_p} = U_{\alpha p}\ket{\chi_{\alpha}},
-            \end{align}
-            where $U_{\alpha p}$ is an element in the unitary matrix $\vfg{U} \in
-            \mathbb{C}^{L \times L}$ satisfying
-            \begin{align}
-                \vfg{U}^{\dagger}\vfg{U} = \vfg{U}\vfg{U}^{\dagger} = \1.
-            \end{align}
-            Taking the inner product between two states in the new basis set we
-            get
-            \begin{align}
-                \braket{\phi_p}{\phi_q}
-                = U^{*}_{\alpha p}
-                \braket{\chi_{\alpha}}{\chi_{\beta}}
-                U_{\beta q}
-                = U^{*}_{\alpha p} U_{\beta q} \delta_{\alpha \beta}
-                = U^{*}_{\alpha p} U_{\alpha q}
-                = \delta_{pq},
-            \end{align}
-            which shows that the new basis set $\brac{\ket{\phi_p}}_{p = 1}^L$
-            preserves the orthonormality after the unitary transfomation.
-            % TODO: This proof should probably be moved to the quantum-mechanics
-            % section.
-        \end{proof}
-        Furthermore, the orthonormality of the Slater determinants are also
-        preserved as shown in the proof in the subsection on Slater determinants.
-        % TODO: Reference this properly
-        As the Lagrange multipliers $\lambda_{ji}$ are Hermitian, we can
-        construct a matrix $\vfg{\Lambda}$ of the multipliers which will be
-        Hermitian.
-        This means that we can construct a diagonal matrix $\vfg{\energy}$ from
-        the Lagrange multipliers using the spectral theorem, viz.
-        \begin{align}
-            \vfg{\Lambda} = \vfg{U} \vfg{\energy} \vfg{U}^{\dagger}.
-        \end{align}
-        This procedure is also known as \emph{Schur decomposition}.
-        In tensor notation we introduce a Kronkecker Delta of rank 3 defined as
-        \begin{align}
-            \delta^{i}_{jk} = \begin{cases}
-                1 & i = j = k, \\
-                0 & else.
-            \end{cases}
-        \end{align}
-        The Schur decomposition of the Lagrange multipliers then take on the
-        form
-        \begin{align}
-            \lambda_{ij} = U_{ik} E_{kl} U^{*}_{jl}
-            = U_{ik} \delta^{m}_{kl} \epsilon_{m} U^{*}_{jl},
-        \end{align}
-        where $\epsilon_m$ are the diagonal entries in the matrix $\vfg{E}$.
-        Starting from the non-canonical Hartree-Fock equations in
-        \autoref{eq:non-canonical-hartree-fock} and inserting the transformed
-        spin-orbitals we get
-        \begin{gather}
-            \fock\ket{\phi_k} = \lambda_{jk}\ket{\phi_j}
-            \\
-            \implies
-            \fock U^{*}_{kl}\ket{\psi_{l}} = \lambda_{jk} U^{*}_{jl} \ket{\psi_l}
-            \\
-            \implies
-            U_{km} U^{*}_{kl} \fock\ket{\psi_l}
-            = U_{km} \lambda_{jk} U^{*}_{jl} \ket{\psi_l}
-            \\
-            \implies
-            \delta_{ml} \fock \ket{\psi_l}
-            = \delta^{n}_{ml} \epsilon_{n} \ket{\psi_l}
-            \\
-            \implies
-            \fock\ket{\psi_m}
-            = \epsilon_{m} \ket{\psi_m},
-            \label{eq:canonical-hartree-fock}
-        \end{gather}
-        where we are left with the \emph{canonical Hartree-Fock equations}.
-        These equations constitute an eigenvalue equation that only depends on
-        the choice of basis.
-        That is, they make no assumption on which orbitals are occupied or not.
-        As mentioned earlier, the Hartree-Fock equations does not guarantee that
-        we find a global minimum.
-        In fact, it does not even guarantee that we find a minimum!
-        We might just as well stumble upon a saddle point.
-        % TODO: Discuss how to determine if we have found a minimum.
+                \implies
+                U_{km} U^{*}_{kl} \fock\ket{\psi_l}
+                = U_{km} \lambda_{jk} U^{*}_{jl} \ket{\psi_l}
+                \\
+                \implies
+                \delta_{ml} \fock \ket{\psi_l}
+                = \delta^{n}_{ml} \epsilon_{n} \ket{\psi_l}
+                \\
+                \implies
+                \fock\ket{\psi_m}
+                = \epsilon_{m} \ket{\psi_m},
+                \label{eq:canonical-hartree-fock}
+            \end{gather}
+            where we are left with the \emph{canonical Hartree-Fock equations}.
+            These equations constitute an eigenvalue equation that only depends on
+            the choice of basis.
+            That is, they make no assumption on which orbitals are occupied or not.
+            As mentioned earlier, the Hartree-Fock equations does not guarantee that
+            we find a global minimum.
+            In fact, it does not even guarantee that we find a minimum!
+            We might just as well stumble upon a saddle point.
+            % TODO: Discuss how to determine if we have found a minimum.
 
         \subsection{Brillouin's theorem}
             Brillouin's theorem states that given an orthonormal single-particle
