@@ -27,7 +27,56 @@
     \section{Time-independent Schrödinger Equation}
     \section{The Variational Principle}
     \section{Time-dependent Schrödinger Equation}
-    \section{Time Evolution Operator}
+    \section{The Time Evolution Operators}
+        We will in the following subsection stay close to the derivation of
+        \citeauthor{ullrich2011time} \cite{ullrich2011time}, section 3.1.2, and
+        \citeauthor{joachain2012atoms} \cite{joachain2012atoms}, section 5.1.
+        Any solution to the time-dependent Schrödinger equation is given by
+        \begin{align}
+            \ket{\Psi(t)} = \hat{U}(t, t_0)\ket{\Psi(t_0)},
+        \end{align}
+        where $\hat{U}(t, t_0)$ is the time evolution operator that acts on the
+        initial state $\ket{\Psi(t_0)}$, and yields the state $\ket{\Psi(t)}$ at
+        some later time $t$. The time evolution operators are unitary at common
+        times, viz.
+        \begin{align}
+            \hat{U}^{\dagger}(t, t_0)\hat{U}(t, t_0) = \1.
+        \end{align}
+        This means that we can go ``backwards in time'' in the sense that going
+        from $\ket{\Psi(t)} \to \ket{\Psi(t_0)}$ is done by
+        \begin{align}
+            \ket{\Psi(t_0)} = \hat{U}^{\dagger}(t, t_0)\ket{\Psi(t)}.
+        \end{align}
+        Furthermore, we can compose a time evolution operator from other time
+        evolution operators as
+        \begin{align}
+            \hat{U}(t_2, t_0) = \hat{U}(t_2, t_1)\hat{U}(t_1, t_0),
+        \end{align}
+        where $t_2 \geq t_1 \geq t_0$. If the Hamiltonian is time-independent,
+        i.e., $\hat{H}(t) = \hat{H}$, the time evolution operator takes on the
+        form
+        \begin{align}
+            \hat{U}(t, t_0) = \exp\brac{
+                \frac{-i \hat{H} (t - t_0)}{\hslash}
+            }.
+            \label{eq:ti-evolution}
+        \end{align}
+        However, if the Hamiltonian is time-dependent, the time evolution
+        operator takes on a much more complicated shape.
+        \begin{align}
+            \hat{U}(t, t_0) =
+            \mathcal{T}\exp\brac{
+                -\frac{i}{\hslash} \int_{t_0}^{t} \dd\tau
+                \hat{H}(\tau)
+            },
+            \label{eq:td-evolution}
+        \end{align}
+        where $\mathcal{T}$ is the time-ordering operator. As an extra
+        complicating factor, the time-dependent Hamiltonian might not commute
+        with itself at different times. Here \autoref{eq:ti-evolution} and
+        \autoref{eq:td-evolution} serve as the theoretical foundation for how
+        the time-evolution is practically done in a numerical scheme.
+
 
     \section{Density Operator}
         When working with many-body quantum mechanics, computing expectation

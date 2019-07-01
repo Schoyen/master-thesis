@@ -249,9 +249,10 @@
         \end{align}
         where $\vf{s}$ is a diagonal matrix with the eigenvalues of $\vf{S}$.
         The matrix $\vf{S}$ is positive definite as all the eigenvalues of
-        $\vf{S}$ are positive. From \citeauthor{mayer2002lowdin} we can find an
-        equation for $\vf{X}$ using \emph{symmetric orthogonalization}. This
-        yields
+        $\vf{S}$ are positive.
+        We can find an equation for $\vf{X}$ using \emph{symmetric
+        orthogonalization} \cite{mayer2002lowdin}.
+        This yields
         \begin{align}
             \vf{X} = \vf{S}^{-1/2} = \vf{U}\vf{s}^{-1/2}\vf{U}^{\dagger}.
         \end{align}
@@ -431,132 +432,3 @@
             \end{align}
             This simplifies the process of computing the overlap, when we've
             already transformed to the orthonormal basis.
-
-    \subsection{The time evolution operators}
-        We will in the following subsection stay close to the derivation of
-        \citeauthor{ullrich2011time}, section 3.1.2, and
-        \citeauthor{joachain2012atoms}, section 5.1.  Any solution to the
-        time-dependent Schrödinger equation is given by
-        \begin{align}
-            \ket{\Psi(t)} = \hat{U}(t, t_0)\ket{\Psi(t_0)},
-        \end{align}
-        where $\hat{U}(t, t_0)$ is the time evolution operator that acts on the
-        initial state $\ket{\Psi(t_0)}$, and yields the state $\ket{\Psi(t)}$ at
-        some later time $t$. The time evolution operators are unitary at common
-        times, viz.
-        \begin{align}
-            \hat{U}^{\dagger}(t, t_0)\hat{U}(t, t_0) = \1.
-        \end{align}
-        This means that we can go ``backwards in time'' in the sense that going
-        from $\ket{\Psi(t)} \to \ket{\Psi(t_0)}$ is done by
-        \begin{align}
-            \ket{\Psi(t_0)} = \hat{U}^{\dagger}(t, t_0)\ket{\Psi(t)}.
-        \end{align}
-        Furthermore, we can compose a time evolution operator from other time
-        evolution operators as
-        \begin{align}
-            \hat{U}(t_2, t_0) = \hat{U}(t_2, t_1)\hat{U}(t_1, t_0),
-        \end{align}
-        where $t_2 \geq t_1 \geq t_0$. If the Hamiltonian is time-independent,
-        i.e., $\hat{H}(t) = \hat{H}$, the time evolution operator takes on the
-        form
-        \begin{align}
-            \hat{U}(t, t_0) = \exp\brac{
-                \frac{-i \hat{H} (t - t_0)}{\hslash}
-            }.
-            \label{eq:ti-evolution}
-        \end{align}
-        However, if the Hamiltonian is time-dependent, the time evolution
-        operator takes on a much more complicated shape.
-        \begin{align}
-            \hat{U}(t, t_0) =
-            \mathcal{T}\exp\brac{
-                -\frac{i}{\hslash} \int_{t_0}^{t} \dd\tau
-                \hat{H}(\tau)
-            },
-            \label{eq:td-evolution}
-        \end{align}
-        where $\mathcal{T}$ is the time-ordering operator. As an extra
-        complicating factor, the time-dependent Hamiltonian might not commute
-        with itself at different times. Here \autoref{eq:ti-evolution} and
-        \autoref{eq:td-evolution} serve as the theoretical foundation for how
-        the time-evolution is practically done in a numerical scheme.
-
-    \subsection{Numerical time propagation using the Crank-Nicolson algorithm}
-        Continuing the derivation from section 4.5 in
-        \citeauthor{ullrich2011time}, we look at how we can numerically
-        propagate in time a wave function with a time-dependent Hamiltonian.
-        Luckily, due to the property of the time evolution operators that they
-        can be composed of several intermediate time steps, discretizing the
-        operators becomes quite natural. That is, if we define $\tau_1 = t_0$,
-        and $\tau_N = t$ with all intermediate times given by
-        \begin{align}
-            \tau_{j + 1} = \tau_j + \Delta \tau,
-        \end{align}
-        where the time step $\Delta \tau$ is given by
-        \begin{align}
-            \Delta \tau = \frac{t - t_0}{N - 1},
-        \end{align}
-        and $N$ is the number of discrete time steps. This means that we can
-        write
-        \begin{align}
-            \ket{\Psi(\tau_{j + 1})}
-            = \hat{U}(\tau_{j + 1}, \tau_{j})\ket{\Psi(\tau_j)},
-        \end{align}
-        where the equality is maintained. For a time-dependent Hamiltonian
-        (which is what we will be working on), the time evolution operator is
-        given by \autoref{eq:td-evolution}, but this is intractable in a
-        numerical scheme, to say the least. We therefore approximate the
-        operator by
-        \begin{align}
-            \hat{U}(\tau_{j + 1}, \tau_{j})
-            \approx \exp\brac{
-                -\frac{i}{\hslash}\hat{H}(\tau_{j} + \Delta\tau/2)\Delta\tau
-            }
-            \equiv
-            \exp\brac{
-                -\frac{i}{\hslash}\hat{H}(\tau_{j + 1/2})\Delta\tau
-            },
-        \end{align}
-        that is, we evaluate the Hamiltonian at the midpoint between $\tau_{j +
-        1}$ and $\tau_{j}$. The choice of evaluating the time step at the
-        midpoint comes about in order to preserve the unitarity of the
-        approximated time evolution operator. That is,
-        \begin{align}
-            \ket{\Psi(\tau_j)}
-            = \hat{U}(\tau_j, \tau_{j + 1})\ket{\Psi(\tau_{j + 1})}
-            = \hat{U}(\tau_j, \tau_{j + 1})\hat{U}(\tau_{j + 1}, \tau_j)
-            \ket{\Psi(\tau_j)},
-        \end{align}
-        which means that
-        \begin{align}
-            \hat{U}(\tau_j, \tau_{j + 1})
-            \hat{U}(\tau_{j + 1}, \tau_j)
-            = \hat{U}^{\dagger}(\tau_{j + 1}, \tau_j)
-            \hat{U}(\tau_{j + 1}, \tau_j)
-            = \1.
-        \end{align}
-        Using the Crank-Nicolson algorithm, we can approximate the exponential
-        in the approximated time evolution operator to be
-        \begin{align}
-            \hat{U}(\tau_{j + 1}, \tau_j)
-            \approx \exp\brac{
-                -\frac{i}{\hslash}\hat{H}(\tau_{j + 1/2})\Delta \tau
-            }
-            \approx
-            \frac{1 - i\hat{H}(\tau_{j + 1/2})\Delta\tau/(2\hslash)}
-            {1 + i\hat{H}(\tau_{j + 1/2})\Delta\tau/(2\hslash)},
-        \end{align}
-        which is correct to second order in $\Delta \tau$ and preserves
-        unitarity. Expressed as system of linear equations, we then have
-        \begin{align}
-            \para{
-                1 + \frac{i}{2\hslash}\hat{H}(\tau_{j + 1/2})\Delta\tau
-            }\ket{\Psi(\tau_{j + 1})}
-            =
-            \para{
-                1 - \frac{i}{2\hslash}\hat{H}(\tau_{j + 1/2})\Delta\tau
-            }\ket{\Psi(\tau_{j})}.
-        \end{align}
-        We can either solve this equation by inversion, or as a system of linear
-        equations. The latter will be more stable.
