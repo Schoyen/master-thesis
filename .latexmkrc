@@ -1,1 +1,1 @@
-$biber='biber --output-safechars --validate_datamodel %O %S'
+$biber='biber --output-safechars --validate_datamodel --isbn-normalise %O %S'
