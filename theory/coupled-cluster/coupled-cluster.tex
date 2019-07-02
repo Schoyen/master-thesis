@@ -584,14 +584,49 @@
             non-Hermitian thus violating the postulates of quantum mechanics, we
             are seemingly in a lot of trouble.
             Luckily, by not truncating the cluster operator\footnote{%
-                Or, for $N$ particles we truncate at $\clust_N$.
+                Or, for $N$ particles truncating at $\clust_N$.
             } we will recover the formally exact solution within the space
             spanned by our basis of spin-orbitals \cite{coester1958421,
             monkhorst1977421}.
 
-        \subsection{Bi-variational principle}
         \subsection{Hellmann-Feynman theorem}
-        \subsection{Functional formulation of the coupled cluster method}
+            Even though we conclude that the non-variational formulation of
+            the coupled cluster method yields an exact solution in the
+            untruncated limit, and is accurate enough in the truncated limit
+            that the lack of a bounded energy is not a large problem
+            \cite{helgaker-molecular}, we do still get a problem when we look at
+            the expectation value of other observables.
+            There have been attempts at computing observable quantities by using
+            the variational expectation value for the operator in question
+            \cite{exp-value-cizek, fink1974163}
+            \begin{align}
+                \expv{O}
+                &= \frac{\bra{\Psi}\hat{O}\ket{\Psi}}{\braket{\Psi}{\Psi}}
+                = \frac{
+                    \braslat (e^{\clust})^{\dagger}
+                    \hat{O}
+                    e^{\clust}\ketslat}
+                {\braslat (e^{\clust})^{\dagger} e^{\clust} \ketslat},
+            \end{align}
+            but as $\ket{\Psi}$ is not found from optimization of the energy
+            using the variational principle in \autoref{eq:variational-cc}, we
+            do not necessarily have that the energy found from the variational
+            principle is the same as the energy found from the projected energy
+            equation \cite{kvaal2013variational}.
+            Replacing the Hamiltonian in \autoref{eq:cc_energy_sim} with the
+            operator of the observable in question, we do get an expression for
+            the observable \cite{kvaal2013variational}.
+            However, unless we avoid truncating the cluster operator, we will not
+            conform to the Hellmann-Feynman theorem \cite{feynman,
+            monkhorst1977421}.
+            % TODO: Rethink this subsection
+
+        \subsection{The coupled cluster Lagrangian}
+            In order for us to conform to the Hellmann-Feynman theorem, we can
+            use a technique where we construct a variational Lagrangian
+            \cite{helgaker1989}.
+
+        \subsection{Bi-variational principle}
         \subsection{Density matrices}
 
     \section{Time-dependent coupled cluster theory}
