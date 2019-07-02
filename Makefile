@@ -8,4 +8,4 @@ main.makefile: $(figure_deps)
 
 build: main.makefile
 	make -j4 -f main.makefile
-	latexmk -lualatex -shell-escape
+	latexmk -lualatex -bibtex -shell-escape
