@@ -43,23 +43,9 @@
 \def\facultynameno{Det matematisk- naturvitenskapelige fakultet}
 \newcommand*{\facultyno}[1]{\def\facultynameno{#1}}
 
-%%---------------------------------------
-%%           USEFUL COMMANDS
-%%---------------------------------------
-%
-%\newtheoremstyle{uiotheoremstyle} % name
-%    {\topsep}                    % Space above
-%    {\topsep}                    % Space below
-%    {\itshape}                   % Body font
-%    {}                           % Indent amount
-%    {\scshape}                   % Theorem head font
-%    {.}                          % Punctuation after theorem head
-%    {.5em}                       % Space after theorem head
-%    {}  % Theorem head spec (can be left empty, meaning ‘normal’)
-%
-%\theoremstyle{uiotheoremstyle}
-%\newtheorem{theorem}{Theorem}
-%\renewenvironment{proof}{\noindent{\scshape Proof}.}{\qed}
+%---------------------------------------
+%           USEFUL COMMANDS
+%---------------------------------------
 
 % Page style commands
 \let\origdoublepage\cleardoublepage

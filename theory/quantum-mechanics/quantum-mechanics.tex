@@ -27,6 +27,81 @@
     \section{Time-independent Schrödinger equation}
     \section{The variation principle}
         \subsection{The variation method}
+    \section{The Hellmann-Feynman theorem}
+        The Hellmann-Feynman theorem provides us with a method of calculating
+        first-order change (also known as a first order property) in the energy
+        due to a perturbation \cite{helgaker-molecular}.
+        \begin{theorem}
+            If $\ket{\psi}$ is a normalized eigenstate of the Hamiltonian
+            $\hamil$, or $\ket{\psi}$ is variationally determined from the
+            Hamiltonian $\hamil$, the Hellmann-Feynman theorem \cite{feynman}
+            states that
+            \begin{align}
+                \left.\dod[]{E(\alpha)}{\alpha}\right\rvert_{\alpha = 0}
+                =
+                \left.
+                \dpd[]{}{\alpha}
+                \bra{\psi_{\alpha}}\hamil + \alpha\hat{V}\ket{\psi_{\alpha}}
+                \right\rvert_{\alpha = 0}
+                = \bra{\psi}\hat{V}\ket{\psi},
+                \label{eq:hellmann-feynman}
+            \end{align}
+            where $\alpha$ is a perturbational parameter and $\hat{V}$ the
+            perturbation operator.
+            The wave function $\ket{\psi_{\alpha}}$ is given by
+            \begin{align}
+                \ket{\psi_{\alpha}} = N(\ket{\psi} + \alpha\ket{\delta\psi}),
+            \end{align}
+            where $N$ is a normalization factor.
+            For approximate wave functions, they must be optimized with respect
+            to the same variational parameter $\alpha$ as in the theorem.
+        \end{theorem}
+        \begin{proof}
+            The underlying assumption is that
+            \begin{align}
+                \hamil\ket{\psi} = E\ket{\psi},
+            \end{align}
+            regardless if we have an exact or a variationally determined wave
+            function $\ket{\psi}$.
+            Furthermore, both perturbed and unperturbed wave functions are
+            normalized, viz.
+            \begin{align}
+                \braket{\psi}{\psi} = \braket{\psi_{\alpha}}{\psi_{\alpha}} = 1
+                \implies
+                \dpd[]{}{\alpha} = \braket{\psi_{\alpha}}{\psi_{\alpha}} = 0.
+            \end{align}
+            See reference \cite{helgaker-molecular} for a proof where the
+            normalization of the perturbed wave function is relaxed.
+            We now prove \autoref{eq:hellmann-feynman} directly.
+            \begin{align}
+                \left.\dod[]{E(\alpha)}{\alpha}\right\rvert_{\alpha = 0}
+                &=
+                \left.
+                \dpd[]{}{\alpha}
+                \bra{\psi_{\alpha}}\hamil + \alpha\hat{V}\ket{\psi_{\alpha}}
+                \right\rvert_{\alpha = 0}
+                \\
+                &=
+                \bra{\delta\psi}\hamil\ket{\psi}
+                + \bra{\psi}\hat{V}\ket{\psi}
+                + \bra{\psi}\hamil\ket{\delta\psi}
+                \\
+                &=
+                \energy \brak{
+                    \braket{\delta\psi}{\psi}
+                    + \braket{\psi}{\delta\psi}
+                }
+                + \bra{\psi}\hat{V}\ket{\psi}
+                \\
+                &=
+                \energy \dpd[]{}{\alpha}\braket{\psi}{\psi}
+                + \bra{\psi}\hat{V}\ket{\psi}
+                \\
+                &=
+                \bra{\psi}\hat{V}\ket{\psi},
+            \end{align}
+            which is what we wanted to show.
+        \end{proof}
     \section{Time-dependent Schrödinger equation}
     \section{The time evolution operators}
         We will in the following subsection stay close to the derivation of
