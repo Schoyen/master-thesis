@@ -619,15 +619,174 @@
             the observable.
             However, we return to the problem of computing first order
             properties being a cumbersome problem as the Hellmann-Feynman
-            theorem is still not satisfied \cite{kvaal2013variational,
-            helgaker-molecular}.
+            theorem is still not satisfied \cite{helgaker-molecular,
+            kvaal2013variational}.
 
             In order for us to conform to the Hellmann-Feynman theorem, we can
             use a technique where we construct a variational Lagrangian
             \cite{helgaker1989}.
+            To motivate the need for a variational Lagrangian, we consider the
+            coupled cluster energy functional subject to a small perturbation
+            $g$ \cite{monkhorst1977421}
+            \begin{align}
+                E[g, \clustamp_{\mu}]
+                &= \braslat e^{-\clust(g)}
+                \hamil(g)
+                e^{\clust(g)}
+                \ketslat,
+                \label{eq:cc-perturbed-energy}
+            \end{align}
+            where $\mu$ and $\nu$ denotes an excitation level and
+            $\clustamp_{\mu}$ is the set of all cluster amplitudes at this
+            excitation.
+            We also note that as the perturbation is represented on a grid, we
+            will in the second quantized formulation absorb the pertubation in
+            the matrix elements of the wave function instead of the wave
+            function itself \cite{helgaker-molecular}.
+            The expansion of the operators will then become
+            \cite{monkhorst1977421}
+            \begin{align}
+                \hamil(g) &= \hamil + g\hamil^{(1)} + g^2\hamil^{(2)} + \dots, \\
+                \clust(g) &= \clust + g\clust^{(1)} + g^2\clust^{(2)} + \dots.
+            \end{align}
+            We find the optimized energy of \autoref{eq:cc-perturbed-energy} by
+            \begin{align}
+                E(g) &= E[g, \clustamp^{*}_{\mu}]
+            \end{align}
+            where $\clustamp^{*}_{\mu}$ for a given $g$ represents the solution
+            to the set of amplitude equations
+            \begin{align}
+                f_{\mu}[g, \vfg{\clustamp}_{*}]
+                &=
+                \left.
+                \bra{\Phi_{\mu}}
+                e^{-\clust(g)}
+                \hamil(g)
+                e^{\clust(g)}
+                \ketslat
+                \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}}
+                = 0.
+                \label{eq:cc-amplitude-set}
+            \end{align}
+            Now if the coupled cluster wave function was indeed variational,
+            this condition corresponds to finding the stationary point of the
+            energy functional by
+            \begin{align}
+                \left.
+                \dpd[]{E[g, \clustamp_{\mu}]}{\clustamp_{\nu}}
+                \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}}
+                = 0,
+                \label{eq:cc-variational-condition}
+            \end{align}
+            for every $g$ that we peruse.
+            As the wave function in fact isn't variational, this means that the
+            total derivative of the optimized energy with respect to the
+            pertubational parameter $g$ can not be computed simply as the
+            partial derivative of the energy functional with respect to $g$ with
+            $\clustamp_{\mu}$ evaluated at $\clustamp^{*}_{\mu}$.
+            That is,
+            \begin{align}
+                \dod[]{E(g)}{g}
+                =
+                \left.
+                \dod[]{E[g, \clustamp_{\mu}]}{g}
+                \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}}
+                &=
+                \left.
+                \dpd[]{E[g, \clustamp_{\mu}]}{g}
+                \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}}
+                +
+                \left.
+                \dpd[]{E[g, \clustamp_{\mu}]}{\clustamp_{\nu}}
+                \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}}
+                \left.
+                \dpd[]{\clustamp_{\nu}}{g}
+                \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}}
+                \\
+                &\neq
+                \left.
+                \dpd[]{E[g, \clustamp_{\mu}]}{g}
+                \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}},
+            \end{align}
+            as \autoref{eq:cc-variational-condition} is not satisified.
+            In order to satisty \autoref{eq:cc-variational-condition} and the
+            Hellmann-Feynman theorem we use Lagrange's method of undetermined
+            multipliers to introduce a new set of parameters $\clustlamp_{\mu}$,
+            one for every cluster amplitude.
+            We incorporate the original energy functional in
+            \autoref{eq:cc-perturbed-energy} into a Lagrangian functional with
+            the set of amplitude equations in \autoref{eq:cc-amplitude-set}
+            multiplied with the multipliers.
+            \begin{align}
+                L[g, \clustamp_{\mu}, \clustlamp_{\mu}]
+                &= E[g, \clustamp_{\nu}]
+                + \clustlamp_{\mu} f_{\mu}[g, \clustamp_{\nu}]
+                \\
+                &=
+                \bra{\slat}e^{-\clust(g)}\hamil(g) e^{\clust(g)}\ket{\slat}
+                +
+                \clustlamp_{\mu}
+                \bra{\slat_{\mu}}
+                e^{-\clust(g)}\hamil(g) e^{\clust(g)}\ket{\slat}
+                \\
+                &=
+                \bra{\slat}
+                \para{\1 + \clustl}
+                e^{-\clust(g)}\hamil(g) e^{\clust(g)}
+                \ket{\slat},
+                \label{eq:cc-perturbed-lagrangian}
+            \end{align}
+            where we've introduced the relaxation operator $\clustl$ from the
+            Lagrange multipliers along with the string of relaxation operators
+            from the excited state $\ket{\slat_{\mu}} = \hat{X}_{\mu}\ketslat$
+            we project onto in the amplitude equations.
+            That is,
+            \begin{align}
+                \clustl
+                &\equiv
+                \clustlamp_{\mu}\hat{X}^{\dagger}_{\mu}
+                = \clustlamp^{i}_{a}\ccr{i}\can{a}
+                + \frac{1}{4}\clustlamp^{ij}_{ab}\ccr{i}\can{a}\ccr{j}\can{b}
+                + \dots
+                \equiv
+                \clustl_1 + \clustl_2 + \dots,
+            \end{align}
+            with the truncation level $\mu$ matching the truncation of the
+            cluster operators $\clust$.
+            Optimizing \autoref{eq:cc-perturbed-lagrangian} with respect to the
+            parameters $\clustamp_{\mu}$ and $\clustlamp_{\mu}$ we get equations
+            which lets us find the stationary points $\clustamp^{*}_{\mu}$ and
+            $\clustlamp^{*}_{\mu}$.
+            \begin{gather}
+                \dpd[]{L[g, \clustamp_{\mu},\clustlamp_{\mu}]}
+                {\clustlamp_{\nu}}
+                = \bra{\slat_{\nu}}
+                e^{-\clust(g)}\hamil(g) e^{\clust(g)}
+                \ketslat
+                = 0,
+                \\
+                \dpd[]{L[g, \clustamp_{\mu}, \clustlamp_{\mu}]}
+                {\clustamp_{\nu}}
+                = \bra{\slat}
+                \para{\1 + \clustl}
+                e^{-\clust(g)}
+                \com{\hamil(g)}{\clust_{\nu}}
+                e^{\clust(g)}
+                \ketslat
+                = 0,
+            \end{gather}
+            where we note that the first equation in the absence of the
+            perturbation corresponds to the projected amplitude equations in
+            \autoref{eq:cc_amp_sim}.
+            The second equation yields the solution to the Lagrange multipliers.
+            This equation is slightly more involved as the extra set of
+            amplitudes generates an increased amount of contractions to be
+            solved.
+
+        \subsection{Density matrices}
 
         \subsection{Bi-variational principle}
-        \subsection{Density matrices}
+        \subsection{The non-orthogonal coupled cluster method}
 
     \section{Time-dependent coupled cluster theory}
         Stuff!
