@@ -25,8 +25,83 @@
         \subsection{The Schrödinger equation}
 
     \section{Time-independent Schrödinger equation}
-    \section{The variation principle}
-        \subsection{The variation method}
+    \section{The variational principle}
+        The variational principle tells us that the ``true'' ground state energy
+        $\energy_1$, i.e., the lowest energy eigenvalue of the Hamiltonian
+        $\hamil$, will always be the lower bound on the energy of the system.
+        This means that all approximate wave functions to the Hamiltonian will
+        serve as an upper bound to the ground state energy
+        \cite{griffiths2017introduction}.
+        \begin{theorem}
+            Given a Hamiltonian $\hamil$ describing the system we are looking
+            at and a normalized wave function $\ket{\psi}$, we have that
+            \begin{align}
+                \energy_1
+                \leq
+                E[\psi]
+                = \bra{\psi}\hamil\ket{\psi},
+                \label{eq:variational-principle}
+            \end{align}
+            where $E[\psi]$ is an energy functional dependent on the shape of
+            the wave function $\ket{\psi}$.
+            Here $\energy_1$ represents the true ground state of the
+            Hamiltonian.
+        \end{theorem}
+        The variational principle guarantees that any wave function $\ket{\psi}$
+        will overestimate the ground state energy unless we happen upon the true
+        ground state.
+        \begin{proof}
+            The eigenstates of the Hamiltonian will form a complete basis set
+            for the Hilbert space they are apart of.
+            This means that we can construct any state $\ket{\psi}$ as a linear
+            combination of these basis functions
+            \begin{align}
+                \ket{\psi} = \sum_{i = 1}^{N} c_{i}\ket{\phi_i},
+            \end{align}
+            where the basis functions $\brac{\ket{\phi_i}}_{i = 1}^{N}$ are
+            eigenstates of the Hamiltonian
+            \begin{align}
+                \hamil\ket{\phi_i} = \energy_i\ket{\phi_i},
+            \end{align}
+            such that $\energy_1 \leq \energy_2 \leq \dots \leq \energy_N$.
+            Furthermore, in our formulation of the variational principle, i.e.,
+            for normalized wave functions, we require that the basis functions
+            are orthornomal.
+            \begin{align}
+                \braket{\phi_i}{\phi_j} = \delta_{ij},
+            \end{align}
+            and that the coefficients yield
+            \begin{align}
+                \abs{\vfg{c}}^2 = \sum_{i = 1}^{N} c^{*}_{i}c_{i} = 1.
+            \end{align}
+            Inserting the state $\ket{\psi}$ into the energy funtional in
+            \autoref{eq:variational-principle} we find
+            \begin{align}
+                E[\psi]
+                &= \sum_{i = 1}^{N}\sum_{j = 1}^{N}
+                c^{*}_i\bra{\phi_i}\hamil\ket{\phi_j}c_j
+                = \sum_{i = 1}^{N}\sum_{j = 1}^{N}
+                c^{*}_i c_j \energy_j\delta_{ij}
+                = \sum_{i = 1}^{N}
+                \abs{c_i}^2 \energy_i.
+            \end{align}
+            However, by definition $\energy_1$ is the smallest eigenvalue of the
+            Hamiltonian, i.e., $\energy_1 \leq \energy_i$, for all $i \in
+            \brac{1, \dots, N}$.
+            From whence, we find
+            \begin{align}
+                E[\psi]
+                &= \sum_{i = 1}^{N}
+                \abs{c_i}^2 \energy_i
+                \geq
+                \energy_1 \sum_{i = 1}^{N}
+                \abs{c_i}^{2}
+                = \energy_1,
+            \end{align}
+            which shows that $\energy_1$ serves as a lower bound for the energy
+            of the system under observation.
+        \end{proof}
+        \subsection{The variational method}
     \section{The Hellmann-Feynman theorem}
         The Hellmann-Feynman theorem provides us with a method of calculating
         first-order change (also known as a first order property) in the energy
@@ -152,6 +227,8 @@
         with itself at different times. Here \autoref{eq:ti-evolution} and
         \autoref{eq:td-evolution} serve as the theoretical foundation for how
         the time-evolution is practically done in a numerical scheme.
+
+    \section{The time-dependent variational principle}
 
 
     \section{Density operator}
