@@ -21,6 +21,44 @@
         the book \citetitle{salasnich2017quantum} by
         \citeauthor{salasnich2017quantum} \cite{salasnich2017quantum}.
 
+        \begin{enumerate}
+            \item A state $\ket{\psi}$ is a unitary vector defined on a
+                separably complex Hilbert space.
+                The state can be expanded in any complete set of basis vectors
+                on the Hilbert space by
+                \begin{align}
+                    \ket{\psi} = c_i\ket{i},
+                \end{align}
+                where $c_i \in \mathbb{C}$.
+            \item An observable is described by a Hermitian operator $\hat{Q}$
+                acting on the Hilbert space of state vectors.
+            \item The eigenvalue $q$ of the observable $\hat{Q}$ represents its
+                measurable values.
+                That is,
+                \begin{align}
+                    \hat{Q}\ket{q} = q\ket{q},
+                \end{align}
+                where $\para{q, \ket{q}}$ are the eigenpairs of the observable.
+            \item We can measure the probability $p$ of finding the normalized
+                state $\ket{\psi}$ in the normalized eigenstate $\ket{q}$ by
+                \begin{align}
+                    p = \abs{\braket{g}{\psi}}^2.
+                \end{align}
+                As a consequence $p$ also gives the probability of measuring the
+                eigenvalue $g$.
+                We can also measure the expectation value of the observable
+                $\hat{Q}$ for the state $\ket{\psi}$ by
+                \begin{align}
+                    \expv{Q} = \mel{\psi}{\hat{Q}}{\psi}.
+                \end{align}
+            \item The time-evolution of a state $\ket{\psi(t)}$ is defined by
+                the Schrödinger equation
+                \begin{align}
+                    i\hslash \dod[]{}{t}\ket{\psi(t)} = \hamil\ket{\psi(t)},
+                \end{align}
+                where we work in the Schrödinger picture.
+        \end{enumerate}
+
     \section{Canonical quantization}
         \subsection{The Schrödinger equation}
 
