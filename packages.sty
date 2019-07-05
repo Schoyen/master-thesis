@@ -17,6 +17,7 @@
 \usepackage{xifthen}
 \usepackage{epigraph}
 \usepackage{commath}
+\usepackage{physics}
 \usepackage{pgfplots}
 \usepackage{tikz}
 \usepackage{algorithm}
@@ -31,19 +32,11 @@
 
 \newcommand{\vf}[1]{\mathbf{#1}}
 \newcommand{\vfg}[1]{\boldsymbol{#1}}
-\newcommand{\ket}[1]{| #1 \rangle} % for Dirac bras
-\newcommand{\bra}[1]{\langle #1 |} % for Dirac kets
-\newcommand{\bket}[1]{\left| #1 \right\rangle} % for Dirac kets
-\newcommand{\bbra}[1]{\left\langle #1 \left|} % for Dirac bras
-\newcommand{\dd}{\mathrm{d}}
 \newcommand{\1}{\mathds{1}}
 \newcommand{\upspin}{\uparrow}
 \newcommand{\downspin}{\downarrow}
 \DeclareMathOperator{\diag}{diag}
 
-\newcommand{\braket}[2]{\langle #1 | #2 \rangle}
-
-\DeclareMathOperator{\tr}{Tr}
 \newcommand{\expv}[1]{\left\langle #1 \right\rangle}
 \newcommand{\densitymatrix}{\hat{\rho}}
 
@@ -102,9 +95,10 @@
 \newcommand{\ketci}{\ket{\ci}}
 
 % Commands for many-body operators
-\newcommand{\hamilmat}{H} % Hamiltonian matrix elements
-\newcommand{\hamil}{\hat{\hamilmat}} % Hamiltonian
-\newcommand{\simhamil}{\bar{\hamilmat}} % Similarity transformed Hamiltonian
+\newcommand{\hamilten}{H} % Hamiltonian matrix elements
+\newcommand{\hamilmat}{\vfg{\hamilten}} % Hamiltonian matrix
+\newcommand{\hamil}{\hat{\hamilten}} % Hamiltonian
+\newcommand{\simhamil}{\bar{\hamilten}} % Similarity transformed Hamiltonian
 \newcommand{\momentum}{\hat{p}} % Momentum operator
 \newcommand{\position}[1][x]{\hat{#1}} % Position operator
 \newcommand{\oneten}{h} % One-body tensor
