@@ -786,6 +786,41 @@
             cluster amplitudes on the second equation yields explicit tensor
             contractions which must be solved iteratively in order to find
             self-consistent values for the Lagrange multipliers.
+            In the abscence of the perturbation we write the coupled cluster
+            Lagrangian as
+            \begin{align}
+                L[\clustamp_{\mu}, \clustlamp_{\mu}]
+                &= \mel{\slat}{
+                    \para{\1 + \clustl}
+                    e^{-\clust}
+                    \hamil
+                    e^{\clust}
+                }{\slat}
+                = \mel*{\tilde{\Psi}}{\hamil}{\Psi},
+            \end{align}
+            where we've denoted the coupled cluster wave functions by
+            \begin{gather}
+                \ket{\Psi} = e^{\clust}\ket{\slat}, \\
+                \bra*{\tilde{\Psi}} = \bra{\slat}\para{\1 + \clustl}e^{-\clust}.
+            \end{gather}
+            Furthermore, we have that
+            \begin{align}
+                L[\clustamp_{\mu}, \clustlamp_{\mu}]
+                = \tr(\hamil\density),
+            \end{align}
+            where the coupled cluster density operator is defined by
+            \cite{kvaal2013variational}
+            \begin{align}
+                \density
+                &= \dyad*{\Psi}{\tilde{\Psi}}
+                = e^{\clust}\dyad{\slat}{\slat}\para{\1 + \clustl}e^{\clust}.
+                \label{eq:cc-density-operator}
+            \end{align}
+            Using this definition for the coupled cluster density operator we
+            have that $\tr{\density} = 1$ and $\density^2 = \density$, but
+            $\density \neq \density^{\dagger}$ \cite{kvaal2013variational}.
+            We can thus describe the coupled cluster wave function as a
+            non-Hermitian, pure state \cite{kvaal2013variational}.
 
         \subsection{Density matrices}
 
