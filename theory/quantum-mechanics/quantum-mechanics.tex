@@ -145,6 +145,111 @@
             trial wave function $\ket{\psi}$ will be an upper bound to the
             ground state energy, but it does not provide us with a method of
             finding the \emph{best} upper bound energy.
+            For a Hermitian, model Hamiltonian $\hamil$ and given a normalized
+            trial wave function $\ket{\psi}$ that is constructed as a linear
+            combination of known normalized wave functions
+            $\ket{\chi_{\alpha}}$, viz.
+            \begin{align}
+                \ket{\psi} = c_{\alpha}\ket{\chi_{\alpha}},
+            \end{align}
+            we construct the variational energy functional $E[\psi]$ by
+            \begin{align}
+                E[\psi]
+                &= \frac{\mel{\psi}{\hamil}{\psi}}
+                {\braket{\psi}{\psi}},
+            \end{align}
+            where we no longer require that $\ket{\psi}$ is normalized.
+            Optimizing the energy functional is now done by finding the
+            stationary points with respect to the variational parameters
+            $c_{\alpha}$.
+            We do this by
+            \begin{align}
+                \dpd[]{E[c_{\alpha}]}{c_{\beta}} &= 0,
+                \\
+                \dmd{E[c_{\alpha}]}{2}{c_{\beta}}{}{c_{\gamma}}{} &= 0,
+            \end{align}
+            where the first variation locates the stationary point and the
+            second variation categorizes the point as the Hessian matrix.
+            In order to construct equations which can be optimized, we
+            construct a new functional $G[\psi]$ given by
+            \cite{helgaker-molecular}
+            \begin{align}
+                G[\psi]
+                &=
+                \mel{\psi}{\hamil}{\psi}
+                - E[\psi] \braket{\psi}{\psi}.
+            \end{align}
+            Optimizing this functional for the first variation we find
+            \begin{align}
+                \dpd[]{G[\psi]}{c_{\alpha}}
+                &=
+                \brak{
+                    \dpd[]{}{c_{\alpha}}
+                    \bra{\psi}
+                }\hamil\ket{\psi}
+                + \bra{\psi}\hamil
+                \brak{
+                    \dpd[]{}{c_{\beta}}
+                    \ket{\psi}
+                }
+                -
+                \braket{\psi}{\psi}
+                \dpd[]{E[\psi]}{c_{\alpha}}
+                \nonumber \\
+                &\qquad
+                -
+                E[\psi]
+                \brak{
+                    \dpd[]{}{c_{\alpha}}
+                    \bra{\psi}
+                }\ket{\psi}
+                -
+                \bra{\psi}
+                \brak{
+                    \dpd[]{}{c_{\beta}}
+                    \ket{\psi}
+                }
+                \\
+                &=
+                2 \mel{\chi_{\alpha}}{\hamil}{\psi}
+                - 0
+                - 2E[\psi]\braket{\chi_{\alpha}}{\psi}
+                = 0,
+            \end{align}
+            where the first variation in the energy functional becomes zero due
+            to the conditions imposed on the stationary point of the energy
+            functional.
+            Furthermore, due to the hermiticity of the Hamiltonian, we have
+            collected equal terms.
+            Inserting the expansion for the trial wave function on both sides,
+            we find
+            \begin{gather}
+                \mel{\chi_{\alpha}}{\hamil}{\chi_{\beta}} c_{\beta}
+                - E[\psi]\braket{\chi_{\alpha}}{\chi_{\beta}} c_{\beta}
+                = 0
+                \\
+                \implies
+                \hamilten_{\alpha\beta} c_{\beta}
+                = E[\psi] S_{\alpha\beta} c_{\beta}
+                \\
+                \implies
+                \hamilmat \vfg{c}
+                = E[\psi] \overlapmat \vfg{c},
+                \label{eq:variational-eigenvalue}
+            \end{gather}
+            where we've defined the overlap matrix $\overlapmat$ from the
+            overlap integrals between the known basis elements
+            $\ket{\chi_{\alpha}}$.
+            It is interesting to note that subject to the constraint that the
+            first variation in the energy functional should vanish, we are able
+            to find the optimal set of coefficients $c_{\alpha}$ by solving the
+            generalized eigenvalue equation in
+            \autoref{eq:variational-eigenvalue}.
+            The procedure outlined by finding optimal coefficients from
+            \autoref{eq:variational-eigenvalue} will be used extensively as a
+            procedure to transform from a known to an unknown basis.
+            See reference \cite{helgaker-molecular} for a derivation of the
+            Hessian elements.
 
     \section{The Hellmann-Feynman theorem}
         The Hellmann-Feynman theorem provides us with a method of calculating
@@ -187,7 +292,7 @@
             \begin{align}
                 \braket{\psi}{\psi} = \braket{\psi_{\alpha}}{\psi_{\alpha}} = 1
                 \implies
-                \dpd[]{}{\alpha} = \braket{\psi_{\alpha}}{\psi_{\alpha}} = 0.
+                \dpd[]{}{\alpha} \braket{\psi_{\alpha}}{\psi_{\alpha}} = 0.
             \end{align}
             See reference \cite{helgaker-molecular} for a proof where the
             normalization of the perturbed wave function is relaxed.
@@ -217,10 +322,32 @@
                 + \bra{\psi}\hat{V}\ket{\psi}
                 \\
                 &=
-                \bra{\psi}\hat{V}\ket{\psi},
+                \mel{\psi}{\hat{V}}{\psi},
             \end{align}
             which is what we wanted to show.
         \end{proof}
+        A consequence of the Hellmann-Feynman theorem is that it provides us
+        with a technique for computing expectation values of other quantities
+        than the energy once we have variatonally determined the optimal state
+        for a given system.
+        For example, the expectation value of the operator $\hat{O}$ can be
+        found by
+        \begin{align}
+            \expv{\hat{O}}
+            = \mel{\psi}{\hat{O}}{\psi}
+            = \dpd[]{}{\alpha}
+            \left.
+            \mel{\psi_{\alpha}}{\hamil + \alpha\hat{O}}{\psi_{\alpha}}
+            \right\rvert_{\alpha = 0}
+            =
+            \left.
+            \dpd[]{E(\alpha)}{\alpha}
+            \right\rvert_{\alpha = 0}.
+        \end{align}
+        This avoids the need of having to variationally determine every
+        expectation value that we wish to measure as finding the optimal
+        parameters for the energy is enough.
+
     \section{Time-dependent Schrödinger equation}
     \section{The time evolution operators}
         We will in the following subsection stay close to the derivation of
