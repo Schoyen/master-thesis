@@ -109,7 +109,7 @@
         $\bra{\Phi_I}\ccr{p}\ccr{q}\can{s}\can{r}\ket{\Phi_J}$.
         We are then able to construct the configuration interaction matrix
         \begin{align}
-            \vfg{\hamilmat}
+            \hamilmat
             &=
             \begin{pmatrix}
                 \bra{\Phi_0}\hamil\ket{\Phi_0} &
@@ -131,7 +131,7 @@
         the different excitation levels in separate blocks.
         For the singles and doubles excitations we get the block matrix
         \begin{align}
-            \vfg{\hamilmat}_{\text{CISD}}
+            \hamilmat_{\text{CISD}}
             &=
             \begin{pmatrix}
                 \bra{\Phi}\hamil\ket{\Phi} &
@@ -436,8 +436,8 @@
                 &= \bra{\Psi(t)}\hamil(t)\ket{\Psi(t)}
                 = \bra{\Phi_I}c^{*}_I(t) \hamil(t) c_J(t)\ket{\Phi_J}
                 \\
-                &= c^{*}_I(t) \hamilmat_{IJ}(t) c_J(t)
-                = \vf{c}^{\dagger}(t)\vf{\hamilmat}(t)\vf{c}(t),
+                &= c^{*}_I(t) \hamilten_{IJ}(t) c_J(t)
+                = \vf{c}^{\dagger}(t)\hamilmat(t)\vf{c}(t),
             \end{align}
             that is, the energy is given by the inner-product between the
             time-evolved coefficients and the time-evolved Hamiltonian.
