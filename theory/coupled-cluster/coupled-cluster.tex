@@ -817,10 +817,40 @@
                 \label{eq:cc-density-operator}
             \end{align}
             Using this definition for the coupled cluster density operator we
-            have that $\tr{\density} = 1$ and $\density^2 = \density$, but
-            $\density \neq \density^{\dagger}$ \cite{kvaal2013variational}.
-            We can thus describe the coupled cluster wave function as a
-            non-Hermitian, pure state \cite{kvaal2013variational}.
+            have that
+            \begin{align}
+                \tr{\density}
+                &= \tr{\dyad*{\Psi}{\tilde{\Psi}}}
+                = \bra*{\tilde{\Psi}}\ket{\Psi}
+                \bra*{\tilde{\Psi}}\ket{\Psi}
+                = 1,
+            \end{align}
+            which shows that the probabilities sum up to unity.
+            To see this, observe that the exponentiated cluster operators cancel
+            each other and the $\clustl$-operator destroys the reference.
+            We are thus left left with the overlap between the normalized
+            reference states.
+            Furthermore, we see that
+            \begin{align}
+                \density^2
+                = \density\density
+                = \ket{\Psi}\braket*{\tilde{\Psi}}{\Psi}
+                \bra*{\tilde{\Psi}}
+                = \dyad*{\Psi}{\tilde{\Psi}}
+                = \density,
+            \end{align}
+            making the density operator idempotent.
+            This also means that the coupled cluster wave function is a pure
+            state wave function.
+            However, not surprisingly, we have that
+            \begin{align}
+                \density \neq \density^{\dagger}.
+            \end{align}
+            The observation that the coupled cluster ansatz with the Lagrange
+            multipliers describe a pure, non-Hermitian, state leads to the
+            interpretation of the coupled cluster wave function using the
+            \emph{bi-variational principle} \cite{arponen1983311, kvaal2012ab,
+            kvaal2013variational}
 
         \subsection{Density matrices}
 

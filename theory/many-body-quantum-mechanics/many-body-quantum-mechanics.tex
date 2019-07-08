@@ -218,6 +218,7 @@
             \end{enumerate}
 
         \subsection{Orbital rotations}
+            % TODO: Include Thouless' theorem.
 
         \subsection{Basis sets}
             Also known as \emph{atomic orbitals}.
@@ -248,8 +249,8 @@
 
     \section{Second quantization}
         So far, we have worked with quantum mechanics formulated in first
-        quantization where observables are operators and states are functions
-        defined in some space.
+        quantization where observables are operators acting on states that are
+        functions defined in some space.
         Moving to second quantization we will express wave functions as creation
         and annihilation operators working on the vacuum state.
         Depending on the algebra for the operators, we can look at antisymmetric
@@ -258,14 +259,164 @@
         annihilation operators, we are able to unify much of quantum mechanics
         to a single set of elementary operators \cite{helgaker-molecular}.
 
-        \subsection{Creating and annihilating particles}
 
-        \subsection{Bosons and fermions}
-            % TODO: Discuss the two types of particles and the use of
-            % commutators to differentiate these.
+        \subsection{Particle statistics}
+            The particles we concern ourselves with are \emph{identical}.
+            This means that it is not possible to discern two particles of the
+            same type from one another.
+            This statement yields quite profound results in the sense
+            that the ordering of the particles in a many-body wave function does
+            not yield a new state and is in some sense arbitrary.
+            As a consequence the probability density of our state must be
+            permutation invariant.
+            We define $\sigma \in S_{N}$ as a permutation of $N$ indices $\vf{x}
+            = (x_1, \dots, x_N) \in X^{N}$ wherein both spin and position is
+            incorporated.
+            We denote the permutation of the indices by
+            \begin{align}
+                \vf{x} = (x_1, \dots, x_N)
+                \to \vf{x}_{\sigma} = (x_{\sigma(1)}, \dots, x_{\sigma(N)}).
+            \end{align}
+            We can then formulate particle indistinguishability by
+            \cite{leinaas1977, kvaal2017notes}
+            \begin{align}
+                \abs{
+                    \Psi(\vf{x})
+                }^2
+                = \abs{
+                    \Psi(\vf{x}_{\sigma})
+                }^2.
+                \label{eq:particle-indistinguishability}
+            \end{align}
+            We define the \emph{exchange operatore} $\hat{P}_{ij}$ as the
+            operator that interchanges indices $(i, j) \to (j, i)$ where $i \neq
+            j$.
+            That is,
+            \begin{align}
+                \hat{P}_{ij}\Psi(x_1, \dots, x_i, \dots, x_j, \dots, x_N)
+                = \Psi(x_1, \dots, x_j, \dots, x_i, \dots, x_N),
+            \end{align}
+            From \autoref{eq:particle-indistinguishability} we find that the
+            exchange operator is idempotent as exchanging the same pair twice
+            yields the original pair in return.
+            However, as has been stated, the two states
+            $\hat{P}_{ij}\Psi(\vf{x})$ and $\Psi(\vf{x})$ consist of
+            indistinguishable particles.
+            This means that we are unable to tell the two states apart when
+            exchanging particles.
+            The only way the two states can differ from one another is by a
+            complex phase factor $s_{ij}$, where $s_{ij}^2 = 1$ due the exchange
+            operator being idempotent.
+            We then find $s_{ij} = \pm 1$.
+            Depending on the sign of the phase we denote the state as either
+            symmetric or anti-symmetric.
+            If the eigenvalue is positive we call it a \emph{symmetric} state
+            whereas a negative eigenvalue signifies an \emph{anti-symmetric}
+            state.
+            A wave function which is symmetric under exchange consists of
+            \emph{bosons} whereas an anti-symmetric wave function denotes
+            \emph{fermions}.
+
+
+            We define the permutation operator $\hat{P}_{\sigma}$ as the
+            operator that interchanges the position of the particles in
+            $\Psi(\vf{x})$ by \emph{transpositions} of pairs.
+            This yields
+            \begin{align}
+                \hat{P}_{\sigma}\Psi(x_1, \dots, x_N)
+                &= s_{\sigma}\Psi(x_{\sigma(1)}, \dots, x_{\sigma(N)}),
+            \end{align}
+            where $s_{\sigma}$ is an eigenvalue of the permutation operator
+            depending on the type of particles.
 
             \subsubsection{Pauli exclusion principle}
                 % TODO: Include the spin-statistics theorem.
+                An interesting result of the anti-symmetric property of
+                fermions is that we can never have a system containing two
+                fermions \emph{in the same state}.
+                One way of demonstrating this phenomenom is through the use of
+                the exchange operator $\hat{P}_{ij}$ as described above.
+                Consider a fully anti-symmetric wave function $\ket{\Psi}$
+                that is, a wave function describing a system of fermions, where
+                two of the particles are in the same state.
+                Let $\hat{P}_{ij}$ be the exchange operator that exchanges these
+                two particles.
+                We then get
+                \begin{align}
+                    \ket{\Psi}
+                    =
+                    \hat{P}_{ij}\ket{\Psi}
+                    = -\ket{\Psi}
+                    = 0,
+                \end{align}
+                where we see that the exchange operator leaves the state
+                unchanged, but introduces a sign change which necessarily means
+                that the state is not permitted.
+                This observation is known as the \emph{Pauli exclusion
+                principle}.
+
+        \subsection{Fock space}
+            In second quantization, we express a general many-body wave function
+            as a vector in the abstract linear vector space called \emph{Fock
+            space}.
+            In a basis of $L$ single-particle function, $\brac{\phi_p(x)}_{p =
+            1}^{L}$, this \emph{occupation number vector} can be represented by
+            \begin{align}
+                \ket{\Psi}
+                &= \ket{n_1, n_2, \dots, n_L}
+                \equiv \ket{\vf{n}},
+            \end{align}
+            where $n_i$ signifies how many states $\phi_i(x)$ are contained in
+            $\ket{\Psi}$.
+            We've defined the set $\vf{n}$ as the set containing all $n_i$.
+
+            Already, we can choose the particle type we are working with based
+            on the allowed values of $n_i$.
+            We have that
+            \begin{align}
+                n_i =
+                \begin{cases}
+                    0, 1 & \text{fermions}, \\
+                    0, 1, 2, \dots & \text{bosons},
+                \end{cases}
+            \end{align}
+            where a $0$ means that the state is unoccupied and a $1$, or higher,
+            means that the state is occupied by that amount of particles.
+            We thus see that for fermions we can only have a state occupied by a
+            single particle, whereas for bosons there are no limitiations to the
+            amount of particles that can be in the same state.
+
+            If the basis of spin-orbitals are orthonormal, we have that the
+            overlap between two vectors of equal dimension in Fock space is
+            given by
+            \begin{align}
+                \braket{\Psi}{\Phi}
+                = \braket{\vf{n}}{\vf{m}}
+                = \delta_{\vf{n}\vf{m}}
+                \equiv \prod_{i = 1}^{L} \delta_{n_i m_i},
+            \end{align}
+            that is, the two states must share the exact same occupied states.
+
+            % TODO: Find a natural way to introduce non-orthogonal spin-orbitals
+            % in the Fock state.
+            % This solution should be indepedent of bosons and fermions.
+            %However, if the basis is non-orthogonal, viz.
+            %\begin{align}
+            %    \braket{\phi_p}{\phi_q} = S_{pq} \neq \delta_{pq},
+            %\end{align}
+            %with $S_{pq}$ the overlap integral between the two spin-orbitals.
+            %We then have that the overlap between two occupation numbers vectors
+            %is given by
+            %\begin{align}
+            %    \braket{\Psi}{\Phi}
+            %    = \delta_{\vf{n}\vf{m}}\det\para{\vf{S}},
+            %\end{align}
+            %where $\vf{S}$ is the matrix with all the overlap integrals between
+            %the spin-orbitals.
+
+
+        \subsection{Creating and annihilating particles}
+
 
         \subsection{Slater determinants}
             As we are working with fermions the total many-body wave function must
@@ -399,59 +550,6 @@
             \end{proof}
             \subsubsection{Antisymmetrizer}
 
-
-        \subsection{Fock space}
-            In second quantization, we express a general many-body wave function
-            as a vector in the abstract linear vector space called \emph{Fock
-            space}.
-            In a basis of $L$ single-particle function, $\brac{\phi_p}_{p =
-            1}^{L}$, this \emph{occupation number vector} can be represented by
-            \begin{align}
-                \ket{\Psi}
-                &= \ket{n_1, n_2, \dots, n_L}
-                \equiv \ket{\vf{n}},
-            \end{align}
-            where $n_i$ signifies how many of state $i$ is contained in
-            $\ket{\Psi}$ and we've defined the set $\vf{n}$ as the set
-            containing all $n_i$.
-            Already, we can choose the particle type we are working with based
-            on the allowed values of $n_i$.
-            We have that
-            \begin{align}
-                n_i =
-                \begin{cases}
-                    0, 1 & \text{fermions}, \\
-                    0, 1, 2, \dots & \text{bosons},
-                \end{cases}
-            \end{align}
-            where a $0$ means that the state is unoccupied and a $1$, or higher,
-            means that the state is occupied by that amount of particles.
-            We thus see that for fermions we can only have a state occupied by
-            single particle, whereas for bosons there are no limitiations to the
-            amount of particles that can be in the same state.
-
-            If the basis of spin-orbitals are orthonormal, we have that the
-            overlap between two vectors in Fock space is given by
-            \begin{align}
-                \braket{\Psi}{\Phi}
-                = \braket{\vf{n}}{\vf{m}}
-                = \delta_{\vf{n}\vf{m}}
-                \equiv \prod_{i = 1}^{L} \delta_{n_i m_i},
-            \end{align}
-            that is, the two states must share the exact same occupied states.
-            However, if the basis is non-orthogonal, viz.
-            \begin{align}
-                \braket{\phi_p}{\phi_q} = S_{pq} \neq \delta_{pq},
-            \end{align}
-            with $S_{pq}$ the overlap integral between the two spin-orbitals.
-            We then have that the overlap between two occupation numbers vectors
-            is given by
-            \begin{align}
-                \braket{\Psi}{\Phi}
-                = \delta_{\vf{n}\vf{m}}\det\para{\vf{S}},
-            \end{align}
-            where $\vf{S}$ is the matrix with all the overlap integrals between
-            the spin-orbitals.
         \subsection{Time-dependent second quantized operators}
 
 
