@@ -797,8 +797,12 @@
                     e^{\clust}
                 }{\slat}
                 = \mel*{\tilde{\Psi}}{\hamil}{\Psi},
+                = E[\clustamp_{\mu}, \clustlamp_{\mu}],
+                \label{eq:cc-energy-functional}
             \end{align}
-            where we've denoted the coupled cluster wave functions by
+            which we interpret as the variational coupled cluster energy
+            functional.
+            We've denoted the coupled cluster wave functions by
             \begin{gather}
                 \ket{\Psi} = e^{\clust}\ket{\slat}, \\
                 \bra*{\tilde{\Psi}} = \bra{\slat}\para{\1 + \clustl}e^{-\clust}.
@@ -849,12 +853,57 @@
             The observation that the coupled cluster ansatz with the Lagrange
             multipliers describe a pure, non-Hermitian, state leads to the
             interpretation of the coupled cluster wave function using the
-            \emph{bi-variational principle} \cite{arponen1983311, kvaal2012ab,
-            kvaal2013variational}
+            \emph{bi-variational principle} \cite{arponen1983311, lowdin-bi,
+            kvaal2012ab, kvaal2013variational}
+            We will expand on this notion when we discuss the orbital-adaptive
+            time-dependent coupled cluster method later.
 
         \subsection{Density matrices}
+            From the variational energy functional in
+            \autoref{eq:cc-energy-functional} we can construct the one- and
+            two-body density matrices.
+            % TODO: What has this got to do with the Hellmann-Feynman theorem?
+            \begin{align}
+                E[\clustamp_{\mu}, \clustlamp_{\mu}]
+                &= \mel*{\tilde{\Psi}}{\hamil}{\Psi}
+                = \oneten^{p}_{q}
+                \mel*{\tilde{\Psi}}{\ccr{p}\can{q}}{\Psi}
+                + \frac{1}{4}
+                \twoten^{pq}_{rs}
+                \mel*{\tilde{\Psi}}{\ccr{p}\ccr{q}\can{s}\can{r}}{\Psi}
+                \\
+                &=
+                \oneten^{p}_{q} \densityten^{q}_{p}
+                + \frac{1}{4}
+                \twoten^{pq}_{rs}
+                \densityten^{rs}_{pq},
+            \end{align}
+            where the density matrices are treated as first order properties of
+            the energy functional thus making use of the Hellmann-Feynman
+            theorem.
+            \begin{align}
+                \densityten^{q}_{p}
+                &= \mel*{\tilde{\Psi}}{\ccr{p}\can{q}}{\Psi}
+                = \mel*{\slat}{
+                    \para{\1 + \clustl}e^{-\clust}\ccr{p}\can{q} e^{\clust}
+                }{\slat},
+                \label{eq:cc-one-body-density}
+                \\
+                \densityten^{rs}_{pq}
+                &= \mel*{\tilde{\Psi}}{
+                    \ccr{p}\ccr{q}\can{s}\can{r}
+                }{\Psi}
+                = \mel*{\slat}{
+                    \para{\1 + \clustl}e^{-\clust}
+                    \ccr{p}\ccr{q}
+                    \can{s}\can{r}
+                    e^{\clust}
+                }{\slat},
+                \label{eq:cc-two-body-density}
+            \end{align}
+            where an explicit solution depends on the truncation level $\clust$
+            and $\clustl$.
 
-        \subsection{Bi-variational principle}
         \subsection{The non-orthogonal coupled cluster method}
 
     \section{Time-dependent coupled cluster theory}
