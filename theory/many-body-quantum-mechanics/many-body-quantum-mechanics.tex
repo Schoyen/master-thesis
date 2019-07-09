@@ -578,12 +578,89 @@
         \subsection{Overlap when using time-dependent orbitals}
 
     \section{The many-body Hamiltonian}
-        We denote the general electronic many-body Hamiltonian by
+        A general many-body Hamiltonian can be described by
         \begin{align}
-            \hamil(t) &= \onehamil(t) + \twohamil(t),
+            \hamil \equiv \sum_{i = 0}^{\infty} \hamil_i,
         \end{align}
-        where $\onehamil(t)$ and $\twohamil(t)$ is the time-dependent one-body
-        and two-body operators respectively.
+        where we denote the $N$-body Hamiltonian by $\hamil_i$.
+        From the postulates of quantum mechanics we require that
+        $\hamil^{\dagger} = \hamil$, that is, the Hamiltonian should be
+        Hermitian.
+        This in turn implies that $\hamil_i^{\dagger} = \hamil_i$ for all
+        $N$-body terms.
+        We can compute the energy, i.e., the expectation value of the
+        Hamiltonian, by
+        \begin{align}
+            \mel{\psi}{\hamil}{\psi}
+            &= \sum_{i = 0}^{\infty} \mel{\psi}{\hamil_i}{\psi}
+            = \mel{\psi}{\hamil_0}{\psi}
+            + \mel{\psi}{\hamil_1}{\psi}
+            + \mel{\psi}{\hamil_2}{\psi}
+            + \dots,
+        \end{align}
+        where each term involves the \emph{interaction} between $i$ particles.
+        For $i = 0$ we have $\hamil_0$ which we take to signify a constant term,
+        e.g., the nuclear charge of an atomic system.
+        This term contributes with a constant energy shift in the expectation
+        value.
+        The one-body term, $\hamil_1$, is the familiar Hamiltonian from
+        introductory courses in quantum mechanics.
+        This term describes one-particle contribution, e.g., the kinetic
+        energy, external potentials of the system, external fields, etc.
+        Higher order terms describe interactions between particles in the
+        system.
+        For example, the Coulomb interaction is a two-body interaction between
+        particle pairs and is described by $\hamil_2$.
+        More exotic higher order interactions can occur in the nuclear physics
+        and the sort.
+        However, it is common to truncate the interactions in the many-body
+        Hamiltonian as high order terms leads to complicated equations which
+        become intractable unless clever approximations are introduced.
+
+        Luckily, much of solid-state physiscs, and almost all of quantum
+        chemistry, can be described by the Coulomb interaction as the system are
+        mainly governed by the electrons.
+        This means that we will truncate the many-body Hamiltonian to
+        second-order interactions.
+        Furthermore, we ignore the constant term in the Hamiltonian as this can
+        always be added when we compute the energy and will not contribute when
+        we look for a solution of the many-body problem.
+        We will denote the general electronic Hamiltonian by
+        \begin{align}
+            \hamil = \onehamil + \twohamil,
+        \end{align}
+        where $\onehamil$ is the one-body term and $\twohamil$ describes
+        two-body interactions, which in our case is the Coulomb interaction.
+
+        \subsection{One-body Hamiltonian}
+            The one-body Hamiltonian describes the non-interacting system we are
+            examining.
+            In the time-independent case we typically describe the system by a
+            sum of kinetic and potential terms.
+            \begin{align}
+                \onehamil
+                &= \sum_{i = 1}^{N}\onehamil_i
+                = \sum_{i = 1}^{N}\para{
+                    \kinetic_i + \potential_i
+                }
+                = \sum_{i = 1}^{N}\para{
+                    \frac{\momentumvec^2_i}{2m_i} + \potential_i
+                },
+            \end{align}
+            where the sum runs over all particles in the system separately.
+            The potential term can come from many different sources, e.g.,
+            external field, mean-field approximation, electron-nucleon
+            interaction, etc, and we will discsuss these more in depth when we
+            start looking at specific systems.
+            Often when solving the many-body problem we seek a solution to the
+            one-body Hamiltonian in terms of a reference Slater determinant.
+            This will in many cases provide us with a good starting guess for
+            the system before using more sophisticated methods such as the
+            Hartree-Fock method to improve on our reference state.
+
+            \subsubsection{Time-dependency}
+        \subsection{Two-body Hamiltonian}
+            \subsubsection{Coulomb interaction}
 
         \subsection{The Born-Oppenheimer approximation}
             The Born-Oppenheimer approximation first occured in a seminal paper
@@ -600,10 +677,6 @@
             the nuclear counterpart as $\ket{\Psi_n}$.
             % TODO: This might not be relevant unless we include atomic systems.
 
-        \subsection{One-body Hamiltonian}
-            \subsubsection{Time-dependency}
-        \subsection{Two-body Hamiltonian}
-            \subsubsection{Coulomb interaction}
         \subsection{Second quantized formulation}
         The expectation value of the Hamiltonian in terms of a Slater
         determinant is then
