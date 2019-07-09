@@ -1,0 +1,49 @@
+\chapter{Benchmarking against litterature}
+    In this chapter we use our developed code to reproduce results from relevant
+    articles to verify that our implementation works as expected.
+
+    \section{Single quantum dots}
+        In this section we'll discuss results for quantum dots subject to a
+        harmonic oscillator potential in one and two dimensions.
+        These systems are rather well studied and therefore provides ample
+        results which can be used as verification.
+
+        \subsection{The one-dimensional harmonic oscillator}
+            An excellent starting point is the one-dimensional harmonic
+            oscillator as discussed in \autoref{subsec:one-dim-ho}.
+            A study done by \citeauthor{zanghellini_2004}
+            \cite{zanghellini_2004} explores the multi-configuration
+            time-dependent Hartree-Fock method on the one-dimensional harmonic
+            oscillator system for two particles compared to a semi-analytic
+            result\footnote{Semi-analytic as the time-evolution is solved
+            numerically.}.
+            In this study the Hamiltonian is given by
+            \begin{align}
+                \hamil
+                &=
+                \sum_{i = 1}^{N}
+                \para{
+                    \frac{\momentum^2_i}{2m}
+                    + \half m \omega^2 \position^2_i
+                    + \mathcal{E}_0 \sin(\Omega t)\position_i
+                }
+                \nonumber \\
+                &\qquad
+                + \sum_{i, j = 1}^{N}
+                \frac{1}{4\epsilon_0\pi}
+                \frac{e^2}{\sqrt{(\position_i - \position_j)^2 + a^2}}.
+            \end{align}
+            However, \citeauthor{zanghellini_2004} uses the more convenient set
+            of Hartree atomic units where $m = e = \hslash = k_e =
+            \para{4\epsilon_0\pi}^{-1} = 1$.
+            The term $a$ is a smoothing parameter included to remove the
+            singularity when we integrate over all space and the two positions
+            $x_i$ and $x_j$ overlap. \cite{suq, zanghellini_2004}
+            In the simulation done by \citeauthor{zanghellini_2004} they set $a
+            = 0.25$, $\omega = 0.25$, $\mathcal{E}_0 = 1$ and $\Omega = 8\omega$
+            on a grid where $x \in [-10, 10]$.
+            The laser pulse is turned on for the entirety of the simulation.
+
+
+            \cite{skattum2013time} \cite{kristiansen2017time}
+    \section{Double-well quantum dots}
