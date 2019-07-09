@@ -2,6 +2,103 @@
     In this chapter we'll describe some of the formalism used when describing
     many-body quantum mechanics.
 
+    \section{Particle statistics}
+        The particles we concern ourselves with are \emph{identical}.
+        This means that it is not possible to discern two particles of the
+        same type from one another.
+        This statement yields quite profound results in the sense
+        that the ordering of the particles in a many-body wave function does
+        not yield a new state and is in some sense arbitrary.
+        As a consequence the probability density of our state must be
+        permutation invariant.
+        We define $\sigma \in S_{N}$ as a permutation of $N$ indices $\vf{x}
+        = (x_1, \dots, x_N) \in X^{N}$ wherein both spin and position is
+        incorporated.
+        We denote the permutation of the indices by
+        \begin{align}
+            \vf{x} = (x_1, \dots, x_N)
+            \to \vf{x}_{\sigma} = (x_{\sigma(1)}, \dots, x_{\sigma(N)}).
+        \end{align}
+        We can then formulate particle indistinguishability by
+        \cite{leinaas1977, kvaal2017notes}
+        \begin{align}
+            \abs{
+                \Psi(\vf{x})
+            }^2
+            = \abs{
+                \Psi(\vf{x}_{\sigma})
+            }^2.
+            \label{eq:particle-indistinguishability}
+        \end{align}
+        We define the \emph{exchange operatore} $\hat{P}_{ij}$ as the
+        operator that interchanges indices $(i, j) \to (j, i)$ where $i \neq
+        j$.
+        That is,
+        \begin{align}
+            \hat{P}_{ij}\Psi(x_1, \dots, x_i, \dots, x_j, \dots, x_N)
+            = \Psi(x_1, \dots, x_j, \dots, x_i, \dots, x_N),
+        \end{align}
+        From \autoref{eq:particle-indistinguishability} we find that the
+        exchange operator is idempotent as exchanging the same pair twice
+        yields the original pair in return.
+        However, as has been stated, the two states
+        $\hat{P}_{ij}\Psi(\vf{x})$ and $\Psi(\vf{x})$ consist of
+        indistinguishable particles.
+        This means that we are unable to tell the two states apart when
+        exchanging particles.
+        The only way the two states can differ from one another is by a
+        complex phase factor $s_{ij}$, where $s_{ij}^2 = 1$ due the exchange
+        operator being idempotent.
+        We then find $s_{ij} = \pm 1$.
+        Depending on the sign of the phase we denote the state as either
+        symmetric or anti-symmetric.
+        If the eigenvalue is positive we call it a \emph{symmetric} state
+        whereas a negative eigenvalue signifies an \emph{anti-symmetric}
+        state.
+        A wave function which is symmetric under exchange consists of
+        \emph{bosons} whereas an anti-symmetric wave function denotes
+        \emph{fermions}.
+
+
+        We define the permutation operator $\hat{P}_{\sigma}$ as the
+        operator that interchanges the position of the particles in
+        $\Psi(\vf{x})$ by \emph{transpositions} of pairs.
+        This yields
+        \begin{align}
+            \hat{P}_{\sigma}\Psi(x_1, \dots, x_N)
+            &= s_{\sigma}\Psi(x_{\sigma(1)}, \dots, x_{\sigma(N)}),
+        \end{align}
+        where $s_{\sigma}$ is an eigenvalue of the permutation operator
+        depending on the type of particles.
+
+        \subsection{Pauli exclusion principle}
+            % TODO: Include the spin-statistics theorem.
+            An interesting result of the anti-symmetric property of
+            fermions is that we can never have a system containing two
+            fermions \emph{in the same state}.
+            One way of demonstrating this phenomenom is through the use of
+            the exchange operator $\hat{P}_{ij}$ as described above.
+            Consider a fully anti-symmetric wave function $\ket{\Psi}$
+            that is, a wave function describing a system of fermions, where
+            two of the particles are in the same state.
+            Let $\hat{P}_{ij}$ be the exchange operator that exchanges these
+            two particles.
+            We then get
+            \begin{align}
+                \ket{\Psi}
+                =
+                \hat{P}_{ij}\ket{\Psi}
+                = -\ket{\Psi}
+                = 0,
+            \end{align}
+            where we see that the exchange operator leaves the state
+            unchanged, but introduces a sign change which necessarily means
+            that the state is not permitted.
+            This observation is known as the \emph{Pauli exclusion
+            principle}.
+
+
+
     \section{Spin-orbitals}
         In this thesis we will be looking at many-particle systems.
         Wave functions of many-particle systems depend on the coordinates of all
@@ -259,102 +356,6 @@
         annihilation operators, we are able to unify much of quantum mechanics
         to a single set of elementary operators \cite{helgaker-molecular}.
 
-
-        \subsection{Particle statistics}
-            The particles we concern ourselves with are \emph{identical}.
-            This means that it is not possible to discern two particles of the
-            same type from one another.
-            This statement yields quite profound results in the sense
-            that the ordering of the particles in a many-body wave function does
-            not yield a new state and is in some sense arbitrary.
-            As a consequence the probability density of our state must be
-            permutation invariant.
-            We define $\sigma \in S_{N}$ as a permutation of $N$ indices $\vf{x}
-            = (x_1, \dots, x_N) \in X^{N}$ wherein both spin and position is
-            incorporated.
-            We denote the permutation of the indices by
-            \begin{align}
-                \vf{x} = (x_1, \dots, x_N)
-                \to \vf{x}_{\sigma} = (x_{\sigma(1)}, \dots, x_{\sigma(N)}).
-            \end{align}
-            We can then formulate particle indistinguishability by
-            \cite{leinaas1977, kvaal2017notes}
-            \begin{align}
-                \abs{
-                    \Psi(\vf{x})
-                }^2
-                = \abs{
-                    \Psi(\vf{x}_{\sigma})
-                }^2.
-                \label{eq:particle-indistinguishability}
-            \end{align}
-            We define the \emph{exchange operatore} $\hat{P}_{ij}$ as the
-            operator that interchanges indices $(i, j) \to (j, i)$ where $i \neq
-            j$.
-            That is,
-            \begin{align}
-                \hat{P}_{ij}\Psi(x_1, \dots, x_i, \dots, x_j, \dots, x_N)
-                = \Psi(x_1, \dots, x_j, \dots, x_i, \dots, x_N),
-            \end{align}
-            From \autoref{eq:particle-indistinguishability} we find that the
-            exchange operator is idempotent as exchanging the same pair twice
-            yields the original pair in return.
-            However, as has been stated, the two states
-            $\hat{P}_{ij}\Psi(\vf{x})$ and $\Psi(\vf{x})$ consist of
-            indistinguishable particles.
-            This means that we are unable to tell the two states apart when
-            exchanging particles.
-            The only way the two states can differ from one another is by a
-            complex phase factor $s_{ij}$, where $s_{ij}^2 = 1$ due the exchange
-            operator being idempotent.
-            We then find $s_{ij} = \pm 1$.
-            Depending on the sign of the phase we denote the state as either
-            symmetric or anti-symmetric.
-            If the eigenvalue is positive we call it a \emph{symmetric} state
-            whereas a negative eigenvalue signifies an \emph{anti-symmetric}
-            state.
-            A wave function which is symmetric under exchange consists of
-            \emph{bosons} whereas an anti-symmetric wave function denotes
-            \emph{fermions}.
-
-
-            We define the permutation operator $\hat{P}_{\sigma}$ as the
-            operator that interchanges the position of the particles in
-            $\Psi(\vf{x})$ by \emph{transpositions} of pairs.
-            This yields
-            \begin{align}
-                \hat{P}_{\sigma}\Psi(x_1, \dots, x_N)
-                &= s_{\sigma}\Psi(x_{\sigma(1)}, \dots, x_{\sigma(N)}),
-            \end{align}
-            where $s_{\sigma}$ is an eigenvalue of the permutation operator
-            depending on the type of particles.
-
-            \subsubsection{Pauli exclusion principle}
-                % TODO: Include the spin-statistics theorem.
-                An interesting result of the anti-symmetric property of
-                fermions is that we can never have a system containing two
-                fermions \emph{in the same state}.
-                One way of demonstrating this phenomenom is through the use of
-                the exchange operator $\hat{P}_{ij}$ as described above.
-                Consider a fully anti-symmetric wave function $\ket{\Psi}$
-                that is, a wave function describing a system of fermions, where
-                two of the particles are in the same state.
-                Let $\hat{P}_{ij}$ be the exchange operator that exchanges these
-                two particles.
-                We then get
-                \begin{align}
-                    \ket{\Psi}
-                    =
-                    \hat{P}_{ij}\ket{\Psi}
-                    = -\ket{\Psi}
-                    = 0,
-                \end{align}
-                where we see that the exchange operator leaves the state
-                unchanged, but introduces a sign change which necessarily means
-                that the state is not permitted.
-                This observation is known as the \emph{Pauli exclusion
-                principle}.
-
         \subsection{Fock space}
             In second quantization, we express a general many-body wave function
             as a vector in the abstract linear vector space called \emph{Fock
@@ -416,6 +417,74 @@
 
 
         \subsection{Creating and annihilating particles}
+            From the occupation number representation introduced by the Fock
+            space we introduce the \emph{vacuum state} as the state containing
+            no particles.
+            \begin{align}
+                \ket{\vac} = \ket{\vfg{0}} = \ket{0, 0, \dots, 0},
+            \end{align}
+            where all positions in the occupation number vector are zero.
+            This state is normalized such that
+            \begin{align}
+                \braket{\vac} = 1.
+            \end{align}
+            We now introduce \emph{creation} and \emph{annihilation} operators
+            which lets us build filled states from the vacuum.
+            Our initial definition of the second quantized operators will be
+            quite short as we will open up for both fermions and bosons.
+            After we have defined the particle type we are working with, we'll
+            expand on the definitions.
+
+            \begin{definition}
+                \label{def:creation_1}
+                For a given basis of normalized single-particle states
+                $\brac{\ket{\phi_p}}_{p = 1}^{L}$ we define the creation
+                operator by its action on the vacuum state.
+                \begin{align}
+                    \ccr{p}\ket{\vac}
+                    = \ccr{p}\ket{0_1, \dots, 0_L}
+                    = \ket{0_1, \dots, 1_p, \dots, 0_L}
+                    = \ket{\phi_p},
+                \end{align}
+                that is, the operator populates the vacuum with a
+                single-particle state.
+            \end{definition}
+            Having defined the creation operator as the operator that populates
+            the vacuum with a single-particle state, we look for the reverse
+            action, that is, the operator that removes a single-particle state.
+
+            \begin{definition}
+                \label{def:annihilation_1}
+                For a given basis of normalized single-particle states
+                $\brac{\ket{\phi_p}}_{p = 1}^{L}$ we define the annihilation
+                operator as the Hermitian conjugate of the creation operator.
+                That is,
+                \begin{align}
+                    \can{p} = \para{\ccr{p}}^{\dagger},
+                \end{align}
+                where $\can{p}$ is the annihilation operator.
+            \end{definition}
+            The annihilation operator will remove a single-particle state from
+            the wave function we are examining.
+            This can be seen from
+            \begin{align}
+                1 &= \braket{\phi_p}
+                = \mel{\phi_p}{\ccr{p}}{\vac}
+                = \mel{\vac}{\can{p}}{\phi_p}
+                = \braket{\vac}
+                = 1.
+            \end{align}
+
+            Having defined the creation and annihilation operators as in
+            \autoref{def:creation_1} and \autoref{def:annihilation_1} we still
+            have not said how we should go about building wave functions of many
+            particles.
+            The reason for this is that it depends on the particle type we are
+            using.
+            One of the major advantages of using the second quantization
+            formalism is that we can incorporate the symmetry requirement of
+            bosons and fermions in the commutation relation between the creation
+            and annihilation operators.
 
 
         \subsection{Slater determinants}
@@ -462,9 +531,20 @@
             function normalized to unity as long as the spin-orbitals are
             orthonormalized.
 
+            \begin{lemma}
+                Given a Slater determinant $\ket{\Phi}$ built from an
+                orthonormal basis $\brac{\ket{\phi_i}}_{i = 1}^{N}$ that spans
+                the $N$-dimensional Hilbert space, we can then perform a unitary
+                transformation to a new orthonormal basis
+                $\brac{\ket{\psi_i}}_{i = 1}^{N}$ building a new Slater
+                determinant $\ket{\Psi}$.
+                This unitary transformation will then preserve the normalization
+                of the original Slater determinant.
+                % TODO: Clean-up formulation.
+            \end{lemma}
+
             % TODO: Introduce proof
-            \begin{proof}[Proof that Slater determinants are invariant under unitary
-                transformations]
+            \begin{proof}
                 \label{proof:slater_determinants_invariant}
                 Given a basis $\brac{\ket{\phi_i}}_{i = 1}^{N}$ that spans the
                 $N$-dimensional Hilbert space. We can then do a unitary
@@ -548,7 +628,40 @@
                     \norm{\det(\vfg{\Psi})}^2 = \norm{\det(\vfg{\Phi})}^2.
                 \end{gather}
             \end{proof}
+
             \subsubsection{Antisymmetrizer}
+                To avoid having to write the Slater determinants as in
+                \autoref{eq:coord_slater} we introduce the anti-symmetrizer
+                $\hat{A}$ which is given by
+                \begin{align}
+                    \hat{A}
+                    \equiv
+                    \frac{1}{N!}
+                    \sum_{\sigma \in S_N}
+                    (-1)^{\abs{\sigma}}
+                    \hat{P}_{\sigma},
+                \end{align}
+                where $\sigma$ is a permutation from the set of all permutations
+                $S_N$ of $N$ indices, $\hat{P}_{\sigma}$ is the permutation
+                operator permuting particles and $\abs{\sigma}$ is the number of
+                transpositions in the permutation.
+                There are $N!$ permutations in $S_N$ which is why we include the
+                normalization factor.
+                A Slater determinant can thus be represented by
+                \begin{align}
+                    \Phi(\vf{x})
+                    &=
+                    \sqrt{N!}\hat{A}\phi_1(x_1)\dots\phi_N(x_N)
+                    \\
+                    &= \frac{1}{\sqrt{N!}}
+                    \sum_{\sigma \in S_N} (-1)^{\abs{\sigma}}
+                    \phi_1(x_{\sigma(1)})\dots\phi_N(x_{\sigma(N)}).
+                \end{align}
+                The anti-symmetrizer opens up the possibility of representing a
+                Slater determinant in a coordinate-independent manner.
+                % TODO: Continue on this topic
+
+            \subsubsection{Operator representation}
 
         \subsection{Time-dependent second quantized operators}
 
@@ -648,10 +761,12 @@
                 },
             \end{align}
             where the sum runs over all particles in the system separately.
-            The potential term can come from many different sources, e.g.,
-            external field, mean-field approximation, electron-nucleon
-            interaction, etc, and we will discsuss these more in depth when we
-            start looking at specific systems.
+            The potential term can come from many different sources, e.g., an
+            external field, mean-field approximations, the electron-nucleon
+            interaction, etc.
+            We will discsuss these more in depth when we start looking at
+            specific systems.
+            % TODO: Perhaps include the grid representation of the operators?
             Often when solving the many-body problem we seek a solution to the
             one-body Hamiltonian in terms of a reference Slater determinant.
             This will in many cases provide us with a good starting guess for
@@ -659,8 +774,66 @@
             Hartree-Fock method to improve on our reference state.
 
             \subsubsection{Time-dependency}
+                In general the time-dependency can occur in all the terms in the
+                full many-body Hamiltonian, but the most common scenario is an
+                external interaction occuring in the one-body Hamiltonian, e.g.,
+                a laser field, time-varying potential, etc.
+                In this thesis we will only concern ourselves with an external
+                laser field.
+                We can then write the time-dependent one-body Hamiltonian on the
+                form
+                \begin{align}
+                    \onehamil(t)
+                    &= \sum_{i = 1}^{N} \onehamil_i(t)
+                    = \sum_{i = 1}^{N}\para{
+                        \kinetic_i
+                        + \potential_i
+                        + \laserfield_i(t)
+                    },
+                \end{align}
+                where the time-dependence is represented by the time-dependent
+                operator $\laserfield_i(t)$.
+
+
         \subsection{Two-body Hamiltonian}
+            The two-body Hamiltonian provides interactions between pairs of
+            particles.
+            This complicates the matter by introducing a double sum over all
+            particles to include all pairs.
+            \begin{align}
+                \twohamil
+                = \sum_{i = 1}^{N} \sum_{j = 1}^{N} \twohamil_{ij}.
+            \end{align}
+            Often some care must be taken when $i = j$ as this results in
+            self-interaction which can yield un-physical results, but we have
+            for the sake of generality written the full sum.
+            The two-body operator is often the bottle-neck in terms of
+            complexity for the electronic Hamiltonian.
+
             \subsubsection{Coulomb interaction}
+                We will in this thesis concern ourselves with electronic
+                interactions and will therefore limit ourselves to the Coulomb
+                interaction as our two-body operator.
+                This operator is given by
+                \begin{align}
+                    \twohamil
+                    &= \sum_{i = 1}^{N}\sum_{j = i + 1}^{N}
+                    \twohamil_{ij}
+                    = \sum_{i = 1}^{N}\sum_{j = i + 1}^{N}
+                    \frac{1}{4\epsilon_0\pi}\frac{e^2}{\abs{\positionvec_i -
+                    \positionvec_j}},
+                \end{align}
+                where we note that the unconstrained double-sum has been
+                replaced by two sums where $j > i$.
+                This removes the singularity arising from self-interaction and
+                exploits the symmetry of the Coulomb interaction as
+                $\twohamil_{ij} = \twohamil_{ji}$.
+                The Coulomb interaction is a quantized version of the Coulomb
+                potential with $\epsilon_0$ representing the vacuum
+                permittivity and $e^2$ the charge of the particles, which we
+                assume to be of the same type.
+                % TODO: Expand on the physical interpretation of Coulomb's law
+                % and the quantized version.
 
         \subsection{The Born-Oppenheimer approximation}
             The Born-Oppenheimer approximation first occured in a seminal paper
@@ -678,20 +851,28 @@
             % TODO: This might not be relevant unless we include atomic systems.
 
         \subsection{Second quantized formulation}
-        The expectation value of the Hamiltonian in terms of a Slater
-        determinant is then
-        \begin{align}
-            \bra{\Phi}\hat{H}\ket{\Phi}
-            &= \bra{\phi_i}\hat{h}\ket{\phi_i}
-            + \frac{1}{2}\bra{\phi_i\phi_j}\hat{u}\ket{\phi_i\phi_j}_{AS},
-        \end{align}
-        where the antisymmetric matrix elements are given by
-        \begin{align}
-            \bra{\phi_i\phi_j}\hat{u}\ket{\phi_i\phi_j}_{AS}
-            &= \bra{\phi_i\phi_j}\hat{u}\ket{\phi_i\phi_j}
-            - \bra{\phi_i\phi_j}\hat{u}\ket{\phi_j\phi_i}.
-            \label{eq:antisymmetric_two_body}
-        \end{align}
+            Having introduced the second quantized formulation of many-body
+            quantum mechanics we wish to represent the Hamiltonian in this
+            formalism.
+            This introduces a generalization which will prove very useful for
+            the later many-body methods as it removes the explicit grid
+            representation of the operators in introduces abstract matrix
+            elements as coefficients to the second quantized operators.
+
+            The expectation value of the Hamiltonian in terms of a Slater
+            determinant is then
+            \begin{align}
+                \bra{\Phi}\hat{H}\ket{\Phi}
+                &= \bra{\phi_i}\hat{h}\ket{\phi_i}
+                + \frac{1}{2}\bra{\phi_i\phi_j}\hat{u}\ket{\phi_i\phi_j}_{AS},
+            \end{align}
+            where the antisymmetric matrix elements are given by
+            \begin{align}
+                \bra{\phi_i\phi_j}\hat{u}\ket{\phi_i\phi_j}_{AS}
+                &= \bra{\phi_i\phi_j}\hat{u}\ket{\phi_i\phi_j}
+                - \bra{\phi_i\phi_j}\hat{u}\ket{\phi_j\phi_i}.
+                \label{eq:antisymmetric_two_body}
+            \end{align}
 
     \section{The reference energy}
         Given a basis of orthonormal single-particle state
