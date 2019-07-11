@@ -52,6 +52,12 @@
             demonstrate that the coupled cluster method with singles and double
             reproduces the exact solution as achieved from configuration
             interaction to a high precision.
+            Furthermore, in \autoref{fig:overlap-zanghellini}, we show the
+            time-dependent overlap for two one-dimensional quantum dots subject
+            to the same dipole laser as in the study done by
+            \citeauthor{zanghellini_2004} \cite{zanghellini_2004}.
+            We also show how the coupled cluster method with singles and doubles
+            reproduces the exact solution to a large degree.
 
             \begin{figure}
                 \centering
@@ -117,6 +123,69 @@
                 full-configuration interaction and coupled cluster with singles
                 and doubles methods.}
                 \label{fig:one-body-density-zanghellini}
+             \end{figure}
+
+            \begin{figure}
+                \centering
+                \begin{tikzpicture}
+                    \begin{groupplot}[
+                            group style={
+                                group size=1 by 2,
+                                vertical sep=30pt,
+                                xlabels at=edge bottom,
+                            },
+                            width=11cm,
+                            height=6cm,
+                            xlabel={$\omega t / (2\pi)$},
+                        ]
+                        \nextgroupplot[
+                                grid=major,
+                                ylabel={$\abs{\braket*{\Psi(t)}{\Psi(0)}}^2$},
+                                enlarge x limits=false,
+                            ]
+                            \addplot+ [
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/zanghellini/dat/overlap_tdcisd_real.dat};
+                            \addlegendentry{TDCISD}
+
+                            \addplot+ [
+                                mark=none,
+                                thick,
+                                dashed,
+                            ]
+                            table
+                            {results/benchmarks/zanghellini/dat/overlap_tdhf_real.dat};
+                            \addlegendentry{TDHF}
+                        \nextgroupplot[
+                                ymode=log,
+                                grid=major,
+                                ylabel={$\Delta\abs{\braket*{\Psi(t)}{\Psi(0)}}^2$},
+                                restrict x to domain=-6:6,
+                                enlarge x limits=false,
+                            ]
+                            \addplot+ [
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/zanghellini/dat/overlap_diff_tdccsd_tdcisd.dat};
+                    \end{groupplot}
+                \end{tikzpicture}
+                \caption{In the top figure we have plotted the time-dependent
+                overlap between the initial ground state $\ket{\Psi(0)}$ and the
+                state $\ket{\Psi(t)}$ at a later time.
+                We compare the time-dependent general Hartree-Fock method and
+                the time-dependent full configuration interaction method.
+                The figure is a reproduction of Figure 2. in the study done by
+                \citeauthor{zanghellini_2004} \cite{zanghellini_2004}.
+                In the lower figure we show the absolute difference in the
+                overlap between the time-dependent full configuration
+                interaction method the time-dependent coupled cluster method
+                with singles and doubles.}
+                \label{fig:overlap-zanghellini}
              \end{figure}
 
 
