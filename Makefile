@@ -1,4 +1,4 @@
-figure_deps = $(wildcard, dat/*)
+figure_deps = $(wildcard, results/benchmarks/zanghellini/dat/*)
 
 all:
 	make build
