@@ -1,4 +1,5 @@
-figure_deps = $(wildcard, results/benchmarks/zanghellini/dat/*)
+figure_deps = $(wildcard, results/benchmarks/zanghellini/dat/*) \
+			  $(wildcard, results/benchmarks/li/dat/*)
 
 all:
 	make build
