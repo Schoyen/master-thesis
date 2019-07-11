@@ -1,19 +1,7 @@
 \section{The time-dependent Hartree-Fock equations in a basis}
-    We denote the basis of atomic orbitals (our original system) by
-    $\brac{\ket{\chi_\alpha}}_{\alpha = 1}^L$. The Hartree-Fock wave function is
-    thus described by the Slater determinant
-    \begin{align}
-        \ket{\Phi} = \ket{\phi_1 \phi_2 \dots \phi_N},
-    \end{align}
-    where the basis of orthonormal molecular orbitals (Hartree-Fock
-    spin-orbitals) is denoted by $\brac{\ket{\phi_i}}_{i = 1}^N$. They are
-    represented as a linear combination of the atomic orbitals, viz.
-    \begin{align}
-        \ket{\phi_i} = C_{\alpha i}\ket{\chi_{\alpha}},
-    \end{align}
-    where we use the Einstein summation convention. In the time-dependent
-    Hartree-Fock method we will evolve the molecular orbitals in time, but we
-    keep the atomic orbitals fixed. This means that
+    In the time-dependent Hartree-Fock method we will evolve the molecular
+    orbitals in time, but we keep the atomic orbitals fixed.
+    This means that
     \begin{align}
         \ket{\phi_i(t)} = C_{\alpha i}(t)\ket{\chi_{\alpha}},
     \end{align}
@@ -22,7 +10,7 @@
     \begin{align}
         \ket{\Phi(t)}
         &=
-        \brak{
+        \ket{
             \phi_1(t), \dots, \phi_N(t)
         }.
     \end{align}
