@@ -44,6 +44,81 @@
             on a grid where $x \in [-10, 10]$.
             The laser pulse is turned on for the entirety of the simulation.
 
+            In \autoref{fig:one-body-density-zanghellini} we plot the ground
+            state one-body particle densities using Hartree-Fock and
+            configuration interaction with singles and doubles, i.e., full
+            configuration interaction for two particles.
+            In the lower plot in \autoref{fig:one-body-density-zanghellini} we
+            demonstrate that the coupled cluster method with singles and double
+            reproduces the exact solution as achieved from configuration
+            interaction to a high precision.
+
+            \begin{figure}
+                \centering
+                \begin{tikzpicture}
+                    \begin{groupplot}[
+                            group style={
+                                group size=1 by 2,
+                                vertical sep=30pt,
+                                xlabels at=edge bottom,
+                            },
+                            width=11cm,
+                            height=6cm,
+                            xlabel={$x$ $[\text{a.u.}]$},
+                        ]
+                        \nextgroupplot[
+                                grid=major,
+                                ylabel={$\densityten(x, 0)$},
+                                restrict x to domain=-6:6,
+                                enlarge x limits=false,
+                                ymin=0,
+                                ymax=0.4,
+                                enlarge y limits=false,
+                            ]
+                            \addplot+ [
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/zanghellini/dat/rho_tdcisd_real.dat};
+                            \addlegendentry{TDCISD}
+
+                            \addplot+ [
+                                mark=none,
+                                thick,
+                                dashed,
+                            ]
+                            table
+                            {results/benchmarks/zanghellini/dat/rho_tdhf_real.dat};
+                            \addlegendentry{TDHF}
+                        \nextgroupplot[
+                                ymode=log,
+                                grid=major,
+                                ylabel={$\abs{\Delta\densityten(x, 0)}$},
+                                restrict x to domain=-6:6,
+                                enlarge x limits=false,
+                            ]
+                            \addplot+ [
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/zanghellini/dat/rho_diff_tdccsd_tdcisd.dat};
+                    \end{groupplot}
+                \end{tikzpicture}
+                \caption{In the top figure we have reproduced Figure 1. in the
+                study done by \citeauthor{zanghellini_2004}
+                \cite{zanghellini_2004}, that is, we have plotted the one-body
+                particle density two one-dimensional quantum dots in an harmonic
+                oscillator trap using full-configuration interaction and a
+                general Hartree-Fock solver.
+                In the lower figure we have plotted the absolute difference
+                between the one-body particle densities from the
+                full-configuration interaction and coupled cluster with singles
+                and doubles methods.}
+                \label{fig:one-body-density-zanghellini}
+             \end{figure}
+
 
             \cite{skattum2013time} \cite{kristiansen2017time}
     \section{Double-well quantum dots}
