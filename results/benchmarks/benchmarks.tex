@@ -59,6 +59,13 @@
             We also show how the coupled cluster method with singles and doubles
             reproduces the exact solution to a large degree.
 
+            It is worth re-iterating that we have not included a comparison
+            using the orbital-adaptive time-dependent coupled cluster method due
+            to the frustrating fact that the orbital rotations induced by this
+            method makes the process of computing the time-dependent overlap a
+            challenging task and has therefore been treated as an out-of-scope
+            task for this thesis.
+
             \begin{figure}
                 \centering
                 \begin{tikzpicture}
@@ -191,3 +198,24 @@
 
             \cite{skattum2013time} \cite{kristiansen2017time}
     \section{Double-well quantum dots}
+
+    \section{Atoms}
+        In this section we'll look at how our methods perform when applied to
+        atomic systems.
+        Building atomic and molecular systems is a large field in itself and we
+        will not make our own basis sets as there are already excellent
+        libraries available.
+        We'll mainly use two libraries throughout this thesis for creating
+        atomic systems and that is PySCF \cite{pyscf} and Psi4 \cite{psi4}.
+
+        \subsection{Two-electron atoms}
+            In a study on the Helium atom subject to an intense laser field done
+            by \citeauthor{li_2005} \cite{li_2005} a comparison of the
+            time-dependent Hartree-Fock method and the time-dependent full
+            configuration interaction\footnote{%
+                Note that \citeauthor{li_2005} calls the time-dependent
+                full-configuration interaction method for the time-dependent
+                Schrödinger equation.%
+            } is performed.
+            This provides us with an ample opportunity to repeat the
+            experiments.
