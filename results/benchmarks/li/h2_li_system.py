@@ -9,16 +9,20 @@ class LiLaser:
     def __init__(self, e_max=0.07, omega=0.1):
         self.e_max = e_max
         self.omega = omega
+        self.cycle = 2 * np.pi / self.omega
 
-    def __call__(self, t):
-        if 0 <= t <= 2 * np.pi / self.omega:
-            return (self.omega * t / (2 * np.pi)) * self.e_max
-        elif 2 * np.pi / self.omega <= t <= 4 * np.pi / self.omega:
-            return self.e_max
-        elif 4 * np.pi / self.omega <= t <= 6 * np.pi / self.omega:
-            return (3 - self.omega * t / (2 * np.pi)) * self.e_max
+    def e_m(self, t):
+        if 0 <= t <= self.cycle:
+            return t / self.cycle * self.e_max
+        elif self.cycle <= t <= 2 * self.cycle:
+            return self.e_max * np.sin(self.omega * t)
+        elif 2 * self.cycle <= t <= 3 * self.cycle:
+            return (3 - t / self.cycle) * self.e_max
         else:
             return 0
+
+    def __call__(self, t):
+        return self.e_m(t) * np.sin(self.omega * t)
 
 
 def get_h2_system():
