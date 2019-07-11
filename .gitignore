@@ -25,3 +25,6 @@ figures/main-figure*
 
 # Python cache
 __pycache__
+
+# Conda environment lock
+condaenv*
