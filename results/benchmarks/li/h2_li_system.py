@@ -22,7 +22,7 @@ class LiLaser:
             return 0
 
     def __call__(self, t):
-        return self.e_m(t) * np.sin(self.omega * t)
+        return -self.e_m(t) * np.sin(self.omega * t)
 
 
 def get_h2_system():
