@@ -6,7 +6,7 @@ from quantum_systems.time_evolution_operators import LaserField
 
 
 class LiLaser:
-    def __init__(self, e_max=0.03, omega=0.1):
+    def __init__(self, e_max=0.07, omega=0.1):
         self.e_max = e_max
         self.omega = omega
 
