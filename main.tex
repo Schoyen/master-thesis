@@ -3,7 +3,10 @@
 \usepackage{packages}
 
 \usetikzlibrary{external}
+\usepgfplotslibrary{groupplots}
 \tikzexternalize[prefix=figures/, mode=list and make]
+
+\pgfplotsset{compat=newest}
 
 \addbibresource{references.bib}
 
