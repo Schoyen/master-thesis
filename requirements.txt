@@ -1,0 +1,44 @@
+# Install progress bar
+tqdm
+
+# Install numpy
+numpy
+
+# Install scipy
+scipy
+
+# Install pandas
+pandas
+
+# Install pytest
+pytest
+
+# Install numba
+numba
+
+# Install quantum-systems
+git+https://github.com/Schoyen/quantum-systems.git
+
+# Install tdqd-tools
+git+https://github.com/Schoyen/tdqd-tools.git
+
+# Install tdhf
+git+ssh://git@github.com/haakoek/tdhf.git
+
+# Install hartree-fock
+git+ssh://git@github.com/Schoyen/hartree-fock.git
+
+# Install coupled-cluster
+git+ssh://git@github.com/Schoyen/coupled-cluster.git
+
+# Install configuration-interaction
+git+ssh://git@github.com/Schoyen/configuration-interaction.git
+
+# Install sympy for symbolic expressions
+sympy
+
+# Install matplotlib for plotting of scripts
+matplotlib
+
+# Install black
+black

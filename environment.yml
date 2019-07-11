@@ -1,0 +1,15 @@
+name: thesis
+channels:
+    - psi4
+    - pyscf
+    - anaconda
+    - conda-forge
+dependencies:
+    - python
+    - psi4
+    - pyscf
+    - pip
+    - jupyter
+    - nb_conda
+    - pip:
+        - -r requirements.txt
