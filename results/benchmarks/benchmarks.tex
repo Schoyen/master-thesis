@@ -199,9 +199,9 @@
             \cite{skattum2013time} \cite{kristiansen2017time}
     \section{Double-well quantum dots}
 
-    \section{Atoms}
+    \section{Atoms and molecules}
         In this section we'll look at how our methods perform when applied to
-        atomic systems.
+        atomic and molecular systems.
         Building atomic and molecular systems is a large field in itself and we
         will not make our own basis sets as there are already excellent
         libraries available.
@@ -209,13 +209,139 @@
         atomic systems and that is PySCF \cite{pyscf} and Psi4 \cite{psi4}.
 
         \subsection{Two-electron atoms}
-            In a study on the Helium atom subject to an intense laser field done
-            by \citeauthor{li_2005} \cite{li_2005} a comparison of the
-            time-dependent Hartree-Fock method and the time-dependent full
+            In a study on the Hydrogen molecule subject to an intense laser
+            field done by \citeauthor{li_2005} \cite{li_2005} a comparison of
+            the time-dependent Hartree-Fock method and the time-dependent full
             configuration interaction\footnote{%
                 Note that \citeauthor{li_2005} calls the time-dependent
                 full-configuration interaction method for the time-dependent
                 Schrödinger equation.%
             } is performed.
             This provides us with an ample opportunity to repeat the
-            experiments.
+            experiments in order for us to verify our methods.
+            Particularly, we are in a position to test the orbital-adaptive
+            time-dependent coupled cluster method as the dipole moment requires
+            us to do a basis transformation to the new orbital basis and compute
+            the one-body density matrix.
+            That is, we compute
+            \begin{align}
+                \tilde{\vfg{d}}^{p}_{q}(t)
+                = \mel*{\tilde{\phi}_p(t)}{\hat{\vfg{d}}}{\phi_q(t)}
+                = \tilde{C}_{p\alpha}(t)
+                \mel*{\chi_{\alpha}}{\hat{\vfg{d}}}{\chi_{\beta}}
+                C_{\beta q}(t),
+            \end{align}
+            as the basis transformed dipole matrix elements.
+            Having compute the one-body density matrix $\densityten^{q}_{p}(t)$
+            we can find the induced dipole-moment along the $z$-axis by picking
+            out the $z$-component of the dipole elements, that is,
+            \begin{align}
+                \expv{z(t)}
+                &= \densityten^{q}_{p}(t) \tilde{z}^{p}_{q}(t),
+            \end{align}
+            where $\tilde{z}^{p}_{q}(t)$ is the $z$-component of
+            $\tilde{\vfg{d}}^{p}_{q}(t)$.
+            The Hydrogen molecule is expressed in $14$ Gaussian type orbitals,
+            the $6-311++G(d, p)$ basis set, with an equilibrium geometry of $R_e
+            = \SI{0.7354}{\angstrom} \approx \SI{1.3897}{\bohr}$.
+            We center the molecule around the origin with each atom centered at
+            $\pm R_e/2$.
+            We then make the basis set doubly occupied by including spin.
+            The basis is run through a general Hartree-Fock solver which finds
+            the Hartree-Fock molecular orbitals and changes to this basis.
+            The laser field used by \citeauthor{li_2005} is
+            \begin{align}
+                \hat{\vfg{d}} \cdot \vfg{f}(t)
+                = \hat{\vfg{d}} \cdot \vfg{E}(t)\sin(\omega t),
+            \end{align}
+            where $\hat{\vfg{d}}$ is the dipole operator in three dimensions and
+            the envelope $\vfg{E}(t) = E(t) \cdot \vfg{\epsilon}$ with
+            $\vfg{\epsilon}$ as the polarization vector.
+            We let the envelope cycle as a function of time by
+            \begin{align}
+                E(t) = \begin{cases}
+                    (\omega t / 2\pi) E_m, & t\omega \in [0, 2\pi], \\
+                    E_m, & t\omega \in [2\pi, 4\pi], \\
+                    [3 - \omega t / (2\pi)], & t\omega \in [4\pi, 6\pi], \\
+                    0, & t\omega \neq [0, 6\pi],
+                \end{cases}
+            \end{align}
+            where we set $E_m = \SI{0.07}{\text{a.u.}}$ and $\omega =
+            \SI{0.1}{\text{a.u.}}$.
+            A plot of the induced dipole moment in the $z$-direction where we
+            simulate for a total of $t_f = \SI{225}{\text{a.u.}}$ with the laser
+            turned on from start until $2\pi/\omega \approx
+            \SI{62.8}{\text{a.u.}}$ is shown in \autoref{fig:dipole-moment-li}.
+            In the lower figure we show the absolute error in the induced dipole
+            moment as calculated by the time-dependent coupled cluster singles
+            and doubles method and the orbital-adaptive time-dependent coupled
+            cluster doubles method compared with the exact full configuration
+            interaction solution.
+
+            \begin{figure}
+                \centering
+                \begin{tikzpicture}
+                    \begin{groupplot}[
+                            group style={
+                                group size=1 by 2,
+                                vertical sep=30pt,
+                                xlabels at=edge bottom,
+                            },
+                            width=11cm,
+                            height=6cm,
+                            xlabel={$t$ $[\text{a.u.}]$},
+                        ]
+                        \nextgroupplot[
+                                grid=major,
+                                ylabel={$\expv{z(t)}$},
+                                enlarge x limits=false,
+                                enlarge y limits=false,
+                            ]
+                            \addplot+ [
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/li/dat/dipole_z_tdcisd_real.dat};
+                            \addlegendentry{TDCISD}
+
+                            \addplot+ [
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/li/dat/dipole_z_tdhf_real.dat};
+                            \addlegendentry{TDHF}
+
+                        \nextgroupplot[
+                                ymode=log,
+                                grid=major,
+                                ylabel={$\abs{\Delta\expv{z(t)}}$},
+                                enlarge x limits=false,
+                                enlarge y limits=false,
+                            ]
+                            \addplot+ [
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/li/dat/dipole_z_diff_tdccsd_tdcisd.dat};
+                            \addlegendentry{TDCCSD}
+
+                            \addplot+ [
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/li/dat/dipole_z_diff_oatdccd_tdcisd.dat};
+                            \addlegendentry{OATDCCD}
+                    \end{groupplot}
+                \end{tikzpicture}
+                \caption{In the top figure we have plotted the induced dipole
+                moment by radiating a Hydrogen molecule with a dipole laser.
+                The figure reproduces Figure. 4 by \citeauthor{li_2005}
+                \cite{li_2005} using both the time-dependent general
+                Hartree-Fock solver and the time-dependent full
+                configuration-interation solver.}
+                \label{fig:dipole-moment-li}
+            \end{figure}
