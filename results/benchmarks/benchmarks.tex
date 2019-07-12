@@ -360,3 +360,16 @@
                 configuration-interation solver.}
                 \label{fig:dipole-moment-li}
             \end{figure}
+
+        \subsection{Ionization of one-dimensional atoms}
+            The process of modelling ionization of electrons is atoms and
+            molecules is a tricky subject.
+            This is because we are forcing our systems to be bound by simulating
+            a restricted space and requiring that all particles are contained
+            inside the simulation box.
+            As a consequence, ionziation has to be inferred in some way or
+            another, e.g., an absorbing potential \cite{kosloff1986363,
+            miyagi_and_madsen}.
+            Determining, \emph{when} ionization has occured is also tricky as we
+            have to decide when a particle has left the region where it is
+            bound.
