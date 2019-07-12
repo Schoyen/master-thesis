@@ -455,3 +455,103 @@
                 \SI{0.0755}{\text{a.u.}}$ \cite{miyagi_and_madsen}.}
                 \label{fig:miyagi-laser}
             \end{figure}
+
+            \begin{figure}
+                \centering
+                \begin{tikzpicture}
+                    \begin{groupplot}[
+                            group style={
+                                group size=1 by 3,
+                                vertical sep=30pt,
+                                xlabels at=edge bottom,
+                                xticklabels at=edge bottom,
+                                ylabels at=edge left,
+                                vertical sep=10pt,
+                            },
+                            width=11cm,
+                            height=6cm,
+                            xlabel={$x$ $[\text{a.u.}]$},
+                            ylabel={$\rho(x, t)$ $[\text{a.u.}]$},
+                            xmin=-30,
+                            xmax=50,
+                            ymin=1e-4,
+                        ]
+                        \nextgroupplot[
+                                grid=major,
+                                enlarge x limits=false,
+                                enlarge y limits=false,
+                                ymode=log,
+                            ]
+                            \addplot+ [
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/miyagi/dat/rho_tdhf_start_real.dat};
+                            \addlegendentry{TDHF}
+
+                            \addplot+ [
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/miyagi/dat/rho_oatdccd_start_real.dat};
+                            \addlegendentry{OATDCCD}
+
+                            \node[anchor=north west] at (rel axis cs:0,1)
+                            {$t = 0$};
+                        \nextgroupplot[
+                                grid=major,
+                                enlarge x limits=false,
+                                enlarge y limits=false,
+                                ymode=log,
+                            ]
+                            \addplot+ [
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/miyagi/dat/rho_tdhf_half_real.dat};
+                            \addlegendentry{TDHF}
+
+                            \addplot+ [
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/miyagi/dat/rho_oatdccd_half_real.dat};
+                            \addlegendentry{OATDCCD}
+
+                            \node[anchor=north west] at (rel axis cs:0,1)
+                            {$t = T/2$};
+                        \nextgroupplot[
+                                grid=major,
+                                enlarge x limits=false,
+                                enlarge y limits=false,
+                                ymode=log,
+                            ]
+                            \addplot+ [
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/miyagi/dat/rho_tdhf_end_real.dat};
+                            \addlegendentry{TDHF}
+
+                            \addplot+ [
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/miyagi/dat/rho_oatdccd_end_real.dat};
+                            \addlegendentry{OATDCCD}
+
+                            \node[anchor=north west] at (rel axis cs:0,1)
+                            {$t = T$};
+                    \end{groupplot}
+                \end{tikzpicture}
+                \caption{In these figures we have included the one-particle
+                density for the initial ground state, after half the simulation
+                has been run and the final state.}
+                \label{fig:one-body-particle-density-miyagi}
+            \end{figure}
