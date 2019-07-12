@@ -22,7 +22,7 @@ class LiLaser:
             return 0
 
     def __call__(self, t):
-        return -self.e_m(t) * np.sin(self.omega * t)
+        return self.e_m(t) * np.sin(self.omega * t)
 
 
 def get_h2_system():
@@ -41,7 +41,7 @@ def get_h2_system():
     system = construct_pyscf_system_ao(molecule, basis=basis)
 
     polarization = np.zeros(3)
-    polarization[2] = 1
+    polarization[2] = -1
 
     system.set_time_evolution_operator(
         LaserField(LiLaser(), polarization_vector=polarization)
