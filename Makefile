@@ -3,6 +3,7 @@ figure_deps = $(wildcard, results/benchmarks/zanghellini/dat/*) \
 
 all:
 	make build
+	make build
 
 main.makefile: $(figure_deps)
 	lualatex -shell-escape main.tex
