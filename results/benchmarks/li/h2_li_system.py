@@ -15,7 +15,7 @@ class LiLaser:
         if 0 <= t <= self.cycle:
             return t / self.cycle * self.e_max
         elif self.cycle <= t <= 2 * self.cycle:
-            return self.e_max * np.sin(self.omega * t)
+            return self.e_max
         elif 2 * self.cycle <= t <= 3 * self.cycle:
             return (3 - t / self.cycle) * self.e_max
         else:
