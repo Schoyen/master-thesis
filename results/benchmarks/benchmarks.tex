@@ -268,6 +268,12 @@
             \end{align}
             where we set $E_m = \SI{0.07}{\text{a.u.}}$ and $\omega =
             \SI{0.1}{\text{a.u.}}$.
+            In our programs the dipole moment is defined with a positive sign,
+            which means that we need to introduce a negative sign in the
+            envelope or the polarization vector to include the negative charge
+            of the electrons.
+            We have chosen to set the polarization vector along the negative
+            $z$-direction.
             A plot of the induced dipole moment in the $z$-direction where we
             simulate for a total of $t_f = \SI{225}{\text{a.u.}}$ with the laser
             turned on from start until $2\pi/\omega \approx
@@ -277,6 +283,15 @@
             and doubles method and the orbital-adaptive time-dependent coupled
             cluster doubles method compared with the exact full configuration
             interaction solution.
+
+            It is interesting to note in the top figure in
+            \autoref{fig:dipole-moment-li} that the time-dependent Hartree-Fock
+            method performs surprisingly well.
+            There are small discrepancies, but at the intensity we use for our
+            laser the mean-field approximation performs excellently.
+            However, we expect that as the intensity increases, this method will
+            prove far more inferior to the correlated methods.
+            % TODO: Back this up.
 
             \begin{figure}
                 \centering
