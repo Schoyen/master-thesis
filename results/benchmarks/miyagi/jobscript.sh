@@ -22,6 +22,7 @@ set -o errexit
 
 ## Copy files to work directory
 cp $SUBMITDIR/*.py $SCRATCH
+cp $SUBMITDIR/Makefile $SCRATCH
 
 ## Create directory for data
 mkdir $SCRATCH/dat
