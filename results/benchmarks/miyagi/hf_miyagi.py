@@ -40,18 +40,19 @@ dt = 1e-2
 num_timesteps = int((t_end - t_start) / dt + 1)
 time_points = np.linspace(t_start, t_end, num_timesteps)
 
+tol = dt / 100
 
-# z = h2.dipole_moment[2]
-# D = tdhf.C[:, h2.o] @ tdhf.C[:, h2.o].conj().T
-#
-# dipole_z[0] = np.trace(D @ z)
-#
-# for i, amp in tqdm.tqdm(
-#    enumerate(tdhf.solve(time_points)), total=num_timesteps - 1
-# ):
-#    D = amp[:, h2.o] @ amp[:, h2.o].conj().T
-#    dipole_z[i + 1] = np.trace(D @ z)
-#
-# write_data(
-#    os.path.join(path, "dipole_z_tdhf_real.dat"), time_points, dipole_z.real
-# )
+T_half = t_end / 2
+T = t_end
+
+for i, amp in tqdm.tqdm(
+    enumerate(tdhf.solve(time_points)), total=num_timesteps - 1
+):
+    if abs(time_points[i] - T_half) < tol:
+        rho = tdhf.compute_particle_density()
+        write_data(
+            os.path.join(path, "rho_tdhf_half_real.dat"), be.grid, rho.real
+        )
+
+rho = tdhf.compute_particle_density()
+write_data(os.path.join(path, "rho_tdhf_end_real.dat"), be.grid, rho.real)
