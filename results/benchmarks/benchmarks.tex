@@ -12,11 +12,11 @@
             An excellent starting point is the one-dimensional harmonic
             oscillator as discussed in \autoref{subsec:one-dim-ho}.
             A study done by \citeauthor{zanghellini_2004}
-            \cite{zanghellini_2004} explores the multi-configuration
-            time-dependent Hartree-Fock method on the one-dimensional harmonic
-            oscillator system for two particles compared to a semi-analytic
-            result\footnote{Semi-analytic as the time-evolution is solved
-            numerically.}.
+            \cite{zanghellini_2004, skattum2013time, kristiansen2017time}
+            explores the multi-configuration time-dependent Hartree-Fock method
+            on the one-dimensional harmonic oscillator system for two particles
+            compared to a semi-analytic result\footnote{Semi-analytic as the
+            time-evolution is solved numerically.}.
             In this study the Hamiltonian is given by
             \begin{align}
                 \hamil
@@ -195,8 +195,6 @@
                 \label{fig:overlap-zanghellini}
              \end{figure}
 
-
-            \cite{skattum2013time} \cite{kristiansen2017time}
     \section{Double-well quantum dots}
 
     \section{Atoms and molecules}
@@ -370,6 +368,90 @@
             As a consequence, ionziation has to be inferred in some way or
             another, e.g., an absorbing potential \cite{kosloff1986363,
             miyagi_and_madsen}.
-            Determining, \emph{when} ionization has occured is also tricky as we
-            have to decide when a particle has left the region where it is
-            bound.
+            However, in our formalizm we use static atomic orbitals which we
+            force to zero at the boundaries of the simulation box.
+            This makes the use of an absorbing potential useless and ionization
+            must be inferred in some other way.
+
+            In a study done by \citeauthor{miyagi_and_madsen}
+            \cite{miyagi_and_madsen} they explored the dynamics of
+            one-dimensional atoms subject to a dipole laser.
+            This study provides us with an excellent benchmark to observe a form
+            of ionization and see if this is reproducible in our formalism.
+            Note that \citeauthor{miyagi_and_madsen} used a
+            discrete-variable-representation basis (DVR) which is why they
+            include an absorbing potential.
+            Our solution differs from this as we use the static one-dimensional
+            quantum dot basis with a one-dimensional atom potential.
+            In a position basis with Hartree atomic units, the one-body
+            Hamiltonian is given by \cite{miyagi_and_madsen}
+            \begin{align}
+                \oneten(x, t)
+                &= -\half \dod[2]{}{x}
+                - \frac{Z}{\sqrt{x^2 + 1}}
+                + xF(t)
+                - iW(x),
+            \end{align}
+            where $Z = N_e$, that is, the number of electrons in the system,
+            $W(x)$ is the absorbing potential, which we'll set to zero.
+            The second term gives rise to naming these systems as
+            one-dimensional atoms as this term serves as the electron-nuclear
+            interaction in the atomic Hamiltonian, but with the
+            three-dimensional position replaced with $x$.
+            The laser pulse $F(t)$ is given by \cite{miyagi_and_madsen}
+            \begin{align}
+                F(t)
+                &= -\dod[]{A(t)}{t}
+                = -\dod[]{}{t}\brak{
+                    \frac{F_0}{\omega}
+                    \sin^2\para{\frac{\pi t}{T}}
+                    \sin(\omega t)
+                }
+                \\
+                &=
+                -\sin\para{\frac{\pi t}{T}}\brak{
+                    \omega \sin\para{\frac{\pi t}{T}}
+                    \cos(\omega t)
+                    + \frac{2\pi}{T}
+                    \cos\para{\frac{\pi t}{T}}
+                    \sin(\omega t)
+                }.
+                \label{eq:miyagi-laser}
+            \end{align}
+            where this field is only turned on for $t \in [0, T]$.
+            A plot of the laser pulse is shown in \autoref{fig:miyagi-laser}.
+            The two-body Hamiltonian in coordinate representation is given by
+            \begin{align}
+                \twoten(x_i, x_j) = \frac{1}{\sqrt{(x_1 + x_2)^2 + 1}},
+            \end{align}
+            which corresponds to a shielding parameter of $a = 1$ and $\alpha =
+            1$.
+            % TODO: Refer to the shielded Coulomb model in the one-dimensional
+            % quantum dot.
+
+            \begin{figure}
+                \centering
+                \begin{tikzpicture}
+                    \begin{axis}[
+                            width=11cm,
+                            height=6cm,
+                            xlabel={$t$ $[\text{a.u.}]$},
+                            grid=major,
+                            ylabel={$F(t)$},
+                            enlarge x limits=false,
+                            enlarge y limits=false,
+                        ]
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/miyagi/dat/miyagi_laser.dat};
+                    \end{axis}
+                \end{tikzpicture}
+                \caption{In this figure we have plotted the laser pulse from
+                \autoref{eq:miyagi-laser} for $T = \SI{331}{\text{a.u.}}$,
+                $\omega = \SI{0.057}{\text{a.u.}}$, and $F_0 =
+                \SI{0.0755}{\text{a.u.}}$ \cite{miyagi_and_madsen}.}
+                \label{fig:miyagi-laser}
+            \end{figure}
