@@ -51,4 +51,14 @@ def get_h2_system():
 
 
 if __name__ == "__main__":
-    get_h2_system()
+    import matplotlib.pyplot as plt
+
+    laser = LiLaser()
+
+    t_arr = np.linspace(0, 225, int((225 / 1e-2) + 1))
+    laser_arr = np.zeros_like(t_arr)
+    for i, t in enumerate(t_arr):
+        laser_arr[i] = laser(t)
+
+    plt.plot(t_arr, laser_arr)
+    plt.show()
