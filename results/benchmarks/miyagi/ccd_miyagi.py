@@ -12,7 +12,7 @@ from tdqd_tools.io_data import write_data
 
 path = os.path.join(sys.path[0], "dat")
 
-l = 20
+l = 40
 
 be = get_miyagi_system(n=4, l=l)
 
@@ -27,7 +27,9 @@ oatdccd.set_initial_conditions()
 
 
 rho = oatdccd.compute_particle_density()
-write_data(os.path.join(path, "rho_oatdccd_start_real.dat"), be.grid, rho.real)
+write_data(
+    os.path.join(path, f"rho_oatdccd_start_real_l={l}.dat"), be.grid, rho.real
+)
 
 
 t_start = 0
@@ -48,8 +50,12 @@ for i, amp in tqdm.tqdm(
     if abs(time_points[i] - T_half) < tol:
         rho = oatdccd.compute_particle_density()
         write_data(
-            os.path.join(path, "rho_oatdccd_half_real.dat"), be.grid, rho.real
+            os.path.join(path, f"rho_oatdccd_half_real_l={l}.dat"),
+            be.grid,
+            rho.real,
         )
 
 rho = oatdccd.compute_particle_density()
-write_data(os.path.join(path, "rho_oatdccd_end_real.dat"), be.grid, rho.real)
+write_data(
+    os.path.join(path, f"rho_oatdccd_end_real_l={l}.dat"), be.grid, rho.real
+)
