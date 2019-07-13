@@ -1,7 +1,6 @@
 import os
 import sys
 import numpy as np
-import tqdm
 
 from miyagi_system import get_miyagi_system
 from hartree_fock import HartreeFock
@@ -44,9 +43,10 @@ tol = dt / 100
 T_half = t_end / 2
 T = t_end
 
-for i, amp in tqdm.tqdm(
-    enumerate(oatdccd.solve(time_points)), total=num_timesteps - 1
-):
+for i, amp in enumerate(oatdccd.solve(time_points)):
+    if i % 10 == 0:
+        print(f"{i + 1} / {num_timesteps}")
+
     if abs(time_points[i] - T_half) < tol:
         rho = oatdccd.compute_particle_density()
         write_data(
