@@ -7,12 +7,12 @@
 #SBATCH --account=nn2977k
 #
 # Wall clock limit
-#SBATCH --time=02:00:00
+#SBATCH --time=04:00:00
 #
 # Max memory usage per core (MB)
-#SBATCH --mem-per-cpu=1G
+#SBATCH --mem-per-cpu=4G
 #
-# Max memory usage
+# Number of CPU's/processes
 #SBATCH --cpus-per-task=8
 
 ## Set up job environment
