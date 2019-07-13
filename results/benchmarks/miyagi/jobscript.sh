@@ -7,7 +7,7 @@
 #SBATCH --account=nn2977k
 #
 # Wall clock limit
-#SBATCH --time=04:00:00
+#SBATCH --time=16:00:00
 #
 # Max memory usage per core (MB)
 #SBATCH --mem-per-cpu=4G
@@ -32,4 +32,5 @@ cleanup "cp $SCRATCH/dat/* $SUBMITDIR/dat/"
 
 ## Run commands
 cd $SCRATCH
-make -j2
+export OMP_NUM_THREADS=8
+python ccd_miyagi.py > dat/ccd_miyagi.log
