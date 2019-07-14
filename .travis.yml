@@ -4,10 +4,10 @@ language: bash
 
 before_install:
   - sudo apt -qq update
-  - sudo apt install -y texlive-base texlive-latex-base \\
-  texlive-latex-extra texlive-fonts-recommended \\
-  texlive-fonts-extra latexmk texlive-generic-extra \\
-  texlive-bibtex-extra biber texlive-science \\
+  - sudo apt install -y texlive-base texlive-latex-base \
+  texlive-latex-extra texlive-fonts-recommended \
+  texlive-fonts-extra latexmk texlive-generic-extra \
+  texlive-bibtex-extra biber texlive-science \
   texlive-math-extra
   - sudo apt -y upgrade
 
