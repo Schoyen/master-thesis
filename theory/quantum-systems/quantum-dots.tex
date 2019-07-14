@@ -338,7 +338,7 @@
                 \int_{0}^{2\pi}
                 \dd \theta
                 \cos(\theta)
-                \exp{-i\Delta m_{ij} \theta},
+                \exp[-i\Delta m_{ij} \theta],
             \end{align}
             where we've defined the difference in the angular quantum number by
             \begin{align}
@@ -349,8 +349,8 @@
             \begin{align}
                 \mathcal{C}_{ij}
                 &= \brak{
-                    \frac{\exp{-i\Delta m_{ij} \theta}}{1 - (\Delta m_{ij})^2}
-                    \brac{
+                    \frac{\exp[-i\Delta m_{ij} \theta]}{1 - (\Delta m_{ij})^2}
+                    \brak{
                         -i\Delta m_{ij} \cos(\theta)
                         + \sin(\theta)
                     }
@@ -365,7 +365,7 @@
                 &=
                 \int_{0}^{2\pi}
                 \dd \theta
-                \cos(\theta) \exp{\mp i\theta}
+                \cos(\theta) \exp[\mp i\theta]
                 =
                 \int_{0}^{2\pi}
                 \dd \theta
@@ -375,49 +375,51 @@
                 }
                 = \pi.
             \end{align}
+            % TODO: Discuss the connection to the allowed dipole transitions in
+            % a harmonic oscillator.
+            For the sine integral in \autoref{eq:sin-integral-tdho} we have
+            \begin{align}
+                \mathcal{S}_{ij}
+                &=
+                \int_{0}^{2\pi}
+                \dd\theta
+                \sin(\theta)
+                \exp[-i\Delta m_{ij} \theta].
+            \end{align}
+            The closed form solution of this integral is similar to the form for
+            the cosine-integral.
+            Again we look at the situation when $\Delta m_{ij} \neq \pm 1$
+            initially.
+            \begin{align}
+                \mathcal{S}_{ij}
+                &= \brak{
+                    \frac{\exp[-i\Delta m_{ij} \theta]}{1 - (\Delta m_{ij})^2}
+                    \brak{
+                        -i\Delta m_{ij} \sin(\theta)
+                        + \cos(\theta)
+                    }
+                }_{0}^{2\pi}
+                = 0.
+            \end{align}
+            For $\Delta m_{ij} = \pm 1$ we get
+            \begin{align}
+                \mathcal{S}_{ij}
+                &=
+                \int_{0}^{2\pi}
+                \dd\theta
+                \sin(\theta)
+                \exp[\mp i\theta]
+                \\
+                &=
+                \int_{0}^{2\pi}
+                \dd\theta
+                \para{
+                    \sin(\theta)\cos(\theta)
+                    \mp i\sin^2(\theta)
+                }
+                = \mp i\pi.
+            \end{align}
 
-
-
-            %We use Wolfram Alpha to solve the $I_{\theta_1}$ and $I_{\theta_2}$
-            %integrals giving a closed form solution. For $I_{\theta_1}$ we get
-            %\cite{wolframalphai1}
-            %\begin{align}
-            %    I_{\theta_1}
-            %    &=
-            %    \int_{0}^{2\pi} \dd \theta \cos(\theta)
-            %    \Theta_{m_i}^{*}(\theta) \Theta_{m_j}(\theta)
-            %    =
-            %    \int_{0}^{2\pi} \dd \theta \cos(\theta)
-            %    \exp\brac{i(m_j - m_i)\theta}
-            %    \\
-            %    &=
-            %    - \frac{
-            %        i\brak{
-            %            -1 + \exp\brac{2i\pi(m_j - m_i)}
-            %        }\brak{m_j - m_i}
-            %    }{
-            %        \brak{m_j - m_i}^2 - 1
-            %    }.
-            %\end{align}
-            %Paying close attention to the case when $\abs{m_j - m_i} = 1$ as
-            %this seems to blow up. Luckily, this yields $I_{\theta_1} = \pi$
-            %\cite{wolframalphai1-zero}. For the $I_{\theta_2}$-integral we get
-            %\cite{wolframalphai2}
-            %\begin{align}
-            %    I_{\theta_2}
-            %    &=
-            %    \int_{0}^{2\pi} \dd \theta \sin(\theta)
-            %    \Theta_{m_i}^{*}(\theta) \Theta_{m_j}(\theta)
-            %    =
-            %    \int_{0}^{2\pi} \dd \theta \sin(\theta)
-            %    \exp\brac{i(m_j - m_i)\theta}
-            %    \\
-            %    &=
-            %    \frac{\exp\brac{2i\pi(m_j - m_i)} - 1}{\brak{m_j - m_i}^2 - 1},
-            %\end{align}
-            %where we again explicitly check that we get a finite result for
-            %$\abs{m_j - m_i} = 1$. This yields $I_{\theta_2} = i\pi$
-            %\cite{wolframalphai2-zero}.
 
         \subsubsection{Computing the Coulomb elements}
             Having found the basis functions and the elements of the one-body
