@@ -251,6 +251,7 @@
             \begin{align}
                 \hat{\vfg{d}} \cdot \vfg{f}(t)
                 = \hat{\vfg{d}} \cdot \vfg{E}(t)\sin(\omega t),
+                \label{eq:li-field}
             \end{align}
             where $\hat{\vfg{d}}$ is the dipole operator in three dimensions and
             the envelope $\vfg{E}(t) = E(t) \cdot \vfg{\epsilon}$ with
@@ -263,9 +264,38 @@
                     [3 - \omega t / (2\pi)], & t\omega \in [4\pi, 6\pi], \\
                     0, & t\omega \neq [0, 6\pi],
                 \end{cases}
+                \label{eq:li-laser}
             \end{align}
             where we set $E_m = \SI{0.07}{\text{a.u.}}$ and $\omega =
             \SI{0.1}{\text{a.u.}}$.
+            A plot of the laser field during the simulation is shown in
+            \autoref{fig:li-laser}.
+            \begin{figure}
+                \centering
+                \begin{tikzpicture}
+                    \begin{axis}[
+                        width=11cm,
+                        height=6cm,
+                        xlabel={$t$ $[\text{a.u.}]$},
+                        ylabel={$E(t)$ $[\text{a.u.}]$},
+                        grid=major,
+                        enlarge x limits=false,
+                        enlarge y limits=false,
+                    ]
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/li/dat/li_laser.dat};
+                    \end{axis}
+                \end{tikzpicture}
+                \caption{In this figure we've plotted the laser field from
+                \autoref{eq:li-field} with the envelope described in
+                \autoref{eq:li-laser} as done in the study by
+                \citeauthor{li_2005} \cite{li_2005}.}
+                \label{fig:li-laser}
+            \end{figure}
             In our programs the dipole moment is defined with a positive sign,
             which means that we need to introduce a negative sign in the
             envelope or the polarization vector to include the negative charge
@@ -503,6 +533,7 @@
                         xmax=100,
                         ymin=-0.25,
                         legend pos=south west,
+                        grid=major,
                     ]
                         \addplot+[
                             mark=none,
