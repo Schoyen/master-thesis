@@ -938,25 +938,195 @@
 
 
     \section{Many-body density matrices}
-        In a seminal paper by Löwdin \cite{lowdin-density-matrices}, the
-        concept of a many-body density matrix in terms of the orbitals of a
-        Slater determinant is discussed. These are dubbed $N$-body density
-        matrices, where $N$ depends on the $N$-body interaction, that is,
-        the number of particles included in the interaction. Of the most
-        useful for our work, we have the one- and two-body density matrices.
-        As we will work almost exclusively in second quantization, we will
-        follow the derivation of the one- and two-body density matrices done
-        by \citeauthor{helgaker-molecular}. Löwdin's paper
-        \cite{lowdin-density-matrices} did not employ second quantization,
-        and all matrices are expressed in the coordinate representation. We
-        will list these as they arrive.
-        \subsection{One-body density matrix}
-            \subsubsection{Particle density}
-        \subsection{Two-body density matrix}
+        In a seminal paper by \citeauthor{lowdin-density-matrices}
+        \cite{lowdin-density-matrices}, the concept of a many-body density
+        matrix in terms of the orbitals of a Slater determinant is discussed.
+        These are dubbed $N$-body density matrices, where $N$ depends on the
+        $N$-body interaction, that is, the number of particles included in the
+        interaction.
+        Consider a Hermitian operator $\hat{Q}$ which can be represented as a
+        sum of $N$-body operators
+        \begin{align}
+            \hat{Q}
+            &\equiv
+            \sum_{i = 0}^{N} \hat{Q}_i
+            = Q_0\1 + Q^{p}_{q}\ccr{p}\can{q}
+            + \frac{1}{2!}Q^{pq}_{rs}\ccr{p}\ccr{q}\can{s}\can{r}
+            + \dots,
+        \end{align}
+        where each $N$-body operator is symmetrical in its indices, and includes
+        a $(N!)^{-1}$ factor to account for double counting.
+        % TODO: Does the indidices need to symmetric?
+        For a normalized, pure state $\ket{\psi}$, we are able to compute the
+        expectation value of the operator $\hat{Q}$ by
+        \begin{align}
+            \expv{Q} &= \mel{\psi}{\hat{Q}}{\psi}
+            = \tr(\density \hat{Q}),
+        \end{align}
+        where we've introduced the density operator $\ket{\psi}$ by
+        \begin{align}
+            \density = \dyad{\psi}{\psi}.
+        \end{align}
+        Now, if $\ket{\psi}$ is a wave function describing a system of $N$
+        particles, we can write the expectation value of the operator $\hat{Q}$
+        as
+        \begin{align}
+            \expv{Q}
+            &= \tr(\density \hat{Q})
+            = \braket{\psi}\mel{\psi}{\hat{Q}}{\psi}
+            = \sum_{i = 0}^{N} \mel{\psi}{\hat{Q}_i}{\psi}
+            \\
+            &=
+            Q_0 \mel{\psi}{\1}{\psi}
+            + Q^{p}_{q}\mel{\psi}{\ccr{p}\can{q}}{\psi}
+            + \frac{1}{2!}
+            Q^{pq}_{rs}
+            \mel{\psi}{\ccr{p}\ccr{q}\can{s}\can{r}}{\psi}
+            + \dots
+            \\
+            &= Q_0 + Q^{p}_{q}\densityten^{q}_{p}
+            + \frac{1}{2!} Q^{pq}_{rs} \densityten^{rs}_{pq}
+            + \dots,
+        \end{align}
+        where we ask the reader to direct special attention to the index
+        ordering of the $N$-body density matrix indices $\densityten$ as the
+        ``opposite'' direction of the index ordering from the $N$-body matrix
+        elements.
+        % TODO: Prove this ordering from Szabo and Ostlund.
+        We thus observe that all information about the wave function that is
+        needed for the evaluation of the expectation value $\expv{Q}$ is
+        contained in the $N$-body density matrices, where the elements are given
+        by
+        \begin{gather}
+            \rho^{q}_{p}
+            = \mel{\psi}{\ccr{p}\can{q}}{\psi},
+            \label{eq:one-body-density-elements}
+            \\
+            \rho^{rs}_{pq}
+            = \mel{\psi}{\ccr{p}\ccr{q}\can{s}\can{r}}{\psi},
+            \label{eq:two-body-density-elements}
+            \\
+            \vdots
+        \end{gather}
+        Of all the $N$-body density matrices, the one- and two-body density
+        matrices are the ones that are most applicable for our work as the
+        many-body Hamiltonian we are looking at is limited to two-body
+        interactions and we are only interested in observables expressable as
+        one-body operators.
 
-    \section{Particle density}
+        \subsection{One-body density matrix}
+            We will denote the one-body density operator by $\density_1$ where
+            the elements are given by \autoref{eq:one-body-density-elements}.
+            Comparing the one-body density operator with the general density
+            operator as discussed in \autoref{sec:density-operators} we have
+            that $\density^{\dagger}_1 = \density_1$, i.e., it is Hermitian.
+            This can be seen from the elements by
+            \begin{align}
+                (\densityten^{q}_{p})^{*}
+                = \mel{\psi}{\ccr{p}\can{q}}{\psi}^{*}
+                = \mel{\psi}{\ccr{q}\can{p}}{\psi}
+                = \densityten^{p}_{q}.
+            \end{align}
+            The one-body density is positive semidefinite, which means it
+            satisifies the positivity condition for density operators.
+            % TODO: Back this up.
+            The normalization of the one-body density is however a little
+            different from the general density operator.
+            We have that
+            \begin{align}
+                \tr(\density_1)
+                &= \densityten^{p}_{p}
+                = \mel{\psi}{\ccr{p}\can{p}}{\psi}
+                = N,
+            \end{align}
+            where $N$ is the number of particles contained in $\ket{\psi}$.
+            The formalism of the one-body density operator can also be extended
+            to a mixed many-body states similar to the general density operator.
+
+            \subsubsection{Particle density}
+                A quantity we will be concerned with is the one-particle density
+                -- also known as the first-order reduced density matrix -- which
+                describes the simulatanous distribution of all the particles in
+                the system.
+                As an integral it is defined as
+                \begin{align}
+                    \densityten(x_1)
+                    &= N\para{\prod_{i = 2}^{N} \int \dd x_i}
+                    \abs{\psi(x_1, x_2, \dots, x_N)}^2,
+                \end{align}
+                where the integral runs over all generalized coordinates $x_i$
+                except for one \cite{lowdin-density-matrices,
+                hogberget2013quantum}.
+                Due to the indistinguishability of the particles the particle
+                density is a measure of where any particle is located in space.
+                The one-body density provides insight as to where particles in a
+                system will be positioned, but not which particles are where nor
+                how they behave relative to each other.
+                Using the one-body density matrix we are able to find the
+                distribution of all the particles by the single-particle
+                functions.
+                This is given by
+                \begin{align}
+                    \densityten(x)
+                    =
+                    \phi^{*}_q(x) \densityten^{q}_{p} \phi_p(x).
+                \end{align}
+                % TODO: Check the indexing.
+
+        \subsection{Two-body density matrix}
+            We denote the two-body density operator by $\density_2$ with
+            elements from \autoref{eq:two-body-density-elements}.
+            Due to the anticommutation relations between the second quantized
+            operators we have the anti-symmetry
+            \begin{align}
+                \densityten^{rs}_{pq}
+                = -\densityten^{sr}_{pq}
+                = -\densityten^{rs}_{qp}
+                = \densityten^{sr}_{qp}.
+            \end{align}
+            As a consequence, the Pauli principle is baked into the elements by
+            \begin{align}
+                \densityten^{rr}_{pq}
+                = \densityten^{rs}_{pp}
+                = \densityten^{rr}_{p}
+                = 0,
+            \end{align}
+            in the same way as the two-body Hamiltonian.
+            The two-body density operator is also Hermitian in the sense that
+            \begin{align}
+                (\densityten^{rs}_{pq})^{*}
+                = \mel{\psi}{\ccr{p}\ccr{q}\can{s}\can{r}}{\psi}^{*}
+                = \mel{\psi}{\ccr{r}\ccr{s}\can{q}\can{p}}{\psi}
+                = \densityten^{pq}_{rs}.
+            \end{align}
+            The two-body density operator is also positive semidefinite in the
+            same manner as the one-body density operator.
+            The normalization of the two-body density operator can be found from
+            \begin{align}
+                \densityten^{pq}_{pq}
+                &= \mel{\psi}{\ccr{p}\ccr{q}\can{q}\can{p}}{\psi}
+                = -\mel{\psi}{\ccr{p}\ccr{q}\can{p}\can{q}}{\psi}
+                = -\mel{\psi}{
+                    \ccr{p}(\delta_{pq} - \can{p}\ccr{q})\can{q}
+                }{\psi}
+                \\
+                &=
+                \mel{\psi}{\nop{p}\nop{q}}{\psi}
+                - \mel{\psi}{\nop{p}}{\psi}
+                = N^2 - N
+                = N(N - 1).
+            \end{align}
+            % TODO: Check that this is correct.
+            % Helgaker operates with N(N - 1) / 2, but this might be due to the
+            % counting of the matrix version of the elements.
+            The two-body operator is not something we will use a lot as there
+            are no two-body observables we will observe in this thesis.
+            However, it will be used when we move to the orbital-adaptive
+            time-dependent coupled cluster method as it is needed in the orbital
+            equations.
 
     \section{Dipole moments}
+        % TODO: Read "Atoms in intense laser fields"-book.
         \subsection{Transitions}
 
     \section{The Harmonic potential theorem}
