@@ -109,6 +109,7 @@
             R_{nm}(r)
             &= (ar)^{\abs{m}}L^{\abs{m}}_{n}(a^2r^2)
             \exp\brac{-\frac{a^2 r^2}{2}},
+            \label{eq:radial-function-tdho}
         \end{align}
         where $L^{m}_{n}(r)$ is the \emph{associated Laguerre polynomials}. The
         angular part is given by
@@ -228,92 +229,18 @@
             \end{table}
 
             \begin{algorithm}
+                \inputpython{theory/quantum-systems/get_index_p.py}{0}{35}
                 \caption{In this algorithm we describe how we can find $(n, m)
                 \mapsto p$ relatively quick without having to tabulate all
                 maps.}
                 \label{alg:nm-to-p}
-                \begin{algorithmic}[1]
-                    \Function{map-nm-to-p}{$n, m$}
-                    \State $s \gets 2n + \abs{m} + 1$
-                    \Comment{Compute shell number $s$}
-                    \State $n_0 \gets \sum_{i = 1}^{s - 1} i$
-                    \Comment{Count the number of states up to shell $s$}
-                    \State $n_f \gets n_0 + s$
-                    \Comment{Count the number of states including $s$}
-                    \If{$m = 0$}
-                        \If{$n = 0$}
-                            \State \textbf{return} $0$
-                            \Comment{Lowest state, i.e., $p = 0$}
-                        \EndIf
-                        \State $p = n_0 + (n_f - n_0)/2$
-                        \Comment{We must be in the middle of a shell where $s =
-                        2n + 1$}
-                        \State \textbf{return} $p$
-                    \ElsIf{$m < 0$}
-                        \State $p = n_0 + n$
-                        \Comment{Count the number of states from previous shell}
-                        \State \textbf{return} $p$
-                    \Else
-                        \State $p = n_f - (n + 1)$
-                        \Comment{Count the number of states from top of current
-                        shell}
-                        \State \textbf{return} $p$
-                    \EndIf
-                    \EndFunction
-                \end{algorithmic}
             \end{algorithm}
 
             \begin{algorithm}
+                \inputpython{theory/quantum-systems/get_indices_nm.py}{0}{48}
                 \caption{In this algorithm we sketch how we can find $p \mapsto
                 (n, m)$, i.e., the inverse of \autoref{alg:nm-to-p}.}
                 \label{alg:p-to-nm}
-                \begin{algorithmic}[1]
-                    \Function{map-p-to-nm}{$p$}
-                    \State $n_p \gets 0$
-                    \Comment{Initialize variable to keep track of previous
-                    shell}
-                    \State $n_c \gets 1$
-                    \Comment{Initialize variable to keep track of current shell}
-                    \State $s_c \gets 1$
-                    \Comment{Initialize the shell counter. This serves as a
-                    cumulative sum for $n_c$}
-                    \While{$n_c \leq p$}
-                        \Comment{Check if $p$ is included in the current shell}
-                        \State $s_c \gets s_c + 1$
-                        \Comment{Increase shell counter}
-                        \State $n_p \gets n_c$
-                        \Comment{Store number of particles in previous shell}
-                        \State $n_c \gets n_p + s_c$
-                        \Comment{Add number of particles to current shell}
-                    \EndWhile
-                    \State $p_c = (n_c - n_p) / 2 + n_p$
-                    \Comment{Compute the index $p$ of the middle of a shell}
-                    \If{$n_c - n_p = 2k + 1$}
-                        \Comment{Check if current shell has an odd number of
-                        particles}
-                        \If{$p = p_c$}
-                            \Comment{Check if $p$ is in the middle}
-                            \State $n \gets s_c / 2$
-                            \Comment{The shell is computed from $s_c = 2n + 1$}
-                            \State $m \gets 0$
-                            \State \textbf{return} $(n, m)$
-                        \EndIf
-                    \EndIf
-                    \If{$p < p_c$}
-                        \Comment{Check if we have negative $m$}
-                        \State $n \gets p - n_p$
-                        \Comment{Count up from previous shell}
-                        \State $m \gets -((s_c - 1) - 2n)$
-                        \State \textbf{return} $(n, m)$
-                    \Else
-                        \Comment{We have positive $m$}
-                        \State $n \gets (n_c - 1) - p$
-                        \Comment{Count down from current shell}
-                        \State $m \gets (s_c - 1) - 2n$
-                        \State \textbf{return} $(n, m)$
-                    \EndIf
-                    \EndFunction
-                \end{algorithmic}
             \end{algorithm}
 
         \subsubsection{Computing the dipole moments}
@@ -321,7 +248,7 @@
             harmonic oscillator quantum dot is given by
             \begin{align}
                 \vf{d}_{ij}
-                \equiv \bra{i}\position[\vf{r}]\ket{j},
+                \equiv \mel{i}{\positionvec}{j},
             \end{align}
             where we get a dipole moment for each coordinate in $\vf{r}$. As
             we've expressed the single particle functions in polar coordinates,
@@ -345,62 +272,152 @@
             \begin{align}
                 \bra{i} r \cos(\theta) \ket{j}
                 &= N^{*}_{n_i m_i} N_{n_j m_j}
-                \int_{0}^{\infty} \dd r r^2
-                R_{n_i m_i}^{*}(r) R_{n_j m_j}(r)
-                \int_{0}^{2\pi} \dd \theta \cos(\theta)
-                \Theta_{m_i}^{*}(\theta) \Theta_{m_j}(\theta)
-                \\
-                &= N^{*}_{n_i m_i} N_{n_j m_j} I_{r} I_{\theta_1},
+                \mathcal{R}_{ij}
+                \mathcal{C}_{ij},
                 \\
                 \bra{i} r \sin(\theta) \ket{j}
                 &= N^{*}_{n_i m_i} N_{n_j m_j}
+                \mathcal{R}_{ij}
+                \mathcal{S}_{ij},
+            \end{align}
+            where no summation is implied in the index labels.
+            The integrals are given by
+            \begin{gather}
+                \mathcal{R}_{ij}
+                =
                 \int_{0}^{\infty} \dd r r^2
-                R_{n_i m_i}^{*}(r) R_{n_j m_j}(r)
-                \int_{0}^{2\pi} \dd \theta \sin(\theta)
-                \Theta_{m_i}^{*}(\theta) \Theta_{m_j}(\theta)
+                R_{n_i m_i}^{*}(r) R_{n_j m_j}(r),
+                \label{eq:radial-integral-tdho}
                 \\
-                &= N^{*}_{n_i m_i} N_{n_j m_j} I_{r} I_{\theta_2}.
-            \end{align}
-            We use Wolfram Alpha to solve the $I_{\theta_1}$ and $I_{\theta_2}$
-            integrals giving a closed form solution. For $I_{\theta_1}$ we get
-            \cite{wolframalphai1}
-            \begin{align}
-                I_{\theta_1}
-                &=
-                \int_{0}^{2\pi} \dd \theta \cos(\theta)
-                \Theta_{m_i}^{*}(\theta) \Theta_{m_j}(\theta)
+                \mathcal{C}_{ij}
                 =
-                \int_{0}^{2\pi} \dd \theta \cos(\theta)
-                \exp\brac{i(m_j - m_i)\theta}
+                \int_{0}^{2\pi}
+                \dd \theta
+                \cos(\theta)
+                \Theta_{m_i}^{*}(\theta)
+                \Theta_{m_j}(\theta),
+                \label{eq:cos-integral-tdho}
                 \\
-                &=
-                - \frac{
-                    i\brak{
-                        -1 + \exp\brac{2i\pi(m_j - m_i)}
-                    }\brak{m_j - m_i}
-                }{
-                    \brak{m_j - m_i}^2 - 1
-                }.
-            \end{align}
-            Paying close attention to the case when $\abs{m_j - m_i} = 1$ as
-            this seems to blow up. Luckily, this yields $I_{\theta_1} = \pi$
-            \cite{wolframalphai1-zero}. For the $I_{\theta_2}$-integral we get
-            \cite{wolframalphai2}
-            \begin{align}
-                I_{\theta_2}
-                &=
-                \int_{0}^{2\pi} \dd \theta \sin(\theta)
-                \Theta_{m_i}^{*}(\theta) \Theta_{m_j}(\theta)
+                \mathcal{S}_{ij}
                 =
-                \int_{0}^{2\pi} \dd \theta \sin(\theta)
-                \exp\brac{i(m_j - m_i)\theta}
-                \\
+                \int_{0}^{2\pi}
+                \dd \theta
+                \sin(\theta)
+                \Theta_{m_i}^{*}(\theta)
+                \Theta_{m_j}(\theta).
+                \label{eq:sin-integral-tdho}
+            \end{gather}
+            We solve the radial integral using SymPy \cite{sympy}.
+            We start by constructing the radial functions $R_{n_i m_i}(r)$.
+            This is done by the Python function shown in
+            \autoref{alg:radial-function-tdho}, where the mapping from $i
+            \mapsto (n_i, m_i)$ is done by \autoref{alg:p-to-nm}.
+            \begin{algorithm}
+                \inputpython{theory/quantum-systems/spf_radial_function.py}{0}{10}
+                \caption{Python function constructing the radial functions from
+                the \autoref{eq:radial-function-tdho}.}
+                \label{alg:radial-function-tdho}
+            \end{algorithm}
+            Having constructed the two radial functions we can perform the
+            integraion using the function in \autoref{alg:radial-integral-tdho}.
+            \begin{algorithm}
+                \inputpython{theory/quantum-systems/radial_integral.py}{0}{7}
+                \caption{Python function performing the radial integral in
+                \autoref{eq:radial-integral-tdho} using SymPy \cite{sympy} to
+                evaluate the integral from $r \in [0, \infty)$.}
+                \label{alg:radial-integral-tdho}
+            \end{algorithm}
+
+            The two angular integrals in \autoref{eq:cos-integral-tdho} and
+            \autoref{eq:sin-integral-tdho} have closed form solutions which we
+            derive.
+            Starting with \autoref{eq:cos-integral-tdho} we can write
+            \begin{align}
+                \mathcal{C}_{ij}
                 &=
-                \frac{\exp\brac{2i\pi(m_j - m_i)} - 1}{\brak{m_j - m_i}^2 - 1},
+                \int_{0}^{2\pi}
+                \dd \theta
+                \cos(\theta)
+                \exp{-i\Delta m_{ij} \theta},
             \end{align}
-            where we again explicitly check that we get a finite result for
-            $\abs{m_j - m_i} = 1$. This yields $I_{\theta_2} = i\pi$
-            \cite{wolframalphai2-zero}.
+            where we've defined the difference in the angular quantum number by
+            \begin{align}
+                \Delta m_{ij} \equiv m_i - m_j.
+            \end{align}
+            and we have that $\Delta m_{ij} \in \mathbb{Z}$.
+            The closed form solution to this integral is
+            \begin{align}
+                \mathcal{C}_{ij}
+                &= \brak{
+                    \frac{\exp{-i\Delta m_{ij} \theta}}{1 - (\Delta m_{ij})^2}
+                    \brac{
+                        -i\Delta m_{ij} \cos(\theta)
+                        + \sin(\theta)
+                    }
+                }_{0}^{2\pi}
+                = 0,
+            \end{align}
+            if $\Delta m_{ij} \neq \pm 1$.
+            For the case when $\Delta m_{ij} = \pm 1$ we solve the easier
+            integral
+            \begin{align}
+                \mathcal{C}_{ij}
+                &=
+                \int_{0}^{2\pi}
+                \dd \theta
+                \cos(\theta) \exp{\mp i\theta}
+                =
+                \int_{0}^{2\pi}
+                \dd \theta
+                \para{
+                    \cos^2(\theta)
+                    \mp i\cos(\theta)\sin(\theta)
+                }
+                = \pi.
+            \end{align}
+
+
+
+            %We use Wolfram Alpha to solve the $I_{\theta_1}$ and $I_{\theta_2}$
+            %integrals giving a closed form solution. For $I_{\theta_1}$ we get
+            %\cite{wolframalphai1}
+            %\begin{align}
+            %    I_{\theta_1}
+            %    &=
+            %    \int_{0}^{2\pi} \dd \theta \cos(\theta)
+            %    \Theta_{m_i}^{*}(\theta) \Theta_{m_j}(\theta)
+            %    =
+            %    \int_{0}^{2\pi} \dd \theta \cos(\theta)
+            %    \exp\brac{i(m_j - m_i)\theta}
+            %    \\
+            %    &=
+            %    - \frac{
+            %        i\brak{
+            %            -1 + \exp\brac{2i\pi(m_j - m_i)}
+            %        }\brak{m_j - m_i}
+            %    }{
+            %        \brak{m_j - m_i}^2 - 1
+            %    }.
+            %\end{align}
+            %Paying close attention to the case when $\abs{m_j - m_i} = 1$ as
+            %this seems to blow up. Luckily, this yields $I_{\theta_1} = \pi$
+            %\cite{wolframalphai1-zero}. For the $I_{\theta_2}$-integral we get
+            %\cite{wolframalphai2}
+            %\begin{align}
+            %    I_{\theta_2}
+            %    &=
+            %    \int_{0}^{2\pi} \dd \theta \sin(\theta)
+            %    \Theta_{m_i}^{*}(\theta) \Theta_{m_j}(\theta)
+            %    =
+            %    \int_{0}^{2\pi} \dd \theta \sin(\theta)
+            %    \exp\brac{i(m_j - m_i)\theta}
+            %    \\
+            %    &=
+            %    \frac{\exp\brac{2i\pi(m_j - m_i)} - 1}{\brak{m_j - m_i}^2 - 1},
+            %\end{align}
+            %where we again explicitly check that we get a finite result for
+            %$\abs{m_j - m_i} = 1$. This yields $I_{\theta_2} = i\pi$
+            %\cite{wolframalphai2-zero}.
 
         \subsubsection{Computing the Coulomb elements}
             Having found the basis functions and the elements of the one-body
