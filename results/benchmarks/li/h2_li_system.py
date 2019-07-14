@@ -1,8 +1,12 @@
+import os
+import sys
 import numpy as np
 import pint
 
 from quantum_systems import construct_pyscf_system_ao
 from quantum_systems.time_evolution_operators import LaserField
+
+from tdqd_tools.io_data import write_data
 
 
 class LiLaser:
@@ -51,8 +55,6 @@ def get_h2_system():
 
 
 if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-
     laser = LiLaser()
 
     t_arr = np.linspace(0, 225, int((225 / 1e-2) + 1))
@@ -60,5 +62,6 @@ if __name__ == "__main__":
     for i, t in enumerate(t_arr):
         laser_arr[i] = laser(t)
 
-    plt.plot(t_arr, laser_arr)
-    plt.show()
+    write_data(
+        os.path.join(sys.path[0], "dat", "li_laser.dat"), t_arr, laser_arr
+    )
