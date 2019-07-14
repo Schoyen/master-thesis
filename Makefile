@@ -1,5 +1,6 @@
 figure_deps = $(wildcard, results/benchmarks/zanghellini/dat/*) \
-			  $(wildcard, results/benchmarks/li/dat/*)
+			  $(wildcard, results/benchmarks/li/dat/*) \
+			  $(wildcard, results/benchmarks/miyagi/dat/*)
 
 all:
 	make build
