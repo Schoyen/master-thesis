@@ -426,3 +426,68 @@
         do not destroy the reference state must leave it excited.
         For an orthonormal basis of Slater determinants, this will necessarily
         leave the overlap between the reference state and an excited state zero.
+
+    \section{Coulomb elements}
+        \label{app:coulomb-elements}
+        In this section we'll write out the closed form solution to the Coulomb
+        elements for the two-dimensional harmonic oscillator in polar
+        coordinates \cite{anisimovas1998energy}.
+        The eigenstates are given by \autoref{eq:eigenstate-tdho} and the
+        Coulomb interaction in coordinate representation by
+        \begin{align}
+            u(\vf{r}_i, \vf{r}_j)
+            &= \frac{1}{4\pi\epsilon_0}\frac{e^2}{\abs{\vf{r}_i - \vf{r}_j}}.
+        \end{align}
+        Replacing the positions with the dimensionless length $\vf{r} \to
+        \vf{r}/a$, where $a$ is the Bohr radius from \autoref{eq:bohr-radius},
+        and measuring energy in dimensionless units of $\hslash \omega$
+        \cite{anisimovas1998energy} we can write the Coulomb interaction as
+        \begin{align}
+            u(\vf{r}_i, \vf{r}_j)
+            &= \lambda
+            \frac{1}{\abs{\vf{r}_i - \vf{r}_j}},
+        \end{align}
+        where we have introduced the coupling constant
+        \begin{align}
+            \lambda = \frac{a m e^2}{4 \hslash^2 \pi \epsilon_0}.
+        \end{align}
+        In the case of atomic Hartree units, the Coulomb
+        interaction can be written
+        \begin{align}
+            u(\vf{r}_i, \vf{r}_j)
+            &= \sqrt{\omega}
+            \frac{1}{\abs{\vf{r}_i - \vf{r}_j}},
+        \end{align}
+        where the frequency comes from the Bohr radius.
+        The scaled eigenstates are then given by
+        \begin{align}
+            \psi_{nm}(r, \phi)
+            &= \sqrt{\frac{n!}{\pi(\abs{m} + n)!}}
+            r^{\abs{m}} L^{\abs{m}}_n(r^2)
+            \exp[-r^2/2]
+            \exp[im\phi].
+        \end{align}
+        % TODO: Should there be a factor 2 in n! and pi?
+        % See Anisimovas article.
+        We will only look at the orbital part of the elements, as the
+        spin-symmetry can be added afterwards.
+        \begin{align}
+            \mel{ij}{\hat{u}}{kl}
+            &= \lambda
+            \mathcal{I}^{ij}_{kl},
+        \end{align}
+        where we are interested in computing the integral
+        \begin{align}
+            \mathcal{I}^{ij}_{kl}
+            &=
+            \delta_{m_i + m_j, m_k + m_l}
+            \int\dd \vf{r}_1\dd \vf{r}_2
+            \psi_{i}^{*}(\vf{r}_1) \psi_{j}^{*}(\vf{r}_2)
+            \frac{1}{\abs{\vf{r}_1 - \vf{r}_2}}
+            \psi_{k}(\vf{r}_1)\psi_{l}(\vf{r}_2),
+        \end{align}
+        Unlike \citeauthor{anisimovas1998energy} we will compute the log of the
+        integral they list as this is slightly more convenient in terms of
+        computation.
+        % TODO: Remember to introduce the index convention used by Anisimovas
+        % and Matulis.

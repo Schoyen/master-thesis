@@ -1,4 +1,4 @@
-\section{Quantum dots}
+\section{One-dimensional quantum dots}
     Artificial atoms, or the so-called quantum dots, constitute a hot topic in
     condensed matter physics and material sciences. We will be exploring
     several types of quantum dots in both one and two dimensions in this
@@ -52,31 +52,179 @@
         % TODO: What is the width? RMS?
         % TODO: Discuss the constant term occuring in the double-well.
 
-    \subsection{Two-dimensional harmonic oscillator}
-        The one-body Hamiltonian of the two-dimensional harmonic oscillator is
-        virtually identical to the one-body Hamiltonian of the one-dimensional
-        harmonic oscillator, i.e., \autoref{eq:1dho-hamiltonian}, but with the
-        position and momentum operators being represented in two-dimensions. We
-        will be looking at a circular, symmetric potential. We will thus be
-        working in a polar coordinate basis. The main reason we choose
-        the polar coordinate representation is due to the evaluation of the
-        two-body Coulomb integral elements. This is the most costly part of the
-        construction of the matrix elements and in a polar basis we have
-        \emph{analytical} expressions for these elements
-        \cite{anisimovas1998energy}.  The Hamiltonian can thus be represented by
-        \begin{align}
-            \onehamil &=
-            \frac{\momentum^2}{2m}
-            + \half m\omega^2\position[r]^2
-            = -\frac{\hslash^2}{2m}\brak{
-                \dpd[2]{}{r}
-                + \frac{1}{r}\dpd[]{}{r}
-                + \frac{1}{r^2}\dpd[2]{}{\theta}
+\section{Two-dimensional quantum dot}
+    % TODO: Discuss the importance of the two-dimensional quantum dot
+    Extending the formalism of the one-dimensional quantum dot to two dimensions
+    we look at a system of particles confined to the plane.
+    Due to there existing analytical solutions to the Coulomb elements for the
+    two-dimensional harmonic oscillator in polar coordinates
+    \cite{anisimovas1998energy}, this avoids the need of evaluating the two-body
+    elements on a grid as in the one-dimensiona case.
+    The one-body Hamiltonian in coordinate representation can thus be
+    represented by
+    \begin{align}
+        \oneten(r, \phi)
+        = -\frac{\hslash^2}{2m}\brak{
+            \frac{1}{r}\dpd{}{r}\para{
+                r\dpd{}{r}
             }
-            + \half m \omega^2 \position[r]^2,
+            + \frac{1}{r^2}\dpd[2]{}{\phi}
+        }
+        + v(r, \phi),
+    \end{align}
+    where we do not necessarily assume that the potential is circular symmetric
+    unless specified.
+
+    \subsection{Two-dimensional harmonic oscillator}
+        In the two-dimensional harmonic oscillator we have a circual symmetric
+        potential on the form
+        \begin{align}
+            v(r, \phi) = v(r) = \half m \omega^2 r^2.
         \end{align}
-        where $\position[r]^2 = \position^2 + \position[y]^2$. Next we insert
-        the Hamiltonian into the time-independent Schrödinger equation
+        % TODO: Shortly describe the systeym.
+        We now look for a solution to the time-independent Schrödinger equation
+        on the form
+        \begin{align}
+            \oneten(r, \phi)\psi(r, \phi) = \epsilon \psi(r, \phi),
+        \end{align}
+        where we assume a separable solution, viz.
+        \begin{align}
+            \phi(r, \phi) = R(r)\Phi(\phi).
+        \end{align}
+        Inserted into the one-body Hamiltonian and collecting terms that are
+        acted upon by the differential operators to the right of the operators.
+        \begin{gather}
+            -\frac{\hslash^2}{2m}\brak{
+                \frac{\Phi}{r}\dpd{}{r}\para{
+                    r\dpd{}{r}
+                }R
+                + \frac{R}{r^2}\dpd[2]{}{\phi}\Phi
+            }
+            + v R \Phi = \epsilon R \Phi.
+        \end{gather}
+        Next we divide by $R\Phi$ on both sides and multiply with $-2m r^2
+        /\hslash^2$.
+        This yields
+        \begin{gather}
+            \frac{r}{R}\dpd{}{r}\para{
+                r\dpd{}{r}
+            } R
+            + \frac{1}{\Phi}
+            \dpd[2]{}{\phi}
+            \Phi
+            - \frac{2m r^2}{\hslash^2} \brak{
+                v(r) - \epsilon
+            } = 0,
+        \end{gather}
+        which has now been reduced to two separate differential equations.
+        Introducing a dependent variable $- m^2$ we can write the two equations
+        as
+        \begin{gather}
+            \frac{1}{\Phi}\dod[2]{}{\phi}\Phi = -m^2,
+            \label{eq:tdho-angular-eq}
+            \\
+            \frac{r}{R}\dod{}{r}\para{
+                r\dod{}{r}
+            }R
+            - \frac{2\mu r^2}{\hslash^2}\brak{
+                v(r) - \epsilon
+            }
+            = -m^2,
+            \label{eq:tdho-radial-eq}
+        \end{gather}
+        where we've relabeled the mass variable $m \to \mu$ to avoid confusion
+        with the newly introduced quantity $m$.
+        We recognize \autoref{eq:tdho-angular-eq} as the azimuthal equation from
+        the solving the Schrödinger equation in three dimensions
+        \cite{griffiths2017introduction}.
+        The solution can be expressed as
+        \begin{align}
+            \Phi(\phi) &= \exp[im\phi],
+        \end{align}
+        where we absorb the constant term into the normalization of the wave
+        function which we solve in the end.
+        Furthermore, by allowing $m$ to be negative we can avoid including the
+        negative frequency solutions $\exp{-im\phi}$.
+        The radial equation in \autoref{eq:tdho-radial-eq} represents a slightly
+        more complicated equation.
+        Expanding the differential operators to
+        \begin{align}
+            \dod{}{r}\para{
+                r\dod{}{r}
+            }R
+            = \dod{R}{r} + r\dod[2]{R}{r},
+        \end{align}
+        and multiplying through by $R/r^2$ we can write
+        \autoref{eq:tdho-radial-eq} as
+        \begin{gather}
+            \dod[2]{R}{r}
+            + \frac{1}{r}\dod{R}{r}
+            + \brak{
+                \frac{2\mu \epsilon}{\hslash^2}
+                - \frac{\mu^2\omega^2}{\hslash^2} r^2
+                + \frac{m^2}{r^2}
+            } R
+            = 0,
+        \end{gather}
+        where we've inserted the explicit expression for the harmonic oscillator
+        potential.
+        The solution to this equation is given by \cite{sandev2005selection}
+        \begin{align}
+            R_{nm}(r)
+            = r^{\abs{m}}
+            \exp[-a^2 r^2/2]
+            \rho(r),
+        \end{align}
+        where $\rho(r)$ is a function of $r$ and $a$ is the Bohr radius given by
+        \begin{align}
+            a = \sqrt{\frac{\mu \omega}{\hslash}}.
+            \label{eq:bohr-radius}
+        \end{align}
+        Now, finding the derivatives $R_{nm}(r)$ with respect to $r$ yields
+        \begin{gather}
+            \dod{}{r}R_{nm}(r)
+            = r^{\abs{m}} \exp[-a^2 r^2 / 2] \brak{
+                \frac{\abs{m}}{r} - a^2 r + \dod{}{r}
+            }\rho(r),
+            \\
+            \dod[2]{}{r}R_{nm}(r)
+            = r^{\abs{m}} \exp[-a^2 r^2 / 2] \brak{
+                \frac{\abs{m}}{r} - a^2 r + \dod{}{r}
+            }^2\rho(r).
+        \end{gather}
+        Inserted back into the radial equation and dividing through by the terms
+        in front of $\rho$ in $R_{nm}$ we get
+        \begin{align}
+            \brak{
+                \frac{\abs{m}}{r} - a^2 r + \dod{}{r}
+            }^2 \rho
+            &+ \frac{1}{r}\brak{
+                \frac{\abs{m}}{r} - a^2 r + \dod{}{r}
+            }\rho
+            \nonumber \\
+            &\qquad
+            + \brak{
+                \frac{2\mu \epsilon}{\hslash^2}
+                - \frac{\mu^2\omega^2}{\hslash^2} r^2
+                + \frac{m^2}{r^2}
+            } \rho
+            = 0.
+        \end{align}
+        % TODO: Continue from here
+
+
+        In total the eigenstates of the two-dimensional harmonic oscillator is
+        given by
+        \begin{align}
+            \psi_{nm}(r, \phi)
+            &= a\sqrt{\frac{n!}{\pi(\abs{m} + n)!}}
+            (ar)^{\abs{m}} L^{\abs{m}}_n(a^2 r^2)
+            \exp[-a^2 r^2/2]
+            \exp[im\phi].
+            \label{eq:eigenstate-tdho}
+        \end{align}
+
+
         \begin{align}
             \onehamil\ket{nm} = \epsilon_{nm}\ket{nm},
         \end{align}
@@ -256,10 +404,10 @@
             system, we have to compute the two integrals
             \begin{align}
                 \vf{d}_{ij}
-                &= \vf{i}\bra{i} \position\ket{j}
-                + \vf{j}\bra{i} \position[y]\ket{j}
-                = \vf{i}\bra{i} r \cos(\theta)\ket{j}
-                + \vf{j}\bra{i} r \sin(\theta)\ket{j},
+                &= \vf{i}\mel{i}{\position}{j}
+                + \vf{j}\mel{i}{\position[y]}{j}
+                = \vf{i}\mel{i}{r \cos(\theta)}{j}
+                + \vf{j}\mel{i}{r \sin(\theta)}{j},
                 \label{eq:dipole_elements}
             \end{align}
             where $\vf{i}$ and $\vf{j}$ are the unit vectors along the $x$- and
@@ -270,12 +418,12 @@
             \mapsto (n_i, m_i)$ from the mapping algorithms described above. We
             then get the following integrals
             \begin{align}
-                \bra{i} r \cos(\theta) \ket{j}
+                \mel{i}{r \cos(\theta)}{j}
                 &= N^{*}_{n_i m_i} N_{n_j m_j}
                 \mathcal{R}_{ij}
                 \mathcal{C}_{ij},
                 \\
-                \bra{i} r \sin(\theta) \ket{j}
+                \mel{i}{r \sin(\theta)}{j}
                 &= N^{*}_{n_i m_i} N_{n_j m_j}
                 \mathcal{R}_{ij}
                 \mathcal{S}_{ij},
@@ -426,33 +574,59 @@
             not allowed in the dipole approximation, i.e., the integral
             vanishes.
             % TODO: Write the full expression for the dipole elements.
+            % TODO: Add plot of the dipole moments.
 
 
         \subsubsection{Computing the Coulomb elements}
             Having found the basis functions and the elements of the one-body
             hamiltonian, we are left with the task of finding the two-body
-            elements from the Coulomb interaction. Luckily, there exists an
-            analytic formula finding these elements. This formula is shown in
-            appendix A in the article \citetitle{anisimovas1998energy} by
-            \citeauthor{anisimovas1998energy} \cite{anisimovas1998energy}. Note
-            that \citeauthor{anisimovas1998energy} interchanges the indices in
-            the ket-part of their two-body integrals as opposed to our
+            elements from the Coulomb interaction.
+            Luckily, there exists an analytic formula finding these elements for
+            the two-dimensional harmonic oscillator in polar coordinates.
+            This formula is shown in appendix A in the article
+            \citetitle{anisimovas1998energy} by
+            \citeauthor{anisimovas1998energy} \cite{anisimovas1998energy}.
+            Note that \citeauthor{anisimovas1998energy} interchanges the indices
+            in the ket-part of their two-body integrals as opposed to our
             convention. That is, in our notation we would write
             \begin{align}
-                \bra{ij}\twohamil\ket{kl}
-                &= \delta_{ik}\delta_{jl}
+                \mel{ij}{\twohamil}{kl}
+                &=
                 \int\dd x_1\dd x_2
-                \phi_{i}^{*}(x_1) \phi_{j}^{*}(x_2)
-                \twohamil
-                \phi_{k}(x_1)\phi_{l}(x_2)
+                \psi_{i}^{*}(x_1) \psi_{j}^{*}(x_2)
+                \twoten
+                \psi_{k}(x_1)\psi_{l}(x_2)
                 \equiv
-                \bra{ij}\twohamil\ket{lk}_{AM},
+                \mel{ij}{\twohamil}{lk}_{AM},
             \end{align}
             where $ \bra{ij}\twohamil\ket{lk}_{AM}$ is the convention used by
             \citeauthor{anisimovas1998energy}.
-            % TODO: Consider writing the full formula.
-            % This can be added in the appendix.
-            % Add comment on implementation, and who gave it to you.
+            There are two significant symmetries included in the calculation of
+            the two-body elements.
+            The first occurs as the Hamiltonian is spin-independent and the
+            second comes from the azimuthal quantum number $m$.
+            This can be expressed as
+            \begin{align}
+                \mel{ij}{\twohamil}{kl}
+                = \delta_{\sigma_i \sigma_k} \delta_{\sigma_j \sigma_l}
+                \int\dd \vf{r}_1\dd \vf{r}_2
+                \psi_{i}^{*}(\vf{r}_i) \psi_{j}^{*}(\vf{r}_2)
+                \twoten
+                \psi_{k}(\vf{r}_1)\psi_{l}(\vf{r}_2),
+            \end{align}
+            where the symmetry that $m_i + m_j = m_k + m_l$ is baked into the
+            integral.
+            The formula for computing the integral
+            \begin{align}
+                \mathcal{I}^{ij}_{kl}
+                =
+                \int\dd \vf{r}_1\dd \vf{r}_2
+                \psi_{i}^{*}(\vf{r}_1) \psi_{j}^{*}(\vf{r}_2)
+                \twoten
+                \psi_{k}(\vf{r}_1)\psi_{l}(\vf{r}_2),
+            \end{align}
+            is rather involved and we've pushed it to
+            \autoref{app:coulomb-elements}.
 
 
     \subsection{Two-dimensional double well quantum dot}
