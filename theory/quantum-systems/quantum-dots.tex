@@ -231,13 +231,13 @@
         and diagonalize in order to find the eigenstates, $\ket{nm}$.
         Representing the eigenstates in polar coordinates
         \begin{align}
-            \phi_{nm}(\vf{r}) = \phi_{nm}(r, \theta)
-            \equiv \braket{r\theta}{nm},
+            \phi_{nm}(\vf{r}) = \phi_{nm}(r, \phi)
+            \equiv \braket{r\phi}{nm},
         \end{align}
         we solve the eigenvalue problem by separating the radial and the angular
         part of the eigenstate and solve each term individually. That is,
         \begin{align}
-            \phi_{nm}(r, \theta) = N_{nm}R_{nm}(r)\Theta_{m}(\theta).
+            \phi_{nm}(r, \phi) = N_{nm}R_{nm}(r)\Phi_{m}(\phi).
             \label{eq:spf-2dqd}
         \end{align}
         % TODO: Complete this derivation, i.e., solve the differential equation and
@@ -262,7 +262,7 @@
         where $L^{m}_{n}(r)$ is the \emph{associated Laguerre polynomials}. The
         angular part is given by
         \begin{align}
-            \Theta_m(\theta) = \exp\brac{im\theta}.
+            \Phi_m(\phi) = \exp\brac{im\phi}.
         \end{align}
         The eigenenergy, $\epsilon_{nm}$, of the two-dimensional eigenstates is
         given by
@@ -406,8 +406,8 @@
                 \vf{d}_{ij}
                 &= \vf{i}\mel{i}{\position}{j}
                 + \vf{j}\mel{i}{\position[y]}{j}
-                = \vf{i}\mel{i}{r \cos(\theta)}{j}
-                + \vf{j}\mel{i}{r \sin(\theta)}{j},
+                = \vf{i}\mel{i}{r \cos(\phi)}{j}
+                + \vf{j}\mel{i}{r \sin(\phi)}{j},
                 \label{eq:dipole_elements}
             \end{align}
             where $\vf{i}$ and $\vf{j}$ are the unit vectors along the $x$- and
@@ -418,12 +418,12 @@
             \mapsto (n_i, m_i)$ from the mapping algorithms described above. We
             then get the following integrals
             \begin{align}
-                \mel{i}{r \cos(\theta)}{j}
+                \mel{i}{r \cos(\phi)}{j}
                 &= N^{*}_{n_i m_i} N_{n_j m_j}
                 \mathcal{R}_{ij}
                 \mathcal{C}_{ij},
                 \\
-                \mel{i}{r \sin(\theta)}{j}
+                \mel{i}{r \sin(\phi)}{j}
                 &= N^{*}_{n_i m_i} N_{n_j m_j}
                 \mathcal{R}_{ij}
                 \mathcal{S}_{ij},
@@ -440,19 +440,19 @@
                 \mathcal{C}_{ij}
                 =
                 \int_{0}^{2\pi}
-                \dd \theta
-                \cos(\theta)
-                \Theta_{m_i}^{*}(\theta)
-                \Theta_{m_j}(\theta),
+                \dd \phi
+                \cos(\phi)
+                \Phi_{m_i}^{*}(\phi)
+                \Phi_{m_j}(\phi),
                 \label{eq:cos-integral-tdho}
                 \\
                 \mathcal{S}_{ij}
                 =
                 \int_{0}^{2\pi}
-                \dd \theta
-                \sin(\theta)
-                \Theta_{m_i}^{*}(\theta)
-                \Theta_{m_j}(\theta).
+                \dd \phi
+                \sin(\phi)
+                \Phi_{m_i}^{*}(\phi)
+                \Phi_{m_j}(\phi).
                 \label{eq:sin-integral-tdho}
             \end{gather}
             We solve the radial integral using SymPy \cite{sympy}.
@@ -484,9 +484,9 @@
                 \mathcal{C}_{ij}
                 &=
                 \int_{0}^{2\pi}
-                \dd \theta
-                \cos(\theta)
-                \exp[-i\Delta m_{ij} \theta],
+                \dd \phi
+                \cos(\phi)
+                \exp[-i\Delta m_{ij} \phi],
             \end{align}
             where we've defined the difference in the angular quantum number by
             \begin{align}
@@ -497,10 +497,10 @@
             \begin{align}
                 \mathcal{C}_{ij}
                 &= \brak{
-                    \frac{\exp[-i\Delta m_{ij} \theta]}{1 - (\Delta m_{ij})^2}
+                    \frac{\exp[-i\Delta m_{ij} \phi]}{1 - (\Delta m_{ij})^2}
                     \brak{
-                        -i\Delta m_{ij} \cos(\theta)
-                        + \sin(\theta)
+                        -i\Delta m_{ij} \cos(\phi)
+                        + \sin(\phi)
                     }
                 }_{0}^{2\pi}
                 = 0,
@@ -512,14 +512,14 @@
                 \mathcal{C}_{ij}
                 &=
                 \int_{0}^{2\pi}
-                \dd \theta
-                \cos(\theta) \exp[\mp i\theta]
+                \dd \phi
+                \cos(\phi) \exp[\mp i\phi]
                 =
                 \int_{0}^{2\pi}
-                \dd \theta
+                \dd \phi
                 \para{
-                    \cos^2(\theta)
-                    \mp i\cos(\theta)\sin(\theta)
+                    \cos^2(\phi)
+                    \mp i\cos(\phi)\sin(\phi)
                 }
                 = \pi.
             \end{align}
@@ -530,9 +530,9 @@
                 \mathcal{S}_{ij}
                 &=
                 \int_{0}^{2\pi}
-                \dd\theta
-                \sin(\theta)
-                \exp[-i\Delta m_{ij} \theta].
+                \dd\phi
+                \sin(\phi)
+                \exp[-i\Delta m_{ij} \phi].
             \end{align}
             The closed form solution of this integral is similar to the form for
             the cosine-integral.
@@ -541,10 +541,10 @@
             \begin{align}
                 \mathcal{S}_{ij}
                 &= \brak{
-                    \frac{\exp[-i\Delta m_{ij} \theta]}{1 - (\Delta m_{ij})^2}
+                    \frac{\exp[-i\Delta m_{ij} \phi]}{1 - (\Delta m_{ij})^2}
                     \brak{
-                        -i\Delta m_{ij} \sin(\theta)
-                        + \cos(\theta)
+                        -i\Delta m_{ij} \sin(\phi)
+                        + \cos(\phi)
                     }
                 }_{0}^{2\pi}
                 = 0.
@@ -554,16 +554,16 @@
                 \mathcal{S}_{ij}
                 &=
                 \int_{0}^{2\pi}
-                \dd\theta
-                \sin(\theta)
-                \exp[\mp i\theta]
+                \dd\phi
+                \sin(\phi)
+                \exp[\mp i\phi]
                 \\
                 &=
                 \int_{0}^{2\pi}
-                \dd\theta
+                \dd\phi
                 \para{
-                    \sin(\theta)\cos(\theta)
-                    \mp i\sin^2(\theta)
+                    \sin(\phi)\cos(\phi)
+                    \mp i\sin^2(\phi)
                 }
                 = \mp i\pi.
             \end{align}
@@ -630,10 +630,10 @@
 
 
     \subsection{Two-dimensional double well quantum dot}
-        A more interesting system to peruse is the double well quantum dot.
-        We'll specifically be looking at the two-dimensional double well quantum
-        dot as this lets us reuse the machinery from the two-dimensional
-        harmonic oscillator quantum dot.
+        Another interesting system to explore is the double well quantum dot,
+        i.e., a quantum dot with a finite barrier in the potential trap.
+        Building the barrier on top of the two-dimensional harmonic oscillator
+        lets us reuse much of the machinery from the previous section.
         There are a multitude of ways to create a confining double well
         potential.
         In the following we'll be focusing on a double well with a sharp
@@ -655,23 +655,24 @@
         In \autoref{eq:one-body-2ddw} we recognize the two first terms as the
         kinetic energy and the harmonic oscillator confining potential.
         Instead of finding an analytical expression for the full one-body
-        Hamiltonian\footnote{%
-            An analytical expression might not even exist.
-        }, as we did for the harmonic oscillator, we'll instead re-use
-        the single-particle functions in \autoref{eq:spf-2dqd}.
+        Hamiltonian, as we did for the harmonic oscillator, we'll instead use
+        the single-particle functions in \autoref{eq:spf-2dqd} as trial wave
+        functions and use the variational method to find as good an estimate as
+        possible to the underlying exact eigenpair.
         The one-body matrix elements can then be found from
         \begin{align}
             \oneten^{p}_{q}
             &= \epsilon_{p}\delta^{p}_{q}
-            + \half m \omega^2\bra{p}\para{
+            + \half m \omega^2\mel{p}{\para{
                 \frac{1}{4} l^2 - l \abs{\position}
-            }\ket{q}
+            }}{q}
             \\
             &= \epsilon_{p}\delta^{p}_{q}
             + \frac{1}{8} m \omega^2 l^2 \delta^{p}_{q}
-            - \half m \omega^2 l \bra{p}\abs{\position}\ket{q},
+            - \half m \omega^2 l \mel{p}{\abs{\position}}{q},
         \end{align}
-        where we have used the mapping $(n, m) \to p$ described above and where
+        where we have used the mapping $(n, m) \to p$ from
+        \autoref{alg:nm-to-p} described above and where
         the eigenenergies $\epsilon_p$ are given by
         \autoref{eq:eigenenergies_2dqd}.
         The two first terms give a shifted harmonic oscillator potential, viz.
@@ -681,24 +682,50 @@
         The last term is the double well barrier and resembles the dipole matrix
         elements from \autoref{eq:dipole_elements} except for the absolute
         value.
-        As we've expressed the harmonic oscillator eigenfunctions in a radial
-        basis, we'll compute the integrals in a radial coordinate system.
-        \begin{align}
-            \bra{p}\abs{\position}\ket{q}
-            &=
-            \int_{0}^{\infty}\int_{0}^{2\pi}
-            \dd r \dd\theta
-            \phi_{n_p m_p}^{*}(r, \theta)
-            r^2\abs{\cos(\theta)}
-            \phi_{n_q m_q}(r, \theta).
-        \end{align}
-        If we were to have a barrier in the $y$-direction we would replace the
-        cosine with a sine.
-        Using \autoref{eq:spf-2dqd} for the basis functions, we see that the
-        normalization factor and the radial integral is the same as for the
-        dipole moment of the two-dimensional harmonic oscillator quantum dot.
+        We rewrite the potential barrier in polar coordinates by
+        \begin{gather}
+            \abs{x} = r\abs{\cos(\phi)}, \\
+            \abs{y} = r\abs{\sin(\phi)},
+        \end{gather}
+        where we've included the barrier in $y$-direction for the sake of
+        generality.
+        We can thus compute the barrier integrals using the eigenstates from the
+        harmonic oscillator.
+        \begin{gather}
+            \mel{p}{\abs{\position}}{q}
+            =
+            N^{*}_{n_p m_p} N_{n_q m_q}
+            \mathcal{R}_{pq} \tilde{\mathcal{C}}_{pq},
+            \\
+            \mel{p}{\abs{\position[y]}}{q}
+            =
+            N^{*}_{n_p m_p} N_{n_q m_q}
+            \mathcal{R}_{pq} \tilde{\mathcal{S}}_{pq},
+        \end{gather}
+        where the normalization and the radial integral is the same as for the
+        dipole moment in the harmonic oscillator system.
+        Note again that no summation is implied in the indices for the
+        integrals.
         The only difference is the absolute value on the periodic function in
         the polar integral.
+        These integrals are given by
+        \begin{gather}
+            \tilde{\mathcal{C}}_{pq}
+            =
+            \int_{0}^{2\pi} \dd \phi
+            \abs{\cos(\phi)}
+            \Phi^{*}_{m_p}(\phi)
+            \Phi_{m_q}(\phi),
+            \\
+            \tilde{\mathcal{S}}_{pq}
+            =
+            \int_{0}^{2\pi} \dd \phi
+            \abs{\sin(\phi)}
+            \Phi^{*}_{m_p}(\phi)
+            \Phi_{m_q}(\phi).
+        \end{gather}
+
+
         This gives \cite{wolframalphatildei1}
         \begin{align}
             \tilde{I}_{\theta_1}
