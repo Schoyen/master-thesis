@@ -1033,15 +1033,28 @@
             }.
         \end{align}
         We can then see that odd values of $\Delta m_{pq}$ makes the integral
-        vanish.
-        For even values of $\Delta m_{pq}$ both the exponential and the cosine
-        will evaluate to $1$.
+        vanish as
+        \begin{align}
+            1 + \cos(\Delta m_{pq} \pi)
+            = 1 + \cos((2k + 1) \pi) = 0,
+        \end{align}
+        where $k \in \mathbb{Z}$, whereas for even values of $\Delta m_{pq}$ we
+        get
+        \begin{align}
+            1 + \cos(\Delta m_{pq} \pi)
+            = 1 + \cos(2k \pi) = 2.
+        \end{align}
+        Furthermore, the sign of the exponential will alternate between $\pm 1$
+        for odd and even values of $k$.
         We thus have
         \begin{align}
             \tilde{\mathcal{C}}_{pq}
-            = \begin{cases}
+            =
+            \frac{4}{1 - (\Delta m_{pq})^2}
+            \begin{cases}
                 0 & \Delta m_{pq} = 2k + 1, \\
-                \frac{4}{1 - (\Delta m_{pq})^2} & \Delta m_{pq} = 2k,
+                1 & \Delta m_{pq} = 4k, \\
+                -1 & \Delta m_{pq} = 4k + 2,
             \end{cases}
         \end{align}
         where $k \in \mathbb{Z} \setminus \brac{0}$.
@@ -1113,9 +1126,10 @@
             }
             \\
             &=
+            \frac{4}{1 - (\Delta m_{pq})^2}
             \begin{cases}
                 0 & \Delta m_{pq} = 2k + 1, \\
-                \frac{4}{1 - n^2} & \Delta m_{pq} = 2k,
+                1 & \Delta m_{pq} = 2k,
             \end{cases}
         \end{align}
         where $k \in \mathbb{Z} \setminus \brac{0}$.
