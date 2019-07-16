@@ -12,3 +12,7 @@ main.makefile: $(figure_deps)
 build: main.makefile
 	make -j4 -f main.makefile
 	latexmk -lualatex -bibtex -shell-escape
+
+watch: main.makefile
+	make -j4 -f main.makefile
+	latexmk -lualatex -bibtex -shell-escape -pvc -view=none
