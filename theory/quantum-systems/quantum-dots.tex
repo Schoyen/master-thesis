@@ -769,7 +769,8 @@
                 \int_{0}^{2\pi}
                 \dd \phi
                 \cos(\phi) \exp[\mp i\phi]
-                =
+                \\
+                &=
                 \int_{0}^{2\pi}
                 \dd \phi
                 \para{
@@ -804,6 +805,7 @@
                     }
                 }_{0}^{2\pi}
                 = 0.
+                \label{eq:dipole-y-tdqd}
             \end{align}
             For $\Delta m_{ij} = \pm 1$ we get
             \begin{align}
@@ -1022,75 +1024,120 @@
             \frac{2}{1 - (\Delta m_{pq})^2}\brac{
                 \exp[-i\Delta m_{pq} \pi / 2]
                 + \exp[-i \Delta m_{pq} 3\pi / 2]
-            }.
-        \end{align}
-        We note that for odd values of $\Delta m_{pq}$ we will get sines from
-        Euler's formula, but they will have opposite signs due to the latter
-        term being shifted half a revolution ahead of the former term.
-        This means that $\tilde{\mathcal{C}}_{pq} = 0$ when $\Delta m_{pq}$ is
-        odd.
-        Even values of $\Delta m_{pq}$ gives back the cosines from Euler's
-        formula.
-
-
-        This gives \cite{wolframalphatildei1}
-        \begin{align}
-            \tilde{I}_{\theta_1}
-            &=
-            \int_{0}^{2\pi}\dd \theta \abs{\cos(\theta)}
-            \Theta_{m_p}^{*}(\theta)
-            \Theta_{m_q}(\theta)
-            =
-            \int_{0}^{2\pi}\dd \theta \abs{\cos(\theta)}
-            \exp\brac{i(m_q - m_p)\theta}
-            \\
-            &=
-            -i\brak{
-                -m_q + m_p
-                + (m_q - m_p)\exp\brac{i\pi(m_q - m_p)}
-                - 2i\exp\brac{
-                    i\pi(m_q - m_p)/2
-                }
             }
             \\
-            &\qquad
-            \times
-            \frac{
-                % This term should be 1:
-                % \exp\brac{-2i\pi(m_p - m_q)}
-                \brak{
-                    1 + \exp\brac{i\pi(m_q - m_p)}
-                }
-            }{
-                \para{m_q - m_p}^2 - 1
-            },
-        \end{align}
-        where we've labeled the integral in the $x$-direction
-        $\tilde{I}_{\theta_1}$.
-        When $\abs{m_q - m_p} = 1$ we get $\tilde{I}_{\theta_1} = 0$
-        \cite{wolframalphatildei1-zero}.
-        For the $y$-direction we get the integral \cite{wolframalphatildei2}
-        \begin{align}
-            \tilde{I}_{\theta_2}
-            &=
-            \int_{0}^{2\pi}\dd \theta \abs{\sin(\theta)}
-            \Theta_{m_p}^{*}(\theta)
-            \Theta_{m_q}(\theta)
-            =
-            \int_{0}^{2\pi}\dd \theta \abs{\sin(\theta)}
-            \exp\brac{i(m_q - m_p)\theta}
-            \\
-            &=
-            -\frac{
-                \brak{
-                    1 + \exp\brac{i \pi (m_q - m_p)}
-                }^2
-            }{
-                \para{m_q - m_p}^2 - 1
+            &= \frac{2}{1 - (\Delta m_{pq})^2}
+            \exp[-i\Delta m_{pq} \pi / 2]
+            \para{
+                1 + \cos(\Delta m_{pq} \pi)
             }.
         \end{align}
-        When $\abs{m_q - m_p} = 1$ this integral yields $\tilde{I}_{\theta_2} =
-        0$ \cite{wolframalphatildei2-zero}.
+        We can then see that odd values of $\Delta m_{pq}$ makes the integral
+        vanish.
+        For even values of $\Delta m_{pq}$ both the exponential and the cosine
+        will evaluate to $1$.
+        We thus have
+        \begin{align}
+            \tilde{\mathcal{C}}_{pq}
+            = \begin{cases}
+                0 & \Delta m_{pq} = 2k + 1, \\
+                \frac{4}{1 - (\Delta m_{pq})^2} & \Delta m_{pq} = 2k,
+            \end{cases}
+        \end{align}
+        where $k \in \mathbb{Z} \setminus \brac{0}$.
+        Looking at the case when $\Delta m_{pq} = \pm 1$ we get
+        \begin{align}
+            \tilde{\mathcal{C}}_{pq}
+            &=
+            \para{
+                \int_{0}^{\pi/2}
+                \dd \phi
+                -
+                \int_{\pi/2}^{3\pi/2}
+                \dd \phi
+                +
+                \int_{3\pi/2}^{2\pi}
+                \dd \phi
+            }
+            \cos(\phi)
+            \exp[\mp i\phi]
+            \\
+            &=
+            \para{
+                \int_{0}^{\pi/2}
+                \dd \phi
+                -
+                \int_{\pi/2}^{3\pi/2}
+                \dd \phi
+                +
+                \int_{3\pi/2}^{2\pi}
+                \dd \phi
+            }
+            \brak{
+                \cos^2(\phi)
+                \mp i \cos(\phi)\sin(\phi)
+            }
+            \\
+            &= 0.
+        \end{align}
+        Moving to the integral with the absolute value of the sine.
+        \begin{align}
+            \tilde{\mathcal{S}}_{pq}
+            &= \int_{0}^{2\pi} \dd \phi
+            \abs{\sin(\phi)}
+            \exp[-i\Delta m_{pq} \phi]
+            \\
+            &= \para{
+                \int_{0}^{\pi} \dd \phi
+                - \int_{\pi}^{2\pi} \dd \phi
+            }
+            \sin(\phi) \exp[-i\Delta m_{pq} \phi].
+        \end{align}
+        We again start our initial analysis for $\Delta m_{pq} \neq \pm 1$.
+        The solution to each of the indefinite integrals is the same as in
+        \autoref{eq:dipole-y-tdqd} but with changed integration limits.
+        Evaluating at the new limits we get
+        \begin{align}
+            \tilde{\mathcal{S}}_{pq}
+            &=
+            \frac{2}{1 - (\Delta m_{pq})^2}
+            \brak{
+                \exp[-i\Delta m_{pq} \pi]
+                + 1
+            }
+            \\
+            &= \frac{2}{1 - (\Delta m_{pq})^2}
+            \brak{
+                \cos(\Delta m_{pq} \pi)
+                + 1
+            }
+            \\
+            &=
+            \begin{cases}
+                0 & \Delta m_{pq} = 2k + 1, \\
+                \frac{4}{1 - n^2} & \Delta m_{pq} = 2k,
+            \end{cases}
+        \end{align}
+        where $k \in \mathbb{Z} \setminus \brac{0}$.
+        For $\Delta m_{pq} = \pm 1$ we get
+        \begin{align}
+            \tilde{\mathcal{S}}_{pq}
+            &= \para{
+                \int_{0}^{\pi} \dd \phi
+                - \int_{\pi}^{2\pi} \dd \phi
+            }
+            \sin(\phi) \exp[\mp i \phi]
+            \\
+            &= \para{
+                \int_{0}^{\pi} \dd \phi
+                - \int_{\pi}^{2\pi} \dd \phi
+            }
+            \brak{
+                \sin(\phi)\cos(\phi)
+                \mp i\sin^2(\phi)
+            }
+            = 0.
+        \end{align}
 
         Having constructed the full one-body Hamiltonian, we can diagonalize it
         in order to find coefficients, $\vf{C}$, which we use to transform the
