@@ -32,7 +32,8 @@
     This makes the solution completely general and opens up for a wide variety
     of potentials without the need for any extra mathematics.
 
-    \subsection{Discretizing the problem}
+    \subsection{Discretizing the one-dimensional quantum dot}
+        \label{subsec:discretizing-the-odqd}
         For a given one-body Hamiltonian $h(x)$ on the form described in
         \autoref{eq:one-body-odqd}, we wish to find a solution the
         time-indepedent Schrödinger equation
@@ -113,16 +114,20 @@
             }.
         \end{align}
         Solving \autoref{eq:one-dim-qd-eigh} yields the full spectrum of
-        $\vfg{h}$ where $\vfg{\psi}$ becomes a matrix with each column
-        representing an eigenstate, and the rows the evaluation of the
-        eigenstates on the grid.
-        Some care must be taken when selecting which eigenpairs to include in
-        the further analysis.
+        $\vfg{h} \in \mathbf{C}^{n \times n}$ where $\vfg{\psi} \in
+        \mathbf{C}^{n \times n}$ becomes a matrix with each column representing
+        an eigenstate, and the rows the evaluation of the eigenstates on the
+        grid.
         The quality of the eigenpairs is dependent on the number of grid points
-        $n$ and the lower lying eigenpairs, i.e., lowest excitations, will in
-        general be approximated better than the higher lying states.
-        % TODO: Include this analysis in the results section.
-        % TODO: Verify that lower lying states are better than higher states.
+        $n$, and ideally we should include many grid points such that $\Delta x
+        \to 0$.
+        However, we are not in a position to utilize all $n$ eigenstates in the
+        later analysis and we will therefore truncate the number of orbitals to
+        the number of basis functions $L$ that we wish to include.
+        Furthermore, the systems we are exploring are spin-independent which
+        means that we only use $L / 2$ orbitals from the spectrum of $\vfg{h}$,
+        thus greatly reducing the number of single-particle functions.
+
         Depending on the scheme chosen for solving the generalized eigenvalue
         equation, one might need to normalize the eigenstates.
         Lastly, we have not discussed the boundary conditions for the
@@ -130,9 +135,63 @@
         We require that $\psi_p(-\infty) = \psi_p(\infty) = 0$.
         We can realize this by introducing two extra grid points $i = 0$ and $i
         = n + 1$ after we have diagonalized the one-body Hamiltonian matrix and
-        set the $\psi_p(x_0) = \psi_p(x_{n + 1}) = 0$.
+        set $\psi_p(x_0) = \psi_p(x_{n + 1}) = 0$.
+
+        Having found the eigenpairs for the one-dimensional Hamiltonian, we
+        construct a new, diagonal, one-dimensional Hamiltonian from the
+        eigenenergies.
+        The normalized eigenstates from the generalized eigenvalue equation will
+        be orthonormal.
+
+
+    \subsection{Constructing the dipole moments}
+        The matrix elements of the dipole moment for the one-dimensional quantum
+        dot is given by
+        \begin{align}
+            d_{pq}
+            = \mel{\psi_{p}}{\position}{\psi_{q}}
+            = \int_{-\infty}^{\infty}\dd x
+            \psi^{*}_{p}(x) x \psi_{q}(x).
+        \end{align}
+        As we are using a grid based solution, we approximate this integral
+        using a numerical integration scheme on the grid.
+        In our implementation we use the trapezoidal rule.
+        By defining
+        \begin{align}
+            f_{pq}(x) = \psi^{*}_{p}(x) x \psi_{q}(x),
+        \end{align}
+        and given a uniform grid for $x_i \in \brak{a, b}$ where $i \in \brac{1,
+        n}$ such that $x_1 = a$ and $x_n = b$ with grid spacing $\Delta x$, we
+        approximate the dipole elements by
+        \begin{align}
+            d_{pq}
+            \approx
+            \frac{\Delta x}{2}\sum_{i = 2}^{n}\brak{
+                f_{pq}(x_{i}) + f_{pq}(x_{i - 1})
+            }.
+        \end{align}
+
 
     \subsection{Integrating the Coulomb elements}
+        The arguably heaviest computation in setting up a one-dimensional
+        quantum dot system, is the Coulomb integrals.
+        Still working with atomic units, we have $e = (4\pi \epsilon_0)^{-1} =
+        1$ such that the Coulomb interaction can be represented by
+        \begin{align}
+            \twoten(x_i, x_j) = \frac{1}{\abs{x_i - x_j}}.
+        \end{align}
+        When integrating on a grid, we get numerical instabilities at the
+        singularity when $x_1 = x_2$.
+        This motivates the introduction of a \emph{shielded Coulomb interaction}
+        \cite{suq, skattum2013time, kristiansen2017time} given by
+        \begin{align}
+            \twoten(x_i, x_j)
+            &= \frac{\alpha}{\sqrt{(x_i - x_j)^2 + a^2}},
+        \end{align}
+        where $\alpha$ is a dimensionless constant and the screening parameter
+        $a$ removes the singularity without ruining the asymptotic behavior
+        when $(x_i - x_j) \to \infty$ \cite{suq, kristiansen2017time}.
+
 
     \subsection{One-dimensional harmonic oscillator}
         The one-dimensional harmonic oscillator is usually one of the first
@@ -181,7 +240,7 @@
     Due to there existing analytical solutions to the Coulomb elements for the
     two-dimensional harmonic oscillator in polar coordinates
     \cite{anisimovas1998energy}, this avoids the need of evaluating the two-body
-    elements on a grid as in the one-dimensiona case.
+    elements on a grid as in the one-dimensional case.
     The one-body Hamiltonian in coordinate representation can thus be
     represented by
     \begin{align}

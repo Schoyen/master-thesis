@@ -30,7 +30,12 @@
 \usepackage{pythonhighlight}
 
 % Give autoref a counter and a name for the algorithm environment
-\newcommand{\algorithmautorefname}{Algorithm}
+\newcommand{\algorithmautorefname}{Program}
+
+% Change caption name of algorithm environment
+\makeatletter
+\renewcommand{\ALG@name}{Program}
+\makeatother
 
 \newcommand{\vf}[1]{\boldsymbol{#1}}
 \newcommand{\vfg}[1]{\boldsymbol{#1}}
