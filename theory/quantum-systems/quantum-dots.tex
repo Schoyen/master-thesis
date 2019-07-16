@@ -170,6 +170,11 @@
                 f_{pq}(x_{i}) + f_{pq}(x_{i - 1})
             }.
         \end{align}
+        The reason for choosing the trapezoidal rule is for its ease of usage
+        and implementation, as well as the method being quite fast and precise.
+        It is however, not the best integrator there is and more precise
+        solutions should be considered.
+        % TODO: Explain the usage in numba
 
 
     \subsection{Integrating the Coulomb elements}
@@ -191,6 +196,73 @@
         where $\alpha$ is a dimensionless constant and the screening parameter
         $a$ removes the singularity without ruining the asymptotic behavior
         when $(x_i - x_j) \to \infty$ \cite{suq, kristiansen2017time}.
+
+        The integral we wish to solve is then
+        \begin{align}
+            \mel{\psi_{p}\psi_{q}}{\twohamil}{\psi_{r}\psi_{s}}
+            &=
+            \int\dd x_1 \dd x_2
+            \psi^{*}_{p}(x_1)\psi^{*}_{q}(x_2)
+            \twoten(x_1, x_2)
+            \psi_{r}(x_1)
+            \psi_{s}(x_2),
+        \end{align}
+        where $\twoten(x_1, x_2)$ is the shielded Coulomb interaction.
+        We introduce the inner integral $W_{qs}(x_1)$ given by
+        \begin{align}
+            W_{qs}(x_1)
+            &= \int\dd x_2
+            \psi^{*}_{q}(x_2) \twoten(x_1, x_2)
+            \psi_{s}(x_2),
+        \end{align}
+        that is, we integrate over one of the two spatial integrals in the
+        Coulomb interaction.
+        We can thus write the Coulomb elements as
+        \begin{align}
+            \mel{\psi_{p}\psi_{q}}{\twohamil}{\psi_{r}\psi_{s}}
+            &=
+            \mel{\psi_{p}}{\hat{W}_{qs}}{\psi_{r}}
+            =
+            \int\dd x_1
+            \psi^{*}_{p}(x_1)
+            W_{qs}(x_1)
+            \psi_{r}(x_1),
+        \end{align}
+        where we compute the inner integral $W_{qs}(x_1)$ on the entire grid
+        initially.
+        Defining the function $g_{qs}(x_i, x)$ to be
+        \begin{align}
+            g_{qs}(x_i, x) = \psi^{*}_{q}(x) \twoten(x_1, x) \psi_s(x),
+        \end{align}
+        we can compute the inner integrals using the trapezoidal rule in the
+        samme manner as for the dipole elements.
+        That is, for a given point $x_i$ we have
+        \begin{align}
+            W_{qs}(x_i)
+            \approx \frac{\Delta x}{2}
+            \sum_{j = 2}^{n}
+            \brak{
+                g_{qs}(x_i, x_j) + g_{qs}(x_i, x_{j - 1})
+            }.
+        \end{align}
+        From this we can compute the Coulomb element by
+        \begin{align}
+            \mel{\psi_{p}\psi_{q}}{\twohamil}{\psi_{r}\psi_{s}}
+            \approx
+            \frac{\Delta x}{2}
+            \sum_{i = 2}^{n}
+            \brak{
+                h^{pq}_{rs}(x_i) + h^{pq}_{rs}(x_{i - 1})
+            },
+        \end{align}
+        where we've defined the function
+        \begin{align}
+            h^{pq}_{rs}(x_i)
+            = \psi^{*}_{p}(x_i) W_{qs}(x_i) \psi_{r}(x_i).
+        \end{align}
+        Again, we emphasize that the choice of using the trapezoidal rule is
+        based on convenience and can be replaced by a better integrator if it
+        turns out that the integrals are too erroneous.
 
 
     \subsection{One-dimensional harmonic oscillator}
@@ -672,6 +744,7 @@
             where we've defined the difference in the angular quantum number by
             \begin{align}
                 \Delta m_{ij} \equiv m_i - m_j.
+                \label{eq:diff-m-tdqd}
             \end{align}
             and we have that $\Delta m_{ij} \in \mathbb{Z}$.
             The closed form solution to this integral is
@@ -685,6 +758,7 @@
                     }
                 }_{0}^{2\pi}
                 = 0,
+                \label{eq:dipole-x-tdqd}
             \end{align}
             if $\Delta m_{ij} \neq \pm 1$.
             For the case when $\Delta m_{ij} = \pm 1$ we solve the easier
@@ -714,6 +788,7 @@
                 \dd\phi
                 \sin(\phi)
                 \exp[-i\Delta m_{ij} \phi].
+                \label{eq:dipole-y-tdqd}
             \end{align}
             The closed form solution of this integral is similar to the form for
             the cosine-integral.
@@ -905,6 +980,57 @@
             \Phi^{*}_{m_p}(\phi)
             \Phi_{m_q}(\phi).
         \end{gather}
+        We start by solving the integral for the absolute value of the cosine.
+        \begin{align}
+            \tilde{\mathcal{C}}_{pq}
+            =
+            \int_{0}^{2\pi} \dd \phi
+            \abs{\cos(\phi)}
+            \exp[-i\Delta m_{pq} \phi],
+        \end{align}
+        where we've again introduced the difference in the angular quantum
+        number as in \autoref{eq:diff-m-tdqd}.
+        We split up the integrals in three parts where $\cos(\phi) \geq 0$ to
+        get rid of the absolute value.
+        \begin{align}
+            \tilde{\mathcal{C}}_{pq}
+            &=
+            \para{
+                \int_{0}^{\pi/2}
+                \dd \phi
+                -
+                \int_{\pi/2}^{3\pi/2}
+                \dd \phi
+                +
+                \int_{3\pi/2}^{2\pi}
+                \dd \phi
+            }
+            \cos(\phi)
+            \exp[-i\Delta m_{pq}\phi],
+        \end{align}
+        where the notation should be understood such that each integral should
+        evaluate the function to its right.
+        The sign of the second integral comes from the fact that $\cos(\phi)
+        \leq 0$ for $\phi \in [\pi/2, 3\pi/2]$.
+        The solutions to the indefinite integrals are the same as for the dipole
+        moment in the $x$-direction as seen in \autoref{eq:dipole-x-tdqd}.
+        Taking care to look at the situation when $\Delta m_{pq} \neq \pm 1$
+        first, we get
+        \begin{align}
+            \tilde{\mathcal{C}}_{pq}
+            &=
+            \frac{2}{1 - (\Delta m_{pq})^2}\brac{
+                \exp[-i\Delta m_{pq} \pi / 2]
+                + \exp[-i \Delta m_{pq} 3\pi / 2]
+            }.
+        \end{align}
+        We note that for odd values of $\Delta m_{pq}$ we will get sines from
+        Euler's formula, but they will have opposite signs due to the latter
+        term being shifted half a revolution ahead of the former term.
+        This means that $\tilde{\mathcal{C}}_{pq} = 0$ when $\Delta m_{pq}$ is
+        odd.
+        Even values of $\Delta m_{pq}$ gives back the cosines from Euler's
+        formula.
 
 
         This gives \cite{wolframalphatildei1}
