@@ -1,4 +1,5 @@
 \section{One-dimensional quantum dots}
+    \label{sec:one-dim-ho}
     Artificial atoms, or the so-called quantum dots, constitute a hot topic in
     condensed matter physics and material sciences. We will be exploring
     several types of quantum dots in both one and two dimensions in this
@@ -10,9 +11,61 @@
     ionized, i.e., escape the potential well.  Even so, for weak laser fields
     and for ground state calculations, they serve as excellent candidates for
     our methods.
+    % TODO: This text needs some work
+
+    The time-independent one-dimensional quantum dot can be described by the
+    one-body Hamiltonian
+    \begin{align}
+        \oneten(x)
+        = -\frac{\hslash^2}{2m} \dod[2]{}{x}
+        + v(x),
+        \label{eq:one-body-odqd}
+    \end{align}
+    where $v(x)$ is a potential function.
+    In one dimension it is quite cheap to define a grid and use finite
+    differences to solve the one-dimensional Schrödinger equation.
+    Furthermore, for the systems we explore, numerically solving the Coulomb
+    integrals is also feasible.
+    This solution has its drawbacks in that the we approximate an infinite
+    integral on a finite line, but it also has the advantage of being ``blind''
+    to the choice of potential.
+    This makes the solution completely general and opens up for a wide variety
+    of potentials without the need for any extra mathematics.
+
+    \subsection{Discretizing the problem}
+        For a given one-body Hamiltonian $h(x)$ on the form described in
+        \autoref{eq:one-body-odqd}, we wish to find a solution the
+        time-indepedent Schrödinger equation
+        \begin{align}
+            \oneten(x)\psi(x) = \epsilon \psi(x),
+        \end{align}
+        where we've ignored labels on the eigenpair $(\epsilon, \psi(x))$ for
+        now to avoid clutter.
+        However, do be aware that we are looking for a spectrum of eigenstate.
+        We use the central finite difference scheme for the kinetic term in the
+        one-body Hamiltonian, that is,
+        \begin{align}
+            \dod[2]{\psi(x)}{x}
+            = \frac{
+                \psi(x + \Delta x) - 2\psi(x) + \psi(x - \Delta x)
+            }{(\Delta x)^2}
+            + \mathcal{O}\para{(\Delta x)^2}.
+        \end{align}
+        Now we can write the time-independent Schrödinger equation in the fully
+        discretized form
+        \begin{align}
+            \oneten(x) \psi(x)
+            = -\frac{\hslash^2}{2m}
+            \frac{
+                \psi(x + \Delta x) - 2\psi(x) + \psi(x - \Delta x)
+            }{(\Delta x)^2}
+            + v(x)\psi(x)
+            = \epsilon \psi(x).
+        \end{align}
+
+    \subsection{Integrating the Coulomb elements}
 
     \subsection{One-dimensional harmonic oscillator}
-        \label{subsec:one-dim-ho}
         The one-dimensional harmonic oscillator is usually one of the first
         models studied in undergraduate quantum mechanics courses.
         The one-body Hamiltonian of the one-dimensional harmonic oscillator is
