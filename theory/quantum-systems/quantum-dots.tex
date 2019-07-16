@@ -26,9 +26,9 @@
     differences to solve the one-dimensional Schrödinger equation.
     Furthermore, for the systems we explore, numerically solving the Coulomb
     integrals is also feasible.
-    This solution has its drawbacks in that the we approximate an infinite
-    integral on a finite line, but it also has the advantage of being ``blind''
-    to the choice of potential.
+    This solution has its drawbacks in that we approximate an infinite integral
+    on a finite line, but it also has the advantage of being ``blind'' to the
+    choice of potential.
     This makes the solution completely general and opens up for a wide variety
     of potentials without the need for any extra mathematics.
 
@@ -55,13 +55,82 @@
         discretized form
         \begin{align}
             \oneten(x) \psi(x)
-            = -\frac{\hslash^2}{2m}
+            &= -\frac{1}{2}
             \frac{
                 \psi(x + \Delta x) - 2\psi(x) + \psi(x - \Delta x)
             }{(\Delta x)^2}
             + v(x)\psi(x)
-            = \epsilon \psi(x).
+            = \epsilon \psi(x),
         \end{align}
+        where we use the more convenient atomic units with $\hslash = m = 1$.
+        Introducing the uniformly discretized grid $x_i$ where $i \in \brac{1,
+        n}$ and $n$ is the number of grid points, we label the wave function by
+        $\psi_i = \psi(x_i)$.
+        We have that
+        \begin{align}
+            x_{i + 1} = x_i + \Delta x,
+        \end{align}
+        with $\Delta x$ being the step-size between the grid points.
+        There exists smarter grid choices than the uniform grid, but for our
+        simulations the uniform grid is quite good enough.
+        Collecting the wave function evaluated at the same grid points in the
+        time-independent Schrödinger equation we can write
+        \begin{align}
+            \oneten \psi_i
+            &=
+            \para{
+                \frac{1}{(\Delta x)^2}
+                + v_i
+            }\psi_i
+            - \frac{1}{2 (\Delta x)^2}
+            \para{
+                \psi_{i + 1}
+                + \psi_{i - 1}
+            }
+            = \epsilon \psi_i.
+        \end{align}
+        We are now in a position to formulate this equation as a generalized
+        eigenvalue equation on the form
+        \begin{align}
+            \vfg{\oneten}\vfg{\psi}
+            = \vfg{\epsilon}\vfg{\psi},
+            \label{eq:one-dim-qd-eigh}
+        \end{align}
+        where the one-body Hamiltonian matrix is a tridiagonal matrix with
+        diagonal elements
+        \begin{align}
+            \oneten_{ii}
+            =
+            \frac{1}{(\Delta x)^2}
+            + v_i
+        \end{align}
+        and off-diagonal elements
+        \begin{align}
+            \oneten_{ij}
+            = -\frac{1}{2(\Delta x)^2}\para{
+                \delta_{(i + 1) j}
+                + \delta_{(i - 1) j}
+            }.
+        \end{align}
+        Solving \autoref{eq:one-dim-qd-eigh} yields the full spectrum of
+        $\vfg{h}$ where $\vfg{\psi}$ becomes a matrix with each column
+        representing an eigenstate, and the rows the evaluation of the
+        eigenstates on the grid.
+        Some care must be taken when selecting which eigenpairs to include in
+        the further analysis.
+        The quality of the eigenpairs is dependent on the number of grid points
+        $n$ and the lower lying eigenpairs, i.e., lowest excitations, will in
+        general be approximated better than the higher lying states.
+        % TODO: Include this analysis in the results section.
+        % TODO: Verify that lower lying states are better than higher states.
+        Depending on the scheme chosen for solving the generalized eigenvalue
+        equation, one might need to normalize the eigenstates.
+        Lastly, we have not discussed the boundary conditions for the
+        eigenstates.
+        We require that $\psi_p(-\infty) = \psi_p(\infty) = 0$.
+        We can realize this by introducing two extra grid points $i = 0$ and $i
+        = n + 1$ after we have diagonalized the one-body Hamiltonian matrix and
+        set the $\psi_p(x_0) = \psi_p(x_{n + 1}) = 0$.
 
     \subsection{Integrating the Coulomb elements}
 
