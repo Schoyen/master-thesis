@@ -236,15 +236,15 @@
                 % & Schaefer pages 42 and 95.
                 \begin{figure}
                     \begin{center}
-                        \begin{tikzpicture}[scale=0.7]
+                        \begin{tikzpicture}
                             % State 1
                             \begin{scope}
                                 \foreach \i in {1,...,4} {
                                     \draw (-1, \i - 1) node[anchor=east]
-                                    {$\ket{\phi_{\i}}$} -- (1, \i - 1);
+                                    {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
                                 }
                                 \filldraw (0,4.2) node[anchor=north]
-                                    {$\ket{\Phi}$};
+                                    {$\ket*{\Phi}$};
                                 \filldraw (0, 0) circle (0.25cm);
                                 \filldraw (0, 1) circle (0.25cm);
                             \end{scope}
@@ -253,10 +253,10 @@
                             \begin{scope}[xshift=5cm]
                                 \foreach \i in {1,...,4} {
                                     \draw (-1, \i - 1) node[anchor=east]
-                                    {$\ket{\phi_{\i}}$} -- (1, \i - 1);
+                                    {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
                                 }
                                 \filldraw (0,4.2) node[anchor=north]
-                                    {$\ket{\Phi^{3}_{1}}$};
+                                    {$\ket*{\Phi^{3}_{1}}$};
                                 \filldraw (0, 2) circle (0.25cm);
                                 \filldraw (0, 1) circle (0.25cm);
                             \end{scope}
@@ -265,10 +265,10 @@
                             \begin{scope}[xshift=10cm]
                                 \foreach \i in {1,...,4} {
                                     \draw (-1, \i - 1) node[anchor=east]
-                                    {$\ket{\phi_{\i}}$} -- (1, \i - 1);
+                                    {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
                                 }
                                 \filldraw (0,4.2) node[anchor=north]
-                                    {$\ket{\Phi^{4}_{1}}$};
+                                    {$\ket*{\Phi^{4}_{1}}$};
                                 \filldraw (0, 3) circle (0.25cm);
                                 \filldraw (0, 1) circle (0.25cm);
                             \end{scope}
@@ -277,10 +277,10 @@
                             \begin{scope}[yshift=-5.5cm]
                                 \foreach \i in {1,...,4} {
                                     \draw (-1, \i - 1) node[anchor=east]
-                                    {$\ket{\phi_{\i}}$} -- (1, \i - 1);
+                                    {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
                                 }
                                 \filldraw (0,4.2) node[anchor=north]
-                                    {$\ket{\Phi^{3}_{2}}$};
+                                    {$\ket*{\Phi^{3}_{2}}$};
                                 \filldraw (0, 0) circle (0.25cm);
                                 \filldraw (0, 2) circle (0.25cm);
                             \end{scope}
@@ -289,10 +289,10 @@
                             \begin{scope}[yshift=-5.5cm, xshift=5cm]
                                 \foreach \i in {1,...,4} {
                                     \draw (-1, \i - 1) node[anchor=east]
-                                    {$\ket{\phi_{\i}}$} -- (1, \i - 1);
+                                    {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
                                 }
                                 \filldraw (0,4.2) node[anchor=north]
-                                    {$\ket{\Phi^{4}_{2}}$};
+                                    {$\ket*{\Phi^{4}_{2}}$};
                                 \filldraw (0, 0) circle (0.25cm);
                                 \filldraw (0, 3) circle (0.25cm);
                             \end{scope}
@@ -301,10 +301,10 @@
                             \begin{scope}[yshift=-5.5cm, xshift=10cm]
                                 \foreach \i in {1,...,4} {
                                     \draw (-1, \i - 1) node[anchor=east]
-                                    {$\ket{\phi_{\i}}$} -- (1, \i - 1);
+                                    {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
                                 }
                                 \filldraw (0,4.2) node[anchor=north]
-                                    {$\ket{\Phi^{34}_{12}}$};
+                                    {$\ket*{\Phi^{34}_{12}}$};
                                 \filldraw (0, 3) circle (0.25cm);
                                 \filldraw (0, 2) circle (0.25cm);
                             \end{scope}
