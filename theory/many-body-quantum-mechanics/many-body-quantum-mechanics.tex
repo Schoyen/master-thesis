@@ -6,31 +6,143 @@
         The particles we concern ourselves with are \emph{identical}.
         This means that it is not possible to discern two particles of the
         same type from one another.
-        This statement yields quite profound results in the sense
-        that the ordering of the particles in a many-body wave function does
-        not yield a new state and is in some sense arbitrary.
+        This statement yields quite profound results in the sense that the
+        ordering of the particles in a many-body wave function is in some sense
+        arbitrary; the wave functions are the same up to a complex phase factor
+        regardless of the ordering of their particles.
         As a consequence the probability density of our state must be
-        permutation invariant.
+        permutation invariant since we are not able to distinguish between the
+        ordering of identical particles.
         We define $\sigma \in S_{N}$ as a permutation of $N$ indices $\vf{x}
-        = (x_1, \dots, x_N) \in X^{N}$ wherein both spin and position is
-        incorporated.
+        = (x_1, \dots, x_N) \in X^{N}$ wherein $X^N$ is a coordinate space where
+        both spin and position is incorporated.
+        Furthermore, $S_{N}$ is the group of all permutations $\sigma$ where
+        $S_{N}$ has $N!$ distinct permutations.
         We denote the permutation of the indices by
         \begin{align}
             \vf{x} = (x_1, \dots, x_N)
             \to \vf{x}_{\sigma} = (x_{\sigma(1)}, \dots, x_{\sigma(N)}).
+            \label{eq:permutation-indices}
         \end{align}
         We can then formulate particle indistinguishability by
         \cite{leinaas1977, kvaal2017notes}
         \begin{align}
             \abs{
-                \Psi(\vf{x})
+                \psi(\vf{x})
             }^2
             = \abs{
-                \Psi(\vf{x}_{\sigma})
+                \psi(\vf{x}_{\sigma})
             }^2.
             \label{eq:particle-indistinguishability}
         \end{align}
-        We define the \emph{exchange operatore} $\hat{P}_{ij}$ as the
+        This can be formulated as \cite{kvaal2017notes}
+        \begin{align}
+            \psi(\vf{x}) = \exp[i\alpha(\sigma)] \psi(\vf{x}_{\sigma}),
+        \end{align}
+        where $\alpha(\sigma) \in \mathbb{R}$ depends on $\sigma$.
+        A transposition $\tau_{ij} \in S_{N}$ is a permutation exchanging a single
+        pair $(i, j) \to (j, i)$ where $i \neq j$.
+        We denote the transposition of two indices in a similar manner as in
+        \autoref{eq:permutation-indices}, but where $\vf{x}_{ij}$ signifies that
+        all indices in $\vf{x}$ are the same except for the pair $(i, j)$.
+        We can construct any permutation $\sigma$ as a product of an even or an
+        odd number of transpositions \cite{fraleigh2003first}
+        \begin{align}
+            \sigma = \prod_{k = 1}^{n} \tau_{i_k, j_k},
+        \end{align}
+        where $\abs{\sigma} \equiv n$ counts the number of transpositions and is
+        always either even or odd.
+        Stated differently, a permutation $\sigma$ created from a product of
+        transpositions is not unique as the same permutation can be achieved
+        from the a different product of transpositions, however, all products
+        are either even or odd.
+        A permutation created from a even product of transpositions is said to
+        have \emph{even parity} whereas a permutation created from an odd
+        product of transpositions is said to have \emph{odd parity}.
+        We define the \emph{exchange operator} $\hat{P}_{ij}$ as the operator
+        that interchanges a pair of indices by
+        \begin{align}
+            \hat{P}_{ij}\psi(\vf{x})
+            = \psi(\vf{x}_{ij}).
+        \end{align}
+        From this definition we can then see that
+        \begin{align}
+            \hat{P}^2_{ij}\psi(\vf{x})
+            = \hat{P}_{ij}\psi(\vf{x}_{ij})
+            = \psi(\vf{x}),
+        \end{align}
+        which means that the eigenvalues of $\hat{P}_{ij}$ is $p_{ij} = \pm
+        1$, that is,
+        \begin{align}
+            \hat{P}_{ij}\psi(\vf{x})
+            = \psi(\vf{x}_{ij})
+            = p_{ij} \psi(\vf{x}).
+        \end{align}
+        As pointed out by \citeauthor{leinaas1977} in their seminal paper
+        \citetitle{leinaas1977} \cite{leinaas1977}, this is only part of the
+        truth.
+        However, we will not concern ourselves with other eigenvalues for the
+        exchange operator.
+        % TODO: Verify that this is what dem bois did find out.
+        Now, it is possible to write a transposition $\tau_{ij}$ as a product of
+        three transpositions via an arbitrary index $k \neq i \neq j$.
+        An illustration of this fact can be seen in
+        \autoref{fig:transpositions}.
+        From this we see that
+        \begin{align}
+            \hat{P}_{jk} \psi(\vf{x})
+            &= \hat{P}_{ij} \hat{P}_{ik} \hat{P}_{ij} \psi(\vf{x})
+            = p_{ij} p_{ik} p_{ij} \psi(\vf{x})
+            = p_{ij}^2 p_{ik} \psi(\vf{x})
+            = p_{ik} \psi(\vf{x})
+             = p_{jk} \psi(\vf{x}),
+        \end{align}
+        which tells us that the eigenvalues of any exchange operator is the
+        same.
+        This means that the eigenvalue is a charateristic of the wave function
+        $\psi(\vf{x})$.
+
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{scope}
+                    \draw (-4, 0) node[anchor=east] {$(i, j, k)$} -- (4, 0);
+                    \node[draw, circle, black, thick, fill=alice, text=white] at
+                    (-3, 0) {$i$};
+                    \node[draw, circle, black, thick, fill=darkerindigo, text=white] at
+                    (0, 0) {$j$};
+                    \node[draw, circle, black, thick, fill=darkerruby, text=white] at
+                    (3, 0) {$k$};
+                \end{scope}
+                % TODO: Finish this figure
+                \begin{scope}[yshift=-2cm]
+                    \draw (-4, 0) node[anchor=east] {$(k, j, i)$} -- (4, 0);
+                    \draw[black, thick, fill=magenta] (-3, 0) circle (0.25cm);
+                    \draw[black, thick, fill=blue] (0, 0) circle (0.25cm);
+                    \draw[black, thick, fill=red] (3, 0) circle (0.25cm);
+                \end{scope}
+                \begin{scope}[yshift=-4cm]
+                    \draw (-4, 0) node[anchor=east] {$(j, k, i)$} -- (4, 0);
+                    \draw[black, thick, fill=blue] (-3, 0) circle (0.25cm);
+                    \draw[black, thick, fill=magenta] (0, 0) circle (0.25cm);
+                    \draw[black, thick, fill=red] (3, 0) circle (0.25cm);
+                \end{scope}
+                \begin{scope}[yshift=-6cm]
+                    \draw (-4, 0) node[anchor=east] {$(i, k, j)$} -- (4, 0);
+                    \draw[black, thick, fill=red] (-3, 0) circle (0.25cm);
+                    \draw[black, thick, fill=magenta] (0, 0) circle (0.25cm);
+                    \draw[black, thick, fill=blue] (3, 0) circle (0.25cm);
+                \end{scope}
+            \end{tikzpicture}
+            \caption{In this figure we illustrate how a single transposition
+            $\tau_{jk}$ can be replaced by a product of three transpositions
+            $\tau_{ij}\tau_{ik}\tau_{ij}$.}
+            \label{fig:transpositions}
+        \end{figure}
+
+
+
+        We define the \emph{exchange operator} $\hat{P}_{ij}$ as the
         operator that interchanges indices $(i, j) \to (j, i)$ where $i \neq
         j$.
         That is,
