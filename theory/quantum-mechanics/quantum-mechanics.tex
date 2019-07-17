@@ -145,8 +145,8 @@
             trial wave function $\ket{\psi}$ will be an upper bound to the
             ground state energy, but it does not provide us with a method of
             finding the \emph{best} upper bound energy.
-            For a Hermitian, model Hamiltonian $\hamil$ and given a normalized
-            trial wave function $\ket{\psi}$ that is constructed as a linear
+            Given a Hermitian model Hamiltonian $\hamil$ and a normalized trial
+            wave function $\ket{\psi}$ that is constructed as a linear
             combination of known normalized wave functions
             $\ket{\chi_{\alpha}}$, viz.
             \begin{align}
@@ -155,10 +155,8 @@
             we construct the variational energy functional $E[\psi]$ by
             \begin{align}
                 E[\psi]
-                &= \frac{\mel{\psi}{\hamil}{\psi}}
-                {\braket{\psi}{\psi}},
+                &= \mel{\psi}{\hamil}{\psi}.
             \end{align}
-            where we no longer require that $\ket{\psi}$ is normalized.
             Optimizing the energy functional is now done by finding the
             stationary points with respect to the variational parameters
             $c_{\alpha}$.
@@ -170,15 +168,23 @@
             \end{align}
             where the first variation locates the stationary point and the
             second variation categorizes the point as the Hessian matrix.
-            In order to construct equations which can be optimized, we
-            construct a new functional $G[\psi]$ given by
-            \cite{helgaker-molecular}
+            However, looking at the first variation we have
+            \begin{align}
+                \dpd{}{c_{\beta}}\mel{\psi}{\hamil}{\psi} = 0,
+            \end{align}
+            which is not solvable as the equations stand \cite{szabo1996modern}.
+            In order to construct equations which can be optimized, we use
+            Lagrange's method of undetermined multipliers to construct a new
+            functional $G[\psi]$ given by \cite{helgaker-molecular,
+            szabo1996modern}
             \begin{align}
                 G[\psi]
                 &=
                 \mel{\psi}{\hamil}{\psi}
-                - E[\psi] \braket{\psi}{\psi}.
+                - E[\psi] \para{\braket{\psi}{\psi} - 1},
             \end{align}
+            where we've introduced the normalization condition for the trial
+            wave function as a constraint.
             Optimizing this functional for the first variation we find
             \begin{align}
                 \dpd[]{G[\psi]}{c_{\alpha}}
@@ -240,16 +246,18 @@
             where we've defined the overlap matrix $\overlapmat$ from the
             overlap integrals between the known basis elements
             $\ket{\chi_{\alpha}}$.
-            It is interesting to note that subject to the constraint that the
-            first variation in the energy functional should vanish, we are able
-            to find the optimal set of coefficients $c_{\alpha}$ by solving the
-            generalized eigenvalue equation in
+            We have now reduced the task of optimizing the energy functional to
+            the problem of solving the generalized eigenvalue equation in
             \autoref{eq:variational-eigenvalue}.
-            The procedure outlined by finding optimal coefficients from
-            \autoref{eq:variational-eigenvalue} will be used extensively as a
-            procedure to transform from a known to an unknown basis.
-            See reference \cite{helgaker-molecular} for a derivation of the
-            Hessian elements.
+            In other words, by creating the Hamiltonian matrix $\hamilmat$ and
+            the overlap matrix $\overlapmat$ from the basis of known basis
+            elements, we can diagonalize the matrices, i.e., solve the
+            generalized eigenvalue equation, and extract the optimal eigenpair
+            $(E, \vf{c})$ as the eigenvalue and eigenvector respectively.
+            This procedure will be used extensively as a procedure to transform
+            from a known to an unknown basis.
+            See \citetitle{helgaker-molecular} \cite{helgaker-molecular} for a
+            derivation of the Hessian elements.
 
     \section{The Hellmann-Feynman theorem}
         The Hellmann-Feynman theorem provides us with a method of calculating
@@ -333,7 +341,7 @@
         For example, the expectation value of the operator $\hat{O}$ can be
         found by
         \begin{align}
-            \expv{\hat{O}}
+            \expv{O}
             = \mel{\psi}{\hat{O}}{\psi}
             = \dpd[]{}{\alpha}
             \left.
