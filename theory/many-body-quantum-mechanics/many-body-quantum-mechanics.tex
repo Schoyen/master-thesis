@@ -80,7 +80,8 @@
         \end{align}
         As pointed out by \citeauthor{leinaas1977} in their seminal paper
         \citetitle{leinaas1977} \cite{leinaas1977}, this is only part of the
-        truth.
+        truth as two-dimensional systems allow an infinite amount of
+        eigenstates for the exchange operator.
         However, we will not concern ourselves with other eigenvalues for the
         exchange operator.
         % TODO: Verify that this is what dem bois did find out.
@@ -88,7 +89,8 @@
         three transpositions via an arbitrary index $k \neq i \neq j$.
         An illustration of this fact can be seen in
         \autoref{fig:transpositions}.
-        From this we see that
+        As we can replace the action of a single exchange operator with three
+        other exchange operators, we have that
         \begin{align}
             \hat{P}_{jk} \psi(\vf{x})
             &= \hat{P}_{ij} \hat{P}_{ik} \hat{P}_{ij} \psi(\vf{x})
@@ -97,118 +99,198 @@
             = p_{ik} \psi(\vf{x})
              = p_{jk} \psi(\vf{x}),
         \end{align}
-        which tells us that the eigenvalues of any exchange operator is the
-        same.
-        This means that the eigenvalue is a charateristic of the wave function
-        $\psi(\vf{x})$.
+        which tells us that the eigenvalues of all the exchange operators are
+        the same.
+        Thus we have $p_{ij} = p_{jk} \equiv p = \pm 1$.
+        A consequence of this is that the eigenvalue of an exchange operator is
+        a charateristic of the wave function $\psi(\vf{x})$.
+        Furthermore, by constructing a \emph{permutation operator}
+        $\hat{P}_{\sigma}$ as a product of exchange operators, that is,
+        \begin{align}
+            \hat{P}_{\sigma}
+            = \prod_{k = 1}^{n} \hat{P}_{i_k j_k},
+        \end{align}
+        we find that the eigenvalue of the permutation operator is
+        \begin{align}
+            \hat{P}_{\sigma}\psi(\vf{x})
+            = p^{\abs{\sigma}}\psi(\vf{x}).
+        \end{align}
+        Now, depending on the wave function we can get two different situations.
+        If $p = +1$, then we call $\psi(\vf{x})$ symmetric as $p^{\abs{\sigma}}
+        = 1$ regardless of the parity of the permutation operator.
+        A symmetric wave function describes a system of \emph{bosons}, e.g.,
+        photons.
+        On the other hand, if $p = -1$, then $\psi(\vf{x})$ is anti-symmetric
+        and
+        \begin{align}
+            p^{\abs{\sigma}} =
+            \begin{cases}
+                +1 & \text{even parity}, \\
+                -1 & \text{odd parity}.
+            \end{cases}
+        \end{align}
+        Particles described by an anti-symmetric wave function are called
+        \emph{fermions}, e.g., electrons.
+
 
         \begin{figure}
             \centering
             \begin{tikzpicture}
                 \begin{scope}
-                    \draw (-4, 0) node[anchor=east] {$(i, j, k)$} -- (4, 0);
+                    \draw (-4, 0) node[anchor=east]
+                    {$\hat{P}_{13}\psi(x_i, x_j, x_k)$} -- (4, 0);
+                    \node[
+                        draw,
+                        circle,
+                        black,
+                        thick,
+                        fill=alice,
+                        text=white
+                    ]
+                    (1) at (-3, 0) {$i$};
+                    \node[
+                        draw,
+                        circle,
+                        black,
+                        thick,
+                        fill=darkerindigo,
+                        text=white
+                    ]
+                    (2) at (0, 0) {$j$};
+                    \node[
+                        draw,
+                        circle,
+                        black,
+                        thick,
+                        fill=darkerruby,
+                        text=white
+                    ]
+                    (3) at (3, 0) {$k$};
+                    \path[->, thick] (1) edge[bend right] node [left] {} (3);
+                    \path[->, thick] (3) edge[bend right] node [left] {} (1);
+                \end{scope}
+                \begin{scope}[yshift=-2.5cm]
+                    \draw (-4, 0) node[anchor=east]
+                    {$\hat{P}_{12}\psi(x_k, x_j, x_i)$} -- (4, 0);
+                    \node[
+                        draw,
+                        circle,
+                        black,
+                        thick,
+                        fill=darkerruby,
+                        text=white
+                    ]
+                    (1) at (-3, 0) {$k$};
+                    \node[
+                        draw,
+                        circle,
+                        black,
+                        thick,
+                        fill=darkerindigo,
+                        text=white
+                    ]
+                    (2) at (0, 0) {$j$};
+                    \node[
+                        draw,
+                        circle,
+                        black,
+                        thick,
+                        fill=alice,
+                        text=white
+                    ]
+                    (3) at (3, 0) {$i$};
+                    \path[->, thick] (1) edge[bend right] node [left] {} (2);
+                    \path[->, thick] (2) edge[bend right] node [left] {} (1);
+                \end{scope}
+                \begin{scope}[yshift=-5cm]
+                    \draw (-4, 0) node[anchor=east]
+                    {$\hat{P}_{13}\psi(x_j, x_k, x_i)$} -- (4, 0);
+                    \node[
+                        draw,
+                        circle,
+                        black,
+                        thick,
+                        fill=darkerindigo,
+                        text=white
+                    ]
+                    (1) at (-3, 0) {$j$};
+                    \node[
+                        draw,
+                        circle,
+                        black,
+                        thick,
+                        fill=darkerruby,
+                        text=white
+                    ]
+                    (2) at (0, 0) {$k$};
+                    \node[
+                        draw,
+                        circle,
+                        black,
+                        thick,
+                        fill=alice,
+                        text=white
+                    ]
+                    (3) at (3, 0) {$i$};
+                    \path[->, thick] (1) edge[bend right] node [left] {} (3);
+                    \path[->, thick] (3) edge[bend right] node [left] {} (1);
+                \end{scope}
+                \begin{scope}[yshift=-7.5cm]
+                    \draw (-4, 0) node[anchor=east]
+                    {$\psi(x_i, x_k, x_j)$} -- (4, 0);
                     \node[draw, circle, black, thick, fill=alice, text=white] at
                     (-3, 0) {$i$};
-                    \node[draw, circle, black, thick, fill=darkerindigo, text=white] at
-                    (0, 0) {$j$};
                     \node[draw, circle, black, thick, fill=darkerruby, text=white] at
-                    (3, 0) {$k$};
-                \end{scope}
-                % TODO: Finish this figure
-                \begin{scope}[yshift=-2cm]
-                    \draw (-4, 0) node[anchor=east] {$(k, j, i)$} -- (4, 0);
-                    \draw[black, thick, fill=magenta] (-3, 0) circle (0.25cm);
-                    \draw[black, thick, fill=blue] (0, 0) circle (0.25cm);
-                    \draw[black, thick, fill=red] (3, 0) circle (0.25cm);
-                \end{scope}
-                \begin{scope}[yshift=-4cm]
-                    \draw (-4, 0) node[anchor=east] {$(j, k, i)$} -- (4, 0);
-                    \draw[black, thick, fill=blue] (-3, 0) circle (0.25cm);
-                    \draw[black, thick, fill=magenta] (0, 0) circle (0.25cm);
-                    \draw[black, thick, fill=red] (3, 0) circle (0.25cm);
-                \end{scope}
-                \begin{scope}[yshift=-6cm]
-                    \draw (-4, 0) node[anchor=east] {$(i, k, j)$} -- (4, 0);
-                    \draw[black, thick, fill=red] (-3, 0) circle (0.25cm);
-                    \draw[black, thick, fill=magenta] (0, 0) circle (0.25cm);
-                    \draw[black, thick, fill=blue] (3, 0) circle (0.25cm);
+                    (0, 0) {$k$};
+                    \node[draw, circle, black, thick, fill=darkerindigo, text=white] at
+                    (3, 0) {$j$};
                 \end{scope}
             \end{tikzpicture}
-            \caption{In this figure we illustrate how a single transposition
+            \caption{Here we illustrate how a single transposition
             $\tau_{jk}$ can be replaced by a product of three transpositions
-            $\tau_{ij}\tau_{ik}\tau_{ij}$.}
+            $\tau_{ij}\tau_{ik}\tau_{ij}$.
+            In this figure the numbers represent a position inside the wave
+            function arguments, that is, the exchange operators shuffle the
+            ordering, and the labels $i$, $j$, and $k$ along with their colored
+            spheres are there to distinguish the three coordinates from another.
+            The arrows represent the action of the exchange operator from one
+            line to the next (before the exchange has occured).
+            Take care not to mistake the circles to mean particles, the
+            particles are indistinguishable after all and such a labelling is
+            not possible.}
             \label{fig:transpositions}
         \end{figure}
 
-
-
-        We define the \emph{exchange operator} $\hat{P}_{ij}$ as the
-        operator that interchanges indices $(i, j) \to (j, i)$ where $i \neq
-        j$.
-        That is,
-        \begin{align}
-            \hat{P}_{ij}\Psi(x_1, \dots, x_i, \dots, x_j, \dots, x_N)
-            = \Psi(x_1, \dots, x_j, \dots, x_i, \dots, x_N),
-        \end{align}
-        From \autoref{eq:particle-indistinguishability} we find that the
-        exchange operator is idempotent as exchanging the same pair twice
-        yields the original pair in return.
-        However, as has been stated, the two states
-        $\hat{P}_{ij}\Psi(\vf{x})$ and $\Psi(\vf{x})$ consist of
-        indistinguishable particles.
-        This means that we are unable to tell the two states apart when
-        exchanging particles.
-        The only way the two states can differ from one another is by a
-        complex phase factor $s_{ij}$, where $s_{ij}^2 = 1$ due the exchange
-        operator being idempotent.
-        We then find $s_{ij} = \pm 1$.
-        Depending on the sign of the phase we denote the state as either
-        symmetric or anti-symmetric.
-        If the eigenvalue is positive we call it a \emph{symmetric} state
-        whereas a negative eigenvalue signifies an \emph{anti-symmetric}
-        state.
-        A wave function which is symmetric under exchange consists of
-        \emph{bosons} whereas an anti-symmetric wave function denotes
-        \emph{fermions}.
-
-
-        We define the permutation operator $\hat{P}_{\sigma}$ as the
-        operator that interchanges the position of the particles in
-        $\Psi(\vf{x})$ by \emph{transpositions} of pairs.
-        This yields
-        \begin{align}
-            \hat{P}_{\sigma}\Psi(x_1, \dots, x_N)
-            &= s_{\sigma}\Psi(x_{\sigma(1)}, \dots, x_{\sigma(N)}),
-        \end{align}
-        where $s_{\sigma}$ is an eigenvalue of the permutation operator
-        depending on the type of particles.
-
         \subsection{Pauli exclusion principle}
-            % TODO: Include the spin-statistics theorem.
-            An interesting result of the anti-symmetric property of
-            fermions is that we can never have a system containing two
-            fermions \emph{in the same state}.
-            One way of demonstrating this phenomenom is through the use of
-            the exchange operator $\hat{P}_{ij}$ as described above.
-            Consider a fully anti-symmetric wave function $\ket{\Psi}$
-            that is, a wave function describing a system of fermions, where
-            two of the particles are in the same state.
-            Let $\hat{P}_{ij}$ be the exchange operator that exchanges these
-            two particles.
-            We then get
+            An interesting result of the anti-symmetric property of fermions is
+            that we can never have a system containing two fermions \emph{in the
+            same state}.
+            We demonstrate this by considering an anti-symmetric wave function
+            $\psi(\vf{x})$ where $\vf{x} = (x_1, \dots, x_N) \in X^{N}$ is the
+            coordinates of the $N$ particles in the system.
+            We now that the eigenvalue of $\hat{P}_{ij}$ on $\psi(\vf{x})$ will
+            be $p = -1$, that is,
             \begin{align}
-                \ket{\Psi}
-                =
-                \hat{P}_{ij}\ket{\Psi}
-                = -\ket{\Psi}
-                = 0,
+                \hat{P}_{ij}\psi(\vf{x})
+                = \psi(\vf{x}_{ij})
+                = -1\psi(\vf{x}),
             \end{align}
-            where we see that the exchange operator leaves the state
-            unchanged, but introduces a sign change which necessarily means
-            that the state is not permitted.
+            where we interpret $\vf{x}_{ij}$ as the same collection of
+            coordinates as $\vf{x}$ but with $x_i$ and $x_j$ interchanged.
+            Now, if $x_i = x_j$ in $\vf{x}$ then get
+            \begin{gather}
+                \hat{P}_{ij}\psi(\vf{x})
+                = \psi(\vf{x}_{ij})
+                = \psi(\vf{x})
+                = -1\psi(\vf{x}),
+            \end{gather}
+            which means that $\psi(\vf{x}) = 0$ for the equation to be
+            satisified.
             This observation is known as the \emph{Pauli exclusion
             principle}.
-
+            It is not so much that fermions aren't \emph{allowed} to be in the
+            same state, but a fact of life that such things does not exist as
+            they would immediately annihilate one another.
 
 
     \section{Spin-orbitals}
