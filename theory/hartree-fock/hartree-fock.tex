@@ -923,27 +923,33 @@
                 \ket{\phi_P}
                 = \ket{\varphi^{\sigma}_{p}\sigma},
             \end{align}
-            where $P \in \brac{1, \dots, L}$, $p \in \brac{1, \dots, L / 2}$,
-            and $\sigma \in \brac{\alpha, \beta}$.
+            where $P \in \brac{1, \dots, L}$, $\sigma \in \brac{\alpha, \beta}$,
+            and $p \in \brac{1, \dots, L_{\sigma}}$.
+            We have that $L = L_{\alpha} + L_{\beta}$ and we have refrained from
+            labelling the lower case orbital indices as they always occur with a
+            spin index.
             Note that there is no implicit sum over the label $\sigma$ in the
             orbital $\varphi^{\sigma}_{p}$ and the spin-function $\sigma(m_s)$.
             We can collect the orbitals in two sets
-            $\brac{\ket{\varphi^{\alpha}_{p}}_{p = 1}^{L / 2}}$ and
-            $\brac{\ket{\varphi^{\beta}_{p}}_{p = 1}^{L / 2}}$.
+            $\brac{\ket{\varphi^{\sigma}_{p}}}_{p = 1}^{L_{\sigma}}$, one for
+            each spin-direction.
             The ground state Slater determinant can then be written
             \begin{align}
                 \ketslat
                 &=
-                \ket{\phi_1 \phi_2 \dots \phi_{L - 1} \phi_L}
+                \ket{\phi_1 \phi_2 \dots \phi_{N - 1} \phi_N}
                 =
                 \ket{
                     (\varphi^{\alpha}_{1}\alpha)
+                    \dots
+                    (\varphi^{\alpha}_{N_{\alpha}}\alpha)
                     (\varphi^{\beta}_{1}\beta)
                     \dots
-                    (\varphi^{\alpha}_{L/2}\alpha)
-                    (\varphi^{\beta}_{L/2}\beta)
-                }.
+                    (\varphi^{\beta}_{N_{\beta}}\beta)
+                },
             \end{align}
+            where $N_{\sigma}$ is the number of particles with spin
+            $\sigma(m_s)$.
             The orthonormality of the molecular orbitals is given by
             \begin{align}
                 \braket{\phi_P}{\phi_Q}
