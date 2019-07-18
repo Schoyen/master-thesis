@@ -63,6 +63,63 @@
         \subsection{The Schrödinger equation}
 
     \section{Time-independent Schrödinger equation}
+
+    \section{Density operators}
+        \label{sec:density-operators}
+        When working with many-body quantum mechanics, computing expectation
+        values can at times prove easier when done using density matrices. A
+        general density matrix of a \emph{pure state} is on the form
+        \begin{align}
+            \densitymatrix = \ket{\psi}\bra{\psi},
+        \end{align}
+        that is, a pure state is a quantum state $\ket{\psi}$ containing the
+        maximum amount of information about a given system. For a \emph{mixed
+        state}, i.e., a linear combination of pure states $\ket{\psi_k}$ with a
+        classical probability $p_k$ associated with the state, we get a density
+        matrix on the form
+        \begin{align}
+            \densitymatrix = \sum_{k} p_k \ket{\psi_k}\bra{\psi_k}.
+        \end{align}
+        Any density operator must satisfy the following
+        properties \cite{modern-qm}:
+        \begin{enumerate}
+            \item Hermiticity, that is
+                \begin{align}
+                    p_k = p_k^{*} \implies \densitymatrix = \densitymatrix^{\dagger}.
+                \end{align}
+                This translates to the probabilities being real, $p_k \in
+                \mathbb{R}$.
+            \item Positivity,
+                \begin{align}
+                    p_k \geq 0 \implies \bra{\chi}\densitymatrix\ket{\chi} \geq 0.
+                \end{align}
+                In other words, density matrices are \emph{positive
+                semidefinite}.
+            \item Normalization of the probabilities,
+                \begin{align}
+                    \sum_{k} p_k = 1 \implies \tr(\densitymatrix),
+                \end{align}
+                that is, the probabilities must sum up to one.
+        \end{enumerate}
+        Furthermore, by squaring the density matrix and taking the trace we can
+        infer if the system we are perusing is in a mixed state or a pure state
+        \cite{modern-qm}.
+        \begin{align}
+            \tr(\densitymatrix^2) = \sum_{k} p_k^2 \leq 1,
+        \end{align}
+        with equality if, and only if, the system is in a pure state, viz.
+        \begin{align}
+            \densitymatrix = \ket{\psi}\bra{\psi}
+            \implies \densitymatrix^2 = \densitymatrix
+            \implies \tr(\densitymatrix^2) = 1.
+        \end{align}
+        Using density matrices, we can compute the expectation value of any
+        operator $\hat{O}$, by \cite{modern-qm}
+        \begin{align}
+            \expv{O} = \tr(\hat{O}\densitymatrix).
+        \end{align}
+        % TODO: Work this out further
+
     \section{The variational principle}
         The variational principle tells us that the ``true'' ground state energy
         $\energy_1$, i.e., the lowest energy eigenvalue of the Hamiltonian
@@ -497,63 +554,6 @@
         operator using known numerical integration methods.
 
     \section{The time-dependent variational principle}
-
-
-    \section{Density operators}
-        \label{sec:density-operators}
-        When working with many-body quantum mechanics, computing expectation
-        values can at times prove easier when done using density matrices. A
-        general density matrix of a \emph{pure state} is on the form
-        \begin{align}
-            \densitymatrix = \ket{\psi}\bra{\psi},
-        \end{align}
-        that is, a pure state is a quantum state $\ket{\psi}$ containing the
-        maximum amount of information about a given system. For a \emph{mixed
-        state}, i.e., a linear combination of pure states $\ket{\psi_k}$ with a
-        classical probability $p_k$ associated with the state, we get a density
-        matrix on the form
-        \begin{align}
-            \densitymatrix = \sum_{k} p_k \ket{\psi_k}\bra{\psi_k}.
-        \end{align}
-        Any density operator must satisfy the following
-        properties \cite{modern-qm}:
-        \begin{enumerate}
-            \item Hermiticity, that is
-                \begin{align}
-                    p_k = p_k^{*} \implies \densitymatrix = \densitymatrix^{\dagger}.
-                \end{align}
-                This translates to the probabilities being real, $p_k \in
-                \mathbb{R}$.
-            \item Positivity,
-                \begin{align}
-                    p_k \geq 0 \implies \bra{\chi}\densitymatrix\ket{\chi} \geq 0.
-                \end{align}
-                In other words, density matrices are \emph{positive
-                semidefinite}.
-            \item Normalization of the probabilities,
-                \begin{align}
-                    \sum_{k} p_k = 1 \implies \tr(\densitymatrix),
-                \end{align}
-                that is, the probabilities must sum up to one.
-        \end{enumerate}
-        Furthermore, by squaring the density matrix and taking the trace we can
-        infer if the system we are perusing is in a mixed state or a pure state
-        \cite{modern-qm}.
-        \begin{align}
-            \tr(\densitymatrix^2) = \sum_{k} p_k^2 \leq 1,
-        \end{align}
-        with equality if, and only if, the system is in a pure state, viz.
-        \begin{align}
-            \densitymatrix = \ket{\psi}\bra{\psi}
-            \implies \densitymatrix^2 = \densitymatrix
-            \implies \tr(\densitymatrix^2) = 1.
-        \end{align}
-        Using density matrices, we can compute the expectation value of any
-        operator $\hat{O}$, by \cite{modern-qm}
-        \begin{align}
-            \expv{O} = \tr(\hat{O}\densitymatrix).
-        \end{align}
-        % TODO: Work this out further
 
     \section{Quantizing the electromagnetic field}
         \subsection{Dipole moment}
