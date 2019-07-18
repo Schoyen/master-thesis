@@ -360,7 +360,7 @@
         Moving to the time domain, the dynamics of an isolated quantum system is
         described by the Schrödinger equation
         \begin{align}
-            i\hslash \dod{}{t}\ket{\psi(t)}
+            i\hslash \dpd{}{t}\ket{\psi(t)}
             = \hamil(t)\ket{\psi(t)}.
             \label{eq:tdse}
         \end{align}
@@ -381,41 +381,105 @@
         triggers a reaction in the dynamics of the system.
 
     \section{The time evolution operators}
-        We will in the following subsection stay close to the derivation of
-        \citeauthor{ullrich2011time} \cite{ullrich2011time}, section 3.1.2, and
-        \citeauthor{joachain2012atoms} \cite{joachain2012atoms}, section 5.1.
+        %We will in the following subsection stay close to the derivation of
+        %\citeauthor{ullrich2011time} \cite{ullrich2011time}, section 3.1.2, and
+        %\citeauthor{joachain2012atoms} \cite{joachain2012atoms}, section 5.1.
         Any solution to the time-dependent Schrödinger equation is given by
         \begin{align}
-            \ket{\Psi(t)} = \hat{U}(t, t_0)\ket{\Psi(t_0)},
+            \ket{\psi(t)} = \hat{U}(t, t_0)\ket{\psi(t_0)},
         \end{align}
         where $\hat{U}(t, t_0)$ is the time evolution operator that acts on the
-        initial state $\ket{\Psi(t_0)}$, and yields the state $\ket{\Psi(t)}$ at
-        some later time $t$. The time evolution operators are unitary at common
-        times, viz.
+        initial state $\ket{\psi(t_0)}$, and yields the state $\ket{\psi(t)}$ at
+        some other time $t$.
+        The time evolution operators are unitary at common times, viz.
         \begin{align}
             \hat{U}^{\dagger}(t, t_0)\hat{U}(t, t_0) = \1.
         \end{align}
         This means that we can go ``backwards in time'' in the sense that going
-        from $\ket{\Psi(t)} \to \ket{\Psi(t_0)}$ is done by
+        from $\ket{\psi(t)} \to \ket{\psi(t_0)}$ is done by
         \begin{align}
-            \ket{\Psi(t_0)} = \hat{U}^{\dagger}(t, t_0)\ket{\Psi(t)}.
+            \ket{\psi(t_0)} = \hat{U}^{\dagger}(t, t_0)\ket{\psi(t)}.
         \end{align}
         Furthermore, we can compose a time evolution operator from other time
         evolution operators as
         \begin{align}
-            \hat{U}(t_2, t_0) = \hat{U}(t_2, t_1)\hat{U}(t_1, t_0),
+            \hat{U}(t_2, t_0) = \hat{U}(t_2, t_1)\hat{U}(t_1, t_0).
         \end{align}
-        where $t_2 \geq t_1 \geq t_0$. If the Hamiltonian is time-independent,
-        i.e., $\hat{H}(t) = \hat{H}$, the time evolution operator takes on the
-        form
+        One way to realise this is that we are allowed to have intermediate
+        states between two points in time $t_2$ and $t_0$.
+        This seemingly benign result is important for our numerical time
+        propagation schemes as we make use of this property to move between
+        two time points using many small intermediate steps, where smaller steps
+        in general yields lower errors.
+        The time evolution operator can be found by solving the time-dependent
+        Schrödinger equation
+        \begin{gather}
+            i\dpd{}{t}\hat{U}(t, t_0) = \hamil(t)\hat{U}(t, t_0),
+        \end{gather}
+        where we've inserted $\ket{\psi(t)} = \hat{U}(t, t_0)\ket{\psi(t_0)}$
+        into \autoref{eq:tdse} and removed the initial state $\ket{\psi(t_0)}$
+        as it is independent of the time-derivative.
+        Now, if the Hamiltonian is time-independent, i.e., $\hat{H}(t) =
+        \hat{H}$, the time evolution operator takes on the closed form solution
         \begin{align}
             \hat{U}(t, t_0) = \exp\brac{
-                \frac{-i \hat{H} (t - t_0)}{\hslash}
+                \frac{-i \hamil}{\hslash} (t - t_0)
             }.
             \label{eq:ti-evolution}
         \end{align}
-        However, if the Hamiltonian is time-dependent, the time evolution
-        operator takes on a much more complicated shape.
+        Assuming we have found the spectrum of our time-independent Hamiltonian,
+        where $(E_n, \psi_n)$ are the eigenpairs, and we use this as our initial
+        state $\ket{\psi(t_0)} = \ket{\psi_n}$, we find that
+        \begin{gather}
+            \ket{\psi_n(t)}
+            = \exp{\frac{-i\hamil}{\hslash}(t - t_0)}\ket{\psi_n}
+            = \exp{\frac{-i E_n}{\hslash} (t - t_0)}\ket{\psi_n},
+        \end{gather}
+        where $\ket{\psi_n(t)}$ is a \emph{stationary state}.
+        This means that all expectation values are stationary in time as can be
+        seen from
+        \begin{align}
+            \expv{O(t)}
+            &= \mel{\psi_n(t)}{\hat{O}}{\psi_n(t)}
+            = \mel{\psi_n}{\hat{O}}{\psi_n}
+            = \expv{O},
+        \end{align}
+        where the time dependence cancel.
+        However, a general time-dependent state $\ket{\psi(t)}$ can be written
+        as a linear combination of the spectrum of stationary states.
+        \begin{align}
+            \ket{\psi(t)} = \sum_{n = 1}^{\infty}c_n(t)\ket{\psi_n},
+        \end{align}
+        where we've absorved the time-dependency into the coefficients and
+        require that the coefficients squared sum up to unity.
+        This means that even though the Hamiltonian is time-independent, the
+        states themselves are not stationary.
+        Now, all observables that commute with the time-independent Hamiltonian
+        will still be time-indepedent for $\ket{\psi(t)}$.
+        We can see this by looking at a time-independent observable $\hat{Q}$
+        which commute with the time-independent Hamiltonian such that the
+        eigenstate of the Hamiltonian will be eigenstates of $\hat{Q}$ with
+        eigenvalues $q_n$.
+        We then have
+        \begin{align}
+            \expv{Q(t)}
+            &= \mel{\psi(t)}{\hat{Q}}{\psi(t)}
+            = \sum_{n, m = 1}^{\infty} c^{*}_n(t) c_m(t)
+            \mel{\psi_n}{\hat{Q}}{\psi_m}
+            \\
+            &= \sum_{n, m = 1}^{\infty}
+            c^{*}_n(t) c_m(t) q_n \delta_{nm}
+            = \sum_{n = 1}^{\infty}
+            \abs{c_n(t)}^2 q_n
+            = \sum_{n = 1}^{\infty}
+            q_n,
+        \end{align}
+        which shows that the observables that commute with the time-independent
+        Hamiltonian are time-independent.
+
+
+        In the case of a time-dependent Hamiltonian, the time evolution operator
+        takes on a more complicated shape.
         \begin{align}
             \hat{U}(t, t_0) =
             \mathcal{T}\exp\brac{
@@ -424,11 +488,13 @@
             },
             \label{eq:td-evolution}
         \end{align}
-        where $\mathcal{T}$ is the time-ordering operator. As an extra
-        complicating factor, the time-dependent Hamiltonian might not commute
-        with itself at different times. Here \autoref{eq:ti-evolution} and
-        \autoref{eq:td-evolution} serve as the theoretical foundation for how
-        the time-evolution is practically done in a numerical scheme.
+        where $\mathcal{T}$ is the time-ordering operator.
+        As an extra complicating factor, the time-dependent Hamiltonian might
+        not commute with itself at different times.
+        The time-evolution operator shown in \autoref{eq:td-evolution} serve as
+        a theoretical foundation for the time-evolution.
+        However, we will see later in the thesis how can approximate this
+        operator using known numerical integration methods.
 
     \section{The time-dependent variational principle}
 
