@@ -770,7 +770,7 @@
                 = \bra{\slat}
                 \para{\1 + \clustl}
                 e^{-\clust(g)}
-                \com{\hamil(g)}{\clust_{\nu}}
+                \com{\hamil(g)}{\hat{X}_{\nu}}
                 e^{\clust(g)}
                 \ketslat
                 = 0,
@@ -905,6 +905,80 @@
             and $\clustl$.
 
         \subsection{The non-orthogonal coupled cluster method}
+            Including explicit orbital rotations in the coupled cluster
+            Lagrangian is a technique to make the coupled cluster method gauge
+            invariant \cite{gauge-invariant-thomas, gauge-invariant-thomas-2}
+            and have it satisfy Ehrenfest's theorem \cite{rolf-nocc}.
+            There exists several methods that include orbital rotations in the
+            coupled cluster formalism, such as, the orbital optimized coupled
+            cluster method, and the Brueckner coupled cluster method.
+            % TODO: Add citations from Rolf to these?
+            These methods do suffer from certain defects, where the former does
+            not converge to the full configuration interaction method in the
+            untruncated limit, and the latter yields unphysical results in the
+            second order poles in the response function \cite{rolf-nocc}.
+            However, the method we will discuss is the non-orthogonal coupled
+            cluster method \cite{gauge-invariant-thomas-2} in which we relax the
+            requirement that the orbital transformations should be unitary
+            \cite{rolf-nocc}.
+            This method has been demonstrated to converge to the full
+            configuration interaction method in the untruncated limit
+            \cite{rolf-nocc}.
+            This yields bi-orthogonal orbitals leading to a bi-variational
+            Lagrangian \cite{kvaal2013variational} in a formulation resembling
+            that of \citeauthor{arponen1983311} \cite{arponen1983311}.
+
+            In the non-orthogonal method we introduce a singles operators
+            $\nocc$ given by
+            \begin{align}
+                \nocc = \noccten_{pq}\ccr{p}\bican{q},
+            \end{align}
+            where $\bican{p}$ is an annihilation operator for a bi-orthogonal
+            Hilbert space.
+            Note that in general $\para{\bican{p}}^{\dagger} \neq \ccr{p}$, but
+            we have
+            \begin{align}
+                \acom{\bican{p}}{\ccr{q}} = \delta_{pq},
+            \end{align}
+            that is, the anti-commutation relations hold and we can still
+            utilize Wick's theorem \cite{kvaal2012ab}, as long as the original
+            atomic orbitals basis is orthonormal.
+            % TODO: Maybe make a bigger point out of this?
+            We have that $\noccten_{aa} = \noccten_{ii} = 0$ which lets
+            separate the orbital rotation operator in two blocks.
+            \begin{align}
+                \nocc
+                = \noccten_{ai} \ccr{a}\bican{i}
+                + \noccten_{ia} \ccr{i}\bican{a}
+                \equiv
+                \nocc^{u} + \nocc^{d},
+            \end{align}
+            where we've introduced the labels $u$ and $d$ for up and down
+            respectively \cite{rolf-nocc}.
+            Constructing the bi-variational non-orthogonal coupled cluster
+            Lagrangian
+            \begin{align}
+                L[\clustamp_{\mu}, \clustlamp_{\mu}, \nocc^{u}, \nocc^{d}]
+                &= \mel*{\tilde{\Psi}}{\hamil}{\Psi}
+                = \mel*{\tilde{\slat}}{
+                    \para{\1 + \clustl}
+                    e^{-\clust} e^{-\nocc}
+                    \hamil
+                    e^{\nocc} e^{\clust}
+                }{\slat},
+            \end{align}
+            where we've introduced the left reference state
+            \begin{align}
+                \bra*{\tilde{\slat}}
+                = \bra*{\tilde{\phi}_1, \dots, \tilde{\phi}_N}
+                = \bra{\vac}\bican{1}\dots\bican{N},
+            \end{align}
+            as the bi-orthogonal dual state of the right reference state defined
+            in the normal way.
+            We require that $\bra*{\tilde{\Psi}}$ and $\ket{\Psi}$ must satisfy
+            the standard coupled cluster equations \cite{rolf-nocc}.
+            % TODO: Discuss how kappa is zero when computing right-hand sides
+            % TODO: Add equations for tau, lambda, and kappa.
 
     \section{Time-dependent coupled cluster theory}
         Stuff!
