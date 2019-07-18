@@ -356,7 +356,30 @@
         expectation value that we wish to measure as finding the optimal
         parameters for the energy is enough.
 
-    \section{Time-dependent Schrödinger equation}
+    \section{The time-dependent Schrödinger equation}
+        Moving to the time domain, the dynamics of an isolated quantum system is
+        described by the Schrödinger equation
+        \begin{align}
+            i\hslash \dod{}{t}\ket{\psi(t)}
+            = \hamil(t)\ket{\psi(t)}.
+            \label{eq:tdse}
+        \end{align}
+        Given $\ket{\psi(t_0)}$ the time-dependent Schrödinger equation will
+        determine $\ket{\psi(t)}$ for all earlier and later times.
+        A point to note is that the time-dependent Schrödinger equation does not
+        require that the initial state $\ket{\psi(t)}$ be a ``meaningfull
+        state'', the equation will evolve this state -- whatever it is -- in
+        time governed by the time-dependent Hamiltonian $\hamil(t)$.
+        This is an important point in the sense that solving the time-dependent
+        Schrödinger equation for a specific Hamiltonian can prove a great
+        challenge.
+        The approach that we take in this thesis is to choose an initial state,
+        most often the approximation we have for the ground state of the
+        time-independent Schrödinger equation, and evolve this state in time.
+        This can be thought of as ``preparing'' a system in the ground state and
+        then ``disturbing'' the system with an external interaction which
+        triggers a reaction in the dynamics of the system.
+
     \section{The time evolution operators}
         We will in the following subsection stay close to the derivation of
         \citeauthor{ullrich2011time} \cite{ullrich2011time}, section 3.1.2, and
