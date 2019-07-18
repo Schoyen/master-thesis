@@ -20,16 +20,16 @@ weight = 4
 center = 0
 deviation = 1
 
-grid_length = 30
-num_grid_points = 601
+grid_length = 20
+num_grid_points = 401
 
 odqd = ODQD(n, l, grid_length, num_grid_points)
 odqd.setup_system(potential=GaussianPotential(weight, center, deviation, np))
 
 omega = 1
-E = 10
+E = 2
 
-laser_pulse = lambda t: E * np.sin(omega * t)
+laser_pulse = lambda t: E * np.sin(omega * t) if t < 5 else 0
 odqd.set_time_evolution_operator(LaserField(laser_pulse))
 
 plt.plot(odqd.grid, odqd.potential(odqd.grid))
@@ -43,6 +43,7 @@ for i in range(l // 2):
 
 plt.legend(loc="best")
 plt.show()
+
 
 hf = HartreeFock(odqd, verbose=True)
 hf.compute_ground_state(tol=1e-10)
@@ -79,6 +80,10 @@ def animate(i):
     return (line,)
 
 
+plt.plot(
+    odqd.grid,
+    odqd.potential(odqd.grid) / np.max(np.abs(odqd.potential(odqd.grid))) + 1,
+)
 anim = animation.FuncAnimation(
     fig, animate, init_func=init, frames=20, interval=20, blit=True
 )
