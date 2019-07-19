@@ -19,7 +19,7 @@ oatdccd = OATDCCD(lih, verbose=True)
 oatdccd.compute_ground_state(tol=1e-8, termination_tol=1e-8)
 oatdccd.set_initial_conditions()
 
-time_points = get_time_points(t_end=0.2)
+time_points = get_time_points()
 num_steps = len(time_points)
 
 dipole_x = np.zeros(num_steps, dtype=np.complex128)
