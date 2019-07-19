@@ -24,6 +24,7 @@ num_steps = len(time_points)
 
 dipole_x = np.zeros(num_steps, dtype=np.complex128)
 dipole_z = np.zeros(num_steps, dtype=np.complex128)
+energy = np.zeros(num_steps, dtype=np.complex128)
 
 t, l, C, C_tilde = oatdccd.amplitudes
 
@@ -34,6 +35,7 @@ rho = oatdccd.compute_one_body_density_matrix()
 
 dipole_x[0] = np.trace(rho @ x)
 dipole_z[0] = np.trace(rho @ x)
+energy[0] = oatdccd.compute_energy()
 
 
 for i, amp in tqdm.tqdm(
@@ -48,6 +50,7 @@ for i, amp in tqdm.tqdm(
 
     dipole_x[i + 1] = np.trace(rho @ x)
     dipole_z[i + 1] = np.trace(rho @ x)
+    energy[i + 1] = oatdccd.compute_energy()
 
 
 write_data(
@@ -55,5 +58,21 @@ write_data(
 )
 
 write_data(
+    os.path.join(path, "dipole_x_oatdccd_imag.dat"), time_points, dipole_x.imag
+)
+
+write_data(
     os.path.join(path, "dipole_z_oatdccd_real.dat"), time_points, dipole_z.real
+)
+
+write_data(
+    os.path.join(path, "dipole_z_oatdccd_imag.dat"), time_points, dipole_z.imag
+)
+
+write_data(
+    os.path.join(path, "energy_oatdccd_real.dat"), time_points, energy.real
+)
+
+write_data(
+    os.path.join(path, "energy_oatdccd_imag.dat"), time_points, energy.imag
 )
