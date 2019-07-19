@@ -38,19 +38,24 @@ dipole_z[0] = np.trace(rho @ x)
 energy[0] = oatdccd.compute_energy()
 
 
-for i, amp in tqdm.tqdm(
-    enumerate(oatdccd.solve(time_points)), total=len(time_points) - 1
-):
-    t, l, C, C_tilde = amp
+try:
+    for i, amp in tqdm.tqdm(
+        enumerate(oatdccd.solve(time_points)), total=len(time_points) - 1
+    ):
+        t, l, C, C_tilde = amp
 
-    x = C_tilde @ lih.dipole_moment[0] @ C
-    z = C_tilde @ lih.dipole_moment[2] @ C
+        x = C_tilde @ lih.dipole_moment[0] @ C
+        z = C_tilde @ lih.dipole_moment[2] @ C
 
-    rho = oatdccd.compute_one_body_density_matrix()
+        rho = oatdccd.compute_one_body_density_matrix()
 
-    dipole_x[i + 1] = np.trace(rho @ x)
-    dipole_z[i + 1] = np.trace(rho @ x)
-    energy[i + 1] = oatdccd.compute_energy()
+        dipole_x[i + 1] = np.trace(rho @ x)
+        dipole_z[i + 1] = np.trace(rho @ x)
+        energy[i + 1] = oatdccd.compute_energy()
+
+except Exception:
+    # Save data in case of crash
+    pass
 
 
 write_data(
