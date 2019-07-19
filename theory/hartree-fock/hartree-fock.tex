@@ -482,26 +482,37 @@
             \end{align}
             where $\vfg{C} \in \mathbb{C}^{K\times L}$ is now our unknown
             coefficient matrix.
+            The orthonormality condition of the molecular orbitals can no be
+            formulated as
+            \begin{align}
+                \braket{\phi_p}{\phi_q}
+                &= C^{*}_{\alpha p} C_{\beta q}
+                \braket{\chi_{\alpha}}{\chi_{\beta}}
+                = C^{*}_{\alpha p} \overlapten_{\alpha \beta}
+                C_{\beta q}
+                = \delta_{pq},
+            \end{align}
+            where we've introduced the overlap matrix $\overlapmat$ with
+            elements
+            \begin{align}
+                \braket{\chi_{\alpha}}{\chi_{\beta}} = \overlapten_{\alpha\beta}.
+            \end{align}
             By left-projecting with a state from our atomic orbital basis onto
             the canonical Hartree-Fock equations, we can create a set of
             equations in order to find the coefficients.
             \begin{gather}
-                \bra{\chi_{\alpha}}\fock\ket{\phi_q}
+                \mel{\chi_{\alpha}}{\fock}{\phi_q}
                 = \epsilon_{q} \braket{\chi_{\alpha}}{\phi_q}
                 \\
                 \implies
-                \bra{\chi_{\alpha}}\fock\ket{\chi_{\beta}} C_{\beta q}
-                = \epsilon_q C_{\beta q} \braket{\chi_{\alpha}}{\chi_{\beta}}.
+                \mel{\chi_{\alpha}}{\fock}{\chi_{\beta}} C_{\beta q}
+                = \epsilon_q C_{\beta q} \overlapten_{\alpha \beta}.
             \end{gather}
             We denote the matrix elements of the Fock operator in the atomic
             orbital basis by
             \begin{align}
-                \bra{\chi_{\alpha}}\fock\ket{\chi_{\beta}}
-                \equiv \fockten_{\alpha \beta},
-            \end{align}
-            and the overlap in the atomic orbital basis by
-            \begin{align}
-                \braket{\chi_{\alpha}}{\chi_{\beta}} = \overlapten_{\alpha\beta}.
+                \mel{\chi_{\alpha}}{\fock}{\chi_{\beta}}
+                \equiv \fockten_{\alpha \beta}.
             \end{align}
             In the case of an orthonormal basis of atomic orbitals, the overlap
             matrix $\overlapmat \in \mathbb{C}^{K \times K}$ reduces to the identity
@@ -532,10 +543,10 @@
             That is,
             \begin{align}
                 \fockten_{\alpha\beta}
-                &= \bra{\chi_{\alpha}}\fock\ket{\chi_{\beta}}
-                = \bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
+                &= \mel{\chi_{\alpha}}{\fock}{\chi_{\beta}}
+                = \mel{\chi_{\alpha}}{\onehamil}{\chi_{\beta}}
                 +
-                \bra{\chi_{\alpha}\phi_j}\twohamil\ket{\chi_{\beta}\phi_j}_{AS},
+                \mel{\chi_{\alpha}\phi_j}{\twohamil}{\chi_{\beta}\phi_j}_{AS},
             \end{align}
             where $j$ only sums over the $N$ occupied indices in the ground state
             Slater determinant.
@@ -544,15 +555,15 @@
             Formulating the elements in terms of the known atomic orbitals and
             the coefficient matrix we get
             \begin{align}
-                \bra{\chi_{\alpha}\phi_j}\twohamil\ket{\chi_{\beta}\phi_j}
+                \mel{\chi_{\alpha}\phi_j}{\twohamil}{\chi_{\beta}\phi_j}
                 &=
                 C^{*}_{\gamma j} C_{\delta j}
-                \bra{\chi_{\alpha}\chi_{\gamma}}\twohamil\ket{\chi_{\beta}\chi_{\delta}},
+                \mel{\chi_{\alpha}\chi_{\gamma}}{\twohamil}{\chi_{\beta}\chi_{\delta}},
                 \\
-                \bra{\chi_{\alpha}\phi_j}\twohamil\ket{\phi_j\chi_{\beta}}
+                \mel{\chi_{\alpha}\phi_j}{\twohamil}{\phi_j\chi_{\beta}}
                 &=
                 C^{*}_{\gamma j} C_{\delta j}
-                \bra{\chi_{\alpha}\chi_{\gamma}}\twohamil\ket{\chi_{\delta}\chi_{\beta}}.
+                \mel{\chi_{\alpha}\chi_{\gamma}}{\twohamil}{\chi_{\delta}\chi_{\beta}}.
             \end{align}
             Introducing the density matrix of the occupied orbitals
             \begin{align}
@@ -564,10 +575,10 @@
             of the atomic orbitals and the density matrix as
             \begin{align}
                 \fockten_{\alpha\beta}
-                &= \bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
+                &= \mel{\chi_{\alpha}}{\onehamil}{\chi_{\beta}}
                 +
                 D_{\delta\gamma}
-                \bra{\chi_{\alpha}\chi_{\gamma}}\twohamil\ket{\chi_{\beta}\chi_{\delta}}_{AS}.
+                \mel{\chi_{\alpha}\chi_{\gamma}}{\twohamil}{\chi_{\beta}\chi_{\delta}}_{AS}.
             \end{align}
             % TODO: Describe the SCF-procedure
             % TODO: Describe how to handle non-orthogonal atomic orbitals
