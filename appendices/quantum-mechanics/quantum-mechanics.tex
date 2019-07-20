@@ -479,10 +479,238 @@
                 -\vfg{\nabla}^2_i
                 + \vfg{r}^2_i
             }
-            + \lambda \sum_{i < j}^{N} \frac{1}{\abs{\vfg{r}_i - \vfg{r}_j}},
+            + \hslash \omega \lambda
+            \sum_{i < j}^{N} \frac{1}{\abs{\vfg{r}_i - \vfg{r}_j}},
         \end{align}
         where $\lambda$ is defined as in \autoref{eq:two-dim-ho-lambda}.
         This is the form of the Hamiltonian we wanted to show.
+
+    \section{Two-dimensional harmonic oscillator spectrum}
+        \label{app:tdho-spectrum}
+        In this section we discuss how we can find the spectrum of the
+        non-interacting two-dimensional harmonic oscillator with the
+        dimensionless Hamiltonian given in
+        \autoref{eq:tdho-one-body-hamiltonian}.
+        In order to solve the time-independent Schrödinger equation
+        \begin{align}
+            \oneten(\vfg{r})\psi(\vfg{r}) = \epsilon \psi(\vfg{r}),
+        \end{align}
+        we assume a separable solution in polar coordinates to be given by
+        \begin{align}
+            \psi(\vfg{r}) = \psi(r, \phi)
+            = R(r)\Phi(\phi),
+        \end{align}
+        where we ignore the normalization condition for now.
+        Inserted into the one-body Hamiltonian and collecting terms we get
+        \begin{gather}
+            -\frac{\Phi}{r}\dpd{}{r}\para{
+                r\dpd{}{r}
+            }R
+            - \frac{R}{r^2}\dpd[2]{}{\phi}\Phi
+            + r^2 R \Phi = \epsilon R \Phi,
+        \end{gather}
+        where we've expressed the Laplace operator in polar coordinates.
+        Next we divide by $R\Phi$ on both sides and multiply by $-r^2$.
+        This yields
+        \begin{gather}
+            \frac{r}{R}\dpd{}{r}\para{
+                r\dpd{}{r}
+            } R
+            + \frac{1}{\Phi}
+            \dpd[2]{}{\phi}
+            \Phi
+            - r^2\brak{
+                r^2 - \epsilon
+            }
+            = 0,
+        \end{gather}
+        which has now been reduced to two separate differential equations as
+        we've decoupled radial and the azimuthal dependence.
+        Introducing a dependent variable $m^2$ we can write the two equations
+        as
+        \begin{gather}
+            \frac{1}{\Phi}\dod[2]{}{\phi}\Phi = -m^2,
+            \label{eq:tdho-angular-eq}
+            \\
+            \frac{r}{R}\dod{}{r}\para{
+                r\dod{}{r}
+            }R
+            - r^2 \brak{
+                r^2 - \epsilon
+            }
+            = m^2.
+            \label{eq:tdho-radial-eq}
+        \end{gather}
+        We recognize \autoref{eq:tdho-angular-eq} as the azimuthal equation from
+        solving the Schrödinger equation in three dimensions
+        \cite{griffiths2017introduction}.
+        This solution can be expressed as
+        \begin{align}
+            \Phi(\phi) &= \exp[im\phi],
+        \end{align}
+        where we absorb the constant term into the normalization of the wave
+        function which we solve in the end.
+        Furthermore, by allowing $m$ to be negative we can avoid including the
+        negative frequency solutions $\exp{-im\phi}$
+        \cite{griffiths2017introduction}.
+
+        For the radial equation in \autoref{eq:tdho-radial-eq} we start by doing
+        a variable substitution \cite{439282}.
+        As $r \geq 0$ we define $r^2 \equiv \rho$ which yields
+        \begin{align}
+            r\dod{}{r} = r\dod{\rho}{r}\dod{}{\rho}
+            = 2r^2\dod{}{\rho}
+            = 2\rho\dod{}{\rho},
+        \end{align}
+        and for the full Laplace operator
+        \begin{align}
+            r\dod{}{r}\para{r \dod{}{r}}
+            &= 2r\dod{}{r}\para{\rho\dod{}{\rho}}
+            = 2r\para{
+                \dod{\rho}{r}\dod{}{\rho}
+                + \rho\dod{\rho}{r}\dod[2]{}{\rho}
+            }
+            \\
+            &= 4\rho\dod{}{\rho} + 4\rho^2\dod[2]{}{\rho}.
+        \end{align}
+        Now the radial equation in \autoref{eq:tdho-radial-eq} can be written
+        \begin{align}
+            \frac{4\rho}{R}\dod{R}{\rho}
+            + \frac{4\rho^2}{R}\dod[2]{R}{\rho}
+            - \rho\brak{
+                \rho - \epsilon
+            } = m^2.
+        \end{align}
+        Dividing through by $4\rho^2/R$ and moving the constant $m^2$ over to
+        the left-hand side we get
+        \begin{align}
+            \dod[2]{R}{\rho}
+            + \frac{1}{\rho}\dod{R}{\rho}
+            - \frac{1}{4\rho}\brak{
+                \rho
+                - \epsilon
+                + \frac{m^2}{\rho}
+            }R = 0
+            \label{eq:tdho-radial-sub}
+        \end{align}
+        A solution to this equation is given by \cite{439282,
+        sandev2005selection}
+        \begin{align}
+            R(\rho)
+            = \rho^{\abs{m}/2}
+            \exp[-\rho/2]
+            L(\rho),
+        \end{align}
+        where $L(\rho)$ is some function of $\rho$.
+        Computing the derivatives of $R(\rho)$ with respect to $\rho$ we get
+        \begin{gather}
+            \dod{R}{\rho}
+            = \rho^{\abs{m}/2} \exp[-\rho/2]\brak{
+                \frac{\abs{m}}{2\rho}
+                - \half
+                + \dod{}{\rho}
+            }L(\rho),
+            \\
+            \dod[2]{R}{\rho}
+            = \rho^{\abs{m}/2} \exp[-\rho/2]\brak{
+                \frac{\abs{m}}{2\rho}
+                - \half
+                + \dod{}{\rho}
+            }^2 L(\rho),
+        \end{gather}
+        where it is understood that the differential operator acts on everything
+        to its right, including the use of the product rule.
+        This means that unpacking the paranthesis for the second order
+        derivative must be done with some care.
+        Inserted into \autoref{eq:tdho-radial-sub} and dividing through by the
+        two first factors, we get
+        \begin{align}
+            \brak{
+                \frac{\abs{m}}{2\rho}
+                - \half
+                + \dod{}{\rho}
+            }^2
+            L(\rho)
+            &+ \frac{1}{\rho}
+            \brak{
+                \frac{\abs{m}}{2\rho}
+                - \half
+                + \dod{}{\rho}
+            }
+            L(\rho)
+            \nonumber \\
+            &\qquad
+            - \frac{1}{4\rho}\brak{
+                \rho
+                - \epsilon
+                + \frac{m^2}{\rho}
+            }
+            L(\rho)
+            = 0.
+        \end{align}
+        Expanding the paranthesis and collecting terms we are left with
+        \begin{align}
+            \dod[2]{L}{\rho}
+            + \frac{1}{\rho}\brak{
+                1 - \rho + \abs{m}
+            }\dod{L}{\rho}
+            + \frac{1}{2\rho}\brak{
+                \frac{\epsilon}{2}
+                - (\abs{m} + 1)
+            }L
+            = 0.
+        \end{align}
+        Finally, multiplying by $\rho$ we get
+        \begin{align}
+            \rho\dod[2]{L}{\rho}
+            + \brak{
+                \abs{m}+ 1 - \rho
+            }\dod{L}{\rho}
+            + \frac{1}{2}\brak{
+                \frac{\epsilon}{2}
+                - (\abs{m} + 1)
+            }L
+            = 0,
+        \end{align}
+        we recognize this as the differential equation where the
+        \emph{associated Laguerre polynomials}\footnote{%
+            Also known as the \emph{generalized Laguerre polynomial}.
+        } are the solutions as long as the requirement
+        \begin{align}
+            n \equiv \half\brak{
+                \frac{\epsilon}{2}
+                - (\abs{m} + 1)
+            } \geq 0,
+        \end{align}
+        with $n \in \mathbb{N}$ is upheld \cite{laguerre-polynomials}.
+        This automatically sets some restrictions on the values of $m$ and
+        $\epsilon$ as both will have to have integer values, with $\epsilon \in
+        \mathbb{N}$, and $m \in \mathbb{Z}$ as the absolute value ensures that
+        negative integers are allowed.
+        Substituting back to the regular radius $r$ we have the solution to the
+        radial equation as
+        \begin{align}
+            R_{nm}(r)
+            = r^{\abs{m}} \exp[-r^2 / 2]
+            L^{\abs{m}}_{n}(r^2),
+        \end{align}
+        where the \emph{Rodrigues formula} for the associated Laguerre
+        polynomials can be written
+        \begin{align}
+            L^{\abs{m}}_{n}(r^2)
+            &= \frac{r^{-2\abs{m}}}{n!}
+            \para{
+                \frac{1}{2r}
+                \dod{}{r}
+                - 1
+            }^{n}
+            r^{2(n + \abs{m})}.
+        \end{align}
+        Note that formula looks a little extra messy with the squared argument,
+        but luckily for us, we only need to call this function using SymPy
+        \cite{sympy}, which handles all the messy parts.
+        % TODO: Discuss orthonormality of the radial equation.
+        % TODO: Introduce the normalization constant.
 
     \section{Coulomb elements}
         \label{app:coulomb-elements}

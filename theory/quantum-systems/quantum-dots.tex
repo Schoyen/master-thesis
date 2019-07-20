@@ -373,11 +373,15 @@
                 -\vfg{\nabla}^2_i
                 + \vfg{r}^2_i
             }
-            + \lambda \sum_{i < j}^{N} \frac{1}{\abs{\vfg{r}_i - \vfg{r}_j}},
+            + \hslash\omega\lambda
+            \sum_{i < j}^{N}
+            \frac{1}{\abs{\vfg{r}_i - \vfg{r}_j}},
         \end{align}
         where we have
         \begin{align}
-            \lambda \equiv \frac{e^2}{4\pi \epsilon_0 a_0}.
+            \lambda \equiv \frac{e^2}{
+                4\pi \epsilon_0 \hslash \omega a_0
+            }.
             \label{eq:two-dim-ho-lambda}
         \end{align}
         In the article by \citeauthor{anisimovas1998energy}
@@ -389,309 +393,223 @@
         perturbation and we will therefore keep $\hslash\omega$ as they are.
         Moving to atomc units with $\hslash = m = e = (4\pi \epsilon_0)^{-1} =
         1$ we are left with the expression
+        % TODO: Perhaps lambda should include
         \begin{align}
             \hamilten(\vfg{r})
-            = \frac{\omega}{2} \sum_{i = 1}^{N}\brak{
-                -\vfg{\nabla}^2_i
-                + \vfg{r}^2_i
-            }
-            + \sqrt{\omega} \sum_{i < j}^{N} \frac{1}{\abs{\vfg{r}_i -
-            \vfg{r}_j}},
+            &= \frac{\omega}{2} \sum_{i = 1}^{N}
+            \oneten(\vfg{r}_i)
+            + \sqrt{\omega} \sum_{i < j}^{N} \twoten(\vfg{r}_i, \vfg{r}_j),
+            \label{eq:tdho-hamiltonian}
         \end{align}
         which reduces the scaling of the system down to the single parameter
         $\omega$ as the strength of the harmonic oscillator well.
+        Furthermore, we've introduced the one-body Hamiltonian
+        $\oneten(\vfg{r})$ which contains the kinetic and potential energy terms
+        and the two-body Hamiltonian $\twoten(\vfg{r}_i, \vfg{r}_j)$ for the
+        Coulomb potential.
 
+        Now, finding the spectrum of the full many-body Hamiltonian is
+        impossible for $N > 2$ and we will therefore use our repertoir of
+        many-body methods as discussed in the previous chapters.
+        However, we still need a set of atomic orbitals to start our
+        calculations and a natural starting point is the analytical solutions to
+        the one-body Hamiltonian.
+        If $\lambda$ is small, this can turn out to be a very good approximation
+        as we are close to the non-interacting case where the spectrum of the
+        Hamiltonian is the spectrum of the one-body Hamiltonian.
+        If $\lambda$ becomes large this approximation will turn out to be poor
+        and there exists better orbital sets, e.g., the molecular orbitals from
+        the Hartree-Fock method.
+        Still, both solutions requires an initial guess and we might as well
+        choose the spectrum of the one-body Hamiltonian as there exists closed
+        form solutions for these single particle functions.
 
-        % TODO: Shortly describe the systeym.
-        We now look for a solution to the time-independent Schrödinger equation
-        on the form
-        \begin{align}
-            \oneten(r, \phi)\psi(r, \phi) = \epsilon \psi(r, \phi),
-        \end{align}
-        where we assume a separable solution, viz.
-        \begin{align}
-            \phi(r, \phi) = R(r)\Phi(\phi).
-        \end{align}
-        Inserted into the one-body Hamiltonian and collecting terms that are
-        acted upon by the differential operators to the right of the operators.
-        \begin{gather}
-            -\frac{\hslash^2}{2m}\brak{
-                \frac{\Phi}{r}\dpd{}{r}\para{
-                    r\dpd{}{r}
-                }R
-                + \frac{R}{r^2}\dpd[2]{}{\phi}\Phi
-            }
-            + v R \Phi = \epsilon R \Phi.
-        \end{gather}
-        Next we divide by $R\Phi$ on both sides and multiply with $-2m r^2
-        /\hslash^2$.
-        This yields
-        \begin{gather}
-            \frac{r}{R}\dpd{}{r}\para{
-                r\dpd{}{r}
-            } R
-            + \frac{1}{\Phi}
-            \dpd[2]{}{\phi}
-            \Phi
-            - \frac{2m r^2}{\hslash^2} \brak{
-                v(r) - \epsilon
-            } = 0,
-        \end{gather}
-        which has now been reduced to two separate differential equations.
-        Introducing a dependent variable $- m^2$ we can write the two equations
-        as
-        \begin{gather}
-            \frac{1}{\Phi}\dod[2]{}{\phi}\Phi = -m^2,
-            \label{eq:tdho-angular-eq}
-            \\
-            \frac{r}{R}\dod{}{r}\para{
-                r\dod{}{r}
-            }R
-            - \frac{2\mu r^2}{\hslash^2}\brak{
-                v(r) - \epsilon
-            }
-            = -m^2,
-            \label{eq:tdho-radial-eq}
-        \end{gather}
-        where we've relabeled the mass variable $m \to \mu$ to avoid confusion
-        with the newly introduced quantity $m$.
-        We recognize \autoref{eq:tdho-angular-eq} as the azimuthal equation from
-        the solving the Schrödinger equation in three dimensions
-        \cite{griffiths2017introduction}.
-        The solution can be expressed as
-        \begin{align}
-            \Phi(\phi) &= \exp[im\phi],
-        \end{align}
-        where we absorb the constant term into the normalization of the wave
-        function which we solve in the end.
-        Furthermore, by allowing $m$ to be negative we can avoid including the
-        negative frequency solutions $\exp{-im\phi}$.
-        The radial equation in \autoref{eq:tdho-radial-eq} represents a slightly
-        more complicated equation.
-        Expanding the differential operators to
-        \begin{align}
-            \dod{}{r}\para{
-                r\dod{}{r}
-            }R
-            = \dod{R}{r} + r\dod[2]{R}{r},
-        \end{align}
-        and multiplying through by $R/r^2$ we can write
-        \autoref{eq:tdho-radial-eq} as
-        \begin{gather}
-            \dod[2]{R}{r}
-            + \frac{1}{r}\dod{R}{r}
-            + \brak{
-                \frac{2\mu \epsilon}{\hslash^2}
-                - \frac{\mu^2\omega^2}{\hslash^2} r^2
-                + \frac{m^2}{r^2}
-            } R
-            = 0,
-        \end{gather}
-        where we've inserted the explicit expression for the harmonic oscillator
-        potential.
-        The solution to this equation is given by \cite{sandev2005selection}
-        \begin{align}
-            R_{nm}(r)
-            = r^{\abs{m}}
-            \exp[-a^2 r^2/2]
-            \rho(r),
-        \end{align}
-        where $\rho(r)$ is a function of $r$ and $a$ is the Bohr radius.
-        % TODO: This is the inverse of the Bohr radius!!!!
-        Now, finding the derivatives $R_{nm}(r)$ with respect to $r$ yields
-        \begin{gather}
-            \dod{}{r}R_{nm}(r)
-            = r^{\abs{m}} \exp[-a^2 r^2 / 2] \brak{
-                \frac{\abs{m}}{r} - a^2 r + \dod{}{r}
-            }\rho(r),
-            \\
-            \dod[2]{}{r}R_{nm}(r)
-            = r^{\abs{m}} \exp[-a^2 r^2 / 2] \brak{
-                \frac{\abs{m}}{r} - a^2 r + \dod{}{r}
-            }^2\rho(r).
-        \end{gather}
-        Inserted back into the radial equation and dividing through by the terms
-        in front of $\rho$ in $R_{nm}$ we get
-        \begin{align}
-            \brak{
-                \frac{\abs{m}}{r} - a^2 r + \dod{}{r}
-            }^2 \rho
-            &+ \frac{1}{r}\brak{
-                \frac{\abs{m}}{r} - a^2 r + \dod{}{r}
-            }\rho
-            \nonumber \\
-            &\qquad
-            + \brak{
-                \frac{2\mu \epsilon}{\hslash^2}
-                - \frac{\mu^2\omega^2}{\hslash^2} r^2
-                + \frac{m^2}{r^2}
-            } \rho
-            = 0.
-        \end{align}
-        % TODO: Continue from here
+        \subsubsection{The spectrum of the two-dimensional harmonic oscillator}
+            For the non-interacting case the Hamiltonian in
+            \autoref{eq:tdho-hamiltonian} reduces to the one-body Hamiltonian
+            which on coordinate form is given by
+            \begin{align}
+                \oneten(\vfg{r})
+                = -\vfg{\nabla}^2 + \vfg{r}^2,
+                \label{eq:tdho-one-body-hamiltonian}
+            \end{align}
+            where we've dropped the indices on the particles and left the energy
+            scaling in the full Hamiltonian.
+            We now look for a solution to the time-independent Schrödinger equation
+            \begin{align}
+                \oneten(\vfg{r})\psi(\vfg{r}) = \epsilon \psi(\vfg{r}),
+            \end{align}
+            where $\para{\epsilon, \psi(\vfg{r})}$ are the eigenpairs of the
+            non-interacting two-dimensional harmonic oscillator.
+            The eigenstates to this equation in polar coordinates is
+            \begin{align}
+                \psi_{nm}(r, \phi)
+                &= \sqrt{\frac{(2n)!}{2\pi(\abs{m} + n)!}}
+                \exp[i m \phi]
+                r^{\abs{m}}
+                \exp[-r^2 / 2]
+                L^{\abs{m}}_{n}(r^2),
+                \label{eq:eigenstate-tdho}
+            \end{align}
+            where $L^{\abs{m}}_{n}(x)$ are the \emph{associated Laguerre
+            polynomials} \cite{anisimovas1998energy}.
+            Furthermore, we have the principal quantum number $n \in \mathbb{N}$
+            and the azimuthal quantum number $m \in \mathbb{Z}$.
+            We collect the eigenstates in its separable parts,
+            \begin{align}
+                \psi_{nm}(r, \phi)
+                = N_{nm} R_{nm}(r) \Phi_{m}(\phi),
+            \end{align}
+            where the normalization is given by
+            \begin{align}
+                N_{nm}
+                &= \sqrt{\frac{(2n)!}{2\pi(\abs{m} + n)!}},
+            \end{align}
+            the radial functions
+            \begin{align}
+                R_{nm}
+                &=
+                r^{\abs{m}}
+                \exp[-r^2 / 2]
+                L^{\abs{m}}_{n}(r^2),
+                \label{eq:radial-function-tdho}
+            \end{align}
+            and the azimuthal part
+            \begin{align}
+                \Phi_{m}(\phi) = \exp[i m \phi],
+            \end{align}
+            for ease of lookup.
+            The eigenstates are orthonormal in both their principal and
+            azimuthal quantum numbers, that is,
+            % TODO: Show this!
+            \begin{align}
+                \braket{\psi_{n_i m_i}}{\psi_{n_j m_j}}
+                = \delta_{n_i n_j}\delta_{m_i m_j}.
+            \end{align}
+            Furhtermore, by the orthonormality carries to the spin quantum
+            number $m_s$ as well.
 
+            The eigenenergies are given by
+            \begin{align}
+                \epsilon_{nm}
+                = 2n + \abs{m} + 1,
+                \label{eq:eigenenergy-tdho}
+            \end{align}
+            where we re-iterate that $\hslash\omega$ is factored out of the
+            one-body Hamiltonian and gets included in the full Hamiltonian
+            energy expression.
+            The derivation of the spectrum of the two-dimensional harmonic
+            oscillator is included in \autoref{app:tdho-spectrum}.
 
-        In total the eigenstates of the two-dimensional harmonic oscillator is
-        given by
-        \begin{align}
-            \psi_{nm}(r, \phi)
-            &= a\sqrt{\frac{n!}{\pi(\abs{m} + n)!}}
-            (ar)^{\abs{m}} L^{\abs{m}}_n(a^2 r^2)
-            \exp[-a^2 r^2/2]
-            \exp[im\phi].
-            \label{eq:eigenstate-tdho}
-        \end{align}
+            Looking at the expression for the eigenenergy in
+            \autoref{eq:eigenenergy-tdho} we see that we get degenerate
+            energies.
+            As the Hamiltonian in \autoref{eq:tdho-hamiltonian} is independent
+            of spin, we will in the case of fermions with $m_s = \pm 1/2$ get
+            twice as many degenerate states at each energy level.
+            An illustration of this is shown in
+            \autoref{fig:tdho-energy-levels}.
+            \begin{figure}
+                \begin{center}
+                    \begin{tikzpicture}
+                        \begin{scope}
+                            \foreach \i in {1, 2, 3} {
+                                \draw(-1, \i - 1) node[anchor=east]
+                                {$\epsilon = \i$};
+                            }
 
+                            % Highest energy level
+                            \foreach \i in {0, 3, 6} {
+                                \draw (\i, 2) -- (\i + 2, 2);
+                                \node at (\i + 0.75, 2) {$\uparrow$};
+                                \node at (\i + 1.25, 2) {$\downarrow$};
+                            }
+                            \node[below, inner sep=.2cm] at (1, 2)
+                            {$n = 0, m = -2$};
+                            \node[below, inner sep=.2cm] at (4, 2)
+                            {$n = 1, m = 0$};
+                            \node[below, inner sep=.2cm] at (7, 2)
+                            {$n = 0, m = 2$};
 
-        \begin{align}
-            \onehamil\ket{nm} = \epsilon_{nm}\ket{nm},
-        \end{align}
-        and diagonalize in order to find the eigenstates, $\ket{nm}$.
-        Representing the eigenstates in polar coordinates
-        \begin{align}
-            \phi_{nm}(\vf{r}) = \phi_{nm}(r, \phi)
-            \equiv \braket{r\phi}{nm},
-        \end{align}
-        we solve the eigenvalue problem by separating the radial and the angular
-        part of the eigenstate and solve each term individually. That is,
-        \begin{align}
-            \phi_{nm}(r, \phi) = N_{nm}R_{nm}(r)\Phi_{m}(\phi).
-            \label{eq:spf-2dqd}
-        \end{align}
-        % TODO: Complete this derivation, i.e., solve the differential equation and
-        % find the normalization constant.
-        % TODO: Talk about angular momentum.
-        Solving the two coupled ordinary differential equations and finding the
-        normalization constant, we find the terms
-        \begin{align}
-            N_{nm} = a\sqrt{\frac{n!}{\pi(n + \abs{m})!}},
-        \end{align}
-        as the normalization factor with
-        \begin{align}
-            a = \sqrt{\frac{m\omega}{\hslash}},
-        \end{align}
-        the Bohr radius. The radial contribution is given by
-        \begin{align}
-            R_{nm}(r)
-            &= (ar)^{\abs{m}}L^{\abs{m}}_{n}(a^2r^2)
-            \exp\brac{-\frac{a^2 r^2}{2}},
-            \label{eq:radial-function-tdho}
-        \end{align}
-        where $L^{m}_{n}(r)$ is the \emph{associated Laguerre polynomials}. The
-        angular part is given by
-        \begin{align}
-            \Phi_m(\phi) = \exp\brac{im\phi}.
-        \end{align}
-        The eigenenergy, $\epsilon_{nm}$, of the two-dimensional eigenstates is
-        given by
-        \begin{align}
-            \epsilon_{nm} = \hslash\omega\brak{
-                2n + \abs{m} + 1
-            }.
-            \label{eq:eigenenergies_2dqd}
-        \end{align}
-        Staring at the eigenenergy equation we notice quite fast that the states
-        are degenerate in the energy. A drawing of the first three energy levels
-        with their corresponding quantum numbers is shown in
-        \autoref{fig:2dho-energy-levels}.
-        \begin{figure}
-            \begin{center}
-                \begin{tikzpicture}
-                    \begin{scope}
-                        \foreach \i in {1, 2, 3} {
-                            \draw(-1, \i - 1) node[anchor=east]
-                            {$\epsilon = \i\hslash\omega$};
-                        }
+                            % Middle energy level
+                            \foreach \i in {1.5, 4.5} {
+                                \draw (\i, 1) -- (\i + 2, 1);
+                                \node at (\i + 0.75, 1) {$\uparrow$};
+                                \node at (\i + 1.25, 1) {$\downarrow$};
+                            }
+                            \node[below, inner sep=.2cm] at (2.5, 1)
+                            {$n = 0, m = -1$};
+                            \node[below, inner sep=.2cm] at (5.5, 1)
+                            {$n = 0, m = 1$};
 
-                        % Highest energy level
-                        \foreach \i in {0, 3, 6} {
-                            \draw (\i, 2) -- (\i + 2, 2);
-                            \node at (\i + 0.75, 2) {$\uparrow$};
-                            \node at (\i + 1.25, 2) {$\downarrow$};
-                        }
-                        \node[below, inner sep=.2cm] at (1, 2)
-                        {$n = 0, m = -2$};
-                        \node[below, inner sep=.2cm] at (4, 2)
-                        {$n = 1, m = 0$};
-                        \node[below, inner sep=.2cm] at (7, 2)
-                        {$n = 0, m = 2$};
+                            % Lowest energy level
+                            \draw (3, 0) -- (5, 0);
+                            \node at (3 + 0.75, 0) {$\uparrow$};
+                            \node at (3 + 1.25, 0) {$\downarrow$};
+                            \node[below, inner sep=.2cm] at (4, 0)
+                            {$n = 0, m = 0$};
+                        \end{scope}
+                    \end{tikzpicture}
+                \end{center}
+                \caption{In this plot we can see the energy degeneracy of the lowest
+                three energy levels in the two-dimensional quantum dot.
+                Each arrow representes a spin up or a spin down state with the
+                quantum numbers $n$ and $m$ as listed below.
+                This pattern goes on indefinitly with the addition of one bar
+                (two oscillators) per level.}
+                \label{fig:tdho-energy-levels}
+            \end{figure}
 
-                        % Middle energy level
-                        \foreach \i in {1.5, 4.5} {
-                            \draw (\i, 1) -- (\i + 2, 1);
-                            \node at (\i + 0.75, 1) {$\uparrow$};
-                            \node at (\i + 1.25, 1) {$\downarrow$};
-                        }
-                        \node[below, inner sep=.2cm] at (2.5, 1)
-                        {$n = 0, m = -1$};
-                        \node[below, inner sep=.2cm] at (5.5, 1)
-                        {$n = 0, m = 1$};
-
-                        % Lowest energy level
-                        \draw (3, 0) -- (5, 0);
-                        \node at (3 + 0.75, 0) {$\uparrow$};
-                        \node at (3 + 1.25, 0) {$\downarrow$};
-                        \node[below, inner sep=.2cm] at (4, 0)
-                        {$n = 0, m = 0$};
-                    \end{scope}
-                \end{tikzpicture}
-            \end{center}
-            \caption{In this plot we can see the energy degeneracy of the lowest
-            three energy levels in the two-dimensional quantum dot.  Each arrow
-            representes a spin up or a spin down state with the quantum numbers
-            $n$ and $m$ as listed below. This pattern goes on indefinitly with
-            the addition of one bar (two oscillators) per level.}
-            \label{fig:2dho-energy-levels}
-        \end{figure}
-        The basis functions are orthonormal. By including spin as a quantum
-        number $\sigma$, we can represent this by
-        \begin{align}
-            \braket{n_1 m_1 \sigma_1}{n_2 m_2 \sigma_2}
-            = \delta_{n_1 n_2}\delta_{m_1 m_2} \delta_{\sigma_1 \sigma_2}.
-        \end{align}
-        % TODO: Add "mexican-hat" plots of probability density
 
         \subsubsection{Mapping the quantum numbers to a single value}
             When working with second quantized operators, we distinguish single
             particle functions in a Slater determinant by a single index.
             Including spin in the two-dimensional harmonic oscillator
-            eigenstates we have to deal with three quantum numbers $n$, $m$ and
-            $\sigma$ per state.  We are thus interested in finding a mapping
-            $(n, m) \mapsto p$ and the inverse mapping $p \mapsto (n,
-            m)$\footnote{The spin quantum number is easiest to deal with in the
-            end as we can double each dimension in every tensor and label all
-            odd or even indices by a spin direction.}.  Due to the degeneracy of
-            the eigenenergies such a mapping will not be unique. We thus have to
-            decide in advance how we should count the basis states. In this
-            thesis we choose the convention that we start from the lowest energy
-            level and move up by counting from left to right. Tabulating
-            \autoref{fig:2dho-energy-levels} we get the table shown in
-            \autoref{tab:2dho-mapping}.  In \autoref{alg:nm-to-p} we give a
-            sketch of the algorithm we use to compute $(n, m) \mapsto p$. We
-            show the inverse algorithm in \autoref{alg:p-to-nm}.
+            eigenstates we have to deal with three quantum numbers $n$, $m$, and
+            $m_s$ per state.
+            We are thus interested in finding a mapping $(n, m) \mapsto p$ and
+            the inverse mapping $p \mapsto (n, m)$.\footnote{%
+                The spin quantum number is easiest to deal with in the end as we
+                can double each dimension in every matrix and label all odd or
+                even indices by a spin direction.
+            }
+            Due to the degeneracy of the eigenenergies such a mapping will not
+            be unique.
+            We thus have to decide in advance how we should count the basis
+            states.
+            In this thesis we choose the convention that we start from the
+            lowest energy level and move up by counting from left to right.
+            Tabulating \autoref{fig:tdho-energy-levels} we get the table shown
+            in \autoref{tab:tdho-mapping}.
+            In \autoref{alg:nm-to-p} we give a sketch of the algorithm we use to
+            compute $(n, m) \mapsto p$. We show the inverse algorithm in
+            \autoref{alg:p-to-nm}.
 
             Using the aforementioned mapping we can find indices $p$ such that
             \begin{align}
-                \ket{nm} \mapsto \ket{p}.
+                \ket{\psi_{nm}} \mapsto \ket{\psi_p},
+            \end{align}
+            and similarly for the eigenenergies
+            \begin{align}
+                \epsilon_{nm} \mapsto \epsilon_{p}.
             \end{align}
 
             \begin{table}
                 \centering
                 \caption{In this table we show an example of how our mapping
                 convention will index the states shown in
-                \autoref{fig:2dho-energy-levels}.}
-                \begin{tabular}{c|ll}
+                \autoref{fig:tdho-energy-levels}.}
+                \begin{tabular}{l|rr}
                     $\epsilon_{nm}$ & $(n, m)$ & $p$ \\
                     \hline
-                    \\
-                    $\hslash\omega$ & $(0, 0)$ & $0$ \\
-                    $2\hslash\omega$ & $(0, -1)$ & $1$ \\
-                    $2\hslash\omega$ & $(0, 1)$ & $2$ \\
-                    $3\hslash\omega$ & $(0, -2)$ & $3$ \\
-                    $3\hslash\omega$ & $(1, 0)$ & $4$ \\
-                    $3\hslash\omega$ & $(0, 2)$ & $5$
+                    $1$ & $(0, 0)$ & $0$ \\
+                    $2$ & $(0, -1)$ & $1$ \\
+                    $2$ & $(0, 1)$ & $2$ \\
+                    $3$ & $(0, -2)$ & $3$ \\
+                    $3$ & $(1, 0)$ & $4$ \\
+                    $3$ & $(0, 2)$ & $5$
                 \end{tabular}
-                \label{tab:2dho-mapping}
+                \label{tab:tdho-mapping}
             \end{table}
 
             \begin{algorithm}
@@ -996,7 +914,7 @@
         where we have used the mapping $(n, m) \to p$ from
         \autoref{alg:nm-to-p} described above and where
         the eigenenergies $\epsilon_p$ are given by
-        \autoref{eq:eigenenergies_2dqd}.
+        \autoref{eq:eigenenegy-tdho}.
         The two first terms give a shifted harmonic oscillator potential, viz.
         \begin{align}
             \epsilon_p' = \epsilon_p + \frac{1}{8} m \omega^2 l^2.
@@ -1069,13 +987,11 @@
             \end{cases}
         \end{align}
         For a full derivation, see \autoref{app:barrier-integrals}.
+
         Having constructed the full one-body Hamiltonian matrix $\onemat$, we
         diagonalize and find the variationally optimized eigenvectors $\vf{C}$.
         We can now use the coefficients to transform to the new double-well
         basis.
-        in order to find coefficients, $\vf{C}$, which we use to transform the
-        single-particle functions and the two-body elements from the harmonic
-        oscillator basis to an approximate double-well basis.
         That is, we construct the single-particle functions
         \begin{align}
             \ket{\psi_{\alpha}} = C^{p}_{\alpha}\ket{\phi_p},
