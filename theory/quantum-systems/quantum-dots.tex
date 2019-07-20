@@ -329,11 +329,79 @@
     unless specified.
 
     \subsection{Two-dimensional harmonic oscillator}
-        In the two-dimensional harmonic oscillator we have a circual symmetric
+        \label{subsec:two-dim-ho}
+        In the two-dimensional harmonic oscillator we have a circular symmetric
         potential on the form
         \begin{align}
             v(r, \phi) = v(r) = \half m \omega^2 r^2.
         \end{align}
+        Before solving the one-dimensional problem, we will make the system
+        dimensionless in the same manner as done by
+        \citeauthor{anisimovas1998energy} \cite{anisimovas1998energy} as we use
+        their solution for the Coulomb elements.
+        The full two-dimensional Hamiltonian with Coulomb interaction in a
+        coordinate representation is given by
+        \begin{align}
+            \hamilten(\vf{r})
+            = \sum_{i = 1}^{N} \brak{
+                -\frac{\hslash^2}{2m} \vfg{\nabla}^2_i
+                + \half m \omega \vfg{r}^2_i
+            }
+            + \sum_{i < j}^{N}
+            \frac{e^2}{4\pi \epsilon_0 \abs{\vfg{r}_i - \vfg{r}_j}}.
+            \label{eq:two-dim-ho-hamiltonian}
+        \end{align}
+        We introduce a dimensionless position $\vfg{r}'$, which we scale by the
+        Bohr radius.
+        \begin{align}
+            \vfg{r} = a \vfg{r}',
+        \end{align}
+        where the Bohr radius is given by
+        \begin{align}
+            a = \sqrt{\frac{\hslash}{m\omega}}.
+            \label{eq:bohr-radius}
+        \end{align}
+        The complete derivation of the scaling is shown in
+        \autoref{app:two-dim-ho-dimensionless}.
+        For the sake of brevity we relabel the dimensionless position to
+        $\vfg{r}' \to \vfg{r}$.
+        We then have the dimensionless form for the two-dimensionless harmonic
+        oscillator Hamiltonian
+        \begin{align}
+            \hamilten(\vfg{r})
+            = \frac{\hslash\omega}{2} \sum_{i = 1}^{N}\brak{
+                -\vfg{\nabla}^2_i
+                + \vfg{r}^2_i
+            }
+            + \lambda \sum_{i < j}^{N} \frac{1}{\abs{\vfg{r}_i - \vfg{r}_j}},
+        \end{align}
+        where we have
+        \begin{align}
+            \lambda \equiv \frac{e^2}{4\pi \epsilon_0 a_0}.
+            \label{eq:two-dim-ho-lambda}
+        \end{align}
+        In the article by \citeauthor{anisimovas1998energy}
+        \cite{anisimovas1998energy} they go the extra step of measuring the
+        energy in units of $\hslash\omega$ as this makes it more natural to
+        define the Coulomb interaction as a perturbation to the one-body
+        Hamiltonian.
+        Now, we do not share the goal of expanding the Hamiltonian as a
+        perturbation and we will therefore keep $\hslash\omega$ as they are.
+        Moving to atomc units with $\hslash = m = e = (4\pi \epsilon_0)^{-1} =
+        1$ we are left with the expression
+        \begin{align}
+            \hamilten(\vfg{r})
+            = \frac{\omega}{2} \sum_{i = 1}^{N}\brak{
+                -\vfg{\nabla}^2_i
+                + \vfg{r}^2_i
+            }
+            + \sqrt{\omega} \sum_{i < j}^{N} \frac{1}{\abs{\vfg{r}_i -
+            \vfg{r}_j}},
+        \end{align}
+        which reduces the scaling of the system down to the single parameter
+        $\omega$ as the strength of the harmonic oscillator well.
+
+
         % TODO: Shortly describe the systeym.
         We now look for a solution to the time-independent Schrödinger equation
         on the form
@@ -428,11 +496,8 @@
             \exp[-a^2 r^2/2]
             \rho(r),
         \end{align}
-        where $\rho(r)$ is a function of $r$ and $a$ is the Bohr radius given by
-        \begin{align}
-            a = \sqrt{\frac{\mu \omega}{\hslash}}.
-            \label{eq:bohr-radius}
-        \end{align}
+        where $\rho(r)$ is a function of $r$ and $a$ is the Bohr radius.
+        % TODO: This is the inverse of the Bohr radius!!!!
         Now, finding the derivatives $R_{nm}(r)$ with respect to $r$ yields
         \begin{gather}
             \dod{}{r}R_{nm}(r)

@@ -427,6 +427,63 @@
         For an orthonormal basis of Slater determinants, this will necessarily
         leave the overlap between the reference state and an excited state zero.
 
+    \section{Deriving the dimensionless Hamiltonian}
+        \label{app:two-dim-ho-dimensionless}
+        In \autoref{subsec:two-dim-ho} we introduced the dimensionless form of
+        the two-dimensional harmonic oscillator \cite{anisimovas1998energy}.
+        Here we will show the steps involved in the derivation to make the
+        Hamiltonian dimensionless.
+        Introducing the dimensionless position $\vfg{r}'$ given by
+        \begin{align}
+            \vfg{r} = a \vfg{r}',
+        \end{align}
+        where $a$ is the Bohr radius given by \autoref{eq:bohr-radius}.
+        Inserting the dimensionless position into the Hamiltonian from
+        \autoref{eq:two-dim-ho-hamiltonian} we find for the Laplace operator in
+        polar coordinates $\vfg{r} = (r, \phi)$,
+        \begin{align}
+            \vfg{\nabla}^2
+            &= \frac{1}{r}\dpd{}{r}\para{
+                r\dpd{}{r}
+            }
+            + \frac{1}{r^2}\dpd[2]{}{\phi}
+            \\
+            &= \frac{1}{a r'}\frac{1}{a}\dpd{}{r'}\para{
+                a r' \frac{1}{a}\dpd{}{r'}
+            }
+            + \frac{1}{a^2 r^2}\dpd[2]{}{\phi}
+            = \frac{1}{a^2}\para{\vfg{\nabla}'}^2,
+        \end{align}
+        where we've dropped the particle indices for the sake of brevity.
+        Thus, the one-body part of the Hamiltonian becomes
+        \begin{align}
+            \oneten(\vfg{r})
+            = -\frac{\hslash^2}{2m a^2}\para{\vfg{\nabla}'}^2
+            + \half m \omega^2 a^2 \para{\vfg{r}'}^2
+            = \frac{\hslash\omega}{2}\brak{
+                -\para{\vfg{\nabla}'}^2
+                + \para{\vfg{r}'}^2
+            }.
+        \end{align}
+        The Coulomb interaction becomes
+        \begin{align}
+            \twoten(\vfg{r}_i, \vfg{r}_j)
+            &= \frac{e^2}{4\pi\epsilon_0 \abs{\vfg{r}_i - \vfg{r}_j}}
+            = \frac{e^2}{4\pi \epsilon_0 a}
+            \frac{1}{\abs{\vfg{r}_i' - \vfg{r}_j'}}.
+        \end{align}
+        Thus, the full dimensionless Hamitonian becomes
+        \begin{align}
+            \hamilten(\vfg{r})
+            = \frac{\hslash\omega}{2} \sum_{i = 1}^{N}\brak{
+                -\vfg{\nabla}^2_i
+                + \vfg{r}^2_i
+            }
+            + \lambda \sum_{i < j}^{N} \frac{1}{\abs{\vfg{r}_i - \vfg{r}_j}},
+        \end{align}
+        where $\lambda$ is defined as in \autoref{eq:two-dim-ho-lambda}.
+        This is the form of the Hamiltonian we wanted to show.
+
     \section{Coulomb elements}
         \label{app:coulomb-elements}
         In this section we'll write out the closed form solution to the Coulomb
