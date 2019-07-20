@@ -5,6 +5,7 @@
 \usetikzlibrary{external}
 \usetikzlibrary{arrows}
 \usepgfplotslibrary{groupplots}
+\usepgfplotslibrary{colorbrewer}
 \tikzexternalize[prefix=figures/, mode=list and make]
 
 \pgfplotsset{compat=newest}
@@ -63,8 +64,9 @@
 
     \part{Implementation}
     \part{Results}
-        \input{results/one-dim-quantum-dots/one-dim-quantum-dots.tex}
         \input{results/benchmarks/benchmarks.tex}
+        \input{results/one-dim-quantum-dots/one-dim-quantum-dots.tex}
+        \input{results/two-dim-quantum-dots/two-dim-quantum-dots.tex}
     \part{Discussion}
     \part{Summary remarks}
 
