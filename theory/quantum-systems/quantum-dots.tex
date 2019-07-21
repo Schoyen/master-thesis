@@ -647,12 +647,14 @@
                 \label{eq:dipole_elements}
             \end{align}
             where $\vf{i}$ and $\vf{j}$ are the unit vectors along the $x$- and
-            $y$-axis respectively.  Using \autoref{eq:spf-2dqd} we are able to
-            find analytical expressions for the angular integral. The radial
-            integral must be evaluated from $0$ to $\infty$, but lucikly SymPy
-            \cite{sympy} handles this for us. Note that we use the notation $i
-            \mapsto (n_i, m_i)$ from the mapping algorithms described above. We
-            then get the following integrals
+            $y$-axis respectively.
+            Using \autoref{eq:eigenstate-tdho} we are able to find analytical
+            expressions for the angular integral.
+            The radial integral must be evaluated from $0$ to $\infty$, but
+            lucikly SymPy \cite{sympy} handles this for us.
+            Note that we use the notation $i \mapsto (n_i, m_i)$ from the
+            mapping algorithms described above. We then get the following
+            integrals
             \begin{align}
                 \mel{i}{r \cos(\phi)}{j}
                 &= N^{*}_{n_i m_i} N_{n_j m_j}
@@ -896,9 +898,9 @@
         kinetic energy and the harmonic oscillator confining potential.
         Instead of finding an analytical expression for the full one-body
         Hamiltonian, as we did for the harmonic oscillator, we'll instead use
-        the single-particle functions in \autoref{eq:spf-2dqd} as trial wave
-        functions and use the variational method to find as good an estimate as
-        possible to the underlying exact eigenpair.
+        the single-particle functions in \autoref{eq:eigenstate-tdho} as trial
+        wave functions and use the variational method to find as good an
+        estimate as possible to the underlying exact eigenpair.
         The one-body matrix elements can then be found from
         \begin{align}
             \oneten^{p}_{q}
@@ -914,7 +916,7 @@
         where we have used the mapping $(n, m) \to p$ from
         \autoref{alg:nm-to-p} described above and where
         the eigenenergies $\epsilon_p$ are given by
-        \autoref{eq:eigenenegy-tdho}.
+        \autoref{eq:eigenenergy-tdho}.
         The two first terms give a shifted harmonic oscillator potential, viz.
         \begin{align}
             \epsilon_p' = \epsilon_p + \frac{1}{8} m \omega^2 l^2.
