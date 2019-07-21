@@ -4,20 +4,57 @@
 
         \begin{figure}
             \centering
-            \begin{tikzpicture}
-                \begin{axis}[
-                        %colorbar,
-                        %colormap/Spectral,
-                        view={0}{90},
-                    ]
-                    \addplot3[
-                        data cs=polar,
-                        %contour filled={number=15},
-                    ]
-                    table
-                    {results/two-dim-quantum-dots/one-body-densities/dat/cisd_n=2_l=12_rho_real.dat};
-                \end{axis}
-            \end{tikzpicture}
+            \begin{tabular}{rl}
+                \begin{tikzpicture}
+                    \pgfplotsset{small}
+                    \begin{polaraxis}[
+                            colorbar,
+                            colormap/viridis,
+                            view={0}{90},
+                            xtick={0, 90, 180, 270},
+                            xticklabels={
+                                $0$,
+                                $\pi/2$,
+                                $\pi$,
+                                $3\pi/2$,
+                            },
+                            axis on top,
+                        ]
+                        \addplot3[
+                            surf,
+                            data cs=polarrad,
+                            mesh/rows=101,
+                        ]
+                        table
+                        {results/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=90_omega=0.28_rho_real.dat};
+                    \end{polaraxis}
+                \end{tikzpicture}
+                &
+                \begin{tikzpicture}
+                    \pgfplotsset{small}
+                    \begin{polaraxis}[
+                            colorbar,
+                            colormap/viridis,
+                            view={0}{90},
+                            xtick={0, 90, 180, 270},
+                            xticklabels={
+                                $0$,
+                                $\pi/2$,
+                                $\pi$,
+                                $3\pi/2$,
+                            },
+                            axis on top,
+                        ]
+                        \addplot3[
+                            surf,
+                            data cs=polarrad,
+                            mesh/rows=101,
+                        ]
+                        table
+                        {results/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=90_omega=0.28_rho_real.dat};
+                    \end{polaraxis}
+                \end{tikzpicture}
+            \end{tabular}
             \caption{Bleh}
             \label{fig:ground-state-particle-densities-tdho}
         \end{figure}
