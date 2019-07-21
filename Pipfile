@@ -19,9 +19,9 @@ coupled-cluster = {git = "ssh://git@github.com/Schoyen/coupled-cluster.git"}
 configuration-interaction = {git = "ssh://git@github.com/Schoyen/configuration-interaction.git"}
 sympy = "*"
 matplotlib = "*"
-black = "*"
-pyscf = {version = "*" }
+pyscf = {version = "*"}
 Cython = "*"
+black = "==19.3b0"
 
 [requires]
 python_version = "3.6"
