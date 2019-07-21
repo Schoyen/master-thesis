@@ -4,11 +4,41 @@
 
         \begin{figure}
             \centering
-            \begin{tabular}{rl}
+            \begin{tabular}{cc}
                 \begin{tikzpicture}
                     \pgfplotsset{small}
                     \begin{polaraxis}[
-                            colorbar,
+                            %colorbar,
+                            colormap/viridis,
+                            view={0}{90},
+                            xtick={0, 90, 180, 270},
+                            xticklabels={
+                                $0$,
+                                $\pi/2$,
+                                $\pi$,
+                                $3\pi/2$,
+                            },
+                            axis on top,
+                            title={$\omega = \SI{0.28}{\text{a.u.}}$},
+                            title style={
+                                rotate=90,
+                                at={(axis description cs:-0.2, 0.5)},
+                            },
+                        ]
+                        \addplot3[
+                            surf,
+                            data cs=polarrad,
+                            mesh/rows=101,
+                        ]
+                        table
+                        {results/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=90_omega=0.28_rho_real.dat};
+                    \end{polaraxis}
+                \end{tikzpicture}
+                &
+                \begin{tikzpicture}
+                    \pgfplotsset{small}
+                    \begin{polaraxis}[
+                            %colorbar,
                             colormap/viridis,
                             view={0}{90},
                             xtick={0, 90, 180, 270},
@@ -29,11 +59,96 @@
                         {results/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=90_omega=0.28_rho_real.dat};
                     \end{polaraxis}
                 \end{tikzpicture}
+                \\
+                \begin{tikzpicture}
+                    \pgfplotsset{small}
+                    \begin{polaraxis}[
+                            %colorbar,
+                            colormap/viridis,
+                            view={0}{90},
+                            xtick={0, 90, 180, 270},
+                            xticklabels={
+                                $0$,
+                                $\pi/2$,
+                                $\pi$,
+                                $3\pi/2$,
+                            },
+                            axis on top,
+                            title={$\omega = \SI{0.10}{\text{a.u.}}$},
+                            title style={
+                                rotate=90,
+                                at={(axis description cs:-0.2, 0.5)},
+                            },
+                        ]
+                        \addplot3[
+                            surf,
+                            data cs=polarrad,
+                            mesh/rows=101,
+                        ]
+                        table
+                        {results/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=90_omega=0.28_rho_real.dat};
+                    \end{polaraxis}
+                \end{tikzpicture}
                 &
                 \begin{tikzpicture}
                     \pgfplotsset{small}
                     \begin{polaraxis}[
-                            colorbar,
+                            %colorbar,
+                            colormap/viridis,
+                            view={0}{90},
+                            xtick={0, 90, 180, 270},
+                            xticklabels={
+                                $0$,
+                                $\pi/2$,
+                                $\pi$,
+                                $3\pi/2$,
+                            },
+                            axis on top,
+                        ]
+                        \addplot3[
+                            surf,
+                            data cs=polarrad,
+                            mesh/rows=101,
+                        ]
+                        table
+                        {results/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=90_omega=0.28_rho_real.dat};
+                    \end{polaraxis}
+                \end{tikzpicture}
+                \\
+                \begin{tikzpicture}
+                    \pgfplotsset{small}
+                    \begin{polaraxis}[
+                            %colorbar,
+                            colormap/viridis,
+                            view={0}{90},
+                            xtick={0, 90, 180, 270},
+                            xticklabels={
+                                $0$,
+                                $\pi/2$,
+                                $\pi$,
+                                $3\pi/2$,
+                            },
+                            axis on top,
+                            title={$\omega = \SI{0.01}{\text{a.u.}}$},
+                            title style={
+                                rotate=90,
+                                at={(axis description cs:-0.2, 0.5)},
+                            },
+                        ]
+                        \addplot3[
+                            surf,
+                            data cs=polarrad,
+                            mesh/rows=101,
+                        ]
+                        table
+                        {results/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=90_omega=0.28_rho_real.dat};
+                    \end{polaraxis}
+                \end{tikzpicture}
+                &
+                \begin{tikzpicture}
+                    \pgfplotsset{small}
+                    \begin{polaraxis}[
+                            %colorbar,
                             colormap/viridis,
                             view={0}{90},
                             xtick={0, 90, 180, 270},
@@ -56,5 +171,177 @@
                 \end{tikzpicture}
             \end{tabular}
             \caption{Bleh}
-            \label{fig:ground-state-particle-densities-tdho}
+            \label{fig:ground-state-particle-densities-tdho-2-6}
+        \end{figure}
+
+        \begin{figure}
+            \centering
+            \begin{tabular}{cc}
+                \begin{tikzpicture}
+                    \pgfplotsset{small}
+                    \begin{polaraxis}[
+                            %colorbar,
+                            colormap/viridis,
+                            view={0}{90},
+                            xtick={0, 90, 180, 270},
+                            xticklabels={
+                                $0$,
+                                $\pi/2$,
+                                $\pi$,
+                                $3\pi/2$,
+                            },
+                            axis on top,
+                            title={$\omega = \SI{0.28}{\text{a.u.}}$},
+                            title style={
+                                rotate=90,
+                                at={(axis description cs:-0.2, 0.5)},
+                            },
+                        ]
+                        \addplot3[
+                            surf,
+                            data cs=polarrad,
+                            mesh/rows=101,
+                        ]
+                        table
+                        {results/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=90_omega=0.28_rho_real.dat};
+                    \end{polaraxis}
+                \end{tikzpicture}
+                &
+                \begin{tikzpicture}
+                    \pgfplotsset{small}
+                    \begin{polaraxis}[
+                            %colorbar,
+                            colormap/viridis,
+                            view={0}{90},
+                            xtick={0, 90, 180, 270},
+                            xticklabels={
+                                $0$,
+                                $\pi/2$,
+                                $\pi$,
+                                $3\pi/2$,
+                            },
+                            axis on top,
+                        ]
+                        \addplot3[
+                            surf,
+                            data cs=polarrad,
+                            mesh/rows=101,
+                        ]
+                        table
+                        {results/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=90_omega=0.28_rho_real.dat};
+                    \end{polaraxis}
+                \end{tikzpicture}
+                \\
+                \begin{tikzpicture}
+                    \pgfplotsset{small}
+                    \begin{polaraxis}[
+                            %colorbar,
+                            colormap/viridis,
+                            view={0}{90},
+                            xtick={0, 90, 180, 270},
+                            xticklabels={
+                                $0$,
+                                $\pi/2$,
+                                $\pi$,
+                                $3\pi/2$,
+                            },
+                            axis on top,
+                            title={$\omega = \SI{0.10}{\text{a.u.}}$},
+                            title style={
+                                rotate=90,
+                                at={(axis description cs:-0.2, 0.5)},
+                            },
+                        ]
+                        \addplot3[
+                            surf,
+                            data cs=polarrad,
+                            mesh/rows=101,
+                        ]
+                        table
+                        {results/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=90_omega=0.28_rho_real.dat};
+                    \end{polaraxis}
+                \end{tikzpicture}
+                &
+                \begin{tikzpicture}
+                    \pgfplotsset{small}
+                    \begin{polaraxis}[
+                            %colorbar,
+                            colormap/viridis,
+                            view={0}{90},
+                            xtick={0, 90, 180, 270},
+                            xticklabels={
+                                $0$,
+                                $\pi/2$,
+                                $\pi$,
+                                $3\pi/2$,
+                            },
+                            axis on top,
+                        ]
+                        \addplot3[
+                            surf,
+                            data cs=polarrad,
+                            mesh/rows=101,
+                        ]
+                        table
+                        {results/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=90_omega=0.28_rho_real.dat};
+                    \end{polaraxis}
+                \end{tikzpicture}
+                \\
+                \begin{tikzpicture}
+                    \pgfplotsset{small}
+                    \begin{polaraxis}[
+                            %colorbar,
+                            colormap/viridis,
+                            view={0}{90},
+                            xtick={0, 90, 180, 270},
+                            xticklabels={
+                                $0$,
+                                $\pi/2$,
+                                $\pi$,
+                                $3\pi/2$,
+                            },
+                            axis on top,
+                            title={$\omega = \SI{0.01}{\text{a.u.}}$},
+                            title style={
+                                rotate=90,
+                                at={(axis description cs:-0.2, 0.5)},
+                            },
+                        ]
+                        \addplot3[
+                            surf,
+                            data cs=polarrad,
+                            mesh/rows=101,
+                        ]
+                        table
+                        {results/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=90_omega=0.28_rho_real.dat};
+                    \end{polaraxis}
+                \end{tikzpicture}
+                &
+                \begin{tikzpicture}
+                    \pgfplotsset{small}
+                    \begin{polaraxis}[
+                            %colorbar,
+                            colormap/viridis,
+                            view={0}{90},
+                            xtick={0, 90, 180, 270},
+                            xticklabels={
+                                $0$,
+                                $\pi/2$,
+                                $\pi$,
+                                $3\pi/2$,
+                            },
+                            axis on top,
+                        ]
+                        \addplot3[
+                            surf,
+                            data cs=polarrad,
+                            mesh/rows=101,
+                        ]
+                        table
+                        {results/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=90_omega=0.28_rho_real.dat};
+                    \end{polaraxis}
+                \end{tikzpicture}
+            \end{tabular}
+            \caption{Bleh}
+            \label{fig:ground-state-particle-densities-tdho-12-20}
         \end{figure}

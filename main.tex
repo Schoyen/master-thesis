@@ -2,14 +2,16 @@
 
 \usepackage{packages}
 
+\pgfplotsset{compat=newest}
+
 \usetikzlibrary{external}
 \usetikzlibrary{arrows}
+\usetikzlibrary{pgfplots.colorbrewer}
 \usepgfplotslibrary{groupplots}
 \usepgfplotslibrary{colorbrewer}
 \usepgfplotslibrary{polar}
-\tikzexternalize[prefix=figures/, mode=list and make]
 
-\pgfplotsset{compat=newest}
+\tikzexternalize[prefix=figures/, mode=list and make]
 
 \addbibresource{references.bib}
 
