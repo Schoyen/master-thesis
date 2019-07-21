@@ -1,0 +1,27 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+tqdm = "*"
+numpy = "*"
+scipy = "*"
+pandas = "*"
+pytest = "*"
+numba = "*"
+quantum-systems = {git = "https://github.com/Schoyen/quantum-systems.git"}
+tdqd-tools = {git = "https://github.com/Schoyen/tdqd-tools.git"}
+hartree-fock = {git = "ssh://git@github.com/Schoyen/hartree-fock.git"}
+coupled-cluster = {git = "ssh://git@github.com/Schoyen/coupled-cluster.git"}
+configuration-interaction = {git = "ssh://git@github.com/Schoyen/configuration-interaction.git"}
+sympy = "*"
+matplotlib = "*"
+black = "*"
+pyscf = {version = "*" }
+Cython = "*"
+
+[requires]
+python_version = "3.6"
