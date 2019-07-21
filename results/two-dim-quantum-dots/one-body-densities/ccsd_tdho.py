@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from tdho_system import get_tdho
 from coupled_cluster.ccsd import CoupledClusterSinglesDoubles
 from hartree_fock import HartreeFock
+from hartree_fock.mix import DIIS
 
 
 def get_filename_stub(params):
@@ -19,8 +20,10 @@ def run_ccsd_tdho(params, filename_stub):
 
     for tol in [1e-8, 1e-6, 1e-4]:
         try:
-            hf = HartreeFock(tdho, verbose=True)
-            hf.compute_ground_state(tol=tol, change_system_basis=True)
+            hf = HartreeFock(tdho, mixer=DIIS, verbose=True)
+            hf.compute_ground_state(
+                tol=tol, change_system_basis=True, num_vecs=5
+            )
             hf_converged = True
             break
         except AssertionError:
