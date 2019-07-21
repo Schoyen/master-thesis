@@ -15,13 +15,20 @@ def get_filename_stub(params):
 def run_ccsd_tdho(params, filename_stub):
     tdho = get_tdho(**params)
 
+    hf_converged = False
+
     for tol in [1e-8, 1e-6, 1e-4]:
         try:
             hf = HartreeFock(tdho, verbose=True)
             hf.compute_ground_state(tol=tol, change_system_basis=True)
+            hf_converged = True
             break
         except AssertionError:
             pass
+
+    assert hf_converged, "HF did not converge"
+
+    ccsd_converged = False
 
     for tol in [1e-8, 1e-6, 1e-4]:
         try:
@@ -29,9 +36,12 @@ def run_ccsd_tdho(params, filename_stub):
             ccsd.compute_ground_state(
                 t_kwargs=dict(tol=1e-8), l_kwargs=dict(tol=1e-8)
             )
+            ccsd_converged = True
             break
         except AssertionError:
             pass
+
+    assert ccsd_converged, "CCSD did not converge"
 
     rho = ccsd.compute_particle_density()
 
