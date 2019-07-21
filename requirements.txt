@@ -42,3 +42,9 @@ matplotlib
 
 # Install black
 black
+
+# Install Cython
+cython
+
+# Install PySCF
+pyscf
