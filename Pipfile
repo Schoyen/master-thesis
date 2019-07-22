@@ -22,6 +22,7 @@ matplotlib = "*"
 pyscf = {version = "*"}
 Cython = "*"
 black = "==19.3b0"
+pint = {editable = true,git = "ssh://git@github.com/Schoyen/pint.git"}
 
 [requires]
 python_version = "3.6"
