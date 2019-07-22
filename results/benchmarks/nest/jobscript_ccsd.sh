@@ -7,13 +7,13 @@
 #SBATCH --account=nn2977k
 #
 # Wall clock limit
-#SBATCH --time=48:00:00
+#SBATCH --time=96:00:00
 #
 # Max memory usage per core (MB)
 #SBATCH --mem-per-cpu=4G
 #
 # Number of CPU's/processes
-#SBATCH --cpus-per-task=2
+#SBATCH --cpus-per-task=4
 
 ## Set up job environment
 source /cluster/bin/jobsetup
@@ -31,5 +31,5 @@ cleanup "cp $SCRATCH/dat/* $SUBMITDIR/dat/"
 
 ## Run commands
 cd $SCRATCH
-export OMP_NUM_THREADS=2
+export OMP_NUM_THREADS=4
 python ccsd_nest.py
