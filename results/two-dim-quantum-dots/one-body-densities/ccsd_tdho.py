@@ -17,9 +17,7 @@ def run_ccsd_tdho(params, filename_stub, hf_tol=1e-4, ccsd_tol=1e-4):
     tdho = get_tdho(**params)
 
     hf = HartreeFock(tdho, mixer=DIIS, verbose=True)
-    hf.compute_ground_state(
-        tol=hf_tol, change_system_basis=True, num_vecs=5
-    )
+    hf.compute_ground_state(tol=hf_tol, change_system_basis=True, num_vecs=5)
     hf_converged = True
 
     rho_hf = hf.compute_particle_density()
