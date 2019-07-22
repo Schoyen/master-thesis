@@ -3,6 +3,7 @@
     many-body quantum mechanics.
 
     \section{Particle statistics}
+        \label{sec:particle-statistics}
         The particles we concern ourselves with are \emph{identical}.
         This means that it is not possible to discern two particles of the
         same type from one another.
@@ -293,6 +294,486 @@
             they would immediately annihilate one another.
 
 
+    \section{Second quantization}
+        So far, we have worked with quantum mechanics formulated in first
+        quantization where observables are operators acting on states that are
+        functions defined on some space.
+        Moving to second quantization we will express wave functions as field
+        operators working on the vacuum state.
+        These operators provide a way to express many-body wave
+        functions\footnote{%
+            Or more precisely, configurations of many-body wave functions.%
+        } as a product of field operators where each field represents a
+        particle.
+        Depending on the algebra for the operators, we can look at antisymmetric
+        fermions or symmetric bosons.
+        Expressing the first quantized observables in the same creation and
+        annihilation operators, we are able to unify much of quantum mechanics
+        to a single set of elementary operators \cite{helgaker-molecular}.
+
+        \subsection{Fock space}
+            In second quantization, we express a general many-body wave function
+            as a vector in the abstract linear vector space called \emph{Fock
+            space}.
+
+            \begin{definition}
+                For a given single-particle Hilbert space $H$, we define Fock
+                space as the direct sum of the tensor products of copies $H$,
+                viz. \cite{fock-space}
+                \begin{align}
+                    F_{\nu}
+                    = \bigoplus_{n = 0}^{\infty}
+                    S_{\nu} H^{\otimes n}
+                    = \mathbb{C}
+                    \oplus H
+                    \oplus \brak{
+                        S_{\nu}
+                        \para{
+                            H \otimes H
+                        }
+                    }
+                    \oplus \dots,
+                \end{align}
+                where $S_{\nu}$ is an operator which symmetrizes or
+                antisymmetrizes the tensor product of Hilbert spaces depending
+                on whether or not the system consists of bosons $\nu \equiv +$
+                or fermions $\nu \equiv -$ respectively.
+            \end{definition}
+
+            We will be working with a finite basis set of $L$ orthonormal
+            single-particle states, $\brac{\ket{p}}_{p = 1}^{L}$, which means
+            that we truncate the infinite direct sum over the tensor products of
+            $H$ constructing the truncated Fock space $F_{\nu}(L)$.
+            A Fock state\footnote{%
+                Also known as an occupation number vector
+                \cite{helgaker-molecular}.
+            } $\ket{\vfg{n}} \in F_{\nu}(L)$ is denoted
+            \begin{align}
+                \ket{\vfg{n}}
+                &\equiv \ket{n_1, n_2, \dots, n_L},
+            \end{align}
+            where $n_i$ denotes how many of state $\ket{i}$ are contained in
+            $\ket{\vfg{n}}$.\footnote{%
+                This must not be confused with a \emph{product state} as
+                $\ket{\vfg{n}}$ is either a symmetric ($\nu = +$) or an
+                anti-symmetric ($\nu = -$) state.%
+            }
+            We've defined the set $\vf{n}$ as the set containing all $n_i$.
+            This formulation of the Fock states lets us incorporate the particle
+            statistics depending on the system we are exploring by choosing the
+            allowed values of $n_i$.
+            \begin{align}
+                n_i =
+                \begin{cases}
+                    0, 1 & \text{fermions} \iff \nu = -, \\
+                    0, 1, 2, \dots & \text{bosons} \iff \nu = +,
+                \end{cases}
+            \end{align}
+            where a $0$ means that the state is unoccupied and a $1$, or higher,
+            means that state $\ket{i}$ is occupied by that amount of particles.
+            We can decompose the truncated Fock space $F_{\nu}(L)$ into a direct
+            sum of subspaces $F_{\nu}(L, N)$
+            \begin{align}
+                F_{\nu}(L)
+                = \bigoplus_{n = 0}^{L}
+                F_{\nu}(L, n),
+            \end{align}
+            where $F_{\nu}(L, N)$ is the Fock space with all Fock states
+            $\ket{\vfg{n}}$ where $\abs{\vfg{n}} = N$, i.e., all states where
+            all $N$ particles have been distributed among all $L$ basis states
+            \cite{helgaker-molecular}.
+            Due to the particles being indistinguishable we have
+            \begin{gather}
+                \dim[F_{+}(L, N)] = \binom{L + N}{N},
+                \\
+                \dim[F_{-}(L, N)] = \binom{L}{N},
+            \end{gather}
+            where the bosonic Fock states are in a much greater number as they
+            are not subject to the Pauli exclusion principle.
+            The inner product between two Fock states $\ket{\vfg{n}},
+            \ket{\vfg{m}} \in F_{\nu}(L)$ is given by
+            \begin{align}
+                \braket{\vfg{n}}{\vfg{m}} = \prod_{i = 1}^{M} \delta_{pq}
+                \equiv \delta_{\vfg{n}\vfg{m}}.
+                \label{eq:inner-product-fock}
+            \end{align}
+            One of the convenient consequences of the Fock space formulation is
+            that it opens up for a description of the inner product between two
+            Fock states with an unequal amount of particles.\footnote{%
+                The two Fock states must however be defined from the same basis
+                set of $L$ basis functions.
+            }
+            From \autoref{eq:inner-product-fock} we can see that two Fock states
+            with an unequal number of particles will yield a zero-overlap.
+            Furthermore, we can construct the identity by
+            \begin{align}
+                \1 = \dyad{\vfg{n}}{\vfg{n}},
+                \label{eq:fock-identity}
+            \end{align}
+            where we sum over over all $\ket{\vfg{n}} \in F_{\nu}(L)$.
+            Of particular interest is the \emph{vacuum state} $\ket{\vac} \in
+            F_{\nu}(L, 0)$ as the state with no particles.
+            \begin{align}
+                \ket{\vac} \equiv \ket{\vfg{0}}
+                = \ket{0_1, 0_2, \dots, 0_L}.
+            \end{align}
+            From \autoref{eq:inner-product-fock} we have that the vacuum state
+            is normalized to unity.
+
+        \subsection{Field operators}
+            We now introduce the \emph{creation} and \emph{annihilation}
+            operators which acts on Fock states by adding or removing single
+            particle states.\footnote{Also known as \emph{fields}.}
+
+            \begin{definition}
+                \label{def:creation_1}
+                A \emph{creation} operator $\acr{p}$ is an operator acting on
+                Fock states in $F_{\nu}(L)$.
+                It is a mapping $\acr{p}: F_{\nu}(L, N) \mapsto F_{\nu}(L, N +
+                1)$.
+                Its action on a Fock state $\ket{\vfg{n}} \in F_{\nu}(L, N)$ is
+                defined as
+                \begin{align}
+                    \acr{p}\ket{\vfg{n}}
+                    = (\Gamma_{\nu})^{\vfg{n}}_{p}
+                    \ket{n_1, \dots, n_p + 1, \dots, n_L}
+                    = (\Gamma_{\nu})^{\vfg{n}}_{p}
+                    \ket{\vfg{n}'},
+                \end{align}
+                where $(\Gamma_{\nu})^{\vfg{n}}_{p}$ is a phase factor which
+                depends on the particle type $\nu$.
+                \begin{gather}
+                    (\Gamma_{+})^{\vfg{n}}_{p} = 1, \\
+                    (\Gamma_{-})^{\vfg{n}}_{p}
+                    = \prod_{q = 1}^{p - 1} (-1)^{n_q}.
+                \end{gather}
+                We will denote fermionic creation operators by $\ccr{p}$ and the
+                corresponding bosonic creation operators by $\bcr{p}$.
+            \end{definition}
+            The phase factor is again a way of incorporating the particle
+            statistics of the system we are exploring.
+            A bosonic wave function is symmetric with respect to its particles
+            and its phase is therefore constant regardles of the ordering of the
+            creation of its particles.
+            For a fermionic wave function, the interchange of two particles will
+            incur a change sign as discussed in
+            \autoref{sec:particle-statistics}.
+            The fact that the ordering of the indices in a fermionic Fock state
+            will depend on the overall sign of the state can lead to ambiguity.
+            We therefore introduce \emph{canonical ordering} with respect to the
+            particle indices.
+            \begin{align}
+                \ket{\vfg{n}}
+                \equiv \brak{
+                    \prod_{p = 1}^{L}
+                    \para{\ccr{p}}^{n_p}
+                }\ket{\vac},
+                \label{eq:canonical-fock-state}
+            \end{align}
+            that is, we order the states in an increasing order.
+            This sign change is also another way to invoke the Pauli exclusion
+            principle as can be seen by considering a state $\ket{1_1} \in
+            F_{-}(L, 1)$ and acting with $\ccr{1}$, viz.
+            \begin{align}
+                \ccr{1}\ket{1_1}
+                = \ket{1_1, 1_1}
+                = -\ket{1_1, 1_1}
+                = 0,
+            \end{align}
+            where we interchange the two particles to incur a sign change.
+            We have for the sake of argument ignored that a fermionic Fock state
+            $\ket{2_1} = 0$, by construction.
+            This means that
+            \begin{align}
+                \ccr{p}\ccr{p} = 0,
+            \end{align}
+            for a system of fermions.
+            From the phase in \autoref{def:creation_1} we have the commutation
+            relation
+            \begin{gather}
+                \com{\bcr{p}}{\bcr{q}} = \bcr{p}\bcr{q} - \bcr{q}\bcr{p} = 0,
+            \end{gather}
+            for the bosonic system as the ordering of the creation of particles
+            in a bosonic wave function is arbitrary.
+            Fermionic creation operators satisfy the anticommutation relation
+            \begin{gather}
+                \acom{\ccr{p}}{\ccr{q}} = \ccr{p}\ccr{q} + \ccr{q}\ccr{p} = 0,
+            \end{gather}
+            which yields the expected sign change.
+
+            We define the \emph{annihilation operator} as the adjoint of the
+            creation operator.
+            The action can be inferred by utilizing the spectral decomposition
+            of the identity in \autoref{eq:fock-identity}.
+            \begin{align}
+                \aan{p}\ket{\vfg{n}}
+                = \ket{\vfg{m}}\mel{\vfg{m}}{\aan{p}}{\vfg{n}}
+                =
+                \ket{\vfg{m}}
+                \para{
+                    \mel{\vfg{n}}{\acr{p}}{\vfg{m}}
+                }^{*}
+                = \para{\Gamma_{\nu}}^{\vfg{m}}_{p}
+                \delta_{\vfg{n}\vfg{m}'}
+                \ket{\vfg{m}},
+            \end{align}
+            where
+            \begin{align}
+                \acr{p}\ket{\vfg{m}}
+                = \para{\Gamma_{\nu}}^{\vfg{m}}_{p}
+                \ket{\vfg{m}'}.
+            \end{align}
+            In order for the overlap between $\ket{\vfg{n}}$ and
+            $\acr{p}\ket{\vfg{m}}$ to be non-zero we have to have $\abs{\vfg{n}
+            - \vfg{m}} = 1$, that is, the two states $\ket{\vfg{n}}$ and
+            $\ket{\vfg{m}}$ can only differ by a single state.
+            Futhermore, as we are acting on $\ket{\vfg{m}}$ with $\acr{p}$ we
+            have that $n_p = m_p + 1$, i.e., $\ket{\vfg{n}}$ has one more
+            particle in state $\ket{p}$ than $\ket{\vfg{m}}$.
+            As all other states in $\ket{\vfg{n}}$ and $\ket{\vfg{m}}$ are the
+            same, we have that $(\Gamma_{\nu})^{\vfg{m}}_{p} =
+            (\Gamma_{\nu})^{\vfg{n}}_{p}$.
+            This means that
+            \begin{align}
+                (\Gamma_{\nu})^{\vfg{m}}_{p}
+                \delta_{\vfg{n}\vfg{m}'}
+                =
+                \para{\mel{\vfg{n}}{\acr{p}}{\vfg{m}}}^{*}
+                =
+                \mel{\vfg{m}}{\aan{p}}{\vfg{n}}
+                =
+                (\Gamma_{\nu})^{\vfg{n}}_{p}
+                \delta_{\vfg{n}'\vfg{m}},
+            \end{align}
+            where $\ket{\vfg{n}'}$ is the state $\ket{\vfg{n}}$ with state
+            $\ket{p}$ removed.
+            We are thus left with our annihilation operator.
+            \begin{definition}
+                \label{def:annihilation_1}
+                An \emph{annihilation} operator $\aan{p}$ is an operator acting
+                on Fock states in $F_{\nu}(L)$.
+                It is a mapping $\aan{p}: F_{\nu}(L, N) \mapsto F_{\nu}(L, N -
+                1)$.
+                Its action on a Fock state $\ket{\vfg{n}} \in F_{\nu}(L, N)$ is
+                defined as
+                \begin{align}
+                    \aan{p}\ket{\vfg{n}}
+                    = (\Gamma_{\nu})^{\vfg{n}}_{p}
+                    \ket{n_1, \dots, n_p - 1, \dots, n_L}
+                    = (\Gamma_{\nu})^{\vfg{n}}_{p}
+                    \ket{\vfg{n}'},
+                \end{align}
+                where $(\Gamma_{\nu})^{\vfg{n}}_{p}$ is the same phase factor as
+                in \autoref{def:creation_1}.
+                We will denote fermionic annihilation operators by $\can{p}$ and
+                the corresponding bosonic anniliation operators by $\ban{p}$.
+            \end{definition}
+            From the definition of the field operator we have that
+            \begin{align}
+                \can{p}\can{p} = 0,
+            \end{align}
+            as there can only be one particle of type $p$ in a given fermionic
+            state.
+            Furthermore, we have the commutation relation
+            \begin{align}
+                \com{\ban{p}}{\ban{q}} = \ban{p}\ban{q} - \ban{q}\ban{p} = 0,
+            \end{align}
+            for the bosonic states and the anticommutation relation
+            \begin{align}
+                \acom{\can{p}}{\can{q}} = \can{p}\can{q} + \can{q}\can{p} = 0.
+            \end{align}
+            This can be seen by taking the Hermitian conjugate of the
+            commutation and anitcommutation relation for the creation operators.
+            If the annihilation operator $\aan{p}$ acts on a Fock state
+            $\ket{\vfg{n}}$ which does not contain the state $\ket{p}$, then
+            \begin{align}
+                \aan{p}\ket{\vfg{n}}
+                = \aan{p}\ket{n_1, \dots, 0_p, \dots, n_L}
+                = 0.
+            \end{align}
+            As a consequence, any annihilation operator will annihilate the
+            vacuum.
+
+
+        \subsection{Slater determinants}
+            As we are working with fermions the total many-body wave function must
+            be \emph{antisymmetric} with respect to interchange of
+            particles\footnote{We will restrict ourselves to the interchange of a
+            full spin-orbital.}. Mathematically the full wave function of $N$
+            fermions should satisfy
+            \begin{align}
+                \Psi(1, \dots, i, \dots, j, \dots, N)
+                =
+                -\Psi(1, \dots, j, \dots, i, \dots, N),
+            \end{align}
+            where we for brevity have introduced the notation $i \equiv x_i =
+            (\vf{r}_i, \sigma_i)$. A fully antisymmetric, normalized, $N$-body wave
+            function is given by the \emph{Slater determinant} built from $N$
+            individual spin-orbitals with $N$ generalized coordinates.
+            \begin{align}
+                \Psi(1, \dots, N)
+                &= \frac{1}{\sqrt{N!}}
+                \begin{vmatrix}
+                    \psi_1(1) & \dots & \psi_N(1) \\
+                    \vdots & \ddots & \vdots \\
+                    \psi_1(N) & \dots & \psi_N(N)
+                \end{vmatrix},
+                \label{eq:coord_slater}
+            \end{align}
+            where $\psi_i(j) \equiv \psi_i(\vf{r}_j, \sigma_j)$ for the $i$'th
+            spin-orbital in generalized coordinate $j$ \footnote{Note that the index
+            on the spin-orbitals has nothing to do with which spin component is used
+            as in the previous section on spin-orbitals.}. Exchanging a row in the
+            determinant results in a sign change as we required from the
+            antiysmmetric full wave function for the many-body problem. Furthermore,
+            exchanging a column in the determinant also results in a sign-change.
+            This means that there can not be two, or more, of the same spin-orbitals
+            in the wave function perfectly encapsulating the Pauli principle as two
+            of the same spin-orbitals translates to two particles being in the same
+            state. Generally, the spin-orbitals in a Slater determinant are linearly
+            independent, otherwise $\Psi = 0$. This is a consequence of the
+            properties of a determinant that adding a scalar multiple of a column to
+            another column does not change the determinant.
+
+            The factor in front of the Slater determinant makes the many-body wave
+            function normalized to unity as long as the spin-orbitals are
+            orthonormalized.
+
+            \begin{lemma}
+                Given a Slater determinant $\ket{\Phi}$ built from an
+                orthonormal basis $\brac{\ket{\phi_i}}_{i = 1}^{N}$ that spans
+                the $N$-dimensional Hilbert space, we can then perform a unitary
+                transformation to a new orthonormal basis
+                $\brac{\ket{\psi_i}}_{i = 1}^{N}$ building a new Slater
+                determinant $\ket{\Psi}$.
+                This unitary transformation will then preserve the normalization
+                of the original Slater determinant.
+                % TODO: Clean-up formulation.
+            \end{lemma}
+
+            % TODO: Introduce proof
+            \begin{proof}
+                \label{proof:slater_determinants_invariant}
+                Given a basis $\brac{\ket{\phi_i}}_{i = 1}^{N}$ that spans the
+                $N$-dimensional Hilbert space. We can then do a unitary
+                transformation from this basis to a new basis
+                $\brac{\ket{\psi_i}}_{i = 1}^{N}$ in the same Hilbert space by
+                \begin{align}
+                    \ket{\psi_i} = U_{ji}\ket{\phi_j},
+                    \label{eq:unitary_transformation}
+                \end{align}
+                where $U_{ji}$ is an element in the unitary matrix $\vfg{U}$.
+                For a set of coordinates
+                $\brac{x_1, \dots, x_N}$, we write
+                \begin{align}
+                    \psi_{ij} \equiv \psi_j(x_i)
+                    \equiv \braket{x_i}{\psi_j},
+                \end{align}
+                and equivalently for $\phi_{ij}$. Projecting onto the coordinate
+                basis we can write \autoref{eq:unitary_transformation} as
+                \begin{gather}
+                    \braket{x_k}{\psi_i}
+                    = U_{ji}\braket{x_k}{\phi_j}
+                    \implies
+                    \psi_{ki} = U_{ji}\phi_{kj} = \phi_{kj}U_{ji}
+                    \implies \vfg{\Psi} = \vfg{\Phi}\vfg{U},
+                \end{gather}
+                where the matrices $\vfg{\Psi}$, $\vfg{\Phi}$ and $\vfg{U}$ are
+                the matrices with elements
+                \begin{align}
+                    \vfg{\Psi}
+                    &= \begin{pmatrix}
+                        \psi_{11} & \psi_{12} & \dots & \psi_{1N} \\
+                        \vdots & \vdots & \ddots & \vdots \\
+                        \psi_{N1} & \psi_{N2} & \dots & \psi_{NN}
+                    \end{pmatrix}, \\
+                    \vfg{\Phi}
+                    &= \begin{pmatrix}
+                        \phi_{11} & \phi_{12} & \dots & \phi_{1N} \\
+                        \vdots & \vdots & \ddots & \vdots \\
+                        \phi_{N1} & \phi_{N2} & \dots & \phi_{NN}
+                    \end{pmatrix}, \\
+                    \vfg{U}
+                    &= \begin{pmatrix}
+                        U_{11} & U_{12} & \dots & U_{1N} \\
+                        \vdots & \vdots & \ddots & \vdots \\
+                        U_{N1} & U_{N2} & \dots & U_{NN}
+                    \end{pmatrix},
+                \end{align}
+                and where $\vfg{U}^{\dagger}\vfg{U} = \1$.
+                Creating the fully antisymmetrized normalized wave function, i.e.,
+                the Slater determinant, from $\vfg{\Psi}$ and $\vfg{\Phi}$ we see
+                that
+                % TODO: Fix description, the determinant of the "Slater matrices"
+                % are not necessarily normalized without the pre-factor.
+                \begin{gather}
+                    \det(\vfg{\Psi}) = \det(\vfg{\Phi}\vfg{U})
+                    = \det(\vfg{\Phi})\det(\vfg{U})
+                \end{gather}
+                We now take the squared norm on both sides.
+                \begin{align}
+                    \norm{\det(\vfg{\Psi})}^2
+                    = \norm{\det(\vfg{\Phi})\det(\vfg{U})}^2
+                    \leq
+                    \norm{\det(\vfg{\Phi})}^2\norm{\det(\vfg{U})}^2
+                    = \norm{\det(\vfg{\Phi})}^2,
+                    \label{eq:squared_determinant}
+                \end{align}
+                where we have used that
+                \begin{align}
+                    \norm{\det(\vfg{U})}^2
+                    &= \norm{\det(\vfg{U^{\dagger}})\det(\vfg{U})}
+                    = \norm{\det(\vfg{U}^{\dagger}\vfg{U})}
+                    = \norm{\det(\1)} = 1.
+                \end{align}
+                Now, in \autoref{eq:squared_determinant}, since the Slater
+                determinant of $\vfg{\Phi}$ is orthonormalized and a unitary
+                transformation preserves the normalization this means that the norm
+                of $\det(\vfg{\Phi})$ and the norm of $\det(\vfg{\Psi})$ must be
+                unity.  Thus, the equality in the splitting of the norm is preserved
+                thus yielding
+                \begin{gather}
+                    \norm{\det(\vfg{\Psi})}^2 = \norm{\det(\vfg{\Phi})}^2.
+                \end{gather}
+            \end{proof}
+
+            \subsubsection{Antisymmetrizer}
+                To avoid having to write the Slater determinants as in
+                \autoref{eq:coord_slater} we introduce the anti-symmetrizer
+                $\hat{A}$ which is given by
+                \begin{align}
+                    \hat{A}
+                    \equiv
+                    \frac{1}{N!}
+                    \sum_{\sigma \in S_N}
+                    (-1)^{\abs{\sigma}}
+                    \hat{P}_{\sigma},
+                \end{align}
+                where $\sigma$ is a permutation from the set of all permutations
+                $S_N$ of $N$ indices, $\hat{P}_{\sigma}$ is the permutation
+                operator permuting particles and $\abs{\sigma}$ is the number of
+                transpositions in the permutation.
+                There are $N!$ permutations in $S_N$ which is why we include the
+                normalization factor.
+                A Slater determinant can thus be represented by
+                \begin{align}
+                    \Phi(\vf{x})
+                    &=
+                    \sqrt{N!}\hat{A}\phi_1(x_1)\dots\phi_N(x_N)
+                    \\
+                    &= \frac{1}{\sqrt{N!}}
+                    \sum_{\sigma \in S_N} (-1)^{\abs{\sigma}}
+                    \phi_1(x_{\sigma(1)})\dots\phi_N(x_{\sigma(N)}).
+                \end{align}
+                The anti-symmetrizer opens up the possibility of representing a
+                Slater determinant in a coordinate-independent manner.
+                % TODO: Continue on this topic
+
+            \subsubsection{Operator representation}
+
+        \subsection{Time-dependent second quantized operators}
+
+
     \section{Spin-orbitals}
         In this thesis we will be looking at many-particle systems.
         Wave functions of many-particle systems depend on the coordinates of all
@@ -536,328 +1017,6 @@
             We will throughout this thesis just a summation convention that
             resembles the Einstein summation convention, but with slight
             variations.
-
-
-    \section{Second quantization}
-        So far, we have worked with quantum mechanics formulated in first
-        quantization where observables are operators acting on states that are
-        functions defined in some space.
-        Moving to second quantization we will express wave functions as creation
-        and annihilation operators working on the vacuum state.
-        Depending on the algebra for the operators, we can look at antisymmetric
-        fermions or symmetric bosons.
-        Expressing the first quantized observables in the same creation and
-        annihilation operators, we are able to unify much of quantum mechanics
-        to a single set of elementary operators \cite{helgaker-molecular}.
-
-        \subsection{Fock space}
-            In second quantization, we express a general many-body wave function
-            as a vector in the abstract linear vector space called \emph{Fock
-            space}.
-            In a basis of $L$ single-particle function, $\brac{\phi_p(x)}_{p =
-            1}^{L}$, this \emph{occupation number vector} can be represented by
-            \begin{align}
-                \ket{\Psi}
-                &= \ket{n_1, n_2, \dots, n_L}
-                \equiv \ket{\vf{n}},
-            \end{align}
-            where $n_i$ signifies how many states $\phi_i(x)$ are contained in
-            $\ket{\Psi}$.
-            We've defined the set $\vf{n}$ as the set containing all $n_i$.
-
-            Already, we can choose the particle type we are working with based
-            on the allowed values of $n_i$.
-            We have that
-            \begin{align}
-                n_i =
-                \begin{cases}
-                    0, 1 & \text{fermions}, \\
-                    0, 1, 2, \dots & \text{bosons},
-                \end{cases}
-            \end{align}
-            where a $0$ means that the state is unoccupied and a $1$, or higher,
-            means that the state is occupied by that amount of particles.
-            We thus see that for fermions we can only have a state occupied by a
-            single particle, whereas for bosons there are no limitiations to the
-            amount of particles that can be in the same state.
-
-            If the basis of spin-orbitals are orthonormal, we have that the
-            overlap between two vectors of equal dimension in Fock space is
-            given by
-            \begin{align}
-                \braket{\Psi}{\Phi}
-                = \braket{\vf{n}}{\vf{m}}
-                = \delta_{\vf{n}\vf{m}}
-                \equiv \prod_{i = 1}^{L} \delta_{n_i m_i},
-            \end{align}
-            that is, the two states must share the exact same occupied states.
-
-            % TODO: Find a natural way to introduce non-orthogonal spin-orbitals
-            % in the Fock state.
-            % This solution should be indepedent of bosons and fermions.
-            %However, if the basis is non-orthogonal, viz.
-            %\begin{align}
-            %    \braket{\phi_p}{\phi_q} = S_{pq} \neq \delta_{pq},
-            %\end{align}
-            %with $S_{pq}$ the overlap integral between the two spin-orbitals.
-            %We then have that the overlap between two occupation numbers vectors
-            %is given by
-            %\begin{align}
-            %    \braket{\Psi}{\Phi}
-            %    = \delta_{\vf{n}\vf{m}}\det\para{\vf{S}},
-            %\end{align}
-            %where $\vf{S}$ is the matrix with all the overlap integrals between
-            %the spin-orbitals.
-
-
-        \subsection{Creating and annihilating particles}
-            From the occupation number representation introduced by the Fock
-            space we introduce the \emph{vacuum state} as the state containing
-            no particles.
-            \begin{align}
-                \ket{\vac} = \ket{\vfg{0}} = \ket{0, 0, \dots, 0},
-            \end{align}
-            where all positions in the occupation number vector are zero.
-            This state is normalized such that
-            \begin{align}
-                \braket{\vac} = 1.
-            \end{align}
-            We now introduce \emph{creation} and \emph{annihilation} operators
-            which lets us build filled states from the vacuum.
-            Our initial definition of the second quantized operators will be
-            quite short as we will open up for both fermions and bosons.
-            After we have defined the particle type we are working with, we'll
-            expand on the definitions.
-
-            \begin{definition}
-                \label{def:creation_1}
-                For a given basis of normalized single-particle states
-                $\brac{\ket{\phi_p}}_{p = 1}^{L}$ we define the creation
-                operator by its action on the vacuum state.
-                \begin{align}
-                    \ccr{p}\ket{\vac}
-                    = \ccr{p}\ket{0_1, \dots, 0_L}
-                    = \ket{0_1, \dots, 1_p, \dots, 0_L}
-                    = \ket{\phi_p},
-                \end{align}
-                that is, the operator populates the vacuum with a
-                single-particle state.
-            \end{definition}
-            Having defined the creation operator as the operator that populates
-            the vacuum with a single-particle state, we look for the reverse
-            action, that is, the operator that removes a single-particle state.
-
-            \begin{definition}
-                \label{def:annihilation_1}
-                For a given basis of normalized single-particle states
-                $\brac{\ket{\phi_p}}_{p = 1}^{L}$ we define the annihilation
-                operator as the Hermitian conjugate of the creation operator.
-                That is,
-                \begin{align}
-                    \can{p} = \para{\ccr{p}}^{\dagger},
-                \end{align}
-                where $\can{p}$ is the annihilation operator.
-            \end{definition}
-            The annihilation operator will remove a single-particle state from
-            the wave function we are examining.
-            This can be seen from
-            \begin{align}
-                1 &= \braket{\phi_p}
-                = \mel{\phi_p}{\ccr{p}}{\vac}
-                = \mel{\vac}{\can{p}}{\phi_p}
-                = \braket{\vac}
-                = 1.
-            \end{align}
-
-            Having defined the creation and annihilation operators as in
-            \autoref{def:creation_1} and \autoref{def:annihilation_1} we still
-            have not said how we should go about building wave functions of many
-            particles.
-            The reason for this is that it depends on the particle type we are
-            using.
-            One of the major advantages of using the second quantization
-            formalism is that we can incorporate the symmetry requirement of
-            bosons and fermions in the commutation relation between the creation
-            and annihilation operators.
-
-
-        \subsection{Slater determinants}
-            As we are working with fermions the total many-body wave function must
-            be \emph{antisymmetric} with respect to interchange of
-            particles\footnote{We will restrict ourselves to the interchange of a
-            full spin-orbital.}. Mathematically the full wave function of $N$
-            fermions should satisfy
-            \begin{align}
-                \Psi(1, \dots, i, \dots, j, \dots, N)
-                =
-                -\Psi(1, \dots, j, \dots, i, \dots, N),
-            \end{align}
-            where we for brevity have introduced the notation $i \equiv x_i =
-            (\vf{r}_i, \sigma_i)$. A fully antisymmetric, normalized, $N$-body wave
-            function is given by the \emph{Slater determinant} built from $N$
-            individual spin-orbitals with $N$ generalized coordinates.
-            \begin{align}
-                \Psi(1, \dots, N)
-                &= \frac{1}{\sqrt{N!}}
-                \begin{vmatrix}
-                    \psi_1(1) & \dots & \psi_N(1) \\
-                    \vdots & \ddots & \vdots \\
-                    \psi_1(N) & \dots & \psi_N(N)
-                \end{vmatrix},
-                \label{eq:coord_slater}
-            \end{align}
-            where $\psi_i(j) \equiv \psi_i(\vf{r}_j, \sigma_j)$ for the $i$'th
-            spin-orbital in generalized coordinate $j$ \footnote{Note that the index
-            on the spin-orbitals has nothing to do with which spin component is used
-            as in the previous section on spin-orbitals.}. Exchanging a row in the
-            determinant results in a sign change as we required from the
-            antiysmmetric full wave function for the many-body problem. Furthermore,
-            exchanging a column in the determinant also results in a sign-change.
-            This means that there can not be two, or more, of the same spin-orbitals
-            in the wave function perfectly encapsulating the Pauli principle as two
-            of the same spin-orbitals translates to two particles being in the same
-            state. Generally, the spin-orbitals in a Slater determinant are linearly
-            independent, otherwise $\Psi = 0$. This is a consequence of the
-            properties of a determinant that adding a scalar multiple of a column to
-            another column does not change the determinant.
-
-            The factor in front of the Slater determinant makes the many-body wave
-            function normalized to unity as long as the spin-orbitals are
-            orthonormalized.
-
-            \begin{lemma}
-                Given a Slater determinant $\ket{\Phi}$ built from an
-                orthonormal basis $\brac{\ket{\phi_i}}_{i = 1}^{N}$ that spans
-                the $N$-dimensional Hilbert space, we can then perform a unitary
-                transformation to a new orthonormal basis
-                $\brac{\ket{\psi_i}}_{i = 1}^{N}$ building a new Slater
-                determinant $\ket{\Psi}$.
-                This unitary transformation will then preserve the normalization
-                of the original Slater determinant.
-                % TODO: Clean-up formulation.
-            \end{lemma}
-
-            % TODO: Introduce proof
-            \begin{proof}
-                \label{proof:slater_determinants_invariant}
-                Given a basis $\brac{\ket{\phi_i}}_{i = 1}^{N}$ that spans the
-                $N$-dimensional Hilbert space. We can then do a unitary
-                transformation from this basis to a new basis
-                $\brac{\ket{\psi_i}}_{i = 1}^{N}$ in the same Hilbert space by
-                \begin{align}
-                    \ket{\psi_i} = U_{ji}\ket{\phi_j},
-                    \label{eq:unitary_transformation}
-                \end{align}
-                where $U_{ji}$ is an element in the unitary matrix $\vfg{U}$.
-                For a set of coordinates
-                $\brac{x_1, \dots, x_N}$, we write
-                \begin{align}
-                    \psi_{ij} \equiv \psi_j(x_i)
-                    \equiv \braket{x_i}{\psi_j},
-                \end{align}
-                and equivalently for $\phi_{ij}$. Projecting onto the coordinate
-                basis we can write \autoref{eq:unitary_transformation} as
-                \begin{gather}
-                    \braket{x_k}{\psi_i}
-                    = U_{ji}\braket{x_k}{\phi_j}
-                    \implies
-                    \psi_{ki} = U_{ji}\phi_{kj} = \phi_{kj}U_{ji}
-                    \implies \vfg{\Psi} = \vfg{\Phi}\vfg{U},
-                \end{gather}
-                where the matrices $\vfg{\Psi}$, $\vfg{\Phi}$ and $\vfg{U}$ are
-                the matrices with elements
-                \begin{align}
-                    \vfg{\Psi}
-                    &= \begin{pmatrix}
-                        \psi_{11} & \psi_{12} & \dots & \psi_{1N} \\
-                        \vdots & \vdots & \ddots & \vdots \\
-                        \psi_{N1} & \psi_{N2} & \dots & \psi_{NN}
-                    \end{pmatrix}, \\
-                    \vfg{\Phi}
-                    &= \begin{pmatrix}
-                        \phi_{11} & \phi_{12} & \dots & \phi_{1N} \\
-                        \vdots & \vdots & \ddots & \vdots \\
-                        \phi_{N1} & \phi_{N2} & \dots & \phi_{NN}
-                    \end{pmatrix}, \\
-                    \vfg{U}
-                    &= \begin{pmatrix}
-                        U_{11} & U_{12} & \dots & U_{1N} \\
-                        \vdots & \vdots & \ddots & \vdots \\
-                        U_{N1} & U_{N2} & \dots & U_{NN}
-                    \end{pmatrix},
-                \end{align}
-                and where $\vfg{U}^{\dagger}\vfg{U} = \1$.
-                Creating the fully antisymmetrized normalized wave function, i.e.,
-                the Slater determinant, from $\vfg{\Psi}$ and $\vfg{\Phi}$ we see
-                that
-                % TODO: Fix description, the determinant of the "Slater matrices"
-                % are not necessarily normalized without the pre-factor.
-                \begin{gather}
-                    \det(\vfg{\Psi}) = \det(\vfg{\Phi}\vfg{U})
-                    = \det(\vfg{\Phi})\det(\vfg{U})
-                \end{gather}
-                We now take the squared norm on both sides.
-                \begin{align}
-                    \norm{\det(\vfg{\Psi})}^2
-                    = \norm{\det(\vfg{\Phi})\det(\vfg{U})}^2
-                    \leq
-                    \norm{\det(\vfg{\Phi})}^2\norm{\det(\vfg{U})}^2
-                    = \norm{\det(\vfg{\Phi})}^2,
-                    \label{eq:squared_determinant}
-                \end{align}
-                where we have used that
-                \begin{align}
-                    \norm{\det(\vfg{U})}^2
-                    &= \norm{\det(\vfg{U^{\dagger}})\det(\vfg{U})}
-                    = \norm{\det(\vfg{U}^{\dagger}\vfg{U})}
-                    = \norm{\det(\1)} = 1.
-                \end{align}
-                Now, in \autoref{eq:squared_determinant}, since the Slater
-                determinant of $\vfg{\Phi}$ is orthonormalized and a unitary
-                transformation preserves the normalization this means that the norm
-                of $\det(\vfg{\Phi})$ and the norm of $\det(\vfg{\Psi})$ must be
-                unity.  Thus, the equality in the splitting of the norm is preserved
-                thus yielding
-                \begin{gather}
-                    \norm{\det(\vfg{\Psi})}^2 = \norm{\det(\vfg{\Phi})}^2.
-                \end{gather}
-            \end{proof}
-
-            \subsubsection{Antisymmetrizer}
-                To avoid having to write the Slater determinants as in
-                \autoref{eq:coord_slater} we introduce the anti-symmetrizer
-                $\hat{A}$ which is given by
-                \begin{align}
-                    \hat{A}
-                    \equiv
-                    \frac{1}{N!}
-                    \sum_{\sigma \in S_N}
-                    (-1)^{\abs{\sigma}}
-                    \hat{P}_{\sigma},
-                \end{align}
-                where $\sigma$ is a permutation from the set of all permutations
-                $S_N$ of $N$ indices, $\hat{P}_{\sigma}$ is the permutation
-                operator permuting particles and $\abs{\sigma}$ is the number of
-                transpositions in the permutation.
-                There are $N!$ permutations in $S_N$ which is why we include the
-                normalization factor.
-                A Slater determinant can thus be represented by
-                \begin{align}
-                    \Phi(\vf{x})
-                    &=
-                    \sqrt{N!}\hat{A}\phi_1(x_1)\dots\phi_N(x_N)
-                    \\
-                    &= \frac{1}{\sqrt{N!}}
-                    \sum_{\sigma \in S_N} (-1)^{\abs{\sigma}}
-                    \phi_1(x_{\sigma(1)})\dots\phi_N(x_{\sigma(N)}).
-                \end{align}
-                The anti-symmetrizer opens up the possibility of representing a
-                Slater determinant in a coordinate-independent manner.
-                % TODO: Continue on this topic
-
-            \subsubsection{Operator representation}
-
-        \subsection{Time-dependent second quantized operators}
 
 
     \section{Wick's theorem}
