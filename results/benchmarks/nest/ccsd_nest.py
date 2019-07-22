@@ -16,6 +16,9 @@ path = os.path.join(sys.path[0], "dat")
 
 lih = get_lih_system()
 
+os.environ["OMP_NUM_THREADS"] = 4
+os.environ["MKL_NUM_THREADS"] = 4
+
 integrator = GaussIntegrator(s=3, eps=1e-6, np=np)
 
 tdccsd = TDCCSD(lih, integrator=integrator, verbose=True)
