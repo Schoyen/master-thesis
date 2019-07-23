@@ -787,3 +787,33 @@
                 values include more noise and provides no more insight.}
                 \label{fig:one-particle-density-miyagi-l=40}
             \end{figure}
+
+        \subsection{Electronic spectra of molecules}
+            In an article by \citeauthor{nest} \cite{nest} the
+            multiconfiguration time-dependent Hartree-Fock method was tested on
+            a system of lithium hydride and methane subject to spatially uniform
+            laser field on the form
+            \begin{align}
+                \vfg{F}(t)
+                = -\vfg{\epsilon}
+                F(t) \sin^2(\omega t),
+            \end{align}
+            where $\vfg{\epsilon}$ is the polarization vector, $\omega =
+            \SI{5.44}{\electronvolt}$.
+            The envelope of the laser field is given by
+            \begin{align}
+                F(t) = \begin{cases}
+                    \SI{3.5e12}{\watt/\cm^2}
+                    & t \leq \SI{1}{\femto\second}, \\
+                    0 & t > \SI{1}{\femto\second},
+                \end{cases}
+            \end{align}
+            that is, they use an \emph{ultrashort} laser pulse and let the
+            system evolve in time for $\SI{100}{\femto\second}$.
+            We repeat this study for the lithium hydride molecule.
+            We use a bond-length of $\SI{3.08}{\bohr}$ in the $z$-direction
+            between the lithium and the hydrogen atoms.
+            We use the basis 6-31G*.
+            Finally, we run two simulations by setting the polarization vector
+            in $z$ and $x$ direction and measure the dipole moment in the same
+            direction as the polarization of the laser field.
