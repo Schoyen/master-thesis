@@ -1,7 +1,38 @@
 \section{Two-dimensional quantum dots}
+    In this section we'll discuss some results for the two-dimensional quantum
+    dot.
 
     \subsection{Ground state particle densities}
 
+
+    \subsection{Wigner crystallization}
+        In a seminal paper by \citeauthor{wigner-crystal}
+        \cite{wigner-crystal} the concept of crystallization of the electrons in
+        an electronic system is discussed.
+        If the potential energy -- here potential energy includes the
+        correlation energy from the Coulomb interaction -- exceeds the kinetic
+        energy, then the quantum dots will crystalize
+        \cite{hogberget2013quantum}.
+        % TODO: Cite the experimental results as done by Jørgen.
+        As we've reduced the Hamiltonian of our two-dimensional harmonic
+        oscillator system to a dimensionless quantity where $\omega$ is the only
+        adjustable parameter, viz. \autoref{eq:tdho-hamiltonian}, we need to
+        lower the value of the potential well in order to achieve
+        crystallization.
+        When the system gets dispersed enough, i.e., $\omega \to 0$, then the
+        particles will move into localized spread out shells.
+
+        However, low frequency systems are notoriously difficult to solve using
+        coupled cluster methods as they require a substantial amount of basis
+        functions to accurately represent the dispersed system.
+        Our rather general coupled cluster solvers requires the full two-body
+        elements in memory in order to run a simulation.
+        This provides a limiting factor on the number of basis functions that
+        are tractable to work with.
+        As a consequence, we will not demonstrate Wigner crystallization for
+        larger systems than $6$ particles.
+        A plot of the particle densities for $N = 2$ and $N = 6$ are shown in
+        \autoref{fig:ground-state-particle-densities-tdho-2-6}.
         \begin{figure}
             \centering
             \begin{tabular}{cc}
@@ -140,10 +171,10 @@
                         \addplot3[
                             surf,
                             data cs=polarrad,
-                            mesh/rows=101,
+                            mesh/rows=201,
                         ]
                         table
-                        {results/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=90_omega=0.28_rho_real.dat};
+                        {results/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=132_omega=0.01_rho_real.dat};
                     \end{polaraxis}
                 \end{tikzpicture}
                 &
@@ -172,6 +203,14 @@
                     \end{polaraxis}
                 \end{tikzpicture}
             \end{tabular}
-            \caption{Bleh}
+            \caption{In this figure we see how the particle densities moves into
+            shell structures -- resembling waves in a pond -- when the frequency
+            is lowered.
+            This is the system moving into a Wigner crystal.}
             \label{fig:ground-state-particle-densities-tdho-2-6}
         \end{figure}
+        In \autoref{fig:ground-state-particle-densities-tdho-2-6} we are able to
+        observe how particle density gets ``pushed'' away from the center of the
+        well when we lower the frequency.
+        This is the crystallization effect where the particles move into
+        localized shell structures.
