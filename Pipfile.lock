@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8c03f76b7b5ca8700c6ad30f52827579ac9c80e0397ca3d3a68ad062df7d60db"
+            "sha256": "e59362729dbc5331f2270c3b8ae8f42e4cf0ec5afa71745c756ab0dcc16bae51"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -317,8 +317,8 @@
         },
         "pint": {
             "editable": true,
-            "git": "ssh://git@github.com/Schoyen/pint.git",
-            "ref": "25734d75e807024b3315e4d17734a6cdb37a77e3"
+            "git": "ssh://git@github.com/hgrecco/pint.git",
+            "ref": "2afdc4bf5c5727ed9cef6fdaccb00b88813c4a24"
         },
         "pluggy": {
             "hashes": [
