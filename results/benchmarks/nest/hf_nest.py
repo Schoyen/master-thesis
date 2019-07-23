@@ -35,6 +35,11 @@ tdhf = TDHF(lih, integrator=integrator, verbose=True)
 tdhf.compute_ground_state(tol=1e-8)
 tdhf.set_initial_conditions()
 
+print(
+    f"Ground state energy without nuclear repulsion: "
+    + f"{tdhf.compute_energy() - lih.nuclear_repulsion_energy}"
+)
+
 time_points = get_time_points()
 num_steps = len(time_points)
 
