@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Job name
-#SBATCH --job-name=benchmark-thesis-nest-oatdccd
+#SBATCH --job-name=benchmark-thesis-nest-oatdccd-z
 #
 # Project
 #SBATCH --account=nn2977k
@@ -13,7 +13,7 @@
 #SBATCH --mem-per-cpu=4G
 #
 # Number of CPU's/processes
-#SBATCH --cpus-per-task=2
+#SBATCH --cpus-per-task=4
 
 ## Set up job environment
 source /cluster/bin/jobsetup
@@ -31,5 +31,5 @@ cleanup "cp $SCRATCH/dat/* $SUBMITDIR/dat/"
 
 ## Run commands
 cd $SCRATCH
-export OMP_NUM_THREADS=2
-python ccd_nest.py
+export OMP_NUM_THREADS=4
+python ccd_nest.py z

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Job name
-#SBATCH --job-name=benchmark-thesis-nest-tdccsd
+#SBATCH --job-name=benchmark-thesis-nest-tdccsd-z
 #
 # Project
 #SBATCH --account=nn2977k
@@ -32,4 +32,4 @@ cleanup "cp $SCRATCH/dat/* $SUBMITDIR/dat/"
 ## Run commands
 cd $SCRATCH
 export OMP_NUM_THREADS=4
-python ccsd_nest.py
+python ccsd_nest.py z
