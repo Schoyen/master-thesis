@@ -14,7 +14,17 @@ from tdqd_tools.io_data import write_data
 
 path = os.path.join(sys.path[0], "dat")
 
-lih = get_lih_system()
+
+polarization_dict = dict(x=0, z=2)
+
+if len(sys.argv) < 2:
+    print("Specify polarization direction (x or z)")
+    sys.exit()
+
+polarization_direction = sys.argv[1]
+polarization_axis = polarization_dict[polarization_direction]
+
+lih = get_lih_system(polarization_axis=polarization_axis)
 
 os.environ["OMP_NUM_THREADS"] = "4"
 os.environ["MKL_NUM_THREADS"] = "4"
@@ -28,19 +38,16 @@ tdccsd.set_initial_conditions()
 time_points = get_time_points()
 num_steps = len(time_points)
 
-dipole_x = np.zeros(num_steps, dtype=np.complex128)
-dipole_z = np.zeros(num_steps, dtype=np.complex128)
+dipole = np.zeros(num_steps, dtype=np.complex128)
 energy = np.zeros(num_steps, dtype=np.complex128)
 
 t_0 = time.time()
 
-x = lih.dipole_moment[0]
-z = lih.dipole_moment[2]
+dipole_moment = lih.dipole_moment[polarization_axis]
 
 rho = tdccsd.compute_one_body_density_matrix()
 
-dipole_x[0] = np.trace(rho @ x)
-dipole_z[0] = np.trace(rho @ x)
+dipole[0] = np.trace(rho @ dipole_moment)
 energy[0] = tdccsd.compute_energy()
 
 time_accumulator = 0
@@ -53,7 +60,7 @@ try:
         time_accumulator += t_1 - t_0
 
         if i % 10 == 0:
-            print(f"Iteration: {i + 1} / {num_steps}")
+            print(f"Iteration: {i} / {num_steps - 1}")
 
             time_per_iteration = time_accumulator / (i + 1)
             time_left = (num_steps - (i + 1)) * time_per_iteration
@@ -69,40 +76,41 @@ try:
 
         t_0 = time.time()
 
-        x = lih.dipole_moment[0]
-        z = lih.dipole_moment[2]
+        dipole_moment = lih.dipole_moment[polarization_axis]
 
         rho = tdccsd.compute_one_body_density_matrix()
 
-        dipole_x[i + 1] = np.trace(rho @ x)
-        dipole_z[i + 1] = np.trace(rho @ x)
+        dipole[i + 1] = np.trace(rho @ dipole_moment)
         energy[i + 1] = tdccsd.compute_energy()
 
 except Exception:
     # Save data in case of crash
-    pass
+    print(f"Simulation crashed at i = {i}")
+    time_points = time_points[: i + 1]
+    dipole = dipole[: i + 1]
+    energy = energy[: i + 1]
 
 
 write_data(
-    os.path.join(path, "dipole_x_tdccsd_real.dat"), time_points, dipole_x.real
+    os.path.join(path, f"dipole_{polarization_direction}_tdccsd_real.dat"),
+    time_points,
+    dipole.real,
 )
 
 write_data(
-    os.path.join(path, "dipole_x_tdccsd_imag.dat"), time_points, dipole_x.imag
+    os.path.join(path, f"dipole_{polarization_direction}_tdccsd_imag.dat"),
+    time_points,
+    dipole.imag,
 )
 
 write_data(
-    os.path.join(path, "dipole_z_tdccsd_real.dat"), time_points, dipole_z.real
+    os.path.join(path, f"energy_{polarization_direction}_tdccsd_real.dat"),
+    time_points,
+    energy.real,
 )
 
 write_data(
-    os.path.join(path, "dipole_z_tdccsd_imag.dat"), time_points, dipole_z.imag
-)
-
-write_data(
-    os.path.join(path, "energy_tdccsd_real.dat"), time_points, energy.real
-)
-
-write_data(
-    os.path.join(path, "energy_tdccsd_imag.dat"), time_points, energy.imag
+    os.path.join(path, f"energy_{polarization_direction}_tdccsd_imag.dat"),
+    time_points,
+    energy.imag,
 )
