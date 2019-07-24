@@ -636,8 +636,83 @@
             \end{align}
             Repeating this exercise for the fermionic states we start by noting
             that the fermionic phase factor squared is $1$.
-            Starting with the equal states
-
+            \begin{align}
+                \begin{drcases}
+                    \can{p}\ccr{p}\ket{\vfg{n}}
+                    &= \delta_{n_p0}\ket{\vfg{n}}
+                    \\
+                    \ccr{p}\can{p}\ket{\vfg{n}}
+                    &= \delta_{n_p1}\ket{\vfg{n}}
+                \end{drcases}
+                \implies
+                \acom{\can{p}}{\ccr{p}}
+                = \delta_{n_p 0} + \delta_{n_p 1}
+                = 1,
+            \end{align}
+            where $n_p$ in the Kronecker-Deltas following the anticommutator
+            expression are dummy indices.
+            When $p \neq q$ we have
+            \begin{align}
+                \can{p}\ccr{q}\ket{\vfg{n}}
+                &=
+                (\Gamma_{+})^{\vfg{n}^{(1)}}_{p}
+                (\Gamma_{+})^{\vfg{n}}_{q}
+                \delta_{n_p 1} \delta_{n_q 0}
+                \ket{\vfg{n}^{(3)}}
+                \\
+                \ccr{q}\can{p}\ket{\vfg{n}}
+                &=
+                (\Gamma_{+})^{\vfg{n}^{(2)}}_{q}
+                (\Gamma_{+})^{\vfg{n}}_{p}
+                \delta_{n_q 0} \delta_{n_p 1}
+                \ket{\vfg{n}^{(3)}}
+            \end{align}
+            where we've defined the state $\ket{\vfg{n}^{(3)}}$ as state
+            $\ket{\vfg{n}}$ with the single-particle states $\ket{q}$ added and
+            $\ket{p}$ removed.
+            Collecting the creation and annihilation pair into an anticommutator
+            relation we have
+            \begin{align}
+                \acom{\can{p}}{\ccr{q}}
+                =
+                \delta_{n_q 0} \delta_{n_p 1}
+                \brak{
+                    (\Gamma_{+})^{\vfg{n}^{(1)}}_{p}
+                    (\Gamma_{+})^{\vfg{n}}_{q}
+                    +
+                    (\Gamma_{+})^{\vfg{n}^{(2)}}_{q}
+                    (\Gamma_{+})^{\vfg{n}}_{p}
+                }.
+            \end{align}
+            In order to get a final expression for this anticommutator need to
+            find expressions for the phases $(\Gamma_{+})^{\vfg{n}^{(1)}}_{p}$
+            and $(\Gamma_{+})^{\vfg{n}^{(2)}}_{q}$ relative to the original
+            state $\ket{\vfg{n}}$.
+            We have two situations that needs to be explored, namely when $p >
+            q$ and the opposite situation when $p < q$.
+            Now, when $p > q$ we have
+            \begin{align}
+                (\Gamma_{+})^{\vfg{n}^{(1)}}_{p}
+                (\Gamma_{+})^{\vfg{n}}_{q}
+                =
+                -
+                (\Gamma_{+})^{\vfg{n}}_{p}
+                (\Gamma_{+})^{\vfg{n}}_{q},
+            \end{align}
+            as $\ccr{q}$ inserts an extra state $\ket{q}$ between $n_1$ and
+            $n_p$.
+            Conversely, this sign change does not occur for the reverse
+            situation when $\ccr{q}\can{p}$ acts on $\ket{\vfg{n}}$ and we get
+            $(\Gamma_{+})^{\vfg{n}^{(2)}}_{p} = (\Gamma_{+})^{\vfg{n}}_{p}$.
+            Thus, in total we have
+            \begin{align}
+                \acom{\can{p}}{\ccr{q}} = 0,
+            \end{align}
+            for $p > q$.
+            When $p < q$ we get the same result as can be seen by taking the
+            Hermitian conjugate of the anticommutator and reversing the dummy
+            indices $p$ and $q$.
+            In total we have the fundamental
 
 
         \subsection{Slater determinants}
