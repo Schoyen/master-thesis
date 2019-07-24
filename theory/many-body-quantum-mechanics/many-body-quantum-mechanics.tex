@@ -996,6 +996,91 @@
 
 
     \section{Slater determinants}
+        So far we have established that the full many-body wave function of a
+        fermionic system should be anti-symmtric with respect to its particles.
+        The creation and annihilation operators for the Fock space
+        representation of many-body configurations incorporates the
+        anti-symmetry requirement, but we are no closer to establishing what our
+        many-body wave function looks like in a coordinate representation making
+        it hard to compute integrals in order to find matrix elements.
+
+        A start is to consider a system of non-interacting particles with a
+        Hamiltonian on the form
+        \begin{align}
+            \hamil = \sum_{i = 1}^{N} \onehamil_i,
+        \end{align}
+        where $\onehamil_i$ is a one-body Hamiltonian acting on particle $i$. We
+        are able to find the spectrum of $\onehamil$, and we can use the $N$
+        first eigenstates $\ket{\psi_i}$ as a basis of spin-orbitals.
+        This lets us construct a many-body wave function as a product state from
+        these spin-orbitals, viz.
+        \begin{align}
+            \ket{\Psi}
+            = \bigotimes_{i = 1}^{N}\ket{\psi_i}
+            = \ket{\psi_1}\otimes\dots\otimes\ket{\psi_n}.
+        \end{align}
+        The coordinate representation of this state can be found by
+        \begin{align}
+            \braket{x_1, \dots, x_n}{\Psi}
+            = \psi_1(x_1)\dots\psi_n(x_n),
+        \end{align}
+        where $\psi_i(x_i)$ is the coordinate representation of the
+        spin-orbitals.
+        Since each eigenstate $\ket{\psi_i}$ is an eigenstate of the one-body
+        Hamiltonian with eigenenegy $\epsilon_i$ we can find the total energy of
+        the full Hamiltonian by
+        \begin{align}
+            \hamil\ket{\Psi}
+            = E\ket{\Psi}
+            = \brak{
+                \sum_{i = 1}^{N}
+                \epsilon_i
+            }\ket{\Psi}.
+        \end{align}
+        This product state in quantum chemistry and nuclear physics often knwon
+        as the \emph{Hartree product}.
+        However, a product state is neither symmetric nor anti-symmetric with
+        respect to exchange of particles as a product state is not an eigenstate
+        of the exchange operator.
+        A way to introduce particle indistinguishability and the anti-symmetry
+        requirement to the product state is to create a linear combination of
+        product states using the permutation operator $\hat{P}_{\sigma}$ defined
+        in a similar manner as in \autoref{sec:particle-statistics}.
+        Defining the action of the permutation operator on the product state to
+        be
+        \begin{align}
+            \hat{P}_{\sigma}\ket{\Psi}
+            = \hat{P}_{\sigma}\bigotimes_{i = 1}^{N}\ket{\psi_i}
+            = \bigotimes_{i = 1}^{N}\ket{\psi_{\sigma(i)}},
+        \end{align}
+        where $\sigma(i)$ is a permutation.
+        Now we construct the \emph{antisymmetrizer} $\hat{A}$ defined as the
+        operator
+        \begin{align}
+            \hat{A} = \frac{1}{N!}\sum_{\sigma \in S_{N}}\hat{P}_{\sigma},
+        \end{align}
+        that is, the operator that performs all $N!$ permutations in $S_{N}$.
+        Using the antisymmetrizer we can construct a totally anti-symmetric wave
+        function $\ket{\Phi}$ by
+        \begin{align}
+            \ket{\Phi}
+            = \sqrt{N!}\hat{A}\ket{\Psi}
+            = \frac{1}{\sqrt{N!}}\sum_{\sigma \in S_{N}}
+            \hat{P}_{\sigma}
+            \bigotimes_{i = 1}^{N}\ket{\psi_i},
+        \end{align}
+        where the factor $\sqrt{N!}$ is added to ensure that $\ket{\Phi}$ is
+        normalized.
+        As the non-interacting many-body Hamiltonian only acts on a single
+        spin-orbital at a time, the ordering does not matter.
+        This means that
+        \begin{align}
+            \com{\hamil}{\hat{P}_{\sigma}} = 0,
+        \end{align}
+        and the state $\ket{\Phi}$ is also an eigenstate of $\hamil$ with the
+        same energy $E$ as the product state $\ket{\Psi}$.
+
+
         As we are working with fermions the total many-body wave function must
         be \emph{antisymmetric} with respect to interchange of
         particles\footnote{We will restrict ourselves to the interchange of a
@@ -1222,7 +1307,8 @@
         \end{align}
         where each term involves the \emph{interaction} between $i$ particles.
         For $i = 0$ we have $\hamil_0$ which we take to signify a constant term,
-        e.g., the nuclear charge of an atomic system.
+        e.g., the nuclear repulsion energy of an atomic system where we limit
+        our attention the electrons.
         This term contributes with a constant energy shift in the expectation
         value.
         The one-body term, $\hamil_1$, is the familiar Hamiltonian from
