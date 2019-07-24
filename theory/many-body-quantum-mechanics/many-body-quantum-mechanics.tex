@@ -298,13 +298,12 @@
         So far, we have worked with quantum mechanics formulated in first
         quantization where observables are operators acting on states that are
         functions defined on some space.
-        Moving to second quantization we will express wave functions as field
-        operators working on the vacuum state.
+        Moving to second quantization we will express wave functions as products
+        of creation and annihilation operators acting on the vacuum state.
         These operators provide a way to express many-body wave
         functions\footnote{%
             Or more precisely, configurations of many-body wave functions.%
-        } as a product of field operators where each field represents a
-        particle.
+        } as a product of operators where each operator represents a particle.
         Depending on the algebra for the operators, we can look at antisymmetric
         fermions or symmetric bosons.
         Expressing the first quantized observables in the same creation and
@@ -420,10 +419,10 @@
             From \autoref{eq:inner-product-fock} we have that the vacuum state
             is normalized to unity.
 
-        \subsection{Field operators}
+        \subsection{Creation and annihilation operators}
             We now introduce the \emph{creation} and \emph{annihilation}
             operators which acts on Fock states by adding or removing single
-            particle states.\footnote{Also known as \emph{fields}.}
+            particle states.
 
             \begin{definition}
                 \label{def:creation_1}
@@ -436,9 +435,12 @@
                 \begin{align}
                     \acr{p}\ket{\vfg{n}}
                     = (\Gamma_{\nu})^{\vfg{n}}_{p}
+                    \sqrt{n_p + 1}
                     \ket{n_1, \dots, n_p + 1, \dots, n_L}
                     = (\Gamma_{\nu})^{\vfg{n}}_{p}
+                    \sqrt{n_p + 1}
                     \ket{\vfg{n}'},
+                    \label{eq:general_creation}
                 \end{align}
                 where $(\Gamma_{\nu})^{\vfg{n}}_{p}$ is a phase factor which
                 depends on the particle type $\nu$.
@@ -471,23 +473,14 @@
                 \label{eq:canonical-fock-state}
             \end{align}
             that is, we order the states in an increasing order.
-            This sign change is also another way to invoke the Pauli exclusion
-            principle as can be seen by considering a state $\ket{1_1} \in
-            F_{-}(L, 1)$ and acting with $\ccr{1}$, viz.
-            \begin{align}
-                \ccr{1}\ket{1_1}
-                = \ket{1_1, 1_1}
-                = -\ket{1_1, 1_1}
-                = 0,
-            \end{align}
-            where we interchange the two particles to incur a sign change.
-            We have for the sake of argument ignored that a fermionic Fock state
-            $\ket{2_1} = 0$, by construction.
-            This means that
+            Recalling the Pauli exclusion principle that $n_p \in \brac{0, 1}$
+            for a fermionic wave function, we have that
             \begin{align}
                 \ccr{p}\ccr{p} = 0,
             \end{align}
-            for a system of fermions.
+            and the normalization factor $\sqrt{n_p + 1}$ will always be $1$ as
+            long as the state is not annihilated by inserting an already
+            existing state.
             From the phase in \autoref{def:creation_1} we have the commutation
             relation
             \begin{gather}
@@ -499,7 +492,9 @@
             \begin{gather}
                 \acom{\ccr{p}}{\ccr{q}} = \ccr{p}\ccr{q} + \ccr{q}\ccr{p} = 0,
             \end{gather}
-            which yields the expected sign change.
+            as $p > q$ or $q > p$ and the phase factor will give a sign change
+            by inserting one before the other thus yielding the same state with
+            an opposite sign.
 
             We define the \emph{annihilation operator} as the adjoint of the
             creation operator.
@@ -515,12 +510,14 @@
                 }^{*}
                 = \para{\Gamma_{\nu}}^{\vfg{m}}_{p}
                 \delta_{\vfg{n}\vfg{m}'}
+                \sqrt{m_p + 1}
                 \ket{\vfg{m}},
             \end{align}
             where
             \begin{align}
                 \acr{p}\ket{\vfg{m}}
                 = \para{\Gamma_{\nu}}^{\vfg{m}}_{p}
+                \sqrt{m_p + 1}
                 \ket{\vfg{m}'}.
             \end{align}
             In order for the overlap between $\ket{\vfg{n}}$ and
@@ -532,17 +529,20 @@
             particle in state $\ket{p}$ than $\ket{\vfg{m}}$.
             As all other states in $\ket{\vfg{n}}$ and $\ket{\vfg{m}}$ are the
             same, we have that $(\Gamma_{\nu})^{\vfg{m}}_{p} =
-            (\Gamma_{\nu})^{\vfg{n}}_{p}$.
+            (\Gamma_{\nu})^{\vfg{n}}_{p}$
+            and $\sqrt{n_p} = \sqrt{m_p + 1}$.
             This means that
             \begin{align}
                 (\Gamma_{\nu})^{\vfg{m}}_{p}
                 \delta_{\vfg{n}\vfg{m}'}
+                \sqrt{m_p + 1}
                 =
                 \para{\mel{\vfg{n}}{\acr{p}}{\vfg{m}}}^{*}
                 =
                 \mel{\vfg{m}}{\aan{p}}{\vfg{n}}
                 =
                 (\Gamma_{\nu})^{\vfg{n}}_{p}
+                \sqrt{n_p}
                 \delta_{\vfg{n}'\vfg{m}},
             \end{align}
             where $\ket{\vfg{n}'}$ is the state $\ket{\vfg{n}}$ with state
@@ -559,8 +559,10 @@
                 \begin{align}
                     \aan{p}\ket{\vfg{n}}
                     = (\Gamma_{\nu})^{\vfg{n}}_{p}
+                    \sqrt{n_p}
                     \ket{n_1, \dots, n_p - 1, \dots, n_L}
                     = (\Gamma_{\nu})^{\vfg{n}}_{p}
+                    \sqrt{n_p}
                     \ket{\vfg{n}'},
                 \end{align}
                 where $(\Gamma_{\nu})^{\vfg{n}}_{p}$ is the same phase factor as
@@ -568,7 +570,7 @@
                 We will denote fermionic annihilation operators by $\can{p}$ and
                 the corresponding bosonic anniliation operators by $\ban{p}$.
             \end{definition}
-            From the definition of the field operator we have that
+            From the definition of the annihilation operator we have that
             \begin{align}
                 \can{p}\can{p} = 0,
             \end{align}
@@ -580,9 +582,10 @@
             \end{align}
             for the bosonic states and the anticommutation relation
             \begin{align}
-                \acom{\can{p}}{\can{q}} = \can{p}\can{q} + \can{q}\can{p} = 0.
+                \acom{\can{p}}{\can{q}} = \can{p}\can{q} + \can{q}\can{p} = 0,
             \end{align}
-            This can be seen by taking the Hermitian conjugate of the
+            for the fermionic system.
+            These relations can be seen by taking the Hermitian conjugate of the
             commutation and anitcommutation relation for the creation operators.
             If the annihilation operator $\aan{p}$ acts on a Fock state
             $\ket{\vfg{n}}$ which does not contain the state $\ket{p}$, then
@@ -593,6 +596,48 @@
             \end{align}
             As a consequence, any annihilation operator will annihilate the
             vacuum.
+
+            Now, in order to derive the fundamental properties of the second
+            quantized operators we look at the combined action of a creation and
+            an annihilation operator acting on a state in combination.
+            For the bosonic operators we have
+            \begin{align}
+                \begin{drcases}
+                    \ban{p}\bcr{p}\ket{\vfg{n}}
+                    &= (n_p + 1)\ket{\vfg{n}}
+                    \\
+                    \bcr{p}\ban{p}\ket{\vfg{n}}
+                    &= n_p \ket{\vfg{n}}
+                \end{drcases}
+                \implies
+                \com{\ban{p}}{\bcr{p}}
+                = (n_p + 1) - n_p = 1,
+            \end{align}
+            when we create and remove the same particle in state $\ket{p}$.
+            When $p \neq q$ we have
+            \begin{align}
+                \begin{drcases}
+                    \ban{p}\bcr{q}\ket{\vfg{n}}
+                    &= \sqrt{n_p}\sqrt{n_q + 1}\ket{\vfg{n}'}
+                    \\
+                    \bcr{q}\ban{p}\ket{\vfg{n}}
+                    &= \sqrt{n_p}\sqrt{n_q + 1}\ket{\vfg{n}'}
+                \end{drcases}
+                \implies
+                \com{\ban{p}}{\bcr{q}}
+                = 0.
+            \end{align}
+            Collecting all three commutation relations for the bosonic states we
+            find
+            \begin{align}
+                \com{\ban{p}}{\ban{q}} &= 0, \\
+                \com{\bcr{p}}{\bcr{q}} &= 0, \\
+                \com{\ban{p}}{\bcr{q}} &= \delta_{pq}.
+            \end{align}
+            Repeating this exercise for the fermionic states we start by noting
+            that the fermionic phase factor squared is $1$.
+            Starting with the equal states
+
 
 
         \subsection{Slater determinants}
