@@ -347,7 +347,11 @@
         These operators provide a way to express many-body wave
         functions\footnote{%
             Or more precisely, configurations of many-body wave functions.%
-        } as a product of operators where each operator represents a particle.
+        } as a product of operators where each operator represents a particle
+        state.\footnote{%
+            It is not strictly a particle as we can not say that a particle is
+            in this or that state, but is a state which particles can occupy.
+        }
         Depending on the algebra for the operators, we can look at antisymmetric
         fermions or symmetric bosons.
         Expressing the first quantized observables in the same creation and
@@ -413,7 +417,8 @@
                 \end{cases}
             \end{align}
             where a $0$ means that the state is unoccupied and a $1$, or higher,
-            means that state $\ket{i}$ is occupied by that amount of particles.
+            means that state $\ket{i}$ can be occupied by that amount of
+            particles.
             We can decompose the truncated Fock space $F_{\nu}(L)$ into a direct
             sum of subspaces $F_{\nu}(L, N)$
             \begin{align}
@@ -500,7 +505,7 @@
             statistics of the system we are exploring.
             A bosonic wave function is symmetric with respect to its particles
             and its phase is therefore constant regardles of the ordering of the
-            creation of its particles.
+            creation of its particle states.
             For a fermionic wave function, the interchange of two particles will
             incur a change sign as discussed in
             \autoref{sec:particle-statistics}.
@@ -530,8 +535,8 @@
             \begin{gather}
                 \com{\bcr{p}}{\bcr{q}} = \bcr{p}\bcr{q} - \bcr{q}\bcr{p} = 0,
             \end{gather}
-            for the bosonic system as the ordering of the creation of particles
-            in a bosonic wave function is arbitrary.
+            for the bosonic system as the ordering of the creation of particle
+            states in a bosonic wave function is arbitrary.
             Fermionic creation operators satisfy the anticommutation relation
             \begin{gather}
                 \acom{\ccr{p}}{\ccr{q}} = \ccr{p}\ccr{q} + \ccr{q}\ccr{p} = 0,
@@ -570,7 +575,7 @@
             $\ket{\vfg{m}}$ can only differ by a single state.
             Futhermore, as we are acting on $\ket{\vfg{m}}$ with $\acr{p}$ we
             have that $n_p = m_p + 1$, i.e., $\ket{\vfg{n}}$ has one more
-            particle in state $\ket{p}$ than $\ket{\vfg{m}}$.
+            particle state $\ket{p}$ than $\ket{\vfg{m}}$.
             As all other states in $\ket{\vfg{n}}$ and $\ket{\vfg{m}}$ are the
             same, we have that $(\Gamma_{\nu})^{\vfg{m}}_{p} =
             (\Gamma_{\nu})^{\vfg{n}}_{p}$
@@ -618,8 +623,8 @@
             \begin{align}
                 \can{p}\can{p} = 0,
             \end{align}
-            as there can only be one particle of type $p$ in a given fermionic
-            state.
+            as there can only be one particle state of type $p$ in a given
+            fermionic state.
             Furthermore, we have the commutation relation
             \begin{align}
                 \com{\ban{p}}{\ban{q}} = \ban{p}\ban{q} - \ban{q}\ban{p} = 0,
@@ -657,7 +662,7 @@
                 \com{\ban{p}}{\bcr{p}}
                 = (n_p + 1) - n_p = 1,
             \end{align}
-            when we create and remove the same particle in state $\ket{p}$.
+            when we create and remove the same particle state $\ket{p}$.
             When $p \neq q$ we have
             \begin{align}
                 \begin{drcases}
@@ -1079,50 +1084,40 @@
         \end{align}
         and the state $\ket{\Phi}$ is also an eigenstate of $\hamil$ with the
         same energy $E$ as the product state $\ket{\Psi}$.
-
-
-        As we are working with fermions the total many-body wave function must
-        be \emph{antisymmetric} with respect to interchange of
-        particles\footnote{We will restrict ourselves to the interchange of a
-        full spin-orbital.}. Mathematically the full wave function of $N$
-        fermions should satisfy
+        The coordinate representation of $\ket{\Phi}$ now takes on the familiar
+        form of a determinant.
         \begin{align}
-            \Psi(1, \dots, i, \dots, j, \dots, N)
-            =
-            -\Psi(1, \dots, j, \dots, i, \dots, N),
-        \end{align}
-        where we for brevity have introduced the notation $i \equiv x_i =
-        (\vf{r}_i, \sigma_i)$. A fully antisymmetric, normalized, $N$-body wave
-        function is given by the \emph{Slater determinant} built from $N$
-        individual spin-orbitals with $N$ generalized coordinates.
-        \begin{align}
-            \Psi(1, \dots, N)
-            &= \frac{1}{\sqrt{N!}}
+            \Phi(x_1, \dots, x_N)
+            &=
+            \braket{x_1, \dots, x_N}{\Phi}
+            = \frac{1}{\sqrt{N}}
+            \sum_{\sigma \in S_{N}}
+            \prod_{i = 1}^{N}
+            \psi_{\sigma(i)}(x_i)
+            \\
+            &=
+            \frac{1}{\sqrt{N}}
             \begin{vmatrix}
-                \psi_1(1) & \dots & \psi_N(1) \\
+                \psi_1(x_1) & \dots & \psi_N(x_1) \\
                 \vdots & \ddots & \vdots \\
-                \psi_1(N) & \dots & \psi_N(N)
-            \end{vmatrix},
+                \psi_1(x_N) & \dots & \psi_N(x_N)
+            \end{vmatrix}.
             \label{eq:coord_slater}
         \end{align}
-        where $\psi_i(j) \equiv \psi_i(\vf{r}_j, \sigma_j)$ for the $i$'th
-        spin-orbital in generalized coordinate $j$ \footnote{Note that the index
-        on the spin-orbitals has nothing to do with which spin component is used
-        as in the previous section on spin-orbitals.}. Exchanging a row in the
-        determinant results in a sign change as we required from the
-        antiysmmetric full wave function for the many-body problem. Furthermore,
-        exchanging a column in the determinant also results in a sign-change.
+        Here $\Phi(x_1, \dots, x_N)$ is known as the \emph{Slater determinant}
+        of $N$ particles.
+        Exchanging a row or a column in the determinant results in a sign change
+        as we required from the antiysmmetric full wave function for the
+        many-body problem.
         This means that there can not be two, or more, of the same spin-orbitals
         in the wave function perfectly encapsulating the Pauli principle as two
         of the same spin-orbitals translates to two particles being in the same
-        state. Generally, the spin-orbitals in a Slater determinant are linearly
-        independent, otherwise $\Psi = 0$. This is a consequence of the
-        properties of a determinant that adding a scalar multiple of a column to
-        another column does not change the determinant.
-
-        The factor in front of the Slater determinant makes the many-body wave
-        function normalized to unity as long as the spin-orbitals are
-        orthonormalized.
+        state.
+        The spin-orbitals in a Slater determinant are linearly independent,
+        otherwise $\Phi(x_1, \dots, x_N) = 0$.
+        This is a consequence of the properties of a determinant that adding a
+        scalar multiple of a column to another column does not change the
+        determinant.
 
         \begin{lemma}
             Given a Slater determinant $\ket{\Phi}$ built from an
@@ -1187,7 +1182,7 @@
             \end{align}
             and where $\vfg{U}^{\dagger}\vfg{U} = \1$.
             Creating the fully antisymmetrized normalized wave function, i.e.,
-            the Slater determinant, from $\vfg{\Psi}$ and $\vfg{\Phi}$ we see
+            the Slater determinant, from $\vfg{\Psi}$ and $\vfg{\Phi}$ we have
             that
             % TODO: Fix description, the determinant of the "Slater matrices"
             % are not necessarily normalized without the pre-factor.
@@ -1221,38 +1216,7 @@
                 \norm{\det(\vfg{\Psi})}^2 = \norm{\det(\vfg{\Phi})}^2.
             \end{gather}
         \end{proof}
-
-        \subsection{Antisymmetrizer}
-            To avoid having to write the Slater determinants as in
-            \autoref{eq:coord_slater} we introduce the anti-symmetrizer
-            $\hat{A}$ which is given by
-            \begin{align}
-                \hat{A}
-                \equiv
-                \frac{1}{N!}
-                \sum_{\sigma \in S_N}
-                (-1)^{\abs{\sigma}}
-                \hat{P}_{\sigma},
-            \end{align}
-            where $\sigma$ is a permutation from the set of all permutations
-            $S_N$ of $N$ indices, $\hat{P}_{\sigma}$ is the permutation
-            operator permuting particles and $\abs{\sigma}$ is the number of
-            transpositions in the permutation.
-            There are $N!$ permutations in $S_N$ which is why we include the
-            normalization factor.
-            A Slater determinant can thus be represented by
-            \begin{align}
-                \Phi(\vf{x})
-                &=
-                \sqrt{N!}\hat{A}\phi_1(x_1)\dots\phi_N(x_N)
-                \\
-                &= \frac{1}{\sqrt{N!}}
-                \sum_{\sigma \in S_N} (-1)^{\abs{\sigma}}
-                \phi_1(x_{\sigma(1)})\dots\phi_N(x_{\sigma(N)}).
-            \end{align}
-            The anti-symmetrizer opens up the possibility of representing a
-            Slater determinant in a coordinate-independent manner.
-            % TODO: Continue on this topic
+        % TODO: This proof needs to be re-read.
 
         \subsection{Operator representation}
 
