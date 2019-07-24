@@ -2,6 +2,50 @@
     In this chapter we'll describe some of the formalism used when describing
     many-body quantum mechanics.
 
+    \section{Summation convention}
+        We will throughout this thesis use a summation convention that
+        resembles the Einstein summation convention, but with slight
+        variations.
+        As we will be dealing with matrix elements with many indices and will
+        perform quite a significant amount of contractions over these indices,
+        we will refrain from writing the sums explicitly.
+        The first difference from the Einstein summation convention is that our
+        indices run over basis sets and not coordinates in a metric space.
+        Furthermore, we will use different index sets for different sums, e.g.,
+        some sums run over a shorter limit than others\footnote{%
+            In particular, see the section on the Fermi vacuum.%
+            % TODO: Add link to this section.
+        }, or different basis sets are used\footnote{%
+            For example, when we transform from one basis to another using the
+            variational method.%
+        }, etc.
+        Whenever this is the case, we will inform the reader in advance.
+
+        We will often diagonalize a matrix, and to avoid writing out the sums
+        explicitly due to three indices being repeated we will introduce the
+        ``rank 3 Kronecker-Delta'' defined by
+        \begin{align}
+            \delta^{i}_{jk} = \begin{cases}
+                1 & i = j = k, \\
+                0 & \text{else},
+            \end{cases}
+            \label{eq:rank-3-kd}
+        \end{align}
+        as this allows us to write a diagonal matrix $\vfg{A}$ with diagonal
+        elements $a_i$ on index form, viz.
+        \begin{align}
+            A_{ij} = \delta^{n}_{ij} a_{n},
+        \end{align}
+        where we see that we have preserved the rank of the tensor $A_{ij}$ on
+        both sides of the equality after we have performed the contraction along
+        index $n$.
+        % TODO: Discuss index placement
+        The reason for using this index notation is two-fold. First, we remove
+        the clutter of the summation signs, and second, the index notation
+        resembles the implementation in Python as we use tensor contractions
+        where the axes are specified and thus no explicit sum in the form of
+        for-loops is done in the code.
+
     \section{Particle statistics}
         \label{sec:particle-statistics}
         The particles we concern ourselves with are \emph{identical}.
@@ -884,7 +928,7 @@
         by
         \begin{align}
             \hat{O}
-            &= \sum_{ij} \hat{R}_i \otimes \hat{S}_j,
+            &= \hat{R}_i \otimes \hat{S}_j,
         \end{align}
         where $\hat{R}_i$ is an operator on the one-dimensional Hilbert space
         containing the orbitals and $\hat{S}_j$ an operator on the
@@ -894,11 +938,12 @@
         \begin{align}
             \mel{\psi_{P}}{\hat{O}}{\psi_{Q}}
             &=
-            \sum_{ij}\mel{\phi_p}{\hat{R}_i}{\phi_q}
+            \mel{\phi_p}{\hat{R}_i}{\phi_q}
             \mel{\sigma}{\hat{S}_j}{\tau}.
         \end{align}
         Looking back at \autoref{eq:example-spin-decoupling} we see that a
         spin-independent operator $\hat{O}$ corresponds to $\hat{S}_j = \1$.
+        % TODO: Consider skipping this step with the "general operator".
 
         \subsection{Restrictions on the choice of spin-orbitals}
             \label{subsec:restrictions-on-spin-orbitals}
@@ -948,10 +993,6 @@
                     spin-projection operator.
             \end{enumerate}
 
-        \subsection{Summation convention}
-            We will throughout this thesis just a summation convention that
-            resembles the Einstein summation convention, but with slight
-            variations.
 
 
     \section{Slater determinants}
