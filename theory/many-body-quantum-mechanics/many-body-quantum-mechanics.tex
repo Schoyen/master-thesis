@@ -518,10 +518,11 @@
                 \equiv \brak{
                     \prod_{p = 1}^{L}
                     \para{\ccr{p}}^{n_p}
-                }\ket{\vac},
+                }\ket{\vac}
+                = \para{\ccr{1}}^{n_1}\dots\para{\ccr{L}}^{n_L}\ket{\vac},
                 \label{eq:canonical-fock-state}
             \end{align}
-            that is, we order the states in an increasing order.
+            that is, we order the single-particle states in an increasing order.
             Recalling the Pauli exclusion principle that $n_p \in \brac{0, 1}$
             for a fermionic wave function, we have that
             \begin{align}
@@ -1042,8 +1043,8 @@
                 \epsilon_i
             }\ket{\Psi}.
         \end{align}
-        This product state in quantum chemistry and nuclear physics often knwon
-        as the \emph{Hartree product}.
+        This particular product state is in quantum chemistry and nuclear
+        physics often known as the \emph{Hartree product}.
         However, a product state is neither symmetric nor antisymmetric with
         respect to exchange of particles as a product state is not an eigenstate
         of the exchange operator.
@@ -1082,6 +1083,7 @@
         \begin{align}
             \com{\hamil}{\hat{P}_{\sigma}} = 0,
         \end{align}
+        % TODO: Does this apply in general, e.g., for the two-body Hamiltonian?
         and the state $\ket{\Phi}$ is also an eigenstate of $\hamil$ with the
         same energy $E$ as the product state $\ket{\Psi}$.
         The coordinate representation of $\ket{\Phi}$ now takes on the familiar
@@ -1107,17 +1109,107 @@
         Here $\Phi(x_1, \dots, x_N)$ is known as the \emph{Slater determinant}
         of $N$ particles.
         Exchanging a row or a column in the determinant results in a sign change
-        as we required from the antiysmmetric full wave function for the
-        many-body problem.
+        as required from the antiysmmetric full wave function for the many-body
+        problem.
         This means that there can not be two, or more, of the same spin-orbitals
         in the wave function perfectly encapsulating the Pauli principle as two
         of the same spin-orbitals translates to two particles being in the same
         state.
         The spin-orbitals in a Slater determinant are linearly independent,
-        otherwise $\Phi(x_1, \dots, x_N) = 0$.
+        otherwise $\Phi(x_1, \dots, x_N) = 0$ and thus constitute a basis.
         This is a consequence of the properties of a determinant that adding a
         scalar multiple of a column to another column does not change the
         determinant.
+
+        In Fock space the Slater determinants are represented as the occupation
+        number vectors $\ket{\vfg{n}}$, that is, projecting the occupation
+        number vectors on a spatial basis yields the Slater determinants.
+        This is somewhat of a misnomer where an abstract occupation number
+        vector is named a Slater determinant which stricly speaking is defined
+        on a coordinate system.
+        However, we will continue this tradition and name the fermionic
+        occupation number vectors Slater determinants.
+        As Slater determinants are the occupation number vectors we see that the
+        creation and annihilation operators build states which are Slater
+        determinants and the Slater determinants will form a basis in Fock
+        space.
+        % TODO: This paragraph might need a review.
+
+        \subsection{Reference determinant}
+            When working with many-body methods we typically start from a single
+            Slater determinant $\ket{\slat}$ called the \emph{reference state}
+            or \emph{reference determinant} and build a basis of Slater
+            determinants using the creation and annihilation operators to create
+            \emph{excited determinants}.
+            The reference determinant is defined as the determinant with lowest
+            energy in the non-interacting case.
+            Using canonical ordering it is given by
+            \begin{align}
+                \ket{\slat}
+                = \brak{
+                    \prod_{i = 1}^{N} \ccr{i}
+                } \ket{\vac}
+                = \ccr{N}\dots\ccr{1}\ket{\vac},
+            \end{align}
+            where $N$ is the number of particles in the system we are exploring.
+
+        \subsection{Fermi vacuum}
+            \label{subsec:fermi-vacuum}
+            Having introduced the reference state as the Slater determinant
+            consisting of the $N$ lowest single-particle states, and being the
+            determinant that all other higher order determinants are built from,
+            we define a ``new vacuum'' called the \emph{Fermi vacuum}.
+            That is, for a given basis of single-particle states
+            $\brac{\ket{p}}_{p = 1}^{L}$, we split the basis into an
+            \emph{occupied} basis and a \emph{virtual} basis.
+            That is,
+            \begin{align}
+                \brac{\ket{p}}_{p = 1}^{L}
+                = \brac{\ket{i}}_{i = 1}^{N}
+                \cup
+                \brac{\ket{a}}_{a = N + 1}^{L},
+            \end{align}
+            where $N$ is the number of particles in our reference determinant
+            $\ket{\slat}$.
+
+        \subsection{Excited determinants}
+            From the reference determinant we can create excited determinants by
+            acting on the reference determinant with a creation operator and an
+            annihilation operator.
+            An excited determinant is defined as a Slater determinant containing
+            the same number of single-particle states $N$ as the reference
+            determinant, but with higher order single-particle states.
+            That is, in the non-interacting case, an excited determinant will
+            yield a higher, or equal, eigenenergy than the reference
+            state.\footnote{%
+                It is not necessarily true that the eigenenergy of an excited
+                state will be higher than the eigenenergy of the reference
+                state. If we are dealing with degenerate reference determinants
+                we can very well get the same eigenenergy for an excited
+                determinant as the reference state.%
+            }
+            \begin{definition}
+                An \emph{excitation operator} is defined in terms of creation
+                and annihilation operators as
+                \begin{align}
+                    \hat{X}^{a}_{i} \equiv \ccr{a}\can{i},
+                \end{align}
+                and conversely the \emph{relaxation operator} as the Hermitian
+                conjugate of the excitation operator, viz.
+                \begin{align}
+                    \para{\hat{X}^{a}_{i}}^{\dagger} = \ccr{i}\can{a}.
+                \end{align}
+            \end{definition}
+
+
+
+
+
+
+            %\subsection{Overlap with the reference state}
+            %    % TODO: Remember to introduce the concept of the reference state
+            %\subsection{Overlap when using time-dependent orbitals}
+
 
         \begin{lemma}
             Given a Slater determinant $\ket{\Phi}$ built from an
@@ -1218,8 +1310,6 @@
         \end{proof}
         % TODO: This proof needs to be re-read.
 
-        \subsection{Operator representation}
-
         \subsection{Thouless theorem}
 
 
@@ -1227,26 +1317,6 @@
     \section{Wick's theorem}
         \subsection{Normal ordering}
         \subsection{Generalized Wick's theorem}
-        \subsection{Fermi vacuum}
-            \label{sec:fermi-vacuum}
-            Given a basis of $L$ single particle functions $\ket{p}$ where
-            \begin{align}
-                \left\{\ket{p}\right\}_{p = 1}^{L}
-                &=
-                \left\{\ket{i}\right\}_{i = 1}^{N}
-                \cup \left\{\ket{a}\right\}_{a = N + 1}^{L}.
-            \end{align}
-            Here $i, j, k, \dots$ represents the $N$ first occupied states of
-            the reference Slater determinant whereas $a, b, c, \dots$ represent
-            the remaining $M = L - N$ virtual states in the total basis $p, q,
-            r, \dots$\footnote{Occupied and virtual states are also known as
-            hole and particle states if we treat the reference Slater
-            determinant as the \textit{Fermi vacuum}}.
-
-    \section{Excited determinants}
-        \subsection{Overlap with the reference state}
-            % TODO: Remember to introduce the concept of the reference state
-        \subsection{Overlap when using time-dependent orbitals}
 
     \section{The many-body Hamiltonian}
         A general many-body Hamiltonian can be described by
@@ -1439,7 +1509,7 @@
         \end{align}
         that is, we have $N$ occupied states and $M = L - N$ virtual states
         using the same convention for the indices as discussed in
-        \autoref{sec:fermi-vacuum} on the Fermi vacuum.
+        \autoref{subsec:fermi-vacuum} on the Fermi vacuum.
         We dub this state the \emph{reference state} for reasons which will
         become clear when we start working on the many-body methods.
         For a general electronic Hamiltonian with one- and two-body operators,
