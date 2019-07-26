@@ -21,11 +21,12 @@ class NestLaser:
 
         ureg = pint.UnitRegistry()
 
-        self.f_max = (
-            ureg.Quantity(f_max, ureg.watt / ureg.cm ** 2)
-            .to(ureg.a_u_intensity)
-            .magnitude
-        )
+        # self.f_max = (
+        #    ureg.Quantity(f_max, ureg.watt / ureg.cm ** 2)
+        #    .to(ureg.a_u_intensity)
+        #    .magnitude
+        # )
+        self.f_max = 0.01
 
         # omega = E_nu / hbar
         self.omega = (
@@ -63,7 +64,7 @@ def get_lih_system(polarization_axis=2):
     return lih
 
 
-def get_time_points(t_start=0, t_end=100, dt=1e-2):
+def get_time_points(t_start=0, t_end=5, dt=1e-2):
     # Time units are assumed to be in femto seconds.
     ureg = pint.UnitRegistry()
 
