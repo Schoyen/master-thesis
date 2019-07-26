@@ -2,6 +2,50 @@
     In this chapter we'll describe some of the formalism used when describing
     many-body quantum mechanics.
 
+    \section{Summation convention}
+        We will throughout this thesis use a summation convention that
+        resembles the Einstein summation convention, but with slight
+        variations.
+        As we will be dealing with matrix elements with many indices and will
+        perform quite a significant amount of contractions over these indices,
+        we will refrain from writing the sums explicitly.
+        The first difference from the Einstein summation convention is that our
+        indices run over basis sets and not coordinates in a metric space.
+        Furthermore, we will use different index sets for different sums, e.g.,
+        some sums run over a shorter limit than others\footnote{%
+            In particular, see the section on the Fermi vacuum.%
+            % TODO: Add link to this section.
+        }, or different basis sets are used\footnote{%
+            For example, when we transform from one basis to another using the
+            variational method.%
+        }, etc.
+        Whenever this is the case, we will inform the reader in advance.
+
+        We will often diagonalize a matrix, and to avoid writing out the sums
+        explicitly due to three indices being repeated we will introduce the
+        ``rank 3 Kronecker-Delta'' defined by
+        \begin{align}
+            \delta^{i}_{jk} = \begin{cases}
+                1 & i = j = k, \\
+                0 & \text{else},
+            \end{cases}
+            \label{eq:rank-3-kd}
+        \end{align}
+        as this allows us to write a diagonal matrix $\vfg{A}$ with diagonal
+        elements $a_i$ on index form, viz.
+        \begin{align}
+            A_{ij} = \delta^{n}_{ij} a_{n},
+        \end{align}
+        where we see that we have preserved the rank of the tensor $A_{ij}$ on
+        both sides of the equality after we have performed the contraction along
+        index $n$.
+        % TODO: Discuss index placement
+        The reason for using this index notation is two-fold. First, we remove
+        the clutter of the summation signs, and second, the index notation
+        resembles the implementation in Python as we use tensor contractions
+        where the axes are specified and thus no explicit sum in the form of
+        for-loops is done in the code.
+
     \section{Particle statistics}
         \label{sec:particle-statistics}
         The particles we concern ourselves with are \emph{identical}.
@@ -41,8 +85,8 @@
             \psi(\vf{x}) = \exp[i\alpha(\sigma)] \psi(\vf{x}_{\sigma}),
         \end{align}
         where $\alpha(\sigma) \in \mathbb{R}$ depends on $\sigma$.
-        A transposition $\tau_{ij} \in S_{N}$ is a permutation exchanging a single
-        pair $(i, j) \to (j, i)$ where $i \neq j$.
+        A transposition $\tau_{ij} \in S_{N}$ is a permutation exchanging a
+        single pair $(i, j) \to (j, i)$ where $i \neq j$.
         We denote the transposition of two indices in a similar manner as in
         \autoref{eq:permutation-indices}, but where $\vf{x}_{ij}$ signifies that
         all indices in $\vf{x}$ are the same except for the pair $(i, j)$.
@@ -121,7 +165,7 @@
         = 1$ regardless of the parity of the permutation operator.
         A symmetric wave function describes a system of \emph{bosons}, e.g.,
         photons.
-        On the other hand, if $p = -1$, then $\psi(\vf{x})$ is anti-symmetric
+        On the other hand, if $p = -1$, then $\psi(\vf{x})$ is antisymmetric
         and
         \begin{align}
             p^{\abs{\sigma}} =
@@ -130,7 +174,7 @@
                 -1 & \text{odd parity}.
             \end{cases}
         \end{align}
-        Particles described by an anti-symmetric wave function are called
+        Particles described by an antisymmetric wave function are called
         \emph{fermions}, e.g., electrons.
 
 
@@ -263,10 +307,10 @@
         \end{figure}
 
         \subsection{Pauli exclusion principle}
-            An interesting result of the anti-symmetric property of fermions is
+            An interesting result of the antisymmetric property of fermions is
             that we can never have a system containing two fermions \emph{in the
             same state}.
-            We demonstrate this by considering an anti-symmetric wave function
+            We demonstrate this by considering an antisymmetric wave function
             $\psi(\vf{x})$ where $\vf{x} = (x_1, \dots, x_N) \in X^{N}$ is the
             coordinates of the $N$ particles in the system.
             We now that the eigenvalue of $\hat{P}_{ij}$ on $\psi(\vf{x})$ will
@@ -303,7 +347,11 @@
         These operators provide a way to express many-body wave
         functions\footnote{%
             Or more precisely, configurations of many-body wave functions.%
-        } as a product of operators where each operator represents a particle.
+        } as a product of operators where each operator represents a particle
+        state.\footnote{%
+            It is not strictly a particle as we can not say that a particle is
+            in this or that state, but is a state which particles can occupy.
+        }
         Depending on the algebra for the operators, we can look at antisymmetric
         fermions or symmetric bosons.
         Expressing the first quantized observables in the same creation and
@@ -355,7 +403,7 @@
             $\ket{\vfg{n}}$.\footnote{%
                 This must not be confused with a \emph{product state} as
                 $\ket{\vfg{n}}$ is either a symmetric ($\nu = +$) or an
-                anti-symmetric ($\nu = -$) state.%
+                antisymmetric ($\nu = -$) state.%
             }
             We've defined the set $\vf{n}$ as the set containing all $n_i$.
             This formulation of the Fock states lets us incorporate the particle
@@ -369,7 +417,8 @@
                 \end{cases}
             \end{align}
             where a $0$ means that the state is unoccupied and a $1$, or higher,
-            means that state $\ket{i}$ is occupied by that amount of particles.
+            means that state $\ket{i}$ can be occupied by that amount of
+            particles.
             We can decompose the truncated Fock space $F_{\nu}(L)$ into a direct
             sum of subspaces $F_{\nu}(L, N)$
             \begin{align}
@@ -392,7 +441,7 @@
             The inner product between two Fock states $\ket{\vfg{n}},
             \ket{\vfg{m}} \in F_{\nu}(L)$ is given by
             \begin{align}
-                \braket{\vfg{n}}{\vfg{m}} = \prod_{i = 1}^{M} \delta_{pq}
+                \braket{\vfg{n}}{\vfg{m}} = \prod_{i = 1}^{L} \delta_{pq}
                 \equiv \delta_{\vfg{n}\vfg{m}}.
                 \label{eq:inner-product-fock}
             \end{align}
@@ -456,7 +505,7 @@
             statistics of the system we are exploring.
             A bosonic wave function is symmetric with respect to its particles
             and its phase is therefore constant regardles of the ordering of the
-            creation of its particles.
+            creation of its particle states.
             For a fermionic wave function, the interchange of two particles will
             incur a change sign as discussed in
             \autoref{sec:particle-statistics}.
@@ -486,8 +535,8 @@
             \begin{gather}
                 \com{\bcr{p}}{\bcr{q}} = \bcr{p}\bcr{q} - \bcr{q}\bcr{p} = 0,
             \end{gather}
-            for the bosonic system as the ordering of the creation of particles
-            in a bosonic wave function is arbitrary.
+            for the bosonic system as the ordering of the creation of particle
+            states in a bosonic wave function is arbitrary.
             Fermionic creation operators satisfy the anticommutation relation
             \begin{gather}
                 \acom{\ccr{p}}{\ccr{q}} = \ccr{p}\ccr{q} + \ccr{q}\ccr{p} = 0,
@@ -526,7 +575,7 @@
             $\ket{\vfg{m}}$ can only differ by a single state.
             Futhermore, as we are acting on $\ket{\vfg{m}}$ with $\acr{p}$ we
             have that $n_p = m_p + 1$, i.e., $\ket{\vfg{n}}$ has one more
-            particle in state $\ket{p}$ than $\ket{\vfg{m}}$.
+            particle state $\ket{p}$ than $\ket{\vfg{m}}$.
             As all other states in $\ket{\vfg{n}}$ and $\ket{\vfg{m}}$ are the
             same, we have that $(\Gamma_{\nu})^{\vfg{m}}_{p} =
             (\Gamma_{\nu})^{\vfg{n}}_{p}$
@@ -574,8 +623,8 @@
             \begin{align}
                 \can{p}\can{p} = 0,
             \end{align}
-            as there can only be one particle of type $p$ in a given fermionic
-            state.
+            as there can only be one particle state of type $p$ in a given
+            fermionic state.
             Furthermore, we have the commutation relation
             \begin{align}
                 \com{\ban{p}}{\ban{q}} = \ban{p}\ban{q} - \ban{q}\ban{p} = 0,
@@ -613,7 +662,7 @@
                 \com{\ban{p}}{\bcr{p}}
                 = (n_p + 1) - n_p = 1,
             \end{align}
-            when we create and remove the same particle in state $\ket{p}$.
+            when we create and remove the same particle state $\ket{p}$.
             When $p \neq q$ we have
             \begin{align}
                 \begin{drcases}
@@ -712,204 +761,44 @@
             When $p < q$ we get the same result as can be seen by taking the
             Hermitian conjugate of the anticommutator and reversing the dummy
             indices $p$ and $q$.
-            In total we have the fundamental
-
-
-        \subsection{Slater determinants}
-            As we are working with fermions the total many-body wave function must
-            be \emph{antisymmetric} with respect to interchange of
-            particles\footnote{We will restrict ourselves to the interchange of a
-            full spin-orbital.}. Mathematically the full wave function of $N$
-            fermions should satisfy
+            In total we have the fundamental anticommutation relations
             \begin{align}
-                \Psi(1, \dots, i, \dots, j, \dots, N)
-                =
-                -\Psi(1, \dots, j, \dots, i, \dots, N),
+                \acom{\can{p}}{\can{q}} &= 0, \\
+                \acom{\ccr{p}}{\ccr{q}} &= 0, \\
+                \acom{\can{p}}{\ccr{q}} &= \delta_{pq}.
             \end{align}
-            where we for brevity have introduced the notation $i \equiv x_i =
-            (\vf{r}_i, \sigma_i)$. A fully antisymmetric, normalized, $N$-body wave
-            function is given by the \emph{Slater determinant} built from $N$
-            individual spin-orbitals with $N$ generalized coordinates.
-            \begin{align}
-                \Psi(1, \dots, N)
-                &= \frac{1}{\sqrt{N!}}
-                \begin{vmatrix}
-                    \psi_1(1) & \dots & \psi_N(1) \\
-                    \vdots & \ddots & \vdots \\
-                    \psi_1(N) & \dots & \psi_N(N)
-                \end{vmatrix},
-                \label{eq:coord_slater}
-            \end{align}
-            where $\psi_i(j) \equiv \psi_i(\vf{r}_j, \sigma_j)$ for the $i$'th
-            spin-orbital in generalized coordinate $j$ \footnote{Note that the index
-            on the spin-orbitals has nothing to do with which spin component is used
-            as in the previous section on spin-orbitals.}. Exchanging a row in the
-            determinant results in a sign change as we required from the
-            antiysmmetric full wave function for the many-body problem. Furthermore,
-            exchanging a column in the determinant also results in a sign-change.
-            This means that there can not be two, or more, of the same spin-orbitals
-            in the wave function perfectly encapsulating the Pauli principle as two
-            of the same spin-orbitals translates to two particles being in the same
-            state. Generally, the spin-orbitals in a Slater determinant are linearly
-            independent, otherwise $\Psi = 0$. This is a consequence of the
-            properties of a determinant that adding a scalar multiple of a column to
-            another column does not change the determinant.
 
-            The factor in front of the Slater determinant makes the many-body wave
-            function normalized to unity as long as the spin-orbitals are
-            orthonormalized.
-
-            \begin{lemma}
-                Given a Slater determinant $\ket{\Phi}$ built from an
-                orthonormal basis $\brac{\ket{\phi_i}}_{i = 1}^{N}$ that spans
-                the $N$-dimensional Hilbert space, we can then perform a unitary
-                transformation to a new orthonormal basis
-                $\brac{\ket{\psi_i}}_{i = 1}^{N}$ building a new Slater
-                determinant $\ket{\Psi}$.
-                This unitary transformation will then preserve the normalization
-                of the original Slater determinant.
-                % TODO: Clean-up formulation.
-            \end{lemma}
-
-            % TODO: Introduce proof
-            \begin{proof}
-                \label{proof:slater_determinants_invariant}
-                Given a basis $\brac{\ket{\phi_i}}_{i = 1}^{N}$ that spans the
-                $N$-dimensional Hilbert space. We can then do a unitary
-                transformation from this basis to a new basis
-                $\brac{\ket{\psi_i}}_{i = 1}^{N}$ in the same Hilbert space by
-                \begin{align}
-                    \ket{\psi_i} = U_{ji}\ket{\phi_j},
-                    \label{eq:unitary_transformation}
-                \end{align}
-                where $U_{ji}$ is an element in the unitary matrix $\vfg{U}$.
-                For a set of coordinates
-                $\brac{x_1, \dots, x_N}$, we write
-                \begin{align}
-                    \psi_{ij} \equiv \psi_j(x_i)
-                    \equiv \braket{x_i}{\psi_j},
-                \end{align}
-                and equivalently for $\phi_{ij}$. Projecting onto the coordinate
-                basis we can write \autoref{eq:unitary_transformation} as
-                \begin{gather}
-                    \braket{x_k}{\psi_i}
-                    = U_{ji}\braket{x_k}{\phi_j}
-                    \implies
-                    \psi_{ki} = U_{ji}\phi_{kj} = \phi_{kj}U_{ji}
-                    \implies \vfg{\Psi} = \vfg{\Phi}\vfg{U},
-                \end{gather}
-                where the matrices $\vfg{\Psi}$, $\vfg{\Phi}$ and $\vfg{U}$ are
-                the matrices with elements
-                \begin{align}
-                    \vfg{\Psi}
-                    &= \begin{pmatrix}
-                        \psi_{11} & \psi_{12} & \dots & \psi_{1N} \\
-                        \vdots & \vdots & \ddots & \vdots \\
-                        \psi_{N1} & \psi_{N2} & \dots & \psi_{NN}
-                    \end{pmatrix}, \\
-                    \vfg{\Phi}
-                    &= \begin{pmatrix}
-                        \phi_{11} & \phi_{12} & \dots & \phi_{1N} \\
-                        \vdots & \vdots & \ddots & \vdots \\
-                        \phi_{N1} & \phi_{N2} & \dots & \phi_{NN}
-                    \end{pmatrix}, \\
-                    \vfg{U}
-                    &= \begin{pmatrix}
-                        U_{11} & U_{12} & \dots & U_{1N} \\
-                        \vdots & \vdots & \ddots & \vdots \\
-                        U_{N1} & U_{N2} & \dots & U_{NN}
-                    \end{pmatrix},
-                \end{align}
-                and where $\vfg{U}^{\dagger}\vfg{U} = \1$.
-                Creating the fully antisymmetrized normalized wave function, i.e.,
-                the Slater determinant, from $\vfg{\Psi}$ and $\vfg{\Phi}$ we see
-                that
-                % TODO: Fix description, the determinant of the "Slater matrices"
-                % are not necessarily normalized without the pre-factor.
-                \begin{gather}
-                    \det(\vfg{\Psi}) = \det(\vfg{\Phi}\vfg{U})
-                    = \det(\vfg{\Phi})\det(\vfg{U})
-                \end{gather}
-                We now take the squared norm on both sides.
-                \begin{align}
-                    \norm{\det(\vfg{\Psi})}^2
-                    = \norm{\det(\vfg{\Phi})\det(\vfg{U})}^2
-                    \leq
-                    \norm{\det(\vfg{\Phi})}^2\norm{\det(\vfg{U})}^2
-                    = \norm{\det(\vfg{\Phi})}^2,
-                    \label{eq:squared_determinant}
-                \end{align}
-                where we have used that
-                \begin{align}
-                    \norm{\det(\vfg{U})}^2
-                    &= \norm{\det(\vfg{U^{\dagger}})\det(\vfg{U})}
-                    = \norm{\det(\vfg{U}^{\dagger}\vfg{U})}
-                    = \norm{\det(\1)} = 1.
-                \end{align}
-                Now, in \autoref{eq:squared_determinant}, since the Slater
-                determinant of $\vfg{\Phi}$ is orthonormalized and a unitary
-                transformation preserves the normalization this means that the norm
-                of $\det(\vfg{\Phi})$ and the norm of $\det(\vfg{\Psi})$ must be
-                unity.  Thus, the equality in the splitting of the norm is preserved
-                thus yielding
-                \begin{gather}
-                    \norm{\det(\vfg{\Psi})}^2 = \norm{\det(\vfg{\Phi})}^2.
-                \end{gather}
-            \end{proof}
-
-            \subsubsection{Antisymmetrizer}
-                To avoid having to write the Slater determinants as in
-                \autoref{eq:coord_slater} we introduce the anti-symmetrizer
-                $\hat{A}$ which is given by
-                \begin{align}
-                    \hat{A}
-                    \equiv
-                    \frac{1}{N!}
-                    \sum_{\sigma \in S_N}
-                    (-1)^{\abs{\sigma}}
-                    \hat{P}_{\sigma},
-                \end{align}
-                where $\sigma$ is a permutation from the set of all permutations
-                $S_N$ of $N$ indices, $\hat{P}_{\sigma}$ is the permutation
-                operator permuting particles and $\abs{\sigma}$ is the number of
-                transpositions in the permutation.
-                There are $N!$ permutations in $S_N$ which is why we include the
-                normalization factor.
-                A Slater determinant can thus be represented by
-                \begin{align}
-                    \Phi(\vf{x})
-                    &=
-                    \sqrt{N!}\hat{A}\phi_1(x_1)\dots\phi_N(x_N)
-                    \\
-                    &= \frac{1}{\sqrt{N!}}
-                    \sum_{\sigma \in S_N} (-1)^{\abs{\sigma}}
-                    \phi_1(x_{\sigma(1)})\dots\phi_N(x_{\sigma(N)}).
-                \end{align}
-                The anti-symmetrizer opens up the possibility of representing a
-                Slater determinant in a coordinate-independent manner.
-                % TODO: Continue on this topic
-
-            \subsubsection{Operator representation}
-
-        \subsection{Time-dependent second quantized operators}
+            As stated at the start of this section on second quantization, the
+            fundamental commutation relations for bosons and the fundamental
+            anticommutation relations for fermions completely specifies the
+            system we are exploring.
+            In the rest of this thesis we will only look at fermions as we will
+            be exploring electrons and electronic particles, but we wanted to
+            include the discussion of both sets of creation and annihilation
+            operators as it provides insight on how one would go about
+            formulating the many-body methods we will explore for bosons as
+            well.
+            By replacing the fundamental anticommutation relations with the
+            symmetric fundamental commutation relations\footnote{%
+                And performing a substantial amount of algebra.%
+            } one can look at bosonic systems.
 
 
     \section{Spin-orbitals}
-        In this thesis we will be looking at many-particle systems.
-        Wave functions of many-particle systems depend on the coordinates of all
-        the particles contained in the system.
-        We will typically build the wave functions of the full system from
-        \emph{single particle functions}.
-        In this work we'll limit our attention to particles with spin one half ,
-        i.e., fermions, which means that the total wave function must satisfy
-        the \emph{Pauli exclusion principle} due to the particles being
-        indistinguishable.
-        The single particle functions will as a consequence depend on the
-        particle's spatial orientation, i.e., the \emph{orbital} part, and the
-        spin.
-        We call these wave functions \emph{spin-orbitals}.
+        As discussed in the previous section on Fock space, we build our
+        many-body wave function by combining single-particle states from an
+        underlying basis.
+        Since we're exploring systems of fermions, we'll limit our attention to
+        particles with spin one half and our single-particle states must
+        incorporate the spin.
+        It is often more convenient to express the single-particle states as
+        functions defined on position or momentum space and in a spin-basis.
+        We call the spatial representation of the single-particle functions an
+        \emph{orbital} and combined with spin, we have the \emph{spin-orbital}.
         \begin{align}
-            \psi(x) \equiv \psi(\vf{r}, m_s)
+            \braket{x}{\psi} = \psi(x)
+            \equiv \psi(\vf{r}, m_s)
+            = \braket{\vf{r}, m_s}{\psi},
         \end{align}
         where $x = (\vf{r}, m_s)$ is a generalized coordinate of both
         position, $\vf{r}$, and spin quantum number, $m_s$.
@@ -917,7 +806,7 @@
         \begin{align}
             s_z = \pm \half\hslash,
         \end{align}
-        where $s_z$ is the spin along $z$-direction.
+        where $s_z$ is the spin along the $z$-direction.
         As there are only two allowed states we have that $m_s \in
         \brac{\upspin, \downspin}$, where a positive value for $s_z$ corresponds
         to $m_s = \upspin$, i.e., spin up, and a negative value for $s_z$ to
@@ -933,14 +822,16 @@
         two-dimensional vector
         \begin{align}
             \psi(x) = \begin{pmatrix}
-                \psi_1(\vf{r}) \\
-                \psi_2(\vf{r})
-            \end{pmatrix}.
+                c_1\psi_1(\vf{r}) \\
+                c_2\psi_2(\vf{r})
+            \end{pmatrix},
         \end{align}
+        where $c_i \in \mathbb{C}$ are coefficients satisfying $\abs{c_1}^2 +
+        \abs{c_2}^2 = 1$.
         We separate the spin dependence from the spatial part of the
-        spin-orbitals by introducing separate ``spin functions'' for spin-up and
+        spin-orbitals by introducing separate spin functions for spin-up and
         spin-down.
-        For example, choosing the basis
+        For example, choosing the spin-basis
         \begin{align}
             \alpha \equiv \alpha(m_s) = \begin{pmatrix}
                 1 \\
@@ -961,13 +852,13 @@
             \alpha\para{\upspin} = 1, \qquad \alpha\para{\downspin} = 0, \\
             \beta\para{\upspin} = 0, \qquad \beta\para{\downspin} = 1.
         \end{gather}
-        Using \autoref{eq:spin-basis} we see that we write the
+        Using \autoref{eq:spin-basis} we see that we can write the
         generalized spin-orbital as a linear combination of the spin basis
         functions by
         \begin{align}
             \psi(x)
-            = \psi_1(\vf{r})\alpha(m_s)
-            + \psi_2(\vf{r})\beta(m_s).
+            = c_1\psi_1(\vf{r})\alpha(m_s)
+            + c_2\psi_2(\vf{r})\beta(m_s).
             \label{eq:general-spin-orbital-1}
         \end{align}
         % TODO: Consider adding theory on spin as in Mayer.
@@ -980,17 +871,12 @@
         where $\sigma(m_s)$ is either spin up $\alpha(m_s)$ or spin down
         $\beta(m_s)$ and we've denoted the spatial orbital by $\phi(\vf{r})$.
         The reason we avoid using a general spin-orbital as in
-        \autoref{eq:general-spin-orbital-1} is convenience.
+        \autoref{eq:general-spin-orbital-1} is reduction of computational
+        complexity.
         It is more convenient to generate a basis of spin-orbitals where we use
-        a definite basis of analytic orbitals, e.g., harmonic oscillator basis
-        functions, Gauss functions, etc, before deciding the spin direction of
-        each orbital.\footnote{
-            For those that might find this frustrating, note that there is
-            nothing stopping us from using orbitals and spin-functions which are
-            linear combinations of an underlying basis of orbitals and
-            spin-functions as well.
-            There's linear combinations all the way down!
-        }
+        a definite basis of analytical orbitals, e.g., harmonic oscillator basis
+        functions, Gauss functions, etc, before tacking on the spin direction of
+        each orbital.
         When labelling the different spin-orbitals from
         \autoref{eq:spin-orbital} we use the notation
         \begin{align}
@@ -999,7 +885,7 @@
         where $P = (p, \sigma)$ is a composite index with $p$ labelling a
         specific orbital and $\sigma$ a specific spin-function.
         In the spin basis shown in \autoref{eq:spin-basis} we have that the
-        inner product of two spin functions
+        inner product of two spin functions is given by
         \begin{align}
             \braket{\sigma}{\tau}
             &=
@@ -1019,73 +905,71 @@
         \end{align}
         This equation is quite suggestive in the sense that we can see that the
         spin decouples from the spatial part of the wave function.
-        Spin is two-level system that can be represented as a vector in a
-        two-dimensional Hilbert space.
+        Spin one-half is a two-level system that can be represented as a vector
+        in a two-dimensional Hilbert space.
         Unless an operator contains a spin-coupling, the two spin-directions are
         completely independent of one another.
         For example, given a spin-independent operator, $\hat{O}$, the
         matrix element between two spin-orbitals become
         \begin{align}
-            \bra{\psi_P}\hat{O}\ket{\psi_Q}
-            &= \bra{\phi_p}\hat{O}\ket{\phi_q}\braket{\sigma}{\tau}
+            \mel{\psi_P}{\hat{O}}{\psi_Q}
+            &= \mel{\phi_p}{\hat{O}}{\phi_q}\braket{\sigma}{\tau}
             = \delta_{\sigma\tau}
-            \int\dd\vf{r}\phi^{*}_{p}(\vf{r})\hat{O}\phi_q(\vf{r}).
+            \int\dd\vf{r}\phi^{*}_{p}(\vf{r})O(\vf{r})\phi_q(\vf{r}).
             \label{eq:example-spin-decoupling}
         \end{align}
-        This motivates the coordinate representation independent notation
+        This motivates the coordinate independent notation
         \begin{align}
             \ket{\psi_P}
             &= \ket{\phi_p}\otimes\ket{\sigma},
         \end{align}
         where the tensor product combines the two-dimensional Hilbert space from
-        the spin $\ket{\sigma}$ and the $L$-dimensional Hilbert space
-        containing the orbital basis function.
+        the spin $\ket{\sigma}$ and the one-dimensional Hilbert space containing
+        the orbital basis function.
+        % TODO: Are these Hilbert spaces?
+        % Aren't spin defined in R^2?
+        % And the functions are in C^{d}, where d is the number dimensions?
         A general operator on the combined Hilbert space can thus be represented
         by
         \begin{align}
             \hat{O}
-            &= \sum_{ij} \hat{R}_i \otimes \hat{S}_j,
+            &= \hat{R}_i \otimes \hat{S}_j,
         \end{align}
-        where $\hat{R}_i$ is an operator on the Hilbert space containing the
-        orbitals and $\hat{S}_j$ an operator on the two-dimensional Hilbert
-        space containing the spin functions.
-        The important point is now that the elements of this operator in terms
-        of spin-orbitals is given by
+        where $\hat{R}_i$ is an operator on the one-dimensional Hilbert space
+        containing the orbitals and $\hat{S}_j$ an operator on the
+        two-dimensional Hilbert space containing the spin functions.
+        % TODO: Verify that this is Hilbert space.
+        The matrix elements of this operator can be computed by
         \begin{align}
-            \bra{\psi_{P}}\hat{O}\ket{\psi_{Q}}
+            \mel{\psi_{P}}{\hat{O}}{\psi_{Q}}
             &=
-            \sum_{ij}\bra{\phi_p}\hat{R}_i\ket{\phi_q}
-            \bra{\sigma}\hat{S}_j\ket{\tau}.
+            \mel{\phi_p}{\hat{R}_i}{\phi_q}
+            \mel{\sigma}{\hat{S}_j}{\tau}.
         \end{align}
         Looking back at \autoref{eq:example-spin-decoupling} we see that a
         spin-independent operator $\hat{O}$ corresponds to $\hat{S}_j = \1$.
+        % TODO: Consider skipping this step with the "general operator".
 
         \subsection{Restrictions on the choice of spin-orbitals}
             \label{subsec:restrictions-on-spin-orbitals}
-            As mentioned earlier, choosing completely general spin-orbitals,
-            i.e,. spin-orbitals that are linear combinations of the two
-            spin-directions, can become problematic.
-            Amongst other things, due to a phenomenom called
-            \emph{spin-contamination}, which we'll discuss later in the section
-            on Hartree-Fock theory.
-            % TODO: Discuss spin-contamination in relation to the completely
-            % unrestriced Hartree-Fock method.
-            Some common choices of spin-orbitals can be categorized in the
-            following manner.
+            Often many-body methods are defined by restrictions on the
+            spin-orbitals.
+            Below we list some of the more common restrictions.
             \begin{enumerate}
                 \item The general spin-orbital is on the form
                     \begin{align}
                         \psi(x, t)
-                        = \psi_1(\vf{r}, t) \alpha(m_s)
-                        + \psi_2(\vf{r}, t) \beta(m_s).
+                        = c_1\psi_1(\vf{r}, t) \alpha(m_s)
+                        + c_2\psi_2(\vf{r}, t) \beta(m_s).
                         \label{eq:general-spin-orbital}
                     \end{align}
                     These spin-orbitals can lead to mixing between both
                     spin-directions, known as spin-contamination, that is, the
-                    spin-orbitals are no longer eigen states of the
+                    spin-orbitals are no longer eigenstates of the
                     spin-projection operator $\spinproj$.
+                    % TODO: Is this correct?
                     This is often an unwanted effect as this greatly limits some
-                    of the optimizations that can be employed for some of the
+                    of the optimizations that can be employed on some of the
                     computational methods.
                 \item The spin-unrestricted spin-orbital is on the form
                     \begin{align}
@@ -1107,36 +991,237 @@
                         \label{eq:restricted-spin-orbital}
                     \end{align}
                     where each orbital is doubly occupied.
+                    If the system we are exploring exhibits no spin-effects,
+                    then choosing restricted spin-orbitals can often reduce the
+                    complexity of the problem.
+                    Furthermore, the system remains eigenstates of the
+                    spin-projection operator.
             \end{enumerate}
 
-        \subsection{Orbital rotations}
-            % TODO: Include Thouless' theorem.
 
-        \subsection{Basis sets}
-            Also known as \emph{atomic orbitals}.
-            In this document we will rely heavily on basis transformations and
-            creating linear combinations from a basis to another. When creating
-            many-body wavefunctions we will use a finite basis of \emph{orbitals}
-            $\brac{\ket{\chi_{\alpha}}}_{\alpha = 1}^{L}$ as our \emph{atomic
-            orbitals}. These represent known basis states, e.g., the harmonic
-            oscillator eigenstates, etc. We can construct many-body wavefunctions
-            from a linear combination of tensor products of single-particle states,
+
+    \section{Slater determinants}
+        So far we have established that the full many-body wave function of a
+        fermionic system should be anti-symmtric with respect to its particles.
+        The creation and annihilation operators for the Fock space
+        representation of many-body configurations incorporates the
+        anti-symmetry requirement, but we are no closer to establishing what our
+        many-body wave function looks like in a coordinate representation making
+        it hard to compute integrals in order to find matrix elements.
+
+        A start is to consider a system of non-interacting particles with a
+        Hamiltonian on the form
+        \begin{align}
+            \hamil = \sum_{i = 1}^{N} \onehamil_i,
+        \end{align}
+        where $\onehamil_i$ is a one-body Hamiltonian acting on particle $i$. We
+        are able to find the spectrum of $\onehamil$, and we can use the $N$
+        first eigenstates $\ket{\psi_i}$ as a basis of spin-orbitals.
+        This lets us construct a many-body wave function as a product state from
+        these spin-orbitals, viz.
+        \begin{align}
+            \ket{\Psi}
+            = \bigotimes_{i = 1}^{N}\ket{\psi_i}
+            = \ket{\psi_1}\otimes\dots\otimes\ket{\psi_n}.
+        \end{align}
+        The coordinate representation of this state can be found by
+        \begin{align}
+            \braket{x_1, \dots, x_n}{\Psi}
+            = \psi_1(x_1)\dots\psi_n(x_n),
+        \end{align}
+        where $\psi_i(x_i)$ is the coordinate representation of the
+        spin-orbitals.
+        Since each eigenstate $\ket{\psi_i}$ is an eigenstate of the one-body
+        Hamiltonian with eigenenegy $\epsilon_i$ we can find the total energy of
+        the full Hamiltonian by
+        \begin{align}
+            \hamil\ket{\Psi}
+            = E\ket{\Psi}
+            = \brak{
+                \sum_{i = 1}^{N}
+                \epsilon_i
+            }\ket{\Psi}.
+        \end{align}
+        This product state in quantum chemistry and nuclear physics often knwon
+        as the \emph{Hartree product}.
+        However, a product state is neither symmetric nor antisymmetric with
+        respect to exchange of particles as a product state is not an eigenstate
+        of the exchange operator.
+        A way to introduce particle indistinguishability and the anti-symmetry
+        requirement to the product state is to create a linear combination of
+        product states using the permutation operator $\hat{P}_{\sigma}$ defined
+        in a similar manner as in \autoref{sec:particle-statistics}.
+        Defining the action of the permutation operator on the product state to
+        be
+        \begin{align}
+            \hat{P}_{\sigma}\ket{\Psi}
+            = \hat{P}_{\sigma}\bigotimes_{i = 1}^{N}\ket{\psi_i}
+            = \bigotimes_{i = 1}^{N}\ket{\psi_{\sigma(i)}},
+        \end{align}
+        where $\sigma(i)$ is a permutation.
+        Now we construct the \emph{antisymmetrizer} $\hat{A}$ defined as the
+        operator
+        \begin{align}
+            \hat{A} = \frac{1}{N!}\sum_{\sigma \in S_{N}}\hat{P}_{\sigma},
+        \end{align}
+        that is, the operator that performs all $N!$ permutations in $S_{N}$.
+        Using the antisymmetrizer we can construct a totally antisymmetric wave
+        function $\ket{\Phi}$ by
+        \begin{align}
+            \ket{\Phi}
+            = \sqrt{N!}\hat{A}\ket{\Psi}
+            = \frac{1}{\sqrt{N!}}\sum_{\sigma \in S_{N}}
+            \hat{P}_{\sigma}
+            \bigotimes_{i = 1}^{N}\ket{\psi_i},
+        \end{align}
+        where the factor $\sqrt{N!}$ is added to ensure that $\ket{\Phi}$ is
+        normalized.
+        As the non-interacting many-body Hamiltonian only acts on a single
+        spin-orbital at a time, the ordering does not matter.
+        This means that
+        \begin{align}
+            \com{\hamil}{\hat{P}_{\sigma}} = 0,
+        \end{align}
+        and the state $\ket{\Phi}$ is also an eigenstate of $\hamil$ with the
+        same energy $E$ as the product state $\ket{\Psi}$.
+        The coordinate representation of $\ket{\Phi}$ now takes on the familiar
+        form of a determinant.
+        \begin{align}
+            \Phi(x_1, \dots, x_N)
+            &=
+            \braket{x_1, \dots, x_N}{\Phi}
+            = \frac{1}{\sqrt{N}}
+            \sum_{\sigma \in S_{N}}
+            \prod_{i = 1}^{N}
+            \psi_{\sigma(i)}(x_i)
+            \\
+            &=
+            \frac{1}{\sqrt{N}}
+            \begin{vmatrix}
+                \psi_1(x_1) & \dots & \psi_N(x_1) \\
+                \vdots & \ddots & \vdots \\
+                \psi_1(x_N) & \dots & \psi_N(x_N)
+            \end{vmatrix}.
+            \label{eq:coord_slater}
+        \end{align}
+        Here $\Phi(x_1, \dots, x_N)$ is known as the \emph{Slater determinant}
+        of $N$ particles.
+        Exchanging a row or a column in the determinant results in a sign change
+        as we required from the antiysmmetric full wave function for the
+        many-body problem.
+        This means that there can not be two, or more, of the same spin-orbitals
+        in the wave function perfectly encapsulating the Pauli principle as two
+        of the same spin-orbitals translates to two particles being in the same
+        state.
+        The spin-orbitals in a Slater determinant are linearly independent,
+        otherwise $\Phi(x_1, \dots, x_N) = 0$.
+        This is a consequence of the properties of a determinant that adding a
+        scalar multiple of a column to another column does not change the
+        determinant.
+
+        \begin{lemma}
+            Given a Slater determinant $\ket{\Phi}$ built from an
+            orthonormal basis $\brac{\ket{\phi_i}}_{i = 1}^{N}$ that spans
+            the $N$-dimensional Hilbert space, we can then perform a unitary
+            transformation to a new orthonormal basis
+            $\brac{\ket{\psi_i}}_{i = 1}^{N}$ building a new Slater
+            determinant $\ket{\Psi}$.
+            This unitary transformation will then preserve the normalization
+            of the original Slater determinant.
+            % TODO: Clean-up formulation.
+        \end{lemma}
+
+        % TODO: Introduce proof
+        \begin{proof}
+            \label{proof:slater_determinants_invariant}
+            Given a basis $\brac{\ket{\phi_i}}_{i = 1}^{N}$ that spans the
+            $N$-dimensional Hilbert space. We can then do a unitary
+            transformation from this basis to a new basis
+            $\brac{\ket{\psi_i}}_{i = 1}^{N}$ in the same Hilbert space by
             \begin{align}
-                \ket{\Psi}
-                = \sum_{\sigma \in S} c_{\sigma}
-                % TODO: Figure out how to label the coefficients c
-                \ket{\chi_{\sigma(1)}}\otimes\dots\otimes\ket{\chi_{\sigma(L)}},
+                \ket{\psi_i} = U_{ji}\ket{\phi_j},
+                \label{eq:unitary_transformation}
             \end{align}
-            where we have assumed normalized single-particle functions
-            $\braket{\chi_{\alpha}}{\chi_{\alpha}} = 1$, but not necessarily
-            orthonormal.
-            % TODO: Review these statements. Can the total wave function be
-            % normalized if the single particle functions are normalized but not
-            % orthonormal?
-        \subsection{Summation convention}
-            We will throughout this thesis just a summation convention that
-            resembles the Einstein summation convention, but with slight
-            variations.
+            where $U_{ji}$ is an element in the unitary matrix $\vfg{U}$.
+            For a set of coordinates
+            $\brac{x_1, \dots, x_N}$, we write
+            \begin{align}
+                \psi_{ij} \equiv \psi_j(x_i)
+                \equiv \braket{x_i}{\psi_j},
+            \end{align}
+            and equivalently for $\phi_{ij}$. Projecting onto the coordinate
+            basis we can write \autoref{eq:unitary_transformation} as
+            \begin{gather}
+                \braket{x_k}{\psi_i}
+                = U_{ji}\braket{x_k}{\phi_j}
+                \implies
+                \psi_{ki} = U_{ji}\phi_{kj} = \phi_{kj}U_{ji}
+                \implies \vfg{\Psi} = \vfg{\Phi}\vfg{U},
+            \end{gather}
+            where the matrices $\vfg{\Psi}$, $\vfg{\Phi}$ and $\vfg{U}$ are
+            the matrices with elements
+            \begin{align}
+                \vfg{\Psi}
+                &= \begin{pmatrix}
+                    \psi_{11} & \psi_{12} & \dots & \psi_{1N} \\
+                    \vdots & \vdots & \ddots & \vdots \\
+                    \psi_{N1} & \psi_{N2} & \dots & \psi_{NN}
+                \end{pmatrix}, \\
+                \vfg{\Phi}
+                &= \begin{pmatrix}
+                    \phi_{11} & \phi_{12} & \dots & \phi_{1N} \\
+                    \vdots & \vdots & \ddots & \vdots \\
+                    \phi_{N1} & \phi_{N2} & \dots & \phi_{NN}
+                \end{pmatrix}, \\
+                \vfg{U}
+                &= \begin{pmatrix}
+                    U_{11} & U_{12} & \dots & U_{1N} \\
+                    \vdots & \vdots & \ddots & \vdots \\
+                    U_{N1} & U_{N2} & \dots & U_{NN}
+                \end{pmatrix},
+            \end{align}
+            and where $\vfg{U}^{\dagger}\vfg{U} = \1$.
+            Creating the fully antisymmetrized normalized wave function, i.e.,
+            the Slater determinant, from $\vfg{\Psi}$ and $\vfg{\Phi}$ we have
+            that
+            % TODO: Fix description, the determinant of the "Slater matrices"
+            % are not necessarily normalized without the pre-factor.
+            \begin{gather}
+                \det(\vfg{\Psi}) = \det(\vfg{\Phi}\vfg{U})
+                = \det(\vfg{\Phi})\det(\vfg{U})
+            \end{gather}
+            We now take the squared norm on both sides.
+            \begin{align}
+                \norm{\det(\vfg{\Psi})}^2
+                = \norm{\det(\vfg{\Phi})\det(\vfg{U})}^2
+                \leq
+                \norm{\det(\vfg{\Phi})}^2\norm{\det(\vfg{U})}^2
+                = \norm{\det(\vfg{\Phi})}^2,
+                \label{eq:squared_determinant}
+            \end{align}
+            where we have used that
+            \begin{align}
+                \norm{\det(\vfg{U})}^2
+                &= \norm{\det(\vfg{U^{\dagger}})\det(\vfg{U})}
+                = \norm{\det(\vfg{U}^{\dagger}\vfg{U})}
+                = \norm{\det(\1)} = 1.
+            \end{align}
+            Now, in \autoref{eq:squared_determinant}, since the Slater
+            determinant of $\vfg{\Phi}$ is orthonormalized and a unitary
+            transformation preserves the normalization this means that the norm
+            of $\det(\vfg{\Phi})$ and the norm of $\det(\vfg{\Psi})$ must be
+            unity.  Thus, the equality in the splitting of the norm is preserved
+            thus yielding
+            \begin{gather}
+                \norm{\det(\vfg{\Psi})}^2 = \norm{\det(\vfg{\Phi})}^2.
+            \end{gather}
+        \end{proof}
+        % TODO: This proof needs to be re-read.
+
+        \subsection{Operator representation}
+
+        \subsection{Thouless theorem}
+
 
 
     \section{Wick's theorem}
@@ -1186,7 +1271,8 @@
         \end{align}
         where each term involves the \emph{interaction} between $i$ particles.
         For $i = 0$ we have $\hamil_0$ which we take to signify a constant term,
-        e.g., the nuclear charge of an atomic system.
+        e.g., the nuclear repulsion energy of an atomic system where we limit
+        our attention the electrons.
         This term contributes with a constant energy shift in the expectation
         value.
         The one-body term, $\hamil_1$, is the familiar Hamiltonian from
@@ -1372,7 +1458,7 @@
             \twoten^{pq}_{rs}
             \bra{\refslat}\ccr{p}\ccr{q}\can{s}\can{r}\ket{\refslat},
         \end{align}
-        where we use the anti-symmetric two-body elements.
+        where we use the antisymmetric two-body elements.
         Using Wick's theorem\footnote{%
             Or the anti-commutation rules manually.
         }%
@@ -1398,7 +1484,7 @@
             &= \oneten^{p}_{q}\ccr{p}\can{q}
             + \frac{1}{4}\twoten^{pq}_{rs}\ccr{p}\ccr{q}\can{s}\can{r},
         \end{align}
-        where we've labelled the anti-symmetric two-body elements by
+        where we've labelled the antisymmetric two-body elements by
         $u^{pq}_{rs}$, and Einstein summation is assumed.
         We can write the electronic Hamiltonian on a normal ordered form using
         Wick's theorem.

@@ -356,15 +356,9 @@
                 \vfg{\Lambda} = \vfg{U} \vfg{\energy} \vfg{U}^{\dagger}.
             \end{align}
             This procedure is also known as \emph{Schur decomposition}.
-            In tensor notation we introduce a Kronkecker Delta of rank 3 defined as
-            \begin{align}
-                \delta^{i}_{jk} = \begin{cases}
-                    1 & i = j = k, \\
-                    0 & else.
-                \end{cases}
-            \end{align}
-            The Schur decomposition of the Lagrange multipliers then take on the
-            form
+            Using the Kronecker-Delta of rank 3 defined in
+            \autoref{eq:rank-3-kd}, the Schur decomposition of the Lagrange
+            multipliers then take on the form
             \begin{align}
                 \lambda_{ij} = U_{ik} E_{kl} U^{*}_{jl}
                 = U_{ik} \delta^{m}_{kl} \epsilon_{m} U^{*}_{jl},
@@ -550,7 +544,7 @@
             \end{align}
             where $j$ only sums over the $N$ occupied indices in the ground state
             Slater determinant.
-            We see that only the anti-symmetric two-body elements depends on the
+            We see that only the antisymmetric two-body elements depends on the
             coefficient matrix.
             Formulating the elements in terms of the known atomic orbitals and
             the coefficient matrix we get
@@ -711,7 +705,7 @@
                 &= \braket{\sigma}{\tau}\bra{\varphi_p}\onehamil\ket{\varphi_q}
                 = \delta_{\sigma\tau}\bra{\varphi_p}\onehamil\ket{\varphi_q}.
             \end{align}
-            We split up the anti-symmetric elements into its constituent parts
+            We split up the antisymmetric elements into its constituent parts
             and show the spin-dependence in each explicitly.
             \begin{align}
                 \bra{\phi_P\phi_J}\twohamil\ket{\phi_Q\phi_J}
@@ -726,7 +720,7 @@
             \begin{align}
                 \braket{\nu}{\nu} = \delta_{\nu\nu} = 2.
             \end{align}
-            For the second integral in the anti-symmetric two body elements we
+            For the second integral in the antisymmetric two body elements we
             get
             \begin{align}
                 \bra{\phi_P\phi_J}\twohamil\ket{\phi_J\phi_Q}
@@ -1039,7 +1033,7 @@
             different spin-directions are unequal.
             We note that this term provides a coupling between the orbitals in
             both spin-directions.
-            The last term in the anti-symmetric two-body elements is given by
+            The last term in the antisymmetric two-body elements is given by
             \begin{align}
                 \bra{\phi_P\phi_J}
                 \twohamil
