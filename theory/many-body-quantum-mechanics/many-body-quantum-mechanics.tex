@@ -359,6 +359,7 @@
         to a single set of elementary operators \cite{helgaker-molecular}.
 
         \subsection{Fock space}
+            \label{subsec:fock-space}
             In second quantization, we express a general many-body wave function
             as a vector in the abstract linear vector space called \emph{Fock
             space}.
@@ -764,9 +765,14 @@
             indices $p$ and $q$.
             In total we have the fundamental anticommutation relations
             \begin{align}
-                \acom{\can{p}}{\can{q}} &= 0, \\
-                \acom{\ccr{p}}{\ccr{q}} &= 0, \\
+                \acom{\can{p}}{\can{q}} &= 0,
+                \label{eq:anticom-cancan}
+                \\
+                \acom{\ccr{p}}{\ccr{q}} &= 0,
+                \label{eq:anticom-ccrccr}
+                \\
                 \acom{\can{p}}{\ccr{q}} &= \delta_{pq}.
+                \label{eq:anticom-canccr}
             \end{align}
 
             As stated at the start of this section on second quantization, the
@@ -783,6 +789,56 @@
             symmetric fundamental commutation relations\footnote{%
                 And performing a substantial amount of algebra.%
             } one can look at bosonic systems.
+
+
+
+    \section{Wick's theorem}
+        We will discover that the evaluation of products of many-body operators
+        quickly will yield large products of second quantized operators which
+        will have to be evaluated using the anticommutation relations from
+        \autoref{eq:anticom-cancan} to \autoref{eq:anticom-canccr}.
+        To alleviate this process we introduce \emph{Wick's theorem}, first
+        introduced by \citeauthor{wick} \cite{wick}.
+        \begin{definition}
+            \label{def:normal-ordered-form}
+            The \emph{normal-ordered form} of a string of second quantized
+            operators is defined as a form where all the annihilation operators
+            are placed to the right of all the creation operators.
+            For an operator $\hat{A}$ containing a string of creation and
+            annihilation operators, we denote the normal-ordered form by
+            $\brac{\hat{A}}$.
+        \end{definition}
+
+        To see the usefulness of \autoref{def:normal-ordered-form}, consider an
+        operator $\hat{A}$ containing a string of creation and annihilation
+        operators on normal-ordered form, that is, $\hat{A} = \brac{\hat{A}}$,
+        we will then have
+        \begin{align}
+            \brac{\hat{A}}\ket{\vac} = 0,
+        \end{align}
+        as all the annihilation operators will annihilate the vacuum.
+        Note that the normal-ordered form is not unique.
+        However, whilst in the normal-ordered form, a permutation of the
+        operators will at most yield a sign change and thus no consideration of
+        the Kronecker-Delta in \autoref{eq:anticom-canccr} needs to taken.
+
+        \begin{definition}
+            \label{def:contraction}
+            We define a \emph{contraction} between two arbitrary second
+            quantized operators $\hat{A}$ and $\hat{B}$ to be
+            \begin{align}
+                \wick{
+                    \c {\hat{A}}
+                    \c {\hat{B}}
+                }
+                = \hat{A}\hat{B}
+                - \brac{\hat{A}\hat{B}},
+            \end{align}
+            where $\brac{\hat{A}\hat{B}}$ is the normal-ordered form of the
+            operator pair $\hat{A}\hat{B}$.
+        \end{definition}
+
+        \subsection{Generalized Wick's theorem}
 
 
     \section{Spin-orbitals}
@@ -1222,13 +1278,15 @@
             relations by splitting up into occupied and virtual states.
             We have that
             \begin{align}
-                \acom{\can{a}}{\ccr{i}}
-                = \acom{\ccr{a}}{\can{i}}
+                \acom{\can{a}}{\ccr{i}}_F
+                = \acom{\ccr{a}}{\can{i}}_F
                 = 0,
-                \label{eq:fermi-anticommutation}
+                \label{eq:fermi-anticommutation-zero}
             \end{align}
             as $a \neq i$, and similarly for the other virtual and occupied
             indices.
+            We've denoted the anticommutators by an $F$ to emphasize that we
+            are using Fermi vacuum indices.
             % TODO: Introduce the anticommutation relations for Fermi vacuum.
             % TODO: This might be related to Wick's theorem.
 
@@ -1280,7 +1338,7 @@
             change.
             Furthermore, from the fundamental anticommutation relations and with
             the addition of the Fermi vacuum in
-            \autoref{eq:fermi-anticommutation} we see that
+            \autoref{eq:fermi-anticommutation-zero} we see that
             \begin{align}
                 \acom{\hat{X}^{a}_{i}}{\hat{X}^{b}_{j}}
                 = 0,
@@ -1311,9 +1369,10 @@
             Note that we get a natural truncation of $N$ excitation operators on
             any reference determinant with $N$ particles as $N + 1$ excitation
             operators, or more, will annihilate the reference determinant.
+            As discussed in \autoref{subsec:fock-space}, if the basis of single-particle
+            states is orthonormal, then all excited states and the reference
+            state will be orthonormal to one another.
 
-            \subsubsection{Overlap with the reference state}
-                If the basis of single-particle states are orthonormal, then
 
 
         \begin{lemma}
@@ -1418,10 +1477,6 @@
         \subsection{Thouless theorem}
 
 
-
-    \section{Wick's theorem}
-        \subsection{Normal ordering}
-        \subsection{Generalized Wick's theorem}
 
     \section{The many-body Hamiltonian}
         A general many-body Hamiltonian can be described by
