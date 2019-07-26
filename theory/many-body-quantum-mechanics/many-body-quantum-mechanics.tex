@@ -1134,6 +1134,9 @@
         determinants and the Slater determinants will form a basis in Fock
         space.
         % TODO: This paragraph might need a review.
+        The action of a creation operator on a Slater determinant will be to add
+        a new column in the determinant, whereas an annihilation operator
+        removes a column.
 
         \subsection{Reference determinant}
             When working with many-body methods we typically start from a single
@@ -1171,6 +1174,63 @@
             \end{align}
             where $N$ is the number of particles in our reference determinant
             $\ket{\slat}$.
+            The occupied states are single-particle states that are contained in
+            the reference determinant $\ket{\slat}$.
+            We denote the occupied index set by $o = \brac{1, \dots, N}$.
+            The virtual states are all $M = L - N$ other states in the
+            single-particle basis that are not contained in the reference
+            determinant.
+            The virtual index set is denoted by $v = \brac{N + 1, \dots, L}$.
+            As is the convention in the field of many-body quantum mechanics, we
+            use the indices $i, j, k, l, \dots \in o$ to signify occupied
+            indices.
+            Repeated occupied indices means that we only sum over occupied
+            states.
+            For the virtual indices we use $a, b, c, d, \dots \in v$ and
+            repeated indices are only summed over virtual states.
+            Lastly, we use $p, q, r, s, \dots \in o \cup v$ for general states.
+
+            Recalling the definition of the creation and annihilation operator,
+            we have that an annihilation operator destroys the vacuum whereas a
+            creation operator will populate the vacuum.
+            Shifting the vacuum to mean the reference determinant we see that we
+            get a new definition for the creation and the annihilation
+            operators.
+            That is, our new annihilation operators will destroy the reference
+            determinant, whereas the new creation operators will populate the
+            reference determinant.
+            This means that $\ccr{i}$ and $\can{a}$ will be our new annihilation
+            operators as
+            \begin{align}
+                \ccr{i}\ket{\slat} = \can{a}\ket{\slat} = 0.
+            \end{align}
+            Our new creation operators will be $\ccr{a}$ and $\can{i}$ as their
+            action on the reference state will either add or remove a
+            single-particle state without annihilating the determinant.
+            \begin{gather}
+                \ccr{a}\ket{\slat}
+                = \para{\Gamma_{-}}^{\slat}_{a}\ket{\slat'},
+                \\
+                \can{i}\ket{\slat}
+                = \para{\Gamma_{-}}^{\slat}_{i}\ket{\slat''},
+            \end{gather}
+            where $\ket{\slat'}$ is $\ket{\slat}$ with particle state $\ket{a}$
+            added and $\ket{\slat''}$ is $\ket{\slat}$ with particle state
+            $\ket{i}$ removed.
+
+            From the Fermi vacuum formalism we can extend the anticommutation
+            relations by splitting up into occupied and virtual states.
+            We have that
+            \begin{align}
+                \acom{\can{a}}{\ccr{i}}
+                = \acom{\ccr{a}}{\can{i}}
+                = 0,
+                \label{eq:fermi-anticommutation}
+            \end{align}
+            as $a \neq i$, and similarly for the other virtual and occupied
+            indices.
+            % TODO: Introduce the anticommutation relations for Fermi vacuum.
+            % TODO: This might be related to Wick's theorem.
 
         \subsection{Excited determinants}
             From the reference determinant we can create excited determinants by
@@ -1189,6 +1249,7 @@
                 determinant as the reference state.%
             }
             \begin{definition}
+                \label{def:excitation-operator}
                 An \emph{excitation operator} is defined in terms of creation
                 and annihilation operators as
                 \begin{align}
@@ -1197,18 +1258,62 @@
                 and conversely the \emph{relaxation operator} as the Hermitian
                 conjugate of the excitation operator, viz.
                 \begin{align}
-                    \para{\hat{X}^{a}_{i}}^{\dagger} = \ccr{i}\can{a}.
+                    \para{\hat{X}^{a}_{i}}^{\dagger} = \ccr{i}\can{a},
                 \end{align}
+                where the indices are defined according to the formalism used
+                for the Fermi vacuum.
             \end{definition}
+            Acting with the excitation operator in
+            \autoref{def:excitation-operator} on the reference state, we get
+            \begin{align}
+                \ket{\slat^{a}_{i}}
+                \equiv
+                \hat{X}^{a}_{i}\ket{\slat},
+            \end{align}
+            where we denote the excited state by $\ket{\slat^{a}_{i}}$.
+            If $\ket{\slat} \in F_{-}(L, N)$ we see that $\ket{\slat} \in
+            F_{-}(L, N)$ as we remove state $\ket{i}$ and inserts state
+            $\ket{a}$ thus preserving the number of particles $N$ in the excited
+            state.
+            From the Fermi vacuum formalism we have $i < a$ which means that
+            neither the excitation nor the relaxation operator incurs a sign
+            change.
+            Furthermore, from the fundamental anticommutation relations and with
+            the addition of the Fermi vacuum in
+            \autoref{eq:fermi-anticommutation} we see that
+            \begin{align}
+                \acom{\hat{X}^{a}_{i}}{\hat{X}^{b}_{j}}
+                = 0,
+            \end{align}
+            and similarly for the relaxation operators.
+            By repeating the action of the excitation operator on the reference
+            state, we can create any $\ket{\slat_{\mu}} \in F_{-}(L, N)$, where
+            $\mu$ is used as a placeholder for any excitation level.
+            \begin{align}
+                \ket{\slat^{abc\dots}_{ijk\dots}}
+                = \hat{X}^{a}_{i}\hat{X}^{b}_{j}\hat{X}^{c}_{k}\dots\ket{\slat}
+                = \hat{X}^{abc\dots}_{ijk\dots}\ket{\slat},
+            \end{align}
+            where we've defined the compound excitation operator
+            $\hat{X}^{abc\dots}_{ijk\dots}$ as the product of several excitation
+            operators.
+            As the excitation operators anticommute we get the following
+            antisymmetry requirements on the compound excitation operators,
+            \begin{align}
+                \hat{X}^{abc\dots}_{ijk\dots}
+                =
+                -\hat{X}^{bac\dots}_{ijk\dots}
+                =
+                -\hat{X}^{abc\dots}_{jik\dots}
+                =
+                \hat{X}^{bac\dots}_{jik\dots}.
+            \end{align}
+            Note that we get a natural truncation of $N$ excitation operators on
+            any reference determinant with $N$ particles as $N + 1$ excitation
+            operators, or more, will annihilate the reference determinant.
 
-
-
-
-
-
-            %\subsection{Overlap with the reference state}
-            %    % TODO: Remember to introduce the concept of the reference state
-            %\subsection{Overlap when using time-dependent orbitals}
+            \subsubsection{Overlap with the reference state}
+                If the basis of single-particle states are orthonormal, then
 
 
         \begin{lemma}
