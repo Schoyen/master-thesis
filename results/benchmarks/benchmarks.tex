@@ -817,3 +817,32 @@
             Finally, we run two simulations by setting the polarization vector
             in $z$ and $x$ direction and measure the dipole moment in the same
             direction as the polarization of the laser field.
+            A word of caution, when reproducing the results in this article some
+            care must be taken when converting to atomic units for the
+            frequency, time and the intensity of the laser as it is not clear
+            how much one should round the numbers.
+            We have used the Python library \citetitle{pint} \cite{pint} to
+            convert from SI units to atomic units as they stand in the text
+            without any rounding.
+            These conversions are summarized in \autoref{tab:nest-conversions}.
+            \begin{table}
+                \centering
+                \caption{In this table we show the conversions used to move from
+                the SI units given in the article by \citeauthor{nest}
+                \cite{nest} to the atomic units used in the simulation.}
+                \begin{tabular}{cll}
+                    Quantity & SI units & Atomic units \\
+                    \hline
+                    $\omega$ & $\SI{5.44}{\electronvolt}$ &
+                    \SI{1.999163e-1}{\text{a.u.}}\\
+                    $F(t)$ & $\SI{3.5e12}{\watt/\cm^{2}}$ &
+                    \SI{9.973085e-5}{\text{a.u.}} \\
+                    $t$ & $\SI{1}{\femto\second}$ &
+                    \SI{4.134137e+1}{\text{a.u.}}
+                \end{tabular}
+                \label{tab:nest-conversions}
+            \end{table}
+            % TODO: Consider rounding these numbers.
+            % TODO: Add plot of laser field.
+            % TODO: Add results, remember to remove the zero-frequency
+            % component.
