@@ -806,15 +806,15 @@
             are placed to the right of all the creation operators.
             For an operator $\hat{A}$ containing a string of creation and
             annihilation operators, we denote the normal-ordered form by
-            $\brac{\hat{A}}$.
+            $\normalord{\hat{A}}$.
         \end{definition}
 
         To see the usefulness of \autoref{def:normal-ordered-form}, consider an
         operator $\hat{A}$ containing a string of creation and annihilation
-        operators on normal-ordered form, that is, $\hat{A} = \brac{\hat{A}}$,
+        operators on normal-ordered form, that is, $\hat{A} = \normalord{\hat{A}}$,
         we will then have
         \begin{align}
-            \brac{\hat{A}}\ket{\vac} = 0,
+            \normalord{\hat{A}}\ket{\vac} = 0,
         \end{align}
         as all the annihilation operators will annihilate the vacuum.
         Note that the normal-ordered form is not unique.
@@ -832,13 +832,180 @@
                     \c {\hat{B}}
                 }
                 = \hat{A}\hat{B}
-                - \brac{\hat{A}\hat{B}},
+                - \normalord{\hat{A}\hat{B}},
             \end{align}
-            where $\brac{\hat{A}\hat{B}}$ is the normal-ordered form of the
-            operator pair $\hat{A}\hat{B}$.
+            where $\normalord{\hat{A}\hat{B}}$ is the normal-ordered form of the
+            operator pair $\hat{A}\hat{B}$ relative to the vacuum state
+            $\ket{\vac}$.
         \end{definition}
+        Similarly to the anticommutation relations, we can find contraction
+        relations for the second quantized operators.
+        \begin{gather}
+            \wick{
+                \c {\can{p}}
+                \c {\can{q}}
+            }
+            = \can{p}\can{q}
+            - \normalord{\can{p}\can{q}}
+            = \can{p}\can{q}
+            - \can{p}\can{q}
+            = 0,
+            \\
+            \wick{
+                \c {\ccr{p}}
+                \c {\ccr{q}}
+            }
+            = \ccr{p}\ccr{q}
+            - \normalord{\ccr{p}\ccr{q}}
+            = \ccr{p}\ccr{q}
+            - \ccr{p}\ccr{q}
+            = 0,
+            \\
+            \wick{
+                \c {\ccr{p}}
+                \c {\can{q}}
+            }
+            = \ccr{p}\can{q}
+            - \normalord{\ccr{p}\can{q}}
+            = \ccr{p}\can{q}
+            - \ccr{p}\can{q}
+            = 0,
+        \end{gather}
+        where these three contractions all yield zero because they are already
+        on normal-ordered form.
+        The only-nonzero contraction is
+        \begin{align}
+            \wick{
+                \c {\can{p}}
+                \c {\ccr{q}}
+            }
+            = \can{p}\ccr{q}
+            - \normalord{\can{p}\ccr{q}}
+            = \can{p}\ccr{q}
+            + \ccr{q}\can{p}
+            = \acom{\can{p}}{\ccr{q}}
+            = \delta_{pq},
+            \label{eq:vac-canccr-contraction}
+        \end{align}
+        where the sign-change comes from re-ordering of the operators to
+        normal-ordered form.
+        Wick's theorem provides a method of re-writing a string of creation and
+        annihilation operators as a sum of normal-ordered strings.
+        \begin{theorem}
+            \label{theorem:wick}
+            Let $\hat{A}\hat{B}\dots\hat{Z}$ be a string of second quantized
+            operators, then
+            \begin{align}
+                \hat{A}\hat{B}\dots\hat{Z}
+                = \normalord{\hat{A}\hat{B}\dots\hat{Z}}
+                + \sum_{\text{singles}} \normalord{
+                    \wick{
+                        \c {\hat{A}}
+                        \c {\hat{B}}
+                    }
+                    \dots
+                    \hat{Z}
+                }
+                + \sum_{\text{doubles}} \normalord{
+                    \wick{
+                        \c {\hat{A}}
+                        \c {\hat{B}}
+                    }
+                    \dots
+                    \wick{
+                        \c {\hat{Y}}
+                        \c {\hat{Z}}
+                    }
+                }
+                + \dots,
+            \end{align}
+            where the sums run over all singly, doubly, and higher, contracted
+            normal-ordered strings.
+        \end{theorem}
+        Contractions inside normal-ordering braces is performed by permuting
+        the two operators together where each permutation between operators
+        introduce a sign-change.
+        Once the pair has been collected, the contraction can be evaluated.
+        We see that only \autoref{eq:vac-canccr-contraction} will provide a
+        non-zero contraction.
 
         \subsection{Generalized Wick's theorem}
+            An extension to Wick's theorem is the product of several
+            normal-oredered operator strings.
+            \begin{theorem}
+                \label{theorem:wick-general}
+                Let $\normalord{\hat{A}\hat{B}\dots}$ and
+                $\normalord{\hat{X}\hat{Y}\dots}$ be two normal-ordered strings of
+                second quantized operators, then
+                \begin{align}
+                    \normalord{\hat{A}\hat{B}\dots}
+                    \normalord{\hat{X}\hat{Y}\dots}
+                    &= \normalord{\hat{A}\hat{B}\dots\hat{X}\hat{Y}\dots}
+                    + \sum_{\text{singles}}
+                    \normalord{
+                        \wick{
+                            \c {\hat{A}}
+                            {\hat{B}}
+                            {\dots}
+                            \c {\hat{X}}
+                            {\hat{Y}}
+                            {\dots}
+                        }
+                    }
+                    \nonumber \\
+                    &\qquad
+                    + \sum_{\text{doubles}}
+                    \normalord{
+                        \wick{
+                            \c1 {\hat{A}}
+                            \c2 {\hat{B}}
+                            {\dots}
+                            \c1 {\hat{X}}
+                            \c2 {\hat{Y}}
+                            {\dots}
+                        }
+                    }
+                    + \dots,
+                \end{align}
+                where the contractions are only done between the two
+                normal-ordered strings.
+            \end{theorem}
+            To see the usefulness of Wick's theorem, we consider the evaluation
+            of a matrix element between two Fock states $\ket{\vfg{k}},
+            \ket{\vfg{n}} \in F_{-}(L, N)$ on the operator $\hat{A}$ consisting
+            of a string of creation and annihilation operators.
+            We have that
+            \begin{align}
+                \ket{\vfg{n}}
+                = \brak{
+                    \prod_{p = 1}^{L}\para{
+                        \ccr{p}
+                    }^{n_p}
+                }\ket{\vac},
+            \end{align}
+            which is already on normal-ordered form.
+            The Hermitian conjugate of this state is also on normal-ordered
+            form.
+            Now, the matrix element of $\hat{A}$ is given by
+            \begin{align}
+                \mel{\vfg{k}}{\hat{A}}{\vfg{n}}
+                = \mel{\vac}{
+                    \brak{
+                        \prod_{p = 1}^{L}
+                        \para{\can{p}}^{k_p}
+                    }
+                    \hat{A}
+                    \brak{
+                        \prod_{p = 1}^{L}\para{
+                            \ccr{p}
+                        }^{n_p}
+                    }
+                }{\vac}.
+            \end{align}
+            Using Wick's generalized theorem on the operator $\hat{A}$ we see
+            that only the \emph{fully contracted} terms will survive, as any
+            ``left-over'' normal-ordered strings will annihilate the vacuum
+            state.
 
 
     \section{Spin-orbitals}
