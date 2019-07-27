@@ -43,6 +43,9 @@
             = 0.25$, $\omega = 0.25$, $\mathcal{E}_0 = 1$ and $\Omega = 8\omega$
             on a grid where $x \in [-10, 10]$.
             The laser pulse is turned on for the entirety of the simulation.
+            To reproduce these results we use a basis of single-particle states
+            with $L = 20$ spin-orbitals, that is, $L / 2 = 10$ one-dimensional
+            harmonic oscillator orbitals.
 
             In \autoref{fig:one-body-density-zanghellini} we plot the ground
             state one-body particle densities using Hartree-Fock and
@@ -194,6 +197,7 @@
                 with singles and doubles.}
                 \label{fig:overlap-zanghellini}
              \end{figure}
+             % TODO: Add info on the number of basis functions used.
 
     \section{Double-well quantum dots}
 
@@ -796,21 +800,53 @@
             laser field on the form
             \begin{align}
                 \vfg{F}(t)
+                = -\vfg{\epsilon} F(t)
                 = -\vfg{\epsilon}
-                F(t) \sin^2(\omega t),
+                f(t) \sin^2(\omega t),
+                \label{eq:nest-laser}
             \end{align}
             where $\vfg{\epsilon}$ is the polarization vector, $\omega =
             \SI{5.44}{\electronvolt}$.
-            The envelope of the laser field is given by
+            The intensity of the laser field is given by
             \begin{align}
-                F(t) = \begin{cases}
+                f(t) = \begin{cases}
                     \SI{3.5e12}{\watt/\cm^2}
                     & t \leq \SI{1}{\femto\second}, \\
                     0 & t > \SI{1}{\femto\second},
                 \end{cases}
+                \label{eq:nest-intensity}
             \end{align}
             that is, they use an \emph{ultrashort} laser pulse and let the
             system evolve in time for $\SI{100}{\femto\second}$.
+            A plot of the laser field in the first $t = \SI{50}{\text{a.u.}}$ of
+            the simulation is snown in \autoref{fig:nest-laser}.
+            We see that the laser field is cut rather abruptly.
+            \begin{figure}
+                \centering
+                \begin{tikzpicture}
+                    \begin{axis}[
+                            width=11cm,
+                            height=6cm,
+                            xlabel={$t$ $[\text{a.u.}]$},
+                            grid=major,
+                            ylabel={$F(t)$},
+                            enlarge x limits=false,
+                            enlarge y limits=false,
+                        ]
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/nest/dat/nest_laser.dat};
+                    \end{axis}
+                \end{tikzpicture}
+                \caption{In this figure we have plotted the laser pulse from
+                \autoref{eq:nest-laser} for $t = \SI{50}{\text{a.u.}}$,
+                $\omega = \SI{5.44}{\electronvolt}$, and $f(t)$ as defined in
+                \autoref{eq:nest-intensity} \cite{nest}.}
+                \label{fig:nest-laser}
+            \end{figure}
             We repeat this study for the lithium hydride molecule.
             We use a bond-length of $\SI{3.08}{\bohr}$ in the $z$-direction
             between the lithium and the hydrogen atoms.
@@ -845,53 +881,98 @@
             \end{table}
             % TODO: Consider rounding these numbers.
 
+            In \autoref{fig:fft_dipole_x_nest} and
+            \autoref{fig:fft_dipole_z_nest} we have included the Fourier
+            transform of the sampled dipole moment in $x$- and $z$-direction in
+            time, respectively.
+            These plots show the emission and absorption spectra for the
+            lithium hydride molecule.
             \begin{figure}
                 \centering
                 \begin{tikzpicture}
-                    \begin{axis}[
+                    \begin{groupplot}[
+                        group style={
+                            group size=1 by 2,
+                            vertical sep=30pt,
+                            xlabels at=edge bottom,
+                        },
                         width=11cm,
                         height=6cm,
                         xlabel={Excitation energy $[\text{a.u.}]$},
-                        ylabel={Intensity},
-                        grid=major,
-                        enlarge x limits=false,
-                        ymax=0.5e-4,
                     ]
-                        \addplot+[
-                            mark=none,
-                            thick,
+                        \nextgroupplot[
+                            grid=major,
+                            ylabel={Intensity},
+                            enlarge x limits=false,
+                            %ymax=0.5e-4,
                         ]
-                        table
-                        {results/benchmarks/nest/dat/fft_dipole_z_oatdccd_real.dat};
-                        \addlegendentry{OATDCCD}
+                            \addplot+[
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/nest/dat/fft_dipole_x_oatdccd_real.dat};
+                            \addlegendentry{OATDCCD}
 
-                        \addplot+[
-                            mark=none,
-                            thick,
-                        ]
-                        table
-                        {results/benchmarks/nest/dat/fft_dipole_z_tdhf_real.dat};
-                        \addlegendentry{TDHF}
+                            \addplot+[
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/nest/dat/fft_dipole_x_tdhf_real.dat};
+                            \addlegendentry{TDHF}
 
-                        \addplot+[
-                            mark=none,
-                            thick,
+                            \addplot+[
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/nest/dat/fft_dipole_x_tdccsd_real.dat};
+                            \addlegendentry{TDCCSD}
+                        \nextgroupplot[
+                            ylabel={Intensity},
+                            grid=major,
+                            enlarge x limits=false,
+                            %ymax=0.5e-4,
                         ]
-                        table
-                        {results/benchmarks/nest/dat/fft_dipole_z_tdccsd_real.dat};
-                        \addlegendentry{TDCCSD}
-                    \end{axis}
+                            \addplot+[
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/nest/dat/fft_dipole_z_oatdccd_real.dat};
+                            \addlegendentry{OATDCCD}
+
+                            \addplot+[
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/nest/dat/fft_dipole_z_tdhf_real.dat};
+                            \addlegendentry{TDHF}
+
+                            \addplot+[
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {results/benchmarks/nest/dat/fft_dipole_z_tdccsd_real.dat};
+                            \addlegendentry{TDCCSD}
+                    \end{groupplot}
                 \end{tikzpicture}
-                \caption{In this figure we show the Fourier transform of the
-                dipole moment in $z$-direction using time-dependent
+                \caption{In these figures we show the Fourier transform of the
+                dipole moment in $x$-and $y$-direction using time-dependent
                 Hartree-Fock, time-dependent coupled cluster with singles and
                 doubles, orbital-adaptive time-dependent coupled cluster with
-                doubles excitations.}
-                \label{fig:fft_dipole_z_nest}
+                doubles excitations.
+                The top figure shows the results in $x$-direction and the lower
+                in $z$-direction.
+                Note that we have removed the zero-frequency component from
+                these spectra.}
+                \label{fig:fft_dipole_nest}
             \end{figure}
             % TODO: Discuss sampling of the dipole moment and taking the Fourier
             % transform in order to find the enegy spectra.
-            % TODO: Add plot of laser field.
             % TODO: Add plot of energy conservation after laser pulse.
             % TODO: Add results, remember to remove the zero-frequency
             % component.
