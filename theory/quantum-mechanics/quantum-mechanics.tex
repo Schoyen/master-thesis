@@ -555,13 +555,33 @@
 
     \section{The time-dependent variational principle}
 
-    \section{Quantizing the electromagnetic field}
-        \subsection{Dipole moment}
-        \subsection{Energy spectrum}
+    \section{Interacting with the electromagnetic field}
+        In vacuum the classical electromagnetic field is described by Maxwell's
+        equations without sources.
+        \begin{gather}
+            \vfg{\nabla}\cdot\vfg{E} = 0, \\
+            \vfg{\nabla}\cdot\vfg{B} = 0, \\
+            \vfg{\nabla}\times\vfg{E} = -\dpd{}{t}\vfg{B}, \\
+            \vfg{\nabla}\times\vfg{B} = \frac{1}{c^2}\dpd{}{t}\vfg{E},
+        \end{gather}
+        where $\vfg{E}(\vfg{r}, t)$ and $\vfg{B}(\vfg{r}, t)$ are the
+        electric and magnetic fields respectively.
+        Without sources translates to the charge density $\rho$ and the current
+        density $\vfg{j}$ being zero.
+        The electric and magnetic fields can be described by the scalar and
+        vector potentials $\phi(\vfg{r}, t)$ and $\vfg{A}(\vfg{r}, t)$,
+        respectively, by the relations
+        \begin{gather}
+            \vfg{E} = -\vfg{\nabla}\phi - \dpd{}{t}\vfg{A}, \\
+            \vfg{B} = \vfg{\nabla}\times\vfg{A}.
+        \end{gather}
+
+        \subsection{The dipole approximation}
+        \subsection{Selection rules}
 
     \section{Laser field}
-        \subsection{Polarization}
         \subsection{Envelope}
+        \subsection{Dipole laser}
 
     \section{Physical units}
         \subsection{Atomic units}
