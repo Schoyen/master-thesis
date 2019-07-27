@@ -36,12 +36,18 @@ class NestLaser:
 
         self.t_stop = ureg.Quantity(t_stop, ureg.fs).to(ureg.a_u_time).magnitude
 
+    def envelope(self, t):
+        return np.sin(np.pi * t / self.t_stop) ** 2
+
+    def electric_field(self, t):
+        return self.f_max * np.sin(self.omega * t)
+
     def __call__(self, t):
         if t >= self.t_stop:
             return 0
 
         # We use a negative sign as we are whacking electrons
-        return -self.f_max * np.sin(self.omega * t) ** 2
+        return -self.electric_field(t) * self.envelope(t)
 
 
 def get_lih_system(polarization_axis=2):
