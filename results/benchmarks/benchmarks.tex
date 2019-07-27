@@ -263,10 +263,10 @@
             We let the envelope cycle as a function of time by
             \begin{align}
                 E(t) = \begin{cases}
-                    (\omega t / 2\pi) E_m, & t\omega \in [0, 2\pi], \\
-                    E_m, & t\omega \in [2\pi, 4\pi], \\
-                    [3 - \omega t / (2\pi)], & t\omega \in [4\pi, 6\pi], \\
-                    0, & t\omega \neq [0, 6\pi],
+                    (\omega t / 2\pi) E_m, & \omega t \in [0, 2\pi], \\
+                    E_m, & \omega t \in [2\pi, 4\pi], \\
+                    [3 - \omega t / (2\pi)] E_m, & \omega t \in [4\pi, 6\pi], \\
+                    0, & \omega t \neq [0, 6\pi],
                 \end{cases}
                 \label{eq:li-laser}
             \end{align}
@@ -881,8 +881,7 @@
             \end{table}
             % TODO: Consider rounding these numbers.
 
-            In \autoref{fig:fft_dipole_x_nest} and
-            \autoref{fig:fft_dipole_z_nest} we have included the Fourier
+            In \autoref{fig:fft_dipole_nest} we have included the Fourier
             transform of the sampled dipole moment in $x$- and $z$-direction in
             time, respectively.
             These plots show the emission and absorption spectra for the

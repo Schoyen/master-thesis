@@ -1,39 +1,38 @@
-import tqdm
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import animation
 
-from quantum_systems import ODQD
-from quantum_systems.quantum_dots.one_dim.one_dim_potentials import HOPotential
-from quantum_systems.time_evolution_operators import LaserField
+from hpt_system import get_hpt_system
 
 from configuration_interaction import TDCISD
 from coupled_cluster.ccd import OATDCCD
 from hartree_fock import HartreeFock
 
 
-n = 2
-l = 40
+# n = 2
+# l = 40
+#
+# omega = 1
+#
+# grid_length = 10
+# num_grid_points = 401
+#
+# odqd = ODQD(n, l, grid_length, num_grid_points)
+# odqd.setup_system(potential=HOPotential(omega=omega))
+#
+#
+# laser_omega = 1
+# E = 0.5
+#
+# laser_pulse = lambda t: E * np.sin(laser_omega * t) if t < 5 else 0
+# odqd.set_time_evolution_operator(LaserField(laser_pulse))
 
-omega = 1
-
-grid_length = 10
-num_grid_points = 401
-
-odqd = ODQD(n, l, grid_length, num_grid_points)
-odqd.setup_system(potential=HOPotential(omega=omega))
-
-
-laser_omega = 1
-E = 0.5
-
-laser_pulse = lambda t: E * np.sin(laser_omega * t) if t < 5 else 0
-odqd.set_time_evolution_operator(LaserField(laser_pulse))
+odqd = get_hpt_system(n=1)
 
 
 plt.plot(odqd.grid, odqd.potential(odqd.grid))
 
-for i in range(l // 2):
+for i in range(odqd.l // 2):
     plt.plot(
         odqd.grid,
         odqd.eigen_energies[i] + np.abs(odqd.spf[2 * i]) ** 2,
@@ -65,7 +64,7 @@ time_points = np.linspace(t_start, t_end, num_points)
 
 
 fig = plt.figure()
-ax = plt.axes(xlim=(-grid_length, grid_length), ylim=(0, n))
+ax = plt.axes(xlim=(odqd.grid[0], odqd.grid[-1]), ylim=(0, odqd.n))
 line, = ax.plot([], [])
 title = ax.text(0.5, 0.85, "")
 
