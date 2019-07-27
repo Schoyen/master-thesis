@@ -16,5 +16,5 @@ time_points = time_points[time_points <= 50]
 
 path = os.path.join(sys.path[0], "dat")
 write_data(
-    os.path.join(path, "nest_laser.dat"), time_points, laser(time_points)
+    os.path.join(path, "nest_laser.dat"), time_points, -laser(time_points)
 )
