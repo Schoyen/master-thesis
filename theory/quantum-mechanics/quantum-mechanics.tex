@@ -657,8 +657,126 @@
             $\hamil_p$, the electromagnetic contribution by $\hamil_e$ and
             finally the interaction between particles and the electromagnetic
             field by $\hamil_{ep}$.
-            % TODO: Discuss that we ignore interaction between charges in the
-            % Coulomb interactin.
+            In the classical description of the electromagnetic field, the free
+            field Hamiltonian takes on the form
+            \begin{align}
+                \hamilten(t)
+                = \half\int\dd^3\vfg{r} \brak{
+                    \epsilon_0 \vfg{E}^2(\vfg{r}, t)
+                    + \frac{1}{\mu_0}\vfg{B}^2(\vfg{r}, t)
+                },
+            \end{align}
+            where $\epsilon_0$ is the vacuum permittivity and $\mu_0$ the
+            magnetic permeability.
+            The free field contribution to the total Hamiltonian is necessary to
+            include in order to keep the system of particles and fields
+            conservative.
+            This term allows for interchange of energy between the particles and
+            the electromagnetic fields thus conserving the total energy.
+            In the semi-classical description we use, the free field Hamiltonian
+            will reduce to a time-dependent constant as the electric and
+            magnetic fields are classical quantities which do not act as
+            operators on the quantum states.
+            We will ignore the free field Hamiltonian in the rest of this text
+            and treat the particle-field interaction $\hamil_{ep}$ as a
+            perturbation to the field-free Hamiltonian $\hamil_{p}$, viz
+            \begin{align}
+                \hamil = \hamil_{p} + \hamil_{ep},
+            \end{align}
+            which means that the total energy will \emph{not} be conserved
+            while the field is active.
+            The particle contribution to the Hamiltonian is given by
+            \begin{align}
+                \hamil_{p}
+                = \frac{\momentumvec^2}{2m}
+                + v(\vfg{r}),
+            \end{align}
+            where we've ignored particle-particle interaction in this
+            discussion.
+            However, when we do include the Coulomb interaction in the chapter
+            on many-body quantum mechanics, this will be included to $\hamil_p$
+            without any extra concern for the particle-field interaction
+            $\hamil_{ep}$.
+            The particle-field interaction term $\hamil_{ep}$ is typically found
+            by describing a system with free particles subject to an external
+            electromagnetic field in terms of a Lagrangian.
+            This Hamiltonian is given by
+            \begin{align}
+                \hamil_{f}
+                = \frac{1}{2m}\brak{
+                    \momentumvec
+                    - q\vfg{A}
+                }^2,
+            \end{align}
+            where $q$ is the charge of the particles.
+            Note that as we work in the Coulomb gauge without sources, we have
+            set $\phi = 0$.
+            In the case of a scalar potential, the expression for $\hamil_{f}$
+            needs to include a term $q\phi$.
+            To get rid of the extra kinetic term we therefore find $\hamil_{ep}$
+            by
+            \begin{align}
+                \hamil_{ep}
+                = \hamil_{f}
+                - \frac{\momentumvec^2}{2m}
+                =
+                -\frac{q}{2m}\brak{
+                    \momentumvec\cdot \vfg{A}
+                    + \vfg{A}\cdot\momentumvec
+                }
+                + \frac{q^2}{2m}
+                \vfg{A}^2.
+                \label{eq:hamil-ep-pre}
+            \end{align}
+            However, this form comes from a classical description of the
+            Hamiltonian and therefore does not include spin.
+            This can be added by
+            \begin{align}
+                \hamil_s
+                = \frac{g q}{2m}\hat{\vfg{S}}\cdot\vfg{B},
+                \label{eq:hamil-s}
+            \end{align}
+            where $g$ is the g-factor of the particle.
+            The spin-coupling term is small compared to the other two
+            particle-field interactions \cite{modern-qm}.
+            Furthermore, when we move to the dipole approximation, this term
+            will disappear completely.
+            Working in the Coulomb gauge, we can make the first term in
+            \autoref{eq:hamil-ep-pre} a little shorter.
+            If we consider a test function $f = f(\vfg{r})$, we see that
+            \begin{align}
+                \momentumvec\cdot\vfg{A}f
+                = -i\hslash\vfg{\nabla}\cdot\para{
+                    \vfg{A}f
+                }
+                = -i\hslash\para{
+                    f\vfg{\nabla}\cdot\vfg{A}
+                    + \vfg{A}\vfg{\nabla}f
+                }
+                = -i\hslash\vfg{A}\vfg{\nabla}f
+                = \vfg{A}\cdot \momentumvec f,
+            \end{align}
+            where we going from the second to the third equality used the
+            Coulomb gauge condition that the divergence of $\vfg{A}$ should be
+            zero.
+            Thus the particle-field interaction term should be
+            \begin{align}
+                \hamil_{ep}
+                =
+                -\frac{q}{m}\vfg{A}\cdot\momentumvec
+                + \frac{q^2}{2m}
+                \vfg{A}^2
+                =
+                -\frac{q}{m}\vfg{A}\cdot\momentumvec
+                +
+                \mathcal{O}(\vfg{A}^2),
+                \label{eq:hamil-ep}
+            \end{align}
+            without the spin-coupling.
+            As we are treating the electromagnetic field in a perturbative
+            manner we will ignore the second term in \autoref{eq:hamil-ep} as it
+            is quadratic in the field and will therefore be much smaller than
+            the first term in the particle-field interaction.
 
         \subsection{The dipole approximation}
             If we assume that the wavelength $\lambda$ of the field is larger
@@ -694,8 +812,12 @@
             In the Coulomb gauge this means that
             \begin{gather}
                 \vfg{E} = -\dod{}{t}\vfg{A}, \\
-                \vfg{B} = \vfg{\nabla}\times \vfg{A} = \vfg{0}.
+                \vfg{B} = \vfg{\nabla}\times \vfg{A} = \vfg{0},
             \end{gather}
+            and as promised, the magnetic field and therefore the spin-coupling
+            disappears in the particle-field interaction from
+            \autoref{eq:hamil-s}.
+
         \subsection{Selection rules}
 
     \section{Laser field}
