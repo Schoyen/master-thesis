@@ -555,7 +555,7 @@
 
     \section{The time-dependent variational principle}
 
-    \section{Interacting with the electromagnetic field}
+    \section{Electrodynamics}
         In vacuum the classical electromagnetic field is described by Maxwell's
         equations without sources.
         \begin{gather}
@@ -575,12 +575,132 @@
             \vfg{E} = -\vfg{\nabla}\phi - \dpd{}{t}\vfg{A}, \\
             \vfg{B} = \vfg{\nabla}\times\vfg{A}.
         \end{gather}
+        In addition to Maxwell's equations, the potentials and the electric and
+        magnetic fields satisfies the homogeneous wave equation
+        \cite{joachain2012atoms}
+        \begin{align}
+            \vfg{\nabla}^2\vfg{A} = \frac{1}{c^2}\dpd[2]{}{t}\vfg{A}.
+            \label{eq:wave-equation}
+        \end{align}
+        % TODO: This might be a result of the Coulomb gauge condition...
+        Maxwell's equations and the wave equation does not uniquely define the
+        scalar and vector potentials as the electric and magnetic field are
+        invariant under the gauge transformations
+        \begin{gather}
+            \vfg{A} \to \vfg{A}' = \vfg{A} + \vfg{\nabla} f, \\
+            \phi \to \phi' = \phi + \dpd{f}{t},
+        \end{gather}
+        where $f$ is a differentiable, real function of $\vfg{r}$ and $t$.
+        To go from here we choose a gauge fixing condition such that we are able
+        to remove non-physical degrees of freedom \cite{modern-qm}.
+        We will strictly be working in the non-relativistic limit such that the
+        Lorenz gauge is unnecessary.
+        We will be using the Coulomb gauge given by
+        \begin{align}
+            \vfg{\nabla}\cdot\vfg{A} = 0.
+        \end{align}
+        Without sources, this means that $\phi = 0$ and the electric and
+        magnetic fields are found by
+        \begin{gather}
+            \vfg{E} = -\dpd{}{t}\vfg{A}, \\
+            \vfg{B} = \vfg{\nabla}\times \vfg{A}.
+        \end{gather}
+
+        A solution to the wave equation in \autoref{eq:wave-equation} for the
+        vector potential $\vfg{A}$ is the monochromatic plane wave solutions
+        with wave number $\vfg{k} = 2\pi / \lambda$, and angular frequency
+        $\omega_k = \abs{\vfg{k}} c$.
+        That is,
+        \begin{align}
+            \vfg{A}(\vfg{r}, t)
+            &= \vfg{A}_0 \exp[i(\vfg{k}\cdot \vfg{r} - \omega_k t)]
+            + \vfg{A}^{*}_0 \exp[-i(\vfg{k}\cdot\vfg{r} - \omega_k t)],
+            \label{eq:plane-wave}
+        \end{align}
+        where the first term represents the positive frequency solution and the
+        second term the negative frequency solution.
+        The amplitudes $\vfg{A}_0$ are given by
+        \begin{align}
+            \vfg{A}_0 = \vfg{\epsilon} A_0,
+        \end{align}
+        where $\vfg{\epsilon}$ is the polarization vector.
+        The Coulomb gauge condition is satisfied if
+        \begin{align}
+            \vfg{k}\cdot \vfg{\epsilon} = 0,
+        \end{align}
+        that is, the wave is transversal and the polarization is perpendicular
+        to the propagation direction.
+        Now, \autoref{eq:plane-wave} describes a classical plane wave solution
+        to the wave equation.
+        It is possible to quantize the plane wave solution and introduce Fock
+        states for the electromagnetic vector potential.
+        The laser fields we will be working with will have such a high
+        photoncount that the classical description of the field will dominate
+        over quantum fluctuations arising from quantization of the fields
+        \cite{joachain2012atoms}.
+        An alternative is to describe the radiation from the laser field as a
+        coherent state, which will allow us to use the quantum mechanical
+        description of the electromagnetic field \cite{joachain2012atoms,
+        modern-qm}.
+        However, we wil in the following remain in the classical description of
+        the electromagnetic fields yielding a semi-classical approach to
+        describing interactions between particles and electromagnetic fields.
+
+        \subsection{Electromagnetic field and particle interactions}
+            In a quantum description of the electromagnetic field, we have the
+            full Hamiltonian of a particle in a potential $v(\vfg{r})$ given by
+            \begin{align}
+                \hamil
+                = \hamil_{p} + \hamil_{e} + \hamil_{ep},
+            \end{align}
+            where we've denoted the particle (or, matter) contribution by
+            $\hamil_p$, the electromagnetic contribution by $\hamil_e$ and
+            finally the interaction between particles and the electromagnetic
+            field by $\hamil_{ep}$.
+            % TODO: Discuss that we ignore interaction between charges in the
+            % Coulomb interactin.
 
         \subsection{The dipole approximation}
+            If we assume that the wavelength $\lambda$ of the field is larger
+            than the size of the quantum system, that is, if
+            \begin{align}
+                \lambda \gg \abs{\vfg{r}}
+                \implies
+                \vfg{k}\cdot\vfg{r} \ll 1,
+            \end{align}
+            the spatial variations of the electromagnetic field will be small
+            compared to the time variations.
+            When looking at atomic particles with sizes on the order of
+            nanometers, this approximation can be good when the electromagnetic
+            field is in the low frequency domain, e.g., infrared light, etc.
+            Looking at the plane wave solution in \autoref{eq:plane-wave} we see
+            that
+            \begin{align}
+                \exp[\pm i\vfg{k}\cdot\vfg{r}]
+                = 1 \pm i\vfg{k}\cdot\vfg{r}
+                - \frac{1}{2}\para{
+                    \vfg{k}\cdot\vfg{r}
+                }^2
+                + \dots,
+            \end{align}
+            where the first term will dominate.
+            The \emph{dipole approximation} consists of choosing this term as
+            the only contribution to the spatial variations, i.e.,
+            \begin{align}
+                \exp[\pm i\vfg{k}\cdot\vfg{r}] \approx 1.
+            \end{align}
+            This means that $\vfg{A}(\vfg{r}, t) \approx \vfg{A}(t)$ and we get
+            a spatially uniform electromagnetic field.
+            In the Coulomb gauge this means that
+            \begin{gather}
+                \vfg{E} = -\dod{}{t}\vfg{A}, \\
+                \vfg{B} = \vfg{\nabla}\times \vfg{A} = \vfg{0}.
+            \end{gather}
         \subsection{Selection rules}
 
     \section{Laser field}
         \subsection{Envelope}
+            % TODO: Add plots of the envelope functions.
         \subsection{Dipole laser}
 
     \section{Physical units}
