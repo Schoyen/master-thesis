@@ -13,11 +13,11 @@ def get_filename_stub(params):
     return f"n={params['n']}_l={params['l']}_omega={params['omega']}"
 
 
-def run_oaccd_tdho(params, filename_stub, hf_tol=1e-4, oaccd_tol=1e-4):
+def run_oaccd_tdho(params, filename_stub, hf_tol=1e-7, oaccd_tol=1e-4):
     tdho = get_tdho(**params)
 
     hf = HartreeFock(tdho, mixer=DIIS, verbose=True)
-    hf.compute_ground_state(tol=hf_tol, change_system_basis=True, num_vecs=5)
+    hf.compute_ground_state(tol=hf_tol, change_system_basis=True, num_vecs=10)
 
     rho_hf = hf.compute_particle_density()
 
@@ -26,7 +26,9 @@ def run_oaccd_tdho(params, filename_stub, hf_tol=1e-4, oaccd_tol=1e-4):
     filename = os.path.join(path, filename)
 
     oaccd = OACCD(tdho, verbose=True)
-    oaccd.compute_ground_state(tol=oaccd_tol, termination_tol=oaccd_tol)
+    oaccd.compute_ground_state(
+        tol=oaccd_tol, termination_tol=oaccd_tol, num_vecs=20
+    )
 
     rho = oaccd.compute_particle_density()
 
