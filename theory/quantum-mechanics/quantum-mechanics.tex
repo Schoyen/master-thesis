@@ -623,13 +623,25 @@
         \begin{align}
             \vfg{A}_0 = \vfg{\epsilon} A_0,
         \end{align}
-        where $\vfg{\epsilon}$ is the polarization vector.
+        where $\vfg{\epsilon}$ is the polarization vector, and we have that
+        $\vfg{\epsilon}\cdot\vfg{\epsilon}^{*} = 1$.
+        If the polarization vector is real and time-independent, we say that the
+        electromagnetic field is linearly polarized.
         The Coulomb gauge condition is satisfied if
         \begin{align}
             \vfg{k}\cdot \vfg{\epsilon} = 0,
         \end{align}
         that is, the wave is transversal and the polarization is perpendicular
         to the propagation direction.
+        In three dimensions we can in general write the plane wave solution as a
+        linear combination of two linearly independent polarization vectors
+        $\vfg{\epsilon}_1$ and $\vfg{\epsilon}_2$ which both are orthogonal to
+        the wave vector $\vfg{k}$ thus forming a three-dimensional coordinate
+        system.
+        This opens up for elliptical polarization of the electromagnetic field.
+        However, we will in this thesis limit ourselves to the case of linearly
+        polarized fields with real polarization vectors.
+
         Now, \autoref{eq:plane-wave} describes a classical plane wave solution
         to the wave equation.
         It is possible to quantize the plane wave solution and introduce Fock
@@ -682,6 +694,7 @@
             perturbation to the field-free Hamiltonian $\hamil_{p}$, viz
             \begin{align}
                 \hamil = \hamil_{p} + \hamil_{ep},
+                \label{eq:field-free-hamiltonian}
             \end{align}
             which means that the total energy will \emph{not} be conserved
             while the field is active.
@@ -706,13 +719,10 @@
                 = \frac{1}{2m}\brak{
                     \momentumvec
                     - q\vfg{A}
-                }^2,
+                }^2
+                + q\phi,
             \end{align}
             where $q$ is the charge of the particles.
-            Note that as we work in the Coulomb gauge without sources, we have
-            set $\phi = 0$.
-            In the case of a scalar potential, the expression for $\hamil_{f}$
-            needs to include a term $q\phi$.
             To get rid of the extra kinetic term we therefore find $\hamil_{ep}$
             by
             \begin{align}
@@ -725,7 +735,8 @@
                     + \vfg{A}\cdot\momentumvec
                 }
                 + \frac{q^2}{2m}
-                \vfg{A}^2.
+                \vfg{A}^2
+                + q\phi.
                 \label{eq:hamil-ep-pre}
             \end{align}
             However, this form comes from a classical description of the
@@ -740,7 +751,8 @@
             The spin-coupling term is small compared to the other two
             particle-field interactions \cite{modern-qm}.
             Furthermore, when we move to the dipole approximation, this term
-            will disappear completely.
+            will disappear completely and we will therefore ignore the
+            spin-coupling.
             Working in the Coulomb gauge, we can make the first term in
             \autoref{eq:hamil-ep-pre} a little shorter.
             If we consider a test function $f = f(\vfg{r})$, we see that
@@ -766,17 +778,31 @@
                 -\frac{q}{m}\vfg{A}\cdot\momentumvec
                 + \frac{q^2}{2m}
                 \vfg{A}^2
-                =
-                -\frac{q}{m}\vfg{A}\cdot\momentumvec
-                +
-                \mathcal{O}(\vfg{A}^2),
+                + q\phi
                 \label{eq:hamil-ep}
             \end{align}
             without the spin-coupling.
-            As we are treating the electromagnetic field in a perturbative
-            manner we will ignore the second term in \autoref{eq:hamil-ep} as it
-            is quadratic in the field and will therefore be much smaller than
-            the first term in the particle-field interaction.
+            Now, the full Hamiltonian in \autoref{eq:field-free-hamiltonian},
+            without the spin-coupling, will be invariant under the the quantum
+            mechanical gauge transformations
+            \cite{joachain2012atoms}
+            \begin{gather}
+                \vfg{A} \to \vfg{A}' = \vfg{A} + \vfg{\nabla}f,
+                \label{eq:gauge-invariant-vector-potential}
+                \\
+                \phi \to \phi' = \phi - \dpd{f}{t},
+                \label{eq:gauge-invariant-scalar-potential}
+                \\
+                \psi \to \psi' = \exp[\frac{iq}{\hslash}f]\psi,
+                \label{eq:gauge-invariant-wave-function}
+            \end{gather}
+            where $f = f(\vfg{r}, t)$ is a real, differentiable function and
+            $\psi = \psi(\vfg{r}, t)$ is a solution to the time-dependent
+            Schrödinger equation.
+            A demonstration of the invariance of the Hamiltonian from
+            \autoref{eq:field-free-hamiltonian} under the listed gauge
+            transformations is shown in
+            \autoref{app:gauge-invariant-electromagnetic-hamiltonian}.
 
         \subsection{The dipole approximation}
             If we assume that the wavelength $\lambda$ of the field is larger
@@ -817,6 +843,53 @@
             and as promised, the magnetic field and therefore the spin-coupling
             disappears in the particle-field interaction from
             \autoref{eq:hamil-s}.
+
+            In the dipole approximation we can write the vector potential as
+            \begin{align}
+                \vfg{A}(t)
+                = \vfg{A}_0 e^{-i\omega_k t}
+                + \vfg{A}^{*}_{0} e^{i\omega_k t}
+                = \vfg{\epsilon}\brak{
+                    A_0 e^{-i\omega_k t}
+                    + A^{*}_0 e^{i\omega_k t}
+                }.
+            \end{align}
+            Inserted into the particle-field interaction term of the Hamiltonian
+            we find
+            \begin{align}
+                \hamil_{ep}
+                = -\frac{q}{m}\vfg{A}\cdot\momentumvec
+                = -\frac{q}{m}\vfg{\epsilon}\cdot\momentumvec
+                \brak{
+                    A_0 e^{-i\omega_k t}
+                    + A^{*}_0 e^{i\omega_k t}
+                }.
+            \end{align}
+            In the case of a quantized electromagnetic field where the
+            amplitudes are photon creation and annihilation operators and all
+            operators are expressed in the interaction picture, it is common to
+            split the particle-field interaction Hamiltonian into an emission
+            part related to the negative frequency solutions and a absorption
+            part for the positive frequency solutions.
+            It is then possible to observe quantum effects such as spontaneous
+            emission where a system will be able to emit a photon even if there
+            are no electromagnetic fields present.
+            However, as stated, we work in the semi-classical approximation and
+            we will assume that quantum fluctuations such as spontaneous
+            emission are small compared to classical effects.
+            We will therefore collect both the positive and the negative
+            frequency solutions into a single term.
+            \begin{align}
+                \hamil_{ep}
+                = -\frac{q}{m} \vfg{\epsilon}\cdot\momentumvec
+                \mathcal{E}_0\cos(\omega_k t + \phi),
+            \end{align}
+            where $\phi$ is a phase factor and we've defined
+            \begin{gather}
+                2\Re(A_0) = \mathcal{E}_0\cos(\phi), \\
+                2\Im(A_0) = -\mathcal{E}_0\sin(\phi),
+            \end{gather}
+            and used the exponential identities for the sine and cosine.
 
         \subsection{Selection rules}
 

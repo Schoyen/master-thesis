@@ -2,6 +2,71 @@
     In this appendix we'll add proofs and derivations of expressions arising
     from the theory section on quantum mechanics and many-body theory.
 
+    \section{Gauge invariant electromagnetic Hamiltonian}
+        \label{app:gauge-invariant-electromagnetic-hamiltonian}
+        Given the semi-classical Hamiltonian on the form
+        \begin{align}
+            \hamil
+            = -\frac{\hslash^2}{2m}\vfg{\nabla}^2
+            + v(\vfg{r})
+            + i\hslash\frac{q}{2m}\brak{
+                \vfg{A}\cdot\vfg{\nabla}
+                + \vfg{\nabla}\cdot\vfg{A}
+            }
+            + \frac{q^2}{2m}\vfg{A}^2
+            + q\phi,
+        \end{align}
+        where $\vfg{A}$ and $\phi$ are the classical description of the
+        electromagnetic vector and scalar potentials respectively, we wish to
+        show that under the gauge transformations
+        \begin{gather}
+            \vfg{A} \to \vfg{A}' = \vfg{A} + \vfg{\nabla}f,
+            \\
+            \phi \to \phi' = \phi - \dpd{f}{t},
+            \\
+            \psi \to \psi' = \exp[\frac{iq}{\hslash}f]\psi,
+        \end{gather}
+        as listed in \autoref{eq:gauge-invariant-vector-potential} to
+        \autoref{eq:gauge-invariant-wave-function}, the time-dependent
+        Schrödinger equation is invariant.
+        We start by looking at the gradient and the Laplace operator on the
+        gauge transformed wave function.
+        \begin{gather}
+            \vfg{\nabla}\psi'
+            = \exp[\frac{iq}{\hslash} f]\brak{
+                \frac{iq}{\hslash}\para{\vfg{\nabla}f}
+                + \vfg{\nabla}
+            }\psi, \\
+            \vfg{\nabla}^2\psi'
+            = \exp[\frac{iq}{\hslash} f]\brak{
+                \frac{iq}{\hslash}\para{\vfg{\nabla}f}
+                + \vfg{\nabla}
+            }^2\psi, \\
+        \end{gather}
+        where the nabla-operator works on everything to its right unless it is
+        in a paranthesis.
+        This means that one must include the product rule with the wave function
+        $\psi$ for the squared bracket.
+        The potential $v(\vfg{r})$ does not include derivatives and therefore
+        leaves the state $\psi'$ unchanged.
+        For the third term we get
+        \begin{gather}
+            \vfg{A}'\cdot\vfg{\nabla}\psi'
+            = \exp[\frac{iq}{\hslash}f]
+            \brak{
+                \frac{iq}{\hslash}
+                \vfg{A}\cdot\para{\vfg{\nabla}f}
+                + \vfg{A}\cdot\vfg{\nabla}
+                + \frac{iq}{\hslash}
+                \para{\vfg{\nabla}f}^2
+                + \vfg{\nabla}f\cdot\vfg{\nabla}
+            }\psi, \\
+            \vfg{\nabla}\cdot\para{
+                \vfg{A}'\psi'
+            }
+            =
+        \end{gather}
+
     \section{Deriving the reference energy}
         \label{sec:deriving-the-reference-energy}
         For the orthormal basis $\brac{\ket{\phi_p}}_{p = 1}^{L}$ with the $N$
