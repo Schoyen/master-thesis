@@ -50,22 +50,135 @@
         The potential $v(\vfg{r})$ does not include derivatives and therefore
         leaves the state $\psi'$ unchanged.
         For the third term we get
-        \begin{gather}
+        \begin{align}
             \vfg{A}'\cdot\vfg{\nabla}\psi'
-            = \exp[\frac{iq}{\hslash}f]
+            +
+            \vfg{\nabla}\cdot\para{
+                \vfg{A}'\psi'
+            }
+            =
+            2
+            \vfg{A}'\cdot\vfg{\nabla}\psi'
+            +
+            \para{\vfg{\nabla}\cdot\vfg{A}'}\psi'.
+        \end{align}
+        The former of these two terms yield
+        \begin{align}
+            2\vfg{A}'\cdot\vfg{\nabla}\psi'
+            = 2\exp[\frac{iq}{\hslash}f]
             \brak{
                 \frac{iq}{\hslash}
                 \vfg{A}\cdot\para{\vfg{\nabla}f}
                 + \vfg{A}\cdot\vfg{\nabla}
                 + \frac{iq}{\hslash}
                 \para{\vfg{\nabla}f}^2
-                + \vfg{\nabla}f\cdot\vfg{\nabla}
-            }\psi, \\
-            \vfg{\nabla}\cdot\para{
-                \vfg{A}'\psi'
-            }
+                + \para{\vfg{\nabla}f}\cdot\vfg{\nabla}
+            }\psi,
+        \end{align}
+        and the latter gives
+        \begin{align}
+            \para{\vfg{\nabla}\cdot\vfg{A}'}\psi'
             =
-        \end{gather}
+            \exp[\frac{iq}{\hslash}f]
+            \brak{
+                \para{\vfg{\nabla}\cdot\vfg{A}}
+                + \para{\vfg{\nabla}^2f}
+            }\psi.
+        \end{align}
+        The term squared in the vector potential yields
+        \begin{align}
+            \para{\vfg{A}'}^2\psi'
+            =
+            \exp[\frac{iq}{\hslash}f]
+            \brak{
+                \vfg{A}^2
+                + 2\vfg{A}\cdot\para{\vfg{\nabla}f}
+                + \para{\vfg{\nabla}f}^2
+            }\psi.
+        \end{align}
+        For the scalar potential we get
+        \begin{align}
+            \phi'\psi'
+            = \exp[\frac{iq}{\hslash}f]\brak{
+                \phi
+                - \dpd{f}{t}
+            }\psi.
+        \end{align}
+        The left-hand side of the time-dependent Schrödinger equation gives
+        \begin{align}
+            \dpd{}{t}
+            \psi'
+            =
+            \exp[\frac{iq}{\hslash}f]
+            \brak{
+                \frac{iq}{\hslash}\dpd{f}{t}
+                + \dpd{}{t}
+            }\psi.
+        \end{align}
+        Noting that all terms in the time-dependent Schrödinger equation
+        contains the exponential function from $\psi'$ we can remove this term
+        on both sides.
+        Starting with the scalar potential and the left-hand side of the
+        time-dependent Schrödinger equation, we have that
+        \begin{align}
+            i\hslash\dpd{}{t}\psi'
+            \supset
+            v(\vfg{r})\psi'
+            +
+            q\phi'\psi'
+            \implies
+            i\hslash\dpd{}{t}\psi
+            \supset
+            v(\vfg{r})\psi
+            +
+            q\phi\psi,
+        \end{align}
+        where we've used the notation $\supset$ to denote a term in the right-hand
+        side of the Schrödinger equation, and included the potential term.
+        To go from here we collect all terms that contain the function $f$.
+        For the kinetic term we have
+        \begin{align}
+            -\frac{\hslash^2}{2m}\vfg{\nabla}^2\psi'
+            \supset
+            \brak{
+                \frac{q^2}{2m}\para{\vfg{\nabla}f}^2
+                - \frac{iq\hslash}{m}\para{\vfg{\nabla}f}\cdot\vfg{\nabla}
+                - \frac{iq\hslash}{2m}\para{\vfg{\nabla}^2f}
+            }\psi,
+        \end{align}
+        where we've multiplied in the constant factor to recognizing equal
+        terms.
+        \begin{align}
+            \frac{iq\hslash}{2m}\brak{
+                \vfg{A}'\cdot\vfg{\nabla}
+                + \vfg{\nabla}\cdot\vfg{A}'
+            }\psi'
+            &\supset
+            \Biggl[
+                - \frac{q^2}{m}\vfg{A}\cdot\para{\vfg{\nabla}f}
+                - \frac{q^2}{m}\para{\vfg{\nabla}f}^2
+                \nonumber \\
+                &\qquad
+                + \frac{iq\hslash}{m}\para{\vfg{\nabla}f}\cdot\vfg{\nabla}
+                + \frac{iq\hslash}{2m}\para{\vfg{\nabla}^2f}
+            \Biggr]\psi.
+        \end{align}
+        Finally, the squared term contains the function $f$ in the following
+        places
+        \begin{align}
+            \frac{q^2}{2m}\para{\vfg{A}'}^2\psi'
+            &\supset
+            \brak{
+                \frac{q^2}{m}\vfg{A}\cdot\para{\vfg{\nabla}f}
+                + \frac{q^2}{2m}\para{\vfg{\nabla}f}^2
+            }\psi.
+        \end{align}
+        We are thus able to see that all terms containing the function $f$
+        cancels and can conclude that
+        \autoref{eq:gauge-invariant-vector-potential} to
+        \autoref{eq:gauge-invariant-wave-function} are gauge transformations for
+        the electromagnetic potentials and the wave function that leave the
+        time-dependent Schrödinger equation invariant.
 
     \section{Deriving the reference energy}
         \label{sec:deriving-the-reference-energy}
