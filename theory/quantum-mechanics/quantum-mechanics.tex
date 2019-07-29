@@ -658,7 +658,7 @@
         the electromagnetic fields yielding a semi-classical approach to
         describing interactions between particles and electromagnetic fields.
 
-        \subsection{Electromagnetic field and particle interactions}
+        \subsection{Particle-field interactions}
             In a quantum description of the electromagnetic field, we have the
             full Hamiltonian of a particle in a potential $v(\vfg{r})$ given by
             \begin{align}
@@ -854,22 +854,11 @@
                     + A^{*}_0 e^{i\omega_k t}
                 }.
             \end{align}
-            Inserted into the particle-field interaction term of the Hamiltonian
-            we find
-            \begin{align}
-                \hamil_{ep}
-                = -\frac{q}{m}\vfg{A}\cdot\momentumvec
-                = -\frac{q}{m}\vfg{\epsilon}\cdot\momentumvec
-                \brak{
-                    A_0 e^{-i\omega_k t}
-                    + A^{*}_0 e^{i\omega_k t}
-                }.
-            \end{align}
             In the case of a quantized electromagnetic field where the
             amplitudes are photon creation and annihilation operators and all
             operators are expressed in the interaction picture, it is common to
             split the particle-field interaction Hamiltonian into an emission
-            part related to the negative frequency solutions and a absorption
+            part related to the negative frequency solutions and an absorption
             part for the positive frequency solutions.
             It is then possible to observe quantum effects such as spontaneous
             emission where a system will be able to emit a photon even if there
@@ -880,16 +869,76 @@
             We will therefore collect both the positive and the negative
             frequency solutions into a single term.
             \begin{align}
-                \hamil_{ep}
-                = -\frac{q}{m} \vfg{\epsilon}\cdot\momentumvec
-                \mathcal{E}_0\cos(\omega_k t + \phi),
+                \vfg{A}(t)
+                = \vfg{\epsilon}\mathcal{A}_0\sin(\omega_k t + \phi),
             \end{align}
             where $\phi$ is a phase factor and we've defined
             \begin{gather}
-                2\Re(A_0) = \mathcal{E}_0\cos(\phi), \\
-                2\Im(A_0) = -\mathcal{E}_0\sin(\phi),
+                2\Re(A_0) = \mathcal{A}_0\sin(\phi), \\
+                2\Im(A_0) = \mathcal{A}_0\cos(\phi),
             \end{gather}
             and used the exponential identities for the sine and cosine.
+            To go from here we introduce the gauge function
+            \begin{align}
+                f \equiv - \vfg{A}(t)\cdot\vfg{r},
+            \end{align}
+            and insert it into the gauge transformations from
+            \autoref{eq:gauge-invariant-vector-potential} to
+            \autoref{eq:gauge-invariant-wave-function} with $\phi = 0$.
+            This yields
+            \begin{gather}
+                \vfg{A}'
+                = \vfg{A} + \vfg{\nabla}f
+                = \vfg{0}, \\
+                \phi'
+                = -\dpd{f}{t}
+                = -\vfg{r}\cdot\vfg{E}, \\
+                \psi'
+                = \exp[-\frac{iq}{\hslash}\vfg{A}(t)\cdot\vfg{r}]\psi,
+            \end{gather}
+            where we've inserted the electric field $-\vfg{E} = \dot{\vfg{A}}$
+            in the dipole approximation in the gauge transformation for the
+            scalar potential.
+            Inserted into the time-dependent Schrödinger equation we then find
+            \begin{align}
+                i\hslash\dpd{}{t}\psi'
+                = \brak{
+                    \hamil_p
+                    - q\positionvec\cdot\vfg{E}
+                }\psi'.
+            \end{align}
+            This transformation is known as the \emph{length gauge} due to the
+            position operator $\positionvec$ \cite{joachain2012atoms}.
+            Collecting the position operator and the electric charge $q$ we find
+            the \emph{electric dipole moment} given by
+            \begin{align}
+                \hat{\vfg{d}}
+                \equiv
+                q\positionvec,
+            \end{align}
+            For the plane-wave solution of the vector potential we get the
+            corresponding electric field
+            \begin{align}
+                \vfg{E}
+                = \vfg{\epsilon}\mathcal{E}_0\cos(\omega_k t + \phi),
+            \end{align}
+            where we've defined the constant
+            \begin{align}
+                \mathcal{E}_0 = -\omega_k \mathcal{A}_0.
+            \end{align}
+            This in total yields the particle-field interaction of the
+            Hamiltonian to be
+            \begin{align}
+                \hamil_{ep}
+                = -\hat{\vfg{d}}\cdot\vfg{\epsilon}
+                \mathcal{E}_0\cos(\omega_k t + \phi).
+            \end{align}
+            % TODO: Consider postponing the explicit plane wave solutions to the
+            % section on lasers.
+            % This might be more natural in terms of introducing the envelope
+            % function.
+
+
 
         \subsection{Selection rules}
 
