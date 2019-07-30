@@ -9,25 +9,34 @@ from coupled_cluster.ccd import OATDCCD
 from hartree_fock import HartreeFock
 
 
-# n = 2
-# l = 40
-#
-# omega = 1
-#
-# grid_length = 10
-# num_grid_points = 401
-#
-# odqd = ODQD(n, l, grid_length, num_grid_points)
-# odqd.setup_system(potential=HOPotential(omega=omega))
-#
-#
-# laser_omega = 1
-# E = 0.5
-#
-# laser_pulse = lambda t: E * np.sin(laser_omega * t) if t < 5 else 0
-# odqd.set_time_evolution_operator(LaserField(laser_pulse))
+n = 2
+l = 20
 
-odqd = get_hpt_system(n=1)
+omega = 1
+
+grid_length = 10
+num_grid_points = 401
+
+from quantum_systems import ODQD
+from quantum_systems.quantum_dots.one_dim.one_dim_potentials import (
+    HOPotential,
+    DWPotential,
+)
+from quantum_systems.time_evolution_operators import LaserField
+
+odqd = ODQD(n, l, grid_length, num_grid_points)
+odqd.setup_system(potential=DWPotential(omega=omega, l=2))
+
+
+laser_omega = 1
+E = 1
+
+laser_pulse = lambda t: E * np.sin(laser_omega * t)
+laser_envelope = lambda t, T: np.sin(np.pi * t / T) ** 2 if t <= T else 0
+laser = lambda t: laser_envelope(t, 5) * laser_pulse(t)
+odqd.set_time_evolution_operator(LaserField(laser))
+
+# odqd = get_hpt_system(n=1)
 
 
 plt.plot(odqd.grid, odqd.potential(odqd.grid))
