@@ -1004,30 +1004,31 @@
             unwanted effects on the simulation.
             There are different models for the envelope function defined to
             replicate real laser pulses.
-            Common choices are sine-squared, Gaussian, and the hyperbolic secant
-            functions.
-            The functions for $t \in [t_0, T]$ can then be expressed
+            Common choices are the cosine-squared, Gaussian, and the hyperbolic
+            secant functions.
+            The envelope functions are given by
             \begin{gather}
                 F(t) = \begin{cases}
-                    \sin^2\brak{
-                        \frac{\pi (t - t_0)}{T}
-                    }, & t \in [t_0, T], \\
+                    \cos^2\brak{
+                        \frac{t}{T}
+                    }, & \abs{t} \leq \pi T/2, \\
                     0, & \text{else},
                 \end{cases}
                 \\
                 F(t) = \sech\brak{
-                    \frac{\pi (t - t_0)}{T}
+                    \frac{t}{T}
                 }, \\
                 F(t) = \exp[
-                    -\frac{\pi^2(t - t_0)^2}{2T^2}
+                    -\frac{t^2}{2T^2}
                 ],
             \end{gather}
-            where $t_0$ is the start of the laser pulse and $T$ the end of the
-            pulse.
-            Note that only the sine-squared envelope requires a manual stopping
-            of the pulse as the function is periodic.
+            where $T = \omega_k\tau$ characterizes the pulse.
+            Note that only the cosine-squared envelope requires a manual
+            stopping of the pulse as the function is periodic.
             The hyperbolic secant and the Guassian envelopes will remove the
             pulse gradually.
+            A plot of the different envelope functions during a pulse is shown
+            in \autoref{fig:envelope-functions}.
 
             \begin{figure}
                 \centering
@@ -1035,7 +1036,7 @@
                     \begin{groupplot}[
                             group style={
                                 group size=1 by 3,
-                                vertical sep=30pt,
+                                vertical sep=50pt,
                                 xlabels at=edge bottom,
                             },
                             width=11cm,
@@ -1043,10 +1044,12 @@
                             xlabel={$t$ $[\text{a.u.}]$},
                         ]
                         \nextgroupplot[
+                            title={Cosine-squared envelope},
                             grid=major,
                             enlarge x limits=false,
-                            xmin=-6,
-                            xmax=6,
+                            xmin=-10,
+                            xmax=10,
+                            ylabel={$E(t)$},
                         ]
                             \addplot+[
                                 mark=none,
@@ -1061,8 +1064,10 @@
                             table
                             {theory/quantum-mechanics/dat/laser_sine.dat};
                         \nextgroupplot[
+                            title={Hyperbolic secant envelope},
                             grid=major,
                             enlarge x limits=false,
+                            ylabel={$E(t)$},
                         ]
                             \addplot+[
                                 mark=none,
@@ -1077,8 +1082,10 @@
                             table
                             {theory/quantum-mechanics/dat/laser_sech.dat};
                         \nextgroupplot[
+                            title={Gaussian envelope},
                             grid=major,
                             enlarge x limits=false,
+                            ylabel={$E(t)$},
                         ]
                             \addplot+[
                                 mark=none,
@@ -1094,7 +1101,16 @@
                             {theory/quantum-mechanics/dat/laser_gauss.dat};
                     \end{groupplot}
                 \end{tikzpicture}
-                \caption{Lasers}
+                \caption{In these figures we plot the cosine-squared, hyperbolic
+                secant, and Gaussian envelope functions $F(t)$ along with
+                electric field $E(t)$ under the envelope, respectively from top
+                to bottom.
+                We have used $\mathcal{E}_0$, $\omega_k = 4$, $T = 4$ on a grid
+                with $t \in [-30, 30]$.
+                Note that the uppermost figure for the cosine-squared envelope
+                is plotted in a shorter time-scale to bring out the details.
+                The phase factor in the cosine of the electric field is set
+                to $\phi = 0$.}
                 \label{fig:envelope-functions}
             \end{figure}
 

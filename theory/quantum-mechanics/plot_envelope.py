@@ -21,17 +21,12 @@ time_points = np.linspace(-30, 30, 10001)
 electric_field = lambda t: E * np.cos(omega * t)
 
 
-env_sine = np.vectorize(
-    lambda t, T: np.sin(np.pi * t / T) ** 2 if 0 <= t <= T else 0
-)
-
-
 def env_sine(t, T):
     env = np.zeros_like(t)
 
     for i, _t in enumerate(t):
-        if -T <= _t <= T:
-            env[i] = np.sin(np.pi * _t / T) ** 2
+        if -np.pi * T / 2 <= _t <= np.pi * T / 2:
+            env[i] = np.cos(_t / T) ** 2
 
     return env
 
