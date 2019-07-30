@@ -12,16 +12,15 @@ class HPTLaser:
 
     def intensity(self, t):
         wt = self.omega * t
-        # wt = self.omega * t
 
-        # if 0 <= wt <= 2 * np.pi:
-        #    return wt * self.f / (2 * np.pi)
-        # elif 2 * np.pi <= wt <= 4 * np.pi:
-        #    return self.f
-        # elif 4 * np.pi <= wt <= 6 * np.pi:
-        #    return (3 - wt / (2 * np.pi)) * self.f
+        if 0 <= wt <= 2 * np.pi:
+            return wt * self.f / (2 * np.pi)
+        elif 2 * np.pi <= wt <= 4 * np.pi:
+            return self.f
+        elif 4 * np.pi <= wt <= 6 * np.pi:
+            return (3 - wt / (2 * np.pi)) * self.f
 
-        # return 0
+        return 0
 
     def __call__(self, t):
         f = self.intensity(t)
