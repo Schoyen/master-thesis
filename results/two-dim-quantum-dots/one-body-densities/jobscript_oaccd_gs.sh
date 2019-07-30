@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Job name
-#SBATCH --job-name=two-dim-densities-oaccd-6-132-0.01
+#SBATCH --job-name=two-dim-densities-oaccd-6-156-0.01
 #
 # Project
 #SBATCH --account=nn2977k
@@ -35,4 +35,5 @@ cleanup "cp $SCRATCH/dat/* $SUBMITDIR/dat/"
 ## Run commands
 cd $SCRATCH
 export OMP_NUM_THREADS=4
-python -u oaccd_n=6_l=132_omega=0.01.py | tee $SCRATCH/dat/oaccd_n=6_l=132_omega=0.01.log
+#python -u run_oaccd_gs.py 6 156 12 201 0.1 | tee $SCRATCH/dat/oaccd_n=6_l=156_omega=0.1.log
+python -u run_oaccd_gs.py 6 156 45 201 0.01 | tee $SCRATCH/dat/oaccd_n=6_l=156_omega=0.01.log
