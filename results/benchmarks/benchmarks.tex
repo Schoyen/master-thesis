@@ -896,7 +896,7 @@
                     \begin{groupplot}[
                         group style={
                             group size=1 by 2,
-                            vertical sep=30pt,
+                            vertical sep=60pt,
                             xlabels at=edge bottom,
                         },
                         width=11cm,
@@ -904,6 +904,7 @@
                         xlabel={Excitation energy $[\text{a.u.}]$},
                     ]
                         \nextgroupplot[
+                            title={$FT\brak{\expv{x(t)}}$},
                             grid=major,
                             ylabel={Intensity},
                             enlarge x limits=false,
@@ -933,6 +934,7 @@
                             {results/benchmarks/nest/dat/fft_dipole_x_tdccsd_real.dat};
                             \addlegendentry{TDCCSD}
                         \nextgroupplot[
+                            title={$FT\brak{\expv{z(t)}}$},
                             ylabel={Intensity},
                             grid=major,
                             enlarge x limits=false,
