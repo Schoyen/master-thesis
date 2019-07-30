@@ -1,9 +1,6 @@
 \chapter{Quantum mechanics}
-    \epigraph{The underlying physical laws necessary for the mathematical
-    theory of a large part of physics and the whole of chemistry are thus
-    completely known, and the difficulty is only that the exact application of
-    these laws leads to equations much too complicated to be soluble.}
-    {--- P. A. M. Dirac}
+    \epigraph{No fair! You changed the outcome by measuring it!}
+    {--- Hubert J. Farnsworth, Futurama}
 
     We start our journey by reviewing parts of quantum mechanics that we deem
     necessary in order to understand the thesis.
@@ -837,7 +834,9 @@
             a spatially uniform electromagnetic field.
             In the Coulomb gauge this means that
             \begin{gather}
-                \vfg{E} = -\dod{}{t}\vfg{A}, \\
+                \vfg{E} = -\dod{}{t}\vfg{A},
+                \label{eq:electric-field-dipole}
+                \\
                 \vfg{B} = \vfg{\nabla}\times \vfg{A} = \vfg{0},
             \end{gather}
             and as promised, the magnetic field and therefore the spin-coupling
@@ -896,6 +895,10 @@
                 \psi'
                 = \exp[-\frac{iq}{\hslash}\vfg{A}(t)\cdot\vfg{r}]\psi,
             \end{gather}
+            % TODO: Should care be taken to handle the modified wave function,
+            % or is this included in the evolution of the
+            % coefficients/amplitudes?
+            % I think maybe this gets included...
             where we've inserted the electric field $-\vfg{E} = \dot{\vfg{A}}$
             in the dipole approximation in the gauge transformation for the
             scalar potential.
@@ -942,10 +945,159 @@
 
         \subsection{Selection rules}
 
-    \section{Laser field}
+    \section{Laser fields}
+        The topic of lasers and laser fields interacting with atomic systems is
+        a vast one.
+        We will skim lightly on this field and discuss the more important
+        aspects that are related to our simulations.
+        Now, a linearly polarized, monochromatic laser field in the dipole
+        approximation can be described by a vector potential on the form
+        \cite{joachain2012atoms}
+        \begin{align}
+            \vfg{A}(t) = \vfg{\epsilon}\mathcal{A}_0
+            \sin(\omega_k t + \phi). \\
+        \end{align}
+        From \autoref{eq:electric-field-dipole} we find the corresponding
+        expression for the electric field to be
+        \begin{align}
+            \vfg{E}(t) = \vfg{\epsilon} \mathcal{E}_0
+            \cos(\omega_k t + \phi).
+        \end{align}
+        These two equations describe a spatially homogeneous electric field
+        oscillating in time.
+        The equations describe a laser that is ``switched on'' for the entire
+        simulation.
+        However, we are often interested in firing a short laser pulse at the
+        system before turning it off.
+        Thus we can observe how the system reacts after the laser is switched
+        off and we avoid driving the system in time.
+        This lets us observe physical properties of the system which describes
+        higher energetic properties in the system without forcing the reaction.
+
+        A linearly polarized laser pulse in the dipole approximation can be
+        described by the vector potential \cite{joachain2012atoms}
+        \begin{align}
+            \vfg{A}(t)
+            = \vfg{\epsilon} \mathcal{A}_0
+            \int_{-\infty}^{t}
+            \dd t'
+            F(t')
+            \cos(\omega_k t' + \phi),
+        \end{align}
+        where we treat $\omega_k$ and $\phi$ constant in time over the response
+        of the system.
+        The factor $F(t) \in \brak{0, 1}$ is known as the \emph{envelope} of the
+        pulse.
+        We find the electric field of the dipole laser from
+        \autoref{eq:electric-field-dipole}.
+        \begin{align}
+            \vfg{E}(t)
+            = \vfg{\epsilon} \mathcal{E}_0 F(t) \cos(\omega_k t + \phi).
+        \end{align}
+        We see that by setting $F(t) = 1$ we recover the expression for the
+        monochromatic, linearly polarized, laser field.
+
         \subsection{Envelope}
-            % TODO: Add plots of the envelope functions.
-        \subsection{Dipole laser}
+            The purpose of the envelope function $F(t)$ is to ensure that the
+            laser pulse goes smoothly to zero at $t \to \pm \infty$.
+            Stopping a laser pulse mid-cycle is unphysical and will yield
+            unwanted effects on the simulation.
+            There are different models for the envelope function defined to
+            replicate real laser pulses.
+            Common choices are sine-squared, Gaussian, and the hyperbolic secant
+            functions.
+            The functions for $t \in [t_0, T]$ can then be expressed
+            \begin{gather}
+                F(t) = \begin{cases}
+                    \sin^2\brak{
+                        \frac{\pi (t - t_0)}{T}
+                    }, & t \in [t_0, T], \\
+                    0, & \text{else},
+                \end{cases}
+                \\
+                F(t) = \sech\brak{
+                    \frac{\pi (t - t_0)}{T}
+                }, \\
+                F(t) = \exp[
+                    -\frac{\pi^2(t - t_0)^2}{2T^2}
+                ],
+            \end{gather}
+            where $t_0$ is the start of the laser pulse and $T$ the end of the
+            pulse.
+            Note that only the sine-squared envelope requires a manual stopping
+            of the pulse as the function is periodic.
+            The hyperbolic secant and the Guassian envelopes will remove the
+            pulse gradually.
+
+            \begin{figure}
+                \centering
+                \begin{tikzpicture}
+                    \begin{groupplot}[
+                            group style={
+                                group size=1 by 3,
+                                vertical sep=30pt,
+                                xlabels at=edge bottom,
+                            },
+                            width=11cm,
+                            height=6cm,
+                            xlabel={$t$ $[\text{a.u.}]$},
+                        ]
+                        \nextgroupplot[
+                            grid=major,
+                            enlarge x limits=false,
+                            xmin=-6,
+                            xmax=6,
+                        ]
+                            \addplot+[
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {theory/quantum-mechanics/dat/env_sine.dat};
+                            \addplot+[
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {theory/quantum-mechanics/dat/laser_sine.dat};
+                        \nextgroupplot[
+                            grid=major,
+                            enlarge x limits=false,
+                        ]
+                            \addplot+[
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {theory/quantum-mechanics/dat/env_sech.dat};
+                            \addplot+[
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {theory/quantum-mechanics/dat/laser_sech.dat};
+                        \nextgroupplot[
+                            grid=major,
+                            enlarge x limits=false,
+                        ]
+                            \addplot+[
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {theory/quantum-mechanics/dat/env_gauss.dat};
+                            \addplot+[
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {theory/quantum-mechanics/dat/laser_gauss.dat};
+                    \end{groupplot}
+                \end{tikzpicture}
+                \caption{Lasers}
+                \label{fig:envelope-functions}
+            \end{figure}
 
     \section{Physical units}
         \subsection{Atomic units}
+            % TODO: Remember to include atomic units for the intensity.
