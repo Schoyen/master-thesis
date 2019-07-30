@@ -54,7 +54,7 @@
         },
         "configuration-interaction": {
             "git": "ssh://git@github.com/Schoyen/configuration-interaction.git",
-            "ref": "b96ceab9df21cbac7b09bba3e01f85d30bd9a0c1"
+            "ref": "35008f371f3cbc36790d622ea1142d5d01a946ec"
         },
         "coupled-cluster": {
             "git": "ssh://git@github.com/Schoyen/coupled-cluster.git",
@@ -284,10 +284,10 @@
         },
         "packaging": {
             "hashes": [
-                "sha256:0c98a5d0be38ed775798ece1b9727178c4469d9c3b4ada66e8e6b7849f8732af",
-                "sha256:9e1cbf8c12b1f1ce0bb5344b8d7ecf66a6f8a6e91bcb0c84593ed6d3ab5c4ab3"
+                "sha256:a7ac867b97fdc07ee80a8058fe4435ccd274ecc3b0ed61d852d7d53055528cf9",
+                "sha256:c491ca87294da7cc01902edbe30a5bc6c4c28172b5138ab4e4aa1b9d7bfaeafe"
             ],
-            "version": "==19.0"
+            "version": "==19.1"
         },
         "pandas": {
             "hashes": [
@@ -330,10 +330,10 @@
         },
         "pyparsing": {
             "hashes": [
-                "sha256:43c5486cefefa536c9aab528881c992328f020eefe4f6d06332449c365218580",
-                "sha256:d6c5ffe9d0305b9b977f7a642d36b9370954d1da7ada4c62393382cbadad4265"
+                "sha256:6f98a7b9397e206d78cc01df10131398f1c8b8510a2f4d97d9abd82e1aacdd80",
+                "sha256:d9338df12903bbf5d65a0e4e87c2161968b10d2e489652bb47001d82a9b028b4"
             ],
-            "version": "==2.4.1.1"
+            "version": "==2.4.2"
         },
         "pyscf": {
             "hashes": [
@@ -377,7 +377,7 @@
         },
         "quantum-systems": {
             "git": "https://github.com/Schoyen/quantum-systems.git",
-            "ref": "7a46f0e3e2dbc1fdc4285d77fcc1078936ac2607"
+            "ref": "63fae28b3202458f1e9cb45e98211eb98f884418"
         },
         "scipy": {
             "hashes": [
