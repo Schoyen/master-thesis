@@ -599,15 +599,18 @@
                 \caption{In this table we show an example of how our mapping
                 convention will index the states shown in
                 \autoref{fig:tdho-energy-levels}.}
-                \begin{tabular}{l|rr}
+                \renewcommand{\arraystretch}{1.3}
+                \begin{tabular}{@{}lll@{}}
+                    \toprule
                     $\epsilon_{nm}$ & $(n, m)$ & $p$ \\
-                    \hline
+                    \midrule
                     $1$ & $(0, 0)$ & $0$ \\
                     $2$ & $(0, -1)$ & $1$ \\
                     $2$ & $(0, 1)$ & $2$ \\
                     $3$ & $(0, -2)$ & $3$ \\
                     $3$ & $(1, 0)$ & $4$ \\
-                    $3$ & $(0, 2)$ & $5$
+                    $3$ & $(0, 2)$ & $5$ \\
+                    \bottomrule
                 \end{tabular}
                 \label{tab:tdho-mapping}
             \end{table}

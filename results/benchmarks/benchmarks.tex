@@ -867,15 +867,19 @@
                 \caption{In this table we show the conversions used to move from
                 the SI units given in the article by \citeauthor{nest}
                 \cite{nest} to the atomic units used in the simulation.}
-                \begin{tabular}{cll}
+                \renewcommand{\arraystretch}{1.3}
+                \begin{tabular}{@{}lll@{}}
+                    \toprule
                     Quantity & SI units & Atomic units \\
-                    \hline
+                    \midrule
                     $\omega$ & $\SI{5.44}{\electronvolt}$ &
                     \SI{1.999163e-1}{\text{a.u.}}\\
                     $F(t)$ & $\SI{3.5e12}{\watt/\cm^{2}}$ &
                     \SI{9.973085e-5}{\text{a.u.}} \\
                     $t$ & $\SI{1}{\femto\second}$ &
                     \SI{4.134137e+1}{\text{a.u.}}
+                    \\
+                    \bottomrule
                 \end{tabular}
                 \label{tab:nest-conversions}
             \end{table}

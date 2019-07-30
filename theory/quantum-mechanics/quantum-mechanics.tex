@@ -1150,4 +1150,47 @@
                 $k_e = (4\pi \epsilon_0)^{-1} = \SI{1}{\text{a.u.}}$.
         \end{itemize}
         We've denoted the units by $\si{\text{a.u.}}$ for atomic units.
+        As a consequence of converting to atomic units, we now measure various
+        physical units in a scaled system.
+        A list of the derived units and how they can be scaled are shown in
+        \autoref{tab:atomic-units}.
+        \begin{table}
+            \centering
+            \caption{In this table we list some of derived atomic units from
+            working in Hartree atomic units \cite{wiki:units,
+            joachain2012atoms}.}
+            \renewcommand{\arraystretch}{1.3}
+            \begin{tabular}{@{}ll@{}}
+                \toprule
+                Dimension & Expression
+                \\
+                \midrule
+                Length
+                &
+                $a_0 = 4\pi\epsilon_0\hslash^2/\para{m_e e^2}$
+                \\
+                Energy
+                &
+                $E_h = m_e e^4/\para{4\pi \epsilon_0 \hslash}^2$
+                \\
+                Time
+                &
+                $t_a = \hslash/E_h$
+                \\
+                Momentum
+                &
+                $p_a = \hslash/a_0$
+                \\
+                Electric field
+                &
+                $\mathcal{E}_a = E_h/\para{e a_0}$
+                \\
+                Intensity
+                &
+                $I_a = \half\epsilon_0 c \mathcal{E}^2_a$
+                \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:atomic-units}
+        \end{table}
         % TODO: Remember to include atomic units for the intensity.
