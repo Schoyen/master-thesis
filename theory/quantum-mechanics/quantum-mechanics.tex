@@ -944,6 +944,22 @@
 
 
         \subsection{Selection rules}
+            Computing the matrix elements of the particle-field interaction term
+            of the Hamiltonian between two states $\ket{\psi_{a}}$ and
+            $\ket{\psi_{b}}$ we find
+            \begin{align}
+                \mel{\psi_{a}}{\hamil_{ep}(t)}{\psi_{b}}
+                =
+                - \mel{\psi_{a}}{\hat{\vfg{d}}}{\psi_b}
+                \cdot \vfg{E}(t),
+            \end{align}
+            where the matrix elements of the dipole moment decides which
+            transitions are allowed as a consequence of conservation of spin and
+            parity \cite{modern-qm}.
+            In short, only non-zero matrix elements for the dipole moment will
+            contribute to the total Hamiltonian.
+            We will discuss specific selection rules in more detail when we look
+            at specific quantum systems.
 
     \section{Laser fields}
         The topic of lasers and laser fields interacting with atomic systems is
@@ -1049,7 +1065,7 @@
                             enlarge x limits=false,
                             xmin=-10,
                             xmax=10,
-                            ylabel={$E(t)$},
+                            ylabel={$E(t)$ $[\text{a.u.}]$},
                         ]
                             \addplot+[
                                 mark=none,
@@ -1067,7 +1083,7 @@
                             title={Hyperbolic secant envelope},
                             grid=major,
                             enlarge x limits=false,
-                            ylabel={$E(t)$},
+                            ylabel={$E(t)$ $[\text{a.u.}]$},
                         ]
                             \addplot+[
                                 mark=none,
@@ -1085,7 +1101,7 @@
                             title={Gaussian envelope},
                             grid=major,
                             enlarge x limits=false,
-                            ylabel={$E(t)$},
+                            ylabel={$E(t)$ $[\text{a.u.}]$},
                         ]
                             \addplot+[
                                 mark=none,
@@ -1114,6 +1130,24 @@
                 \label{fig:envelope-functions}
             \end{figure}
 
-    \section{Physical units}
-        \subsection{Atomic units}
-            % TODO: Remember to include atomic units for the intensity.
+    \section{Atomic units}
+        When doing large calculations on quantum mechanical systems, the
+        constants related to the physical units quickly becomes quite populous
+        and can lead to numerical errors and might be overshadow the important
+        concepts of the theory.
+        As a consequence, we tend to set most units to unity thus eliminating
+        them from the equations.
+        However, this means that in order to recover physical expressions, we
+        must re-insert the constants to get the proper units and magnitudes.
+        We will for the most part use Hartree atomic units \cite{hartree_1928}
+        where we set the following quantities to unity:
+        \begin{itemize}
+            \item Reduced Planck's constant $\hslash = \SI{1}{\text{a.u.}}$.
+            \item The magnitude of the charge of the electron
+                $e = \SI{1}{\text{a.u.}}$.
+            \item The electron rest mass $m_e = \SI{1}{\text{a.u.}}$.
+            \item The Coulomb force constant
+                $k_e = (4\pi \epsilon_0)^{-1} = \SI{1}{\text{a.u.}}$.
+        \end{itemize}
+        We've denoted the units by $\si{\text{a.u.}}$ for atomic units.
+        % TODO: Remember to include atomic units for the intensity.

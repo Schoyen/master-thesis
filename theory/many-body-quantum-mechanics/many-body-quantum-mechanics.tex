@@ -1892,8 +1892,6 @@
         We can write the electronic Hamiltonian on a normal ordered form using
         Wick's theorem.
 
-
-
     \section{Many-body density matrices}
         In a seminal paper by \citeauthor{lowdin-density-matrices}
         \cite{lowdin-density-matrices}, the concept of a many-body density
@@ -2082,9 +2080,42 @@
             time-dependent coupled cluster method as it is needed in the orbital
             equations.
 
-    \section{Dipole moments}
-        % TODO: Read "Atoms in intense laser fields"-book.
-        \subsection{Transitions}
+    \section{The multireference problem}
+        A common topic in many-body quantum mechanics is the multireference
+        problem.
+        Most many-body methods require a single reference, i.e., a single Fock
+        state, as a starting point and then build higher excited states from
+        this state.
+        In the case of degenerate reference states, we are in the multireference
+        regime.
+        As an example, consider the Lithium atom with three electrons, thus
+        requiring a fourth electron in order to get a closed shell.
+        Lithium is a classic example of a multireference problem where there are
+        two reference states with the same weight.
+        In the case of a non-interacting Lithium atom in a given spin-orbital
+        basis $\brac{\ket{\psi_i}}_{i = 1}^{L}$, the ground state will consist
+        of the two Slater determinants
+        \begin{align}
+            \ket{\slat_1} &= \ket{\psi_1\psi_2\psi_3}, \\
+            \ket{\slat_2} &= \ket{\psi_1\psi_2\psi_4},
+        \end{align}
+        where both states will have the same eigenenergy $E_1 = E_2$ from the
+        non-interacting Hamiltonian $\onehamil$.
+        The true ground state of this system will then be a linear combination
+        of these two Fock states yielding
+        \begin{align}
+            \ket{\Psi}
+            = \frac{1}{\sqrt{N}}\brak{
+                \ket{\slat_1}
+                \pm
+                \ket{\slat_2}
+            }.
+        \end{align}
+        % TODO: Check if this is correct.
+        Most second quantized many-body methods rely on the single-reference
+        assumption and will often experience convergence trouble if the initial
+        reference state is degenerate.
+        % TODO: Discuss this in the coupled cluster and Hartree-Fock methods.
 
     \section{The Harmonic potential theorem}
         \label{sec:hpt}
@@ -2095,3 +2126,10 @@
         system of quantum dots are trapped in an harmonic oscillator potential
         well as all inter-particle interactions are not observable, and the
         system behaves as a single particle.
+        A way to observe this phenomenom known as the harmonic potential theorem
+        is by observing the one-body particle density in time and by looking at
+        the Fourier transform of the dipole moment.
+        For the former we should observe the system moving as a single stiff
+        object and the latter results in a single frequency corresponding to the
+        oscillator trap frequency.
+        % TODO: Expand on this section.
