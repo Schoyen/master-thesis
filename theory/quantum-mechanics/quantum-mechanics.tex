@@ -1079,22 +1079,28 @@
 
         \subsection{Envelope}
             The purpose of the envelope function $F(t)$ is to ensure that the
-            laser pulse goes smoothly to zero at $t \to \pm \infty$.
-            Stopping a laser pulse mid-cycle is unphysical and will yield
-            unwanted effects on the simulation.
+            laser pulse goes smoothly to zero outside some defined region such
+            that the electric field disappears at $t \to \pm \infty$.
             There are different models for the envelope function defined to
             replicate real laser pulses.
             Common choices are the cosine-squared, Gaussian, and the hyperbolic
-            secant functions.
-            The envelope functions are given by
+            secant functions \cite{joachain2012atoms}.
+            The cosine-squared envelope function is given by
             \begin{gather}
                 F(t) = \begin{cases}
                     \cos^2\brak{
-                        \frac{t}{T}
-                    }, & \abs{t} \leq \pi T/2, \\
+                        \frac{\pi\omega_k t}{T}
+                    }, & \omega_k t \in [-T / 2, T / 2], \\
                     0, & \text{else},
                 \end{cases}
-                \\
+            \end{gather}
+            where $T = \pi\omega_k\tau$ decides how wide a cycle of the envelope
+            function should be.
+            The cosine-squared envelope function requires ``manual stopping'' by
+            specifying where the envelope is defined.
+            On the other hand, the hyperbolic secant and the Guassian envelopes
+            will remove the pulse gradually.
+            \begin{gather}
                 F(t) = \sech\brak{
                     \frac{t}{T}
                 }, \\
@@ -1102,11 +1108,21 @@
                     -\frac{t^2}{2T^2}
                 ],
             \end{gather}
-            where $T = \omega_k\tau$ characterizes the pulse.
-            Note that only the cosine-squared envelope requires a manual
-            stopping of the pulse as the function is periodic.
-            The hyperbolic secant and the Guassian envelopes will remove the
-            pulse gradually.
+            These functions are however harder to turn on and off as they are
+            small, but non-zero, for a wide range of time points $t$.
+            We will however almost exclusively use the sine-squared envelope
+            function given by
+            \begin{align}
+                F(t) = \begin{cases}
+                    \sin^2\brak{
+                        \frac{\pi\omega_k t}{T}
+                    }, & \omega_k t \in [0, T], \\
+                    0, & \text{else}.
+                \end{cases}
+            \end{align}
+            This envelope shares the same properties as the cosine-squared
+            envelope, but it is often more convenient to start in $t_0 = 0$ by
+            turning on the laser instead of setting $t_0 < 0$.
             A plot of the different envelope functions during a pulse is shown
             in \autoref{fig:envelope-functions}.
 
@@ -1115,21 +1131,25 @@
                 \begin{tikzpicture}
                     \begin{groupplot}[
                             group style={
-                                group size=1 by 3,
+                                group size=2 by 2,
                                 vertical sep=50pt,
+                                horizontal sep=50pt,
                                 xlabels at=edge bottom,
+                                ylabels at=edge left,
                             },
-                            width=11cm,
+                            width=6cm,
                             height=6cm,
                             xlabel={$t$ $[\text{a.u.}]$},
+                            ylabel={$E(t)$ $[\text{a.u.}]$},
                         ]
+
+                        % Sine
                         \nextgroupplot[
-                            title={Cosine-squared envelope},
+                            title={Sine-squared envelope},
                             grid=major,
                             enlarge x limits=false,
                             xmin=-10,
                             xmax=10,
-                            ylabel={$E(t)$ $[\text{a.u.}]$},
                         ]
                             \addplot+[
                                 mark=none,
@@ -1143,11 +1163,12 @@
                             ]
                             table
                             {theory/quantum-mechanics/dat/laser_sine.dat};
+
+                        % Sech
                         \nextgroupplot[
                             title={Hyperbolic secant envelope},
                             grid=major,
                             enlarge x limits=false,
-                            ylabel={$E(t)$ $[\text{a.u.}]$},
                         ]
                             \addplot+[
                                 mark=none,
@@ -1161,11 +1182,33 @@
                             ]
                             table
                             {theory/quantum-mechanics/dat/laser_sech.dat};
+
+                        % Cosine
+                        \nextgroupplot[
+                            title={Cosine-squared envelope},
+                            grid=major,
+                            enlarge x limits=false,
+                            xmin=-10,
+                            xmax=10,
+                        ]
+                            \addplot+[
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {theory/quantum-mechanics/dat/env_cosine.dat};
+                            \addplot+[
+                                mark=none,
+                                thick,
+                            ]
+                            table
+                            {theory/quantum-mechanics/dat/laser_cosine.dat};
+
+                        % Exp
                         \nextgroupplot[
                             title={Gaussian envelope},
                             grid=major,
                             enlarge x limits=false,
-                            ylabel={$E(t)$ $[\text{a.u.}]$},
                         ]
                             \addplot+[
                                 mark=none,
@@ -1181,16 +1224,20 @@
                             {theory/quantum-mechanics/dat/laser_gauss.dat};
                     \end{groupplot}
                 \end{tikzpicture}
-                \caption{In these figures we plot the cosine-squared, hyperbolic
-                secant, and Gaussian envelope functions $F(t)$ along with
-                electric field $E(t)$ under the envelope, respectively from top
-                to bottom.
-                We have used $\mathcal{E}_0$, $\omega_k = 4$, $T = 4$ on a grid
-                with $t \in [-30, 30]$.
-                Note that the uppermost figure for the cosine-squared envelope
-                is plotted in a shorter time-scale to bring out the details.
-                The phase factor in the cosine of the electric field is set
-                to $\phi = 0$.}
+                \caption{In these figures we plot the sine-squared,
+                cosine-squared, hyperbolic secant, and Gaussian envelope
+                functions $F(t)$ along with an electric field $E(t)$ under the
+                envelope.
+                We have used $\mathcal{E}_0 = 1$, $\omega_k = 4$, $T = 10\pi$
+                (giving five cycles of the laser pulse inside the envelope) on a
+                grid with $t \in [-30, 30]$.
+                The choice of the strength $\mathcal{E}_0$ and the frequency is
+                such that the figures look presentable.
+                Note that the figures for the sine- and cosine-squared envelopes
+                are plotted in a shorter time-scale than the other two functions
+                to bring out more details.
+                The phase factor in the cosine of the electric field is set to
+                $\phi = -\pi/2$ to give a sine function.}
                 \label{fig:envelope-functions}
             \end{figure}
 

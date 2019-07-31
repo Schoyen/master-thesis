@@ -13,45 +13,57 @@ sech = lambda x: 1 / np.cosh(x)
 omega = 4
 E = 1
 
-T = 1 * omega
+phase = -np.pi / 2
+
+T = 10 * np.pi
 
 time_points = np.linspace(-30, 30, 10001)
 
-# We've defined phi = pi / 2.
-electric_field = lambda t: E * np.cos(omega * t)
+electric_field = lambda t: E * np.cos(omega * t + phase)
 
 
-def env_sine(t, T):
+def env_sine(t, T, omega, num_cycles=1):
     env = np.zeros_like(t)
 
     for i, _t in enumerate(t):
-        if -np.pi * T / 2 <= _t <= np.pi * T / 2:
-            env[i] = np.cos(_t / T) ** 2
+        if 0 <= omega * _t <= T:
+            env[i] = np.sin(np.pi * omega * _t / T) ** 2
 
     return env
 
 
-env_sech = lambda t, T: sech(t / T)
-env_gauss = lambda t, T: np.exp(-t ** 2 / (2 * T ** 2))
+def env_cosine(t, T, omega):
+    env = np.zeros_like(t)
+
+    for i, _t in enumerate(t):
+        if -T / 2 <= omega * _t <= T / 2:
+            env[i] = np.cos(np.pi * omega * _t / T) ** 2
+
+    return env
+
+
+env_sech = lambda t, T, omega: sech(np.pi * omega * t / T)
+env_gauss = lambda t, T, omega: np.exp(-(np.pi * omega * t) ** 2 / (2 * T ** 2))
 
 
 for filename, env in [
     ("sine", env_sine),
+    ("cosine", env_cosine),
     ("sech", env_sech),
     ("gauss", env_gauss),
 ]:
-    laser = lambda t: env(t, T) * electric_field(t)
+    laser = lambda t: env(t, T, omega) * electric_field(t)
 
     write_data(
         os.path.join(path, "env_" + filename + ".dat"),
         time_points,
-        env(time_points, T),
+        env(time_points, T, omega),
     )
     write_data(
         os.path.join(path, "laser_" + filename + ".dat"),
         time_points,
         laser(time_points),
     )
-    plt.plot(time_points, env(time_points, T))
+    plt.plot(time_points, env(time_points, T, omega))
     plt.plot(time_points, laser(time_points))
     plt.show()
