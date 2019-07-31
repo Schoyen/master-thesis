@@ -15,7 +15,7 @@ E = 1
 
 phase = -np.pi / 2
 
-T = 10 * np.pi
+T = 10 * np.pi / omega
 
 time_points = np.linspace(-30, 30, 10001)
 
@@ -26,8 +26,8 @@ def env_sine(t, T, omega, num_cycles=1):
     env = np.zeros_like(t)
 
     for i, _t in enumerate(t):
-        if 0 <= omega * _t <= T:
-            env[i] = np.sin(np.pi * omega * _t / T) ** 2
+        if 0 <= _t <= T:
+            env[i] = np.sin(np.pi * _t / T) ** 2
 
     return env
 
@@ -36,14 +36,14 @@ def env_cosine(t, T, omega):
     env = np.zeros_like(t)
 
     for i, _t in enumerate(t):
-        if -T / 2 <= omega * _t <= T / 2:
-            env[i] = np.cos(np.pi * omega * _t / T) ** 2
+        if -T / 2 <= _t <= T / 2:
+            env[i] = np.cos(np.pi * _t / T) ** 2
 
     return env
 
 
-env_sech = lambda t, T, omega: sech(np.pi * omega * t / T)
-env_gauss = lambda t, T, omega: np.exp(-(np.pi * omega * t) ** 2 / (2 * T ** 2))
+env_sech = lambda t, T, omega: sech(np.pi * t / T)
+env_gauss = lambda t, T, omega: np.exp(-(np.pi * t) ** 2 / (2 * T ** 2))
 
 
 for filename, env in [
