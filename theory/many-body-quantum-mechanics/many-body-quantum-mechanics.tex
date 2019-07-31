@@ -1915,7 +1915,7 @@
         For a normalized, pure state $\ket{\psi}$, we are able to compute the
         expectation value of the operator $\hat{Q}$ by
         \begin{align}
-            \expv{Q} &= \mel{\psi}{\hat{Q}}{\psi}
+            \expval{Q} &= \mel{\psi}{\hat{Q}}{\psi}
             = \tr(\density \hat{Q}),
         \end{align}
         where we've introduced the density operator $\ket{\psi}$ by
@@ -1926,7 +1926,7 @@
         particles, we can write the expectation value of the operator $\hat{Q}$
         as
         \begin{align}
-            \expv{Q}
+            \expval{Q}
             &= \tr(\density \hat{Q})
             = \braket{\psi}\mel{\psi}{\hat{Q}}{\psi}
             = \sum_{i = 0}^{N} \mel{\psi}{\hat{Q}_i}{\psi}
@@ -1949,7 +1949,7 @@
         elements.
         % TODO: Prove this ordering from Szabo and Ostlund.
         We thus observe that all information about the wave function that is
-        needed for the evaluation of the expectation value $\expv{Q}$ is
+        needed for the evaluation of the expectation value $\expval{Q}$ is
         contained in the $N$-body density matrices, where the elements are given
         by
         \begin{gather}

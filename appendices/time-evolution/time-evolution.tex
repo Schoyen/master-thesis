@@ -1,153 +1,149 @@
-\chapter{Overlap between time-evolved coupled cluster wavefunctions}
-    We compute the overlap of any wavefunction from an initial state at time
-    $t_0$ to a later time $t$ by
+\chapter{Coupled cluster autocorrelation}
+    We compute the autocorrelation of any wavefunction from an initial state at
+    time $t_0$ to a later time $t$ by
     \begin{align}
         P(t_0 \to t)
-        \equiv |\braket{\psi(t)}{\psi(t_0)}|^2.
+        \equiv \abs{\braket{\psi(t)}{\psi(t_0)}}^2.
     \end{align}
     That is, we compute the squared overlap between the initial state
-    $\ket{\psi(t_0)}$ and the final state $\ket{\psi(t)}$. In the case of
-    coupled cluster and the use of the bivariational principle some care must be
-    taken as to how the squared overlap should be computed. We get
+    $\ket{\psi(t_0)}$ and the final state $\ket{\psi(t)}$.
+    % TODO: This should be in the theory section.
+    In the bivariational formulation of Hilbert space, where the left- and
+    right-hand states of the coupled cluster wave function differ, some care
+    must be taken as to how the autocorrelation should be computed.
     \begin{align}
         P(t_0 \to t)
-        &\equiv |\braket{\tilde{\Psi}(t)}{\Psi(t_0)}|^2
+        &\equiv \abs{\braket{\tilde{\Psi}(t)}{\Psi(t_0)}}^2
         = \braket{\tilde{\Psi}(t)}{\Psi(t_0)}
-        \braket{\tilde{\Psi}(t_0)}{\Psi(t)}.
+        \braket{\tilde{\Psi}(t_0)}{\Psi(t)},
     \end{align}
+    where we note that the two latter terms no loner a complex conjugates of one
+    another.
     This is a consequence of treating the two different Hilbert spaces
-    indepedently.  Choosing $t_0 = 0$ as the ground state we can compute the
-    overlap of the ground state to all later states $t$. For time-independent
-    spin-orbitals we only evolve the amplitudes in time. We thus have to find an
-    expression for the two inner-products below.
+    indepedently.
+    For clarity we set $t_0 = 0$ and define $\ket{\Psi(0)}$ as the coupled
+    cluster ground state, and $\bra{\tilde{\Psi}(0)}$ as the left-hand ground
+    state.
+    % TODO: Refer to the autocorrelation for the orbital-adaptive method.
+    Restricting ourselves to the case of time-independent spin-orbitals, we need
+    to evolve the $\clustlamp$- and $\clustamp$-amplitudes in time.
+    We thus have to find an expression for the inner product of
+    \begin{gather}
+        \braket{\tilde{\Psi}(t)}{\Psi(0)}
+        =
+        \mel{\slat}{
+            \brak{\1 + \clustl(t)}
+            \exp[-\clust(t)]
+            \exp[\clust]
+        }{\slat},
+    \end{gather}
+    and where the second inner product can be found by replacing the
+    time-dependence of the amplitudes to the other state.
+    Note that $\clust(t) \neq \clust$ and $\clustl(t) \neq \clustl$.
+    We split up the $\brak{\1 + \clustl}$-term, and expand the exponentials.
+    The term with $\1$ will only give back the overlap between the reference
+    states.
+    As $\clust$ provides a net excitation of at least $1$ and $\clustl$ a net
+    relaxation of at least $1$,\footnote{
+        Note that this applies to the time-dependent versions
+        of these operators as well. It is only the amplitudes that are
+        time-dependent and not the creation nor the annihilation operators.
+    } only terms with a combination of $\clustl$ and $\clust$ will survive.
     \begin{align}
         \braket{\tilde{\Psi}(t)}{\Psi(0)}
         &=
-        \bra{\tilde{\Phi}}\brak{1 + \clustl(t)}e^{-\clust(t)}
-        e^{\clust}\ket{\Phi},
-        \\
-        \braket{\tilde{\Psi}(0)}{\Psi(t)}
-        &=
-        \bra{\tilde{\Phi}}\brak{1 + \clustl}e^{-\clust}
-        e^{\clust(t)}\ket{\Phi}.
-    \end{align}
-    Note that $\clust(t) \neq \clust$ and $\clustl(t) \neq \clustl$.  We split
-    up the equations on $\clustl$ and expand the exponentials. As $\clust$
-    provides a net excitation of at least $1$ and $\clustl$ a net relaxation of
-    at least $1$\footnote{Note that this applies to the time-dependent versions
-    of these operators as well. It is only the amplitudes that are
-    time-dependent and not the creation nor the annihilation operators.}, only
-    terms with a combination of $\clustl$ and $\clust$ will survive. This yields
-    \begin{align}
-        \braket{\tilde{\Psi}(t)}{\Psi(0)}
-        &=
-        \bra{\tilde{\Phi}}e^{-\clust(t)}e^{\clust}\ket{\Phi}
+        1
         +
-        \bra{\tilde{\Phi}}\clustl(t)e^{-\clust(t)}e^{\clust}\ket{\Phi}
+        \mel{\slat}{
+            \clustl(t)
+            \exp[-\clust(t)]
+            \exp[\clust]
+        }{\slat}
         \\
         &=
         1
         + \sum_{n = 0}^{\infty}\sum_{m = 0}^{\infty}
-        \frac{1}{n!m!}
-        \bra{\tilde{\Phi}}\clustl(t)[-\clust(t)]^n \clust^m\ket{\Phi}.
+        \frac{(-1)^{n}}{n!m!}
+        \mel{\slat}{
+            \clustl(t)
+            \clust^n(t)
+            \clust^m
+        }{\slat},
+        \label{eq:cc-autocorrelation}
     \end{align}
-    The conjugate of this equation is then
-    \begin{align}
-        \braket{\tilde{\Psi}(0)}{\Psi(t)}
-        &=
-        1 + \sum_{n = 0}^{\infty}\sum_{m = 0}^{\infty}
-        \frac{1}{n!m!}
-        \bra{\tilde{\Phi}}\clustl \brak{-\clust^n} \clust(t)^m\ket{\Phi}.
-    \end{align}
+    where the alternating sign comes from the left-hand side, time-dependent,
+    cluster operator.
+    To find explicit expressions for the autocorrelation, we need to look at
+    specific truncation levels for the cluster operators.
 
-    \section{Time-dependent overlap for the coupled cluster doubles
-    wavefunction}
+    \section{Doubles autocorrelation}
         In the doubles approximation $\clust$ and $\clustl$ yield a net
-        excitation and relaxation of 2, respectively. This means that $n, m \in
-        \brac{0, 1}$ as any higher exponentials will leave the reference
-        excited. Furthermore, for $n = m = 0$ $\clustl$ will annihilate the
-        reference. We also have for $n = m = 1$ that the reference will be left
-        doubly excited thus annihilating the overlap. We then get
-        \begin{align}
+        excitation and relaxation of 2, respectively.
+        This means that $n, m \in \brac{0, 1}$ as any higher exponentials will
+        leave the reference excited after the action of $\clustl$.
+        Furthermore, for $n = m = 0$, $\clustl$ will annihilate the reference as
+        it acts as a relaxation operator on the Fermi vacuum.
+        We also have for $n = m = 1$ the reference will be left doubly excited
+        thus annihilating the overlap.
+        This leaves us with
+        \begin{gather}
             \braket{\tilde{\Psi}(t)}{\Psi(0)}
-            &= 1 + \brabislat\clustl(t)\brak{
-                -\clust(t) + \clust
-            }\ketslat,
-            \\
-            \braket{\tilde{\Psi}(0)}{\Psi(t)}
-            &= 1 + \brabislat\clustl\brak{
-                -\clust + \clust(t)
-            }\ketslat.
-        \end{align}
-        Using SymPy \cite{sympy} to construct the tensor contractions we are
-        left with
-        \begin{align}
+            = 1
+            + \mel{\slat}{
+                \clustl(t)\brak{
+                    -\clust(t) + \clust
+                }
+            }{\slat},
+        \end{gather}
+        Using SymPy \cite{sympy} to compute Wick's theorem and only keeping
+        fully contracted terms, we get
+        \begin{gather}
             \braket{\tilde{\Psi}(t)}{\Psi(0)}
-            &= 1 + \frac{1}{4}\clustamp^{ab}_{ij} \clustlamp(t)^{ij}_{ab}
-            - \frac{1}{4}\clustlamp(t)^{ij}_{ab}
-            \clustamp(t)^{ab}_{ij},
-            \\
-            \braket{\tilde{\Psi}(0)}{\Psi(t)}
-            &= 1 - \frac{1}{4}\clustlamp^{ij}_{ab} \clustamp^{ab}_{ij}
-            + \frac{1}{4}\clustlamp^{ij}_{ab}
-            \clustamp(t)^{ab}_{ij}.
-        \end{align}
+            = 1
+            + \frac{1}{4}\clustamp^{ab}_{ij} \clustlamp^{ij}_{ab}(t)
+            - \frac{1}{4}\clustlamp^{ij}_{ab}(t) \clustamp^{ab}_{ij}(t).
+        \end{gather}
+        The bivariational conjugate of this equation consists of removing the
+        time-dependence from the $\clustlamp$-amplitudes and switching the
+        time-dependence in the $\clustamp$-amplitudes.
 
-    \section{Time-dependent overlap for the coupled cluster singles-and-doubles
-    wavefuntion}
-        Restricting ourselves to the singles and doubles approximation we will
-        get that the $\clust$ operator can yield a net excitation of 1 and 2, whereas
-        $\clustl$ yields a net relaxation of 1 and 2. This truncates the
-        infinite sums to $n, m \in \brac{0, 1, 2}$. Note however that for $n = m
-        = 0$, $\clustl$ will annihilate the vacuum. We are then left with
+    \section{Singles-and-doubles autocorrelation}
+        Restricting ourselves to the singles and doubles approximation we have
+        that the $\clust$ operator can yield a net excitation of 1 and 2,
+        whereas $\clustl$ can give a net relaxation of 1 and 2.
+        This truncates the infinite sums in \autoref{eq:cc-autocorrelation} to
+        $n, m \in \brac{0, 1, 2}$.
+        Note however that for $n = m = 0$, $\clustl$ will annihilate the Fermi
+        vacuum.
+        We are then left with
         \begin{align}
             \braket{\tilde{\Psi}(t)}{\Psi(0)}
             &= 1
-            + \bra{\tilde{\Phi}}\clustl(t)\brak{
-                - \clust(t) + \clust - \clust(t)\clust
-                + \half \clust(t)^2 + \half \clust^2
-            }\ket{\Phi},
-            \\
-            \braket{\tilde{\Psi}(0)}{\Psi(t)}
-            &= 1
-            + \bra{\tilde{\Phi}}\clustl\brak{
-                - \clust + \clust(t) - \clust\clust(t)
-                + \half \clust^2 + \half \clust(t)^2
-            }\ket{\Phi}.
+            + \mel{\slat}{
+                \clustl(t)\brak{
+                    - \clust(t) + \clust - \clust(t)\clust
+                    + \half \clust(t)^2 + \half \clust^2
+                }
+            }{\slat}.
         \end{align}
-        We again utilize SymPy \cite{sympy} to get explicit tensor contractions.
-        This yields
+        Using SymPy \cite{sympy} to compute this expression using Wick's theorem
+        and only keeping the fully contracted terms, we find
         \begin{align}
             \braket{\tilde{\Psi}(t)}{\Psi(0)}
             &=
             1
-            + \clustlamp(t)^{i}_{a} \brak{
-                \clustamp^{a}_{i} - \clustamp(t)^{a}_{i}
+            + \clustlamp^{i}_{a}(t) \brak{
+                \clustamp^{a}_{i} - \clustamp^{a}_{i}(t)
             }
-            \nonumber \\
-            &\qquad
-            + \clustlamp(t)^{ij}_{ab} \brak{
+            + \clustlamp^{ij}_{ab}(t) \biggl[
                 \frac{1}{4}\clustamp^{ab}_{ij}
                 - \half \clustamp^{a}_{j} \clustamp^{b}_{i}
-                - \clustamp(t)^{a}_{i} \clustamp^{b}_{j}
-                - \half \clustamp(t)^{a}_{j} \clustamp(t)^{b}_{i}
-                - \frac{1}{4} \clustamp(t)^{ab}_{ij}
-            },
-            \\
-            \braket{\tilde{\Psi}(0)}{\Psi(t)}
-            &=
-            1
-            + \clustlamp^{i}_{a} \brak{
-                \clustamp(t)^{a}_{i}
-                - \clustamp^{a}_{i}
-            }
-            \nonumber \\
-            &\qquad
-            + \clustlamp^{ij}_{ab} \brak{
-                \frac{1}{4}\clustamp(t)^{ab}_{ij}
-                - \half \clustamp^{a}_{j} \clustamp^{b}_{i}
-                - \clustamp(t)^{a}_{i}\clustamp^{b}_{j}
-                - \half \clustamp(t)^{a}_{j} \clustamp(t)^{b}_{i}
-                - \frac{1}{4} \clustamp^{ab}_{ij}
-            }.
+                \nonumber \\
+                &\qquad
+                - \clustamp^{a}_{i}(t) \clustamp^{b}_{j}
+                - \half \clustamp^{a}_{j}(t) \clustamp^{b}_{i}(t)
+                - \frac{1}{4} \clustamp^{ab}_{ij}(t)
+            \biggr]
         \end{align}
+        and the bivariational conjugate of this equation by switching the
+        time-dependence of the amplitudes.

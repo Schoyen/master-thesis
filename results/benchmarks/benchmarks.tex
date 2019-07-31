@@ -238,7 +238,7 @@
             we can find the induced dipole-moment along the $z$-axis by picking
             out the $z$-component of the dipole elements, that is,
             \begin{align}
-                \expv{z(t)}
+                \expval{z(t)}
                 &= \densityten^{q}_{p}(t) \tilde{z}^{p}_{q}(t),
             \end{align}
             where $\tilde{z}^{p}_{q}(t)$ is the $z$-component of
@@ -340,7 +340,7 @@
                         ]
                         \nextgroupplot[
                                 grid=major,
-                                ylabel={$\expv{z(t)}$},
+                                ylabel={$\expval{z(t)}$},
                                 enlarge x limits=false,
                                 enlarge y limits=false,
                             ]
@@ -363,7 +363,7 @@
                         \nextgroupplot[
                                 ymode=log,
                                 grid=major,
-                                ylabel={$\abs{\Delta\expv{z(t)}}$},
+                                ylabel={$\abs{\Delta\expval{z(t)}}$},
                                 enlarge x limits=false,
                                 enlarge y limits=false,
                                 legend pos=south east,
@@ -904,7 +904,7 @@
                         xlabel={Excitation energy $[\text{a.u.}]$},
                     ]
                         \nextgroupplot[
-                            title={$FT\brak{\expv{x(t)}}$},
+                            title={$FT\brak{\expval{x(t)}}$},
                             grid=major,
                             ylabel={Intensity},
                             enlarge x limits=false,
@@ -934,7 +934,7 @@
                             {results/benchmarks/nest/dat/fft_dipole_x_tdccsd_real.dat};
                             \addlegendentry{TDCCSD}
                         \nextgroupplot[
-                            title={$FT\brak{\expv{z(t)}}$},
+                            title={$FT\brak{\expval{z(t)}}$},
                             ylabel={Intensity},
                             grid=major,
                             enlarge x limits=false,

@@ -5,6 +5,16 @@
     We start our journey by reviewing parts of quantum mechanics that we deem
     necessary in order to understand the thesis.
 
+
+    \section{Canonical quantization}
+        \subsection{The Schrödinger equation}
+            \begin{align}
+                i\hslash\dpd{\Psi}{t}
+                = -\frac{\hslash^2}{2m}\vfg{\nabla}^2\Psi
+                +    v\Psi
+                \label{eq:coordinate-tdse}
+            \end{align}
+
     \section{The postulates of quantum mechanics}
         In order to make sure that we have a common understanding of how to
         understand and interpret quantum mechanics we begin by introducing the
@@ -39,14 +49,14 @@
             \item We can measure the probability $p$ of finding the normalized
                 state $\ket{\psi}$ in the normalized eigenstate $\ket{q}$ by
                 \begin{align}
-                    p = \abs{\braket{g}{\psi}}^2.
+                    p = \abs{\braket{q}{\psi}}^2.
                 \end{align}
                 As a consequence $p$ also gives the probability of measuring the
                 eigenvalue $g$.
                 We can also measure the expectation value of the observable
                 $\hat{Q}$ for the state $\ket{\psi}$ by
                 \begin{align}
-                    \expv{Q} = \mel{\psi}{\hat{Q}}{\psi}.
+                    \expval{Q} = \expval{\hat{Q}}{\psi}.
                 \end{align}
             \item The time-evolution of a state $\ket{\psi(t)}$ is defined by
                 the Schrödinger equation
@@ -56,10 +66,63 @@
                 where we work in the Schrödinger picture.
         \end{enumerate}
 
-    \section{Canonical quantization}
-        \subsection{The Schrödinger equation}
-
     \section{Time-independent Schrödinger equation}
+        In order to solve the Schrödinger equation in
+        \autoref{eq:coordinate-tdse} for a specified time-independent potential
+        $v(\vfg{r}, t) = v(\vfg{r})$, we use the method of separation of
+        variables for the wave function.
+        \begin{align}
+            \Psi(\vfg{r}, t) = \psi(\vfg{r})\phi(t),
+        \end{align}
+        where $\psi(\vfg{r})$ is a spatial function and $\phi(t)$ is purely
+        time-dependent.
+        Inserted into the Schrödinger equation and dividing through by
+        $\Psi(\vfg{r}, t)$ on both sides we get
+        \begin{align}
+            i\hslash\frac{1}{\phi}\dod{\phi}{t}
+            = -\frac{\hslash^2}{2m}\frac{1}{\psi}
+            \vfg{\nabla}^2\psi + v.
+        \end{align}
+        As both sides are functions of their own separate variable, they must be
+        connected through a constant, $\energy$.
+        This means that
+        \begin{gather}
+            i\hslash\frac{1}{\phi}\dod{\phi}{t} = \energy, \\
+            -\frac{\hslash^2}{2m}\frac{1}{\psi}\vfg{\nabla}^2\psi
+            + v = E,
+        \end{gather}
+        and we can solve the two equations independently.
+        The former equation can be solved as a first order, ordinary
+        differential equation.
+        The solution is given by
+        \begin{align}
+            \phi(t) = \exp[-\frac{iEt}{\hslash}].
+        \end{align}
+        This is a solution which will discuss in more depth in
+        \autoref{sec:time-evolution-operators}.
+        Multiplying by $\psi(\vfg{r})$ on both sides in the second equation we
+        find the \emph{time-indepedent Schrödinger equation}.
+        \begin{align}
+            -\frac{\hslash^2}{2m}\vfg{\nabla}^2\psi + v\psi = \energy\psi,
+        \end{align}
+        By virtue of the canonical quantization of the momentum operator
+        $\momentumvec$ we recognize the quantum mechanical Hamiltonian on the
+        left-hand side.
+        We therefore write the time-independent Schrödinger equation on the form
+        \begin{align}
+            \hamil\psi = \energy\psi,
+        \end{align}
+        and we interpret the constant $\energy$ as the energy of the state
+        $\psi$ in the system described by the Hamiltonian $\hamil$.
+        The time-independent Schrödinger equation is an eigenvalue equation, and
+        by diagonalizing the Hamiltonian we find the spectrum of the system with
+        the eigenpairs $(\psi_n, E_n)$.
+        Once the spectrum is found it is common to call the problem solved as
+        the time-evolution of the wave function can be expressed as a linear
+        combination of the spectrum states $\psi_n$.
+        However, we will see in this thesis that finding the spectrum of a
+        many-body Hamiltonian proves a challenge indeed and therefore
+        complicates the matter of the time-evolution.
 
     \section{Density operators}
         \label{sec:density-operators}
@@ -113,7 +176,7 @@
         Using density matrices, we can compute the expectation value of any
         operator $\hat{O}$, by \cite{modern-qm}
         \begin{align}
-            \expv{O} = \tr(\hat{O}\densitymatrix).
+            \expval{O} = \tr(\hat{O}\densitymatrix).
         \end{align}
         % TODO: Work this out further
 
@@ -395,7 +458,7 @@
         For example, the expectation value of the operator $\hat{O}$ can be
         found by
         \begin{align}
-            \expv{O}
+            \expval{O}
             = \mel{\psi}{\hat{O}}{\psi}
             = \dpd[]{}{\alpha}
             \left.
@@ -435,6 +498,7 @@
         triggers a reaction in the dynamics of the system.
 
     \section{The time evolution operators}
+        \label{sec:time-evolution-operators}
         %We will in the following subsection stay close to the derivation of
         %\citeauthor{ullrich2011time} \cite{ullrich2011time}, section 3.1.2, and
         %\citeauthor{joachain2012atoms} \cite{joachain2012atoms}, section 5.1.
@@ -493,10 +557,10 @@
         This means that all expectation values are stationary in time as can be
         seen from
         \begin{align}
-            \expv{O(t)}
+            \expval{O(t)}
             &= \mel{\psi_n(t)}{\hat{O}}{\psi_n(t)}
             = \mel{\psi_n}{\hat{O}}{\psi_n}
-            = \expv{O},
+            = \expval{O},
         \end{align}
         where the time dependence cancel.
         However, a general time-dependent state $\ket{\psi(t)}$ can be written
@@ -516,7 +580,7 @@
         eigenvalues $q_n$.
         We then have
         \begin{align}
-            \expv{Q(t)}
+            \expval{Q(t)}
             &= \mel{\psi(t)}{\hat{Q}}{\psi(t)}
             = \sum_{n, m = 1}^{\infty} c^{*}_n(t) c_m(t)
             \mel{\psi_n}{\hat{Q}}{\psi_m}
