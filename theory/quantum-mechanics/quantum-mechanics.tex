@@ -476,6 +476,9 @@
             This means that we can find the eigenstate $\ket{\psi}$ by
             optimizing the functional $E[\psi, \psi^{*}]$.
         \end{proof}
+        Thus the strength of the variational principle can be summarized that
+        the stationary conditions of the variational energy functional will
+        yield the eigenstates of the Hamiltionian.
 
         \subsection{The variational method}
             We will now look at a formulation of the variational method using
@@ -835,6 +838,31 @@
         operator using known numerical integration methods.
 
     \section{The time-dependent variational principle}
+        We now wish to extendend the variational principle to the time-domain.
+        This is done by the time-dependent variational principle by considering
+        the action functional
+        \begin{align}
+            S = \int_{t_1}^{t_2}\dd t L[\psi, \psi^{*}],
+        \end{align}
+        where $L[\psi, \psi^{*}]$ is a Lagrangian functional of the trial wave
+        function $\psi$ and its adjoint.
+        In the case of normalized trial wave functions in time, the Lagrangian
+        is given by
+        \begin{align}
+            L[\psi, \psi^{*}]
+            =
+            \mel{\psi(t)}{
+                \para{
+                    i\hslash\partial_t - \hamil
+                }
+            }{\psi(t)},
+        \end{align}
+        where for the sake of brevity have introduced the short-hand notation
+        $\partial_t$ for the partial derivative of time.
+        If the wave functions are not normalized in time the Lagrangian takes on
+        a more complicated form to ensure that the action stays real as the
+        differential operator $i\partial_t$ does not stay Hermitian along with
+        the normalization condition \cite{kramer1981geometry}.
 
     \section{Electrodynamics}
         In vacuum the classical electromagnetic field is described by Maxwell's
