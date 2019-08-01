@@ -193,12 +193,13 @@
             \begin{align}
                 \energy_1
                 \leq
-                E[\psi]
+                E[\psi, \psi^{*}]
                 = \bra{\psi}\hamil\ket{\psi},
+                = \int\dd x\psi^{*}(x)\hamil\psi(x),
                 \label{eq:variational-principle}
             \end{align}
-            where $E[\psi]$ is an energy functional dependent on the shape of
-            the wave function $\ket{\psi}$.
+            where $E[\psi, \psi^{*}]$ is an energy functional dependent on the shape of
+            the wave function $\ket{\psi}$ and $x$ is a set of coordinates.
             Here $\energy_1$ represents the true ground state of the
             Hamiltonian.
         \end{theorem}
@@ -229,10 +230,13 @@
             \begin{align}
                 \abs{\vfg{c}}^2 = \sum_{i = 1}^{N} c^{*}_{i}c_{i} = 1.
             \end{align}
-            Inserting the state $\ket{\psi}$ into the energy funtional in
-            \autoref{eq:variational-principle} we find
+            Inserting the state $\ket{\psi}$ into the energy
+            function\footnote{%
+                The energy functional is no longer dependent on a function and
+                is therefore realized as a function instead.
+            } in \autoref{eq:variational-principle} we find
             \begin{align}
-                E[\psi]
+                E(\vfg{c})
                 &= \sum_{i = 1}^{N}\sum_{j = 1}^{N}
                 c^{*}_i\bra{\phi_i}\hamil\ket{\phi_j}c_j
                 = \sum_{i = 1}^{N}\sum_{j = 1}^{N}
@@ -245,7 +249,7 @@
             \brac{1, \dots, N}$.
             From whence, we find
             \begin{align}
-                E[\psi]
+                E(\vfg{c})
                 &= \sum_{i = 1}^{N}
                 \abs{c_i}^2 \energy_i
                 \geq
@@ -257,11 +261,226 @@
             of the system under observation.
         \end{proof}
 
+        An arguably more important result is that the stationary condition of
+        the energy functional in the variational principle will be an eigenstate
+        of the time-independent Schrödinger equation.
+        \begin{proof}
+            Consider a small first order variation in the trial wave function
+            \begin{align}
+                \ket*{\tilde{\psi}} = \ket{\psi} + \ket{\delta\psi},
+                \label{eq:wave-variation}
+            \end{align}
+            and the corresponding adjoint equation with the kets replaced by bras.
+            We denote $\delta\psi(x) = \epsilon\eta(x)$, where $x$ represents an
+            arbitrary set of coordinates.
+            The function $\eta(x)$ is arbitrary and $\epsilon$ is a small
+            number.
+            Expanding the energy functional in orders of the parameter
+            $\epsilon$, i.e., Taylor expanding the energy functional, we can
+            write
+            \begin{align}
+                E[\tilde{\psi}, \tilde{\psi}^{*}]
+                = E[\psi, \psi^{*}]
+                + \left.
+                \dpd{E[\tilde{\psi}, \psi^{*}]}{\epsilon}
+                \right\rvert_{\epsilon = 0}
+                \epsilon
+                + \left.
+                \dpd{E[\psi, \tilde{\psi}^{*}]}{\epsilon}
+                \right\rvert_{\epsilon = 0}
+                \epsilon
+                + \dots.
+            \end{align}
+            Using the method of \emph{functional derivatives}
+            \cite{wiki:functional-derivative, kvaal2017notes}, we can write
+            the derivatives of the energy functionals, and hence the stationary
+            conditions to be
+            \begin{gather}
+                \left.
+                \dpd{E[\tilde{\psi}, \psi^{*}]}{\epsilon}
+                \right\rvert_{\epsilon = 0}
+                =
+                \int\dd x \frac{
+                    \delta E[\tilde{\psi}, \psi^{*}]
+                }{
+                    \delta \psi(x)
+                }
+                \eta(x)
+                = 0,
+                \\
+                \left.
+                \dpd{E[\psi, \tilde{\psi}^{*}]}{\epsilon}
+                \right\rvert_{\epsilon = 0}
+                =
+                \int\dd x \frac{
+                    \delta E[\psi, \tilde{\psi}^{*}]
+                }{
+                    \delta
+                    \psi^{*}(x)
+                }
+                \eta^{*}(x)
+                = 0.
+            \end{gather}
+            Treating $\epsilon \in \mathbb{R}$ but allowing $\eta(x)$ to be
+            complex, we have
+            \begin{gather}
+                \delta\psi(x) = \epsilon\eta(x),
+                \qquad
+                \delta\psi^{*}(x) = \epsilon\eta^{*}(x).
+            \end{gather}
+            The variations in the energy functional are given by
+            \begin{gather}
+                \delta E[\tilde{\psi}, \psi^{*}]
+                = E[\tilde{\psi}, \psi^{*}]
+                - E[\psi, \psi^{*}], \\
+                \delta E[\psi, \tilde{\psi}^{*}]
+                = E[\psi, \tilde{\psi}^{*}]
+                - E[\psi, \psi^{*}].
+            \end{gather}
+            We find expressions for the variations by inserting
+            \autoref{eq:wave-variation} into the definition of the energy
+            functional.
+            We have
+            \begin{align}
+                E[\tilde{\psi}, \psi^{*}]
+                = \frac{
+                    \mel{\psi}{\hamil}{\psi}
+                    + \mel{\psi}{\hamil}{\delta\psi}
+                }{
+                    \braket{\psi}
+                    + \braket{\psi}{\delta\psi}
+                },
+            \end{align}
+            where we no longer require that the wave functions be normalized.
+            Looking at the denominator first we can move the inner product with
+            the state $\ket{\psi}$ outside.
+            This yields
+            \begin{align}
+                \braket{\psi}\brak{
+                    1 +
+                    \frac{
+                        \braket{\psi}{\delta\psi}
+                    }{
+                        \braket{\psi}
+                    }
+                }
+                = \braket{\psi}\brak{1 + x},
+            \end{align}
+            where we've defined $x$ as the second term in the bracket.
+            Here $x$ will be small and we expand the denominator in terms of
+            $x$, viz.
+            \begin{align}
+                \frac{1}{1 + x} = 1 - x + \mathcal{O}(x^2).
+            \end{align}
+            Keeping only first order variations in $\delta\psi$ we can write the
+            energy functional as
+            \begin{align}
+                E[\tilde{\psi}, \psi^{*}]
+                &= \frac{
+                    \mel{\psi}{\hamil}{\psi}
+                    + \mel{\psi}{\hamil}{\delta\psi}
+                }{
+                    \braket{\psi}
+                }\brak{
+                    1 - \frac{\braket{\psi}{\delta\psi}}{\braket{\psi}}
+                    + \dots
+                }
+                \\
+                &=
+                E[\psi, \psi^{*}]
+                + \frac{
+                    \mel{\psi}{\hamil}{\delta\psi}
+                }{
+                    \braket{\psi}
+                }
+                - E[\psi, \psi^{*}]
+                \frac{
+                    \mel{\psi}{\hamil}{\delta\psi}
+                }{
+                    \braket{\psi}
+                }
+                + \dots
+                \\
+                &=
+                E + \frac{
+                    \mel{\psi}{\para{\hamil - E}}{\delta\psi}
+                }{
+                    \braket{\psi}
+                },
+            \end{align}
+            where for brevity have written $E = E[\psi, \psi^{*}]$.
+            The energy functional with the adjoint variation is given by
+            \begin{align}
+                E[\psi, \tilde{\psi}^{*}]
+                &=
+                E + \frac{
+                    \mel{\delta\psi}{\para{\hamil - E}}{\psi}
+                }{
+                    \braket{\psi}
+                }.
+            \end{align}
+            Subtracting $E$ from the above the functionals yield the variations
+            $\delta E[\tilde{\psi}, \psi^{*}]$ and $\delta E[\psi,
+            \tilde{\psi}^{*}]$.
+            Inserting into the stationary conditions we find
+            \begin{align}
+                \int\dd x
+                \frac{
+                    \delta E[\psi, \tilde{\psi}^{*}]
+                }{
+                    \delta\psi^{*}(x)
+                }\eta^{*}(x)
+                &=
+                \frac{1}{\braket{\psi}}
+                \int\dd x
+                \frac{
+                    \epsilon\eta^{*}(x)\para{
+                        \hamil
+                        - E
+                    }
+                    \psi(x)
+                }{
+                    \epsilon\eta^{*}(x)
+                }
+                \eta^{*}(x)
+                \\
+                &=
+                \frac{
+                    \mel{\eta}{\para{\hamil - E}}{\psi}
+                }{
+                    \braket{\psi}
+                }
+                = 0,
+            \end{align}
+            where look at the variations over the adjoint wave function to
+            recover the time-independent Schrödinger equation instead of the
+            adjoint formulation.
+            From the fundamental lemma of calculus of variations
+            \cite{wiki:fundamental-lemma}, we have that the stationary condition
+            is fullfilled for all $\eta^{*}(x)$ as long as
+            \begin{align}
+                \hamil\ket{\psi}
+                = E\ket{\psi},
+            \end{align}
+            which is just the time-independent Scrhödinger equation.
+            Looking at the stationary condition for the adjoint wave function we
+            will find
+            \begin{align}
+                \bra{\psi}\hamil = \bra{\psi}E,
+            \end{align}
+            i.e., the adjoint time-independent Schrödinger equation.
+            We have therefore found that the stationary condition for the
+            variational energy functional is satisfied as long as $(\ket{\psi},
+            E[\psi, \psi^{*}])$ is an eigenpair of the time-independent
+            Scrhödinger equation.
+            This means that we can find the eigenstate $\ket{\psi}$ by
+            optimizing the functional $E[\psi, \psi^{*}]$.
+        \end{proof}
+
         \subsection{The variational method}
-            The variational principle tells us that the energy we find from a
-            trial wave function $\ket{\psi}$ will be an upper bound to the
-            ground state energy, but it does not provide us with a method of
-            finding the \emph{best} upper bound energy.
+            We will now look at a formulation of the variational method using
+            wave functions that are linear combinations of a known basis set as
+            this a much applicable technique for our work.
             Given a Hermitian model Hamiltonian $\hamil$ and a normalized trial
             wave function $\ket{\psi}$ that is constructed as a linear
             combination of known normalized wave functions
@@ -269,42 +488,44 @@
             \begin{align}
                 \ket{\psi} = c_{\alpha}\ket{\chi_{\alpha}},
             \end{align}
-            we construct the variational energy functional $E[\psi]$ by
+            where $\vfg{c}$ is the set of coefficients $c_{\alpha}$, we
+            construct the variational energy function $E(\vfg{c})$ by
             \begin{align}
-                E[\psi]
+                E(\vfg{c})
                 &= \mel{\psi}{\hamil}{\psi}.
             \end{align}
-            Optimizing the energy functional is now done by finding the
+            Optimizing the energy function is now done by finding the
             stationary points with respect to the variational parameters
             $c_{\alpha}$.
             We do this by
             \begin{align}
-                \dpd[]{E[c_{\alpha}]}{c_{\beta}} &= 0,
+                \dpd[]{E(\vfg{c})}{c_{\alpha}} &= 0,
                 \\
-                \dmd{E[c_{\alpha}]}{2}{c_{\beta}}{}{c_{\gamma}}{} &= 0,
+                \dmd{E(\vfg{c})}{2}{c_{\alpha}}{}{c_{\beta}}{} &= 0,
             \end{align}
             where the first variation locates the stationary point and the
             second variation categorizes the point as the Hessian matrix.
             However, looking at the first variation we have
             \begin{align}
-                \dpd{}{c_{\beta}}\mel{\psi}{\hamil}{\psi} = 0,
+                \dpd{}{c_{\alpha}}\mel{\psi}{\hamil}{\psi} = 0,
             \end{align}
-            which is not solvable as the equations stand \cite{szabo1996modern}.
+            which is not solvable as the equations stand \cite{szabo1996modern}
+            as they are unbounded.
             In order to construct equations which can be optimized, we use
             Lagrange's method of undetermined multipliers to construct a new
-            functional $G[\psi]$ given by \cite{helgaker-molecular,
+            function $G(\vfg{c})$ given by \cite{helgaker-molecular,
             szabo1996modern}
             \begin{align}
-                G[\psi]
+                G(\vfg{c})
                 &=
                 \mel{\psi}{\hamil}{\psi}
-                - E[\psi] \para{\braket{\psi}{\psi} - 1},
+                - E(\vfg{c}) \para{\braket{\psi}{\psi} - 1},
             \end{align}
             where we've introduced the normalization condition for the trial
             wave function as a constraint.
-            Optimizing this functional for the first variation we find
+            Optimizing this function for the first variation we find
             \begin{align}
-                \dpd[]{G[\psi]}{c_{\alpha}}
+                \dpd[]{G(\vfg{c})}{c_{\alpha}}
                 &=
                 \brak{
                     \dpd[]{}{c_{\alpha}}
@@ -312,16 +533,16 @@
                 }\hamil\ket{\psi}
                 + \bra{\psi}\hamil
                 \brak{
-                    \dpd[]{}{c_{\beta}}
+                    \dpd[]{}{c_{\alpha}}
                     \ket{\psi}
                 }
                 -
                 \braket{\psi}{\psi}
-                \dpd[]{E[\psi]}{c_{\alpha}}
+                \dpd[]{E(\vfg{c})}{c_{\alpha}}
                 \nonumber \\
                 &\qquad
                 -
-                E[\psi]
+                E(\vfg{c})
                 \brak{
                     \dpd[]{}{c_{\alpha}}
                     \bra{\psi}
@@ -329,41 +550,40 @@
                 -
                 \bra{\psi}
                 \brak{
-                    \dpd[]{}{c_{\beta}}
+                    \dpd[]{}{c_{\alpha}}
                     \ket{\psi}
                 }
                 \\
                 &=
                 2 \mel{\chi_{\alpha}}{\hamil}{\psi}
                 - 0
-                - 2E[\psi]\braket{\chi_{\alpha}}{\psi}
+                - 2E(\vfg{c})\braket{\chi_{\alpha}}{\psi}
                 = 0,
             \end{align}
-            where the first variation in the energy functional becomes zero due
-            to the conditions imposed on the stationary point of the energy
-            functional.
+            where the first variation in the energy function becomes zero due to
+            the conditions imposed on the stationary point.
             Furthermore, due to the hermiticity of the Hamiltonian, we have
             collected equal terms.
             Inserting the expansion for the trial wave function on both sides,
             we find
             \begin{gather}
                 \mel{\chi_{\alpha}}{\hamil}{\chi_{\beta}} c_{\beta}
-                - E[\psi]\braket{\chi_{\alpha}}{\chi_{\beta}} c_{\beta}
+                - E(\vfg{c})\braket{\chi_{\alpha}}{\chi_{\beta}} c_{\beta}
                 = 0
                 \\
                 \implies
                 \hamilten_{\alpha\beta} c_{\beta}
-                = E[\psi] S_{\alpha\beta} c_{\beta}
+                = E(\vfg{c}) S_{\alpha\beta} c_{\beta}
                 \\
                 \implies
                 \hamilmat \vfg{c}
-                = E[\psi] \overlapmat \vfg{c},
+                = E(\vfg{c}) \overlapmat \vfg{c},
                 \label{eq:variational-eigenvalue}
             \end{gather}
             where we've defined the overlap matrix $\overlapmat$ from the
             overlap integrals between the known basis elements
             $\ket{\chi_{\alpha}}$.
-            We have now reduced the task of optimizing the energy functional to
+            We have now reduced the task of optimizing the energy function to
             the problem of solving the generalized eigenvalue equation in
             \autoref{eq:variational-eigenvalue}.
             In other words, by creating the Hamiltonian matrix $\hamilmat$ and
