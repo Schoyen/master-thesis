@@ -124,87 +124,197 @@
         applicability of each scheme.
 
         \subsection{Problem statement}
-        \subsection{Runge-Kutta}
-        \subsection{Preservation of unitarity and conservation of energy}
-        \subsection{Crank-Nicolson}
-            Continuing the derivation from section 4.5 in
-            \citeauthor{ullrich2011time} \cite{ullrich2011time}, we look at how we
-            can numerically propagate in time a wave function with a time-dependent
-            Hamiltonian.
-            Luckily, due to the property of the time evolution operators that they
-            can be composed of several intermediate time steps, discretizing the
-            operators becomes quite natural.
-            That is, if we define $\tau_1 = t_0$, and $\tau_N = t$ with all
-            intermediate times given by
+            The problem we are trying to solve can be formulated as the
+            two coupled time-dependent Schrödinger equations on the form
+            \begin{gather}
+                \dpd{}{t}\ket{\psi(t)}
+                = -i\hamil(t)\ket{\psi(t)},
+                \\
+                \bra{\psi(t)}\dpd{}{t}
+                = i\bra{\psi(t)}\hamil(t),
+            \end{gather}
+            where we've assumed atomic units, and moved $\pm i$ to the right-hand
+            side.
+            In the case of the time-dependent Hartree-Fock and the
+            time-dependent configuration interaction methods, we only need to
+            evaluate the former Schrödinger equation as the wave functions are
+            variational and $\bra{\psi(t)}$ will be the adjoint of
+            $\ket{\psi(t)}$.
+            For the coupled cluster methods we need to solve both equations as
+            the bra and ket sides of the wave function are no longer the adjoint
+            of one another.
+            Furthermore, in the orbital-adaptive formulation we need to include
+            the time-dependence of the coefficients used in the orbital
+            rotations.
+            However, we can stack all the coefficients and/or the amplitudes
+            after one another creating a long vector as each index in this
+            vector can be updated individually as long as the coupling is
+            handled in the derivatives.
+            Thus, we are able to formulate the time-evolution of the
+            parameters of the wave function by
             \begin{align}
-                \tau_{j + 1} = \tau_j + \Delta \tau,
+                \dot{y} = f(y, t),
             \end{align}
-            where the time step $\Delta \tau$ is given by
+            where $f(y, t)$ represents the right-hand side the time-dependent
+            Schrödinger equation, the time-dependent Hartree-Fock equation, or
+            the right-hand sides of the derivative of the coupled cluster
+            Lagrangian.
+            Discretizing time with a constant step $h = \Delta t$ such that $t_i
+            = t_0 + i h$ for $i \in \brac{0, N_t}$, where $N_t$ is the number of
+            time-steps and $t_0$ is the initial time-step.
+            Note that we typically choose a time-step $h$ such that $N_t$ can be
+            found by
             \begin{align}
-                \Delta \tau = \frac{t - t_0}{N - 1},
+                N_t = \floor{\frac{t_f - t_0}{h}} + 1,
             \end{align}
-            and $N$ is the number of discrete time steps. This means that we can
-            write
-            \begin{align}
-                \ket{\Psi(\tau_{j + 1})}
-                = \hat{U}(\tau_{j + 1}, \tau_{j})\ket{\Psi(\tau_j)},
-            \end{align}
-            where the equality is maintained. For a time-dependent Hamiltonian
-            (which is what we will be working on), the time evolution operator is
-            given by \autoref{eq:td-evolution}, but this is intractable in a
-            numerical scheme, to say the least. We therefore approximate the
-            operator by
-            \begin{align}
-                \hat{U}(\tau_{j + 1}, \tau_{j})
-                \approx \exp\brac{
-                    -\frac{i}{\hslash}\hat{H}(\tau_{j} + \Delta\tau/2)\Delta\tau
-                }
-                \equiv
-                \exp\brac{
-                    -\frac{i}{\hslash}\hat{H}(\tau_{j + 1/2})\Delta\tau
-                },
-            \end{align}
-            that is, we evaluate the Hamiltonian at the midpoint between $\tau_{j +
-            1}$ and $\tau_{j}$. The choice of evaluating the time step at the
-            midpoint comes about in order to preserve the unitarity of the
-            approximated time evolution operator. That is,
-            \begin{align}
-                \ket{\Psi(\tau_j)}
-                = \hat{U}(\tau_j, \tau_{j + 1})\ket{\Psi(\tau_{j + 1})}
-                = \hat{U}(\tau_j, \tau_{j + 1})\hat{U}(\tau_{j + 1}, \tau_j)
-                \ket{\Psi(\tau_j)},
-            \end{align}
-            which means that
-            \begin{align}
-                \hat{U}(\tau_j, \tau_{j + 1})
-                \hat{U}(\tau_{j + 1}, \tau_j)
-                = \hat{U}^{\dagger}(\tau_{j + 1}, \tau_j)
-                \hat{U}(\tau_{j + 1}, \tau_j)
-                = \1.
-            \end{align}
-            Using the Crank-Nicolson algorithm, we can approximate the exponential
-            in the approximated time evolution operator to be
-            \begin{align}
-                \hat{U}(\tau_{j + 1}, \tau_j)
-                \approx \exp\brac{
-                    -\frac{i}{\hslash}\hat{H}(\tau_{j + 1/2})\Delta \tau
-                }
-                \approx
-                \frac{1 - i\hat{H}(\tau_{j + 1/2})\Delta\tau/(2\hslash)}
-                {1 + i\hat{H}(\tau_{j + 1/2})\Delta\tau/(2\hslash)},
-            \end{align}
-            which is correct to second order in $\Delta \tau$ and preserves
-            unitarity. Expressed as system of linear equations, we then have
-            \begin{align}
-                \para{
-                    1 + \frac{i}{2\hslash}\hat{H}(\tau_{j + 1/2})\Delta\tau
-                }\ket{\Psi(\tau_{j + 1})}
-                =
-                \para{
-                    1 - \frac{i}{2\hslash}\hat{H}(\tau_{j + 1/2})\Delta\tau
-                }\ket{\Psi(\tau_{j})}.
-            \end{align}
-            We can either solve this equation by inversion, or as a system of linear
-            equations. The latter will be more stable.
+            where $t_f$ is the final time-step.
+            We denote $y_0 \equiv y(t_0)$ and $y_i \equiv y(t_i)$, where $y_0$
+            is the initial value of the problem.
+            Typically we choose the initial value to be the ground state of the
+            specific solver.
+            This abstraction thus enables us to work with known ordinary
+            differential equation solvers formulated in a familiar way.
 
+        \subsection{Runge-Kutta}
+            As a first approximation to solving the time-dependent equations,
+            we've implemented the Runge-Kutta 4 algorithm.
+            This algorithm is given by \cite{wiki:rk4}
+            \begin{gather}
+                y_{i + 1} = y_i + \frac{1}{6}\para{
+                    k_1 + 2 k_2 + 2 k_3 + k_4
+                }, \\
+                t_{i + 1} = t_i + h,
+            \end{gather}
+            where the equations for the $k$'s are given by
+            \begin{gather}
+                k_1 = h f(y_i, t_i), \\
+                k_2 = h f(y_i + k_1 / 2, t_i + h / 2), \\
+                k_3 = h f(y_i + k_2 / 2, t_i + h / 2), \\
+                k_4 = h f(y_i + k_3, t_i + h).
+            \end{gather}
+            Runge-Kutta 4 is a fourth-order method with a local numerical error
+            of the order of $\mathcal{O}(h^5)$ and a total error of
+            $\mathcal{O}(h^4)$.
+
+        \subsection{Symplectic integrators}
+            Looking back to \autoref{sec:time-evolution-operators} we note that
+            for a time-dependent Hamiltonian in the Schrödinger picture, the
+            time-evolution of a state $\ket{\psi(t)}$ is described by the
+            time-evolution operator shown in \autoref{eq:td-evolution}, where
+            the Hamiltonian in general does not commute at different time-steps.
+            It is perhaps somewhat naïve to hope for a numerical method such as
+            Runge-Kutta 4 to yield good results without some extra concern for
+            the problem at hand.
+            As discussed by \citeauthor{joshua-magnus} \cite{joshua-magnus} the
+            solution to the time-dependent Schrödinger equation can be better
+            approximated by the Magnus expansion \cite{magnus-expansion}.
+            This leads to implicit differential equation integration methods
+            that are \emph{symplectic} \cite{joshua-magnus}.
+            These methods will in a much large degree conserve the energy as
+            opposed to the explicit schemes such as Runge-Kutta 4.
+            % TODO: Demonstrate this.
+            We will also observe that the symplectic integrator that we have
+            used, in a much larger degree preserves the unitarity requirement
+            by, i.e., the bi-orthonormality, of the time-dependent coefficients
+            in the orbital-adaptive time-dependent coupled-cluster method.
+            % TODO: Demonstrate this as well.
+            One of the first approximations to the Magnus expansion is the
+            Crank-Nicolson algorithm \cite{ullrich2011time}.
+
+%        \subsection{Crank-Nicolson}
+%            Continuing the derivation from section 4.5 in
+%            \citeauthor{ullrich2011time} \cite{ullrich2011time}, we look at how we
+%            can numerically propagate in time a wave function with a time-dependent
+%            Hamiltonian.
+%            Luckily, due to the property of the time evolution operators that they
+%            can be composed of several intermediate time steps, discretizing the
+%            operators becomes quite natural.
+%            That is, if we define $\tau_1 = t_0$, and $\tau_N = t$ with all
+%            intermediate times given by
+%            \begin{align}
+%                \tau_{j + 1} = \tau_j + \Delta \tau,
+%            \end{align}
+%            where the time step $\Delta \tau$ is given by
+%            \begin{align}
+%                \Delta \tau = \frac{t - t_0}{N - 1},
+%            \end{align}
+%            and $N$ is the number of discrete time steps. This means that we can
+%            write
+%            \begin{align}
+%                \ket{\Psi(\tau_{j + 1})}
+%                = \hat{U}(\tau_{j + 1}, \tau_{j})\ket{\Psi(\tau_j)},
+%            \end{align}
+%            where the equality is maintained. For a time-dependent Hamiltonian
+%            (which is what we will be working on), the time evolution operator is
+%            given by \autoref{eq:td-evolution}, but this is intractable in a
+%            numerical scheme, to say the least. We therefore approximate the
+%            operator by
+%            \begin{align}
+%                \hat{U}(\tau_{j + 1}, \tau_{j})
+%                \approx \exp\brac{
+%                    -\frac{i}{\hslash}\hat{H}(\tau_{j} + \Delta\tau/2)\Delta\tau
+%                }
+%                \equiv
+%                \exp\brac{
+%                    -\frac{i}{\hslash}\hat{H}(\tau_{j + 1/2})\Delta\tau
+%                },
+%            \end{align}
+%            that is, we evaluate the Hamiltonian at the midpoint between $\tau_{j +
+%            1}$ and $\tau_{j}$. The choice of evaluating the time step at the
+%            midpoint comes about in order to preserve the unitarity of the
+%            approximated time evolution operator. That is,
+%            \begin{align}
+%                \ket{\Psi(\tau_j)}
+%                = \hat{U}(\tau_j, \tau_{j + 1})\ket{\Psi(\tau_{j + 1})}
+%                = \hat{U}(\tau_j, \tau_{j + 1})\hat{U}(\tau_{j + 1}, \tau_j)
+%                \ket{\Psi(\tau_j)},
+%            \end{align}
+%            which means that
+%            \begin{align}
+%                \hat{U}(\tau_j, \tau_{j + 1})
+%                \hat{U}(\tau_{j + 1}, \tau_j)
+%                = \hat{U}^{\dagger}(\tau_{j + 1}, \tau_j)
+%                \hat{U}(\tau_{j + 1}, \tau_j)
+%                = \1.
+%            \end{align}
+%            Using the Crank-Nicolson algorithm, we can approximate the exponential
+%            in the approximated time evolution operator to be
+%            \begin{align}
+%                \hat{U}(\tau_{j + 1}, \tau_j)
+%                \approx \exp\brac{
+%                    -\frac{i}{\hslash}\hat{H}(\tau_{j + 1/2})\Delta \tau
+%                }
+%                \approx
+%                \frac{1 - i\hat{H}(\tau_{j + 1/2})\Delta\tau/(2\hslash)}
+%                {1 + i\hat{H}(\tau_{j + 1/2})\Delta\tau/(2\hslash)},
+%            \end{align}
+%            which is correct to second order in $\Delta \tau$ and preserves
+%            unitarity. Expressed as system of linear equations, we then have
+%            \begin{align}
+%                \para{
+%                    1 + \frac{i}{2\hslash}\hat{H}(\tau_{j + 1/2})\Delta\tau
+%                }\ket{\Psi(\tau_{j + 1})}
+%                =
+%                \para{
+%                    1 - \frac{i}{2\hslash}\hat{H}(\tau_{j + 1/2})\Delta\tau
+%                }\ket{\Psi(\tau_{j})}.
+%            \end{align}
+%            We can either solve this equation by inversion, or as a system of linear
+%            equations. The latter will be more stable.
+%
         \subsection{Gauss-Legendre}
+            In an article on the stability of the time-dependent coupled-cluster
+            singles-and-doubles on atomic systems subject to intense laser
+            pulses, \citeauthor{pedersen2018symplectic}
+            \cite{pedersen2018symplectic} used symplectic, implicit Runge-Kutta
+            methods in an attempt to alleviate some of the stability issues they
+            faced.
+            As part of an ongoing publication we have been given the
+            % TODO: Cite publication in progress.
+            implementation of the Gauss integrator\footnote{%
+                Note that the name ``Gauss integrator'' is a notoriously
+                ambigious name as this can refer to a multitude of techniques
+                and solvers due to the use of named polynomials such as
+                Legendre, and Laguerre polynomials, etc.%
+            } as used by \citeauthor{pedersen2018symplectic}
+            \cite{pedersen2018symplectic} to include it in our libraries.
