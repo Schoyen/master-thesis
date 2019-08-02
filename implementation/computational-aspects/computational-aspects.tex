@@ -15,8 +15,8 @@
             Quantum-systems provides interfaces to the PySCF \cite{pyscf} and
             Psi4 \cite{psi4} systems.
             The code is located at
-            \url{https://github.com/Schoyen/quantum-systems} with documentation
-            at
+            \url{https://github.com/Schoyen/quantum-systems} with the
+            documentation at
             \url{https://schoyen.github.io/quantum-systems/}.
         \item Coupled-cluster is a Python package with modules containing ground
             state and time-dependent coupled cluster solvers.
@@ -25,9 +25,9 @@
             time-dependent coupled cluster doubles methods.
             The module uses quantum-systems to get access to matrix elements.
             The code is located at
-            \url{https://github.com/Schoyen/coupled-cluster} with documentation
-            at
-            % TODO: Add documentation link
+            \url{https://github.com/Schoyen/coupled-cluster} with the
+            documentation at
+            \url{https://schoyen.github.io/coupled-cluster/}.
         \item Configuration-interaction is a package containing ground state and
             time-dependent configuration interaction solvers.
             This code supports arbitrary levels of excitations, e.g.,
@@ -36,8 +36,8 @@
             The module uses quantum-systems to get access to matrix elements.
             The code is located at
             \url{https://github.com/Schoyen/configuration-interaction} with
-            documentation at
-            % TODO: Add documentation link
+            the documentation at
+            \url{https://schoyen.github.io/configuration-interaction/}.
         \item Hartree-Fock is a package containing ground state and
             time-dependent Hartree-Fock solvers.
             We've implemented Hartree-Fock for general, restricted and
@@ -45,8 +45,8 @@
             The module uses quantum-systems to get access to matrix elements.
             The code is located at
             \url{https://github.com/Schoyen/hartree-fock} with
-            documentation at
-            % TODO: Add documentation link
+            the documentation at
+            \url{https://schoyen.github.io/hartree-fock/}.
     \end{itemize}
     We will in the rest of this chapter discuss various aspects of the
     implementation that we deem important to elaborate on, but we will leave
@@ -57,11 +57,15 @@
         In working with this thesis we have developed a large computational
         framework for performing real-time quantum mechanics simulations for
         many-body problems in the programming language Python \cite{python}.
-        The reason for choosing Python are listed below.
+        The choice of using Python comes with a list of pros and cons.
         \begin{itemize}
-            \item Fast development time.
-            \item Ease of integration.
-            \item Access to great libraries.
+            \item The development time is much lower when using Python as
+                opposed to more verbose, but efficient languages such as C/C++,
+                and Fortran.
+            \item Integration with other Python libraries are relatively easy.
+            \item Libraries such as SciPy \cite{scipy}, NumPy \cite{numpy}, and
+                SymPy \cite{sympy} provides fast, and efficient interfaces to
+                BLAS and LAPACK along with convenient array abstractions.
         \end{itemize}
 
     \section{Computing tensor contractions}
@@ -101,6 +105,13 @@
         starting on bottom-left and going right.
         That is, to access element $\twoten^{pq}_{rs}$ we use the ordering
         \pyth{u[p, q, r, s]} in NumPy-arrays \cite{numpy}.
+        This ordering is used consistenly in all solver implementations.
+
+        \subsection{Intermediates}
+            It is common in the coupled cluster litterature to talk about
+            \emph{intermediates} \cite{hjorth2017advanced, gauss1995coupled}, or
+            intermediate computations, as a technique for speeding up tensor
+            contractions involving three or more tensors.
 
     \section{Diagonalization}
     \section{Self-consistent field iterations}
