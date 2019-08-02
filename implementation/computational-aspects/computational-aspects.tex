@@ -1,4 +1,107 @@
 \chapter{Computational aspects}
+    Along with this thesis we have implemented several quantum-mechanical
+    solvers that are separated into different Github repositiories.\footnote{%
+        Due to ongoing publications using the code most of the repositiories are
+        at the time of writing private and access are therefore limited to
+        collaborators.
+        However, please do request access by sending a mail to:
+        \href{mailto:o.s.schoyen@fys.uio.no}{o.s.schoyen@fys.uio.no}, and we'll
+        set you up.
+    }
+    \begin{itemize}
+        \item Quantum-systems is a Python package containing modules to set up
+            matrix elements, time-evolution operators, and single-particle
+            states to be used by the many-body solvers.
+            Quantum-systems provides interfaces to the PySCF \cite{pyscf} and
+            Psi4 \cite{psi4} systems.
+            The code is located at
+            \url{https://github.com/Schoyen/quantum-systems} with documentation
+            at
+            \url{https://schoyen.github.io/quantum-systems/}.
+        \item Coupled-cluster is a Python package with modules containing ground
+            state and time-dependent coupled cluster solvers.
+            Currently this packages contains doubles, singles-and-doubles ,
+            non-orthogonal coupled cluster doubles, and the orbital adaptive
+            time-dependent coupled cluster doubles methods.
+            The module uses quantum-systems to get access to matrix elements.
+            The code is located at
+            \url{https://github.com/Schoyen/coupled-cluster} with documentation
+            at
+            % TODO: Add documentation link
+        \item Configuration-interaction is a package containing ground state and
+            time-dependent configuration interaction solvers.
+            This code supports arbitrary levels of excitations, e.g.,
+            singles-and-doubles, doubles-and-triples, etc, and full
+            configuration interaction.
+            The module uses quantum-systems to get access to matrix elements.
+            The code is located at
+            \url{https://github.com/Schoyen/configuration-interaction} with
+            documentation at
+            % TODO: Add documentation link
+        \item Hartree-Fock is a package containing ground state and
+            time-dependent Hartree-Fock solvers.
+            We've implemented Hartree-Fock for general, restricted and
+            unrestricted spin-orbitals.
+            The module uses quantum-systems to get access to matrix elements.
+            The code is located at
+            \url{https://github.com/Schoyen/hartree-fock} with
+            documentation at
+            % TODO: Add documentation link
+    \end{itemize}
+    We will in the rest of this chapter discuss various aspects of the
+    implementation that we deem important to elaborate on, but we will leave
+    specific implementation details and usage of the solvers to the
+    repositiories and the documentation.
+
+    \section{Why Python?}
+        In working with this thesis we have developed a large computational
+        framework for performing real-time quantum mechanics simulations for
+        many-body problems in the programming language Python \cite{python}.
+        The reason for choosing Python are listed below.
+        \begin{itemize}
+            \item Fast development time.
+            \item Ease of integration.
+            \item Access to great libraries.
+        \end{itemize}
+
+    \section{Computing tensor contractions}
+        Quite a significant amount of computational resources will go into the
+        evaluation of tensor contractions\footnote{%
+            We tend to call the matrix elements for tensors, but they more
+            resemble numerical $N$-dimensional arrays.%
+            % TODO: Check this footnote.
+        } and we will therefore spend some time discussing how these
+        contractions are performed and how we can speed up the contractions.
+
+        Consider the antisymmetric, two-body, Coulomb elements given by
+        \begin{align}
+            \twoten^{pq}_{rs}
+            = \mel{\phi_p\phi_q}{\twohamil}{\phi_r\phi_s}_{AS},
+        \end{align}
+        which, along with the two-body density matrix, is the largest tensor in
+        use.
+        This tensor often represents the bottleneck both in terms of memory and
+        contraction time.
+        When we represent these tensors mathematically, the labelling of the
+        indices are in some sense arbitrary and depends on the context that the
+        tensors are used.
+        On a computer we however need to decide on a specific way of storing
+        memory, and often this choice is related to speed concerns where some
+        storage schemes show vast improvements in terms of cache hits as opposed
+        to other schemes.
+        However, tensor contractions are notoriously difficult to handle in
+        terms of memory as they often involve change of dimensionality,
+        re-ordering of indices resulting in the need of reshapes, and summation
+        along axes that are inefficiently laid out in memory.
+        % TODO: Add demonstration of this from CCD
+        For the sake of generality we therefore ignore much of these problems
+        and have decided a fixed layout of the memory and absorb the cost of
+        reshapes and memory allocation.
+        In our programs we read the axis from top-left and moving right before
+        starting on bottom-left and going right.
+        That is, to access element $\twoten^{pq}_{rs}$ we use the ordering
+        \pyth{u[p, q, r, s]} in NumPy-arrays \cite{numpy}.
+
     \section{Diagonalization}
     \section{Self-consistent field iterations}
     \section{Optimization techniques}
