@@ -181,6 +181,7 @@
         % TODO: Work this out further
 
     \section{The variational principle}
+        \label{sec:variational-principle}
         The variational principle tells us that the ``true'' ground state energy
         $\energy_1$, i.e., the lowest energy eigenvalue of the Hamiltonian
         $\hamil$, will always be the lower bound on the energy of the system.
@@ -853,16 +854,56 @@
             =
             \mel{\psi(t)}{
                 \para{
-                    i\hslash\partial_t - \hamil
+                    i\hslash\partial_t - \hamil(t)
                 }
             }{\psi(t)},
         \end{align}
+        % TODO: Confirm that the Hamiltonian is time-dependent.
         where for the sake of brevity have introduced the short-hand notation
         $\partial_t$ for the partial derivative of time.
-        If the wave functions are not normalized in time the Lagrangian takes on
-        a more complicated form to ensure that the action stays real as the
-        differential operator $i\partial_t$ does not stay Hermitian along with
-        the normalization condition \cite{kramer1981geometry}.
+        If the wave functions are not required to be normalized in time the
+        Lagrangian takes on a more complicated form to ensure that the action
+        stays real as the differential operator $i\partial_t$ does not stay
+        Hermitian along with the normalization condition
+        \cite{kramer1981geometry}.
+        By requiring that the first order variations
+        \begin{align}
+            \delta S
+            = \int_{t_1}^{t_2}\dd t \delta L
+            = 0,
+            \label{eq:stationary-action}
+        \end{align}
+        are stationary we recover the time-dependent Schrödinger equation.
+        \begin{proof}
+            Performing variations in a similar fashion as in
+            \autoref{sec:variational-principle},
+            \begin{gather}
+                \tilde{\psi}(x, t) = \psi(x, t) + \epsilon\eta(x, t),
+            \end{gather}
+            and the adjoint equation with $\epsilon \in \mathbb{R}$ and $\eta(x,
+            t) \in \mathbb{C}$.
+            Note that we now include time-dependent variations as we no longer
+            restrict ourselves to stationary states.
+            The stationary condition in \autoref{eq:stationary-action} results
+            in the requirements that
+            \begin{gather}
+                \delta L[\tilde{\psi}, \psi^{*}]
+                = \mel{\psi(t)}{i\hslash\partial_t - \hamil(t)}{\delta\psi(t)}
+                = 0, \\
+                \delta L[\psi, \tilde{\psi}^{*}]
+                = \mel{\delta\psi(t)}{i\hslash\partial_t - \hamil(t)}{\psi(t)}
+                = 0.
+            \end{gather}
+            The latter of these two equations is known as the Dirac-Frenkel
+            variational principle.
+            Letting $\delta\psi(x, t)$ be arbitrary variations we recover the
+            time-dependent Schrödinger equation and the complex conjugate
+            formulation from the fundamental lemma of calculus \cite{frenkel,
+            wiki:fundamental-lemma}.
+        \end{proof}
+        We shall see that with the help of the action functional, the
+        introduction of a time-dependent coupled cluster theory with states that
+        are not Hermitian conjugate of each other becomes more natural.
 
     \section{Electrodynamics}
         In vacuum the classical electromagnetic field is described by Maxwell's
