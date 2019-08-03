@@ -1247,18 +1247,16 @@
             determinants \cite{pedersen2018symplectic}.
             Frustratingly enough the formulation of time-dependent coupled
             cluster with static spin-orbitals is not able to solve this problem.
-            When $\braket{\slat}{\cc(t)} \to 0$, the magnitude of the amplitudes
+            When $\braket{\slat}{\Psi(t)} \to 0$, the magnitude of the amplitudes
             sky-rocket, the energy is no longer conserved (when the
             time-dependence in the Hamiltonian is turned off), and the data
             produced can no longer be trusted.
             % TODO: This can be shown theoretically. See article by Thomas and
             % Simen for the steps.
-            Luckily, there is a solution\footnote{
-                As far as the author can tell.
-            } where we allow the spin-orbitals change in time along with the
-            amplitudes.
-            We will in the coming sections explore two versions of this scheme
-            and demonstrate that this fixes the problems described by
+            Luckily, the orbital-adaptive time-dependent coupled-cluster method
+            seems to completely remove this phenomenom.
+            We will in the coming sections demonstrate that the orbital-adaptive
+            formulation of coupled-cluster fixes the problems described by
             \citeauthor{pedersen2018symplectic} \cite{pedersen2018symplectic}.
 
             But, before we try to solve the problem, we can formulate a
@@ -1268,26 +1266,30 @@
             This is done by introducing a phase factor $\clustamp_0(t) \in
             \mathbb{C}$ which we insert in the exponential ansatz.
             \begin{gather}
-                \ket{\cc(t)}
-                = e^{\clustamp_0(t) + \clust(t)}\ketslat
-                = e^{\clustamp_0(t)} e^{\clust(t)}\ketslat,
+                \ket{\Psi(t)}
+                = e^{\clustamp_0(t) + \clust(t)}\ket{\slat}
+                = e^{\clustamp_0(t)} e^{\clust(t)}\ket{\slat},
                 \\
-                \bra{\bicc(t)}
-                = \braslat\para{\1 + \clustl(t)}
+                \bra{\tilde{\Psi}(t)}
+                = \bra{\slat}\para{\1 + \clustl(t)}
                 e^{-\clustamp_0(t) - \clust(t)}
-                = \braslat\para{\1 + \clustl(t)}
+                = \bra{\slat}\para{\1 + \clustl(t)}
                 e^{-\clust(t)} e^{-\clustamp_0(t)},
             \end{gather}
             where we've used that $\clustamp_0(t)$ is a number to separate it
             from the cluster amplitudes in the exponential.
             Regardless if $\clustamp_0(t)$ is real or not, the inclusion of the
-            phase does not change any of the equations used in coupled cluster.
+            phase does not change any of the equations used in coupled-cluster
+            methods.
             However, we can now see that
             \begin{align}
-                \braket{\slat}{\cc(t)} = e^{\clustamp_0(t)},
+                \braket{\slat}{\Psi(t)} = e^{\clustamp_0(t)},
             \end{align}
-            which tells us how good the reference state $\ketslat$ is at a later
-            time $t$.
+            which tells us how much overlap the reference state $\ket{\slat}$ has
+            with the time-evolved state at a time $t$.
+            Stated differently, it measures how well the reference state
+            is at approximating the time-evolved state.
+            % TODO: Does it?
             Note that the inclusion of $\clustamp_0(t)$ is in no way able to be
             used as a amplitude to lower the presence of the reference as in the
             configuration interaction method.
@@ -1298,30 +1300,29 @@
             In general we find the time derivative of the cluster amplitudes
             from
             \begin{align}
-                i\hslash \dpd[]{}{t}\clustamp_{\mu}
+                i\hslash \dpd{\clustamp_{\mu}}{t}
                 &=
-                \bra{\slat_{\mu}} e^{-\clust(t)} \hamil(t) e^{\clust(t)}
-                \ketslat,
+                \mel{\slat_{\mu}}{
+                    \exp[-\clust(t)]
+                    \hamil(t)
+                    \exp[\clust(t)]
+                }{\slat},
             \end{align}
             where $\mu$ denotes the excitation level of the reference slater
             determinant and the order of the cluster amplitudes as in
             \autoref{eq:cluster-operator}.
             By choosing $\mu = 0$ we are left with
             \begin{align}
-                i\hslash \dpd[]{}{t}\clustamp_{0}
+                i\hslash \dpd{\clustamp_{0}}{t}
                 &=
-                \bra{\slat} e^{-\clust(t)} \hamil(t) e^{\clust(t)}
-                \ketslat
-                =
-                \bra{\slat} \hamil(t) e^{\clust(t)}
-                \ketslat,
+                \mel{\slat}{
+                    \exp[-\clust(t)]
+                    \hamil(t)
+                    \exp[\clust(t)]
+                }{\slat},
             \end{align}
-            which should look familiar as the equation for the ground state
+            which looks familiar as the equation for the ground state
             energy in the time-independent coupled cluster method if the
             explicit time-dependence is removed from the Hamiltonian and the
-            cluster amplitudes\footnote{%
-                Note that we've removed cluster amplitudes from the left-hand
-                side to get the same expression as
-                \citeauthor{pedersen2018symplectic}.
-            }.
+            cluster amplitudes.
             % TODO: Elaborate on why lambda_0(t) = 1.
