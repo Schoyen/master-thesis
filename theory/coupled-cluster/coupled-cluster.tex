@@ -981,7 +981,120 @@
             % TODO: Add equations for tau, lambda, and kappa.
 
     \section{Time-dependent coupled cluster theory}
-        Stuff!
+        Having explored the time-independent coupled-cluster theory, the
+        question now arises how we can move to the time-dependent situation.
+        The formulation of the time-dependent coupled-cluster theory initially
+        started with a non-variational formulation prior to the introduction of
+        the Lagrange multipliers.
+        In 1978 \citeauthor{tdcc-hoodbhoy} \cite{tdcc-hoodbhoy, tdcc-hoodbhoy-2}
+        proposed the time-dependent formulation of coupled-cluster theory by
+        inserting the coupled-cluster wave function into the time-dependent
+        Schrödinger equation,
+        \begin{align}
+            i\hslash
+            \exp[-\clust(t)]\dpd{}{t}\exp[\clust(t)]\ket{\slat}
+            = \exp[-\clust(t)]\hamil(t)\exp[\clust(t)]\ket{\slat},
+        \end{align}
+        which in many ways is the ``natural'' approach to take as this is the
+        analog to the projected time-independent Schrödinger equation for the
+        coupled-cluster wave function.
+        The truncation level of this approach can be done in a similar manner as
+        in the time-independent case, i.e., by projecting onto an excited state
+        $\ket{\slat_{\mu}}$, and the right-hand sides lead to the familiar
+        projected amplitude equations in \autoref{eq:cc_amp_sim} and energy
+        equation \autoref{eq:cc_energy_sim}.
+        The time-dependence is kept in the wave function by the amplitudes and
+        in the Hamiltonian in accordance with the Schrödinger picture.
+        As the cluster amplitudes commute, we have that the time-derivative of
+        coupled-cluster wave function is given by
+        \begin{align}
+            i\hslash\dpd{}{t}\exp[\clust(t)]\ket{\slat}
+            = i\hslash \para{
+                \dpd{\clustamp_{\mu}(t)}{t}
+            }
+            \hat{X}_{\mu}
+            \exp[\clust(t)]\ket{\slat}.
+        \end{align}
+        Left-projecting with an excited state we find that
+        \begin{align}
+            i\hslash
+            \bra{\slat_{\mu}}
+            \exp[-\clust(t)]
+            \dpd{}{t}
+            \exp[\clust(t)]
+            \ket{\slat}
+            =
+            i\hslash
+            \dpd{\clustamp_{\mu}(t)}{t}.
+        \end{align}
+        This means that the time-evolution of the amplitudes is given by the
+        amplitude equations in time as their right-hand sides.
+        The time-dependent formulation described above suffers in that it is not
+        variational \cite{tdcc-hoodbhoy, tdcc-hoodbhoy-2, tdcc-huber} and the
+        process of computing observables in time suffers from the same problems
+        as in the non-variational time-independent case.
+
+        To fix this we re-use the variational coupled-cluster Lagrangian in the
+        time-dependent variational principle yielding the time-dependent
+        coupled-cluster action functional \cite{kvaal2013variational}
+        \begin{align}
+            S[\Psi, \tilde{\Psi}]
+            = \int\dd t
+            \mel*{\tilde{\Psi}(t)}{
+                \para{
+                    i\hslash\partial_t
+                    - \hamil(t)
+                }
+            }{\Psi(t)}
+            = \int\dd t
+            L[\Psi, \tilde{\Psi}],
+        \end{align}
+        where the coupled-cluster Lagrangian now includes the time-derivative.
+        We can write the Lagrangian as
+        \begin{align}
+            L[\Psi, \tilde{\Psi}]
+            = i\hslash \clustlamp_{\mu}\dpd{\clustamp_{\mu}}{t}
+            - E[\Psi, \tilde{\Psi}],
+        \end{align}
+        where $E[\Psi, \tilde{\Psi}]$ is the energy functional from
+        \autoref{eq:cc-energy-functional}.
+        Finding the stationary conditions for the action functional now consists
+        of solving the two sets of equations
+        \begin{align}
+            \dpd{L[\Psi, \tilde{\Psi}]}{\clustlamp_{\mu}} = 0,
+            \qquad
+            \dpd{L[\Psi, \tilde{\Psi}]}{\clustamp_{\mu}} = 0.
+        \end{align}
+        The former of these two equations yield the time-evolution of the
+        $\clustamp_{\mu}$-amplitudes whereas the latter yield the
+        time-evolution for the $\clustlamp_{\mu}$-amplitudes.
+        For the former equation we find
+        \begin{gather}
+            \dpd{L[\Psi, \tilde{\Psi}]}{\clustlamp_{\mu}}
+            =
+            i\hslash\dpd{\clustamp_{\mu}}{t}
+            - \dpd{E[\Psi, \tilde{\Psi}]}{\clustlamp_{\mu}}
+            = 0
+            \\
+            \implies
+            i\hslash\dpd{\clustamp_{\mu}}{t}
+            =
+            \dpd{E[\Psi, \tilde{\Psi}]}{\clustlamp_{\mu}}
+            =
+            \mel{\slat_{\mu}}{
+                \exp[-\clust(t)]
+                \hamil(t)
+                \exp[\clust(t)]
+            }{\slat},
+            \label{eq:time-evolution-tau}
+        \end{gather}
+        where the excited determinant comes from the derivative of the
+        $\clustl(t)$ with respect to $\clustlamp_{\mu}$ yielding a relaxation
+        operator $\hat{X}^{\dagger}_{\mu}$.
+        We see that \autoref{eq:time-evolution-tau} is the familiar projected
+        amplitude equations in the non-variational formulation of the
+        coupled-cluster wave function similar to the method introduced by
+        \citeauthor{tdcc-hoodbhoy} \cite{tdcc-hoodbhoy, tdcc-hoodbhoy-2}.
 
         \subsection{Normalization of the coupled cluster wave functions in time}
             We compute the normalization of the coupled cluster wave function by
