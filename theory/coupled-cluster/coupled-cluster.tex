@@ -796,7 +796,7 @@
                     \hamil
                     e^{\clust}
                 }{\slat}
-                = \mel*{\tilde{\Psi}}{\hamil}{\Psi},
+                = \mel{\tilde{\Psi}}{\hamil}{\Psi},
                 = E[\clustamp_{\mu}, \clustlamp_{\mu}],
                 \label{eq:cc-energy-functional}
             \end{align}
@@ -865,12 +865,12 @@
             % TODO: What has this got to do with the Hellmann-Feynman theorem?
             \begin{align}
                 E[\clustamp_{\mu}, \clustlamp_{\mu}]
-                &= \mel*{\tilde{\Psi}}{\hamil}{\Psi}
+                &= \mel{\tilde{\Psi}}{\hamil}{\Psi}
                 = \oneten^{p}_{q}
-                \mel*{\tilde{\Psi}}{\ccr{p}\can{q}}{\Psi}
+                \mel{\tilde{\Psi}}{\ccr{p}\can{q}}{\Psi}
                 + \frac{1}{4}
                 \twoten^{pq}_{rs}
-                \mel*{\tilde{\Psi}}{\ccr{p}\ccr{q}\can{s}\can{r}}{\Psi}
+                \mel{\tilde{\Psi}}{\ccr{p}\ccr{q}\can{s}\can{r}}{\Psi}
                 \\
                 &=
                 \oneten^{p}_{q} \densityten^{q}_{p}
@@ -883,17 +883,17 @@
             theorem.
             \begin{align}
                 \densityten^{q}_{p}
-                &= \mel*{\tilde{\Psi}}{\ccr{p}\can{q}}{\Psi}
-                = \mel*{\slat}{
+                &= \mel{\tilde{\Psi}}{\ccr{p}\can{q}}{\Psi}
+                = \mel{\slat}{
                     \para{\1 + \clustl}e^{-\clust}\ccr{p}\can{q} e^{\clust}
                 }{\slat},
                 \label{eq:cc-one-body-density}
                 \\
                 \densityten^{rs}_{pq}
-                &= \mel*{\tilde{\Psi}}{
+                &= \mel{\tilde{\Psi}}{
                     \ccr{p}\ccr{q}\can{s}\can{r}
                 }{\Psi}
-                = \mel*{\slat}{
+                = \mel{\slat}{
                     \para{\1 + \clustl}e^{-\clust}
                     \ccr{p}\ccr{q}
                     \can{s}\can{r}
@@ -959,8 +959,8 @@
             Lagrangian
             \begin{align}
                 L[\clustamp_{\mu}, \clustlamp_{\mu}, \nocc^{u}, \nocc^{d}]
-                &= \mel*{\tilde{\Psi}}{\hamil}{\Psi}
-                = \mel*{\tilde{\slat}}{
+                &= \mel{\tilde{\Psi}}{\hamil}{\Psi}
+                = \mel{\tilde{\slat}}{
                     \para{\1 + \clustl}
                     e^{-\clust} e^{-\nocc}
                     \hamil
@@ -1018,11 +1018,11 @@
         Left-projecting with an excited state we find that
         \begin{align}
             i\hslash
-            \bra{\slat_{\mu}}
-            \exp[-\clust(t)]
-            \dpd{}{t}
-            \exp[\clust(t)]
-            \ket{\slat}
+            \mel{\slat_{\mu}}{
+                \exp[-\clust(t)]
+                \dpd{}{t}
+                \exp[\clust(t)]
+            }{\slat}
             =
             i\hslash
             \dpd{\clustamp_{\mu}(t)}{t}.
@@ -1040,7 +1040,7 @@
         \begin{align}
             S[\Psi, \tilde{\Psi}]
             = \int\dd t
-            \mel*{\tilde{\Psi}(t)}{
+            \mel{\tilde{\Psi}(t)}{
                 \para{
                     i\hslash\partial_t
                     - \hamil(t)
@@ -1095,6 +1095,42 @@
         amplitude equations in the non-variational formulation of the
         coupled-cluster wave function similar to the method introduced by
         \citeauthor{tdcc-hoodbhoy} \cite{tdcc-hoodbhoy, tdcc-hoodbhoy-2}.
+        The second stationary condition gives
+        \begin{gather}
+            \dpd{L[\Psi, \tilde{\Psi}]}{\clustamp_{\mu}}
+            = i\hslash\dpd{}{\clustamp_{\mu}}\brak{
+                \dpd{}{t}\para{
+                    \clustlamp_{\nu}
+                    \clustamp_{\nu}
+                }
+                - \para{\dpd{\clustlamp_{\nu}}{t}}
+                \clustamp_{\nu}
+            }
+            - \dpd{E[\Psi, \tilde{\Psi}]}{\clustamp_{\mu}}
+            = 0 \\
+            \implies
+            -i\hslash\dpd{\clustlamp_{\mu}}{t}
+            =
+            \dpd{E[\Psi, \tilde{\Psi}]}{\clustamp_{\mu}}
+            =
+            \mel{\tilde{\Psi}(t)}{
+                \com{\hamil(t)}{\hat{X}_{\mu}}
+            }{\Psi(t)},
+            \label{eq:time-evolution-lambda}
+        \end{gather}
+        where we in the product rule for the derivatives of the amplitudes used
+        that the boundary term must disappear in accordance with the
+        time-dependent variational principle.
+        The commutator comes from the left and right exponential cluster
+        operators.
+        Now, \autoref{eq:time-evolution-tau} and
+        \autoref{eq:time-evolution-lambda} yields a variational formulation of
+        the time-dependent coupled-cluster methods where $\mu$ decides the
+        truncation level.
+        For \autoref{eq:time-evolution-tau} we can re-use the regular
+        $\clust$-amplitudes as the right-hand side, and for
+        \autoref{eq:time-evolution-lambda} we use the right-hand sides for the
+        Lagrange multipliers from the time-independent situation.
 
         \subsection{Normalization of the coupled cluster wave functions in time}
             We compute the normalization of the coupled cluster wave function by
@@ -1191,18 +1227,20 @@
             told.
             For the time-dependent coupled cluster wavefunction we have that
             \begin{gather}
-                \ket{\cc(t)} = e^{\clust(t)}\ketslat
+                \ket{\Psi(t)} = e^{\clust(t)}\ketslat
                 = \para{
                     \1
                     + \clust(t)
                     + \dots
                 }\ketslat
                 \implies
-                \braket{\slat}{\cc(t)} = 1.
+                \braket{\slat}{\Psi(t)} = 1.
             \end{gather}
             This might not look like much, but for strong fields, or long
-            time-evolution, we quickly find states which have little to no
-            overlap with the original reference state.
+            time-evolution, we can find states which have very little overlap
+            with the reference state and $\ket{\slat}$.
+            In numerical simulations the lack of infinite precision can thus
+            yield an overlap which is exactly zero.
             When this is the case the cluster amplitudes are left with the job
             of both ``removing'' the reference state from the cluster wave
             function \emph{and} providing contribution from higher excited
