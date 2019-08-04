@@ -23,9 +23,9 @@
         \cite{dirac1981principles} and Neumann \cite{von2018mathematical},
         but have since been subject to interpretation.
         This has lead to many versions of the postulates, both in the number of
-        postulates, and in the accuracy in their description.
-        We will base our description of the postulates of quantum mechanics from
-        the book \citetitle{salasnich2017quantum} by
+        postulates, and in the accuracy of their description.
+        We will base our definition of the postulates of quantum mechanics on
+        the representation given in the book \citetitle{salasnich2017quantum} by
         \citeauthor{salasnich2017quantum} \cite{salasnich2017quantum}.
 
         \begin{enumerate}
@@ -98,12 +98,12 @@
         \begin{align}
             \phi(t) = \exp[-\frac{iEt}{\hslash}].
         \end{align}
-        This is a solution which will discuss in more depth in
+        This is a solution which we will discuss in more depth in
         \autoref{sec:time-evolution-operators}.
         Multiplying by $\psi(\vfg{r})$ on both sides in the second equation we
-        find the \emph{time-indepedent Schrödinger equation}.
+        find the \emph{time-indepedent Schrödinger equation},
         \begin{align}
-            -\frac{\hslash^2}{2m}\vfg{\nabla}^2\psi + v\psi = \energy\psi,
+            -\frac{\hslash^2}{2m}\vfg{\nabla}^2\psi + v\psi = \energy\psi.
         \end{align}
         By virtue of the canonical quantization of the momentum operator
         $\momentumvec$ we recognize the quantum mechanical Hamiltonian on the
@@ -119,7 +119,7 @@
         the eigenpairs $(\psi_n, E_n)$.
         Once the spectrum is found it is common to call the problem solved as
         the time-evolution of the wave function can be expressed as a linear
-        combination of the spectrum states $\psi_n$.
+        combination of the eigenstates $\psi_n$.
         However, we will see in this thesis that finding the spectrum of a
         many-body Hamiltonian proves a challenge indeed and therefore
         complicates the matter of the time-evolution.
@@ -127,16 +127,16 @@
     \section{Density operators}
         \label{sec:density-operators}
         When working with many-body quantum mechanics, computing expectation
-        values can at times prove easier when done using density matrices. A
-        general density matrix of a \emph{pure state} is on the form
+        values can at times prove easier when done using density matrices.
+        A general density matrix of a \emph{pure state} is on the form
         \begin{align}
-            \densitymatrix = \ket{\psi}\bra{\psi},
+            \densitymatrix = \ket{\psi}\bra{\psi}.
         \end{align}
-        that is, a pure state is a quantum state $\ket{\psi}$ containing the
-        maximum amount of information about a given system. For a \emph{mixed
-        state}, i.e., a linear combination of pure states $\ket{\psi_k}$ with a
-        classical probability $p_k$ associated with the state, we get a density
-        matrix on the form
+        A pure state is a quantum state $\ket{\psi}$ containing the maximum
+        amount of information about a given system.
+        For a \emph{mixed state}, i.e., a linear combination of pure states
+        $\ket{\psi_k}$ with a classical probability $p_k$ associated with the
+        state, we get a density matrix on the form
         \begin{align}
             \densitymatrix = \sum_{k} p_k \ket{\psi_k}\bra{\psi_k}.
         \end{align}
@@ -162,7 +162,7 @@
                 that is, the probabilities must sum up to one.
         \end{enumerate}
         Furthermore, by squaring the density matrix and taking the trace we can
-        infer if the system we are perusing is in a mixed state or a pure state
+        infer if the system we are analyzing is in a mixed state or a pure state
         \cite{modern-qm}.
         \begin{align}
             \tr(\densitymatrix^2) = \sum_{k} p_k^2 \leq 1,
@@ -185,12 +185,12 @@
         The variational principle tells us that the ``true'' ground state energy
         $\energy_1$, i.e., the lowest energy eigenvalue of the Hamiltonian
         $\hamil$, will always be the lower bound on the energy of the system.
-        This means that all approximate wave functions to the Hamiltonian will
-        serve as an upper bound to the ground state energy
+        This means that all approximate wave functions -- that are determined
+        variationally -- will serve as an upper bound to the ground state energy
         \cite{griffiths2017introduction}.
         \begin{theorem}
-            Given a Hamiltonian $\hamil$ describing the system we are looking
-            at and a normalized wave function $\ket{\psi}$, we have that
+            Given a Hamiltonian $\hamil$ describing the system we are examining,
+            and a normalized wave function $\ket{\psi}$, we have that
             \begin{align}
                 \energy_1
                 \leq
@@ -205,8 +205,8 @@
             Hamiltonian.
         \end{theorem}
         The variational principle guarantees that any wave function $\ket{\psi}$
-        will overestimate the ground state energy unless we happen upon the true
-        ground state.
+        will overestimate the ground state energy unless we happened upon the
+        true ground state.
         \begin{proof}
             The eigenstates of the Hamiltonian will form a complete basis set
             for the Hilbert space they are apart of.
@@ -248,7 +248,7 @@
             However, by definition $\energy_1$ is the smallest eigenvalue of the
             Hamiltonian, i.e., $\energy_1 \leq \energy_i$, for all $i \in
             \brac{1, \dots, N}$.
-            From whence, we find
+            Whence, we find
             \begin{align}
                 E(\vfg{c})
                 &= \sum_{i = 1}^{N}
@@ -352,7 +352,7 @@
                     + \braket{\psi}{\delta\psi}
                 },
             \end{align}
-            where we no longer require that the wave functions be normalized.
+            where we no longer require that the wave functions are normalized.
             Looking at the denominator first we can move the inner product with
             the state $\ket{\psi}$ outside.
             This yields
@@ -409,7 +409,7 @@
                     \braket{\psi}
                 },
             \end{align}
-            where for brevity have written $E = E[\psi, \psi^{*}]$.
+            where for brevity we have written $E = E[\psi, \psi^{*}]$.
             The energy functional with the adjoint variation is given by
             \begin{align}
                 E[\psi, \tilde{\psi}^{*}]
@@ -420,8 +420,8 @@
                     \braket{\psi}
                 }.
             \end{align}
-            Subtracting $E$ from the above the functionals yield the variations
-            $\delta E[\tilde{\psi}, \psi^{*}]$ and $\delta E[\psi,
+            Subtracting $E$ from the above equation the functionals yield the
+            variations $\delta E[\tilde{\psi}, \psi^{*}]$ and $\delta E[\psi,
             \tilde{\psi}^{*}]$.
             Inserting into the stationary conditions we find
             \begin{align}
@@ -453,7 +453,7 @@
                 }
                 = 0,
             \end{align}
-            where look at the variations over the adjoint wave function to
+            where we look at the variations over the adjoint wave function to
             recover the time-independent Schrödinger equation instead of the
             adjoint formulation.
             From the fundamental lemma of calculus of variations
@@ -463,7 +463,7 @@
                 \hamil\ket{\psi}
                 = E\ket{\psi},
             \end{align}
-            which is just the time-independent Scrhödinger equation.
+            which is just the time-independent Schrödinger equation.
             Looking at the stationary condition for the adjoint wave function we
             will find
             \begin{align}
@@ -473,18 +473,18 @@
             We have therefore found that the stationary condition for the
             variational energy functional is satisfied as long as $(\ket{\psi},
             E[\psi, \psi^{*}])$ is an eigenpair of the time-independent
-            Scrhödinger equation.
+            Schrödinger equation.
             This means that we can find the eigenstate $\ket{\psi}$ by
             optimizing the functional $E[\psi, \psi^{*}]$.
         \end{proof}
-        Thus the strength of the variational principle can be summarized that
-        the stationary conditions of the variational energy functional will
-        yield the eigenstates of the Hamiltionian.
+        The variational principle can then be summarized as follows: the
+        stationary conditions of the variational energy functional will yield
+        the eigenstates of the Hamiltionian.
 
         \subsection{The variational method}
             We will now look at a formulation of the variational method using
             wave functions that are linear combinations of a known basis set as
-            this a much applicable technique for our work.
+            this is a much applicable technique for our work.
             Given a Hermitian model Hamiltonian $\hamil$ and a normalized trial
             wave function $\ket{\psi}$ that is constructed as a linear
             combination of known normalized wave functions
@@ -501,14 +501,15 @@
             Optimizing the energy function is now done by finding the
             stationary points with respect to the variational parameters
             $c_{\alpha}$.
-            We do this by
+            We do this by demanding that
             \begin{align}
                 \dpd[]{E(\vfg{c})}{c_{\alpha}} &= 0,
                 \\
                 \dmd{E(\vfg{c})}{2}{c_{\alpha}}{}{c_{\beta}}{} &= 0,
             \end{align}
             where the first variation locates the stationary point and the
-            second variation categorizes the point as the Hessian matrix.
+            second variation gives the Hessian matrix which categorizes the
+            point as a minimum, maxmimum, or saddle.
             However, looking at the first variation we have
             \begin{align}
                 \dpd{}{c_{\alpha}}\mel{\psi}{\hamil}{\psi} = 0,
@@ -577,7 +578,7 @@
                 \\
                 \implies
                 \hamilten_{\alpha\beta} c_{\beta}
-                = E(\vfg{c}) S_{\alpha\beta} c_{\beta}
+                = E(\vfg{c}) \overlapten_{\alpha\beta} c_{\beta}
                 \\
                 \implies
                 \hamilmat \vfg{c}
@@ -586,7 +587,12 @@
             \end{gather}
             where we've defined the overlap matrix $\overlapmat$ from the
             overlap integrals between the known basis elements
-            $\ket{\chi_{\alpha}}$.
+            $\ket{\chi_{\alpha}}$ by
+            \begin{align}
+                \overlapten_{\alpha\beta}
+                \equiv
+                \braket{\chi_{\alpha}}{\chi_{\beta}}
+            \end{align}
             We have now reduced the task of optimizing the energy function to
             the problem of solving the generalized eigenvalue equation in
             \autoref{eq:variational-eigenvalue}.
@@ -598,7 +604,7 @@
             This procedure will be used extensively as a procedure to transform
             from a known to an unknown basis.
             See \citetitle{helgaker-molecular} \cite{helgaker-molecular} for a
-            derivation of the Hessian elements.
+            derivation of the Hessian matix elements.
 
     \section{The Hellmann-Feynman theorem}
         The Hellmann-Feynman theorem provides us with a method of calculating
@@ -788,11 +794,11 @@
         \end{align}
         where the time dependence cancel.
         However, a general time-dependent state $\ket{\psi(t)}$ can be written
-        as a linear combination of the spectrum of stationary states.
+        as a linear combination of the eigenstates.
         \begin{align}
             \ket{\psi(t)} = \sum_{n = 1}^{\infty}c_n(t)\ket{\psi_n},
         \end{align}
-        where we've absorved the time-dependency into the coefficients and
+        where we've absorbed the time-dependency into the coefficients and
         require that the coefficients squared sum up to unity.
         This means that even though the Hamiltonian is time-independent, the
         states themselves are not stationary.
@@ -835,11 +841,11 @@
         not commute with itself at different times.
         The time-evolution operator shown in \autoref{eq:td-evolution} serve as
         a theoretical foundation for the time-evolution.
-        However, we will see later in the thesis how can approximate this
+        However, we will see later in the thesis how one can approximate this
         operator using known numerical integration methods.
 
     \section{The time-dependent variational principle}
-        We now wish to extendend the variational principle to the time-domain.
+        We now wish to extend the variational principle to the time-domain.
         This is done by the time-dependent variational principle by considering
         the action functional
         \begin{align}
@@ -860,7 +866,7 @@
         \end{align}
         % TODO: Confirm that the Hamiltonian is time-dependent.
         where for the sake of brevity have introduced the short-hand notation
-        $\partial_t$ for the partial derivative of time.
+        $\partial_t$ for the partial derivative with respect to time.
         If the wave functions are not required to be normalized in time the
         Lagrangian takes on a more complicated form to ensure that the action
         stays real as the differential operator $i\partial_t$ does not stay
@@ -902,9 +908,6 @@
             formulation from the fundamental lemma of calculus \cite{frenkel,
             wiki:fundamental-lemma}.
         \end{proof}
-        We shall see that with the help of the action functional, the
-        introduction of a time-dependent coupled cluster theory with states that
-        are not Hermitian conjugate of each other becomes more natural.
 
     \section{Electrodynamics}
         In vacuum the classical electromagnetic field is described by Maxwell's
@@ -917,8 +920,8 @@
         \end{gather}
         where $\vfg{E}(\vfg{r}, t)$ and $\vfg{B}(\vfg{r}, t)$ are the
         electric and magnetic fields respectively.
-        Without sources translates to the charge density $\rho$ and the current
-        density $\vfg{j}$ being zero.
+        Here ``without sources'' translates to the charge density $\rho$ and the
+        current density $\vfg{j}$ being set to zero.
         The electric and magnetic fields can be described by the scalar and
         vector potentials $\phi(\vfg{r}, t)$ and $\vfg{A}(\vfg{r}, t)$,
         respectively, by the relations
@@ -945,13 +948,21 @@
         To go from here we choose a gauge fixing condition such that we are able
         to remove non-physical degrees of freedom \cite{modern-qm}.
         We will strictly be working in the non-relativistic limit such that the
-        Lorenz gauge is unnecessary.
+        Lorenz gauge\footnote{%
+            Yes, this is \emph{actually} spelled ``the Lorenz gauge'', named
+            after the Danish physicist Ludvig Lorenz and is \emph{not} to be
+            confused with the wrongly named ``Lorentz gauge'' after Hendrik
+            Lorentz.
+            However, the Lorenz gauge is a Lorentz invariant condition where the
+            two terms frequently coincide and is therefore quite often misnamed
+            \cite{wiki:lorenz}.
+        } is unnecessary.
         We will be using the Coulomb gauge given by
         \begin{align}
             \vfg{\nabla}\cdot\vfg{A} = 0.
         \end{align}
-        Without sources, this means that $\phi = 0$ and the electric and
-        magnetic fields are found by
+        Without sources this means that $\phi = 0$ and the electric and magnetic
+        fields are found by
         \begin{gather}
             \vfg{E} = -\dpd{}{t}\vfg{A}, \\
             \vfg{B} = \vfg{\nabla}\times \vfg{A}.
@@ -1005,7 +1016,7 @@
         coherent state, which will allow us to use the quantum mechanical
         description of the electromagnetic field \cite{joachain2012atoms,
         modern-qm}.
-        However, we wil in the following remain in the classical description of
+        However, we will in the following remain in the classical description of
         the electromagnetic fields yielding a semi-classical approach to
         describing interactions between particles and electromagnetic fields.
 
@@ -1020,8 +1031,8 @@
             $\hamil_p$, the electromagnetic contribution by $\hamil_e$ and
             finally the interaction between particles and the electromagnetic
             field by $\hamil_{ep}$.
-            In the classical description of the electromagnetic field, the free
-            field Hamiltonian takes on the form
+            In the classical description of the electromagnetic field, the
+            free-field Hamiltonian takes on the form
             \begin{align}
                 \hamilten(t)
                 = \half\int\dd^3\vfg{r} \brak{
@@ -1031,18 +1042,18 @@
             \end{align}
             where $\epsilon_0$ is the vacuum permittivity and $\mu_0$ the
             magnetic permeability.
-            The free field contribution to the total Hamiltonian is necessary to
+            The free-field contribution to the total Hamiltonian is necessary to
             include in order to keep the system of particles and fields
             conservative.
             This term allows for interchange of energy between the particles and
             the electromagnetic fields thus conserving the total energy.
-            In the semi-classical description we use, the free field Hamiltonian
+            In the semi-classical description we use, the free-field Hamiltonian
             will reduce to a time-dependent constant as the electric and
             magnetic fields are classical quantities which do not act as
             operators on the quantum states.
-            We will ignore the free field Hamiltonian in the rest of this text
+            We will ignore the free-field Hamiltonian in the rest of this text
             and treat the particle-field interaction $\hamil_{ep}$ as a
-            perturbation to the field-free Hamiltonian $\hamil_{p}$, viz
+            perturbation to the particle Hamiltonian $\hamil_{p}$, viz
             \begin{align}
                 \hamil = \hamil_{p} + \hamil_{ep},
                 \label{eq:field-free-hamiltonian}
@@ -1119,10 +1130,10 @@
                 = -i\hslash\vfg{A}\vfg{\nabla}f
                 = \vfg{A}\cdot \momentumvec f,
             \end{align}
-            where we going from the second to the third equality used the
+            where going from the second to the third equality we used the
             Coulomb gauge condition that the divergence of $\vfg{A}$ should be
             zero.
-            Thus the particle-field interaction term should be
+            Thus, the particle-field interaction term should be
             \begin{align}
                 \hamil_{ep}
                 =
@@ -1156,8 +1167,8 @@
             \autoref{app:gauge-invariant-electromagnetic-hamiltonian}.
 
         \subsection{The dipole approximation}
-            If we assume that the wavelength $\lambda$ of the field is larger
-            than the size of the quantum system, that is, if
+            If we assume that the wavelength $\lambda$ of the field is much
+            larger than the size of the quantum system, that is, if
             \begin{align}
                 \lambda \gg \abs{\vfg{r}}
                 \implies
@@ -1167,7 +1178,9 @@
             compared to the time variations.
             When looking at atomic particles with sizes on the order of
             nanometers, this approximation can be good when the electromagnetic
-            field is in the low frequency domain, e.g., infrared light, etc.
+            field is in the low frequency domain, e.g., infrared light with wave
+            lengths of the order of $\SI{700}{\nano\meter}$ to
+            $\SI{1}{\milli\meter}$.
             Looking at the plane wave solution in \autoref{eq:plane-wave} we see
             that
             \begin{align}
@@ -1282,6 +1295,7 @@
             where we've defined the constant
             \begin{align}
                 \mathcal{E}_0 = -\omega_k \mathcal{A}_0.
+                \label{eq:electric-field-constant}
             \end{align}
             This in total yields the particle-field interaction of the
             Hamiltonian to be
@@ -1314,12 +1328,17 @@
             contribute to the total Hamiltonian.
             We will discuss specific selection rules in more detail when we look
             at specific quantum systems.
+            It is worth mentioning that the selection rules only apply for the
+            dipole effects.
+            This means that an experiment might yield transitions which are
+            deemed forbidden in the dipole regime occuring from higher multipole
+            expansions in the exponential plane wave solution.
 
     \section{Laser fields}
         The topic of lasers and laser fields interacting with atomic systems is
-        a vast one.
-        We will skim lightly on this field and discuss the more important
-        aspects that are related to our simulations.
+        a vast subject, and we will skim lightly at the edge of this field,
+        discussing the more important aspects that are related to our
+        simulations.
         Now, a linearly polarized, monochromatic laser field in the dipole
         approximation can be described by a vector potential on the form
         \cite{joachain2012atoms}
@@ -1331,18 +1350,18 @@
         expression for the electric field to be
         \begin{align}
             \vfg{E}(t) = \vfg{\epsilon} \mathcal{E}_0
-            \cos(\omega_k t + \phi).
+            \cos(\omega_k t + \phi),
         \end{align}
+        where $\mathcal{E}_0$ is defined as in
+        \autoref{eq:electric-field-constant}.
         These two equations describe a spatially homogeneous electric field
         oscillating in time.
-        The equations describe a laser that is ``switched on'' for the entire
-        simulation.
+        Furthermore, they describe a laser that is ``switched on'' for the
+        entire simulation.
         However, we are often interested in firing a short laser pulse at the
         system before turning it off.
         Thus we can observe how the system reacts after the laser is switched
         off and we avoid driving the system in time.
-        This lets us observe physical properties of the system which describes
-        higher energetic properties in the system without forcing the reaction.
 
         A linearly polarized laser pulse in the dipole approximation can be
         described by the vector potential \cite{joachain2012atoms}
@@ -1356,8 +1375,8 @@
         \end{align}
         where we treat $\omega_k$ and $\phi$ constant in time over the response
         of the system.
-        The factor $F(t) \in \brak{0, 1}$ is known as the \emph{envelope} of the
-        pulse.
+        The function $F(t) \in \brak{0, 1}$ is known as the \emph{envelope} of the
+        pulse and we'll discuss it in due time.
         We find the electric field of the dipole laser from
         \autoref{eq:electric-field-dipole}.
         \begin{align}
@@ -1371,6 +1390,9 @@
             The purpose of the envelope function $F(t)$ is to ensure that the
             laser pulse goes smoothly to zero outside some defined region such
             that the electric field disappears at $t \to \pm \infty$.
+            Furthermore it defines the temporal shape of the field.
+            % TODO: Check if the purpose of the envelope function can be
+            % summarized a little better.
             There are different models for the envelope function defined to
             replicate real laser pulses.
             Common choices are the cosine-squared, Gaussian, and the hyperbolic
@@ -1385,11 +1407,14 @@
                 \end{cases}
             \end{gather}
             where $T$ decides how long the envelope should last.
+            We define a cycle of the laser pulse to be $2\pi/\omega_k$.
             It is common to choose $T = 2n\pi\omega_k$, where $n \in
             \mathbb{N}\setminus{0}$ to ensure that we fit $n$ cycles of the
-            laser pulse inside the envelope, but this is strictly not necessary.
-            The cosine-squared envelope function requires ``manual stopping'' by
-            specifying where the envelope is defined.
+            laser pulse inside the envelope, but this is strictly not necessary
+            and we can choose any value for $T$.
+            As the cosine-squared envelope is a periodic function, we have to
+            define a region where the function should be cut off and yield zero.
+            This is solved by the cases-statement above.
             On the other hand, the hyperbolic secant and the Guassian envelopes
             will remove the pulse gradually.
             \begin{gather}
@@ -1398,12 +1423,13 @@
                 }, \\
                 F(t) = \exp[
                     -\frac{(\pi t)^2}{2T^2}
-                ],
+                ].
             \end{gather}
             These functions are however harder to turn on and off as they are
-            small, but non-zero, for a wide range of time points $t$.
-            We will however almost exclusively use the sine-squared envelope
-            function given by
+            small, but non-zero, for a wide range of time points $t$ both before
+            and after the peak intensity.
+            In accordance with much of the litterature, we will almost
+            exclusively use the sine-squared envelope function given by
             \begin{align}
                 F(t) = \begin{cases}
                     \sin^2\brak{
@@ -1536,7 +1562,7 @@
     \section{Atomic units}
         When doing large calculations on quantum mechanical systems, the
         constants related to the physical units quickly becomes quite populous
-        and can lead to numerical errors and might be overshadow the important
+        and can lead to numerical errors and might overshadow the important
         concepts of the theory.
         As a consequence, we tend to set most units to unity thus eliminating
         them from the equations.

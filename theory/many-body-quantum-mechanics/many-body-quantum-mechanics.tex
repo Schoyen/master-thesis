@@ -49,8 +49,8 @@
         The reason for using this index notation is two-fold. First, we remove
         the clutter of the summation signs, and second, the index notation
         resembles the implementation in Python as we use tensor contractions
-        where the axes are specified and thus no explicit sums in the form of
-        for-loops are done in the code.
+        where the axes are specified.
+        Thus, no explicit sums in the form of for-loops are done in the code.
 
     \section{Particle statistics}
         \label{sec:particle-statistics}
@@ -60,7 +60,7 @@
         This statement yields quite profound results in the sense that the
         ordering of the particles in a many-body wave function is in some sense
         arbitrary; the wave functions are the same up to a complex phase factor
-        regardless of the ordering of their particles.
+        regardless of the ordering of the particles.
         As a consequence the probability density of our state must be
         permutation invariant since we are not able to distinguish between the
         ordering of identical particles.
@@ -105,8 +105,8 @@
         always either even or odd.
         Stated differently, a permutation $\sigma$ created from a product of
         transpositions is not unique as the same permutation can be achieved
-        from the a different product of transpositions, however, all products
-        are either even or odd.
+        from a different product of transpositions, however, all products are
+        either even or odd.
         A permutation created from a even product of transpositions is said to
         have \emph{even parity} whereas a permutation created from an odd
         product of transpositions is said to have \emph{odd parity}.
@@ -319,8 +319,8 @@
             We demonstrate this by considering an antisymmetric wave function
             $\psi(\vf{x})$ where $\vf{x} = (x_1, \dots, x_N) \in X^{N}$ is the
             coordinates of the $N$ particles in the system.
-            We now that the eigenvalue of $\hat{P}_{ij}$ on $\psi(\vf{x})$ will
-            be $p = -1$, that is,
+            We now have that the eigenvalue of $\hat{P}_{ij}$ on $\psi(\vf{x})$
+            will be $p = -1$, that is,
             \begin{align}
                 \hat{P}_{ij}\psi(\vf{x})
                 = \psi(\vf{x}_{ij})
@@ -328,7 +328,7 @@
             \end{align}
             where we interpret $\vf{x}_{ij}$ as the same collection of
             coordinates as $\vf{x}$ but with $x_i$ and $x_j$ interchanged.
-            Now, if $x_i = x_j$ in $\vf{x}$ then get
+            Now, if $x_i = x_j$ in $\vf{x}$ we have
             \begin{gather}
                 \hat{P}_{ij}\psi(\vf{x})
                 = \psi(\vf{x}_{ij})
@@ -340,8 +340,8 @@
             This observation is known as the \emph{Pauli exclusion
             principle}.
             It is not so much that fermions aren't \emph{allowed} to be in the
-            same state, but a fact of life that such things does not exist as
-            they would immediately annihilate one another.
+            same state, but a fact of life that such things do not exist as they
+            would immediately annihilate one another.
 
 
     \section{Second quantization}
@@ -356,7 +356,7 @@
         } as a product of operators where each operator represents a particle
         state.\footnote{%
             It is not strictly a particle as we can not say that a particle is
-            in this or that state, but is a state which particles can occupy.
+            in this or that state, but it is a state which particles can occupy.
         }
         Depending on the algebra for the operators, we can look at antisymmetric
         fermions or symmetric bosons.
@@ -423,7 +423,7 @@
                     0, 1, 2, \dots & \text{bosons} \iff \nu = +,
                 \end{cases}
             \end{align}
-            where a $0$ means that the state is unoccupied and a $1$, or higher,
+            where $n_i = 0$ means that the state is unoccupied and $n_i \geq 1$
             means that state $\ket{i}$ can be occupied by that amount of
             particles.
             We can decompose the truncated Fock space $F_{\nu}(L)$ into a direct
@@ -514,7 +514,7 @@
             and its phase is therefore constant regardles of the ordering of the
             creation of its particle states.
             For a fermionic wave function, the interchange of two particles will
-            incur a change sign as discussed in
+            incur a sign change as discussed in
             \autoref{sec:particle-statistics}.
             The fact that the ordering of the indices in a fermionic Fock state
             will depend on the overall sign of the state can lead to ambiguity.
@@ -581,7 +581,7 @@
             $\acr{p}\ket{\vfg{m}}$ to be non-zero we have to have $\abs{\vfg{n}
             - \vfg{m}} = 1$, that is, the two states $\ket{\vfg{n}}$ and
             $\ket{\vfg{m}}$ can only differ by a single state.
-            Futhermore, as we are acting on $\ket{\vfg{m}}$ with $\acr{p}$ we
+            Furthermore, as we are acting on $\ket{\vfg{m}}$ with $\acr{p}$ we
             have that $n_p = m_p + 1$, i.e., $\ket{\vfg{n}}$ has one more
             particle state $\ket{p}$ than $\ket{\vfg{m}}$.
             As all other states in $\ket{\vfg{n}}$ and $\ket{\vfg{m}}$ are the
@@ -625,7 +625,7 @@
                 where $(\Gamma_{\nu})^{\vfg{n}}_{p}$ is the same phase factor as
                 in \autoref{def:creation_1}.
                 We will denote fermionic annihilation operators by $\can{p}$ and
-                the corresponding bosonic anniliation operators by $\ban{p}$.
+                the corresponding bosonic annihilation operators by $\ban{p}$.
             \end{definition}
             From the definition of the annihilation operator we have that
             \begin{align}
@@ -741,10 +741,11 @@
                     (\Gamma_{+})^{\vfg{n}}_{p}
                 }.
             \end{align}
-            In order to get a final expression for this anticommutator need to
-            find expressions for the phases $(\Gamma_{+})^{\vfg{n}^{(1)}}_{p}$
-            and $(\Gamma_{+})^{\vfg{n}^{(2)}}_{q}$ relative to the original
-            state $\ket{\vfg{n}}$.
+            In order to get a final expression for this anticommutator we need
+            to find expressions for the phases
+            $(\Gamma_{+})^{\vfg{n}^{(1)}}_{p}$ and
+            $(\Gamma_{+})^{\vfg{n}^{(2)}}_{q}$ relative to the original state
+            $\ket{\vfg{n}}$.
             We have two situations that needs to be explored, namely when $p >
             q$ and the opposite situation when $p < q$.
             Now, when $p > q$ we have
@@ -826,7 +827,7 @@
         Note that the normal-ordered form is not unique.
         However, whilst in the normal-ordered form, a permutation of the
         operators will at most yield a sign change and thus no consideration of
-        the Kronecker-Delta in \autoref{eq:anticom-canccr} needs to taken.
+        the Kronecker-Delta in \autoref{eq:anticom-canccr} needs to be taken.
 
         \begin{definition}
             \label{def:contraction}
@@ -1019,12 +1020,12 @@
         many-body wave function by combining single-particle states from an
         underlying basis.
         Since we're exploring systems of fermions, we'll limit our attention to
-        particles with spin one half and our single-particle states must
+        particles with spin-$1/2$ and our single-particle states must
         incorporate the spin.
         It is often more convenient to express the single-particle states as
         functions defined on position or momentum space and in a spin-basis.
         We call the spatial representation of the single-particle functions an
-        \emph{orbital} and combined with spin, we have the \emph{spin-orbital}.
+        \emph{orbital} and combined with spin, we have the \emph{spin-orbital},
         \begin{align}
             \braket{x}{\psi} = \psi(x)
             \equiv \psi(\vf{r}, m_s)
@@ -1125,7 +1126,7 @@
         \end{align}
         that is, they are orthonormal.
         The inner product of two spin-orbitals from \autoref{eq:spin-orbital} is
-        then separated into an orbital and a spin inner product.
+        then separated into an orbital and a spin inner product,
         \begin{align}
             \braket{\psi_P}{\psi_Q}
             &= \braket{\phi_p}{\phi_q}\braket{\sigma}{\tau}
@@ -1135,7 +1136,7 @@
         \end{align}
         This equation is quite suggestive in the sense that we can see that the
         spin decouples from the spatial part of the wave function.
-        Spin one-half is a two-level system that can be represented as a vector
+        Spin-$1/2$ is a two-level system that can be represented as a vector
         in a two-dimensional Hilbert space.
         Unless an operator contains a spin-coupling, the two spin-directions are
         completely independent of one another.
@@ -1182,7 +1183,7 @@
 
         \subsection{Restrictions on the choice of spin-orbitals}
             \label{subsec:restrictions-on-spin-orbitals}
-            Often many-body methods are defined by restrictions on the
+            Many-body methods are often defined by restrictions on the
             spin-orbitals.
             Below we list some of the more common restrictions.
             \begin{enumerate}
@@ -1262,8 +1263,8 @@
         where $\psi_i(x_i)$ is the coordinate representation of the
         spin-orbitals.
         Since each eigenstate $\ket{\psi_i}$ is an eigenstate of the one-body
-        Hamiltonian with eigenenegy $\epsilon_i$ we can find the total energy of
-        the full Hamiltonian by
+        Hamiltonian with eigenenergy $\epsilon_i$ we can find the total energy
+        of the full Hamiltonian by
         \begin{align}
             \hamil\ket{\Psi}
             = E\ket{\Psi}
@@ -1316,7 +1317,7 @@
         and the state $\ket{\Phi}$ is also an eigenstate of $\hamil$ with the
         same energy $E$ as the product state $\ket{\Psi}$.
         The coordinate representation of $\ket{\Phi}$ now takes on the familiar
-        form of a determinant.
+        form of a determinant,
         \begin{align}
             \Phi(x_1, \dots, x_N)
             &=
@@ -1619,7 +1620,7 @@
                 \det(\vfg{\Psi}) = \det(\vfg{\Phi}\vfg{U})
                 = \det(\vfg{\Phi})\det(\vfg{U})
             \end{gather}
-            We now take the squared norm on both sides.
+            We now take the squared norm on both sides,
             \begin{align}
                 \norm{\det(\vfg{\Psi})}^2
                 = \norm{\det(\vfg{\Phi})\det(\vfg{U})}^2
@@ -1649,10 +1650,27 @@
 
         \subsection{Thouless theorem}
             An important theorem for computational many-body quantum mechanics
-            is \emph{Thouless theorem} as it explains the role of the singles
-            excitations operators \cite{thouless1960225}.
+            is \emph{Thouless theorem} as it explains the role and the
+            influence of the singles excitations operators
+            \cite{thouless1960225}.
             \begin{theorem}
+                Given an $N$-particle Slater determinant $\ket{\slat}$, we can
+                write any other $N$-particle Slater determinant $\ket{\Psi}$
+                where $\braket{\slat}{\Psi} \neq 0$, by
+                \begin{align}
+                    \ket{\Psi}
+                    = \exp[\clust]\ket{\slat},
+                \end{align}
+                where $\clust = \clustamp^{a}_{i}\hat{X}^{a}_{i}$ is a singles
+                excitation operator with the coefficients $\clustamp^{a}_{i}$
+                determined uniquely.
             \end{theorem}
+            Stated in words, Thouless theorem tells us that we can construct any
+            other $N$-particle determinant $\ket{\Psi}$ from an arbitrary
+            $N$-particle determinant $\ket{\slat}$ using an exponential singles
+            excitation operator as long as the two determinants are not
+            orthogonal to one another.
+            This phenomenon is also known as \emph{orbital rotations}.
 
 
 
@@ -1680,7 +1698,7 @@
         where each term involves the \emph{interaction} between $i$ particles.
         For $i = 0$ we have $\hamil_0$ which we take to signify a constant term,
         e.g., the nuclear repulsion energy of an atomic system where we limit
-        our attention the electrons.
+        our attention to electrons.
         This term contributes with a constant energy shift in the expectation
         value.
         The one-body term, $\hamil_1$, is the familiar Hamiltonian from
@@ -1715,8 +1733,8 @@
         \subsection{One-body Hamiltonian}
             The one-body Hamiltonian describes the non-interacting system we are
             examining.
-            In the time-independent case we typically describe the system by a
-            sum of kinetic and potential terms.
+            In the time-independent case, we typically describe the system by a
+            sum of kinetic and potential terms,
             \begin{align}
                 \onehamil
                 &= \sum_{i = 1}^{N}\onehamil_i
@@ -1772,7 +1790,7 @@
                 = \sum_{i = 1}^{N} \sum_{j = 1}^{N} \twohamil_{ij}.
             \end{align}
             Often some care must be taken when $i = j$ as this results in
-            self-interaction which can yield un-physical results, but we have
+            self-interaction which can yield unphysical results, but we have
             for the sake of generality written the full sum.
             % TODO: Verify this.
             % Remember that the overlap occurs in the integral.
@@ -1803,7 +1821,7 @@
             The Born-Oppenheimer approximation first occured in a seminal paper
             by \citeauthor{born1927quantentheorie}
             \cite{born1927quantentheorie}.
-            It is procedure describing how we can solve a molecular system
+            It is a procedure describing how we can solve a molecular system
             consisting of electrons and nucleons where we assume that the total
             wave function can be separated into an electronic and a nuclear
             part, viz.
@@ -1813,6 +1831,7 @@
             where we denote the electronic wave function by $\ket{\Psi_e}$ and
             the nuclear counterpart as $\ket{\Psi_n}$.
             % TODO: This might not be relevant unless we include atomic systems.
+            % TODO: Finish description.
 
         \subsection{Second quantized formulation}
             Having introduced the second quantized formulation of many-body
@@ -2017,8 +2036,9 @@
                 where the integral runs over all generalized coordinates $x_i$
                 except for one \cite{lowdin-density-matrices,
                 hogberget2013quantum}.
-                Due to the indistinguishability of the particles the particle
-                density is a measure of where any particle is located in space.
+                Due to the indistinguishability of the particles, the particle
+                density is a measure of where any particle is located in space
+                under the influence of all the other particles.
                 The one-body density provides insight as to where particles in a
                 system will be positioned, but not which particles are where nor
                 how they behave relative to each other.
@@ -2079,11 +2099,8 @@
             % TODO: Check that this is correct.
             % Helgaker operates with N(N - 1) / 2, but this might be due to the
             % counting of the matrix version of the elements.
-            The two-body operator is not something we will use a lot as there
-            are no two-body observables we will observe in this thesis.
-            However, it will be used when we move to the orbital-adaptive
-            time-dependent coupled cluster method as it is needed in the orbital
-            equations.
+            The two-body density matrix can used when computing the energy
+            contribution from the two-body Hamiltonian.
 
     \section{The multireference problem}
         A common topic in many-body quantum mechanics is the multireference
@@ -2118,9 +2135,10 @@
         \end{align}
         % TODO: Check if this is correct.
         Most second quantized many-body methods rely on the single-reference
-        assumption and will often experience convergence trouble if the initial
-        reference state is degenerate.
+        assumption and will often be more challenging to solve numerically if
+        the initial reference state is degenerate.
         % TODO: Discuss this in the coupled cluster and Hartree-Fock methods.
+        % TODO: See static vs dynamic correlation in Helgaker.
 
     \section{The Harmonic potential theorem}
         \label{sec:hpt}
