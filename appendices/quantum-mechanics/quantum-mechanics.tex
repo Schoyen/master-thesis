@@ -427,8 +427,9 @@
         which is what we wanted to show.
 
     \section{The normal-ordered Hamiltonian}
+        \label{app:normal-ordered-hamiltonian}
         Given an orthonormal basis $\brac{\ket{\phi_p}}_{p = 1}^{L}$, with the
-        $N$ first states occupied in the reference state $\ket{\refslat}$, we
+        $N$ first states occupied in the reference state $\ket{\slat}$, we
         can construct the normal-ordered Hamiltonian, $\hamil_N$, relative to
         the Fermi vacuum by using Wick's theorem.
         Starting with the one-body Hamiltonian, we know from
@@ -447,25 +448,25 @@
             &=
             - \frac{1}{4}\twoten^{ij}_{ji}
             + \frac{1}{4}\twoten^{ij}_{ij}
-            - \frac{1}{4}\twoten^{iq}_{ri}\brac{
+            - \frac{1}{4}\twoten^{iq}_{ri}\normalord{
                 \ccr{q}
                 \can{r}
             }
-            + \frac{1}{4}\twoten^{iq}_{is}\brac{
+            + \frac{1}{4}\twoten^{iq}_{is}\normalord{
                 \ccr{q}
                 \can{s}
             }
             \nonumber \\
             &\qquad
-            + \frac{1}{4}\twoten^{pj}_{rj}\brac{
+            + \frac{1}{4}\twoten^{pj}_{rj}\normalord{
                 \ccr{p}
                 \can{r}
             }
-            - \frac{1}{4}\twoten^{pj}_{js}\brac{
+            - \frac{1}{4}\twoten^{pj}_{js}\normalord{
                 \ccr{p}
                 \can{s}
             }
-            + \frac{1}{4}\twoten^{pq}_{rs}\brac{
+            + \frac{1}{4}\twoten^{pq}_{rs}\normalord{
                 \ccr{p}
                 \ccr{q}
                 \can{s}
@@ -489,7 +490,7 @@
             \twohamil
             &=
             \half \twoten^{ij}_{ij}
-            + \twoten^{pi}_{qi}\brac{
+            + \twoten^{pi}_{qi}\normalord{
                 \ccr{p}
                 \can{q}
             }
@@ -500,7 +501,7 @@
         \begin{align}
             \twohamil_N
             &\equiv
-            \frac{1}{4}\twoten^{pq}_{rs}\brac{
+            \frac{1}{4}\twoten^{pq}_{rs}\normalord{
                 \ccr{p}
                 \ccr{q}
                 \can{s}
@@ -520,13 +521,13 @@
                 +
                 \twoten^{pi}_{qi}
             }
-            \brac{
+            \normalord{
                 \ccr{p}
                 \can{q}
             }
             +
             \frac{1}{4}\twoten^{pq}_{rs}
-            \brac{
+            \normalord{
                 \ccr{p}
                 \ccr{q}
                 \can{s}
@@ -546,13 +547,13 @@
                 +
                 \twoten^{pi}_{qi}
             }
-            \brac{
+            \normalord{
                 \ccr{p}
                 \can{q}
             }
             \equiv
             \fockten^{p}_{q}
-            \brac{
+            \normalord{
                 \ccr{p}
                 \can{q}
             }.
@@ -579,13 +580,13 @@
             &=
             \fock_N + \twohamil_N
             =
-            \fockten^{p}_{q}\brac{
+            \fockten^{p}_{q}\normalord{
                 \ccr{p}
                 \can{q}
             }
             +
             \frac{1}{4}
-            \twoten^{pq}_{rs}\brac{
+            \twoten^{pq}_{rs}\normalord{
                 \ccr{p}
                 \ccr{q}
                 \can{s}
@@ -604,6 +605,164 @@
         do not destroy the reference state must leave it excited.
         For an orthonormal basis of Slater determinants, this will necessarily
         leave the overlap between the reference state and an excited state zero.
+
+    \section{Many-body operators in second quantization}
+        \label{app:operator-representation}
+        We will in this section demonstrate the representation of the one- and
+        two-body operators as matrix elements of single-particle functions and
+        second quantized operators.
+        We let $\hat{Q}_1$ be a one-body operator acting on a single
+        single-particle state at a time,
+        \begin{align}
+            \hat{Q}_1
+            = \sum_{i = 1}^{N}\hat{q}(i),
+        \end{align}
+        where $\hat{q}(i)$ acts on particle state $i$ and ignores the other
+        states.
+        As a tensor product we can write this particular operator by
+        \begin{align}
+            \hat{q}(i)
+            = \1\otimes
+            \dots\otimes\hat{q}\otimes\dots\otimes\1
+            = \1^{\otimes (i - 1)}
+            \otimes\hat{q}
+            \otimes\1^{\otimes (N - (i + 1))}
+        \end{align}
+        that is, a tensor product of identity operators except for position $i$
+        where the one-body operator $\hat{q}$ is located.
+        Let $\brac{\phi_p}_{p = 1}^{L}$ be a basis of single-particle states.
+        We can then find the action of $\hat{q}$ on a single-particle state,
+        \begin{align}
+            \hat{q}\ket{\phi_i}
+            = \sum_{p = 1}^{L}\ket{\phi_{p}}\mel{\phi_p}{\hat{q}}{\phi_i}
+            \equiv \sum_{p = 1}^{L} q^{p}_{i}\ket{\phi_p},
+        \end{align}
+        where we've used the resolution of the identity.
+        Furthermore, we've re-instated explicit sums for the moment to avoid
+        confusion.
+        As the one-body operator acts on a single single-particle state at a
+        time, the operator will commute with the permutation operator
+        $\hat{P}_{\sigma}$.
+        We can construct an $N$-particle Slater determinant by the
+        antisymmetrizer $\hat{A}$ shown in
+        \autoref{eq:slater-determinant-abstract}.
+        Acting with $\hat{Q}_1$ on the Slater determinant, we get
+        \begin{align}
+            \hat{Q}_1\ket{\slat}
+            &=
+            \hat{Q}_1\ket{\phi_1\dots\phi_N}
+            =
+            \frac{1}{\sqrt{N!}}
+            \sum_{\sigma \in S_N}
+            (-1)^{\abs{\sigma}}
+            \hat{P}_{\sigma}
+            \sum_{i = 1}^{N}\hat{q}(i)
+            \bigotimes_{j = 1}^{N}
+            \ket{\phi_j},
+        \end{align}
+        where we've moved the one-body operator to the far right.
+        We've also represented the Slater determinant as a single ket with the
+        occupied single-particle states inside, similar to the occupation number
+        representation in the section on Fock space.
+        Concentrating on the action of the one-body operator on the product
+        state, we can write
+        \begin{align}
+            \sum_{i = 1}^{N}\hat{q}(i)
+            \bigotimes_{j = 1}^{N}
+            \ket{\phi_j}
+            =
+            \sum_{i = 1}^{N}
+            \sum_{p = 1}^{L}
+            q^{p}_{i}
+            \para{
+                \bigotimes_{j = 1}^{i - 1}
+                \ket{\phi_j}
+            }
+            \otimes \ket{\phi_p}
+            \otimes \para{
+                \bigotimes_{j = i + 1}^{N}
+                \ket{\phi_j}
+            },
+        \end{align}
+        where the single-particle state $\ket{\phi_i}$ has been replaced in the
+        product state by the single-particle state $\ket{\phi_p}$.
+        Moving the matrix elements outside the antisymmetrizer we get a sum over
+        Slater determinants which we write
+        \begin{align}
+            \hat{Q}_1\ket{\slat}
+            &=
+            \sum_{p = 1}^{L}
+            \sum_{i = 1}^{N}q^{p}_{i}
+            \ket{\phi_1\dots\phi_p\dots\phi_N},
+        \end{align}
+        where the placement of $\phi_p$ depends on the index $i$ as we replace
+        $\phi_i$ with $\phi_p$.
+        Having moved the matrix elements of $\hat{q}(i)$ outside the
+        antisymmetrizer we see that
+        \begin{align}
+            \ket{\phi_1\dots\phi_{i - 1}\phi_p\phi_{i + 1}\dots\phi_N}
+            = \ccr{p}\can{i}\ket{\phi_1\dots\phi_N}
+            = \ccr{p}\can{i}\ket{\slat}
+            = \ccr{p}\can{q}\ket{\slat},
+        \end{align}
+        where we in the last equality used that $\can{a}\ket{\slat} = 0$ using
+        the Fermi vacuum formalism and therefore $\can{i}\ket{\slat} =
+        \can{q}\ket{\slat}$.
+        We also see that the sum over $p$ is independent of the sum over
+        $q$ (where we went from $i \to q$), and we write
+        \begin{align}
+            \hat{Q}_1\ket{\slat}
+            = \sum_{p = 1}^{L}\sum_{q = 1}^{L}q^{p}_{q}
+            \ccr{p}\can{q}\ket{\slat},
+        \end{align}
+        Removing the explicit sums and extracting the operator without the
+        reference determinant, we then have
+        \begin{align}
+            \hat{Q}_1 = q^{p}_{q}\ccr{p}\can{q},
+        \end{align}
+        where the matrix elements $q^{p}_{q}$ can be found in a basis of given
+        single-particle states $\phi_p$ by
+        \begin{align}
+            q^{p}_{q}
+            \equiv
+            \mel{\phi_p}{\hat{q}}{\phi_q}
+            = \int\dd x\phi^{*}_{p}(x)\hat{q}\phi_{q}(x),
+        \end{align}
+        which is what we wanted to show.
+
+        The two-body operator $\hat{Q}_2$ is given by
+        \begin{align}
+            \hat{Q}_2
+            = \sum_{i < j}^{N}
+            \hat{q}(i, j),
+        \end{align}
+        where the sum runs over all pairs $(i, j)$ for $N$ particles and we
+        treat $i < j$.
+        The action of the two-body operator on a product state of two
+        single-particle states is\footnote{%
+            The author wishes to apologize for the abuse of notation as we
+            suddenly represent a product state by $\ket{\phi_i\phi_j} =
+            \ket{\phi_i}\otimes\ket{\phi_j}$, i.e., in the same manner as for
+            the occupation number representation used for the Slater
+            determinants.
+        }
+        \begin{align}
+            \hat{q}(i, j)\ket{\phi_i}\otimes\ket{\phi_j}
+            = \sum_{p, q = 1}^{L}
+            q^{pq}_{ij}
+            \ket{\phi_p}\otimes\ket{\phi_q},
+        \end{align}
+        where we've used the resolution of the identity for both single-particle
+        states in the product state.
+        The two-body matrix elements is given by
+        \begin{align}
+            q^{pq}_{ij}
+            \equiv
+        \end{align}
+        The two-body operator will also commute with the permutation operator
+        $\hat{P}_{\sigma}$ as the ordering of the pairs does not matter when all
+        pairs are included.
+        % TODO: Continue here!
 
     \section{Deriving the dimensionless Hamiltonian}
         \label{app:two-dim-ho-dimensionless}
