@@ -616,7 +616,7 @@
             \end{table}
 
             \begin{algorithm}
-                \inputpython{theory/quantum-systems/get_index_p.py}{0}{35}
+                \inputpython{implementation/quantum-systems/get_index_p.py}{0}{35}
                 \caption{In this algorithm we describe how we can find $(n, m)
                 \mapsto p$ relatively quick without having to tabulate all
                 maps.}
@@ -624,7 +624,7 @@
             \end{algorithm}
 
             \begin{algorithm}
-                \inputpython{theory/quantum-systems/get_indices_nm.py}{0}{48}
+                \inputpython{implementation/quantum-systems/get_indices_nm.py}{0}{48}
                 \caption{In this algorithm we sketch how we can find $p \mapsto
                 (n, m)$, i.e., the inverse of \autoref{alg:nm-to-p}.}
                 \label{alg:p-to-nm}
@@ -702,7 +702,7 @@
             \autoref{alg:radial-function-tdho}, where the mapping from $i
             \mapsto (n_i, m_i)$ is done by \autoref{alg:p-to-nm}.
             \begin{algorithm}
-                \inputpython{theory/quantum-systems/spf_radial_function.py}{0}{10}
+                \inputpython{implementation/quantum-systems/spf_radial_function.py}{0}{10}
                 \caption{Python function constructing the radial functions from
                 the \autoref{eq:radial-function-tdho}.}
                 \label{alg:radial-function-tdho}
@@ -710,7 +710,7 @@
             Having constructed the two radial functions we can perform the
             integraion using the function in \autoref{alg:radial-integral-tdho}.
             \begin{algorithm}
-                \inputpython{theory/quantum-systems/radial_integral.py}{0}{7}
+                \inputpython{implementation/quantum-systems/radial_integral.py}{0}{7}
                 \caption{Python function performing the radial integral in
                 \autoref{eq:radial-integral-tdho} using SymPy \cite{sympy} to
                 evaluate the integral from $r \in [0, \infty)$.}
