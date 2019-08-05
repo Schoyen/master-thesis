@@ -1326,8 +1326,8 @@
             parity \cite{modern-qm}.
             In short, only non-zero matrix elements for the dipole moment will
             contribute to the total Hamiltonian.
-            We will discuss specific selection rules in more detail when we look
-            at specific quantum systems.
+            We will discuss selection rules in more detail when we look at
+            specific quantum systems.
             It is worth mentioning that the selection rules only apply for the
             dipole effects.
             This means that an experiment might yield transitions which are
@@ -1558,6 +1558,119 @@
                 $\phi = -\pi/2$ to give a sine function.}
                 \label{fig:envelope-functions}
             \end{figure}
+
+        \subsection{Measuring energy transitions}
+            To see the usefulness of laser induced dynamics, we consider a
+            system described by a Hamiltonian
+            \begin{align}
+                \hamil(t)
+                = \hamil_p + \hamil_{ep}(t),
+            \end{align}
+            where the time-dependence is kept in the particle-field interaction.
+            The scenarios we will consider consists of describing the system
+            before and after the laser pulse is active.
+            At $t = 0$ we have the time-independent Schrödinger equation
+            \begin{align}
+                \hamil(0)\ket{\phi_k}
+                = \hamil_p\ket{\phi_k}
+                = \energy_k\ket{\phi_k},
+            \end{align}
+            where $(\energy_k, \ket{\phi_k})$ are the eigenpairs of the
+            time-independent Hamiltonian, and the eigenstates are orthonormal.
+            Now, if we choose a particular $\ket{\phi_k}$ as our initial
+            state\footnote{%
+                We will always choose the ground state as our starting point in
+                this thesis.
+            } we can ``turn on'' the laser pulse for $t \in \brak{0, T}$ using
+            an envelope function.
+            For $t > T$ we have $\hamil(t > T) = \hamil(0)$, and the
+            time-evolution of an arbitrary state $\ket{\psi(t)}$ can be
+            described by
+            \begin{align}
+                \ket{\psi(t > T)}
+                = \sum_{k = 0}^{\infty} c_k(t)\ket{\phi_k}
+                = \sum_{k = 0}^{\infty}
+                c_k(0) e^{-i\energy_k t/\hslash}\ket{\phi_k},
+            \end{align}
+            where the time-evolution is kept in the coefficients and
+            $\ket{\phi_k}$ are the same eigenstates found in the
+            time-independent case.
+            There are now two quantities which are of interest as they provide
+            information on the energy transitions in a system and we will look
+            at these separately.
+
+            \subsubsection{Autocorrelation}
+                We define the autocorrelation as the overlap between the
+                time-evolved stated $\ket{\psi(t)}$ with the initial state
+                $\ket{\psi}$ for $t > T$ \cite{robinett20041,
+                pedersen2018symplectic},
+                \begin{align}
+                    A(t)
+                    &= \braket{\psi}{\psi(t)}
+                    =
+                    \sum_{i = 0}^{\infty}
+                    \sum_{j = 0}^{\infty}
+                    c^{*}_i(0) c_j(t)
+                    \braket{\phi_i}{\phi_j}
+                    \\
+                    &=
+                    \sum_{i = 0}^{\infty}
+                    \sum_{j = 0}^{\infty}
+                    c^{*}_i(0) c_j(0) e^{i E_i t/\hslash}
+                    \delta_{ij}
+                    =
+                    \sum_{i = 0}^{\infty}
+                    \abs{c_i(0)}^2 e^{i E_i t/\hslash},
+                \end{align}
+                where we've used that the eigenstates are orthonormal.
+                In the case of the initial state being the ground state the
+                autocorrelation takes on the form
+                \begin{align}
+                    A(t)
+                    &= \braket{\phi_0}{\psi(t)}
+                    = \sum_{i = 0}^{\infty}
+                \end{align}
+
+            \subsubsection{Dipole moment}
+                Computing the expectation value of the dipole moment for $t > T$
+                we have
+                \begin{align}
+                    \expval{\vfg{d}(t)}
+                    &= \mel{\psi(t)}{\hat{\vfg{d}}}{\psi(t)}
+                    =
+                    c^{*}_i(t)c_j(t)\mel{\phi_i}{\hat{\vfg{d}}}{\phi_j}
+                    \\
+                    &=
+                    c^{*}_i(0)c_j(0) e^{i E_i t/\hslash}
+                    e^{-i E_j t / \hslash}
+                    \vfg{d}_{ij}
+                    =
+                    c^{*}_i(0)c_j(0) e^{i \omega_{ij} t}
+                    \vfg{d}_{ij},
+                \end{align}
+                where we've defined the energy transition frequency by
+                \begin{align}
+                    \omega_{ij} \equiv \frac{E_i - E_j}{\hslash},
+                \end{align}
+                and the matrix elements of the dipole moment using the
+                eigenstates by $\vfg{d}_{ij}$.
+                Note that we typically measure along one direction in the dipole
+                moment, but we've kept the vector notation to demonstrate that
+                we can choose whichever axis of the dipole moment we like.
+                Now, we often do not have access to the spectrum of the
+                time-independent system and the right-hand side of the
+                expectation value of the dipole moment is not something we can
+                evaluate directly.
+                However, by inspection we see that the right-hand side bears
+                resemblance to the \emph{discrete Fourier transform}, or perhaps
+                more specificaly, the inverse of the discrete Fourier
+                transform.\footnote{%
+                    Note that whether or not it is the transform or the inverse
+                    is not so important as the transform can be made into the
+                    inverse and vice versa.
+                    It is just that the inverse Fourier transform by convention
+                    has a positive sign in the exponential.
+                }
 
     \section{Atomic units}
         When doing large calculations on quantum mechanical systems, the
