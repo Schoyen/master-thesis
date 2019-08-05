@@ -1770,15 +1770,15 @@
         system.
         For example, the Coulomb interaction is a two-body interaction between
         particle pairs and is described by $\hamil_2$.
-        More exotic higher order interactions can occur in the nuclear physics
-        and the sort.
+        More exotic higher order interactions can occur in nuclear physics and
+        the sort.
         However, it is common to truncate the interactions in the many-body
         Hamiltonian as high order terms leads to complicated equations which
         become intractable unless clever approximations are introduced.
 
-        Luckily, much of solid-state physiscs, and almost all of quantum
-        chemistry, can be described by the Coulomb interaction as the system are
-        mainly governed by the electrons.
+        Luckily, much of solid-state physics, and almost all of quantum
+        chemistry, can be described by the Coulomb interaction as the dynamics
+        of the system is mainly governed by the electrons.
         This means that we will truncate the many-body Hamiltonian to
         second-order interactions.
         Furthermore, we ignore the constant term in the Hamiltonian as this can
@@ -1790,6 +1790,34 @@
         \end{align}
         where $\onehamil$ is the one-body term and $\twohamil$ describes
         two-body interactions, which in our case is the Coulomb interaction.
+
+        \subsection{The Born-Oppenheimer approximation}
+            The Born-Oppenheimer approximation first occured in a seminal paper
+            by \citeauthor{born1927quantentheorie}
+            \cite{born1927quantentheorie}.
+            It is a procedure describing how we can solve a molecular system
+            consisting of electrons and nucleons where we assume that the total
+            wave function can approximately be separated into an electronic and
+            a nuclear part, viz.
+            \begin{align}
+                \ket{\Psi} \approx \ket{\Psi_e}\otimes\ket{\Psi_n},
+            \end{align}
+            where we denote the electronic wave function by $\ket{\Psi_e}$ and
+            the nuclear counterpart as $\ket{\Psi_n}$.
+            This lets us separate the full Hamiltonian in a nuclear Hamiltonian
+            and an electronic Hamiltonian.
+            We say that this approximation is valid as the electrons move much
+            faster than the nucleons and that the electrons therefore
+            experiences the nucleus as having a fixed position in time
+            \cite{mayer2003simple}.
+            The electronic Hamiltonian desribed above therefore only includes
+            the nucleus-nucleus terms as a constant energy shift, the
+            electron-nucleus interaction as a potential well and the rest of the
+            system is described by the Coulomb interaction and the kinetic
+            energy.
+            % TODO: Review this text.
+            % TODO: Consider including the full Hamiltonian.
+
 
         \subsection{One-body Hamiltonian}
             The one-body Hamiltonian describes the non-interacting system we are
@@ -1877,22 +1905,6 @@
                 assume to be of the same type.
                 % TODO: Expand on the physical interpretation of Coulomb's law
                 % and the quantized version.
-
-        \subsection{The Born-Oppenheimer approximation}
-            The Born-Oppenheimer approximation first occured in a seminal paper
-            by \citeauthor{born1927quantentheorie}
-            \cite{born1927quantentheorie}.
-            It is a procedure describing how we can solve a molecular system
-            consisting of electrons and nucleons where we assume that the total
-            wave function can be separated into an electronic and a nuclear
-            part, viz.
-            \begin{align}
-                \ket{\Psi} = \ket{\Psi_e}\otimes\ket{\Psi_n},
-            \end{align}
-            where we denote the electronic wave function by $\ket{\Psi_e}$ and
-            the nuclear counterpart as $\ket{\Psi_n}$.
-            % TODO: This might not be relevant unless we include atomic systems.
-            % TODO: Finish description.
 
         \subsection{Second quantized formulation}
             Having introduced the second quantized formulation of many-body
@@ -2118,36 +2130,51 @@
             The formalism of the one-body density operator can also be extended
             to a mixed many-body states similar to the general density operator.
 
-            \subsubsection{Particle density}
-                A quantity we will be concerned with is the one-particle density
-                -- also known as the first-order reduced density matrix -- which
-                describes the simulatanous distribution of all the particles in
-                the system.
-                As an integral it is defined as
-                \begin{align}
-                    \densityten(x_1)
-                    &= N\para{\prod_{i = 2}^{N} \int \dd x_i}
-                    \abs{\psi(x_1, x_2, \dots, x_N)}^2,
-                \end{align}
-                where the integral runs over all generalized coordinates $x_i$
-                except for one \cite{lowdin-density-matrices,
-                hogberget2013quantum}.
-                Due to the indistinguishability of the particles, the particle
-                density is a measure of where any particle is located in space
-                under the influence of all the other particles.
-                The one-body density provides insight as to where particles in a
-                system will be positioned, but not which particles are where nor
-                how they behave relative to each other.
-                Using the one-body density matrix we are able to find the
-                distribution of all the particles by the single-particle
-                functions.
-                This is given by
-                \begin{align}
-                    \densityten(x)
-                    =
-                    \phi^{*}_q(x) \densityten^{q}_{p} \phi_p(x).
-                \end{align}
-                % TODO: Check the indexing.
+        \subsection{Particle density}
+            A quantity we will be concerned with is the one-particle density --
+            also known as the first-order reduced density matrix -- which
+            describes the simulatanous distribution of all the particles in the
+            system.
+            As an integral it is defined as
+            \begin{align}
+                \densityten(x_1)
+                &= N\para{\prod_{i = 2}^{N} \int \dd x_i}
+                \abs{\psi(x_1, x_2, \dots, x_N)}^2,
+            \end{align}
+            where the integral runs over all generalized coordinates $x_i$
+            except for one \cite{lowdin-density-matrices, hogberget2013quantum}.
+            Due to the indistinguishability of the particles, the particle
+            density is a measure of where any particle is located in space under
+            the influence of all the other particles.
+            The one-body density provides insight as to where particles in a
+            system will be positioned, but not which particles are where nor how
+            they behave relative to each other.
+            Using the one-body density matrix we are able to find the
+            distribution of all the particles by the single-particle functions.
+            This is given by
+            \begin{align}
+                \densityten(x)
+                =
+                \phi^{*}_q(x) \densityten^{q}_{p} \phi_p(x).
+            \end{align}
+            % TODO: Check the indexing.
+            An interesting property of the particle density is that we can
+            define a sort of ad-hoc ionization description.
+            The process of ionization can be described by a bound particle
+            leaving the confinement of either the core of an atom or the a more
+            general potential well.
+            If we define a radius $R$ as the distance from the centre of the
+            well to the edge where the influence of the well is zero, or close
+            to zero, then we can measure the amount of ionization by
+            \begin{align}
+                I(R) = \int_{\abs{x} \geq R}\dd x\densityten(x).
+            \end{align}
+            Note that the choice of $R$ depends on the system.
+            Some systems such as the infinite harmonic oscillator will always
+            have bound states and the ionization can thus be interpreted as a
+            measure of how much of the state is still distributed in the centre
+            of the well.
+            % TODO: Review this last sentence.
 
         \subsection{Two-body density matrix}
             We denote the two-body density operator by $\density_2$ with
@@ -2208,8 +2235,6 @@
         regime.
         As an example, consider the Lithium atom with three electrons, thus
         requiring a fourth electron in order to get a closed shell.
-        Lithium is a classic example of a multireference problem where there are
-        two reference states with the same weight.
         In the case of a non-interacting Lithium atom in a given spin-orbital
         basis $\brac{\ket{\psi_i}}_{i = 1}^{L}$, the ground state will consist
         of the two Slater determinants
@@ -2231,8 +2256,7 @@
         \end{align}
         % TODO: Check if this is correct.
         Most second quantized many-body methods rely on the single-reference
-        assumption and will often be more challenging to solve numerically if
-        the initial reference state is degenerate.
+        assumption and will not work in the multireference regime.
         % TODO: Discuss this in the coupled cluster and Hartree-Fock methods.
         % TODO: See static vs dynamic correlation in Helgaker.
 
