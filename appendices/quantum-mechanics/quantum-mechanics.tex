@@ -800,7 +800,9 @@
         removal of the single-particle states can be described by the second
         quantized operator string $\ccr{p}\ccr{q}\can{j}\can{i}$ as we first
         remove single-particle state $\phi_i$, then $\phi_j$ before inserting
-        $\phi_q$ and then $\phi_p$.
+        $\phi_q$ and then $\phi_p$.\footnote{%
+            Note the ordering of the annihilation operators.
+        }
         This ensures that after the total operator string has been evaluted, no
         sign-change has occured.
         Now, including $i = j$ introduces no extra elements as $\can{j}\can{i}$
@@ -813,7 +815,21 @@
         the sum over $i$ and $j$ from $N$ to $L$ will not introduce any new
         elements as $\can{r}\can{s}$ will destroy the reference whenever $r > N$
         and $s > N$.
-        We then write the two-body
+        In total we can then write the action of the two-body operator on a
+        Slater determinant,
+        \begin{align}
+            \hat{Q}_2\ket{\slat}
+            = q^{pq}_{rs} \ccr{p}\ccr{q}\can{s}\can{r}\ket{\slat},
+        \end{align}
+        where we've removed the explicit summations and all sums run over the
+        entire number of basis states.
+        Without the determinant we have the operator given by
+        \begin{align}
+            \hat{Q}_2
+            = q^{pq}_{rs}\ccr{p}\ccr{q}\can{s}\can{r},
+        \end{align}
+        which is the same form as in the second term of
+        \autoref{eq:many-body-operator}.
 
     \section{Deriving the dimensionless Hamiltonian}
         \label{app:two-dim-ho-dimensionless}
