@@ -627,6 +627,7 @@
             = \1^{\otimes (i - 1)}
             \otimes\hat{q}
             \otimes\1^{\otimes (N - (i + 1))}
+            \label{eq:tensor-one-body}
         \end{align}
         that is, a tensor product of identity operators except for position $i$
         where the one-body operator $\hat{q}$ is located.
@@ -697,6 +698,10 @@
         \end{align}
         where the placement of $\phi_p$ depends on the index $i$ as we replace
         $\phi_i$ with $\phi_p$.
+        This means that we ignore the canonical ordering of the determinants for
+        now, but this can be included after $\phi_p$ has been inserted.
+        We will however not sort the state after the removal and insertion of a
+        new single-particle state.
         Having moved the matrix elements of $\hat{q}(i)$ outside the
         antisymmetrizer we see that
         \begin{align}
@@ -738,14 +743,13 @@
         \end{align}
         where the sum runs over all pairs $(i, j)$ for $N$ particles and we
         treat $i < j$.
-        The action of the two-body operator on a product state of two
-        single-particle states is\footnote{%
-            The author wishes to apologize for the abuse of notation as we
-            suddenly represent a product state by $\ket{\phi_i\phi_j} =
-            \ket{\phi_i}\otimes\ket{\phi_j}$, i.e., in the same manner as for
-            the occupation number representation used for the Slater
-            determinants.
-        }
+        The two-body operator is harder to represent in an explicit tensor
+        representation as opposed to the one-body operator in
+        \autoref{eq:tensor-one-body}.
+        This is due to there being two operators acting on two separate
+        single-particle states, but the results being connected.
+        We will therefore describe the action of the two-body operator on a
+        product state of two single-particle states by
         \begin{align}
             \hat{q}(i, j)\ket{\phi_i}\otimes\ket{\phi_j}
             = \sum_{p, q = 1}^{L}
@@ -757,12 +761,59 @@
         The two-body matrix elements is given by
         \begin{align}
             q^{pq}_{ij}
-            \equiv
+            &\equiv
+            \mel{\phi_p\phi_q}{\hat{q}(i, j)}{\phi_i\phi_j}
+            \\
+            &=
+            \int\dd x_1 \dd x_2
+            \phi^{*}_{p}(x_1)\phi^{*}_{q}(x_2)
+            \hat{q}(i, j)
+            \phi_i(x_1)\phi_j(x_2),
         \end{align}
+        where some care must be shown for the notation of the matrix elements in
+        the definition of the two-body elements as we use $\ket{\phi_i\phi_j} =
+        \ket{\phi_i}\otimes\ket{\phi_j}$ to denote a product state in the matrix
+        elements.
+        However, outside the matrix elements, this notation will denote a Slater
+        determinant in the occupation number representation.
+        Note the symmetry of the integral that
+        \begin{align}
+            q^{pq}_{ij} = q^{qp}_{ji},
+            \label{eq:symmetry-two-body}
+        \end{align}
+        as the ordering of the two integrals is arbitrary.
         The two-body operator will also commute with the permutation operator
         $\hat{P}_{\sigma}$ as the ordering of the pairs does not matter when all
         pairs are included.
-        % TODO: Continue here!
+        The action of the two-body operator on a Slater determinant can thus be
+        written
+        \begin{align}
+            \hat{Q}_2\ket{\slat}
+            = \sum_{i < j}^{N}\sum_{p, q = 1}^{L}
+            q^{pq}_{ij}\ket{\phi_1\dots\phi_p\dots\phi_q\dots\phi_N},
+            \label{eq:temp-action-two-body}
+        \end{align}
+        where $\phi_p$ is at position $i$ and $\phi_q$ at $j$.
+        Again we ignore canonical ordering after the new single-particle states
+        have been inserted.
+        From \autoref{eq:temp-action-two-body} we see that the insertion and
+        removal of the single-particle states can be described by the second
+        quantized operator string $\ccr{p}\ccr{q}\can{j}\can{i}$ as we first
+        remove single-particle state $\phi_i$, then $\phi_j$ before inserting
+        $\phi_q$ and then $\phi_p$.
+        This ensures that after the total operator string has been evaluted, no
+        sign-change has occured.
+        Now, including $i = j$ introduces no extra elements as $\can{j}\can{i}$
+        will destroy the reference determinant.
+        Furthermore, due to the symmetry of the two-body elements from
+        \autoref{eq:symmetry-two-body} we have that including $i > j$ in the
+        summation will introduce double counting of the same states as for $i <
+        j$ thus this can be added at the cost of a factor $1/2$.
+        Finally, as in the case of the one-body operators, changing the limit on
+        the sum over $i$ and $j$ from $N$ to $L$ will not introduce any new
+        elements as $\can{r}\can{s}$ will destroy the reference whenever $r > N$
+        and $s > N$.
+        We then write the two-body
 
     \section{Deriving the dimensionless Hamiltonian}
         \label{app:two-dim-ho-dimensionless}
