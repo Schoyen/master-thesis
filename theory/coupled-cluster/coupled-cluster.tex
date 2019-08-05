@@ -246,69 +246,69 @@
             similarity transformed normal-ordered Hamiltonian.
             It is therefore applicable even for the amplitude equations.
 
-        \subsection{Truncated coupled cluster theory}
-            As discussed in \autoref{sub:truncated-configuration-interaction},
-            we demonstrated how the truncated configuration interaction wave
-            function was unable to represent the full Slater determinant basis
-            in a small toy system.
-            Repeating the same discussion, but now for $\clust = \clust_1$,
-            i.e., truncating the cluster operator at singles excitations, we can
-            construct the \emph{coupled cluster singles} wave function
-            \begin{align}
-                \ket{\Psi} &= e^{\clust_1}\ketslat
-                = \ketslat + \clust_1\ketslat + \frac{1}{2!}\clust_1^2\ketslat
-                \\
-                &= \ketslat
-                + \clustamp^{3}_{1}\ket{\slat^{3}_{1}}
-                + \clustamp^{4}_{1}\ket{\slat^{4}_{1}}
-                + \clustamp^{3}_{2}\ket{\slat^{3}_{2}}
-                + \clustamp^{4}_{2}\ket{\slat^{4}_{2}}
-                \nonumber \\
-                &\qquad
-                + \frac{1}{2!}\para{
-                    \clustamp^{3}_{1}\clustamp^{4}_{2}\ket{\slat^{34}_{12}}
-                    + \clustamp^{4}_{1}\clustamp^{3}_{2}\ket{\slat^{43}_{12}}
-                    - \clustamp^{3}_{2}\clustamp^{4}_{1}\ket{\slat^{34}_{21}}
-                    - \clustamp^{4}_{2}\clustamp^{3}_{1}\ket{\slat^{43}_{21}}
-                }
-                \\
-                &= \ketslat
-                + \clustamp^{3}_{1}\ket{\slat^{3}_{1}}
-                + \clustamp^{4}_{1}\ket{\slat^{4}_{1}}
-                + \clustamp^{3}_{2}\ket{\slat^{3}_{2}}
-                + \clustamp^{4}_{2}\ket{\slat^{4}_{2}}
-                + \clustamp^{3}_{1}\clustamp^{4}_{2}\ket{\slat^{34}_{12}}
-                + \clustamp^{4}_{1}\clustamp^{3}_{2}\ket{\slat^{43}_{12}},
-            \end{align}
-            where we've collected equal terms thus demonstrating the
-            double-counting that occurs for unbounded sums in the cluster
-            amplitudes.
-            In fact, we can go even further by realizing that
-            \begin{align}
-                \ket{\slat^{43}_{12}} = -\ket{\slat^{34}_{12}},
-            \end{align}
-            due to the indistinguishability of the particles.
-            This then yields the full wave function
-            \begin{align}
-                \ket{\Psi}
-                &= \ketslat
-                + \clustamp^{3}_{1}\ket{\slat^{3}_{1}}
-                + \clustamp^{4}_{1}\ket{\slat^{4}_{1}}
-                + \clustamp^{3}_{2}\ket{\slat^{3}_{2}}
-                + \clustamp^{4}_{2}\ket{\slat^{4}_{2}}
-                + \para{
-                    \clustamp^{3}_{1}\clustamp^{4}_{2}
-                    - \clustamp^{4}_{1}\clustamp^{3}_{2}
-                }
-                \ket{\slat^{34}_{12}}.
-                \label{eq:ccs_wave_function}
-            \end{align}
-            Comparing \autoref{eq:ccs_wave_function} with the singles truncated
-            configuration interaction wave function in
-            \autoref{eq:cis_wave_function} we see that the missing doubly
-            excited determinant is recovered.
-            That is, we are able to use all basis functions as seen in
-            \autoref{fig:tiny-slater-basis}.
+        %\subsection{Truncated coupled cluster theory}
+        %    As discussed in \autoref{sub:truncated-configuration-interaction},
+        %    we demonstrated how the truncated configuration interaction wave
+        %    function was unable to represent the full Slater determinant basis
+        %    in a small toy system.
+        %    Repeating the same discussion, but now for $\clust = \clust_1$,
+        %    i.e., truncating the cluster operator at singles excitations, we can
+        %    construct the \emph{coupled cluster singles} wave function
+        %    \begin{align}
+        %        \ket{\Psi} &= e^{\clust_1}\ketslat
+        %        = \ketslat + \clust_1\ketslat + \frac{1}{2!}\clust_1^2\ketslat
+        %        \\
+        %        &= \ketslat
+        %        + \clustamp^{3}_{1}\ket{\slat^{3}_{1}}
+        %        + \clustamp^{4}_{1}\ket{\slat^{4}_{1}}
+        %        + \clustamp^{3}_{2}\ket{\slat^{3}_{2}}
+        %        + \clustamp^{4}_{2}\ket{\slat^{4}_{2}}
+        %        \nonumber \\
+        %        &\qquad
+        %        + \frac{1}{2!}\para{
+        %            \clustamp^{3}_{1}\clustamp^{4}_{2}\ket{\slat^{34}_{12}}
+        %            + \clustamp^{4}_{1}\clustamp^{3}_{2}\ket{\slat^{43}_{12}}
+        %            - \clustamp^{3}_{2}\clustamp^{4}_{1}\ket{\slat^{34}_{21}}
+        %            - \clustamp^{4}_{2}\clustamp^{3}_{1}\ket{\slat^{43}_{21}}
+        %        }
+        %        \\
+        %        &= \ketslat
+        %        + \clustamp^{3}_{1}\ket{\slat^{3}_{1}}
+        %        + \clustamp^{4}_{1}\ket{\slat^{4}_{1}}
+        %        + \clustamp^{3}_{2}\ket{\slat^{3}_{2}}
+        %        + \clustamp^{4}_{2}\ket{\slat^{4}_{2}}
+        %        + \clustamp^{3}_{1}\clustamp^{4}_{2}\ket{\slat^{34}_{12}}
+        %        + \clustamp^{4}_{1}\clustamp^{3}_{2}\ket{\slat^{43}_{12}},
+        %    \end{align}
+        %    where we've collected equal terms thus demonstrating the
+        %    double-counting that occurs for unbounded sums in the cluster
+        %    amplitudes.
+        %    In fact, we can go even further by realizing that
+        %    \begin{align}
+        %        \ket{\slat^{43}_{12}} = -\ket{\slat^{34}_{12}},
+        %    \end{align}
+        %    due to the indistinguishability of the particles.
+        %    This then yields the full wave function
+        %    \begin{align}
+        %        \ket{\Psi}
+        %        &= \ketslat
+        %        + \clustamp^{3}_{1}\ket{\slat^{3}_{1}}
+        %        + \clustamp^{4}_{1}\ket{\slat^{4}_{1}}
+        %        + \clustamp^{3}_{2}\ket{\slat^{3}_{2}}
+        %        + \clustamp^{4}_{2}\ket{\slat^{4}_{2}}
+        %        + \para{
+        %            \clustamp^{3}_{1}\clustamp^{4}_{2}
+        %            - \clustamp^{4}_{1}\clustamp^{3}_{2}
+        %        }
+        %        \ket{\slat^{34}_{12}}.
+        %        \label{eq:ccs_wave_function}
+        %    \end{align}
+        %    Comparing \autoref{eq:ccs_wave_function} with the singles truncated
+        %    configuration interaction wave function in
+        %    \autoref{eq:cis_wave_function} we see that the missing doubly
+        %    excited determinant is recovered.
+        %    That is, we are able to use all basis functions as seen in
+        %    \autoref{fig:tiny-slater-basis}.
 
         \subsection{Energy equations}
             \label{subsec:cc-energy-equations}

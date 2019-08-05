@@ -2,28 +2,23 @@
     The most natural approach to take in quantum mechanics when creating a wave
     function is to create a linear combination of all possible states contained
     in the space one is exploring.
-    Configuration interaction is a procedure which creates a many-body wave
-    function from a linear combination of all possible Slater determinants in
-    the basis of spin-orbitals that is given, viz.
+    In configuration interaction the many-body wave function is written as a
+    linear combination of all possible Slater determinants in the basis of
+    spin-orbitals,
     \begin{align}
         \ket{\Psi}
-        &= C\ketslat
-        + C^a_i\ketslate{a}{i}
-        + \frac{1}{4}C^{ab}_{ij}\ketslate{ab}{ij}
-        + \dots,
+        &= C\ket{\slat}
+        + C^a_i\ket{\slat^{a}_{i}}
+        + \frac{1}{4}C^{ab}_{ij}\ket{\slat^{ab}_{ij}}
+        + \dots.
         \label{eq:ci_wavefunction}
     \end{align}
-    where we have divided by a factor $4$ in the double sum to avoid over
-    counting as both the coefficients and the excited determinants are
-    antisymmetric.
-    This leads to a method which is highly understandable for everyone with a
-    background in quantum mechanics.
-    Not to mention that it is a method that is exact within the given space,
-    variational, stable, single- and multi-reference, and yields the full
-    spectrum, i.e., all excited states and energies, for the many-body
-    Hamiltonian.
-    The method is extensible to the time-domain in a natural way and exhibits
-    the same properties as mentioned above.
+    The factor $4$ in the double sum is included to avoid over counting as both
+    the coefficients and the excited determinants are antisymmetric.
+    By including all excited Slater determinants of $N$-particles, we get a
+    method which is exact within the given space of single-particle states.
+    When this is the case we call the method \emph{full configuration
+    interaction}.
 
     There is however a significant catch to the configuration interaction
     method, and that is its computational scaling.
@@ -35,34 +30,30 @@
     This is such a significant roadblock that the method very quickly becomes
     completely infeasible for systems of interest.
     Significant attempts at lowering the cost of configuration interaction has
-    been explored, but the factorial scaling quickly rears its ugly head at a
-    certain point unless drastic measures are done which inevitably destroys
-    some of the pleasant properties of the method.
-    % TODO: Cite some of these attempts
+    been explored, but the factorial scaling quickly becomes a bottleneck for
+    large systems.
 
     A word on notation, we will in the following refrain from using explicit
     excitation indices $a, b, \dots$ and $i, j, \dots$ when labelling excited
-    Slater determinants, but rather label the
-    coefficients and the Slater determinants by capital letter $I, J, K,
-    \dots$.
+    Slater determinants, but rather label the coefficients and the Slater
+    determinants by capital letters $I, J, K, \dots$.
     That is, we can write \autoref{eq:ci_wavefunction} on the short form
     \begin{align}
         \ket{\Psi}
-        &= C_{I}\ket{\Phi_I}.
+        &= C_{I}\ket{\Phi_I}
+        = C_{I}\hat{X}_I\ket{\slat}.
     \end{align}
     The capital indices will then run over the total number of Slater
     determinants $N_s$ in the full Slater determinant basis.
-    This number will depend on the truncation level of the configuration
-    interaction wave function.
 
     \section{Time-independent configuration interaction}
         We start with the time-independent Schrödinger equation
         \begin{align}
-            \hamil\ket{\Psi_J} = E_J\ket{\Psi_J},
+            \hamil\ket{\Psi_J} = \energy_J\ket{\Psi_J},
             \label{eq:ci_tise}
         \end{align}
-        where $(E_J, \ket{\Psi_J})$ is an eigenpair for $\hat{H}$.
-        Expanding the CI wavefunction in a Slater determinant basis.
+        where $(E_J, \ket{\Psi_J})$ is an eigenpair for $\hamil$.
+        Expanding the CI wavefunction in a Slater determinant basis,
         \begin{align}
             \ket{\Psi_J} = C_{KJ}\ket{\Phi_K},
             \label{eq:expanded_ci_wavefunction}
@@ -73,28 +64,60 @@
         \autoref{eq:ci_tise} and left projecting on a state $\ket{\Phi_I}$ we
         get
         \begin{align}
-            \bra{\Phi_I}\hat{H}\ket{\Phi_K}C_{KJ}
+            \mel{\Phi_I}{\hamil}{\Phi_K}C_{KJ}
             = E_J\braket{\Phi_I}{\Phi_K}C_{KJ}.
         \end{align}
-        We now define the Hamiltonian matrix $H_{IK} =
-        \bra{\Phi_I}\hat{H}\ket{\Phi_K}$ and the overlap matrix $S_{IK} =
-        \braket{\Phi_I}{\Phi_K}$.
+        We denote the matrix elements of the Hamiltonian by
+        \begin{align}
+            \hamilten_{IK}
+            = \mel{\Phi_I}{\hamil}{\Phi_J}.
+        \end{align}
+        The Hamiltonian matrix will have a dimensionality of $\hamilmat \in
+        \mathbb{C}^{N_s \times N_s}$.
+        If the underlying basis of spin-orbitals is non-orthogonal, the overlap
+        between the Slater determinants will be given by the determinant of the
+        overlap integrals between the occupied spin-orbitals in both
+        determinants.
+        We denote the overlap between the determinants by
+        \begin{align}
+            S_{IK} = \braket{\Phi_I}{\Phi_K}.
+        \end{align}
+        The overlap matrix will have the same dimensionality as the Hamiltonian,
+        that is, $\overlapmat \in \mathbb{C}^{N_s \times N_s}$.
         We can thus formulate the generalized eigenvalue equation
         \begin{gather}
-            H_{IK}C_{KJ} = E_J S_{IK}C_{KJ}
+            \hamilten_{IK}C_{KJ} = \energy_J S_{IK}C_{KJ}
             \\
             \implies
-            HC = ESC,
+            \hamilmat \vfg{C} = \vfg{\energy} \overlapmat \vfg{C},
         \end{gather}
-        where $S_{IK} = 1 \iff \braket{\Phi_I}{\Phi_K} = \delta_{IK}$.
-        We will in this text only care about systems where the Slater
-        determinants are orthonormal.
-        Thus the eigenvalue equation we will solve will be
+        where $\vfg{\energy} = \diag(E_1, \dots, E_{N_s})$.
+        Now, to avoid the cost of storing the and computing the overlap matrix
+        $\overlapmat$ we restrict ourselves to an orthonormal basis of
+        single-particle functions which means that $S_{IK} = \delta_{IK}$.
+        If the original atomic orbital basis is non-orthogonal, we can make the
+        basis orthonormal by either transforming to the Hartree-Fock basis or
+        perform a orthogonalization procedure, e.g., symmetric
+        orthogonalization.
+        % TODO: Refer to orthogonalization procedure.
+        Thus, in the remainder of this chapter, we restrict ourselves to
+        orthonormal Slater determinants.
+        The generalized eigenvalue equation therefore reduces to the eigenvalue
+        equation
         \begin{align}
-            HC = EC,
+            \hamilmat\vfg{C} = \vfg{\energy}\vfg{C}.
         \end{align}
-        which means our job is to construct $H_{IJ}$ and diagonalize the
-        matrix \cite{karwowski}.
+        The configuration interaction method can thus be summarized as follows:
+        construct the Hamiltonian matrix $\hamilmat$ from the matrix elements
+        $\hamilten_{IJ}$, then diagonalize the matrix to get the coefficients to
+        the eigenstates $\vfg{C}_I$ and the eigenenergies $E_I$
+        \cite{karwowski}.
+        As the diagonalization yields the full spectrum, configuration
+        interaction is a method which yields higher order states unlike methods
+        such as the coupled-cluster method which requires extra steps in order
+        to get anything but the ground state.
+        % TODO: Continue here!
+
         The elements $H_{IJ}$ are computed by
         \begin{align}
             \bra{\Phi_I}\hat{H}\ket{\Phi_J}
@@ -183,139 +206,139 @@
             % TODO: List and explain the properties lost, e.g., multi-reference,
             % size-exensivity, size consistency.
 
-            \subsubsection{The singles approximation on a small basis}
-                As an example of <size extensivity/size consistency> we demonstrate
-                the troubles arising when we restrict ourselves to a system of two
-                particles and four basis functions.
-                Our basis thus consists of the spin-orbitals $\brac{\ket{\phi_p},
-                }_{p = 1}^{4}$, with the reference Slater determinant
-                \begin{align}
-                    \ket{\Phi}
-                    &= \frac{1}{\sqrt{2}}\brac{
-                        \ket{\phi_1\phi_2}
-                        - \ket{\phi_2\phi_1}
-                    }.
-                    % TODO: It might not be necessary to show what the determinant
-                    % looks like.
-                \end{align}
-                Using truncated configuration interaction with singles excitations
-                only, we get the many-body wave function
-                \begin{align}
-                    \ket{\Psi}
-                    &= C\ket{\Phi}
-                    + C^{a}_{i}\ket{\Phi^{a}_{i}}
-                    = C\ket{\Phi}
-                    + C^{3}_{1}\ket{\Phi^{3}_{1}}
-                    + C^{4}_{1}\ket{\Phi^{4}_{1}}
-                    + C^{3}_{2}\ket{\Phi^{3}_{2}}
-                    + C^{4}_{2}\ket{\Phi^{4}_{2}}.
-                    \label{eq:cis_wave_function}
-                \end{align}
-                Graphically we can represent the full space of the Slater determinants
-                by \autoref{fig:tiny-slater-basis}.
-                Comparing with \autoref{eq:cis_wave_function} we see that the only
-                determinant missing in the truncated wave function is the doubly
-                excited determinant $\ket{\Phi^{34}_{12}}$.
-                Stated a little differently, truncated configuration interaction is
-                not able to exploit the full space of Slater determinants.
-                The method also fails in ``removing all trace`` of the reference
-                state.
-                This means that truncated configuration interaction will not be able
-                to fully excite the reference state.
-                Note that the example shown in \autoref{eq:cis_wave_function} and
-                \autoref{fig:tiny-slater-basis} extends for more particles and
-                higher truncation levels for configuration interaction.
-                For example for a system with four particles and truncated
-                configuration interaction with singles and doubles excitations this
-                same behaviour is exhibited.
-                % TODO: Explain how this problem becomes worse for more basis
-                % functions.
-                % TODO: Explain how coupled cluster fixes this problem in the
-                % chapter on coupled cluster.
-                % TODO: Explain size consistency and size extensivity. See Crawford
-                % & Schaefer pages 42 and 95.
-                \begin{figure}
-                    \begin{center}
-                        \begin{tikzpicture}
-                            % State 1
-                            \begin{scope}
-                                \foreach \i in {1,...,4} {
-                                    \draw (-1, \i - 1) node[anchor=east]
-                                    {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
-                                }
-                                \filldraw (0,4.2) node[anchor=north]
-                                    {$\ket*{\Phi}$};
-                                \filldraw (0, 0) circle (0.25cm);
-                                \filldraw (0, 1) circle (0.25cm);
-                            \end{scope}
+            %\subsubsection{The singles approximation on a small basis}
+            %    As an example of <size extensivity/size consistency> we demonstrate
+            %    the troubles arising when we restrict ourselves to a system of two
+            %    particles and four basis functions.
+            %    Our basis thus consists of the spin-orbitals $\brac{\ket{\phi_p},
+            %    }_{p = 1}^{4}$, with the reference Slater determinant
+            %    \begin{align}
+            %        \ket{\Phi}
+            %        &= \frac{1}{\sqrt{2}}\brac{
+            %            \ket{\phi_1\phi_2}
+            %            - \ket{\phi_2\phi_1}
+            %        }.
+            %        % TODO: It might not be necessary to show what the determinant
+            %        % looks like.
+            %    \end{align}
+            %    Using truncated configuration interaction with singles excitations
+            %    only, we get the many-body wave function
+            %    \begin{align}
+            %        \ket{\Psi}
+            %        &= C\ket{\Phi}
+            %        + C^{a}_{i}\ket{\Phi^{a}_{i}}
+            %        = C\ket{\Phi}
+            %        + C^{3}_{1}\ket{\Phi^{3}_{1}}
+            %        + C^{4}_{1}\ket{\Phi^{4}_{1}}
+            %        + C^{3}_{2}\ket{\Phi^{3}_{2}}
+            %        + C^{4}_{2}\ket{\Phi^{4}_{2}}.
+            %        \label{eq:cis_wave_function}
+            %    \end{align}
+            %    Graphically we can represent the full space of the Slater determinants
+            %    by \autoref{fig:tiny-slater-basis}.
+            %    Comparing with \autoref{eq:cis_wave_function} we see that the only
+            %    determinant missing in the truncated wave function is the doubly
+            %    excited determinant $\ket{\Phi^{34}_{12}}$.
+            %    Stated a little differently, truncated configuration interaction is
+            %    not able to exploit the full space of Slater determinants.
+            %    The method also fails in ``removing all trace`` of the reference
+            %    state.
+            %    This means that truncated configuration interaction will not be able
+            %    to fully excite the reference state.
+            %    Note that the example shown in \autoref{eq:cis_wave_function} and
+            %    \autoref{fig:tiny-slater-basis} extends for more particles and
+            %    higher truncation levels for configuration interaction.
+            %    For example for a system with four particles and truncated
+            %    configuration interaction with singles and doubles excitations this
+            %    same behaviour is exhibited.
+            %    % TODO: Explain how this problem becomes worse for more basis
+            %    % functions.
+            %    % TODO: Explain how coupled cluster fixes this problem in the
+            %    % chapter on coupled cluster.
+            %    % TODO: Explain size consistency and size extensivity. See Crawford
+            %    % & Schaefer pages 42 and 95.
+            %    \begin{figure}
+            %        \begin{center}
+            %            \begin{tikzpicture}
+            %                % State 1
+            %                \begin{scope}
+            %                    \foreach \i in {1,...,4} {
+            %                        \draw (-1, \i - 1) node[anchor=east]
+            %                        {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
+            %                    }
+            %                    \filldraw (0,4.2) node[anchor=north]
+            %                        {$\ket*{\Phi}$};
+            %                    \filldraw (0, 0) circle (0.25cm);
+            %                    \filldraw (0, 1) circle (0.25cm);
+            %                \end{scope}
 
-                            % State 2
-                            \begin{scope}[xshift=5cm]
-                                \foreach \i in {1,...,4} {
-                                    \draw (-1, \i - 1) node[anchor=east]
-                                    {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
-                                }
-                                \filldraw (0,4.2) node[anchor=north]
-                                    {$\ket*{\Phi^{3}_{1}}$};
-                                \filldraw (0, 2) circle (0.25cm);
-                                \filldraw (0, 1) circle (0.25cm);
-                            \end{scope}
+            %                % State 2
+            %                \begin{scope}[xshift=5cm]
+            %                    \foreach \i in {1,...,4} {
+            %                        \draw (-1, \i - 1) node[anchor=east]
+            %                        {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
+            %                    }
+            %                    \filldraw (0,4.2) node[anchor=north]
+            %                        {$\ket*{\Phi^{3}_{1}}$};
+            %                    \filldraw (0, 2) circle (0.25cm);
+            %                    \filldraw (0, 1) circle (0.25cm);
+            %                \end{scope}
 
-                            % State 3
-                            \begin{scope}[xshift=10cm]
-                                \foreach \i in {1,...,4} {
-                                    \draw (-1, \i - 1) node[anchor=east]
-                                    {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
-                                }
-                                \filldraw (0,4.2) node[anchor=north]
-                                    {$\ket*{\Phi^{4}_{1}}$};
-                                \filldraw (0, 3) circle (0.25cm);
-                                \filldraw (0, 1) circle (0.25cm);
-                            \end{scope}
+            %                % State 3
+            %                \begin{scope}[xshift=10cm]
+            %                    \foreach \i in {1,...,4} {
+            %                        \draw (-1, \i - 1) node[anchor=east]
+            %                        {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
+            %                    }
+            %                    \filldraw (0,4.2) node[anchor=north]
+            %                        {$\ket*{\Phi^{4}_{1}}$};
+            %                    \filldraw (0, 3) circle (0.25cm);
+            %                    \filldraw (0, 1) circle (0.25cm);
+            %                \end{scope}
 
-                            % State 4
-                            \begin{scope}[yshift=-5.5cm]
-                                \foreach \i in {1,...,4} {
-                                    \draw (-1, \i - 1) node[anchor=east]
-                                    {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
-                                }
-                                \filldraw (0,4.2) node[anchor=north]
-                                    {$\ket*{\Phi^{3}_{2}}$};
-                                \filldraw (0, 0) circle (0.25cm);
-                                \filldraw (0, 2) circle (0.25cm);
-                            \end{scope}
+            %                % State 4
+            %                \begin{scope}[yshift=-5.5cm]
+            %                    \foreach \i in {1,...,4} {
+            %                        \draw (-1, \i - 1) node[anchor=east]
+            %                        {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
+            %                    }
+            %                    \filldraw (0,4.2) node[anchor=north]
+            %                        {$\ket*{\Phi^{3}_{2}}$};
+            %                    \filldraw (0, 0) circle (0.25cm);
+            %                    \filldraw (0, 2) circle (0.25cm);
+            %                \end{scope}
 
-                            % State 5
-                            \begin{scope}[yshift=-5.5cm, xshift=5cm]
-                                \foreach \i in {1,...,4} {
-                                    \draw (-1, \i - 1) node[anchor=east]
-                                    {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
-                                }
-                                \filldraw (0,4.2) node[anchor=north]
-                                    {$\ket*{\Phi^{4}_{2}}$};
-                                \filldraw (0, 0) circle (0.25cm);
-                                \filldraw (0, 3) circle (0.25cm);
-                            \end{scope}
+            %                % State 5
+            %                \begin{scope}[yshift=-5.5cm, xshift=5cm]
+            %                    \foreach \i in {1,...,4} {
+            %                        \draw (-1, \i - 1) node[anchor=east]
+            %                        {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
+            %                    }
+            %                    \filldraw (0,4.2) node[anchor=north]
+            %                        {$\ket*{\Phi^{4}_{2}}$};
+            %                    \filldraw (0, 0) circle (0.25cm);
+            %                    \filldraw (0, 3) circle (0.25cm);
+            %                \end{scope}
 
-                            % State 6
-                            \begin{scope}[yshift=-5.5cm, xshift=10cm]
-                                \foreach \i in {1,...,4} {
-                                    \draw (-1, \i - 1) node[anchor=east]
-                                    {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
-                                }
-                                \filldraw (0,4.2) node[anchor=north]
-                                    {$\ket*{\Phi^{34}_{12}}$};
-                                \filldraw (0, 3) circle (0.25cm);
-                                \filldraw (0, 2) circle (0.25cm);
-                            \end{scope}
-                        \end{tikzpicture}
-                    \end{center}
-                    \caption{In this figure we can see the six possible Slater
-                    determinants, i.e., all the basis Slater determinants, made from
-                    the four basis functions $\brac{\ket{\phi_1}, \ket{\phi_2},
-                    \ket{\phi_3}, \ket{\phi_4}}$ with two particles.}
-                    \label{fig:tiny-slater-basis}
-                \end{figure}
+            %                % State 6
+            %                \begin{scope}[yshift=-5.5cm, xshift=10cm]
+            %                    \foreach \i in {1,...,4} {
+            %                        \draw (-1, \i - 1) node[anchor=east]
+            %                        {$\ket*{\phi_{\i}}$} -- (1, \i - 1);
+            %                    }
+            %                    \filldraw (0,4.2) node[anchor=north]
+            %                        {$\ket*{\Phi^{34}_{12}}$};
+            %                    \filldraw (0, 3) circle (0.25cm);
+            %                    \filldraw (0, 2) circle (0.25cm);
+            %                \end{scope}
+            %            \end{tikzpicture}
+            %        \end{center}
+            %        \caption{In this figure we can see the six possible Slater
+            %        determinants, i.e., all the basis Slater determinants, made from
+            %        the four basis functions $\brac{\ket{\phi_1}, \ket{\phi_2},
+            %        \ket{\phi_3}, \ket{\phi_4}}$ with two particles.}
+            %        \label{fig:tiny-slater-basis}
+            %    \end{figure}
 
         \subsection{Constructing the Slater determinants}
             % TODO: Explain how to construct bit strings representing
