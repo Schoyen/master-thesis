@@ -1,0 +1,102 @@
+\chapter{Solver implementations}
+    In this chapter we'll discuss various implementation aspects of the \emph{ab
+    initio} solvers discussed in \autoref{chap:hf} through \autoref{chap:ci} and
+    \autoref{chap:cc}.
+
+    \section{Configuration interaction}
+        As the main goal of this thesis has been to implement coupled-cluster
+        solvers, the configuration interaction solver has not been worked at to
+        such a large degree.
+        We have therefore implemented a ``naïve'' configuration interaction
+        solver where we create the full Slater determinant space and store it in
+        memory.
+        From this we also create the full Hamiltonian matrix $\hamilmat$.
+        Our implementation thus quickly absorb too much memory and therefore
+        limits the number of particles and basis functions that can be explored.
+        To improve on the current scheme, an implementation of the \emph{direct
+        CI} methods \cite{helgaker-molecular} along with only storing non-zero
+        elements in $\hamilmat$ will yield a more powerfull method supporting
+        more particles and basis functions.
+
+        \subsection{Constructing the Slater determinant basis}
+            We represent the Slater determinants as NumPy-arrays \cite{numpy} of
+            bit strings using unsigned integers.
+            The default choice is to use \pyth{np.uint64}, i.e., 64-bit unsigned
+            integers with room for 64 single-particle states, but other options
+            such as 32-bit and 16-bit unsignd integers are available.
+            If we have a system with $L > 64$ we add more integers in the array
+            thus allowing for an integer mutiple of $64$ single-particle states at
+            a time.
+            Let $b$ be the number of bits in an integer, then the number of
+            integers needed for a single Slater determinant $N_i$ is given by
+            \begin{align}
+                N_i = \left\lfloor\frac{L}{b}\right\rfloor
+                + q,
+            \end{align}
+            where $q$ is either one or zero by
+            \begin{align}
+                q = \begin{cases}
+                    1 & L \mod b > 0, \\
+                    0 & L \mod b = 0,
+                \end{cases}
+            \end{align}
+            where $L \mod b$ is the remainder of the integer division.
+            The number of Slater determinants $N_s$ is given by a recursive
+            function $N_s(S)$ depending on the order $S$ of the truncation,
+            \begin{align}
+                N_s(S) = \begin{cases}
+                    1, & S = 0, \\
+                    N_s(S - 1) \frac{(N - [S - 1])(M - [S - 1])}{S^2}, & S > 0.
+                \end{cases}
+            \end{align}
+            where $N$ is the number of particles, $M = L - N$ is the number of
+            virtual states, and we've denoted the order $S$ as an integer where
+            $1$ represents singles, $2$ doubles, and so forth.
+            This formula counts the number of ways $N$ particles can be
+            distributed among $M$ positions moving $S$ particles at a time.
+            For a given truncation level, e.g., singles-and-doubles (CISD), the
+            number of Slater determinants is then
+            \begin{align}
+                N_s = N_s(2) + N_s(1) + N_s(0),
+            \end{align}
+            where $N_s(0) = 1$ counts the reference state.
+            In \autoref{tab:num-slater-determinants} we demonstrate how the
+            number of Slater determinants increase as a function of truncation
+            for a fixed number of particles.
+            The storage cost of the Hamiltonian matrix $\hamilmat$ is uncanny
+            going from CIS to CISDTQ as the storage increases by $7$ orders of
+            magnitude.
+            \begin{table}
+                \centering
+                \caption{In this table we demonstrate how the number of
+                Slater determinants $N_s$ increase as a function of truncation
+                level for $N = 4$ and $L = 80$.
+                We've also included the number of bytes needed to store the
+                Slater determinants using \pyth{np.uint64}, i.e., 64-bit
+                unsigned integers to represent the determinants, and the size of
+                the Hamiltonian matrix in bytes where we assume 128-bit complex
+                numbers as elements.}
+                \renewcommand{\arraystretch}{1.3}
+                \begin{tabular}{@{}lrrr@{}}
+                    \toprule
+                    Truncation & $N_s$ & Determinant storage $[\si{\byte}]$
+                    & Hamiltonian storage $[\si{\giga\byte}]$ \\
+                    \midrule
+                    CIS & $305$ & $2440$ & $0.001$ \\
+                    CISD & $17405$ & $139240$ & $4.5$ \\
+                    CISDT & $298605$ & $2388840$ & $1328.7$ \\
+                    CISDTQ & $1581580$ & $12652640$ & $37273.7$ \\
+                    \bottomrule
+                \end{tabular}
+                \label{tab:num-slater-determinants}
+            \end{table}
+
+            In our code we construct the Slater determinant basis by creating
+            the reference determinant where we set the $N$ first bits in the
+            array of unsigned integers and then create $N_s - 1$ copies of this
+            state.
+            The higher excited determinants are created by exciting the
+            reference determinant in a recursive fashion.
+
+        \subsection{Constructing the Hamiltonian}
+        \subsection{Diagonalization}

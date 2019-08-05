@@ -1,4 +1,5 @@
 \chapter{Configuration interaction}
+    \label{chap:ci}
     The most natural approach to take in quantum mechanics when creating a wave
     function is to create a linear combination of all possible states contained
     in the space one is exploring.
@@ -90,9 +91,17 @@
             \\
             \implies
             \hamilmat \vfg{C} = \vfg{\energy} \overlapmat \vfg{C},
+            \label{eq:ci-generalized}
         \end{gather}
         where $\vfg{\energy} = \diag(E_1, \dots, E_{N_s})$.
-        Now, to avoid the cost of storing the and computing the overlap matrix
+        We recognize this generalized eigenvalue equation as same equation found
+        in the variational method for a trial wave function expanded as a linear
+        combination of an underlying basis shown in
+        \autoref{subsec:variational-method}.
+        In other words, solving this eigenvalue equation corresponds to a
+        variational minization procedure with \autoref{eq:ci-generalized} as the
+        stationary condition.
+        Now, to avoid the cost of storing and computing the overlap matrix
         $\overlapmat$ we restrict ourselves to an orthonormal basis of
         single-particle functions which means that $S_{IK} = \delta_{IK}$.
         If the original atomic orbital basis is non-orthogonal, we can make the
