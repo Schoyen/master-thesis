@@ -1583,18 +1583,29 @@
                 this thesis.
             } we can ``turn on'' the laser pulse for $t \in \brak{0, T}$ using
             an envelope function.
-            For $t > T$ we have $\hamil(t > T) = \hamil(0)$, and the
-            time-evolution of an arbitrary state $\ket{\psi(t)}$ can be
+            We can in some ways conider the laser as a thermalization step where
+            we move from an initial state that might be slightly unphysical in
+            the sense that the pure eigenstates are very unlikely states to find
+            a system in.
+            For $t \geq T$ we have $\hamil(t \geq T) = \hamil(0)$, that is,
+            $\hamil(t \geq T)$ has the same spectrum as $\hamil(0)$.
+            At $t = T$ we can then write the evolved state as
+            \begin{align}
+                \ket{\psi(T)} = \sum_{k = 0}^{\infty}
+                c_k(T) \ket{\phi_k},
+            \end{align}
+            In terms of measurements, the state $\ket{\psi(T)}$ will be our
+            initial state as this is a thermalized state from some initial
+            eigenstate $\ket{\phi_k}$.
+            The time-evolution of an arbitrary state $\ket{\psi(t)}$ can be
             described by
             \begin{align}
-                \ket{\psi(t > T)}
+                \ket{\psi(t \geq T)}
                 = \sum_{k = 0}^{\infty} c_k(t)\ket{\phi_k}
                 = \sum_{k = 0}^{\infty}
-                c_k(0) e^{-i\energy_k t/\hslash}\ket{\phi_k},
+                c_k(T) e^{-i\energy_k t/\hslash}\ket{\phi_k},
             \end{align}
-            where the time-evolution is kept in the coefficients and
-            $\ket{\phi_k}$ are the same eigenstates found in the
-            time-independent case.
+            where the time-evolution is kept in the coefficients.
             There are now two quantities which are of interest as they provide
             information on the energy transitions in a system and we will look
             at these separately.
@@ -1602,38 +1613,35 @@
             \subsubsection{Autocorrelation}
                 We define the autocorrelation as the overlap between the
                 time-evolved stated $\ket{\psi(t)}$ with the initial state
-                $\ket{\psi}$ for $t > T$ \cite{robinett20041,
-                pedersen2018symplectic},
+                $\ket{\psi(T)}$ for $t \geq T$ \cite{robinett20041,
+                pedersen2018symplectic},\footnote{%
+                    Note that the autocorrelation can be computed for arbitrary
+                    states, but we use it in a specific way for measurements.
+                }
                 \begin{align}
                     A(t)
-                    &= \braket{\psi}{\psi(t)}
+                    &= \braket{\psi(t)}{\psi(T)}
                     =
                     \sum_{i = 0}^{\infty}
                     \sum_{j = 0}^{\infty}
-                    c^{*}_i(0) c_j(t)
+                    c^{*}_i(t) c_j(T)
                     \braket{\phi_i}{\phi_j}
                     \\
                     &=
                     \sum_{i = 0}^{\infty}
                     \sum_{j = 0}^{\infty}
-                    c^{*}_i(0) c_j(0) e^{i E_i t/\hslash}
+                    c^{*}_i(T) c_j(T) e^{-i E_i t/\hslash}
                     \delta_{ij}
                     =
                     \sum_{i = 0}^{\infty}
-                    \abs{c_i(0)}^2 e^{i E_i t/\hslash},
+                    \abs{c_i(T)}^2 e^{-i E_i t/\hslash},
                 \end{align}
-                where we've used that the eigenstates are orthonormal.
-                In the case of the initial state being the ground state the
-                autocorrelation takes on the form
-                \begin{align}
-                    A(t)
-                    &= \braket{\phi_0}{\psi(t)}
-                    = \sum_{i = 0}^{\infty}
-                \end{align}
+                where we've used that the eigenstates of the time-independent
+                Hamiltonian are orthonormal.
 
             \subsubsection{Dipole moment}
-                Computing the expectation value of the dipole moment for $t > T$
-                we have
+                Computing the expectation value of the dipole moment for $t \geq
+                T$ we have
                 \begin{align}
                     \expval{\vfg{d}(t)}
                     &= \mel{\psi(t)}{\hat{\vfg{d}}}{\psi(t)}
@@ -1641,7 +1649,7 @@
                     c^{*}_i(t)c_j(t)\mel{\phi_i}{\hat{\vfg{d}}}{\phi_j}
                     \\
                     &=
-                    c^{*}_i(0)c_j(0) e^{i E_i t/\hslash}
+                    c^{*}_i(T)c_j(T) e^{i E_i t/\hslash}
                     e^{-i E_j t / \hslash}
                     \vfg{d}_{ij}
                     =
@@ -1657,20 +1665,22 @@
                 Note that we typically measure along one direction in the dipole
                 moment, but we've kept the vector notation to demonstrate that
                 we can choose whichever axis of the dipole moment we like.
+                % TODO: Consider moving the subsubsections into defintions.
+
                 Now, we often do not have access to the spectrum of the
-                time-independent system and the right-hand side of the
-                expectation value of the dipole moment is not something we can
-                evaluate directly.
-                However, by inspection we see that the right-hand side bears
-                resemblance to the \emph{discrete Fourier transform}, or perhaps
-                more specificaly, the inverse of the discrete Fourier
-                transform.\footnote{%
-                    Note that whether or not it is the transform or the inverse
-                    is not so important as the transform can be made into the
-                    inverse and vice versa.
-                    It is just that the inverse Fourier transform by convention
-                    has a positive sign in the exponential.
-                }
+                time-independent system and the right-hand sides of the
+                expectation value of the dipole moment and the autocorrelation
+                is not something we can evaluate directly.
+                However, by inspection we see that the right-hand sides bears
+                resemblance to the \emph{discrete Fourier transform}.
+                % TODO: Consider adding the formulas for the Fourier transform.
+                This inspires the calculation of the Fourier transform of the
+                autocorrelation and the dipole moment.
+                The peaks in the Fourier spectrum can then be interpreted as the
+                excited state $\energy_i$ from the autocorrelation.
+                The peaks in the Fourier spectrum of the dipole moment yields
+                the energy transitions $\omega_{ij}$.
+
 
     \section{Atomic units}
         When doing large calculations on quantum mechanical systems, the
