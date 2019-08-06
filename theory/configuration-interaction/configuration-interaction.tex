@@ -125,58 +125,6 @@
         interaction is a method which yields higher order states unlike methods
         such as the coupled-cluster method which requires extra steps in order
         to get anything but the ground state.
-        % TODO: Continue here!
-
-        %The elements $H_{IJ}$ are computed by
-        %\begin{align}
-        %    \bra{\Phi_I}\hat{H}\ket{\Phi_J}
-        %    &= h^{p}_{q}
-        %    \bra{\Phi_I}\ccr{p}\can{q}\ket{\Phi_J}
-        %    + \frac{1}{4} u^{pq}_{rs}
-        %    \bra{\Phi_I}\ccr{p}\ccr{q}\can{s}\can{r}\ket{\Phi_J}.
-        %\end{align}
-        %Having constructed the one- and two-body elements $h^{p}_{q}$ and
-        %$u^{pq}_{rs}$ what remains is for us to evaluate the integrals
-        %$\bra{\Phi_I}\ccr{p}\can{q}\ket{\Phi_J}$ and
-        %$\bra{\Phi_I}\ccr{p}\ccr{q}\can{s}\can{r}\ket{\Phi_J}$.
-        %We are then able to construct the configuration interaction matrix
-        %\begin{align}
-        %    \hamilmat
-        %    &=
-        %    \begin{pmatrix}
-        %        \bra{\Phi_0}\hamil\ket{\Phi_0} &
-        %        \bra{\Phi_0}\hamil\ket{\Phi_1} &
-        %        \dots &
-        %        \bra{\Phi_0}\hamil\ket{\Phi_{N_s}} \\
-        %        \bra{\Phi_1}\hamil\ket{\Phi_0} &
-        %        \bra{\Phi_1}\hamil\ket{\Phi_1} &
-        %        \dots &
-        %        \bra{\Phi_1}\hamil\ket{\Phi_{N_s}} \\
-        %        \vdots & \vdots & \ddots & \vdots \\
-        %        \bra{\Phi_{N_s}}\hamil\ket{\Phi_0} &
-        %        \bra{\Phi_{N_s}}\hamil\ket{\Phi_1} &
-        %        \dots &
-        %        \bra{\Phi_{N_s}}\hamil\ket{\Phi_{N_s}}
-        %    \end{pmatrix}.
-        %\end{align}
-        %It is common to see this matrix in block form where we collect
-        %the different excitation levels in separate blocks.
-        %For the singles and doubles excitations we get the block matrix
-        %\begin{align}
-        %    \hamilmat_{\text{CISD}}
-        %    &=
-        %    \begin{pmatrix}
-        %        \bra{\Phi}\hamil\ket{\Phi} &
-        %        \bra{\Phi}\hamil\ket{\Phi^{a}_{i}} &
-        %        \bra{\Phi}\hamil\ket{\Phi^{ab}_{ij}} \\
-        %        \bra{\Phi^{c}_{k}}\hamil\ket{\Phi} &
-        %        \bra{\Phi^{c}_{k}}\hamil\ket{\Phi^{a}_{i}} &
-        %        \bra{\Phi^{c}_{k}}\hamil\ket{\Phi^{ab}_{ij}} \\
-        %        \bra{\Phi^{cd}_{kl}}\hamil\ket{\Phi} &
-        %        \bra{\Phi^{cd}_{kl}}\hamil\ket{\Phi^{a}_{i}} &
-        %        \bra{\Phi^{cd}_{kl}}\hamil\ket{\Phi^{ab}_{ij}} \\
-        %    \end{pmatrix}.
-        %\end{align}
 
         \subsection{Truncated configuration interaction}
             \label{sub:truncated-configuration-interaction}
@@ -348,26 +296,6 @@
             %        \ket{\phi_3}, \ket{\phi_4}}$ with two particles.}
             %        \label{fig:tiny-slater-basis}
             %    \end{figure}
-
-        \subsection{Constructing the Slater determinants}
-            % TODO: Explain how to construct bit strings representing
-            % determinants.
-            % TODO: Discuss Fock space representation of determinants.
-            % TODO: Discuss sign of determinants.
-
-        \subsection{Evaluating the matrix elements}
-            As the one- and two-body elements $\oneten^{p}_{q}$ and
-            $\twoten^{pq}_{rs}$ are known in advance, our task is to evaluate
-            the overlap between Slater determinants acted upon by creation and
-            annihilation operators.
-
-        \subsection{The Slater-Condon rules}
-            When evaluating the matrix elements of the Hamiltonian with at most
-            two-body elements between two Slater determinants, we will quickly
-            notice that many of the elements are zero.
-            The Slater-Condon rules describes which elements are non-zero therby
-            greatly reducing the number of matrix elements that need to be
-            computed.
 
         \subsection{One-body density matrix}
             For a given eigenstate $\ket{\Psi_I}$ of the many-body Hamiltonian
