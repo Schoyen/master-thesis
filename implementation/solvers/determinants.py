@@ -79,3 +79,29 @@ def occupied_index(state, p):
     return (
         state[elem_p] & (1 << (p - elem_p * BITSTRING_SIZE))
     ) != 0
+
+
+# Constants used by the popcount_64 algorithm
+m_1 = 0x5555_5555_5555_5555
+m_2 = 0x3333_3333_3333_3333
+m_4 = 0x0F0F_0F0F_0F0F_0F0F
+h_01 = 0x0101_0101_0101_0101
+
+@numba.njit(cache=True, nogil=True, fastmath=True)
+def popcount_64(num):
+    num -= (num >> 1) & m_1
+    num = (num & m_2) + ((num >> 2) & m_2)
+    num = (num + (num >> 4)) & m_4
+
+    return (num * h_01) >> 56
+
+
+@numba.njit(cache=True, nogil=True, fastmath=True)
+def state_diff(state_i, state_j):
+    diff = state_i ^ state_j
+
+    num_bits = 0
+    for elem in diff:
+        num_bits += popcount_64(elem)
+
+    return num_bits

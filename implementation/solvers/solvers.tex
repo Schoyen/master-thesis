@@ -3,6 +3,9 @@
     initio} solvers discussed in \autoref{chap:hf} through \autoref{chap:ci} and
     \autoref{chap:cc}.
 
+    \section{Hartree-Fock}
+        \subsection{Self consistent field procedure}
+
     \section{Configuration interaction}
         As the main goal of this thesis has been to implement coupled-cluster
         solvers, the configuration interaction solver has not been worked at to
@@ -120,7 +123,7 @@
             The higher excited determinants are created by exciting the
             reference determinant in a recursive fashion.
             The excitation operator for a single Slater determinant is shown in
-            \autoref{ag:excite-state}.
+            \autoref{alg:excite-state}.
             \begin{algorithm}
                 \inputpython{implementation/solvers/determinants.py}{16}{23}
                 \caption{Function used to represent a series of excitation
@@ -196,7 +199,9 @@
                     $\ket{\vfg{n}}$.
                 \item The difference $\abs{\vfg{n} - \vfg{m}}$, between the two
                     determinants $\ket{\vfg{n}}$ and $\ket{\vfg{m}}$.
-                \item Convert the position of a set bit to an index $p$.
+                \item The position of a set bit to a single-particle index $p$
+                    in order to find the correct matrix elements in
+                    $\oneten^{p}_{q}$ and $\twoten^{pq}_{rs}$.
             \end{itemize}
             For the sign calculation we use the product for the phase
             $(\Gamma_{-})^{\vfg{n}}_i$ defined in \autoref{def:creation_1} by
@@ -222,8 +227,64 @@
                 \label{alg:kronecker-delta}
             \end{algorithm}
             To compute the difference between the two determinants we start by
-            using the XOR operation to find the specific bits that are only set
-            in either $\vfg{n}$ or $\vfg{m}$.
+            using the XOR operation to find the specific bits that are set in
+            either $\vfg{n}$ or $\vfg{m}$, but not both.
+            Next, we count the number of set bits in this difference state.
+            The counting of set bits in an integer is a topic which has been
+            explored in some depth in the field of computer science and has led
+            to some very efficient algorithms.
+            We use the population count algorithm \cite{wiki:popcount} shown in
+            \autoref{alg:popcount_64}.
+            \begin{algorithm}
+                \inputpython{implementation/solvers/determinants.py}{84}{96}
+                \caption{Implementation of the popcount algorithm for 64-bit
+                integers.}
+                \label{alg:popcount_64}
+            \end{algorithm}
+            Now, counting the number of set bits in the difference-state from
+            $\ket{\vfg{n}} \text{XOR} \ket{\vfg{m}}$ yields the difference
+            $\abs{\vfg{n} - \vfg{m}}$.
+            The function in \autoref{alg:state-diff} computes the difference
+            between two determinants.
+            \begin{algorithm}
+                \inputpython{implementation/solvers/determinants.py}{99}{107}
+                \caption{Function counting the difference in the number of
+                single-particle states in two Slater determinants.}
+                \label{alg:state-diff}
+            \end{algorithm}
+            % TODO: Describe how to compute the bit position to index.
 
         \subsection{Diagonalization}
+            Having constructed the full Hamiltonian matrix $\hamilmat \in
+            \mathbb{C}^{N_s \times N_s}$ the next step is to diagonalize the
+            matrix in order to get the eigenenergies $\vfg{\energy} = \diag(E_1,
+            \dots, E_{N_s})$ and the eigenvectors, i.e., the coefficients for
+            the eigenstates, $\vfg{C} \in \mathbb{C}^{N_s \times N_s}$.
+            As stated in \autoref{chap:ci}, we restrict our attention to
+            orthonormal single-particle states and we therefore need to solve
+            the eigenvalue equation
+            \begin{align}
+                \hamilmat\vfg{C} = \vfg{E}\vfg{C}.
+            \end{align}
+            The Hamiltonian matrix is Hermitian and we can therefore use the
+            function \pyth{np.linalg.eigh} \cite{numpy}, which uses the
+            LAPACK-routines \cite{laug} \pyth{_syevd} and \pyth{_heevd} for
+            symmetrc and Hermitian matrices respectively, to solve the
+            eigenvalue equation.
+            This will yield the full spectrum of $\hamilmat$ and will often
+            prove a limiting factor in terms of computational complexity as the
+            number of FLOPS required to solve this equation scales as
+            $\mathcal{O}(N_s^3)$.
+
+            As an alternative to the full spectrum we can use a sparse
+            eigenvalue solver.
+            We use the function \pyth{scipy.sparse.linalg.eigsh} from SymPy
+            \cite{sympy} which is a wrapper around the ARPACK routines SSEUPD
+            and DSEUPD \cite{arpack} implementing the Implictly Restarted
+            Lanczos Method.
+            This lets us specify how many eigenpairs $k$ we wish to compute,
+            which is then found iteratively.
+
         \subsection{Time-evolution}
+
+    \section{Coupled cluster}
