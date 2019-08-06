@@ -75,14 +75,17 @@
                 Slater determinants using \pyth{np.uint64}, i.e., 64-bit
                 unsigned integers to represent the determinants, and the size of
                 the Hamiltonian matrix in bytes where we assume 128-bit complex
-                numbers as elements.}
+                numbers as elements.
+                The storage cost of the Hamiltonian matrix for CIS was
+                $\SI{0.001}{\giga\byte}$, which does not show up in the
+                designated one decimal point.}
                 \renewcommand{\arraystretch}{1.3}
                 \begin{tabular}{@{}lrrr@{}}
                     \toprule
                     Truncation & $N_s$ & Determinant storage $[\si{\byte}]$
                     & Hamiltonian storage $[\si{\giga\byte}]$ \\
                     \midrule
-                    CIS & $305$ & $2440$ & $0.001$ \\
+                    CIS & $305$ & $2440$ & $0.0$ \\
                     CISD & $17405$ & $139240$ & $4.5$ \\
                     CISDT & $298605$ & $2388840$ & $1328.7$ \\
                     CISDTQ & $1581580$ & $12652640$ & $37273.7$ \\
@@ -97,24 +100,15 @@
             state.
             The setting of a single-particle state in a bit string is done using
             the binary OR command.
-            For example, to set state $68$, i.e., the fourth bit in the second
-            element in the state array \pyth{state} using \pyth{np.uint64}
-            integers to represent a determinant, we do
-            \begin{python}
-# Value of state
-# state == [0b0, 0b0]
-
-# The number of bits in an integer
-BITSTRING_SIZE = 64
-# Compute the integer index in state
-elem_i = 68 // BITSTRING_SIZE
-
-# Set the fourth bit in the second integer in state
-state[elem_i] |= 1 << (4 - elem_i * BITSTRING_SIZE)
-
-# New value of state
-# state == [0b0, 0b10000] == [0, 16]
-            \end{python}
+            An example of the setting of single-particle states represented as
+            bits is shown in \autoref{alg:set-state-68}.
+            \begin{algorithm}
+                \inputpython{implementation/solvers/determinants.py}{0}{13}
+                \caption{An example of how set the single-particle state $68$ in
+                a binary state array \pyth{state} using \pyth{np.uint64}
+                integers to represent determinants.}
+                \label{alg:set-state-68}
+            \end{algorithm}
             Other options are to use the binary XOR operation, but whichever one
             is chosen some care must be shown as bugs can arise if the
             single-particle state is already set.
@@ -125,26 +119,32 @@ state[elem_i] |= 1 << (4 - elem_i * BITSTRING_SIZE)
 
             The higher excited determinants are created by exciting the
             reference determinant in a recursive fashion.
-            The excitation operator for a single Slater determinant, i.e., an
-            array of integers, is represented by the function,
-            \begin{python}
-@numba.njit(cache=True, nogil=True, fastmath=True)
-def _excite_state(state, o_remove, v_insert):
-    for i, a in zip(o_remove, v_insert):
-        elem_i = i // BITSTRING_SIZE
-        elem_a = a // BITSTRING_SIZE
-
-        state[elem_i] ^= 1 << (i - elem_i * BITSTRING_SIZE)
-        state[elem_a] |= 1 << (a - elem_a * BITSTRING_SIZE)
-            \end{python}
+            The excitation operator for a single Slater determinant is shown in
+            \autoref{ag:excite-state}.
+            \begin{algorithm}
+                \inputpython{implementation/solvers/determinants.py}{16}{23}
+                \caption{Function used to represent a series of excitation
+                operators $\hat{X}^{a}_{i}$, neglecting the sign.}
+                \label{alg:excite-state}
+            \end{algorithm}
             This function excites all single-particle states in the array
-            \pyth{o_remove} to the states in \pyth{v_insert}.
+            \pyth{o_remove} to the single-particle states in \pyth{v_insert}.
             Note that the Slater determinants are interpreted as being in
             canonical ordering and we ignore the sign handling when creating the
             basis of determinants.
             The signs are thus handled when computing matrix elements.
-            The challenge is now to populate the \pyth{o_remove} and
-            \pyth{v_insert} arrays.
+            To populate the \pyth{o_remove}- and \pyth{v_insert}-arrays, we have
+            a function which recursively adds an occupied index into
+            \pyth{o_remove} and then proceeds to add all the virtual indices in
+            order into \pyth{v_insert}, before calling the excitation function
+            defined in \autoref{alg:excite-state}.
+            This function is shown in
+            \begin{algorithm}
+                \inputpython{implementation/solvers/determinants.py}{26}{56}
+                \caption{Function creating all excited determinants of a given
+                order \pyth{order}.}
+                \label{alg:create-excited-states}
+            \end{algorithm}
 
             The entire implementation of the configuration interaction method is
             uniquely defined by the basis of Slater determinants.
@@ -157,7 +157,8 @@ def _excite_state(state, o_remove, v_insert):
             The arguably most effective first order optimization that can be
             performed for the configuration interaction method is to implement
             the Slater-Condon rules when evaluating matrix elements of operator
-            strings.
+            strings, as opposed to brute force evaluation of the action of the
+            second quantized operators on a determinant.
             When constructing the Hamiltonian matrix $\hamilmat$ with one- and
             two-body operators, we wish to evaluate the matrix elements
             \begin{align}
@@ -174,6 +175,55 @@ def _excite_state(state, o_remove, v_insert):
                     \ccr{q}
                     \can{r}
                     \can{s}
-                }{\Phi_J}
+                }{\Phi_J},
             \end{align}
+            using the Slater-Condon rules defined in
+            \autoref{lemma:slater-condon-one-body} and
+            \autoref{lemma:slater-condon-two-body}.
+            Given two Slater determinants $\ket{\slat_I}$ and $\ket{\slat_J}$
+            which we represent as two occupation number states $\ket{\vfg{n}}$
+            and $\ket{\vfg{m}}$, respectively, we need ways to evaluate the
+            following:
+            \begin{itemize}
+                \item The sign given by
+                    \begin{align}
+                        (\Gamma_{-})^{\vfg{n}}_{p}
+                        = \prod_{i = 1}^{p - 1}(-1)^{n_i},
+                    \end{align}
+                    as defined in \autoref{def:creation_1}.
+                \item The Kronecker-Delta $\delta_{p \in \vfg{n}}$ checking if
+                    the single-particle state $p$ is an occupied state in
+                    $\ket{\vfg{n}}$.
+                \item The difference $\abs{\vfg{n} - \vfg{m}}$, between the two
+                    determinants $\ket{\vfg{n}}$ and $\ket{\vfg{m}}$.
+                \item Convert the position of a set bit to an index $p$.
+            \end{itemize}
+            For the sign calculation we use the product for the phase
+            $(\Gamma_{-})^{\vfg{n}}_i$ defined in \autoref{def:creation_1} by
+            counting the number of set bits $k$ at positions below $i$, and
+            computing $(-1)^k$.
+            An implementation of this sign calculation is shown in
+            \autoref{alg:gamma-phase}.
+            \begin{algorithm}
+                \inputpython{implementation/solvers/determinants.py}{59}{72}
+                \caption{Function computing the sign of the action of a creation
+                or annihilation operator for index \pyth{p} on a determinant
+                \pyth{state}.
+                This is the binary implementation of the phase defined in
+                \autoref{def:creation_1}.}
+                \label{alg:gamma-phase}
+            \end{algorithm}
+            The implementation of the Kronecker-Delta is shown in
+            \autoref{alg:kronecker-delta}.
+            \begin{algorithm}
+                \inputpython{implementation/solvers/determinants.py}{75}{81}
+                \caption{Implementation of the Kronecker-Delta $\delta_{p \in
+                \vfg{n}}$.}
+                \label{alg:kronecker-delta}
+            \end{algorithm}
+            To compute the difference between the two determinants we start by
+            using the XOR operation to find the specific bits that are only set
+            in either $\vfg{n}$ or $\vfg{m}$.
+
         \subsection{Diagonalization}
+        \subsection{Time-evolution}

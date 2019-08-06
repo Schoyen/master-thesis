@@ -14,19 +14,23 @@ def compute_info(n, l, order):
         num_dets += num_states(n, m, excitation)
 
     det_storage = num_dets * N_i
-    H_storage = num_dets ** 2 * np.dtype(np.complex128).itemsize
-    H_storage /= 2 ** 30 # Gigabytes
+    H_storage = (
+        num_dets ** 2 * np.dtype(np.complex128).itemsize
+    )
+    H_storage /= 2 ** 30  # Gigabytes
 
     return num_dets, det_storage, H_storage
+
 
 trunc = ["CIS", "CISD", "CISDT", "CISDTQ"]
 
 for i, order in enumerate(range(1, 5)):
     N_s, det_s, H_s = compute_info(n, l, order)
-    print(f"""
+    print(
+        f"""
 {trunc[i]}:
     N_s = {N_s},
     Det storage = {det_s} B,
     H storage = {H_s} GB
 """
-)
+    )
