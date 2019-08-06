@@ -95,8 +95,85 @@
             the reference determinant where we set the $N$ first bits in the
             array of unsigned integers and then create $N_s - 1$ copies of this
             state.
+            The setting of a single-particle state in a bit string is done using
+            the binary OR command.
+            For example, to set state $68$, i.e., the fourth bit in the second
+            element in the state array \pyth{state} using \pyth{np.uint64}
+            integers to represent a determinant, we do
+            \begin{python}
+# Value of state
+# state == [0b0, 0b0]
+
+# The number of bits in an integer
+BITSTRING_SIZE = 64
+# Compute the integer index in state
+elem_i = 68 // BITSTRING_SIZE
+
+# Set the fourth bit in the second integer in state
+state[elem_i] |= 1 << (4 - elem_i * BITSTRING_SIZE)
+
+# New value of state
+# state == [0b0, 0b10000] == [0, 16]
+            \end{python}
+            Other options are to use the binary XOR operation, but whichever one
+            is chosen some care must be shown as bugs can arise if the
+            single-particle state is already set.
+            In the case of the OR operation this does not change the state, but
+            the XOR operation will remove the state.
+            For this reason we use the XOR operation in order to unset a bit,
+            i.e., remove a single-particle state.
+
             The higher excited determinants are created by exciting the
             reference determinant in a recursive fashion.
+            The excitation operator for a single Slater determinant, i.e., an
+            array of integers, is represented by the function,
+            \begin{python}
+@numba.njit(cache=True, nogil=True, fastmath=True)
+def _excite_state(state, o_remove, v_insert):
+    for i, a in zip(o_remove, v_insert):
+        elem_i = i // BITSTRING_SIZE
+        elem_a = a // BITSTRING_SIZE
 
-        \subsection{Constructing the Hamiltonian}
+        state[elem_i] ^= 1 << (i - elem_i * BITSTRING_SIZE)
+        state[elem_a] |= 1 << (a - elem_a * BITSTRING_SIZE)
+            \end{python}
+            This function excites all single-particle states in the array
+            \pyth{o_remove} to the states in \pyth{v_insert}.
+            Note that the Slater determinants are interpreted as being in
+            canonical ordering and we ignore the sign handling when creating the
+            basis of determinants.
+            The signs are thus handled when computing matrix elements.
+            The challenge is now to populate the \pyth{o_remove} and
+            \pyth{v_insert} arrays.
+
+            The entire implementation of the configuration interaction method is
+            uniquely defined by the basis of Slater determinants.
+            This means that after a truncation order has been chosen and the
+            basis of Slater determinants has been constructed, everything that
+            follows will be solved in the same manner independently of the
+            truncation level.
+
+        \subsection{Constructing the Hamiltonian matrix}
+            The arguably most effective first order optimization that can be
+            performed for the configuration interaction method is to implement
+            the Slater-Condon rules when evaluating matrix elements of operator
+            strings.
+            When constructing the Hamiltonian matrix $\hamilmat$ with one- and
+            two-body operators, we wish to evaluate the matrix elements
+            \begin{align}
+                \hamilten_{IJ}
+                = \mel{\Phi_{I}}{\hamil}{\Phi_J}
+                =
+                \oneten^{p}_{q}
+                \mel{\Phi_{I}}{\ccr{p}\can{q}}{\Phi_J}
+                +
+                \frac{1}{4}
+                \twoten^{pq}_{rs}
+                \mel{\Phi_{I}}{
+                    \ccr{p}
+                    \ccr{q}
+                    \can{r}
+                    \can{s}
+                }{\Phi_J}
+            \end{align}
         \subsection{Diagonalization}
