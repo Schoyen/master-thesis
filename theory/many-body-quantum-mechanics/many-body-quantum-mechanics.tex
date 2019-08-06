@@ -1733,6 +1733,88 @@
             orthogonal to one another.
             This phenomenon is also known as \emph{orbital rotations}.
 
+        \subsection{Determinant overlap}
+            So far we've limited our attention to an orthonormal set of basis
+            states, thus making the Slater determinants orthonormal.
+            However, we will discover situations where the determinants no
+            longer will be orthonormal.
+            This will mainly be due to time-evolution of coefficients and
+            orbital-rotations of the underlying basis.
+            In some sense we are computing the overlap between two determinants
+            in differing bases, but this can be represented as two expansions of
+            the same underlying basis.
+            Consider the two spin-orbital expansions
+            \begin{gather}
+                \ket{\phi_i} = C_{\alpha i}\ket{\chi_{\alpha}}, \\
+                \ket{\psi_i} = D_{\alpha i}\ket{\chi_{\alpha}},
+            \end{gather}
+            where $\brac{\ket{\chi_{\alpha}}}_{\alpha = 1}^{L}$ is an underlying
+            basis of spin-orbitals with overlap
+            \begin{align}
+                \overlapten_{\alpha\beta}
+                = \braket{\chi_{\alpha}}{\chi_{\beta}},
+            \end{align}
+            not necessarily orthonormal.
+            The overlap between the two spin-orbital expansions is thus given by
+            \begin{align}
+                \braket{\psi_i}{\phi_j}
+                = D^{*}_{\alpha i}
+                \braket{\chi_{\alpha}}{\chi_{\beta}}
+                C_{\beta j}
+                = D^{*}_{\alpha i}
+                \overlapten_{\alpha\beta}
+                C_{\beta j}
+                \equiv
+                T_{ij},
+            \end{align}
+            where we've defined the overlap elements $T_{ij}$.
+            In matrix notation the overlap matrix $\vfg{T}$ is found from the
+            coefficient matrices $\vfg{C}$ and $\vfg{D}$ along with the overlap
+            matrix $\overlapmat$ by
+            \begin{align}
+                \vfg{T} = \vfg{D}^{\dagger}\overlapmat\vfg{C}.
+            \end{align}
+            We now construct two Slater determinants $\ket{\slat}$ and
+            $\ket{\Psi}$ from the $N$ first spin-orbitals $\ket{\phi_i}$ and
+            $\ket{\psi_i}$, respectively.
+            Using the antisymmetrizer, the overlap between the two determinants
+            is given by
+            \begin{align}
+                \braket{\Psi}{\slat}
+                &=
+                \frac{1}{N!}
+                \sum_{\sigma, \tau \in S_N}
+                (-1)^{\abs{\sigma}\abs{\tau}}
+                \prod_{i = 1}^{N}
+                \braket{\psi_{\sigma(i)}}{\phi_{\tau(i)}}
+                \\
+                &=
+                \frac{1}{N!}
+                \sum_{\sigma, \tau \in S_N}
+                (-1)^{\abs{\sigma}\abs{\tau}}
+                \prod_{i = 1}^{N}
+                T_{\sigma(i)\tau(i)},
+            \end{align}
+            where we now have a double sum over all permutations $\sigma$ and
+            $\tau$.
+            By keeping one of the permutation sums fixed, we see that the
+            product over $i$ will yield all unique combinations of $T_{ij}$.
+            Thus, summing over both permutations will yield the same terms $N!$
+            times and we can remove one of the permutation sums at the cost of
+            multiplying by $N!$.
+            This leaves us with
+            \begin{align}
+                \braket{\Psi}{\slat}
+                &=
+                \frac{1}{N!} N!
+                \sum_{\sigma \in S_N}
+                (-1)^{\abs{\sigma}}
+                \prod_{i = 1}^{N}
+                T_{i\sigma(i)}
+                =
+                \det(\vfg{T}),
+            \end{align}
+            where we've recognized the determinant of $T$.
 
 
     \section{The many-body Hamiltonian}
