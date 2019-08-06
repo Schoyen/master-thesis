@@ -504,6 +504,7 @@
                     (\Gamma_{+})^{\vfg{n}}_{p} = 1, \\
                     (\Gamma_{-})^{\vfg{n}}_{p}
                     = \prod_{q = 1}^{p - 1} (-1)^{n_q}.
+                    \label{eq:phase-fermion}
                 \end{gather}
                 We will denote fermionic creation operators by $\ccr{p}$ and the
                 corresponding bosonic creation operators by $\bcr{p}$.
@@ -1616,7 +1617,115 @@
             \cite{wiki:slater-condon}, but they give the impression that the
             rules only apply for a reference determinant and determinants
             excited at most twice from this reference.
-            Furthermore, the sign of the matrix elements is completely ignored.
+            Furthermore, the sign of the matrix elements is completely ignored
+            in this description.
+
+            We will use the occupation number representation of the Slater
+            determinants to describe the Slater-Condon rules.
+            Thus, $\ket{\vfg{n}}$ describes a Slater determinant containing the
+            states in the set $\vfg{n}$.
+            To denote an index being contained in a given set we use the
+            Kronecker-Delta notation $\delta_{p \in \vfg{n}}$ which is read as
+            ``all states $p$ in the set $\vfg{n}$''.
+            In the jargon of the Fermi vacuum, this corresponds to the occupied
+            states in $\ket{\vfg{n}}$.
+            The difference in the number of states in two states $\ket{\vfg{n}}$
+            and $\ket{\vfg{m}}$ is given by $\abs{\vfg{n} - \vfg{m}}$.
+            Note that we only look at states with the same number of particles
+            $N$, which means that the difference between two states will always
+            be an even number as an excitation is done by replacing
+            single-particle states.
+            We are now ready to state the Slater-Condon rules.
+            \begin{lemma}
+                \label{lemma:slater-condon-one-body}
+                Given two Fock states $\ket{\vfg{n}}, \ket{\vfg{m}} \in F_{-}(L,
+                N)$ and a one-body operator on the form
+                \begin{align}
+                    \hat{g} = g^{p}_{q}\ccr{p}\can{q},
+                \end{align}
+                the Slater-Condon rules for this operator gives the value of the
+                matrix elements $\mel{\vfg{n}}{\hat{g}}{\vfg{m}}$.
+                The three cases are:
+                \begin{gather}
+                    \mel{\vfg{n}}{\hat{g}}{\vfg{m}}
+                    = \begin{cases}
+                        g^{i}_{i}\delta_{i \in \vfg{m}},
+                        & \abs{\vfg{n} - \vfg{m}} = 0,
+                        \\
+                        g^{i}_{j}
+                        (\Gamma_{-})^{\vfg{n}}_{i}
+                        (\Gamma_{-})^{\vfg{m}}_{j}
+                        \delta_{i \in \vfg{n}}
+                        \delta_{j \in \vfg{m}},
+                        & \abs{\vfg{n} - \vfg{m}} = 2,
+                        \\
+                        0, & \abs{\vfg{n} - \vfg{m}} > 2,
+                    \end{cases}
+                \end{gather}
+                where the phase $(\Gamma_{-})^{\vfg{n}}_{p}$ is the same as in
+                \autoref{def:creation_1}.
+                Sums are only over repeated indices in the matrix elements.
+            \end{lemma}
+            From \autoref{lemma:slater-condon-one-body} we see that two
+            determinants can differ by at most a single-excitation for the
+            matrix element to be non-zero.
+            This greatly limits the number of matrix elements that needs to
+            evaluated when working with orthonormal Slater determinants acting
+            on one-body operators.
+            \begin{lemma}
+                \label{lemma:slater-condon-two-body}
+                Given two Fock states $\ket{\vfg{n}}, \ket{\vfg{m}} \in F_{-}(L,
+                N)$ and a two-body operator on the form
+                \begin{align}
+                    \hat{g} = \frac{1}{4}g^{pq}_{rs}\ccr{p}\ccr{q}\can{r}\can{s},
+                \end{align}
+                where we assume that the two-body matrix elements $g^{pq}_{rs}$
+                are antisymmetric, that is,
+                \begin{align}
+                    g^{pq}_{rs}
+                    = \mel{\phi_p\phi_q}{\hat{g}}{\phi_r\phi_s}
+                    - \mel{\phi_p\phi_q}{\hat{g}}{\phi_s\phi_r}.
+                \end{align}
+                The Slater-Condon rules for this operator gives the value of the
+                matrix elements $\mel{\vfg{n}}{\hat{g}}{\vfg{m}}$.
+                The four cases are:
+                \begin{gather}
+                    \mel{\vfg{n}}{\hat{g}}{\vfg{m}}
+                    = \begin{cases}
+                        \half g^{ij}_{ij}
+                        \delta_{i \in \vfg{m}}
+                        \delta_{j \in \vfg{m}},
+                        & \abs{\vfg{n} - \vfg{m}} = 0,
+                        \\
+                        g^{ik}_{jk}
+                        (\Gamma_{-})^{\vfg{n}}_{i}
+                        (\Gamma_{-})^{\vfg{m}}_{j}
+                        \delta_{i \in \vfg{n}}
+                        \delta_{j \in \vfg{m}}
+                        \delta_{k \in \vfg{n}},
+                        & \abs{\vfg{n} - \vfg{m}} = 2,
+                        \\
+                        g^{ij}_{kl}
+                        (\Gamma_{-})^{\vfg{n}}_{i}
+                        (\Gamma_{-})^{\vfg{n}}_{j}
+                        (\Gamma_{-})^{\vfg{m}}_{k}
+                        (\Gamma_{-})^{\vfg{m}}_{l}
+                        \delta_{i, j \in \vfg{n}}
+                        \delta_{k, l \in \vfg{m}}
+                        & \abs{\vfg{n} - \vfg{m}} = 4,
+                        \\
+                        0, & \abs{\vfg{n} - \vfg{m}} > 4,
+                    \end{cases}
+                \end{gather}
+                where the phase $(\Gamma_{-})^{\vfg{n}}_{p}$ is the same as in
+                \autoref{def:creation_1}.
+                Pay extra close attention to the Kronecker-Deltas in the
+                evaluation of the matrix elements when $\abs{\vfg{n} - \vfg{m}}
+                = 4$ as we've added the notation $\delta_{i, j \in \vfg{n}}$
+                denoting that both $i$ and $j$ must be contained in $\vfg{n}$.
+                Sums are only over repeated indices in the matrix elements.
+            \end{lemma}
+            % TODO: Add proof the Slater-Condon rules.
 
         \subsection{Basis transformation}
             % TODO: Consider removing this section
