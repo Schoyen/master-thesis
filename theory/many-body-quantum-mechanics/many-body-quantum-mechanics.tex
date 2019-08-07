@@ -1245,6 +1245,79 @@
             of differing sizes.
             The coefficient matrix $\vfg{C} \in \mathbb{C}^{L \times K}$,
             defines the transformation.
+            We will often denote the known set of spin-orbitals as \emph{atomic
+            orbitals} as done in the field of quantum chemistry.
+
+            If the basis of atomic orbitals is non-orthogonal, that is,
+            \begin{align}
+                \braket{\chi_{\alpha}}{\chi_{\beta}}
+                = \overlapten_{\alpha\beta}
+                \neq \delta_{\alpha\beta},
+            \end{align}
+            where $\overlapten_{\alpha\beta}$ is an element in the overlap
+            matrix $\overlapmat \in \mathbb{C}^{L \times L}$, we can transform
+            to a new basis of orthonormal basis states $\brac{\xi_{\mu}}_{\mu =
+            1}^{L}$ \cite{szabo1996modern, mayer2002lowdin}.
+            The transformation from the atomic orbitals to the orthonormal basis
+            states is given by
+            \begin{align}
+                \ket{\chi_{\mu}}
+                = X_{\alpha\mu}\ket{\chi_{\alpha}},
+            \end{align}
+            where $\vfg{X} \in \mathbb{C}^{L \times L}$ is the coefficient
+            matrix.
+            In order for the new basis set to be othonormal, we require
+            \begin{align}
+                \braket{\xi_{\mu}}{\xi_{\nu}}
+                = X^{*}_{\alpha\mu}\overlapten_{\alpha\beta} X_{\beta\nu}
+                = \delta_{\mu\nu}
+                \implies
+                \vfg{X}^{\dagger}\overlapmat\vfg{X}
+                = \1.
+            \end{align}
+            Furthermore, we have that $\vfg{X}$ must be non-singular as we need
+            to compute the inverse $\vfg{X}^{-1}$ which we'll see shortly.
+            The overlap matrix $\overlapmat$ is Hermitian by construction, and
+            we can therefore diagonalize $\overlapmat$ by a unitary matrix
+            $\vfg{U}$, viz.
+            \begin{align}
+                \vfg{U}^{\dagger}\overlapmat\vfg{U} = \vfg{s},
+            \end{align}
+            where $\vfg{s} = \diag(\lambda_1, \dots, \lambda_L)$ is a diagonal
+            matrix with the eigenvalues $\lambda_i$ of $\overlapmat$.
+            We know that the eigenvalues $\lambda_i > 0$ as the overlap matrix
+            is positive definite.
+            For a proof of the overlap matrix being positive definite see
+            \autoref{app:positive-definite-overlap}.
+
+            To find an equation for $\vfg{X}$ we wil use a procedure known as
+            \emph{symmetric orthogonalization} \cite{szabo1996modern,
+            mayer2002lowdin}.
+            We define
+            \begin{align}
+                \vfg{X} \equiv \overlapmat^{-1/2}
+                = \vfg{U}\vfg{s}^{-1/2}\vfg{U}^{\dagger},
+            \end{align}
+            where the square root is defined as the square root of the
+            eigenvalues of $\overlapmat$ as seen in the last equality.
+            Now, since $\overlapmat$ is positive definite, the square root and
+            inverse of $\overlapmat$ will always be defined.
+
+            We are now in a position to return to the original basis
+            transformation by
+            \begin{align}
+                \ket{\phi_i}
+                = C_{\alpha i}\ket{\chi_{\alpha}}
+                = C_{\alpha i}\para{X^{-1}}_{\mu \alpha}
+                \ket{\xi_{\mu}}
+                = C_{\mu i}' \ket{\xi_{\mu}},
+            \end{align}
+            where we've defined the transformed coefficient matrix
+            \begin{align}
+                \vfg{C}'
+                = \vfg{X}^{-1}\vfg{C},
+            \end{align}
+            where $\vfg{C}' \in \mathbb{C}^{L \times K}$.
 
 
     \section{Slater determinants}
