@@ -1,6 +1,3 @@
-import numba
-
-
 @numba.njit(cache=True, nogil=True)
 def get_indices_nm(p):
     n, m = 0, 0

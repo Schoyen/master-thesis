@@ -1,6 +1,3 @@
-import numba
-
-
 @numba.njit(cache=True, nogil=True)
 def get_index_p(n, m):
     # Compute shell number
