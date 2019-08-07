@@ -300,19 +300,6 @@
             %        \label{fig:tiny-slater-basis}
             %    \end{figure}
 
-        \subsection{One-body density matrix}
-            For a given eigenstate $\ket{\Psi_I}$ of the many-body Hamiltonian
-            shown in \autoref{eq:ci_tise} we can compute the one-body density
-            matrix ${\rho_I}^{q}_{p}$ by
-            \begin{align}
-                {\rho_I}^{q}_{p}
-                &= \bra{\Psi_I}\ccr{p}\can{q}\ket{\Psi_I}
-                = C_{JI}^{*}C_{KI}\bra{\Phi_J}\ccr{p}\can{q}\ket{\Phi_K}.
-                \label{eq:ci-one-body-density}
-            \end{align}
-            Again we are able to re-use the machinery of the Slater-Condon rules
-            from the evaluation of the matrix elements of the Hamiltonian.
-
     \section{Time-dependent configuration interaction}
         Starting from the time-dependent Schrödinger equation, we can formulate
         the time-evolution of the configuration interaction wave function,
@@ -361,55 +348,3 @@
         As the initial coefficients $\vfg{c}(0)$ are known, we need to compute
         the matrix elements of the time-dependent Hamiltonian at each time step
         before using a time-evolution scheme to solve \autoref{eq:tdci}.
-
-        \subsection{Time-dependent energy}
-            For a time-evolved state $\ket{\Psi(t)}$ with a time-evolved
-            Hamiltonian $\hamil(t)$, we can compute the energy of the state at a
-            certain time $t$ by
-            \begin{align}
-                E(t) = \bra{\Psi(t)}\hamil(t)\ket{\Psi(t)}.
-            \end{align}
-            Expanding the time-evolved state in the static basis of Slater
-            determinants with time-dependent coefficients, $c_I(t)$, as in
-            \autoref{eq:ci_td_wave}, we find the energy to be
-            \begin{align}
-                E(t)
-                &= \bra{\Psi(t)}\hamil(t)\ket{\Psi(t)}
-                = \bra{\Phi_I}c^{*}_I(t) \hamil(t) c_J(t)\ket{\Phi_J}
-                \\
-                &= c^{*}_I(t) \hamilten_{IJ}(t) c_J(t)
-                = \vf{c}^{\dagger}(t)\hamilmat(t)\vf{c}(t),
-            \end{align}
-            that is, the energy is given by the inner-product between the
-            time-evolved coefficients and the time-evolved Hamiltonian.
-            Note that the norm of the coefficients in \autoref{eq:ci_td_wave}
-            found from \autoref{eq:tdci} does not necessarily stay normalized in
-            time.
-            It might therefore be necessary to explicitly normalize by
-            \begin{align}
-                \abs{N(t)}^2
-                = \braket{\Psi(t)}{\Psi(t)}
-                = \vf{c}^{\dagger}(t)\vf{c}(t).
-            \end{align}
-
-        \subsection{Time-dependent overlap}
-            It is interesting to track the evolution of the many-body wave
-            function in time. A way to do this is by computing the overlap
-            between the initial state, often the ground state, and the
-            time-evolved state. This gives a measure of how much of the ground
-            state is left in the evolved state, or, how similar the two states
-            are. This is computed by
-            \begin{align}
-                P(t_0, t)
-                &= \abs{\braket{\Psi(t)}{\Psi(t_0)}}^2,
-            \end{align}
-            where $t_0$ is the time at the initial state and $t$ at some other
-            time. In configuration interaction this is computed by
-            \begin{align}
-                P(t_0, t)
-                &= \abs{\braket{\Psi(t)}{\Psi(t_0)}}^2
-                = \abs{\bra{\Phi_I}c^{*}_I(t) c_J(t_0)\ket{\Phi_J}}^2
-                \\
-                &= \abs{c^{*}_I(t)c_I(t_0)}^2
-                = \abs{\vf{c}^{\dagger}(t)\vf{c}(t_0)}^2.
-            \end{align}

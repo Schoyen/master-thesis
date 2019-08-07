@@ -300,11 +300,24 @@
             Lanczos Method with a theortical complexity of $\mathcal{O}(N_s^2)$.
             This lets us specify how many eigenpairs $k$ we wish to compute,
             which is then found iteratively.
-            % TODO: Remember to state where the ground state energy is found.
+
+            The eigensolvers given by NumPy \cite{numpy} and SciPy \cite{sympy}
+            sorts the eigenvalues in an ascending order with the eigenvectors
+            sorted in the same fashion, and with the eigenvectors unitary.
+            This means that the ground state energy is found as the first
+            element of the eigenvalues.
 
         \subsection{One-body density matrix}
-            Having diagonalized the Hamiltonian matrix we can compute one-body
-            density matrix of the system using \autoref{eq:ci-one-body-density}.
+            Having diagonalized the Hamiltonian matrix we can compute the one-body
+            density matrix of the system.
+            For a given eigenstate $\ket{\Psi_I}$ we compute the one-body
+            density matrix by
+            \begin{align}
+                {\rho_I}^{q}_{p}
+                &= \bra{\Psi_I}\ccr{p}\can{q}\ket{\Psi_I}
+                = C_{JI}^{*}C_{KI}\bra{\slat_J}\ccr{p}\can{q}\ket{\slat_K}.
+                \label{eq:ci-one-body-density}
+            \end{align}
             As matrix elements of the one-body density matrix is given by a pair
             of creation and annihilation operators we can use the Slater-Condon
             rules for one-body operators to evaluate the overlap.
@@ -316,7 +329,6 @@
             into this vector is given by the same indices as for the Slater
             determinants, unlike the single-particle indices used for the
             one-body density matrix and the one-body Hamiltonian.
-            % TODO: Include implementation?
 
         \subsection{Time-evolution}
             Having solved the ground state problem, we move on to the dynamics
@@ -376,5 +388,59 @@
             \end{align}
             where we only construct a new $\hamilmat_1(t)$ -- using the
             Slater-Condon rules for the one-body operator -- at every timestep.
+
+        \subsection{Time-dependent energy}
+            For a time-evolved state $\ket{\Psi(t)}$ with a time-evolved
+            Hamiltonian $\hamil(t)$, we can compute the energy of the state at a
+            certain time $t$ by
+            \begin{align}
+                E(t) = \frac{
+                    \mel{\Psi(t)}{\hamil(t)}{\Psi(t)}
+                }{
+                    \braket{\Psi(t)}
+                },
+            \end{align}
+            where we've included an explicit normalization due to potential
+            drift in the coefficients from the time-evolution using numerical
+            integrators.
+            Expanding the time-evolved state in the static basis of Slater
+            determinants with time-dependent coefficients, $\vfg{c}(t)$, we find
+            the time-dependent energy to be
+            \begin{align}
+                E(t)
+                &=
+                \frac{
+                    c^{*}_I(t)\mel{\slat_I}{\hamil(t)}{\slat_J}c_J(t)
+                }{
+                    c^{*}_I(t)c_I(t)
+                }
+                = \frac{
+                    \vfg{c}^{\dagger}(t)\hamilmat(t)\vfg{c}(t)
+                }{
+                    \vfg{c}^{\dagger}(t)\vfg{c}(t)
+                }.
+            \end{align}
+
+
+        \subsection{Time-dependent overlap}
+            We compute the time-dependent overlap by
+            \begin{align}
+                P(t)
+                =
+                \frac{
+                    \abs{\braket{\Psi(t)}{\Psi(0)}}^2
+                }{
+                    \braket{\Psi(t)}\braket{\Psi(0)}
+                }
+                = \frac{
+                    \abs{\vfg{c}^{\dagger}(t)\vfg{c}(0)}^2
+                }{
+                    \abs{\vfg{c}(t)}^2
+                    \abs{\vfg{c}(0)}^2
+                },
+            \end{align}
+            where we again include an explicit normalization term in case of
+            drift in the normalization due to the integrator.
+            We also compute the overlap from the initial time $t = 0$.
 
     \section{Coupled cluster}

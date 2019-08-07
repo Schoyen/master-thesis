@@ -1681,6 +1681,26 @@
                 excited state $\energy_i$ from the autocorrelation.
                 The peaks in the Fourier spectrum of the dipole moment yields
                 the energy transitions $\omega_{ij}$.
+                Note that we often sample the dipole moment and the
+                autocorrelation from $T = 0$ while the laser is active, but we
+                ignore all values of the autocorrelation that are generated
+                while the laser is active.
+
+            \subsubsection{Time-dependent overlap}
+                In this thesis we will not compute the autocorrelation as it
+                stands, but rather compute the time-dependent overlap.
+                This is given by
+                \begin{align}
+                    P(t, t_0)
+                    &= \abs{\braket{\psi(t)}{\psi(t_0)}}^2.
+                \end{align}
+                Instead of taking the Fourier transform of this quantity we use
+                it as a measure of the transition probability to go from state
+                $\ket{\psi(t_0)}$ to $\ket{\psi(t)}$.
+                It can also be interpreted as the ``amount'' of
+                $\ket{\psi(t_0)}$ in state $\ket{\psi(t)}$.
+                This can be used as a measure of how much the state changes in
+                time from some initial configuration.
 
 
     \section{Atomic units}
