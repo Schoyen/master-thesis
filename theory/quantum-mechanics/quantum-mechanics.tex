@@ -195,7 +195,7 @@
                 \energy_1
                 \leq
                 E[\psi, \psi^{*}]
-                = \bra{\psi}\hamil\ket{\psi},
+                = \mel{\psi}{\hamil}{\psi},
                 = \int\dd x\psi^{*}(x)\hamil\psi(x),
                 \label{eq:variational-principle}
             \end{align}
@@ -239,7 +239,7 @@
             \begin{align}
                 E(\vfg{c})
                 &= \sum_{i = 1}^{N}\sum_{j = 1}^{N}
-                c^{*}_i\bra{\phi_i}\hamil\ket{\phi_j}c_j
+                c^{*}_i\mel{\phi_i}{\hamil}{\phi_j}c_j
                 = \sum_{i = 1}^{N}\sum_{j = 1}^{N}
                 c^{*}_i c_j \energy_j\delta_{ij}
                 = \sum_{i = 1}^{N}
