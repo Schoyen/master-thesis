@@ -1230,6 +1230,21 @@
                     spin-projection operator.
             \end{enumerate}
 
+        \subsection{Basis transformations}
+            Much of what will be done in this thesis boils down to basis
+            transformations of spin-orbitals.
+            For a given basis of spin-orbitals
+            $\brac{\chi_{\alpha}}_{\alpha = 1}^{L}$, a basis
+            transformation to a new basis $\brac{\phi_{i}}_{i = 1}^{K}$ is
+            done by
+            \begin{align}
+                \ket{\phi_{i}}
+                = C_{\alpha i}\ket{\chi_{\alpha}},
+            \end{align}
+            where we for the sake of generality allow the two basis sets to be
+            of differing sizes.
+            The coefficient matrix $\vfg{C} \in \mathbb{C}^{L \times K}$,
+            defines the transformation.
 
 
     \section{Slater determinants}
@@ -1863,9 +1878,9 @@
             So far we've limited our attention to an orthonormal set of basis
             states, thus making the Slater determinants orthonormal.
             However, we will discover situations where the determinants no
-            longer will be orthonormal.
-            This will mainly be due to time-evolution of coefficients and
-            orbital-rotations of the underlying basis.
+            longer are orthonormal.
+            This will mainly be due to time-evolution of the single-particle
+            states.
             In some sense we are computing the overlap between two determinants
             in differing bases, but this can be represented as two expansions of
             the same underlying basis.
