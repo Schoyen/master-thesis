@@ -94,19 +94,22 @@
             \label{eq:ci-generalized}
         \end{gather}
         where $\vfg{\energy} = \diag(E_1, \dots, E_{N_s})$.
-        We recognize this generalized eigenvalue equation as same equation found
-        in the variational method for a trial wave function expanded as a linear
-        combination of an underlying basis shown in
+        We recognize this generalized eigenvalue equation as the same equation
+        found in the variational method for a trial wave function expanded as a
+        linear combination of an underlying basis shown in
         \autoref{subsec:variational-method}.
-        In other words, solving this eigenvalue equation corresponds to a
-        variational minization procedure with \autoref{eq:ci-generalized} as the
-        stationary condition.
+        Solving this eigenvalue equation corresponds to a variational minization
+        procedure with \autoref{eq:ci-generalized} as the stationary condition.
+        In fact, the configuration interaction method is a direct implementation
+        of the variational method using a linear combination of Slater
+        determinants.
+
         Now, to avoid the cost of storing and computing the overlap matrix
         $\overlapmat$ we restrict ourselves to an orthonormal basis of
         single-particle functions which means that $S_{IK} = \delta_{IK}$.
         If the original atomic orbital basis is non-orthogonal, we can make the
-        basis orthonormal by either transforming to the Hartree-Fock basis or
-        perform a orthogonalization procedure, e.g., symmetric
+        basis orthonormal by either transforming to the Hartree-Fock basis or by
+        performgin a orthogonalization procedure, e.g., symmetric
         orthogonalization.
         % TODO: Refer to orthogonalization procedure.
         Thus, in the remainder of this chapter, we restrict ourselves to
@@ -305,79 +308,59 @@
                 {\rho_I}^{q}_{p}
                 &= \bra{\Psi_I}\ccr{p}\can{q}\ket{\Psi_I}
                 = C_{JI}^{*}C_{KI}\bra{\Phi_J}\ccr{p}\can{q}\ket{\Phi_K}.
+                \label{eq:ci-one-body-density}
             \end{align}
             Again we are able to re-use the machinery of the Slater-Condon rules
             from the evaluation of the matrix elements of the Hamiltonian.
 
     \section{Time-dependent configuration interaction}
         Starting from the time-dependent Schrödinger equation, we can formulate
-        the time-evolution of the many-body wave function.
+        the time-evolution of the configuration interaction wave function,
         \begin{align}
-            i\hslash \dpd[]{}{t}\ket{\Psi(t)}
+            i\hslash \dod[]{}{t}\ket{\Psi(t)}
             = \hamil(t)\ket{\Psi(t)},
             \label{eq:ci_tdse}
         \end{align}
-        Here the time-dependent wave function $\ket{\Psi(t)}$ is given as a
-        linear combination of Slater determinants
+        Here the time-dependent wave function $\ket{\Psi(t)}$ is expanded as a
+        linear combination of a finite number of Slater determinants
         \begin{align}
-            \ket{\Psi(t)} = c_{I}(t) \ket{\Phi_I},
+            \ket{\Psi(t)} = c_{I}(t) \ket{\slat_I},
             \label{eq:ci_td_wave}
         \end{align}
-        where the orbitals in the Slater determinants are static, i.e.,
-        time-independent, meaning that the time-evolution happens in the
-        coefficients $c_{I}(t)$.
+        where the orbitals in the Slater determinants are time-independent.
         Our choice of initial state $\ket{\Psi(0)}$ is to a large degree
         arbitrary as long as the coefficients are normalized and the
         determinants span the entire space we are looking at.
-        A natural choice is to choose $\ket{\Psi(0)} = \ket{\Psi_J}$, where
-        $\ket{\Psi_J}$ is an eigenstate from the time-independent Schrödinger
-        equation in \autoref{eq:ci_tise}.
-        It is common to choose $J = 0$, i.e., the ground state, but there is
-        nothing stopping us from choosing an arbitrary initial guess.
         For example, we can choose a single Slater determinant from our basis of
         determinants as an initial guess.
+        In this thesis we will choose $\ket{\Psi(0)} = \ket{\Psi_J}$, where
+        $\ket{\Psi_J}$ is an eigenstate from the time-independent Schrödinger
+        equation in \autoref{eq:ci_tise}.
+        Specifically we will choose the ground state as our initial state, that
+        is, $J = 0$.
+        This corresponds to the first column in the coefficient matrix
+        $\vfg{C} \in \mathbb{C}^{N_s \times N_s}$ in the diagonalization of the
+        Hamiltonian matrix.
+        The coefficient vector is then $\vfg{c} \in \mathbb{C}^{N_s}$.
 
         Inserting \autoref{eq:ci_td_wave} into the time-dependent Schrödinger
-        equation we get an equation for time-evolution of the coefficients.
+        equation we get an equation for the time-evolution of the coefficients,
         \begin{align}
-            i\hslash \dpd[]{}{t}c_{J}(t)\ket{\Phi_J}
-            = \hamil(t) c_{J}(t)\ket{\Phi_J}.
+            i\hslash \dod[]{}{t}c_{J}(t)\ket{\slat_J}
+            = \hamil(t) c_{J}(t)\ket{\slat_J}.
         \end{align}
-        Left-projecting with a Slater determinant $\ket{\Phi_I}$ then yields
+        Left-projecting with a Slater determinant $\ket{\slat_I}$ then yields
         \begin{gather}
-            i\hslash \dpd[]{}{t}c_{J}(t)\braket{\Phi_I}{\Phi_J}
-            = \bra{\Phi_I}\hamil(t)\ket{\Phi_J} C_{J}(t) \\
-            \implies
-            i\hslash \dpd[]{}{t}c_{J}(t) S_{IJ}
-            = H_{IJ}(t) c_{J}(t),
-        \end{gather}
-        where we've again introduced the matrix $S_{IJ}$ with overlaps between
-        the Slater determinants and the time-dependent Hamiltonian matrix
-        $H_{IJ}(t)$.
-        We'll limit our attention to systems where the Slater determinants are
-        orthonormal, thus leaving us with the equation
-        \begin{align}
-            i\hslash \dpd[]{}{t}c_{I}(t)
-            = H_{IJ}(t) c_{J}(t).
+            i\hslash \dod[]{}{t}c_{J}(t)
+            = \hamilten_{IJ}(t) c_{J}(t),
             \label{eq:tdci}
-        \end{align}
-        As the initial coefficients $c_{I}(0)$ are known, we need to compute the
-        matrix elements of the time-dependent Hamiltonian at each time step
+        \end{gather}
+        where we've used that the Slater determinants are orthonormal.
+        The matrix elements of the time-dependent Hamiltonian is denoted by
+        $\hamilten_{IJ}(t)$.
+        As the initial coefficients $\vfg{c}(0)$ are known, we need to compute
+        the matrix elements of the time-dependent Hamiltonian at each time step
         before using a time-evolution scheme to solve \autoref{eq:tdci}.
-        Depending on the nature of the time-dependent interaction in the
-        Hamiltonian, we can compute the time-dependent matrix elements by
-        \begin{align}
-            H_{IJ}(t)
-            &= \bra{\Phi_I}\hamil(t)\ket{\Phi_J}
-            = \bra{\Phi_I}\onehamil(t)\ket{\Phi_J}
-            + \frac{1}{4}\bra{\Phi_I}\twohamil(t)\ket{\Phi_J}
-            \\
-            &=
-            \oneten^{p}_{q}(t)
-            \bra{\Phi_I}\ccr{p}\can{q}\ket{\Phi_J}
-            + \frac{1}{4}\twoten^{pq}_{rs}(t)
-            \bra{\Phi_I}\ccr{p}\ccr{q}\can{s}\can{r}\ket{\Phi_J}.
-        \end{align}
 
         \subsection{Time-dependent energy}
             For a time-evolved state $\ket{\Psi(t)}$ with a time-evolved

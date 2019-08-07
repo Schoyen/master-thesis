@@ -87,6 +87,7 @@ m_2 = 0x3333_3333_3333_3333
 m_4 = 0x0F0F_0F0F_0F0F_0F0F
 h_01 = 0x0101_0101_0101_0101
 
+
 @numba.njit(cache=True, nogil=True, fastmath=True)
 def popcount_64(num):
     num -= (num >> 1) & m_1
@@ -105,3 +106,20 @@ def state_diff(state_i, state_j):
         num_bits += popcount_64(elem)
 
     return num_bits
+
+
+@numba.njit(cache=True, nogil=True, fastmath=True)
+def get_index(state, index_num=0):
+    index = 0
+
+    for elem_p in range(len(state)):
+        for p in range(BITSTRING_SIZE):
+            if (state[elem_p] >> p) & 0b1 != 0:
+                if index_num == 0:
+                    return index
+
+                index_num -= 1
+
+            index += 1
+
+    return -1

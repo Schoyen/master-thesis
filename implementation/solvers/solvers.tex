@@ -236,7 +236,7 @@
             We use the population count algorithm \cite{wiki:popcount} shown in
             \autoref{alg:popcount_64}.
             \begin{algorithm}
-                \inputpython{implementation/solvers/determinants.py}{84}{96}
+                \inputpython{implementation/solvers/determinants.py}{84}{97}
                 \caption{Implementation of the popcount algorithm for 64-bit
                 integers.}
                 \label{alg:popcount_64}
@@ -247,12 +247,28 @@
             The function in \autoref{alg:state-diff} computes the difference
             between two determinants.
             \begin{algorithm}
-                \inputpython{implementation/solvers/determinants.py}{99}{107}
+                \inputpython{implementation/solvers/determinants.py}{100}{108}
                 \caption{Function counting the difference in the number of
                 single-particle states in two Slater determinants.}
                 \label{alg:state-diff}
             \end{algorithm}
-            % TODO: Describe how to compute the bit position to index.
+            To compute the index of a set bit in a bitstring we iterate over all
+            bit positions in the bitstring and right-shift the bits before using
+            the binary AND operation to check if the rightmost bit is set.
+            Once we encounter a bit, the iteration counter contains the index of
+            the bit.
+            An implementation of this scheme is shown in
+            \autoref{alg:get-index}.
+            \begin{algorithm}
+                \inputpython{implementation/solvers/determinants.py}{111}{125}
+                \caption{Function computing the index of a set bit in Slater
+                determinant.
+                The parameter \pyth{index_num} decides if we should find the
+                first (\pyth{0}), second (\pyth{1}), or higher, set bits.}
+                \label{alg:get-index}
+            \end{algorithm}
+            % TODO: Add the implementation of the Slater-Condon rules?
+
 
         \subsection{Diagonalization}
             Having constructed the full Hamiltonian matrix $\hamilmat \in
@@ -281,10 +297,84 @@
             We use the function \pyth{scipy.sparse.linalg.eigsh} from SymPy
             \cite{sympy} which is a wrapper around the ARPACK routines SSEUPD
             and DSEUPD \cite{arpack} implementing the Implictly Restarted
-            Lanczos Method.
+            Lanczos Method with a theortical complexity of $\mathcal{O}(N_s^2)$.
             This lets us specify how many eigenpairs $k$ we wish to compute,
             which is then found iteratively.
+            % TODO: Remember to state where the ground state energy is found.
+
+        \subsection{One-body density matrix}
+            Having diagonalized the Hamiltonian matrix we can compute one-body
+            density matrix of the system using \autoref{eq:ci-one-body-density}.
+            As matrix elements of the one-body density matrix is given by a pair
+            of creation and annihilation operators we can use the Slater-Condon
+            rules for one-body operators to evaluate the overlap.
+            This results in virtually the same implementation as for the
+            one-body Hamiltonian, but with a new one-body operator given by the
+            coefficient vector $\vfg{c}_I$ for a specific eigenstate
+            $\ket{\Psi_I}$.
+            Do note that $\vfg{c}_I \in \mathbb{C}^{N_s}$ and that the indices
+            into this vector is given by the same indices as for the Slater
+            determinants, unlike the single-particle indices used for the
+            one-body density matrix and the one-body Hamiltonian.
+            % TODO: Include implementation?
 
         \subsection{Time-evolution}
+            Having solved the ground state problem, we move on to the dynamics
+            of the configuration interaction method.
+            Choosing an initial state with a given coefficient vector
+            $\vfg{c}(0) \in \mathbb{C}^{N_s}$, either from the ground state
+            problem or from some other method, we prooceed to solve the
+            differential equation demonstrated in \autoref{eq:tdci}.
+            In atomic units this corresponds to solving
+            \begin{align}
+                \dot{\vfg{c}}(t) = -i\hamilmat(t)\vfg{c}(t).
+            \end{align}
+            Having already set up the framework for the numerical integrators as
+            described in \autoref{sec:numerical-integration}, our task is to
+            construct the time-dependent Hamiltonian matrix.
+            In general we can construct the time-dependent matrix elements from
+            \begin{align}
+                \hamilten_{IJ}(t)
+                &=
+                \oneten^{p}_{q}(t)
+                \bra{\slat_I}\ccr{p}\can{q}\ket{\slat_J}
+                + \frac{1}{4}\twoten^{pq}_{rs}(t)
+                \bra{\slat_I}\ccr{p}\ccr{q}\can{s}\can{r}\ket{\slat_J}.
+            \end{align}
+            and re-use the Slater-Condon rules to evaluate the one- and two-body
+            operators.
+            Our implementation does programmatically support a time-dependent
+            two-body operator, but this is not something that we will use.
+            Therefore, by only including time-dependent one-body operators, an
+            optimization is to store two copies of the full Hamiltonian
+            matrix,\footnote{%
+                This might seem a little odd as we've already argued at length
+                of how the Hamiltonian matrix is the bottleneck of the
+                implementation, but remember that our focus is on the dynamics
+                of quantum-mechanical systems and we are therefore quite limited
+                in the size of the systems we can explore.
+                This means that we will seldom look at very large systems and we
+                can often store the full Hamiltonian matrix, and copies, in
+                memory.
+            }
+            and only re-compute the time-dependent one-body contributions.
+            We define the two sets of matrix elements for the Hamiltonian matrix
+            by
+            \begin{gather}
+                (\hamil_1)_{IJ}(t)
+                \equiv
+                \mel{\slat_I}{\onehamil(t)}{\slat_J}, \\
+                (\hamil_2)_{IJ}(t)
+                \equiv
+                \mel{\slat_I}{\twohamil(t)}{\slat_J}.
+            \end{gather}
+            Setting $\twohamil(t) = \twohamil$ we now compute the Hamiltonian
+            matrix from
+            \begin{align}
+                \hamilmat(t)
+                = \hamilmat_1(t) + \hamilmat_2,
+            \end{align}
+            where we only construct a new $\hamilmat_1(t)$ -- using the
+            Slater-Condon rules for the one-body operator -- at every timestep.
 
     \section{Coupled cluster}
