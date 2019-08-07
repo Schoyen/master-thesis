@@ -180,6 +180,61 @@
         the electromagnetic potentials and the wave function that leave the
         time-dependent Schrödinger equation invariant.
 
+    \section{Positive definite overlap matrix}
+        \label{app:positive-definite-overlap}
+        Consider an atomic orbital basis $\brac{\chi_{\alpha}}_{\alpha = 1}^{L}$
+        where the overlap is given by
+        \begin{align}
+            \overlapten_{\alpha\beta}
+            = \braket{\chi_{\alpha}}{\chi_{\beta}}
+            = \int\dd x \chi^{*}_{\alpha}(x)\chi_{\beta}(x)
+            \neq \delta_{\alpha\beta}.
+        \end{align}
+        The overlap matrix $\overlapmat \in \mathbb{C}^{L \times L}$ constructed
+        from the overlap elements above is Hermitian by construction.
+        This means that there exists a unitary matrix $\vfg{U} \in \mathbb{C}^{L
+        \times L}$ which diagonalizes the overlap matrix, viz.
+        \begin{align}
+            \vfg{U}^{\dagger}\overlapmat\vfg{U}
+            = \vfg{s},
+        \end{align}
+        where $\vfg{s}$ is a diagonal matrix with the eigenvalues $\lambda_i$ of
+        $\overlapmat$.
+        We now wish to show that $\overlapmat$ is positive definite.
+        \begin{proof}
+            Defining $\vfg{u}_{i} \in \mathbb{C}^{L}$ as the $i$'th column of
+            $\vfg{U}$ we have that
+            \begin{align}
+                \vfg{u}_{i}^{\dagger}\overlapmat\vfg{u}_i
+                &= u^{*}_{\alpha i}
+                \overlapten_{\alpha\beta}
+                u_{\beta i}
+                = \int\dd x
+                \para{
+                    u_{\alpha i}
+                    \chi_{\alpha}(x)
+                }
+                \para{
+                    \chi_{\beta}(x)
+                    u_{\beta i}
+                }
+                \\
+                &=
+                \int \dd x
+                \psi^{*}_i(x)
+                \psi_i(x)
+                =
+                \braket{\psi_i}{\psi_i}
+                = \lambda_i
+                > 0,
+            \end{align}
+            as the normalization of $\psi_i$ dictates that the inner product with
+            itself must be greater than zero.
+            This demonstrates that $\overlapmat$ is positive definite.
+        \end{proof}
+        Now, as $\overlapmat$ is positive definite, we have that the eigenvalues
+        $\lambda_i > 0$.
+
     \section{Deriving the reference energy}
         \label{sec:deriving-the-reference-energy}
         For the orthormal basis $\brac{\ket{\phi_p}}_{p = 1}^{L}$ with the $N$
