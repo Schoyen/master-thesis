@@ -302,7 +302,7 @@
             interested in an eigenvalue equation without a summation over the matrix
             of Lagrange multipliers.
             To reach this goal we define a new set of spin-orbitals
-            $\brac{\ket{\psi_p}}$ which is given by
+            $\brac{\psi_p}$ which is given by
             \begin{align}
                 \ket{\psi_p} = U_{qp}\ket{\phi_q},
             \end{align}
@@ -311,43 +311,12 @@
             $\vfg{U}$.
             In other words, we perform a unitary transformation from the
             non-canonical spin-orbitals to the new set of spin-orbitals.
-            As the transformation is unitary, this means that the orthonormality
-            condition in the new spin-orbitals is preserved from the old
-            spin-orbitals.
-            \begin{proof}[%
-                    Proof that a unitary transformation preserves orthonormality%
-            ]
-                Given a set of orthonormal basis states
-                $\brac{\ket{\chi_{\alpha}}}_{\alpha = 1}^{L}$,
-                we perform a unitary transformation from this basis set to a new
-                basis set defined by
-                \begin{align}
-                    \ket{\phi_p} = U_{\alpha p}\ket{\chi_{\alpha}},
-                \end{align}
-                where $U_{\alpha p}$ is an element in the unitary matrix $\vfg{U} \in
-                \mathbb{C}^{L \times L}$ satisfying
-                \begin{align}
-                    \vfg{U}^{\dagger}\vfg{U} = \vfg{U}\vfg{U}^{\dagger} = \1.
-                \end{align}
-                Taking the inner product between two states in the new basis set we
-                get
-                \begin{align}
-                    \braket{\phi_p}{\phi_q}
-                    = U^{*}_{\alpha p}
-                    \braket{\chi_{\alpha}}{\chi_{\beta}}
-                    U_{\beta q}
-                    = U^{*}_{\alpha p} U_{\beta q} \delta_{\alpha \beta}
-                    = U^{*}_{\alpha p} U_{\alpha q}
-                    = \delta_{pq},
-                \end{align}
-                which shows that the new basis set $\brac{\ket{\phi_p}}_{p = 1}^L$
-                preserves the orthonormality after the unitary transfomation.
-                % TODO: This proof should probably be moved to the quantum-mechanics
-                % section.
-            \end{proof}
+            From \autoref{lemma:unitary-transformation-orthonormality} we know
+            that the new basis set $\brac{\psi_{p}}$ will preserve the
+            orthonormality of the original basis set $\brac{\phi_q}$.
             Furthermore, the orthonormality of the Slater determinants are also
-            preserved as shown in the proof in the subsection on Slater determinants.
-            % TODO: Reference this properly
+            preserved as stated in
+            \autoref{lemma:unitary-transformation-slater}.
             As the Lagrange multipliers $\lambda_{ji}$ are Hermitian, we can
             construct a matrix $\vfg{\Lambda}$ of the multipliers which will be
             Hermitian.

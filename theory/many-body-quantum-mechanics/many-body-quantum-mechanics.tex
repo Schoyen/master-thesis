@@ -1319,6 +1319,37 @@
             \end{align}
             where $\vfg{C}' \in \mathbb{C}^{L \times K}$.
 
+            \begin{lemma}
+                \label{lemma:unitary-transformation-orthonormality}
+                Let $\brac{\xi_{\mu}}_{\mu = 1}^{L}$ be an orthonormal set of
+                spin-orbitals.
+                Performing a unitary transformation of this basis set will yield
+                a new basis set $\brac{\phi_{p}}_{p = 1}^{L}$ which is also
+                orthonormal.
+            \end{lemma}
+            \begin{proof}
+                Performing a unitary transformation from the orthonormal basis
+                of atomic orbitals $\brac{\xi_{\mu}}_{\mu = 1}^{L}$ to a new
+                basis set $\brac{\phi_p}_{p = 1}^{L}$ is done via
+                \begin{align}
+                    \ket{\phi_p} = U_{p\mu}\ket{\xi_{\mu}},
+                \end{align}
+                where $U_{p\mu}$ is an element in the unitary matrix $\vfg{U}
+                \in \mathbb{C}^{L \times L}$.
+                As the atomic orbitals are orthonormal, we find
+                \begin{align}
+                    \braket{\phi_{p}}{\phi_{q}}
+                    =
+                    U^{*}_{p \mu} \braket{\xi_{\mu}}{\xi_{\nu}}
+                    U_{q\nu}
+                    = U^{*}_{p\mu} U_{q\mu}
+                    = \delta_{pq},
+                \end{align}
+                due to the unitarity of the matrix $\vfg{U}$.
+                This proves
+                \autoref{lemma:unitary-transformation-orthonormality}.
+            \end{proof}
+
 
     \section{Slater determinants}
         So far we have established that the full many-body wave function of a
@@ -1817,52 +1848,53 @@
             \end{lemma}
             % TODO: Add proof the Slater-Condon rules.
 
-        \subsection{Basis transformation}
-            % TODO: Consider removing this section
-            Much of what we do will evolve around basis transformations.
-            An important result is therefore that the normalization of a Slater
-            determinant built from one basis is preserved when transforming to
-            another basis.
+        \subsection{Orbital rotations}
+            As demonstrated in
+            \autoref{lemma:unitary-transformation-orthonormality}, a unitary
+            transformation of the spin-orbital basis preserves orthonormality.
+            An extension to this lemma is therefore that the normalization of a
+            Slater determinant built from an orthonormal basis of spin-orbitals
+            is preserved when transforming to a new basis by a unitary
+            transformation.
             \begin{lemma}
-                Given a Slater determinant $\ket{\Phi}$ built from an
-                orthonormal basis $\brac{\ket{\phi_i}}_{i = 1}^{N}$ that spans
-                the $N$-dimensional Hilbert space, we can then perform a unitary
-                transformation to a new orthonormal basis
-                $\brac{\ket{\psi_i}}_{i = 1}^{N}$ building a new Slater
-                determinant $\ket{\Psi}$.
-                This unitary transformation will then preserve the normalization
-                of the original Slater determinant.
-                % TODO: Clean-up formulation.
+                \label{lemma:unitary-transformation-slater}
+                Let $\ket{\slat}$ be a Slater determinant built from $N$
+                single-particle states from an orthonormal basis
+                $\brac{\phi_i}_{i = 1}^{L}$.
+                We can then perform a unitary transformation to a new
+                orthonormal basis $\brac{\psi_i}_{i = 1}^{L}$ building a new
+                $N$-particle Slater determinant $\ket{\Psi}$, where the
+                single-particle states in $\ket{\Psi}$ are obtained by the
+                unitary transformation of the $N$ single-particle states in
+                $\ket{\slat}$.
+                This unitary transformation will preserve the normalization of
+                the original Slater determinant.
             \end{lemma}
-
-            % TODO: Introduce proof
             \begin{proof}
-                \label{proof:slater_determinants_invariant}
-                Given a basis $\brac{\ket{\phi_i}}_{i = 1}^{N}$ that spans the
-                $N$-dimensional Hilbert space. We can then do a unitary
-                transformation from this basis to a new basis
-                $\brac{\ket{\psi_i}}_{i = 1}^{N}$ in the same Hilbert space by
+                Let $\brac{\phi_i}_{i = 1}^{L}$ be an orthonormal basis of
+                atomic orbitals.
+                We can then do a unitary transformation from this basis to a new
+                basis $\brac{\ket{\psi_i}}_{i = 1}^{L}$ by
                 \begin{align}
                     \ket{\psi_i} = U_{ji}\ket{\phi_j},
                     \label{eq:unitary_transformation}
                 \end{align}
-                where $U_{ji}$ is an element in the unitary matrix $\vfg{U}$.
-                For a set of coordinates
-                $\brac{x_1, \dots, x_N}$, we write
+                where $U_{ji}$ is an element in the unitary matrix $\vfg{U} \in
+                \mathbb{C}^{L \times L}$.
+                For a set of coordinates $\vfg{x} = \brac{x_1, \dots, x_N}$, we
+                write
                 \begin{align}
                     \psi_{ij} \equiv \psi_j(x_i)
-                    \equiv \braket{x_i}{\psi_j},
+                    = \braket{x_i}{\psi_j},
                 \end{align}
                 and equivalently for $\phi_{ij}$. Projecting onto the coordinate
                 basis we can write \autoref{eq:unitary_transformation} as
                 \begin{gather}
-                    \braket{x_k}{\psi_i}
-                    = U_{ji}\braket{x_k}{\phi_j}
+                    \psi_{ki} = U_{ji}\phi_{kj}
                     \implies
-                    \psi_{ki} = U_{ji}\phi_{kj} = \phi_{kj}U_{ji}
-                    \implies \vfg{\Psi} = \vfg{\Phi}\vfg{U},
+                    \vfg{\Psi} = \vfg{\Phi}\vfg{U},
                 \end{gather}
-                where the matrices $\vfg{\Psi}$, $\vfg{\Phi}$ and $\vfg{U}$ are
+                where the matrices $\vfg{\Psi}$, $\vfg{\Phi}$, and $\vfg{U}$ are
                 the matrices with elements
                 \begin{align}
                     \vfg{\Psi}
@@ -1882,47 +1914,47 @@
                         U_{11} & U_{12} & \dots & U_{1N} \\
                         \vdots & \vdots & \ddots & \vdots \\
                         U_{N1} & U_{N2} & \dots & U_{NN}
-                    \end{pmatrix},
+                    \end{pmatrix}.
                 \end{align}
-                and where $\vfg{U}^{\dagger}\vfg{U} = \1$.
-                Creating the fully antisymmetrized normalized wave function, i.e.,
-                the Slater determinant, from $\vfg{\Psi}$ and $\vfg{\Phi}$ we have
-                that
-                % TODO: Fix description, the determinant of the "Slater matrices"
-                % are not necessarily normalized without the pre-factor.
-                \begin{gather}
-                    \det(\vfg{\Psi}) = \det(\vfg{\Phi}\vfg{U})
-                    = \det(\vfg{\Phi})\det(\vfg{U})
-                \end{gather}
-                We now take the squared norm on both sides,
+                The Slater determinants projected onto the coordinates $\vfg{x}$
+                can now be found by
                 \begin{align}
-                    \norm{\det(\vfg{\Psi})}^2
-                    = \norm{\det(\vfg{\Phi})\det(\vfg{U})}^2
-                    \leq
-                    \norm{\det(\vfg{\Phi})}^2\norm{\det(\vfg{U})}^2
-                    = \norm{\det(\vfg{\Phi})}^2,
-                    \label{eq:squared_determinant}
+                    \Psi(\vfg{x})
+                    = \braket{\vfg{x}}{\Psi}
+                    = \frac{1}{\sqrt{N!}}\det(\vfg{\Psi}),
                 \end{align}
-                where we have used that
+                and similarly for $\Phi(\vfg{x})$.
+                We can now write the unitary transformation from $\Phi(\vfg{x})$
+                to $\Psi(\vfg{x})$ as
                 \begin{align}
-                    \norm{\det(\vfg{U})}^2
-                    &= \norm{\det(\vfg{U^{\dagger}})\det(\vfg{U})}
-                    = \norm{\det(\vfg{U}^{\dagger}\vfg{U})}
-                    = \norm{\det(\1)} = 1.
+                    \Psi(\vfg{x})
+                    = \frac{1}{\sqrt{N!}}
+                    \det(\vfg{U}\vfg{\Phi})
+                    = \det(\vfg{U})\Phi(\vfg{x}),
                 \end{align}
-                Now, in \autoref{eq:squared_determinant}, since the Slater
-                determinant of $\vfg{\Phi}$ is orthonormalized and a unitary
-                transformation preserves the normalization this means that the norm
-                of $\det(\vfg{\Phi})$ and the norm of $\det(\vfg{\Psi})$ must be
-                unity.  Thus, the equality in the splitting of the norm is preserved
-                thus yielding
-                \begin{gather}
-                    \norm{\det(\vfg{\Psi})}^2 = \norm{\det(\vfg{\Phi})}^2.
-                \end{gather}
+                where we used that the determinant of a product is the product
+                of the determinants.
+                Since $\vfg{U}$ is unitary we have that the squared determinant
+                of $\vfg{U}$ will $1$, as can be seen by using the product rule
+                of determinants described above.
+                This means that
+                \begin{align}
+                    \det(\vfg{U}) = \exp[i\phi],
+                \end{align}
+                that is, the determinant of a unitary matrix becomes a complex
+                phase factor.
+                In other words, $\Psi(\vfg{x})$ will differ from $\Phi(\vfg{x})$
+                by at most a complex phase factor and
+                \begin{align}
+                    \braket{\Psi}
+                    = \norm{\det(U)}^2\braket{\Phi}
+                    = \braket{\Phi}
+                    = \1,
+                \end{align}
+                and the lemma is proved.
             \end{proof}
-            % TODO: This proof needs to be re-read.
 
-        \subsection{Thouless theorem}
+            % TODO: Connect these two sections.
             An important theorem for computational many-body quantum mechanics
             is \emph{Thouless theorem} as it explains the role and the
             influence of the singles excitations operators
@@ -1939,12 +1971,12 @@
                 excitation operator with the coefficients $\clustamp^{a}_{i}$
                 determined uniquely.
             \end{theorem}
+            % TODO: Add proof in appendix
             Stated in words, Thouless theorem tells us that we can construct any
             other $N$-particle determinant $\ket{\Psi}$ from an arbitrary
             $N$-particle determinant $\ket{\slat}$ using an exponential singles
             excitation operator as long as the two determinants are not
             orthogonal to one another.
-            This phenomenon is also known as \emph{orbital rotations}.
 
         \subsection{Determinant overlap}
             So far we've limited our attention to an orthonormal set of basis
