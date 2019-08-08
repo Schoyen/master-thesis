@@ -28,7 +28,10 @@
         \begin{align}
             \ket{\Psi} = \ket{\slat} = \ket{\phi_1, \phi_2, \dots, \phi_N},
         \end{align}
-        where the \emph{molecular orbitals} $\brac{\phi_i}_{i = 1}^{N}$ are the
+        where the \emph{molecular orbitals}\footnote{%
+            The term molecular orbitals will be used exclusively to denote the
+            ``Hartree-Fock'' orbitals.
+        } $\brac{\phi_i}_{i = 1}^{N}$ are the
         primary unknowns, subject to the constraint that they are orthonormal,
         \begin{align}
             \braket{\phi_i}{\phi_j} = \delta_{ij}
@@ -49,41 +52,10 @@
             \end{align}
             found from the definition of the reference energy in
             \autoref{subsec:reference-energy}.
-            Our task is now to find the molecular orbitals $\brac{\phi_i}_{i =
-            1}^{N}$ that minimizes the energy functional, i.e., we find the
-            stationary points of the energy functional as discussed in
+            Our task is now to find the molecular orbitals $\brac{\phi_i}$ that
+            minimizes the energy functional, i.e., we find the stationary points
+            of the energy functional as discussed in
             \autoref{sec:variational-principle}.
-            %By performing a variation in the Slater determinant,
-            %\begin{align}
-            %    \slat \to \slat + \delta\slat,
-            %\end{align}
-            %we find the that the energy functional is changed by
-            %\begin{align}
-            %    \energyfunc{\slat + \delta\slat}
-            %    &=
-            %    \bra{\slat + \delta\slat}\hamil\ket{\slat + \delta\slat}
-            %    \\
-            %    &= \energyfunc{\slat}
-            %    + \bra{\delta\slat}\hamil\ketslat + \braslat\hamil\ket{\delta\slat}
-            %    + \dots
-            %    \\
-            %    &= \energyfunc{\slat} + \delta\energyfunc{\slat}
-            %    + \dots,
-            %\end{align}
-            %where the \emph{first variation} in $\energyfunc{\slat}$ is given by
-            %\begin{align}
-            %    \delta\energyfunc{\slat}
-            %    \equiv
-            %    \bra{\delta\slat}\hamil\ketslat + \braslat\hamil\ket{\delta\slat},
-            %\end{align}
-            %where we treat $\delta$ as a linear differential operator.
-            %Higher order variations are ignored and we are thus only interested in
-            %finding the Slater determinant, $\ketslat$, for which
-            %\begin{align}
-            %    \delta\energyfunc{\slat} = 0,
-            %\end{align}
-            %i.e., the stationary point of the energy functional in terms of the
-            %function $\slat$.
             As the energy functional $\energyfunc{\slat, \slat^{*}}$ does not
             incorporate the constraint that the molecular orbitals should be
             orthonormal, we use Lagrange's method of undetermined multipliers.
@@ -320,6 +292,7 @@
                 \mel{\phi_p}{\onehamil}{\phi_q}
                 +
                 \mel{\phi_p\phi_j}{\twohamil}{\phi_q\phi_j}_{AS},
+                \label{eq:fock-mel}
             \end{align}
             where we use the Fermi vacuum formalism for the sums.
             This lets us write the stationary point of the Lagrangian functional
@@ -332,79 +305,81 @@
             This equation is known as the \emph{non-canonical Hartree-Fock
             equations}, where the molecular orbitals $\phi_k$ are orthonormal.
 
-            % TODO: Discuss the Fock operator.
-
-        \subsection{The mean-field approximation}
-
-
         \subsection{Canonical Hartree-Fock equations}
-            This equation will yield the correct Hartree-Fock energy, but we are
-            interested in an eigenvalue equation without a summation over the matrix
-            of Lagrange multipliers.
-            To reach this goal we define a new set of spin-orbitals
-            $\brac{\psi_p}$ which is given by
+            Now, \autoref{eq:non-canonical-hartree-fock} will yield the
+            stationary Hartree-Fock energy, but from
+            \autoref{lemma:unitary-transformation-slater} we know that a unitary
+            transformation of the Slater determinant $\Phi(\vfg{x})$ leaves the
+            determinant invariant up to a complex phase.
+            We therefore look for a new set of spin-orbitals $\brac{\psi_p}$
+            which will diagonalize the non-canonical Hartree-Fock equations.
+            We define the unitary transformation from the non-canonical orbitals
+            $\brac{\phi_p}$ to the new spin-orbitals by
             \begin{align}
-                \ket{\psi_p} = U_{qp}\ket{\phi_q},
+                \ket{\psi_p} = U_{qp}\ket{\phi_q}
+                \iff
+                \ket{\phi_r} = U^{*}_{pr}\ket{\psi_p},
             \end{align}
-            where $\brac{\phi_q}$ is the set of spin-orbitals from the non-canonical
-            Hartree-Fock equations and $U_{qp}$ is an element in the unitary matrix
-            $\vfg{U}$.
-            In other words, we perform a unitary transformation from the
-            non-canonical spin-orbitals to the new set of spin-orbitals.
+            where $U_{qp}$ is an element in the unitary matrix $\vfg{U}$.
             From \autoref{lemma:unitary-transformation-orthonormality} we know
             that the new basis set $\brac{\psi_{p}}$ will preserve the
             orthonormality of the original basis set $\brac{\phi_q}$.
-            Furthermore, the orthonormality of the Slater determinants are also
-            preserved as stated in
-            \autoref{lemma:unitary-transformation-slater}.
-            As the Lagrange multipliers $\lambda_{ji}$ are Hermitian, we can
-            construct a matrix $\vfg{\Lambda}$ of the multipliers which will be
-            Hermitian.
-            This means that we can construct a diagonal matrix $\vfg{\energy}$ from
-            the Lagrange multipliers using the spectral theorem, viz.
+            We construct the Hermitian matrix $\vfg{\Lambda}$ from the Hermitian
+            Lagrange multipliers $\lambda_{ji}$.
+            From the Schur decomposition \cite{wiki:schur} we can write
             \begin{align}
-                \vfg{\Lambda} = \vfg{U} \vfg{\energy} \vfg{U}^{\dagger}.
+                \vfg{\Lambda} = \vfg{U} \vfg{\energy} \vfg{U}^{\dagger},
             \end{align}
-            This procedure is also known as \emph{Schur decomposition}.
+            where we from the spectral theorem know that the matrix
+            $\vfg{\energy} = \diag(\epsilon_1, \dots)$ will be diagonal with the
+            eigenvalues $\epsilon_m$ of $\vfg{\Lambda}$ on the diagonal
+            \cite{wiki:spectral-theorem}.
             Using the Kronecker-Delta of rank 3 defined in
             \autoref{eq:rank-3-kd}, the Schur decomposition of the Lagrange
             multipliers then take on the form
             \begin{align}
-                \lambda_{ij} = U_{ik} E_{kl} U^{*}_{jl}
-                = U_{ik} \delta^{m}_{kl} \epsilon_{m} U^{*}_{jl},
+                \lambda_{jk} = U_{ji} E_{il} U^{*}_{kl}
+                = U_{ji} \delta^{m}_{il} \epsilon_m U^{*}_{kl}
+                \implies
+                \delta^{m}_{il} \epsilon_m
+                = U^{*}_{ji} \lambda_{jk} U_{kl}.
             \end{align}
-            where $\epsilon_m$ are the diagonal entries in the matrix $\vfg{E}$.
-            Starting from the non-canonical Hartree-Fock equations in
-            \autoref{eq:non-canonical-hartree-fock} and inserting the transformed
-            spin-orbitals we get
+            Transforming from the non-canonical molecular orbitals in
+            \autoref{eq:non-canonical-hartree-fock} to the new spin-orbital
+            basis, we get
             \begin{gather}
                 \fock\ket{\phi_k} = \lambda_{jk}\ket{\phi_j}
+                \implies
+                \fock U^{*}_{lk}\ket{\psi_{l}}
+                = \lambda_{jk} U^{*}_{lj} \ket{\psi_l}
                 \\
                 \implies
-                \fock U^{*}_{kl}\ket{\psi_{l}} = \lambda_{jk} U^{*}_{jl} \ket{\psi_l}
-                \\
-                \implies
-                U_{km} U^{*}_{kl} \fock\ket{\psi_l}
-                = U_{km} \lambda_{jk} U^{*}_{jl} \ket{\psi_l}
-                \\
+                U^{*}_{lk} U_{km} \fock\ket{\psi_l}
+                = U^{*}_{lj} \lambda_{jk} U_{km} \ket{\psi_l}
                 \implies
                 \delta_{ml} \fock \ket{\psi_l}
-                = \delta^{n}_{ml} \epsilon_{n} \ket{\psi_l}
+                = \delta^{n}_{lm} \epsilon_{n} \ket{\psi_l}
                 \\
                 \implies
                 \fock\ket{\psi_m}
                 = \epsilon_{m} \ket{\psi_m},
                 \label{eq:canonical-hartree-fock}
             \end{gather}
-            where we are left with the \emph{canonical Hartree-Fock equations}.
-            These equations constitute an eigenvalue equation that only depends on
-            the choice of basis.
-            That is, they make no assumption on which orbitals are occupied or not.
-            As mentioned earlier, the Hartree-Fock equations does not guarantee that
-            we find a global minimum.
-            In fact, it does not even guarantee that we find a minimum!
-            We might just as well stumble upon a saddle point.
-            % TODO: Discuss how to determine if we have found a minimum.
+            where we are left with the \emph{canonical Hartree-Fock equations},
+            which constitutes an eigenvalue equation.
+            It is worth re-iterating that the equations were found from first
+            order variations in the variational principle and therefore does not
+            guarantee that we have found a minimum.
+            In order to categorize the stationary point we can perform higher order
+            variations to determine if we have find a minimum, saddle point, or
+            a maximum.
+            However, we will not explore higher order variations any further.
+            % TODO: Mention that the canonical Hartree-Fock equations reduce to
+            % the Schrödinger equation when u = 0.
+
+        \subsection{The mean-field approximation}
+            It is worth discussing the Fock operator defined in
+            \autoref{eq:fock-mel} in more detail.
 
         \subsection{Brillouin's theorem}
             Brillouin's theorem states that given an orthonormal single-particle
