@@ -3,7 +3,7 @@
     initio} solvers discussed in \autoref{chap:hf} through \autoref{chap:ci} and
     \autoref{chap:cc}.
 
-    \section{Solving the Hartree-Fock equations in a basis}
+    \section{Hartree-Fock}
         Having found the canonical Hartree-Fock equations, we are interested
         in utilizing the method in order to find molecular orbitals
         $\brac{\ket{\phi_p}}_{p = 1}^{L}$ serving as an improvement to our
@@ -788,6 +788,149 @@
                 density matrices.
 
         \subsection{Self consistent field procedure}
+
+        \subsection{Time-evolution}
+            Having restricted the full wave function to a single Slater determinant,
+            we can write the equations for the molecular orbitals in terms of the
+            time-dependent Fock operator.
+            \begin{align}
+                i\hslash\dpd{}{t}\ket{\phi_i(t)}
+                &= \hat{f}(t)\ket{\phi_i(t)}.
+            \end{align}
+            We can now insert the linear combination for the molecular orbitals in
+            the atomic orbital basis with the time-dependent coefficients.
+            \begin{align}
+                i\hslash\dpd{}{t}C_{\alpha i}(t)\ket{\chi_{\alpha}}
+                &= \hat{f}(t)C_{\alpha i}(t)\ket{\chi_{\alpha}}.
+            \end{align}
+            Left projecting with another state from the atomic orbitals we can rewrite
+            the previous equation to
+            \begin{gather}
+                i\hslash\dpd{}{t}C_{\alpha i}(t)\braket{\chi_{\beta}}{\chi_{\alpha}}
+                =
+                C_{\alpha i}(t)\bra{\chi_{\beta}}\hat{f}(t)\ket{\chi_{\alpha}}
+                \\
+                \implies
+                i\hslash \dot{C}_{\alpha i} S_{\beta\alpha}
+                = C_{\alpha i}(t)f_{\beta\alpha}(t)
+                \\
+                \implies
+                i\hslash \vf{S}\dot{\vf{C}}
+                = \vf{F}(t)\vf{C}(t),
+                \label{eq:tdhf-equations}
+            \end{gather}
+            where the overlap matrix $\vf{S}$ is the matrix with elements
+            \begin{align}
+                S_{\beta\alpha} \equiv \braket{\chi_{\beta}}{\chi_{\alpha}},
+                \label{eq:overlap_ao}
+            \end{align}
+            and the time-dependent Fock matrix $\vf{F}(t)$ contains the entries
+            \begin{align}
+                f_{\beta\alpha}(t) = \bra{\chi_{\beta}}\hat{f}(t)\ket{\chi_\alpha}.
+            \end{align}
+            Often we will work with basis sets where the overlap matrix reduces to
+            the identity. In this case, \autoref{eq:tdhf-equations} collapses to the
+            equation
+            \begin{align}
+                i\hslash \dot{\vf{C}} = \vf{F}(t)\vf{C}(t).
+                \label{eq:tdhf-orthogonal}
+            \end{align}
+
+
+        \subsection{Time dependent overlap}
+            When working with Slater determinants in a given basis we can compute
+            the overlap between two wavefunctions in an efficient manner. We define
+            the orbitals
+            \begin{align}
+                \ket{\phi_i} &= C_{\alpha i}\ket{\chi_{\alpha}}, \\
+                \ket{\psi_i} &= D_{\alpha i}\ket{\chi_{\alpha}},
+            \end{align}
+            as two separate linear combinations of the original atomic orbitals. The
+            overlap between these two molecular orbitals is then
+            \begin{align}
+                \braket{\psi_i}{\phi_j}
+                &= \para{
+                    D_{\alpha i}^{*}
+                    \bra{\chi_{\alpha}}
+                }\para{
+                    C_{\beta j}
+                    \ket{\chi_{\beta}}
+                }
+                = D_{\alpha i}^{*}S_{\alpha\beta} C_{\beta j}
+                = T_{ij}.
+            \end{align}
+            In matrix notation this reduces to
+            \begin{align}
+                \vf{T} = \vf{D}^{\dagger}\vf{S}\vf{C},
+            \end{align}
+            where $\vf{C}$ and $\vf{D}$ are the coefficient matrices of the set of
+            molecular orbitals $\ket{\phi_i}$ and $\ket{\psi_i}$ respectively and
+            $\vf{S}$ is the overlap matrix for the atomic orbitals.  We can then
+            write the two Slater determinants consisting of $N$ of the molecular
+            orbitals as
+            \begin{align}
+                \ket{\Phi} &= \frac{1}{\sqrt{N!}}
+                \sum_{\sigma \in S_N}(-1)^{|\sigma|}
+                \ket{\phi_{\sigma(1)}}
+                \otimes\dots\otimes
+                \ket{\phi_{\sigma(N)}}, \\
+                \ket{\Psi} &= \frac{1}{\sqrt{N!}}
+                \sum_{\sigma \in S_N}(-1)^{|\sigma|}
+                \ket{\psi_{\sigma(1)}}
+                \otimes\dots\otimes
+                \ket{\psi_{\sigma(N)}},
+            \end{align}
+            where $S_N$ is the permutation group of all permutations $\sigma$ of the
+            labels $i \in \brac{1, \dots, N}$. Furthermore, $|\sigma|$, is the
+            defined as the number of permutations performed from the original order
+            of the labels. The overlap of the two Slater determinants is then
+            \begin{align}
+                \braket{\Psi}{\Phi}
+                &= \frac{1}{N!}
+                \sum_{\sigma, \tau \in S_{N}}
+                (-1)^{|\sigma||\tau|}
+                \prod_{i = 1}^{N}
+                \braket{\psi_{\sigma(i)}}{\phi_{\tau(i)}}
+                \\
+                &= \frac{1}{N!}
+                \sum_{\sigma, \tau \in S_{N}}
+                (-1)^{|\sigma||\tau|}
+                \prod_{i = 1}^{N}
+                T_{\sigma(i)\tau(i)},
+            \end{align}
+            where we now have a double sum over all permutations $\sigma$ and
+            $\tau$. To go from here we have to collapse one of the sums over the
+            permutations. By keeping one of the permutation sums fixed we get all
+            unique combinations of the terms in the products. By iterating over the
+            second sum over permutations we create the same set of combinations, but
+            with a different ordering. As the terms commute, we can just add it to
+            the already existing set of unique combinations. In total there are $N!$
+            permutations in $S_N$ thus giving a factor of $N!$ to the sum. This
+            yields
+            \begin{align}
+                \braket{\Psi}{\Phi}
+                &= \frac{1}{N!}N!
+                \sum_{\sigma \in S_N}
+                (-1)^{|\sigma|}
+                \prod_{i = 1}^{N}T_{i\sigma(i)}
+                \\
+                &= \begin{vmatrix}
+                    T_{11} & \dots & T_{1N} \\
+                    \vdots & \ddots & \vdots \\
+                    T_{N1} & \dots & T_{NN}
+                \end{vmatrix}
+                = \det(\vf{T})
+            \end{align}
+            In particular in the time-dependent Hartree-Fock regime where we have
+            the time-dependent coefficients $C_{\alpha i}(t)$ we get the overlap
+            with the ground state to be
+            \begin{align}
+                \braket{\Phi(t)}{\Phi(0)}
+                &= \det(\vf{C}^{\dagger}(t)\vf{S}\vf{C}(0))
+                = \det(\vf{T}(t)),
+            \end{align}
+            where $\vf{C}(t)$ is the coefficient matrix of the time evolved states.
+
 
     \section{Configuration interaction}
         As the main goal of this thesis has been to implement coupled-cluster

@@ -1,419 +1,145 @@
-\section{The time-dependent Hartree-Fock equations in a basis}
-    In the time-dependent Hartree-Fock method we will evolve the molecular
-    orbitals in time, but we keep the atomic orbitals fixed.
-    This means that
+\section{Time-dependent Hartree-Fock theory}
+    Time-dependent Hartree-Fock continues with the ansatz that the full
+    many-body wave function $\ket{\Psi(t)}$ is described by a single Slater
+    determinant of $N$ single-particle states, viz.
     \begin{align}
-        \ket{\phi_i(t)} = C_{\alpha i}(t)\ket{\chi_{\alpha}},
+        \ket{\Psi(t)} = \ket{\slat(t)}
+        = \ket{\phi_1(t) \phi_2(t)\dots \phi_N(t)},
     \end{align}
-    that is, the time-dependence occurs in the coefficients $C_{\alpha i}(t)$.
-    Thus the time-dependent Hartree-Fock Slater determinant is given by
+    where $\brac{\phi_p}$ is a basis of time-dependent molecular orbitals
+    subject to the constraint that they are orthonormal in time.
+    We now use the time-dependent variational principle as discussed in
+    \autoref{sec:tdvp} in order to find the equations of motion for the system.
+    The Lagrangian of the system is given by
     \begin{align}
-        \ket{\Phi(t)}
-        &=
-        \ket{
-            \phi_1(t), \dots, \phi_N(t)
-        }.
+        \lagrangianfunc{\slat, \slat^{*}, \lambda}
+        = \mel{\slat(t)}{\para{
+            i\hslash\partial_t
+            - \hamil(t)
+        }}{\slat(t)}
+        - \lambda_{ji}\para{
+            \braket{\phi_i(t)}{\phi_j(t)}
+            - \delta_{ij}
+        },
+        \label{eq:lagrangian-tdhf}
     \end{align}
-    The time-dependent Slater determinants in a system with a time-dependent
-    Hamiltonian $\hat{H}(t)$ satisfies the Schrödinger equation
+    where we keep the orthonormality condition in the time-dependent case as
+    well, and we've ignored the explicit time-dependence in the functional
+    arguments to the Lagrangian.
+    The action functional of the time-dependent variational principle is given
+    by
     \begin{align}
-        i\hslash\dpd[]{}{t}\ket{\Phi(t)}
-        &= \hamil(t)\ket{\Phi(t)},
+        S[\slat, \slat^{*}]
+        =
+        \int \dd t \lagrangianfunc{\slat, \slat^{*}, \lambda},
     \end{align}
-    where $\hamil(t)$ is the time-dependent electronic Hamiltonian.
-
-    \subsection{Deriving the time-dependent Hartree-Fock equations}
-        For the sake of brevity we will remove the explicit time-dependence in
-        the orbitals, the Slater determinants and the operators, though they are
-        still present.
-        We will be following closely the derivation done by
-        \citeauthor{hochstuhl2014time} \cite{hochstuhl2014time}, but for a
-        single Slater determinant.
-        Furthermore, the time derivative of the Slater determinant is
-        % TODO: How do you get this result?
-        % Write out SD as sum, and use orthonormality of orbitals?
-        % Seems like only one term "survives"
-        \begin{align}
-            \bra{\Phi}\dpd{}{t}\ket{\Phi}
-            &= \bra{\phi_i}\dpd{}{t}\ket{\phi_i}.
-        \end{align}
-        We can now find the equations of motion by applying time-dependent
-        variational principle, that is,
-        \begin{align}
-            \bra{\delta\Phi}\hat{H} - i\hslash\dpd{}{t}\ket{\Phi} = 0,
-        \end{align}
-        under the constraint that the time-dependent molecular orbitals are
-        orthonormal, i.e.,
-        \begin{align}
-            \braket{\phi_i(t)}{\phi_j(t)} = \delta_{ij},
-        \end{align}
-        where we for the sake of emphasis temporarily added the explicit
-        time-dependence in the orbitals. We now define the Lagrangian functional
-        with the Lagrange multipliers $\lambda_{ij}$ to be
-        \begin{align}
-            \mathcal{L}
-            &= \bra{\Phi}\hat{H} - i\hslash\dpd{}{t}\ket{\Phi}
-            - \lambda_{ij}\para{
-                \braket{\phi_i}{\phi_j} - \delta_{ij}
-            }.
-        \end{align}
-        We now find an extremum of $\mathcal{L}$ by taking the functional
-        derivative of the functional and equating it to zero.
-        \begin{gather}
-            \dfd{\phi_k^{*}}\mathcal{L} = 0, \\
-            \implies
-            \hat{h}\ket{\phi_k}
-            + \bra{\cdot\phi_j}\hat{u}\ket{\phi_k\phi_j}_{AS}
-            - i\hslash\dpd{}{t}\ket{\phi_k}
-            - \lambda_{kj}\ket{\phi_j} = 0.
-            \label{eq:extremum_lagrangian}
-        \end{gather}
-        Left-projecting with an orbital $\bra{\phi_l}$ and solving for the
-        Lagrange multipliers, $\lambda_{kl}$, where we apply the constraint that
-        the orbitals are orthonormal we get
-        \begin{align}
-            \lambda_{kl}
-            =
-            \bra{\phi_l}\hat{h}\ket{\phi_k}
-            + \bra{\phi_l\phi_j}\hat{u}\ket{\phi_k\phi_j}_{AS}
-            - i\hslash\bra{\phi_l}\dpd{}{t}\ket{\phi_k}.
-            \label{eq:lagrange_multipliers}
-        \end{align}
-        Inserting the expression for the Lagrange multipliers in
-        \autoref{eq:lagrange_multipliers} into \autoref{eq:extremum_lagrangian}
-        we get
-        \begin{align}
-            \hat{P}\para{
-                \hat{h}\ket{\phi_k}
-                + \bra{\cdot\phi_j}\hat{u}\ket{\phi_k\phi_j}_{AS}
-                - i\hslash\dpd{}{t}\ket{\phi_k}
-            } = 0,
-        \end{align}
-        where we have defined the projection operator, $\hat{P}$, to be
-        \begin{align}
-            \hat{P} = \1 - \ket{\phi_i}\bra{\phi_i}.
-        \end{align}
-        Solving for the time-derivative of the molecular orbitals we get
-        \begin{align}
-            i\hslash\hat{P}\dpd{}{t}\ket{\phi_k}
-            = \hat{P}\para{
-                \hat{h}\ket{\phi_k}
-                + \bra{\cdot\phi_j}\hat{u}\ket{\phi_k\phi_j}_{AS}
-            }
-            = \hat{P}\hat{f}\ket{\phi_k},
-            \label{eq:tdhf_equations_p}
-        \end{align}
-        where we have defined the Fock operator to be
-        \begin{align}
-            \hat{f}
-            \equiv \hat{h} + \bra{\cdot\phi_j}\hat{u}\ket{\cdot\phi_j}_{AS}.
-        \end{align}
-        We now define an arbitrary hermitian operator $\hat{Q}(t)$ in terms of
-        a unitary transformation
-        \begin{align}
-            \bra{\phi_i}i\hslash\dpd{}{t}\ket{\phi_j}
-            \equiv \bra{\phi_i}\hat{Q}(t)\ket{\phi_j}.
-            \label{eq:unitary_transformation_time}
-        \end{align}
-        As the Slater determinant is invariant under the unitary transformation,
-        by extension the Lagrangian functional will be invariant.
-        Expanding $\hat{P}$ in \autoref{eq:tdhf_equations_p} and inserting
-        \autoref{eq:unitary_transformation_time} we get
-        \begin{gather}
-            i\hslash\dpd{}{t}\ket{\phi_k}
-            - i\hslash\ket{\phi_i}\bra{\phi_i}\dpd{}{t}\ket{\phi_k}
-            = \hat{f}\ket{\phi_k}
-            - \ket{\phi_i}\bra{\phi_i}\hat{f}\ket{\phi_k}
-            \\
-            \implies
-            i\hslash\dpd{}{t}\ket{\phi_k}
-            - \ket{\phi_i}\bra{\phi_i}\hat{Q}(t)\ket{\phi_k}
-            = \hat{f}\ket{\phi_k}
-            - \ket{\phi_i}\bra{\phi_i}\hat{f}\ket{\phi_k}.
-        \end{gather}
-        Since $\hat{Q}(t)$ was an arbitrary hermitian operator and
-        $\hat{f}^{\dagger}(t) = \hat{f}(t)$ we can choose $\hat{Q}(t) =
-        \hat{f}(t)$ yielding the time-dependent Hartree-Fock equations on the
-        form
-        \begin{align}
-            i\hslash\dpd{}{t}\ket{\phi_k}
-            = \hat{f}\ket{\phi_k}.
-        \end{align}
-        We will in the next section restore the explicit time-dependence in the
-        molecular orbitals and the operators.
-
-    \subsection{Evolving the coefficients in time}
-        Having restricted the full wave function to a single Slater determinant,
-        we can write the equations for the molecular orbitals in terms of the
-        time-dependent Fock operator.
-        \begin{align}
-            i\hslash\dpd{}{t}\ket{\phi_i(t)}
-            &= \hat{f}(t)\ket{\phi_i(t)}.
-        \end{align}
-        We can now insert the linear combination for the molecular orbitals in
-        the atomic orbital basis with the time-dependent coefficients.
-        \begin{align}
-            i\hslash\dpd{}{t}C_{\alpha i}(t)\ket{\chi_{\alpha}}
-            &= \hat{f}(t)C_{\alpha i}(t)\ket{\chi_{\alpha}}.
-        \end{align}
-        Left projecting with another state from the atomic orbitals we can rewrite
-        the previous equation to
-        \begin{gather}
-            i\hslash\dpd{}{t}C_{\alpha i}(t)\braket{\chi_{\beta}}{\chi_{\alpha}}
-            =
-            C_{\alpha i}(t)\bra{\chi_{\beta}}\hat{f}(t)\ket{\chi_{\alpha}}
-            \\
-            \implies
-            i\hslash \dot{C}_{\alpha i} S_{\beta\alpha}
-            = C_{\alpha i}(t)f_{\beta\alpha}(t)
-            \\
-            \implies
-            i\hslash \vf{S}\dot{\vf{C}}
-            = \vf{F}(t)\vf{C}(t),
-            \label{eq:tdhf-equations}
-        \end{gather}
-        where the overlap matrix $\vf{S}$ is the matrix with elements
-        \begin{align}
-            S_{\beta\alpha} \equiv \braket{\chi_{\beta}}{\chi_{\alpha}},
-            \label{eq:overlap_ao}
-        \end{align}
-        and the time-dependent Fock matrix $\vf{F}(t)$ contains the entries
-        \begin{align}
-            f_{\beta\alpha}(t) = \bra{\chi_{\beta}}\hat{f}(t)\ket{\chi_\alpha}.
-        \end{align}
-        Often we will work with basis sets where the overlap matrix reduces to
-        the identity. In this case, \autoref{eq:tdhf-equations} collapses to the
-        equation
-        \begin{align}
-            i\hslash \dot{\vf{C}} = \vf{F}(t)\vf{C}(t).
-            \label{eq:tdhf-orthogonal}
-        \end{align}
-
-    \subsection{Time evolution in a non-orthogonal basis of atomic orbitals}
-        In order to solve \autoref{eq:tdhf-orthogonal} for non-orthogonal
-        atomic orbitals and avoid having to solve \autoref{eq:tdhf-equations}
-        as they stand, we orthogonalize the atomic orbitals. We will follow the
-        derivation shown in the book \citetitle{szabo1996modern} by
-        \citeauthor{szabo1996modern} \cite{szabo1996modern} closely.
-
-        For the case when
-        \begin{align}
-            \braket{\chi_{\alpha}}{\chi_{\beta}} \equiv S_{\alpha\beta}
-            \neq \delta_{\alpha\beta},
-        \end{align}
-        that is, a non-orthogonal atomic orbital basis
-        $\brac{\ket{\chi_{\alpha}}}_{\alpha = 1}^{N}$, we move to a transformed
-        orthonormal basis $\brac{\ket{\xi_{\mu}}}_{\mu = 1}^{K}$ by the
-        transformation
-        \begin{align}
-            \ket{\xi_{\mu}} = X_{\alpha\mu}\ket{\chi_{\alpha}}.
-        \end{align}
-        This yields an equation on the form
-        \begin{align}
-            \braket{\xi_{\mu}}{\xi_{\nu}}
-            &= \para{
-                X_{\alpha\mu}^{*}\bra{\chi_{\alpha}}
-            }\para{
-                X_{\beta\nu}\ket{\chi_{\beta}}
-            }
-            = X_{\alpha\mu}^{*}S_{\alpha\beta}X_{\beta\nu}
-            = \delta_{\mu\nu}.
-        \end{align}
-        As a matrix equation we get
-        \begin{align}
-            \vf{X}^{\dagger}\vf{S}\vf{X} = \1.
-            \label{eq:orthonormal-transformation}
-        \end{align}
-        This, along with the requirement that $\vf{X}$ must be non-singular,
-        forms the restrictions on the matrix $\vf{X}$ in order for
-        $\brac{\ket{\xi_{\mu}}}_{\mu = 1}^{L}$ to form an orthonormal basis.
-        Since $\vf{S}$ is Hermitian (by construction), there exists a unitary
-        matrix $\vf{U}$ that diagonalizes $\vf{S}$ by
-        \begin{align}
-            \vf{U}^{\dagger}\vf{S}\vf{U} = \vf{s},
-        \end{align}
-        where $\vf{s}$ is a diagonal matrix with the eigenvalues of $\vf{S}$.
-        The matrix $\vf{S}$ is positive definite as all the eigenvalues of
-        $\vf{S}$ are positive.
-        We can find an equation for $\vf{X}$ using \emph{symmetric
-        orthogonalization} \cite{mayer2002lowdin}.
-        This yields
-        \begin{align}
-            \vf{X} = \vf{S}^{-1/2} = \vf{U}\vf{s}^{-1/2}\vf{U}^{\dagger}.
-        \end{align}
-        We can now use $\vf{X}$ to transform to the new basis
-        $\brac{\xi_{\mu}}_{\mu = 1}^{L}$ and solving the Roothan-Hall equations
-        in this orthonormal basis. In practice we do this by transforming the
-        coefficient matrix $\vf{C}$ from the atomic orbitals in terms of the
-        orthonormal orbitals $\xi_{\mu}$. In terms of the original atomic
-        orbitals we can formulate this by
-        \begin{align}
-            \ket{\phi_i}
-            &= C_{\mu i}'\ket{\xi_{\mu}}
-            = C_{\mu i}'X_{\alpha \mu}\ket{\chi_{\alpha}}
-            = C_{\alpha i}\ket{\chi_{\alpha}},
-        \end{align}
-        where $C_{\mu i}'$ are the coefficients from the new orthonormal orbital
-        basis $\ket{\xi_{\mu}}$ to the molecular orbitals. In terms of the
-        coefficient matrices we then get
-        \begin{align}
-            \vf{C} = \vf{X}\vf{C}',
-        \end{align}
-        where $\vf{C}$ are the original coefficients from the original atomic
-        orbital basis $\ket{\chi_{\alpha}}$ to the molecular orbital basis.
-        Having eliminated the linear dependencies in $\vf{S}$ there will exist
-        an inverse for $\vf{X}$. Thus we find
-        \begin{align}
-            \vf{C}' = \vf{X}^{-1}\vf{C}.
-        \end{align}
-        Inserting this expression into \autoref{eq:tdhf-equations} when the
-        coefficient matrices are time-dependent\footnote{Note that $\vf{X}(t) =
-        \vf{X}$ as we keep the atomic orbitals fixed and let the coefficients
-        handle the time-dependence.} we get
-        \begin{gather}
-            i\hslash\vf{S}\dot{\vf{C}}(t) = \vf{F}(t)\vf{C}(t) \\
-            \implies
-            i\hslash\vf{S}\vf{X}\dot{\vf{C}}'(t) = \vf{F}(t)\vf{X}\vf{C}'(t)
-            \\
-            \implies
-            i\hslash\vf{X}^{\dagger}\vf{S}\vf{X}\dot{\vf{C}}'(t)
-            = \vf{X}^{\dagger}\vf{F}(t)\vf{X}\vf{C}'(t)
-            \\
-            \implies
-            i\hslash \dot{\vf{C}}'(t) = \vf{F}'(t)\vf{C}'(t),
-        \end{gather}
-        where we've used the orthonormality of the transformation in
-        \autoref{eq:orthonormal-transformation} and defined the transformed Fock
-        matrix
-        \begin{align}
-            \vf{X}^{\dagger}\vf{F}(t)\vf{X} = \vf{F}'(t).
-        \end{align}
-        Doing this transformation simplifies the use of linear algebra libraries
-        to solve the time-dependent Hartree Fock equations.
-
-    \subsection{Time dependent overlap}
-        When working with Slater determinants in a given basis we can compute
-        the overlap between two wavefunctions in an efficient manner. We define
-        the orbitals
-        \begin{align}
-            \ket{\phi_i} &= C_{\alpha i}\ket{\chi_{\alpha}}, \\
-            \ket{\psi_i} &= D_{\alpha i}\ket{\chi_{\alpha}},
-        \end{align}
-        as two separate linear combinations of the original atomic orbitals. The
-        overlap between these two molecular orbitals is then
-        \begin{align}
-            \braket{\psi_i}{\phi_j}
-            &= \para{
-                D_{\alpha i}^{*}
-                \bra{\chi_{\alpha}}
-            }\para{
-                C_{\beta j}
-                \ket{\chi_{\beta}}
-            }
-            = D_{\alpha i}^{*}S_{\alpha\beta} C_{\beta j}
-            = T_{ij}.
-        \end{align}
-        In matrix notation this reduces to
-        \begin{align}
-            \vf{T} = \vf{D}^{\dagger}\vf{S}\vf{C},
-        \end{align}
-        where $\vf{C}$ and $\vf{D}$ are the coefficient matrices of the set of
-        molecular orbitals $\ket{\phi_i}$ and $\ket{\psi_i}$ respectively and
-        $\vf{S}$ is the overlap matrix for the atomic orbitals.  We can then
-        write the two Slater determinants consisting of $N$ of the molecular
-        orbitals as
-        \begin{align}
-            \ket{\Phi} &= \frac{1}{\sqrt{N!}}
-            \sum_{\sigma \in S_N}(-1)^{|\sigma|}
-            \ket{\phi_{\sigma(1)}}
-            \otimes\dots\otimes
-            \ket{\phi_{\sigma(N)}}, \\
-            \ket{\Psi} &= \frac{1}{\sqrt{N!}}
-            \sum_{\sigma \in S_N}(-1)^{|\sigma|}
-            \ket{\psi_{\sigma(1)}}
-            \otimes\dots\otimes
-            \ket{\psi_{\sigma(N)}},
-        \end{align}
-        where $S_N$ is the permutation group of all permutations $\sigma$ of the
-        labels $i \in \brac{1, \dots, N}$. Furthermore, $|\sigma|$, is the
-        defined as the number of permutations performed from the original order
-        of the labels. The overlap of the two Slater determinants is then
-        \begin{align}
-            \braket{\Psi}{\Phi}
-            &= \frac{1}{N!}
-            \sum_{\sigma, \tau \in S_{N}}
-            (-1)^{|\sigma||\tau|}
-            \prod_{i = 1}^{N}
-            \braket{\psi_{\sigma(i)}}{\phi_{\tau(i)}}
-            \\
-            &= \frac{1}{N!}
-            \sum_{\sigma, \tau \in S_{N}}
-            (-1)^{|\sigma||\tau|}
-            \prod_{i = 1}^{N}
-            T_{\sigma(i)\tau(i)},
-        \end{align}
-        where we now have a double sum over all permutations $\sigma$ and
-        $\tau$. To go from here we have to collapse one of the sums over the
-        permutations. By keeping one of the permutation sums fixed we get all
-        unique combinations of the terms in the products. By iterating over the
-        second sum over permutations we create the same set of combinations, but
-        with a different ordering. As the terms commute, we can just add it to
-        the already existing set of unique combinations. In total there are $N!$
-        permutations in $S_N$ thus giving a factor of $N!$ to the sum. This
-        yields
-        \begin{align}
-            \braket{\Psi}{\Phi}
-            &= \frac{1}{N!}N!
-            \sum_{\sigma \in S_N}
-            (-1)^{|\sigma|}
-            \prod_{i = 1}^{N}T_{i\sigma(i)}
-            \\
-            &= \begin{vmatrix}
-                T_{11} & \dots & T_{1N} \\
-                \vdots & \ddots & \vdots \\
-                T_{N1} & \dots & T_{NN}
-            \end{vmatrix}
-            = \det(\vf{T})
-        \end{align}
-        In particular in the time-dependent Hartree-Fock regime where we have
-        the time-dependent coefficients $C_{\alpha i}(t)$ we get the overlap
-        with the ground state to be
-        \begin{align}
-            \braket{\Phi(t)}{\Phi(0)}
-            &= \det(\vf{C}^{\dagger}(t)\vf{S}\vf{C}(0))
-            = \det(\vf{T}(t)),
-        \end{align}
-        where $\vf{C}(t)$ is the coefficient matrix of the time evolved states.
-
-        \subsubsection{Overlap with non-orthogonal atomic orbitals}
-            In the case that we have transformed from the non-orthogonal atomic
-            orbital basis $\brac{\ket{\chi_{\alpha}}}_{\alpha = 1}^{N}$ to the
-            orthonormal atomic orbital basis $\brac{\ket{\xi_{\mu}}}_{\mu =
-            1}^{N}$ by,
-            \begin{align}
-                \ket{\xi_{\mu}} = X_{\alpha\mu}\ket{\chi_{\alpha}},
-            \end{align}
-            where the transformation to the molecular orbitals is given by,
-            \begin{align}
-                \ket{\phi_{i}(t)} = C_{\mu i}'(t)\ket{\xi_{\mu}}
-                = C_{\mu i}'(t)X_{\alpha\mu}\ket{\chi_{\alpha}}
-                = C_{\alpha i}(t)\ket{\chi_{\alpha}},
-            \end{align}
-            we get the time-dependent overlap to be
-            \begin{align}
-                \braket{\Phi(t)}{\Phi(0)}
-                &= \det(\vf{C}^{\dagger}(t)\vf{S}\vf{C}(0))
-                \\
-                &= \det\Bigl[
-                    (\vf{C}'(t))^{\dagger} \vf{X}^{\dagger}
-                    \vf{S}\vf{X}\vf{C}'(t)
-                \Bigr]
-                \\
-                &=
-                \det\Bigl[
-                    (\vf{C}'(t))^{\dagger}
-                    \vf{C}'(t)
-                \Bigr].
-            \end{align}
-            This simplifies the process of computing the overlap, when we've
-            already transformed to the orthonormal basis.
+    with the stationary condition over the first order variations found from
+    \begin{align}
+        \delta S
+        = \int\dd t \delta \lagrangianfunc{\slat, \slat^{*}, \lambda}
+        = 0
+        \implies
+        \delta\lagrangianfunc{\slat, \slat^{*}, \lambda}
+        = 0.
+    \end{align}
+    Computing the expectation value of the Hamiltonian in
+    \autoref{eq:lagrangian-tdhf} yields the same expression for the reference
+    energy as in \autoref{subsec:reference-energy}, but now with time-dependent
+    operators and molecular orbitals.
+    As the time-derivative is a Hermitian, single-particle operator, we find the
+    expectation value to be
+    \begin{align}
+        \mel{\slat(t)}{\partial_t}{\slat(t)}
+        = \mel{\phi_i(t)}{\partial_t}{\phi_i(t)}.
+    \end{align}
+    % TODO: Prove this in the appendix.
+    Performing variations over a single molecular orbital at a time we have
+    \begin{align}
+        \tilde{\phi}_i(x, t)
+        = \phi_i(x, t) + \delta_{ik}\epsilon\eta(x, t),
+    \end{align}
+    where again $\epsilon \in \mathbb{R}$ and $\eta(x, t)$ is a complex
+    function.
+    As done in the time-independent case, we will restrict our attention to
+    variations over the complex conjugate of $\phi_i(x, t)$.
+    Variations over $\phi_i(x, t)$ will yield the adjoint equation.
+    The only new term in the variation over the time-dependent Lagrangian from
+    the time-independent case is the variation over the time-derivative.
+    We find
+    \begin{align}
+        \mel{\tilde{\slat}(t)}{\partial_t}{\slat(t)}
+        = \mel{\phi_i(t)}{\partial_t}{\phi_i(t)}
+        + \epsilon\mel{\eta(t)}{\partial_t}{\phi_k(t)}.
+    \end{align}
+    From the stationary conditions of the action functional we find
+    \begin{gather}
+        \delta\lagrangianfunc{\slat, \tilde{\slat}^{*}, \lambda}
+        = \lagrangianfunc{\slat, \tilde{\slat}^{*}, \lambda}
+        - \lagrangianfunc{\slat, \slat^{*}, \lambda}
+        = 0 \\
+        \implies
+        i\hslash\mel{\eta}{\partial_t}{\phi_k}
+        -\mel{\eta}{\fock}{\phi_k}
+        = \lambda_{jk}\braket{\eta}{\phi_j},
+    \end{gather}
+    where we now for the sake of brevity removed the explicit time-dependence of
+    the orbitals and the operators.
+    Furthermore, we jumped straight from the variation of the energy functional
+    to include the Fock-operator.
+    As $\eta(x, t)$ was arbitrary, this must be valid for all choices of
+    $\eta(x, t)$ and we can formulate the stationary condition as
+    \begin{align}
+        i\hslash\partial_t\ket{\phi_k}
+        - \fock\ket{\phi_k}
+        = \lambda_{jk}\ket{\phi_j}.
+        \label{eq:stationary-condition-1}
+    \end{align}
+    Projecting onto $\phi_l(x, t)$ and applying the constraint that the
+    molecular orbitals are orthonormal we find an equation for the Lagrange
+    multipliers,
+    \begin{align}
+        \lambda_{lk}
+        = i\hslash\mel{\phi_l}{\partial_t}{\phi_k}
+        - \mel{\phi_l}{\fock}{\phi_k}.
+    \end{align}
+    We now insert this expression for the Lagrange multipliers back into the
+    stationary condition in \autoref{eq:stationary-condition-1}.
+    This yields
+    \begin{align}
+        \hat{P}\brak{
+            i\hslash\partial_t\ket{\phi_k}
+            - \fock\ket{\phi_k}
+        }
+        = 0,
+    \end{align}
+    where we have now defined the projection operator
+    \begin{align}
+        \hat{P} \equiv \1 - \dyad{\phi_i}{\phi_i},
+    \end{align}
+    and we see that we have gotten rid of the Lagrange multipliers.
+    Solving for the time-derivative of the molecular orbitals we find
+    \begin{align}
+        i\hslash\hat{P}\partial_t\ket{\phi_k}
+        = \hat{P}\fock\ket{\phi_k}.
+    \end{align}
+    We now define an arbitrary time-dependent, hermitian operator $\hat{Q}$
+    in terms of a unitary transformation \cite{hochstuhl2014time}
+    \begin{align}
+        i\hslash\mel{\phi_i}{\partial_t}{\phi_j}
+        \equiv
+        \mel{\phi_i}{\hat{Q}}{\phi_j}.
+    \end{align}
+    We know that  Slater determinants are invariant up to a complex phase under
+    unitary transformations, as seen in
+    \autoref{lemma:unitary-transformation-slater}, this unitary transformation
+    will leave the time-dependent Lagrangian invariant.
+    Since $\hat{Q}$ was an arbitary, Hermitian operator and the Fock operator is
+    Hermitian, we can choose $\hat{Q} = \fock$.
+    Expanding the projection operator and inserting this choice, we get the
+    time-dependent Hartree-Fock equations
+    \begin{align}
+        i\hslash\partial_t\ket{\phi_k(t)}
+        = \fock(t)\ket{\phi_k(t)},
+        \label{eq:tdhf}
+    \end{align}
+    where the molecular orbitals stays orthonormal in time.
