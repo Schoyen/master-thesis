@@ -374,12 +374,91 @@
             variations to determine if we have find a minimum, saddle point, or
             a maximum.
             However, we will not explore higher order variations any further.
-            % TODO: Mention that the canonical Hartree-Fock equations reduce to
-            % the Schrödinger equation when u = 0.
 
         \subsection{The mean-field approximation}
             It is worth discussing the Fock operator defined in
             \autoref{eq:fock-mel} in more detail.
+
+            First, if we look at a non-interacting system, that is,
+            $\twoten^{pq}_{rs} = 0$ for all indices, then the canonical
+            Hartree-Fock equations in \autoref{eq:canonical-hartree-fock}
+            reduces to the time-independent Schrödinger equation for the
+            orbitals.
+            Furthermore, creating a Slater determinant from the spin-orbitals
+            with the lowest eigenenergy yield the ground state of the
+            non-interacting many-body problem.
+
+            Moving back to the interacting system we adopt a common notation
+            used from quantum chemistry \cite{szabo1996modern} by introducing
+            the Coulomb operator
+            \begin{align}
+                \hat{J}
+                = \int \dd x_2
+                \phi^{*}_j(x_2)\twohamil(x, x_2)
+                \phi_j(x_2),
+            \end{align}
+            where we denote the two-body operator $\twohamil(x_1, x_2)$ with
+            explicit coordinates to describe which coordinates are to be
+            integrated.
+            The matrix elements of the Coulomb operator is given by
+            \begin{align}
+                \mel{\phi_i}{\hat{J}}{\phi_k}
+                &= \int\dd x_1\dd x_2
+                \phi^{*}_i(x_1)\phi^{*}_j(x_2)
+                \twohamil(x_1, x_2)
+                \phi_k(x_1)\phi_j(x_2)
+                \\
+                &=
+                \mel{\phi_i\phi_j}{\twohamil}{\phi_k\phi_j}.
+            \end{align}
+            That is, the Coulomb operator is just the two-body elements, but
+            formulated as a single-particle operator as the inner integral is
+            pre-computed.
+            The interpretation of the Coulomb operator is that all
+            single-particle states $\phi_j(x)$ creates an average potential
+            which an individual particle will interact with, hence the name
+            ``mean-field potential''.
+            Now, the second term arising from the antisymmetric two-body
+            elements yields nonlocal effects as it cannot be described as an
+            average potential in the same way as the Coulomb operator.
+            The exchange potential is therefore defined in terms of its action
+            on a spin-orbital $\phi_k(x)$,
+            \begin{align}
+                \hat{K}\ket{\phi_k}
+                = \brak{
+                    \int\dd x_2 \phi^{*}_j(x_2)\twohamil(x, x_2)\phi_k(x_2)
+                }\phi_j(x).
+            \end{align}
+            The exchange operator represents a strong deviation from classical
+            mechanics as the potential experienced by a single-particle state
+            depends on the value of the single-particle state in all of
+            coordinate space.
+            The matrix elements of the exchange operator is given by
+            \begin{align}
+                \mel{\phi_i}{\hat{K}}{\phi_k}
+                &= \int\dd x_1\dd x_2
+                \phi^{*}_i(x_1)\phi^{*}_j(x_2)
+                \twohamil(x_1, x_2)
+                \phi_j(x_1)\phi_k(x_2)
+                \\
+                &=
+                \mel{\phi_i\phi_j}{\twohamil}{\phi_j\phi_k}.
+            \end{align}
+            The Fock operator can now be written
+            \begin{align}
+                \fock
+                = \onehamil
+                + \hat{J} - \hat{K},
+            \end{align}
+            where the Coulomb and exchange operators have reduced the
+            two-particle contributions to a single-particle mean-field
+            potential.
+            These terms give rise to the denoting of the Hartree-Fock method as
+            a mean-field approximation.
+            In terms of three-particle interactions, the Hartree-Fock method can
+            be used in a similar fashion where the mean-field approximation now
+            incorporates the three-particle interactions.
+            % TODO: Find references for this.
 
         \subsection{Brillouin's theorem}
             Brillouin's theorem states that given an orthonormal single-particle
