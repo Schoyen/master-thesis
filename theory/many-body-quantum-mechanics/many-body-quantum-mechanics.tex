@@ -1768,14 +1768,14 @@
                 \begin{gather}
                     \mel{\vfg{n}}{\hat{g}}{\vfg{m}}
                     = \begin{cases}
-                        g^{i}_{i}\delta_{i \in \vfg{m}},
+                        g^{p}_{p}\delta_{p \in \vfg{m}},
                         & \abs{\vfg{n} - \vfg{m}} = 0,
                         \\
-                        g^{i}_{j}
-                        (\Gamma_{-})^{\vfg{n}}_{i}
-                        (\Gamma_{-})^{\vfg{m}}_{j}
-                        \delta_{i \in \vfg{n}}
-                        \delta_{j \in \vfg{m}},
+                        g^{p}_{q}
+                        (\Gamma_{-})^{\vfg{n}}_{p}
+                        (\Gamma_{-})^{\vfg{m}}_{q}
+                        \delta_{p \in \vfg{n}}
+                        \delta_{q \in \vfg{m}},
                         & \abs{\vfg{n} - \vfg{m}} = 2,
                         \\
                         0, & \abs{\vfg{n} - \vfg{m}} > 2,
@@ -1811,26 +1811,26 @@
                 \begin{gather}
                     \mel{\vfg{n}}{\hat{g}}{\vfg{m}}
                     = \begin{cases}
-                        \half g^{ij}_{ij}(1 - \delta_{ij})
-                        \delta_{i \in \vfg{m}}
-                        \delta_{j \in \vfg{m}},
+                        \half g^{pq}_{pq}(1 - \delta_{pq})
+                        \delta_{p \in \vfg{m}}
+                        \delta_{q \in \vfg{m}},
                         & \abs{\vfg{n} - \vfg{m}} = 0,
                         \\
-                        g^{ik}_{jk}
-                        (\Gamma_{-})^{\vfg{n}}_{i}
-                        (\Gamma_{-})^{\vfg{m}}_{j}
-                        \delta_{i \in \vfg{n}}
-                        \delta_{j \in \vfg{m}}
-                        \delta_{k \in \vfg{n}},
+                        g^{pr}_{qr}
+                        (\Gamma_{-})^{\vfg{n}}_{p}
+                        (\Gamma_{-})^{\vfg{m}}_{q}
+                        \delta_{p \in \vfg{n}}
+                        \delta_{q \in \vfg{m}}
+                        \delta_{r \in \vfg{n}},
                         & \abs{\vfg{n} - \vfg{m}} = 2,
                         \\
-                        g^{ij}_{kl}
-                        (\Gamma_{-})^{\vfg{n}}_{i}
-                        (\Gamma_{-})^{\vfg{n}}_{j}
-                        (\Gamma_{-})^{\vfg{m}}_{k}
-                        (\Gamma_{-})^{\vfg{m}}_{l}
-                        \delta_{i, j \in \vfg{n}}
-                        \delta_{k, l \in \vfg{m}}
+                        g^{pq}_{rs}
+                        (\Gamma_{-})^{\vfg{n}}_{p}
+                        (\Gamma_{-})^{\vfg{n}}_{q}
+                        (\Gamma_{-})^{\vfg{m}}_{r}
+                        (\Gamma_{-})^{\vfg{m}}_{s}
+                        \delta_{p, q \in \vfg{n}}
+                        \delta_{r, s \in \vfg{m}}
                         & \abs{\vfg{n} - \vfg{m}} = 4,
                         \\
                         0, & \abs{\vfg{n} - \vfg{m}} > 4,
@@ -1838,12 +1838,12 @@
                 \end{gather}
                 where the phase $(\Gamma_{-})^{\vfg{n}}_{p}$ is the same as in
                 \autoref{def:creation_1}.
-                The factor $(1 - \delta_{ij})$ in the first case comes about as
+                The factor $(1 - \delta_{pq})$ in the first case comes about as
                 a consequence of Pauli exclusion principle where
-                $\can{i}\can{i}$ always destroys a state.
+                $\can{p}\can{p}$ always destroys an antisymmetric state.
                 Pay extra close attention to the Kronecker-Deltas in the
                 evaluation of the matrix elements when $\abs{\vfg{n} - \vfg{m}}
-                = 4$ as we've added the notation $\delta_{i, j \in \vfg{n}}$
+                = 4$ as we've added the notation $\delta_{p, q \in \vfg{n}}$
                 denoting that both $i$ and $j$ must be contained in $\vfg{n}$.
                 Sums are only over repeated indices in the matrix elements.
             \end{lemma}
