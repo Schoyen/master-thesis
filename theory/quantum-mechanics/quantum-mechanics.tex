@@ -846,6 +846,7 @@
         operator using known numerical integration methods.
 
     \section{The time-dependent variational principle}
+        \label{sec:tdvp}
         We now wish to extend the variational principle to the time-domain.
         This is done by the time-dependent variational principle by considering
         the action functional
@@ -866,7 +867,7 @@
             }{\psi(t)},
         \end{align}
         % TODO: Confirm that the Hamiltonian is time-dependent.
-        where for the sake of brevity have introduced the short-hand notation
+        where we for the sake of brevity have introduced the short-hand notation
         $\partial_t$ for the partial derivative with respect to time.
         If the wave functions are not required to be normalized in time the
         Lagrangian takes on a more complicated form to ensure that the action
@@ -888,7 +889,7 @@
                 \tilde{\psi}(x, t) = \psi(x, t) + \epsilon\eta(x, t),
             \end{gather}
             and the adjoint equation with $\epsilon \in \mathbb{R}$ and $\eta(x,
-            t) \in \mathbb{C}$.
+            t)$ a complex function.
             Note that we now include time-dependent variations as we no longer
             restrict ourselves to stationary states.
             The stationary condition in \autoref{eq:stationary-action} results
@@ -909,6 +910,7 @@
             formulation from the fundamental lemma of calculus \cite{frenkel,
             wiki:fundamental-lemma}.
         \end{proof}
+        % TODO: Review this section
 
     \section{Electrodynamics}
         In vacuum the classical electromagnetic field is described by Maxwell's
