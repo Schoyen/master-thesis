@@ -40,7 +40,7 @@
             Starting from the variational principle, we define the energy
             functional
             \begin{align}
-                \energyfunc{\slat}
+                \energyfunc{\slat, \slat^{*}}
                 \equiv \mel{\slat}{\hamil}{\slat}
                 =
                 \mel{\phi_i}{\onehamil}{\phi_i}
@@ -84,13 +84,13 @@
             %\end{align}
             %i.e., the stationary point of the energy functional in terms of the
             %function $\slat$.
-            As the energy functional $\energyfunc{\slat}$ does not incorporate
-            the constraint that the molecular orbitals should be orthonormal, we
-            use Lagrange's method of undetermined multipliers.
+            As the energy functional $\energyfunc{\slat, \slat^{*}}$ does not
+            incorporate the constraint that the molecular orbitals should be
+            orthonormal, we use Lagrange's method of undetermined multipliers.
             This yields the Lagrangian functional
             \begin{align}
-                \lagrangianfunc{\slat, \lambda}
-                &= \energyfunc{\slat}
+                \lagrangianfunc{\slat, \slat^{*}, \lambda}
+                &= \energyfunc{\slat, \slat^{*}}
                 - \lambda_{ji}\para{
                     \braket{\phi_i}{\phi_j}
                     - \delta_{ij}
@@ -174,82 +174,168 @@
                 what we wanted to show.
             \end{proof}
 
-            % TODO: You are here!
             We are now interested in finding a stationary point of the
-            Lagrangian with respect to the molecular orbitals.
-            As we are trying to find a stationary point of the Lagrangian functional
-            with respect to the molecular orbitals, we will use \emph{functional
-            derivatives} as the orbitals are functions.
-            % TODO: Read up on functional derivative theory
-            The action of a functional derivative on the matrix elements in the
-            Lagrangian functional is given by
+            Lagrangian with respect to small variations in functional
+            dependency, that is, the molecular orbitals and the Lagrange
+            multipliers.
+            The stationary conditions for the Lagrange multipliers yield the
+            constraint that the molecular orbitals should be orthonormal, viz.
             \begin{gather}
-                \dfd{\phi_k^{*}}\braket{\phi_i}{\phi_j}
-                = \delta_{ik}\ket{\phi_j}, \\
-                \dfd{\phi_k^{*}}\bra{\phi_i}\hat{h}\ket{\phi_i}
-                = \hat{h}\ket{\phi_k}, \\
-                \dfd{\phi_k^{*}}\bra{\phi_i}\dpd{}{t}\ket{\phi_i}
-                = \dpd{}{t}\ket{\phi_k}, \\
-                \dfd{\phi_k^{*}}\bra{\phi_i\phi_j}\hat{u}\ket{\phi_i\phi_j}_{AS}
-                = 2\bra{\cdot\phi_j}\hat{u}\ket{\phi_k\phi_j}_{AS},
+                \dpd{}{\lambda_{ji}}\lagrangianfunc{\slat, \slat^{*}, \lambda}
+                = 0
+                \implies
+                \braket{\phi_i}{\phi_j} = \delta_{ij},
             \end{gather}
-            where the "dot" is defined in terms of the tensor product by
+            which are included in the end when we find solutions that are
+            orthonormal as the constraint is included in the variation over the
+            molecular orbitals \cite{kvaal2017notes}.
+            The variation over a specific orbital $k$ is given by
             \begin{align}
-                \ket{\phi_i\phi_j} = \ket{\phi_i}\otimes\ket{\phi_j}
-                \implies \ket{\cdot\phi_j} \equiv \1 \otimes\ket{\phi_j}.
+                \tilde{\phi}_i(x) = \phi_{i}(x) + \delta_{ik}\epsilon\eta(x),
             \end{align}
-            The last derivative can be found by expanding the antisymmetric matrix
-            elements by \autoref{eq:antisymmetric_two_body} and applying the
-            functional derivative two times on each term. Collecting the four terms
-            and using the symmetric property of the two-body elements that
+            where $\epsilon \in \mathbb{R}$ is a small number and $\eta(x)$ is a
+            single-particle function over some coordinate $x$.
+            Note the use of the Kronecker-Delta to ensure that the variation
+            only occurs for a single orbital at a time.
+            This variation is similar for the complex conjugate of the
+            molecular orbitals, but with $\phi^{*}_i(x)$ and $\eta^{*}(x)$
+            instead.
+            To avoid too much clutter, we will denote a variation over the
+            molecular orbitals by a variation over the Slater determinants.
+            That is, we take $\tilde{\Phi}(\vfg{x})$ to mean a variation over a
+            single orbital $\phi_i(x)$ in $\Phi(\vfg{x})$, and similarly for the
+            complex conjugate.
+            Taylor expanding the Lagrangian functional,
             \begin{align}
-                \bra{\phi_i\phi_j}\hat{u}\ket{\phi_k\phi_l}
-                = \bra{\phi_j\phi_i}\hat{u}\ket{\phi_l\phi_k}.
+                \lagrangianfunc{\tilde{\slat}, \tilde{\slat}^{*}, \lambda}
+                &=
+                \lagrangianfunc{\slat, \slat^{*}, \lambda}
+                +
+                \left.
+                \dpd{
+                    \lagrangianfunc{\tilde{\slat}, \slat^{*}, \lambda}
+                }{\epsilon}
+                \right\lvert_{\epsilon = 0}
+                \epsilon
+                \nonumber \\
+                &\qquad
+                +
+                \left.
+                \dpd{
+                    \lagrangianfunc{\slat, \tilde{\slat}^{*}, \lambda}
+                }{\epsilon}
+                \right\lvert_{\epsilon = 0}
+                \epsilon
+                + \dots,
             \end{align}
-            We treat $\phi_k(x)$ and $\phi_k^{*}(x)$ as independent
-            variables and taking the functional derivative of the Lagrangian
-            function with respect to either form yields the same equations but
-            complex conjugated of one another, we will restrict our attention to
-            finding the functional derivative of the Lagrangian functional with
-            respect to $\phi_k^{*}(x)$.
+            where the dots represent variations beyond the first order
+            stationary condition.
+            As discussed in the section on the variational principle, the first
+            order variations does not guarantee that we have found a minimum,
+            but they do it \emph{often enough} for us to not bother with second
+            order variations or more \cite{szabo1996modern}.
+            In lieu of this comforting thought, we proceed on our merry way by
+            finding the stationary points using the method of functional
+            derivatives as dicussed in \autoref{sec:variational-principle}.
+            We will restrict ourselves to the variation over the complex
+            conjugated orbitals as both variations yield the same equation
+            adjointed of one another.
+            % TODO: Is this an allowed word? Rethink this sentence.
+            This yields
             \begin{align}
-                \dfd{\phi_k^{*}}\lagrangianfunc{\slat, \lambda}
-                = \dfd{\phi_k^{*}}\energyfunc{\slat}
-                - \lambda_{jk}\ket{\phi_{j}},
+                \lagrangianfunc{\Phi, \tilde{\Phi}^{*}, \lambda}
+                =
+                \energyfunc{\Phi, \tilde{\Phi}^{*}}
+                - \lambda_{ji}\brak{
+                    \braket{\phi_i}{\phi_j}
+                    + \epsilon \delta_{ik}\braket{\eta}{\phi_j}
+                    - \delta_{ij}
+                },
             \end{align}
-            where the functional derivative of the energy functional is given by
+            where we used the linearity of the inner product to split ut the
+            variation over the orbital $\phi^{*}_i(x)$ in the constraint term.
+            Keeping only first order variations in the energy functional we find
             \begin{align}
-                \dfd{\phi_k^{*}}\energyfunc{\slat}
-                = \onehamil\ket{\phi_k}
-                + \bra{\cdot\phi_j}\twohamil\ket{\phi_k\phi_j}_{AS}.
+                \energyfunc{\Phi, \tilde{\Phi}^{*}}
+                = \energyfunc{\Phi, \Phi^{*}}
+                + \epsilon\para{
+                    \mel{\eta}{\onehamil}{\phi_k}
+                    + \mel{\eta\phi_j}{\twohamil}{\phi_k\phi_j}_{AS}
+                }
+                + \mathcal{O}(\epsilon^2),
             \end{align}
-            Inserted back into the functional derivative of the Lagrangian and
-            equating to zero we get
+            where we've used the antisymmetric properties of the two-body
+            elements to collect the two variations over the left-hand side of
+            the matrix elements.
+            Furthermore, we've collapsed one of the sums over the
+            Kronecker-Delta in the variation in all terms.
+            The variation in the Lagrangian functional can be now be found by
+            \begin{align}
+                \delta\lagrangianfunc{\Phi, \tilde{\Phi}^{*}, \lambda}
+                &=
+                \lagrangianfunc{\Phi, \tilde{\Phi}^{*}, \lambda}
+                -
+                \lagrangianfunc{\Phi, \Phi^{*}, \lambda}
+                \\
+                &=
+                \epsilon\brak{
+                    \mel{\eta}{\onehamil}{\phi_k}
+                    +
+                    \mel{\eta\phi_j}{\twohamil}{\phi_k\phi_j}_{AS}
+                    - \lambda_{jk}
+                    \braket{\eta}{\phi_j}
+                }.
+            \end{align}
+            Having collapsed one of the orbital sums to yield $\phi_k$ we now
+            restrict the variation over the molecular orbitals to
+            \begin{align}
+                \delta\phi^{*}_k(x)
+                = \tilde{\phi}^{*}_k(x)
+                - \phi^{*}_k(x)
+                = \epsilon\eta^{*}(x).
+            \end{align}
+            Computing the stationary point of the Lagrangian with variations
+            over $\phi^{*}_k(x)$ now gives
             \begin{gather}
-                \onehamil\ket{\phi_k}
-                + \bra{\cdot\phi_j}\twohamil\ket{\phi_k\phi_j}_{AS}
-                - \lambda_{jk}\ket{\phi_{j}} = 0.
-                \label{eq:min_lagrangian_phi_k}
+                \int\dd x\frac{
+                    \delta\lagrangianfunc{\Phi, \tilde{\Phi}^{*}, \lambda}
+                }{\delta \phi^{*}_k(x)}
+                \eta^{*}(x)
+                = 0
+                \\
+                \implies
+                \mel{\eta}{\onehamil}{\phi_k}
+                + \mel{\eta\phi_j}{\twohamil}{\phi_k\phi_j}_{AS}
+                = \lambda_{jk}\braket{\eta}{\phi_j},
+                \label{eq:stationary-lagrangian}
             \end{gather}
-            To go from here we introduce the Fock operator
+            which according to the fundamental lemma of calculus
+            \cite{wiki:fundamental-lemma} must be valid for all variations
+            $\epsilon\eta^{*}(x)$.
+            We now introduce the single-particle \emph{Fock operator} by
+            its matrix elements
+            \begin{align}
+                \mel{\phi_p}{\fock}{\phi_q}
+                \equiv
+                \mel{\phi_p}{\onehamil}{\phi_q}
+                +
+                \mel{\phi_p\phi_j}{\twohamil}{\phi_q\phi_j}_{AS},
+            \end{align}
+            where we use the Fermi vacuum formalism for the sums.
+            This lets us write the stationary point of the Lagrangian functional
+            from \autoref{eq:stationary-lagrangian} as
             \begin{align}
                 \fock\ket{\phi_k}
-                = \onehamil\ket{\phi_k}
-                + \bra{\cdot\phi_j}\twohamil\ket{\phi_k\phi_j}_{AS},
-            \end{align}
-            where the states $\ket{\phi_j}$ are contained in the Slater determinant,
-            whereas $\ket{\phi_k}$ can be any molecular orbital in the basis.
-            % TODO: The point on the occupied orbitals needs to made more explicit.
-            We insert the expression for the Fock operator into
-            \autoref{eq:min_lagrangian_phi_k}.
-            We also move the Lagrange multipliers to the right hand side of the
-            equation.
-            This yields the equation
-            \begin{align}
-                \fock\ket{\phi_k} = \lambda_{jk}\ket{\phi_j},
+                = \lambda_{jk}\ket{\phi_j}.
                 \label{eq:non-canonical-hartree-fock}
             \end{align}
-            known as the \emph{non-canonical Hartree-Fock equations}.
+            This equation is known as the \emph{non-canonical Hartree-Fock
+            equations}, where the molecular orbitals $\phi_k$ are orthonormal.
+
+            % TODO: Discuss the Fock operator.
+
+        \subsection{The mean-field approximation}
+
 
         \subsection{Canonical Hartree-Fock equations}
             This equation will yield the correct Hartree-Fock energy, but we are
