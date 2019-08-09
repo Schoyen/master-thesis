@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 from tdho_system import get_tdho
 from coupled_cluster.ccd import OACCD
-from hartree_fock import HartreeFock
+from hartree_fock import HartreeFock, RHF
 from hartree_fock.mix import DIIS
 
 
@@ -16,15 +16,19 @@ def get_filename_stub(params):
 def run_oaccd_tdho(params, filename_stub, hf_tol=1e-7, oaccd_tol=1e-4):
     path = os.path.join(sys.path[0], "dat")
 
-    tdho = get_tdho(**params)
+    tdho = get_tdho(add_spin=False, **params)
 
-    hf = HartreeFock(tdho, mixer=DIIS, verbose=True)
+    hf = RHF(tdho, mixer=DIIS, verbose=True)
+    #hf = HartreeFock(tdho, mixer=DIIS, verbose=True)
     hf.compute_ground_state(tol=hf_tol, change_system_basis=True, num_vecs=10)
+    hf_energy = hf.compute_energy()
 
     rho_hf = hf.compute_particle_density()
 
     filename = "hf_" + filename_stub + "_rho_real.dat"
     filename = os.path.join(path, filename)
+
+    tdho.change_to_spin_orbital_basis()
 
     oaccd = OACCD(tdho, verbose=True)
     oaccd.compute_ground_state(
@@ -35,7 +39,7 @@ def run_oaccd_tdho(params, filename_stub, hf_tol=1e-7, oaccd_tol=1e-4):
     filename = os.path.join(path, filename)
 
     with open(filename, "w") as f:
-        f.write(f"HF energy: {hf.compute_energy()}\n")
+        f.write(f"HF energy: {hf_energy}\n")
         f.write(f"OACCD energy: {oaccd.compute_energy()}\n")
 
     rho = oaccd.compute_particle_density()

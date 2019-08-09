@@ -13,8 +13,8 @@ def cache_large_system(*args, **kwargs):
     return tdho
 
 
-def get_tdho(*args, **kwargs):
+def get_tdho(*args, add_spin=True, **kwargs):
     tdho = TwoDimensionalHarmonicOscillator(*args, **kwargs)
-    tdho.setup_system(verbose=True)
+    tdho.setup_system(verbose=True, add_spin=add_spin)
 
     return tdho
