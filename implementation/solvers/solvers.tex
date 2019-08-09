@@ -4,35 +4,31 @@
     \autoref{chap:cc}.
 
     \section{Hartree-Fock}
-        Having found the canonical Hartree-Fock equations, we are interested
-        in utilizing the method in order to find molecular orbitals
-        $\brac{\ket{\phi_p}}_{p = 1}^{L}$ serving as an improvement to our
-        known atomic orbital basis $\brac{\ket{\chi_{\alpha}}}_{\alpha =
-        1}^{K}$.
-        We will in the following demonstrate three different procedures that
-        lets us find the molecular orbitals.
-        These procedures are related to the restrictions put on the
-        spin-orbitals as discussed in
+        In \autoref{sec:hf} we showed how the variational principle of the
+        Hartree-Fock ansatz led to the canonical Hartree-Fock equations, where
+        the molecular orbitals are the primary unknowns.
+        Here we will demonstrate how we can find solvable equations for the
+        molecular orbitals starting from an initial basis of atomic orbitals.
+        We will in the following demonstrate three different procedures related
+        to the restrictions put on the spin-orbitals as discussed in
         \autoref{subsec:restrictions-on-spin-orbitals}.
-        In fact, each procedure provides a way to choose which restriction we
-        want on our molecular orbitals.
         First we'll discuss a general Hartree-Fock method which puts no
         restrictions on the molecular orbitals.
-        This method leads to general spin-orbitals as shown in
-        \autoref{eq:general-spin-orbital}.
+        This method leads to the molecular orbitals being described as general
+        spin-orbitals as shown in \autoref{eq:general-spin-orbital}.
         The second method is known as the \emph{restricted Hartree-Fock} method
-        as it assumes restricted spin-orbitals.
-        This leads to molecular orbitals that are restricted spin-orbitals as
-        shown in \autoref{eq:restricted-spin-orbital}.
+        as it limits the molecuar orbitals to restricted spin-orbitals as
+        discussed in \autoref{eq:restricted-spin-orbital}.
         Finally, we'll demonstrate the \emph{unrestricted Hartree-Fock method}
         yielding unrestricted spin-orbitals for the molecular orbitals as
         shown in \autoref{eq:unrestricted-spin-orbital}.
 
         \subsection{Hartree-Fock with general spin-orbitals}
-            Given an atomic orbital basis, e.g., harmonic oscillator basis,
-            $\brac{\ket{\chi_{\alpha}}}_{\alpha = 1}^{K}$ we wish to find an
-            orthonomal basis of molecular orbitals $\brac{\ket{\phi_{p}}}_{p =
-            1}^{L}$ satisfying the canonical Hartree-Fock equations.
+            \label{subsec:ghf}
+            Given a known atomic orbital basis, e.g., harmonic oscillator basis,
+            $\brac{\chi_{\alpha}}_{\alpha = 1}^{K}$ we wish to find an
+            orthonomal basis of molecular orbitals $\brac{\phi_{p}}_{p = 1}^{L}$
+            satisfying the canonical Hartree-Fock equations.
             We can transform from the known atomic orbital basis to the unknown
             molecular orbital basis by
             \begin{align}
@@ -40,7 +36,7 @@
             \end{align}
             where $\vfg{C} \in \mathbb{C}^{K\times L}$ is now our unknown
             coefficient matrix.
-            The orthonormality condition of the molecular orbitals can no be
+            The orthonormality condition of the molecular orbitals can now be
             formulated as
             \begin{align}
                 \braket{\phi_p}{\phi_q}
@@ -50,18 +46,14 @@
                 C_{\beta q}
                 = \delta_{pq},
             \end{align}
-            where we've introduced the overlap matrix $\overlapmat$ with
-            elements
-            \begin{align}
-                \braket{\chi_{\alpha}}{\chi_{\beta}} = \overlapten_{\alpha\beta}.
-            \end{align}
+            where $\overlapten_{\alpha\beta}$ is the matrix elements of the
+            overlap matrix $\overlapmat \in \mathbb{C}^{K\times K}$ of the
+            atomic orbitals.
             By left-projecting with a state from our atomic orbital basis onto
-            the canonical Hartree-Fock equations, we can create a set of
-            equations in order to find the coefficients.
+            the canonical Hartree-Fock equations, we obtain
             \begin{gather}
                 \mel{\chi_{\alpha}}{\fock}{\phi_q}
                 = \epsilon_{q} \braket{\chi_{\alpha}}{\phi_q}
-                \\
                 \implies
                 \mel{\chi_{\alpha}}{\fock}{\chi_{\beta}} C_{\beta q}
                 = \epsilon_q C_{\beta q} \overlapten_{\alpha \beta}.
@@ -71,6 +63,7 @@
             \begin{align}
                 \mel{\chi_{\alpha}}{\fock}{\chi_{\beta}}
                 \equiv \fockten_{\alpha \beta}.
+                \label{eq:ghf-fock-mel}
             \end{align}
             In the case of an orthonormal basis of atomic orbitals, the overlap
             matrix $\overlapmat \in \mathbb{C}^{K \times K}$ reduces to the identity
@@ -79,25 +72,53 @@
             \begin{gather}
                 \fockten_{\alpha\beta} C_{\beta q}
                 = \overlapten_{\alpha \beta} C_{\beta q} \epsilon_{q}
-                \\
                 \implies
                 \fockmat \vfg{C} = \overlapmat \vfg{C} \vfg{\epsilon},
                 \label{eq:roothan-hall-general}
             \end{gather}
             where $\fockmat \in \mathbb{C}^{K \times K}$ is the \emph{Fock
-            matrix} with elements from the atomic orbital basis on the Fock
-            operator.
+            matrix} consisting of the matrix elements defined in
+            \autoref{eq:ghf-fock-mel}.
             The diagonal matrix $\vfg{\epsilon} = \diag(\epsilon_1, \dots,
-            \epsilon_L)$ is the matrix with the eigenenergies from the canonical
-            Hartree-Fock equation.
-            The equation in \autoref{eq:roothan-hall-general} is known as the
+            \epsilon_L)$ is the matrix with the orbital eigenenergies from the
+            canonical Hartree-Fock equation.
+            The orbital eigenenergies are indeed energies, but they are
+            \emph{not} the eigenenergy of the total Hamiltonian.
+            Rather they are similar to the eigenergies of the one-body
+            Hamiltonian, but with a the Fock operator representing a one-body
+            Hamiltonian containing a potential built from the mean-field
+            interaction in the many-body problem.
+            % TODO: Double check these sentences.
+            The equations in \autoref{eq:roothan-hall-general} are known as the
             \emph{Roothan-Hall} equations \cite{roothan, hall}.
-            They constitute a formulation of the integro-differential equations
-            that are the canonical Hartree-Fock equations to a generalized
-            eigenvalue equation formulated as matrices.
-            An important point to note is that the Fock operator is an operator
-            that includes the molecular orbitals which are dependent on the
-            coefficient matrix $\vfg{C}$.
+            The Roothan-Hall equations constitute a generalized eigenvalue
+            equation.\footnote{%
+                The grammar sounds highly speculative as we talk about the
+                Roothan-Hall \emph{equations} reducing to a single
+                \emph{equation}.
+            }
+            % TODO: Check the grammar!
+            These equations represent a computational improvement to the
+            integro-differential equations that come from the canonical
+            Hartree-Fock equations.
+
+            In Python we solve the Roothan-Hall equations using SymPy's linear
+            algebra routine \pyth{scipy.linalg.eigh} which solves both ordinary
+            and generalized eigenvalue equations for symmetric and Hermitian
+            matrices \cite{sympy}, viz.
+            \begin{python}
+epsilon, C = scipy.linalg.eigh(fock_matrix, s)
+            \end{python}
+            where \pyth{s} is the overlap matrix.
+            Our solution does not discriminate whether the atomic orbitals are
+            orthornomal or not.
+            We always solve the generalized eigenvalue equation, and therefore
+            pass in the idenity matrix as the overlap matrix in case of an
+            orthonormal atomic orbital basis.
+
+        \subsection{Constructing the general Fock matrix}
+            An important point to note is that the Fock matrix elements depends
+            on both the atomic and the molecular orbitals.
             That is,
             \begin{align}
                 \fockten_{\alpha\beta}
@@ -106,12 +127,11 @@
                 +
                 \mel{\chi_{\alpha}\phi_j}{\twohamil}{\chi_{\beta}\phi_j}_{AS},
             \end{align}
-            where $j$ only sums over the $N$ occupied indices in the ground state
-            Slater determinant.
-            We see that only the antisymmetric two-body elements depends on the
-            coefficient matrix.
-            Formulating the elements in terms of the known atomic orbitals and
-            the coefficient matrix we get
+            where $j$ only sums over the occupied indices.
+            We notice that only the antisymmetric two-body elements depend on
+            the molecular orbitals.
+            Formulating the matrix elements in terms of he known atomic orbitals
+            and the coefficient matrix we get
             \begin{align}
                 \mel{\chi_{\alpha}\phi_j}{\twohamil}{\chi_{\beta}\phi_j}
                 &=
@@ -123,12 +143,18 @@
                 C^{*}_{\gamma j} C_{\delta j}
                 \mel{\chi_{\alpha}\chi_{\gamma}}{\twohamil}{\chi_{\delta}\chi_{\beta}}.
             \end{align}
-            Introducing the density matrix of the occupied orbitals
+            The product of the coefficient matrices inspires the introduction of
+            the density matrix of the occupied orbitals
             \begin{align}
                 D_{\delta\gamma} \equiv
-                C^{*}_{\gamma j} C_{\delta j},
+                C^{*}_{\gamma j} C_{\delta j}
+                \implies
+                \vfg{D} = \vfg{C}_{o}\vfg{C}^{\dagger}_{o},
+                \label{eq:ghf-density-matrix}
             \end{align}
-            where it is important to note the ordering of the indices.
+            where $\vfg{D} \in \mathbb{C}^{K \times K}$, and we've denoted the
+            occupied coefficient matrices by $\vfg{C}_o \in \mathbb{C}^{K \times
+            N}$.
             We can then write the matrix elements of the Fock operator in terms
             of the atomic orbitals and the density matrix as
             \begin{align}
@@ -137,51 +163,58 @@
                 +
                 D_{\delta\gamma}
                 \mel{\chi_{\alpha}\chi_{\gamma}}{\twohamil}{\chi_{\beta}\chi_{\delta}}_{AS}.
+                \label{eq:ghf-fock-matrix}
             \end{align}
-            % TODO: Describe the SCF-procedure
-            % TODO: Describe how to handle non-orthogonal atomic orbitals
-
-            Having found the coefficients from the self-consistent field
-            iterations and therefore the molecular orbitals and the ground state
-            in the Hartree-Fock regime, we are at liberty to compute various
-            observables.
+            We use NumPy's tensor contraction routine \pyth{np.tensordot} to
+            contract the density matrix and the two-body antisymmetric matrix.
+            The Fock matrix can thus be constructed by
+            \begin{python}
+fock_matrix = (
+    h + np.tensordot(density_matrix, u, axes=((0, 1), (3, 1)))
+)
+            \end{python}
+            where \pyth{h} is the one-body matrix elements, \pyth{u} the
+            antisymmetric two-body elements with the memory ordered by reading
+            the indices from left to right, and \pyth{density_matrix} the
+            density matrix.
 
             \subsubsection{General Hartree-Fock energy}
                 The Hartree-Fock energy can be found by inserting the expansion
-                of the molecular orbitals in the energy functional from
+                of the molecular orbitals in terms of the atomic orbitals and
+                the coefficient matrices into the energy functional from
                 \autoref{eq:energy_func_hf}.
+                This yields
                 \begin{align}
                     \energy
-                    &= \bra{\phi_i}\onehamil\ket{\phi_i}
-                    + \half\bra{\phi_i\phi_j}\twohamil\ket{\phi_i\phi_j}_{AS}
+                    &= \mel{\phi_i}{\onehamil}{\phi_i}
+                    + \half\mel{\phi_i\phi_j}{\twohamil}{\phi_i\phi_j}_{AS}
                     \\
                     &=
-                    C^{*}_{\alpha i} C_{\beta i}
-                    \bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
+                    D_{\beta\alpha}
+                    \mel{\chi_{\alpha}}{\onehamil}{\chi_{\beta}}
                     + \half
-                    C^{*}_{\alpha i} C_{\gamma i}
-                    C^{*}_{\beta j} C_{\delta j}
-                    \bra{\chi_{\alpha}\chi_{\beta}}\twohamil
-                    \ket{\chi_{\gamma}\chi_{\delta}}_{AS}
-                    \\
-                    &=
-                    D^{\beta}_{\alpha} \oneten^{\alpha}_{\beta}
-                    + \half
-                    D^{\gamma}_{\alpha} D^{\delta}_{\beta}
-                    \twoten^{\alpha \beta}_{\gamma \delta}.
+                    D_{\gamma\alpha} D_{\delta\beta}
+                    \mel{\chi_{\alpha}\chi_{\beta}}{
+                        \twohamil
+                    }{\chi_{\gamma}\chi_{\delta}}_{AS},
                     \label{eq:general-hartree-fock-energy}
                 \end{align}
+                where we've contracted the occupied coefficient matrices into
+                density matrices.
 
             \subsubsection{General Hartree-Fock one-body density matrix}
-                Due to the orthonormality of the molecular orbitals, the
-                one-body density matrix is particularly comfortable to compute.
+                The one-body density matrix elements is given by
                 \begin{align}
                     \densityten^{q}_{p}
                     = \braslat
-                    \ccr{q}
-                    \can{p}
+                    \ccr{p}
+                    \can{q}
                     \ketslat
-                    = \delta_{p \in o}\delta_{pq},
+                    = \delta_{p \in o}
+                    C^{*}_{\alpha p} \overlapten_{\alpha\beta}
+                    C_{\beta q}
+                    = \delta_{p \in o}
+                    \delta_{pq},
                 \end{align}
                 where we have labelled the set of occupied indices in the Slater
                 determinants by $o = \brac{1, \dots N}$.
@@ -194,7 +227,70 @@
                         \vfg{0}_{M \times N} & \vfg{0}_{M \times M}
                     \end{pmatrix},
                 \end{align}
-                where $M = L - N$, i.e., the number of virtual basis states.
+                where $M = L - N$ is the number of virtual basis states.
+
+
+        \subsection{Self consistent field procedure}
+            Now, in order for us to solve the Roothan-Hall equations, we need an
+            expression for the Fock matrix.
+            However, the Fock matrix depends on the coefficients found from
+            solving the Roothan-Hall equations.
+            In order to get around this pickle, we use \emph{self consistent
+            field iterations} to gradually converge towards a solution to the
+            Roothan-Hall equations.
+            We denote matrices at a specific step $i$ by a superscript $(i)$,
+            e.g., the Fock matrix at step $i$ is denoted $\fockmat^{(i)}$.
+            If there are no superscripts that means the matrix is independent of
+            the self consistent iterations.
+            The self consistent field method for the Roothan-Hall equations is
+            then given by
+            \begin{align}
+                \fockmat^{(i)}\vfg{C}^{(i + 1)}
+                = \overlapmat \vfg{C}^{(i + 1)}\vfg{\epsilon}^{(i + 1)}.
+                \label{eq:ghf-scf-roothan-hall}
+            \end{align}
+            Here $\fockmat^{(i)}$ is built from the coefficient matrices at the
+            previous timestep, i.e., $\vfg{C}^{(i)}$.
+            The generalized eigenvalue equation is solved in the same manner as
+            described in \autoref{subsec:ghf} yielding the coefficient matrix
+            and the orbital eigenenergies for the next timestep.
+
+            To start the self consistent iterations we need an initial value for
+            the Fock matrix.
+            We choose $\fockmat^{(0)} = \vfg{\oneten}$, i.e., we set the initial
+            Fock matrix to be the one-body Hamiltonian matrix.
+            The self consistent procedure can now be explained by the following
+            steps:
+            \begin{enumerate}
+                \item Construct the Fock matrix $\fockmat^{(i)}$ from
+                    \autoref{eq:ghf-fock-matrix}, or from the initial state if
+                    $i = 0$.
+                \item Solve \autoref{eq:ghf-scf-roothan-hall} to find
+                    $\vfg{C}^{(i + 1)}$ and $\vfg{\epsilon}^{(i + 1)}$.
+                \item Build the density matrix $\vfg{D}^{(i + 1)}$ from the
+                    occupied coefficient matrices as in
+                    \autoref{eq:ghf-density-matrix}.
+                \item Check for convergence.
+            \end{enumerate}
+            The convergence of the self consistent iterations are determined by
+            the change in energy and the change in the density matrix between
+            two consecutive steps.
+            That is, for two given tolerances $\delta_E$ and $\delta_D$, we say
+            that the iterations have converged when both
+            \begin{gather}
+                \Delta \energy
+                = \energy^{(i + 1)} - \energy^{(i)} < \delta_E,
+                \\
+                \norm{\Delta \vfg{D}}_{F}
+                = \norm{\vfg{D}^{(i + 1)} - \vfg{D}^{(i)}}_{F}
+                < \delta_D.
+            \end{gather}
+            are satisfied.
+            The matrix norm is given by the Frobenius norm.
+            % TODO: Cite Charlotte Fischer on convergence trouble
+            % https://www.sciencedirect.com/science/article/pii/0010465587900531?via%3Dihub
+            % TODO: Explain the mixing procedure.
+
 
         \subsection{The restricted Hartree-Fock method}
             In the restricted Hartree-Fock method we make the assumption that
@@ -786,8 +882,6 @@
                 where we've carried out the spin-sums implicitly and skipped the
                 step where we show the coefficient matrices that go into the
                 density matrices.
-
-        \subsection{Self consistent field procedure}
 
         \subsection{Time-evolution}
             Having restricted the full wave function to a single Slater determinant,
