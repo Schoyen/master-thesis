@@ -14,6 +14,8 @@ def get_filename_stub(params):
 
 
 def run_oaccd_tdho(params, filename_stub, hf_tol=1e-7, oaccd_tol=1e-4):
+    path = os.path.join(sys.path[0], "dat")
+
     tdho = get_tdho(**params)
 
     hf = HartreeFock(tdho, mixer=DIIS, verbose=True)
@@ -21,7 +23,6 @@ def run_oaccd_tdho(params, filename_stub, hf_tol=1e-7, oaccd_tol=1e-4):
 
     rho_hf = hf.compute_particle_density()
 
-    path = os.path.join(sys.path[0], "dat")
     filename = "hf_" + filename_stub + "_rho_real.dat"
     filename = os.path.join(path, filename)
 
@@ -30,9 +31,15 @@ def run_oaccd_tdho(params, filename_stub, hf_tol=1e-7, oaccd_tol=1e-4):
         tol=oaccd_tol, termination_tol=oaccd_tol, num_vecs=20
     )
 
+    filename = "oaccd_" + filename_stub + "_energy.dat"
+    filename = os.path.join(path, filename)
+
+    with open(filename, "w") as f:
+        f.write(f"HF energy: {hf.compute_energy()}\n")
+        f.write(f"OACCD energy: {oaccd.compute_energy()}\n")
+
     rho = oaccd.compute_particle_density()
 
-    path = os.path.join(sys.path[0], "dat")
     filename = "oaccd_" + filename_stub + "_rho_real.dat"
     filename = os.path.join(path, filename)
 
