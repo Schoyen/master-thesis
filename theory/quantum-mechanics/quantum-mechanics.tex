@@ -195,7 +195,7 @@
                 \energy_1
                 \leq
                 E[\psi, \psi^{*}]
-                = \mel{\psi}{\hamil}{\psi},
+                = \mel{\psi}{\hamil}{\psi}
                 = \int\dd x\psi^{*}(x)\hamil\psi(x),
                 \label{eq:variational-principle}
             \end{align}
@@ -488,10 +488,10 @@
             this is a much applicable technique for our work.
             Given a Hermitian model Hamiltonian $\hamil$ and a normalized trial
             wave function $\ket{\psi}$ that is constructed as a linear
-            combination of known normalized wave functions
+            combination of finite set of $L$ known normalized wave functions
             $\ket{\chi_{\alpha}}$, viz.
             \begin{align}
-                \ket{\psi} = c_{\alpha}\ket{\chi_{\alpha}},
+                \ket{\psi} = \sum_{\alpha = 0}^{L} c_{\alpha}\ket{\chi_{\alpha}},
             \end{align}
             where $\vfg{c}$ is the set of coefficients $c_{\alpha}$, we
             construct the variational energy function $E(\vfg{c})$ by
@@ -573,13 +573,18 @@
             Inserting the expansion for the trial wave function on both sides,
             we find
             \begin{gather}
+                \sum_{\beta = 0}^{L}
                 \mel{\chi_{\alpha}}{\hamil}{\chi_{\beta}} c_{\beta}
-                - E(\vfg{c})\braket{\chi_{\alpha}}{\chi_{\beta}} c_{\beta}
+                - E(\vfg{c})\sum_{\beta = 0}^{L}
+                \braket{\chi_{\alpha}}{\chi_{\beta}} c_{\beta}
                 = 0
                 \\
                 \implies
+                \sum_{\beta = 0}^{L}
                 \hamilten_{\alpha\beta} c_{\beta}
-                = E(\vfg{c}) \overlapten_{\alpha\beta} c_{\beta}
+                = E(\vfg{c})
+                \sum_{\beta = 0}^{L}
+                \overlapten_{\alpha\beta} c_{\beta}
                 \\
                 \implies
                 \hamilmat \vfg{c}
@@ -604,8 +609,9 @@
             $(E, \vf{c})$ as the eigenvalue and eigenvector respectively.
             This procedure will be used extensively as a procedure to transform
             from a known to an unknown basis.
-            See \citetitle{helgaker-molecular} \cite{helgaker-molecular} for a
-            derivation of the Hessian matix elements.
+            See the book \citetitle{helgaker-molecular} by
+            \citeauthor{helgaker-molecular} \cite{helgaker-molecular} for a
+            derivation of the Hessian matrix elements.
 
     \section{The Hellmann-Feynman theorem}
         The Hellmann-Feynman theorem provides us with a method of calculating
