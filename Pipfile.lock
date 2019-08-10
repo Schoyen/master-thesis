@@ -137,7 +137,7 @@
         "hartree-fock": {
             "editable": true,
             "git": "ssh://git@github.com/Schoyen/hartree-fock.git",
-            "ref": "23dd9cc0de19fb614a793a9f4da7ff7deca25d1c"
+            "ref": "5015ecb35b210de356b66ba0b52d23b72d8c9078"
         },
         "importlib-metadata": {
             "hashes": [

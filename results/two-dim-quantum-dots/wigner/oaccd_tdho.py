@@ -19,7 +19,6 @@ def run_oaccd_tdho(params, filename_stub, hf_tol=1e-7, oaccd_tol=1e-4):
     tdho = get_tdho(add_spin=False, **params)
 
     hf = RHF(tdho, mixer=DIIS, verbose=True)
-    #hf = HartreeFock(tdho, mixer=DIIS, verbose=True)
     hf.compute_ground_state(tol=hf_tol, change_system_basis=True, num_vecs=10)
     hf_energy = hf.compute_energy()
 
@@ -27,6 +26,22 @@ def run_oaccd_tdho(params, filename_stub, hf_tol=1e-7, oaccd_tol=1e-4):
 
     filename = "hf_" + filename_stub + "_rho_real.dat"
     filename = os.path.join(path, filename)
+
+    np.savetxt(
+        filename,
+        np.c_[
+            tdho.T.ravel()[:, np.newaxis],
+            tdho.R.ravel()[:, np.newaxis],
+            rho_hf.real.ravel()[:, np.newaxis],
+        ],
+    )
+
+    fig = plt.figure()
+    fig.add_subplot(1, 1, 1, polar=True)
+
+    plt.contourf(tdho.T, tdho.R, rho_hf.real)
+    plt.savefig(os.path.join(path, "hf_" + filename_stub + "_rho_real.pdf"))
+    plt.show()
 
     tdho.change_to_spin_orbital_basis()
 
@@ -61,3 +76,4 @@ def run_oaccd_tdho(params, filename_stub, hf_tol=1e-7, oaccd_tol=1e-4):
 
     plt.contourf(tdho.T, tdho.R, rho.real)
     plt.savefig(os.path.join(path, "oaccd_" + filename_stub + "_rho_real.pdf"))
+    plt.show()
