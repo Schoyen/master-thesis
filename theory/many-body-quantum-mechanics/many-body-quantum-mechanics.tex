@@ -1231,6 +1231,7 @@
             \end{enumerate}
 
         \subsection{Basis transformations}
+            \label{subsec:basis-transformation}
             Much of what will be done in this thesis boils down to basis
             transformations of spin-orbitals.
             For a given basis of spin-orbitals
@@ -1332,17 +1333,17 @@
                 of atomic orbitals $\brac{\xi_{\mu}}_{\mu = 1}^{L}$ to a new
                 basis set $\brac{\phi_p}_{p = 1}^{L}$ is done via
                 \begin{align}
-                    \ket{\phi_p} = U_{p\mu}\ket{\xi_{\mu}},
+                    \ket{\phi_p} = U_{\mu p}\ket{\xi_{\mu}},
                 \end{align}
-                where $U_{p\mu}$ is an element in the unitary matrix $\vfg{U}
+                where $U_{\mu p}$ is an element in the unitary matrix $\vfg{U}
                 \in \mathbb{C}^{L \times L}$.
                 As the atomic orbitals are orthonormal, we find
                 \begin{align}
                     \braket{\phi_{p}}{\phi_{q}}
                     =
-                    U^{*}_{p \mu} \braket{\xi_{\mu}}{\xi_{\nu}}
-                    U_{q\nu}
-                    = U^{*}_{p\mu} U_{q\mu}
+                    U^{*}_{\mu p} \braket{\xi_{\mu}}{\xi_{\nu}}
+                    U_{\nu q}
+                    = U^{*}_{\mu p} U_{\mu q}
                     = \delta_{pq},
                 \end{align}
                 due to the unitarity of the matrix $\vfg{U}$.
@@ -1435,7 +1436,6 @@
         \begin{align}
             \com{\hamil}{\hat{P}_{\sigma}} = 0,
         \end{align}
-        % TODO: Does this apply in general, e.g., for the two-body Hamiltonian?
         and the state $\ket{\Phi}$ is also an eigenstate of $\hamil$ with the
         same energy $E$ as the product state $\ket{\Psi}$.
         The coordinate representation of $\ket{\Phi}$ now takes on the familiar
@@ -1444,13 +1444,13 @@
             \Phi(x_1, \dots, x_N)
             &=
             \braket{x_1, \dots, x_N}{\Phi}
-            = \frac{1}{\sqrt{N}}
+            = \frac{1}{\sqrt{N!}}
             \sum_{\sigma \in S_{N}}
             \prod_{i = 1}^{N}
             \psi_{\sigma(i)}(x_i)
             \\
             &=
-            \frac{1}{\sqrt{N}}
+            \frac{1}{\sqrt{N!}}
             \begin{vmatrix}
                 \psi_1(x_1) & \dots & \psi_N(x_1) \\
                 \vdots & \ddots & \vdots \\
@@ -1980,6 +1980,7 @@
             orthogonal to one another.
 
         \subsection{Determinant overlap}
+            \label{subsec:determinant-overlap}
             So far we've limited our attention to an orthonormal set of basis
             states, thus making the Slater determinants orthonormal.
             However, we will discover situations where the determinants no
