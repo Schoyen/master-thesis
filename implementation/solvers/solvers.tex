@@ -155,6 +155,13 @@ epsilon, C = scipy.linalg.eigh(fock_matrix, s)
             where $\vfg{D} \in \mathbb{C}^{K \times K}$, and we've denoted the
             occupied coefficient matrices by $\vfg{C}_o \in \mathbb{C}^{K \times
             N}$.
+            We can compute the density matrix in Python by
+            \begin{python}
+o = slice(0, n)
+density_matrix = C[:, o] @ C[:, 0].conj().T
+            \end{python}
+            where \pyth{n} is he number of occupied particles and \pyth{o} is a
+            slice with the indices of the occupied states.
             We can then write the matrix elements of the Fock operator in terms
             of the atomic orbitals and the density matrix as
             \begin{align}
@@ -201,6 +208,17 @@ fock_matrix = (
                 \end{align}
                 where we've contracted the occupied coefficient matrices into
                 density matrices.
+                In Python we compute energy by
+                \begin{python}
+energy = np.trace(np.dot(density_matrix, h))
+term = 0.5 * np.tensordot(
+    density_matrix, u, axes=((0, 1), (2, 0))
+)
+energy += np.trace(np.dot(density_matrix, term))
+                \end{python}
+                where \pyth{term} is used as a temporary storage for the
+                contraction of one of the density matrices with the
+                antisymmetric two-body elements.
 
             \subsubsection{General Hartree-Fock one-body density matrix}
                 The one-body density matrix elements is given by
@@ -228,6 +246,14 @@ fock_matrix = (
                     \end{pmatrix},
                 \end{align}
                 where $M = L - N$ is the number of virtual basis states.
+                We compute the one-body density matrix by
+                \begin{python}
+o = slice(0, n)
+rho_qp = np.zeros_like(h)
+rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
+                \end{python}
+                where \pyth{n} is the number of occupied particles and \pyth{o}
+                is a slice with the occupied indices.
 
 
         \subsection{Self consistent field procedure}
@@ -322,15 +348,16 @@ fock_matrix = (
             lowercase letters for the orbitals.
             We write the ground state Slater determinant as
             \begin{align}
-                \ket{\slat} = \ket{\phi_1 \phi_2 \dots \phi_{L - 1} \phi_L}
+                \ket{\slat} = \ket{\phi_1 \phi_2 \dots \phi_{N - 1} \phi_N}
                 = \ket{
                     (\varphi_1 \alpha)
                     (\varphi_1 \beta)
                     \dots
-                    (\varphi_{L / 2} \alpha)
-                    (\varphi_{L / 2}\beta)
-                }.
+                    (\varphi_{N / 2} \alpha)
+                    (\varphi_{N / 2}\beta)
+                },
             \end{align}
+            where $N$ is an even number of particles.
             The requirement that the molecular orbitals should be orthonormal is
             kept in the restricted Hartree-Fock method.
             As a consequence both the spin basis functions and the orbitals are
@@ -400,181 +427,211 @@ fock_matrix = (
                 \dyad{\nu}
                 = \1 \in \mathbb{R}^{2 \times 2}.
             \end{align}
-            Collecting terms, we get the Fock matrix elements
+            Collecting the terms, we get the Fock matrix elements
             \begin{align}
-                \bra{\phi_P}\fock\ket{\phi_Q}
+                \mel{\phi_P}{\fock}{\phi_Q}
                 &=
                 \delta_{\sigma\tau}
-                \para{
-                    \bra{\varphi_p}\onehamil\ket{\varphi_q}
+                \brak{
+                    \mel{\varphi_p}{\onehamil}{\varphi_q}
                     +
                     2
-                    \bra{\varphi_p\varphi_j}\twohamil\ket{\varphi_q\varphi_j}
+                    \mel{\varphi_p}{\hat{J}}{\varphi_q}
                     -
-                    \bra{\varphi_p\varphi_j}\twohamil\ket{\varphi_j\varphi_q}
-                },
+                    \mel{\varphi_p}{\hat{K}}{\varphi_q}
+                }
+                \\
+                &= \delta_{\sigma\tau}
+                \mel{\varphi_p}{\fock}{\varphi_q},
             \end{align}
             where we see that the spin-dependence has been removed from the
             orbital integrals.
             We can therefore restrict ourselves to the orbital integrals for the
             Fock matrix elements.
-            \begin{align}
-                \bra{\varphi_p}\fock\ket{\varphi_q}
-                &=
-                \bra{\varphi_p}\onehamil\ket{\varphi_q}
-                +
-                2
-                \bra{\varphi_p\varphi_j}\twohamil\ket{\varphi_q\varphi_j}
-                -
-                \bra{\varphi_p\varphi_j}\twohamil\ket{\varphi_j\varphi_q}.
-            \end{align}
-            This lets us look for coefficients for the orbitals that are
-            independent of the spin.
+            This means that we only need to look for coefficients for the
+            molecular orbitals in terms of a known atomic orbital basis without
+            spin.
+            That is,
             \begin{align}
                 \ket{\varphi_p} = C_{\alpha p} \ket{\chi_{\alpha}},
             \end{align}
-            where $\brac{\ket{\chi_{\alpha}}}_{\alpha = 1}^{K}$ is our basis of
-            known atomic orbitals, without spin.
-            By projecting the canonical Hartree-Fock equations for the orbitals
-            onto the atomic orbitals we will again be left with the Roothan-Hall
-            equations as in the case of the general Hartree-Fock method.
-            However, the difference between the restricted and the general
-            Hartree-Fock methods lies in our calculation of the Fock matrix
-            elements in the atomic orbital basis.
+            where $\brac{\chi_{\alpha}}_{\alpha = 1}^{K}$ is our
+            spin-independent basis of known atomic orbitals.
+            By projecting the atomic orbitals onto the canonical Hartree-Fock
+            equations we will again be left with the Roothan-Hall equations as
+            seen in \autoref{eq:roothan-hall-general}.
+
+        \subsection{Constructing the restricted Fock matrix}
+            The difference between the restricted and the general Hartree-Fock
+            methods lies in our calculation of the Fock matrix elements in the
+            atomic orbital basis.
+            We now have that
             \begin{align}
                 \fockten_{\alpha\beta}
-                &\equiv \bra{\chi_{\alpha}}\fock\ket{\chi_{\beta}}
+                &\equiv \mel{\chi_{\alpha}}{\fock}{\chi_{\beta}}
                 =
-                \bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
+                \mel{\chi_{\alpha}}{\onehamil}{\chi_{\beta}}
                 +
-                2 \bra{\chi_{\alpha}\varphi_j}
-                \twohamil
-                \ket{\chi_{\beta}\varphi_j}
-                - \bra{\chi_{\alpha}\varphi_j}
-                \twohamil
-                \ket{\varphi_j\chi_{\beta}}
-                \\
-                &=
-                \bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
-                + 2 C^{*}_{j\gamma} C_{j\delta}
-                \bra{\chi_{\alpha}\chi_{\gamma}}
-                \twohamil
-                \ket{\chi_{\beta}\chi_{\delta}}
-                - C^{*}_{j\gamma} C_{j\delta}
-                \bra{\chi_{\alpha}\chi_{\gamma}}
-                \twohamil
-                \ket{\chi_{\delta}\chi_{\beta}}
-                \\
-                &=
-                \bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
-                + D_{\delta\gamma}
-                \para{
-                    \bra{\chi_{\alpha}\chi_{\gamma}}
+                2
+                \mel{\chi_{\alpha}}{\hat{J}}{\chi_{\beta}}
+                -
+                \mel{\chi_{\alpha}}{\hat{K}}{\chi_{\beta}},
+            \end{align}
+            where the Coulomb and the exchange operator depends on the full
+            spin-dependent molecular orbitals.
+            Looking at these two operators separately we have
+            \begin{gather}
+                \mel{\chi_{\alpha}}{\hat{J}}{\chi_{\beta}}
+                =
+                C^{*}_{j\gamma} C_{j\delta}
+                \mel{\chi_{\alpha}\chi_{\gamma}}{
                     \twohamil
-                    \ket{\chi_{\beta}\chi_{\delta}}
+                }{\chi_{\beta}\chi_{\delta}}
+                =
+                C^{*}_{j\gamma} C_{j\delta}
+                \twotensym^{\alpha\gamma}_{\beta\delta},
+                \\
+                \mel{\chi_{\alpha}}{\hat{K}}{\chi_{\beta}}
+                =
+                C^{*}_{j\gamma} C_{j\delta}
+                \mel{\chi_{\alpha}\chi_{\gamma}}{
+                    \twohamil
+                }{\chi_{\delta}\chi_{\beta}}
+                =
+                C^{*}_{j\gamma} C_{j\delta}
+                \twotensym^{\alpha\gamma}_{\delta\beta},
+            \end{gather}
+            where we've introduced the tensor notation for the elements of the
+            two-body operator to be
+            \begin{align}
+                \twotensym^{\alpha\beta}_{\gamma\delta}
+                \equiv
+                \mel{\chi_{\alpha}\chi_{\beta}}{
+                    \twohamil
+                }{\chi_{\gamma}\chi_{\delta}},
+            \end{align}
+            where the greek letters indicate that the elements are expressed in
+            the atomic orbital basis.
+            Note that these elements are not antisymmetric as opposed to
+            $\twoten^{\alpha\beta}_{\gamma\delta}$.
+            We also introduce the restricted density matrix
+            \begin{align}
+                D_{\beta \alpha}
+                \equiv 2 C^{*}_{\alpha i} C_{\beta i},
+            \end{align}
+            where $i \in \brac{1, \dots, N / 2}$, and $N$ is the number of
+            particles.
+            In Python we compute the density matrix in the same way as done for
+            the general Hartree-Fock method, but now we choose the slice over
+            the occupied indices to be \pyth{o = slice(0, n // 2)}, and multiply
+            the density matrix by a factor $2$.
+            The restricted Fock matrix elements in the atomic orbital basis can
+            now be written
+            \begin{align}
+                \fockten_{\alpha\beta}
+                &=
+                \oneten_{\alpha\beta}
+                + D_{\delta\gamma}
+                \brak{
+                    \twotensym^{\alpha\gamma}_{\beta\delta}
                     -
                     \half
-                    \bra{\chi_{\alpha}\chi_{\gamma}}
-                    \twohamil
-                    \ket{\chi_{\delta}\chi_{\beta}}
+                    \twotensym^{\alpha\gamma}_{\delta\beta}
                 },
                 \label{eq:atomic-fock-rhf}
             \end{align}
-            where we've introduced the restriced density matrix
-            \begin{align}
-                D_{\beta \alpha}
-                = 2 C^{*}_{\alpha i} C_{\beta i},
-            \end{align}
-            as the index $i \in \brac{1, \dots, N / 2}$, where $N$ is the number
-            of occupied states in the Hartree-Fock Slater determinant.
-
-            By proceeding witht the self-consistent field iterations solving the
+            In Python we compute the restricted Fock matrix by
+            \begin{python}
+fock_matrix = (
+    h
+    + np.tensordot(density_matrix, I, axes=((0, 1), (3, 1)))
+    - 0.5 * np.tensordot(
+        density_matrix, I, axes=((0, 1), (2, 1))
+    )
+)
+            \end{python}
+            where \pyth{density_matrix} is now the restricted density matrix and
+            \pyth{I} are the two-body elements.
+            Furthermore, the one-body Hamiltonian \pyth{h} is now
+            spin-independent.
+            By proceeding with the self-consistent field iterations solving the
             Roothan-Hall equations with \autoref{eq:atomic-fock-rhf} as the
             definition of the Fock matrix elements, we find the orbital
             coefficient matrix $\vfg{C} \in \mathbb{C}^{K \times L/2}$ which we
             use to transform to the restricted molecular orbitals.
             Once transformed, we are at liberty to introduce spin-redundancy to
-            open up for more general post Hartree-Fock methods.
+            open up for non-restricted post Hartree-Fock methods, e.g., the
+            coupled-cluster method.
 
             \subsubsection{Restricted Hartree-Fock energy}
                 We can compute the ground-state restricted Hartree-Fock energy
                 by inserting our expression for the restricted molecular
                 orbitals into the energy functional in
                 \autoref{eq:energy_func_hf}.
+                This yields
                 \begin{align}
                     \energy
-                    &= \bra{\Phi}\hamil\ket{\Phi}
-                    = \bra{\phi_I}\onehamil\ket{\phi_I}
+                    &= \mel{\slat}{\hamil}{\slat}
+                    = \mel{\phi_I}{\onehamil}{\phi_I}
                     + \half
-                    \bra{\phi_I\phi_J}
-                    \twohamil
-                    \ket{\phi_I\phi_J}_{AS}
+                    \mel{\phi_I\phi_J}{
+                        \twohamil
+                    }{\phi_I\phi_J}_{AS}
                     \\
                     &=
-                    \delta_{\sigma\sigma}
-                    \bra{\varphi_i}\onehamil\ket{\varphi_i}
-                    + \half\para{
-                        \delta_{\sigma\sigma}\delta_{\tau\tau}
-                        \bra{\varphi_i\varphi_j}
-                        \twohamil
-                        \ket{\varphi_i\varphi_j}
-                        - \delta_{\sigma\tau}\delta_{\tau\sigma}
-                        \bra{\varphi_i\varphi_j}
-                        \twohamil
-                        \ket{\varphi_j\varphi_i}
-                    }
-                    \\
-                    &=
-                    D^{\beta}_{\alpha}
-                    \oneten^{\alpha}_{\beta}
-                    + \half\para{
-                        D^{\beta}_{\alpha}
-                        D^{\delta}_{\gamma}
+                    D_{\beta\alpha}
+                    \oneten_{\alpha\beta}
+                    + \half\brak{
+                        D_{\beta\alpha}
+                        D_{\delta\gamma}
                         \twotensym^{\alpha\gamma}_{\beta\delta}
                         - \half
-                        D^{\beta}_{\alpha}
-                        D^{\delta}_{\gamma}
+                        D_{\beta\alpha}
+                        D_{\delta\gamma}
                         \twotensym^{\alpha\gamma}_{\delta\beta}
                     }
                     \\
                     &=
-                    D^{\beta}_{\alpha}
+                    D_{\beta\alpha}
                     \brac{
-                        \oneten^{\alpha}_{\beta}
-                        + \half D^{\delta}_{\gamma}
+                        \oneten_{\alpha\beta}
+                        + \half D_{\delta\gamma}
                         \para{
                             \twotensym^{\alpha\gamma}_{\beta\delta}
                             - \half
                             \twotensym^{\alpha\gamma}_{\delta\beta}
                         }
-                    },
-                    %&=
-                    %D_{\beta \alpha}
-                    %%C^{*}_{\alpha i} C_{\beta i}
-                    %\bra{\chi_{\alpha}}\onehamil\ket{\chi_{\beta}}
-                    %+ \half\para{
-                    %    D_{\gamma\alpha} D_{\delta\beta}
-                    %    %C^{*}_{\alpha i} C_{\gamma i}
-                    %    %C^{*}_{\beta j} C_{\delta j}
-                    %    -
-                    %    \half
-                    %    D_{\delta\alpha}
-                    %    D_{\gamma\beta}
-                    %    %C^{*}_{\alpha i} C_{\delta i}
-                    %    %C^{*}_{\beta j} C_{\gamma j}
-                    %}
-                    %\bra{\chi_{\alpha}\chi_{\beta}}
-                    %\twohamil
-                    %\ket{\chi_{\gamma}\chi_{\delta}}.
+                    }.
+                    \label{eq:rhf-energy}
                 \end{align}
-                where we've introduced the notation
-                \begin{align}
-                    \twotensym^{\alpha\beta}_{\gamma\delta}
-                    \equiv \bra{\chi_{\alpha}\chi_{\beta}}
-                    \twohamil
-                    \ket{\chi_{\gamma}\chi_{\delta}},
-                \end{align}
-                for the two-body integrals.
+                We compute the energy in Python by the snippet shown in
+                \autoref{alg:rhf-energy}.
+                \begin{algorithm}
+                    \begin{python}
+# term_{ab} <- D_{dc} I^{ac}_{bd}
+term = np.tensordot(
+    density_matrix, I, axes=((0, 1), (3, 1))
+)
+# term_{ab} <- term_{ab} -0.5 * D_{dc} I^{ac}_{db}
+term -= 0.5 * np.tensordot(
+    density_matrix, I, axes=((0, 1), (2, 1))
+)
+
+# term_{ab} <- h_{ab} + 0.5 term_{ab}
+term = h + 0.5 * term
+
+# energy = D_{ba} term_{ab}
+energy = np.trace(np.dot(term, density_matrix))
+                    \end{python}
+                    \caption{In this snippet we demonstrate how to compute the
+                    restricted Hartree-Fock energy from
+                    \autoref{eq:rhf-energy}.}
+                    \label{alg:rhf-energy}
+                \end{algorithm}
+                The one-body density matrix in the restricted Hartree-Fock
+                method is computed in the same way as for the general
+                Hartree-Fock method, but with the restricted coefficients and an
+                extra factor from the double occupancy.
 
         \subsection{The unrestricted Hartree-Fock method}
             The unrestricted Hartree-Fock method allows the molecular orbitals
@@ -595,17 +652,16 @@ fock_matrix = (
             \end{align}
             where $P \in \brac{1, \dots, L}$, $\sigma \in \brac{\alpha, \beta}$,
             and $p \in \brac{1, \dots, L_{\sigma}}$.
-            We have that $L = L_{\alpha} + L_{\beta}$ and we have refrained from
-            labelling the lower case orbital indices as they always occur with a
-            spin index.
+            We have that $L = L_{\alpha} + L_{\beta}$, and we have refrained
+            from labelling the lower case orbital indices as they always occur
+            with a spin index.
             Note that there is no implicit sum over the label $\sigma$ in the
             orbital $\varphi^{\sigma}_{p}$ and the spin-function $\sigma(m_s)$.
             We can collect the orbitals in two sets
-            $\brac{\ket{\varphi^{\sigma}_{p}}}_{p = 1}^{L_{\sigma}}$, one for
-            each spin-direction.
+            $\brac{\varphi^{\sigma}_{p}}$, one for each spin-direction.
             The ground state Slater determinant can then be written
             \begin{align}
-                \ketslat
+                \ket{\slat}
                 &=
                 \ket{\phi_1 \phi_2 \dots \phi_{N - 1} \phi_N}
                 =
@@ -620,10 +676,15 @@ fock_matrix = (
             \end{align}
             where $N_{\sigma}$ is the number of particles with spin
             $\sigma(m_s)$.
+            Note the ordering of the spin-orbitals in the determinant.
+            As the two sets of orbitals can be of different sizes, we can no
+            longer be sure that there is an even number of spin states.
+            We therefore stack the spin-orbitals after one another instead of
+            interlacing them by odd and even positions.
             The orthonormality of the molecular orbitals is given by
             \begin{align}
                 \braket{\phi_P}{\phi_Q}
-                &= \delta^{P}_{Q}
+                &= \delta_{PQ}
                 = \braket{\sigma}{\tau}
                 \braket{\varphi^{\sigma}_{p}}{\varphi^{\tau}_{q}},
             \end{align}
@@ -633,10 +694,10 @@ fock_matrix = (
             \tau$, we get
             \begin{align}
                 \braket{\varphi^{\sigma}_{p}}{\varphi^{\sigma}_{q}}
-                = \delta^{p}_{q}.
+                = \delta_{pq}.
             \end{align}
             Inserting the unrestricted spin-orbitals into the canonical
-            Hartree-Fock equation yields
+            Hartree-Fock equations yield
             \begin{align}
                 \fock\ket{\phi_P}
                 = \epsilon_P\ket{\phi_P}
@@ -654,106 +715,84 @@ fock_matrix = (
             }
             The one-body elements in the molecular orbital basis is given by
             \begin{align}
-                \bra{\phi_P}\onehamil\ket{\phi_Q}
-                &= \braket{\sigma}{\tau}
-                \bra{\varphi^{\sigma}_{p}}
-                \onehamil
-                \ket{\varphi^{\tau}_{q}}
-                = \delta^{\sigma}_{\tau}
-                \bra{\varphi^{\sigma}_{p}}
-                \onehamil
-                \ket{\varphi^{\tau}_{q}}
-            \end{align}
-            The two-body elements yield
-            \begin{align}
-                \bra{\phi_P\phi_J}
-                \twohamil
-                \ket{\phi_Q\phi_J}
-                &=
-                \braket{\sigma}{\tau}
-                \braket{\rho}{\rho}
-                \bra{\varphi^{\sigma}_{p}\varphi^{\rho}_{j}}
-                \twohamil
-                \ket{\varphi^{\tau}_{q}\varphi^{\rho}_{j}}
-                =
-                \delta^{\sigma}_{\tau}
-                \bra{\varphi^{\sigma}_{p}\varphi^{\rho}_{j}}
-                \twohamil
-                \ket{\varphi^{\tau}_{q}\varphi^{\rho}_{j}}
-                \\
-                &=
-                \delta^{\sigma}_{\tau}
-                \para{
-                    \bra{\varphi^{\sigma}_{p}\varphi^{\alpha}_{j}}
-                    \twohamil
-                    \ket{\varphi^{\tau}_{q}\varphi^{\alpha}_{j}}
-                    +
-                    \bra{\varphi^{\sigma}_{p}\varphi^{\beta}_{j}}
-                    \twohamil
-                    \ket{\varphi^{\tau}_{q}\varphi^{\beta}_{j}}
-                },
-            \end{align}
-            where, unlike in the restricted scheme, we get no factor $2$ from
-            the Kronecker-Delta $\delta^{\rho}_{\rho}$ as the orbitals in the two
-            different spin-directions are unequal.
-            We note that this term provides a coupling between the orbitals in
-            both spin-directions.
-            The last term in the antisymmetric two-body elements is given by
-            \begin{align}
-                \bra{\phi_P\phi_J}
-                \twohamil
-                \ket{\phi_J\phi_Q}
-                &=
-                \braket{\sigma}{\rho}
-                \braket{\rho}{\tau}
-                \bra{\varphi^{\sigma}_{p}\varphi^{\rho}_{j}}
-                \twohamil
-                \ket{\varphi^{\rho}_{j}\varphi^{\tau}_{q}}
-                =
-                \delta^{\sigma}_{\tau}
-                \bra{\varphi^{\sigma}_{p}\varphi^{\tau}_{j}}
-                \twohamil
-                \ket{\varphi^{\sigma}_{j}\varphi^{\tau}_{q}}.
-            \end{align}
-            Collecting terms we are then left with
-            \begin{align}
-                \bra{\phi_P}\fock\ket{\phi_Q}
-                &=
-                \delta^{\sigma}_{\tau}
-                \para{
-                    \bra{\varphi^{\sigma}_{p}}
+                \mel{\phi_P}{\onehamil}{\phi_Q}
+                = \delta_{\sigma\tau}
+                \mel{\varphi^{\sigma}_{p}}{
                     \onehamil
-                    \ket{\varphi^{\tau}_{q}}
-                    +
-                    \bra{\varphi^{\sigma}_{p}\varphi^{\rho}_{j}}
-                    \twohamil
-                    \ket{\varphi^{\tau}_{q}\varphi^{\rho}_{j}}
-                    -
-                    \bra{\varphi^{\sigma}_{p}\varphi^{\tau}_{j}}
-                    \twohamil
-                    \ket{\varphi^{\sigma}_{j}\varphi^{\tau}_{q}}
-                },
+                }{\varphi^{\tau}_{q}},
             \end{align}
-            where we've demonstrated how the spin yields two different Fock
-            matrices from the canonical Hartree-Fock equations.
+            while the Coulomb operator from the two-body elements is given by
+            \begin{align}
+                \mel{\phi_P\phi_J}{
+                    \twohamil
+                }{\phi_Q\phi_J}
+                &=
+                \delta_{\sigma\tau}
+                \sum_{\rho \in \brac{\alpha, \beta}}
+                \mel{\varphi^{\sigma}_{p}}{
+                    \hat{J}^{\rho}
+                }{\varphi^{\sigma}_{q}}.
+            \end{align}
+            We note that this term provides a coupling between the orbitals in
+            both spin-directions as we get a sum over the two spin-directions.
+            This is not the case for the exchange operator from the
+            antisymmetric two-body elements.
+            We have
+            \begin{align}
+                \mel{\phi_P\phi_J}{
+                    \twohamil
+                }{\phi_J\phi_Q}
+                =
+                \delta_{\sigma\tau}
+                \mel{\varphi^{\sigma}_{p}}{
+                    \hat{K}^{\sigma}
+                }{\varphi^{\tau}_{q}}.
+            \end{align}
+            Collecting all the terms in order to find the Fock matrix, we get
+            \begin{align}
+                \mel{\phi_P}{\fock}{\phi_Q}
+                &=
+                \delta_{\sigma\tau}
+                \brak{
+                    \mel{\varphi^{\sigma}_{p}}{
+                        \onehamil
+                    }{\varphi^{\tau}_{q}}
+                    +
+                    \sum_{\rho \in \brac{\alpha, \beta}}
+                    \mel{\varphi^{\sigma}_{p}}{
+                        \hat{J}^{\rho}
+                    }{\varphi^{\tau}_{q}}
+                    -
+                    \mel{\varphi^{\sigma}_{p}}{
+                        \hat{K}^{\sigma}
+                    }{\varphi^{\tau}_{q}}
+                }.
+            \end{align}
+            This demonstrates how the spin yields two different Fock matrices
+            from the canonical Hartree-Fock equations.
             That is,
             \begin{align}
-                \bra{\varphi^{\sigma}_{p}}\fock\ket{\varphi^{\sigma}_{q}}
+                \mel{\varphi^{\sigma}_{p}}{
+                    \fock^{\sigma}
+                }{\varphi^{\sigma}_{q}}
                 &=
-                \bra{\varphi^{\sigma}_{p}}
-                \onehamil
-                \ket{\varphi^{\sigma}_{q}}
+                \mel{\varphi^{\sigma}_{p}}{
+                    \onehamil
+                }{\varphi^{\sigma}_{q}}
                 +
-                \bra{\varphi^{\sigma}_{p}\varphi^{\rho}_{j}}
-                \twohamil
-                \ket{\varphi^{\sigma}_{q}\varphi^{\rho}_{j}}
+                \sum_{\rho \in \brac{\alpha, \beta}}
+                \mel{\varphi^{\sigma}_{p}}{
+                    \hat{J}^{\rho}
+                }{\varphi^{\sigma}_{q}}
                 -
-                \bra{\varphi^{\sigma}_{p}\varphi^{\sigma}_{j}}
-                \twohamil
-                \ket{\varphi^{\sigma}_{j}\varphi^{\sigma}_{q}},
+                \mel{\varphi^{\sigma}_{p}}{
+                    \hat{K}^{\sigma}
+                }{\varphi^{\sigma}_{q}},
             \end{align}
+            where the spin label on the Fock matrix corresponds to the spin
+            label of the exchange operator.
             We now look for a set of coefficients for the orbitals in each
-            spin-direction in terms of our original atomic orbital basis.
+            spin-direction in terms of our original atomic orbital basis,
             \begin{align}
                 \ket{\varphi^{\sigma}_{p}}
                 &= C^{\sigma}_{\kappa p} \ket{\chi_{\kappa}},
@@ -762,25 +801,27 @@ fock_matrix = (
             for the atomic orbitals to avoid confusion with the spin-functions
             $\alpha(m_s)$ and $\beta(m_s)$.
             Before we demonstrate how we can generate a set of equations in
-            order to find the coefficient matrices $\vfg{C}^{\sigma}$, we
-            motivate the spin-labelling of the Fock matrices in the atomic
-            orbital basis.
+            order to find the coefficient matrices $\vfg{C}^{\sigma} \in
+            \mathbb{C}^{K \times L_{\sigma}}$, we motivate the spin-labelling of
+            the Fock matrices in the atomic orbital basis.
+            We define
             \begin{align}
                 \fockten^{\sigma}_{\kappa\lambda}
                 &\equiv
-                \bra{\chi_{\kappa}}\fock^{\sigma}\ket{\chi_{\lambda}}
+                \mel{\chi_{\kappa}}{\fock^{\sigma}}{\chi_{\lambda}}
                 =
                 \oneten_{\kappa\lambda}
-                + \bra{\chi_{\kappa}\varphi^{\rho}_{j}}
-                \twohamil
-                \ket{\chi_{\lambda}\varphi^{\rho}_{j}}
-                - \bra{\chi_{\kappa}\varphi^{\sigma}_{j}}
-                \twohamil
-                \ket{\varphi^{\sigma}_{j}\chi_{\lambda}}
+                + \sum_{\rho \in \brac{\alpha, \beta}}
+                \mel{\chi_{\kappa}}{
+                    \hat{J}^{\rho}
+                }{\chi_{\lambda}}
+                - \mel{\chi_{\kappa}}{
+                    \hat{K}^{\sigma}
+                }{\chi_{\lambda}}
                 \\
                 &=
                 \oneten_{\kappa\lambda}
-                +
+                + \sum_{\rho \in \brac{\alpha, \beta}}
                 (C^{\rho}_{\mu j})^{*}
                 C^{\rho}_{\nu j}
                 \twotensym^{\kappa\mu}_{\lambda\nu}
@@ -791,33 +832,26 @@ fock_matrix = (
                 \\
                 &=
                 \oneten_{\kappa\lambda}
-                +
+                + \sum_{\rho \in \brac{\alpha, \beta}}
                 D^{\rho}_{\nu\mu}
                 \twotensym^{\kappa\mu}_{\lambda\nu}
                 -
                 D^{\sigma}_{\nu\mu}
                 \twotensym^{\kappa\mu}_{\nu\lambda},
             \end{align}
-            where the density matrix $D^{\rho}_{\nu\mu}$ with the free
-            spin-index $\rho$ is summed yielding
-            \begin{align}
-                D^{\rho}_{\nu\mu}
-                = D^{\alpha}_{\nu\mu}
-                + D^{\beta}_{\nu\mu},
-            \end{align}
-            as opposed to the density matrix with the same spin-index as the
-            left-hand side, that is, $\sigma$.
+            where the density matrix along a certain spin-direction is defined
+            similarly to the density matrices in the general Hartree-Fock
+            method.
             Left-projecting the atomic orbital basis on the canonical
-            Hartree-Fock equations acting on an orbital in the unrestriced
+            Hartree-Fock equations acting on an orbital in the unrestricted
             regime yields
             \begin{gather}
-                \bra{\chi_{\kappa}}\fock^{\sigma}\ket{\varphi^{\sigma}_{p}}
+                \mel{\chi_{\kappa}}{\fock^{\sigma}}{\varphi^{\sigma}_{p}}
                 = \epsilon^{\sigma}_{p}
                 \braket{\chi_{\kappa}}{\varphi^{\sigma}_{p}}
-                \\
                 \implies
                 C^{\sigma}_{\lambda p}
-                \bra{\chi_{\kappa}}\fock^{\sigma}\ket{\chi_{\lambda}}
+                \mel{\chi_{\kappa}}{\fock^{\sigma}}{\chi_{\lambda}}
                 = C^{\sigma}_{\lambda p} \epsilon^{\sigma}_{p}
                 \braket{\chi_{\kappa}}{\chi_{\lambda}}
                 \\
@@ -828,7 +862,6 @@ fock_matrix = (
                 \overlapten_{\kappa\lambda}
                 C^{\sigma}_{\lambda p}
                 \epsilon^{\sigma}_{p}
-                \\
                 \implies
                 \vfg{F}^{\sigma}
                 \vfg{C}^{\sigma}
@@ -836,12 +869,18 @@ fock_matrix = (
                 \overlapmat
                 \vfg{C}^{\sigma}
                 \vfg{\epsilon}^{\sigma}.
+                \label{eq:pople-nesbet}
             \end{gather}
             These coupled equations constitute the \emph{Pople-Nesbet
             equations}.
             They resemble the Roothan-Hall equations seen in the two previous
             methods in that they are generalized eigenvalue equations, but now
             we solve two sets of eigenvalue equations simultaneously.
+            Note that the coupling between the two spin-directions occurs in the
+            Fock matrix via the Coulomb operator.
+            The self-consistent field iterations for the unrestricted
+            Hartree-Fock method remains the same, but now we iterate equations
+            for both spin-directions at the same time.
 
             \subsubsection{The unrestricted Hartree-Fock energy}
                 Inserting our expression for the molecular orbitals into the
@@ -849,186 +888,125 @@ fock_matrix = (
                 \begin{align}
                     \energy
                     &=
-                    \bra{\slat}\hamil\ket{\slat}
+                    \mel{\slat}{\hamil}{\slat}
                     =
-                    \bra{\phi_I}\onehamil\ket{\phi_I}
+                    \mel{\phi_I}{\onehamil}{\phi_I}
                     +
                     \half
-                    \bra{\phi_I\phi_J}
-                    \twohamil
-                    \ket{\phi_I\phi_J}_{AS}
+                    \mel{\phi_I\phi_J}{
+                        \twohamil
+                    }{\phi_I\phi_J}_{AS}
                     \\
                     &=
-                    \bra{\varphi^{\sigma}_{i}}
-                    \onehamil
-                    \ket{\varphi^{\sigma}_{i}}
-                    + \half\para{
-                        \bra{\varphi^{\sigma}_{i}\varphi^{\tau}_{j}}
-                        \twohamil
-                        \ket{\varphi^{\sigma}_{i}\varphi^{\tau}_{j}}
-                        -
-                        \bra{\varphi^{\sigma}_{i}\varphi^{\sigma}_{j}}
-                        \twohamil
-                        \ket{\varphi^{\sigma}_{j}\varphi^{\sigma}_{i}}
+                    \sum_{\sigma \in \brac{\alpha, \beta}}\brac{
+                        \mel{\varphi^{\sigma}_{i}}{
+                            \onehamil
+                        }{\varphi^{\sigma}_{i}}
+                        + \half\brak{
+                            \sum_{\tau \in \brac{\alpha, \beta}}
+                            \mel{\varphi^{\sigma}_{i}}{
+                                \hat{J}^{\tau}
+                            }{\varphi^{\sigma}_{i}}
+                            -
+                            \mel{\varphi^{\sigma}_{i}}{
+                                \hat{K}^{\sigma}
+                            }{\varphi^{\sigma}_{i}}
+                        }
                     }
                     \\
                     &=
-                    D^{\sigma}_{\beta\alpha}
-                    \oneten^{\alpha}_{\beta}
-                    + \half
-                    D^{\sigma}_{\beta\alpha}
-                    D^{\tau}_{\delta\gamma}
-                    \twotensym^{\alpha\gamma}_{\beta\delta}
-                    - \half
-                    D^{\sigma}_{\beta\alpha}
-                    D^{\sigma}_{\delta\gamma}
-                    \twotensym^{\alpha\gamma}_{\delta\beta},
+                    \sum_{\sigma \in \brac{\alpha, \beta}}\brac{
+                        D^{\sigma}_{\lambda\kappa}
+                        \oneten_{\kappa\lambda}
+                        + \half
+                        \sum_{\tau \in \brac{\alpha, \beta}}
+                        D^{\sigma}_{\mu\kappa}
+                        D^{\tau}_{\nu\lambda}
+                        \twotensym^{\kappa\lambda}_{\mu\nu}
+                        - \half
+                        D^{\sigma}_{\mu\kappa}
+                        D^{\sigma}_{\nu\lambda}
+                        \twotensym^{\kappa\lambda}_{\nu\mu}
+                    }.
                 \end{align}
-                where we've carried out the spin-sums implicitly and skipped the
-                step where we show the coefficient matrices that go into the
-                density matrices.
+                % TODO: Add one-body density matrix?
 
         \subsection{Time-evolution}
-            Having restricted the full wave function to a single Slater determinant,
-            we can write the equations for the molecular orbitals in terms of the
-            time-dependent Fock operator.
+            Due to time limitations we have only implemented a time-dependent
+            general Hartree-Fock method.
+            From \autoref{eq:tdhf} we know that we can write the time-evolution
+            of the molecular orbitals by
             \begin{align}
                 i\hslash\dpd{}{t}\ket{\phi_i(t)}
-                &= \hat{f}(t)\ket{\phi_i(t)}.
+                &= \fock(t)\ket{\phi_i(t)}.
             \end{align}
             We can now insert the linear combination for the molecular orbitals in
-            the atomic orbital basis with the time-dependent coefficients.
+            terms of the known atomic orbital basis.
+            The time-evolution of the molecular orbitals is kept in the
+            coefficients leaving the atomic orbital basis static in time.
+            This gives
             \begin{align}
                 i\hslash\dpd{}{t}C_{\alpha i}(t)\ket{\chi_{\alpha}}
-                &= \hat{f}(t)C_{\alpha i}(t)\ket{\chi_{\alpha}}.
+                &= \fock(t)C_{\alpha i}(t)\ket{\chi_{\alpha}}.
             \end{align}
             Left projecting with another state from the atomic orbitals we can rewrite
             the previous equation to
             \begin{gather}
                 i\hslash\dpd{}{t}C_{\alpha i}(t)\braket{\chi_{\beta}}{\chi_{\alpha}}
                 =
-                C_{\alpha i}(t)\bra{\chi_{\beta}}\hat{f}(t)\ket{\chi_{\alpha}}
+                C_{\alpha i}(t)\mel{\chi_{\beta}}{\fock(t)}{\chi_{\alpha}}
                 \\
                 \implies
-                i\hslash \dot{C}_{\alpha i} S_{\beta\alpha}
-                = C_{\alpha i}(t)f_{\beta\alpha}(t)
-                \\
+                i\hslash \dot{C}_{\alpha i} \overlapten_{\beta\alpha}
+                = C_{\alpha i}(t)\fockten_{\beta\alpha}(t)
                 \implies
                 i\hslash \vf{S}\dot{\vf{C}}
-                = \vf{F}(t)\vf{C}(t),
+                = \fockmat(t)\vf{C}(t),
                 \label{eq:tdhf-equations}
             \end{gather}
-            where the overlap matrix $\vf{S}$ is the matrix with elements
+            where the time-dependent Fock matrix $\fockmat(t)$ contains the
+            matrix elements
             \begin{align}
-                S_{\beta\alpha} \equiv \braket{\chi_{\beta}}{\chi_{\alpha}},
-                \label{eq:overlap_ao}
+                \fockten_{\beta\alpha}(t)
+                = \mel{\chi_{\beta}}{\fock(t)}{\chi_\alpha}.
             \end{align}
-            and the time-dependent Fock matrix $\vf{F}(t)$ contains the entries
+            We restrict ourselves to orthonormal atomic orbital basis sets as we
+            start the time evolution after performing a ground state
+            Hartree-Fock calculation and transforming to the orthonormal
+            molecular orbital basis.
+            In the case of atomic units with $\hslash = 1$ and orthonormal
+            atomic orbitals we can write \autoref{eq:tdhf-equations} as
             \begin{align}
-                f_{\beta\alpha}(t) = \bra{\chi_{\beta}}\hat{f}(t)\ket{\chi_\alpha}.
-            \end{align}
-            Often we will work with basis sets where the overlap matrix reduces to
-            the identity. In this case, \autoref{eq:tdhf-equations} collapses to the
-            equation
-            \begin{align}
-                i\hslash \dot{\vf{C}} = \vf{F}(t)\vf{C}(t).
+                \dot{\vf{C}} = -i\fockmat(t)\vf{C}(t).
                 \label{eq:tdhf-orthogonal}
             \end{align}
+            In case of non-orthogonal atomic orbitals, the orthonormalization
+            procedure described in \autoref{subsec:basis-transformation} can be
+            used to make the orbitals orthonormal prior to starting the
+            time-evolution.
+            % TODO: Add function computing the right-hand side
+            % TODO: Discuss ravel of the matrix
 
+        \subsection{Time-dependent energy}
+            The time-dependent energy is computed in exactly same way as for the
+            general Hartree-Fock method.
+            We therefore re-use this functionality, but use the time-dependent
+            coefficients for the density matrices.
+            % TODO: Consider adding normalization
 
-        \subsection{Time dependent overlap}
-            When working with Slater determinants in a given basis we can compute
-            the overlap between two wavefunctions in an efficient manner. We define
-            the orbitals
+        \subsection{Time-dependent overlap}
+            From \autoref{subsec:determinant-overlap} we an expression for the
+            overlap of two Slater determinants.
+            Due to the orthonormality of the atomic orbital basis, the
+            time-dependent overlap is given by
             \begin{align}
-                \ket{\phi_i} &= C_{\alpha i}\ket{\chi_{\alpha}}, \\
-                \ket{\psi_i} &= D_{\alpha i}\ket{\chi_{\alpha}},
-            \end{align}
-            as two separate linear combinations of the original atomic orbitals. The
-            overlap between these two molecular orbitals is then
-            \begin{align}
-                \braket{\psi_i}{\phi_j}
-                &= \para{
-                    D_{\alpha i}^{*}
-                    \bra{\chi_{\alpha}}
-                }\para{
-                    C_{\beta j}
-                    \ket{\chi_{\beta}}
-                }
-                = D_{\alpha i}^{*}S_{\alpha\beta} C_{\beta j}
-                = T_{ij}.
-            \end{align}
-            In matrix notation this reduces to
-            \begin{align}
-                \vf{T} = \vf{D}^{\dagger}\vf{S}\vf{C},
-            \end{align}
-            where $\vf{C}$ and $\vf{D}$ are the coefficient matrices of the set of
-            molecular orbitals $\ket{\phi_i}$ and $\ket{\psi_i}$ respectively and
-            $\vf{S}$ is the overlap matrix for the atomic orbitals.  We can then
-            write the two Slater determinants consisting of $N$ of the molecular
-            orbitals as
-            \begin{align}
-                \ket{\Phi} &= \frac{1}{\sqrt{N!}}
-                \sum_{\sigma \in S_N}(-1)^{|\sigma|}
-                \ket{\phi_{\sigma(1)}}
-                \otimes\dots\otimes
-                \ket{\phi_{\sigma(N)}}, \\
-                \ket{\Psi} &= \frac{1}{\sqrt{N!}}
-                \sum_{\sigma \in S_N}(-1)^{|\sigma|}
-                \ket{\psi_{\sigma(1)}}
-                \otimes\dots\otimes
-                \ket{\psi_{\sigma(N)}},
-            \end{align}
-            where $S_N$ is the permutation group of all permutations $\sigma$ of the
-            labels $i \in \brac{1, \dots, N}$. Furthermore, $|\sigma|$, is the
-            defined as the number of permutations performed from the original order
-            of the labels. The overlap of the two Slater determinants is then
-            \begin{align}
-                \braket{\Psi}{\Phi}
-                &= \frac{1}{N!}
-                \sum_{\sigma, \tau \in S_{N}}
-                (-1)^{|\sigma||\tau|}
-                \prod_{i = 1}^{N}
-                \braket{\psi_{\sigma(i)}}{\phi_{\tau(i)}}
-                \\
-                &= \frac{1}{N!}
-                \sum_{\sigma, \tau \in S_{N}}
-                (-1)^{|\sigma||\tau|}
-                \prod_{i = 1}^{N}
-                T_{\sigma(i)\tau(i)},
-            \end{align}
-            where we now have a double sum over all permutations $\sigma$ and
-            $\tau$. To go from here we have to collapse one of the sums over the
-            permutations. By keeping one of the permutation sums fixed we get all
-            unique combinations of the terms in the products. By iterating over the
-            second sum over permutations we create the same set of combinations, but
-            with a different ordering. As the terms commute, we can just add it to
-            the already existing set of unique combinations. In total there are $N!$
-            permutations in $S_N$ thus giving a factor of $N!$ to the sum. This
-            yields
-            \begin{align}
-                \braket{\Psi}{\Phi}
-                &= \frac{1}{N!}N!
-                \sum_{\sigma \in S_N}
-                (-1)^{|\sigma|}
-                \prod_{i = 1}^{N}T_{i\sigma(i)}
-                \\
-                &= \begin{vmatrix}
-                    T_{11} & \dots & T_{1N} \\
-                    \vdots & \ddots & \vdots \\
-                    T_{N1} & \dots & T_{NN}
-                \end{vmatrix}
-                = \det(\vf{T})
-            \end{align}
-            In particular in the time-dependent Hartree-Fock regime where we have
-            the time-dependent coefficients $C_{\alpha i}(t)$ we get the overlap
-            with the ground state to be
-            \begin{align}
-                \braket{\Phi(t)}{\Phi(0)}
-                &= \det(\vf{C}^{\dagger}(t)\vf{S}\vf{C}(0))
-                = \det(\vf{T}(t)),
+                P(t)
+                =
+                \abs{\braket{\Phi(t)}{\Phi(0)}}^2
+                &= \abs{\det(\vf{C}^{\dagger}(t)\vf{C}(0))}^{2},
             \end{align}
             where $\vf{C}(t)$ is the coefficient matrix of the time evolved states.
+            % TODO: Consider adding normalization
 
 
     \section{Configuration interaction}
