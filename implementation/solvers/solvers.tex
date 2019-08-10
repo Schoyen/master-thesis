@@ -300,15 +300,17 @@ fock_matrix = (
                 We write \emph{can} as there are situations where the
                 Hamiltonian is spin-independent, but subject to conditions where
                 the spin-symmetry of the restricted spin-orbitals break.
-                % TODO: This needs to be explained properly
+                % TODO: This needs to be explained properly.
+                % TODO: Demonstrate this using the bond-breaking of H2.
+                % TODO: Check if this applies for low frequency 2d-dots.
             }.
             To be even more specific, we will look at the \emph{closed-shell
             restricted Hartree-Fock} method, i.e., each spin-orbital \emph{must}
             be doubly occupied and each energy shell must be completely filled.
-            This yields the spin-restricted spin-orbitals from
+            This corresponds the spin-restricted spin-orbitals from
             \autoref{eq:restricted-spin-orbital}.
-            For $L$ basis functions, we then get $L/2$ orbitals, where $L$ must
-            be an even number.
+            For a basis of $L$ spin-orbitals we get $L/2$ orbitals, where $L$
+            must be an even number.
             We label the states by
             \begin{align}
                 \phi_{P}(x) = \varphi_p(\vf{r}) \sigma(m_s)
@@ -320,7 +322,7 @@ fock_matrix = (
             lowercase letters for the orbitals.
             We write the ground state Slater determinant as
             \begin{align}
-                \ketslat = \ket{\phi_1 \phi_2 \dots \phi_{L - 1} \phi_L}
+                \ket{\slat} = \ket{\phi_1 \phi_2 \dots \phi_{L - 1} \phi_L}
                 = \ket{
                     (\varphi_1 \alpha)
                     (\varphi_1 \beta)
@@ -329,9 +331,10 @@ fock_matrix = (
                     (\varphi_{L / 2}\beta)
                 }.
             \end{align}
-            The restricted molecular orbitals are orthonormal.
+            The requirement that the molecular orbitals should be orthonormal is
+            kept in the restricted Hartree-Fock method.
             As a consequence both the spin basis functions and the orbitals are
-            orthonormal.
+            orthonormal,
             \begin{align}
                 \braket{\phi_P}{\phi_Q}
                 = \braket{\sigma}{\tau}
@@ -340,59 +343,61 @@ fock_matrix = (
                 \delta_{pq}
                 = \delta_{PQ}.
             \end{align}
-            We now insert the restricted spin-orbitals into the canonical
-            Hartree-Fock equation.
+            Inserting the restricted spin-orbitals into the canonical
+            Hartree-Fock equation, we get
             \begin{align}
                 \fock\ket{\phi_P} = \epsilon_P\ket{\phi_P}
                 \implies
                 \fock\ket{\varphi_p\sigma}
                 = \epsilon_P\ket{\varphi_p\sigma}.
             \end{align}
-            By projecting onto another spin-orbital we demonstrate how we can
+            By projecting onto a molecular orbital we demonstrate how we can
             construct the Fock matrix elements when the Hamiltonian is
             spin-independent.
+            This gives
             \begin{align}
-                \bra{\phi_P}\fock\ket{\phi_Q}
-                = \bra{\phi_P}\onehamil\ket{\phi_Q}
-                + \bra{\phi_P\phi_J}\twohamil\ket{\phi_Q\phi_J}_{AS}.
+                \mel{\phi_P}{\fock}{\phi_Q}
+                = \mel{\phi_P}{\onehamil}{\phi_Q}
+                + \mel{\phi_P\phi_J}{\twohamil}{\phi_Q\phi_J}_{AS}.
                 \label{eq:mo-fock-elements}
             \end{align}
-            Looking at the one-body and the two-body parts separately we will
-            demonstrate how the spin can be integrated out of the matrix
-            elements.
+            For the one-body Hamiltonian part of the Fock matrix elements we get
             \begin{align}
-                \bra{\phi_P}\onehamil\ket{\phi_Q}
-                &= \braket{\sigma}{\tau}\bra{\varphi_p}\onehamil\ket{\varphi_q}
-                = \delta_{\sigma\tau}\bra{\varphi_p}\onehamil\ket{\varphi_q}.
+                \mel{\phi_P}{\onehamil}{\phi_Q}
+                &= \braket{\sigma}{\tau}\mel{\varphi_p}{\onehamil}{\varphi_q}
+                = \delta_{\sigma\tau}\mel{\varphi_p}{\onehamil}{\varphi_q}.
             \end{align}
-            We split up the antisymmetric elements into its constituent parts
-            and show the spin-dependence in each explicitly.
+            For the two-body part, we split up the antisymmetric elements into
+            its constituent parts and show the spin-dependence in each terms
+            separately.
+            We start with the Coulomb operator giving
             \begin{align}
-                \bra{\phi_P\phi_J}\twohamil\ket{\phi_Q\phi_J}
+                \mel{\phi_P\phi_J}{\twohamil}{\phi_Q\phi_J}
                 &= \braket{\sigma}{\tau}\braket{\nu}{\nu}
-                \bra{\varphi_p\varphi_j}\twohamil\ket{\varphi_q\varphi_j}
+                \mel{\varphi_p\varphi_j}{\twohamil}{\varphi_q\varphi_j}
                 = 2 \delta_{\sigma\tau}
-                \bra{\varphi_p\varphi_j}\twohamil\ket{\varphi_q\varphi_j},
+                \mel{\varphi_p}{\hat{J}}{\varphi_q},
             \end{align}
-            where we've summed over the spin-dependence $\ket{\nu}$ from the two
-            occupied orbitals in the two-body elements.
+            where we've introduced the restricted Coulomb operator from
+            \autoref{eq:coulomb-operator}, and summed over the spin-dependence
+            $\ket{\nu}$ from the two occupied orbitals in the two-body elements.
             That is,
             \begin{align}
                 \braket{\nu}{\nu} = \delta_{\nu\nu} = 2.
             \end{align}
-            For the second integral in the antisymmetric two body elements we
-            get
+            The second term in the antisymmetric two body elements yields the
+            exchange operator to be
             \begin{align}
-                \bra{\phi_P\phi_J}\twohamil\ket{\phi_J\phi_Q}
+                \mel{\phi_P\phi_J}{\twohamil}{\phi_J\phi_Q}
                 &= \braket{\sigma}{\nu}\braket{\nu}{\tau}
-                \bra{\varphi_p\varphi_j}\twohamil\ket{\varphi_j\varphi_q}
+                \mel{\varphi_p\varphi_j}{\twohamil}{\varphi_j\varphi_q}
                 = \delta_{\sigma\tau}
-                \bra{\varphi_p\varphi_j}\twohamil\ket{\varphi_j\varphi_q},
+                \mel{\varphi_p}{\hat{K}}{\varphi_q},
             \end{align}
             where we've used the completness relation for the spin of the
             occupied molecular orbitals, viz.
             \begin{align}
-                \ket{\nu}\bra{\nu}
+                \dyad{\nu}
                 = \1 \in \mathbb{R}^{2 \times 2}.
             \end{align}
             Collecting terms, we get the Fock matrix elements
