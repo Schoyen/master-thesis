@@ -906,6 +906,7 @@
             and $\clustl$.
 
         \subsection{The non-orthogonal coupled cluster method}
+            \label{subsec:nocc}
             Including explicit orbital rotations in the coupled cluster
             Lagrangian is a technique to make the coupled cluster method gauge
             invariant \cite{gauge-invariant-thomas, gauge-invariant-thomas-2}
@@ -1132,6 +1133,39 @@
         $\clust$-amplitudes as the right-hand side, and for
         \autoref{eq:time-evolution-lambda} we use the right-hand sides for the
         Lagrange multipliers from the time-independent situation.
+
+        \subsection{Orbital-adaptive time-dependent coupled-cluster theory}
+            In the article titled \citetitle{kvaal2012ab}
+            \citeauthor{kvaal2012ab} \cite{kvaal2012ab} employs the
+            bi-variational principle as discussed by \citeauthor{arponen1983311}
+            \cite{arponen1983311} to create a new family of coupled-cluster
+            methods dubbed ``orbital-adaptive time-dependent
+            coupled-cluster''.
+            They provide an approximation to the multi-configurational
+            time-dependent Hartree-Fock methods, which themselves are
+            approximations to the time-dependent full configuration interaction
+            method.
+            Similar to the non-orthogonal coupled-cluster method discussed in
+            \autoref{subsec:nocc} the orbital-adaptive method opens up for
+            orbital rotations along with the coupled-cluster amplitudes $\clust$
+            and $\clustl$, with the orbitals subject to the constraint that they
+            are biorthogonal, that is,
+            \begin{align}
+                \braket*{\tilde{\phi}_p}{\phi_q} = \delta_{pq},
+            \end{align}
+            where we denote the bra states by tilde to distinguish it from the
+            adjoint state.
+            In general we have $\ket{\phi_p}^{\dagger} \neq
+            \bra*{\tilde{\phi}_p}$ as the two orbitals are defined in two
+            separate Hilbert spaces \cite{kvaal2012ab}.
+            This extends to the second quantized creation and annihilation
+            operators through the anticommutation relation
+            \begin{align}
+                \acom{\bican{p}}{\biccr{q}}
+                = \bican{p}\biccr{q}
+                + \biccr{q}\bican{p}
+                = \delta_{pq}.
+            \end{align}
 
         \subsection{Normalization of the coupled cluster wave functions in time}
             We compute the normalization of the coupled cluster wave function by
