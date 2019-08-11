@@ -527,6 +527,10 @@
             % TODO: Remember to discuss the D-matrix
 
 
+        \subsection{Size-consistency and size-extensivity}
+            % TODO: Add derivation shown in slides:
+            % http://www.ipc.kit.edu/theochem/download/Kapitel3.pdf
+
         \subsection{Non-variational coupled cluster}
             From the postulates of quantum mechanics we know that every physical
             observable $q$ is described by a Hermitian operator $\hat{Q}$ acting
@@ -985,7 +989,7 @@
             However, in the non-orthogonal coupled-cluster method, $\nocc$ is no
             longer antihermitian and we have in general
             \begin{align}
-                {\bican{p}}^{\dagger} \neq \biccr{p},
+                \bican{p}^{\dagger} \neq \biccr{p},
             \end{align}
             as can be seen by taking the Hermitian conjugate of
             \autoref{eq:biccr} and see that this is not the same as
@@ -1057,15 +1061,38 @@
             non-orthogonal coupled-cluster Lagrangian, we require that
             $\bra*{\tilde{\Psi}}$ and $\ket{\Psi}$ must satisfy the standard
             coupled cluster equations \cite{rolf-nocc}.
-            As $\nocc$ does not compute with $\clust$ and $\clustl$ we express
+            As $\nocc$ does not commute with $\clust$ and $\clustl$ we express
             the amplitude equations in the optimized basis where $\nocc = 0$
             \cite{rolf-nocc}.
             The stationary conditions for $\clustamp_{\mu}$ and
             $\clustlamp_{\mu}$ are thus the same as in
             \autoref{eq:cc-lagrangian-tau} and
             \autoref{eq:cc-lagrangian-lambda}.
-            % TODO: Discuss how kappa is zero when computing right-hand sides
-            % TODO: Add equations for tau, lambda, and kappa.
+            For the orbital rotations, we have the stationary conditions
+            \begin{gather}
+                \dpd{L[\clustamp_{\mu}, \clustlamp_{\mu}, \noccten]}{
+                    {\noccten^{u}}
+                }
+                = \mel*{\tilde{\slat}}{
+                    \para{\1 + \clustl}
+                    \exp(-\clust)
+                    \com{\hamil}{\biccr{a}\bican{i}}
+                    \exp(\clust)
+                }{\slat},
+                \\
+                \dpd{L[\clustamp_{\mu}, \clustlamp_{\mu}, \noccten]}{
+                    {\noccten^{d}}
+                }
+                = \mel*{\tilde{\slat}}{
+                    \para{\1 + \clustl}
+                    \exp(-\clust)
+                    \com{\hamil}{\biccr{i}\bican{a}}
+                    \exp(\clust)
+                }{\slat},
+            \end{gather}
+            where it is important to note that all creation and annihilation
+            operators in the cluster amplitudes and the Hamiltonian are the
+            biorthogonal operators.
 
     \section{Time-dependent coupled cluster theory}
         Having explored the time-independent coupled-cluster theory, the
@@ -1113,6 +1140,7 @@
             =
             i\hslash
             \dpd{\clustamp_{\mu}(t)}{t}.
+            \label{eq:td-clustamp}
         \end{align}
         This means that the time-evolution of the amplitudes is given by the
         amplitude equations in time as their right-hand sides.
@@ -1135,6 +1163,7 @@
             }{\Psi(t)}
             = \int\dd t
             L[\Psi, \tilde{\Psi}],
+            \label{eq:cc-action-functional}
         \end{align}
         where the coupled-cluster Lagrangian now includes the time-derivative.
         We can write the Lagrangian as
@@ -1236,30 +1265,167 @@
             $\clust(t)$ and $\clustl(t)$, with the orbitals subject to the
             constraint that they are biorthogonal in time, that is,
             \begin{align}
-                \braket*{\tilde{\phi}_p(t)}{\phi_q(t)} = \delta_{pq},
+                \braket*{\tilde{\phi}_p(t)}{\phi_q(t)} = \delta_{pq}
+                \implies
+                \acom{\bican{p}(t)}{\biccr{q}(t)}
+                = \delta_{pq},
             \end{align}
             where we denote the bra states by tilde to distinguish it from the
             adjoint state.
             In general we have $\ket{\phi_p(t)}^{\dagger} \neq
             \bra*{\tilde{\phi}_p(t)}$ as the two orbitals are defined in two
             separate Hilbert spaces \cite{kvaal2012ab}.
-            This extends to the second quantized creation and annihilation
-            operators through the anticommutation relation
-            \begin{align}
-                \acom{\bican{p}(t)}{\biccr{q}(t)}
-                = \bican{p}(t)\biccr{q}(t)
-                + \biccr{q}(t)\bican{p}(t)
-                = \delta_{pq}.
-            \end{align}
             This extends through to the Slater determinants being biorthogonal
-            in time,
+            in time.
+
+            In order to avoid two sets of second quantized operators, we
+            transform from the atomic orbital basis in a similar fashion as done
+            in the non-orthogonal coupled-cluster method.
+            However, the formulation of the orbital-adaptive method does not
+            contain an explicit single-particle operator as in the
+            non-orthogonal method.
+            Therefore, instead of transforming via \autoref{eq:biccr} and
+            \autoref{eq:bican}, we use the projection operator of the
+            biorthogonal Slater determinant basis \cite{kvaal2012ab}
             \begin{align}
-                \braket{\tilde{\slat}_{\mu}(t)}{\slat_{\nu}(t)}
-                = \delta_{\mu\nu},
+                \Pi(t)
+                = \dyad*{\slat_{\mu}(t)}{\tilde{\slat}_{\mu}(t)}.
             \end{align}
-            where $\mu$ and $\nu$ corresponds to a specific excitation of the
-            determinant, and we denote the bra determinant by a tilde as it is
-            constructed from the biorthogonal single-particle states.
+            This lets us transform the Hamiltonian to the biorthogonal basis by
+            \begin{align}
+                \mel*{\tilde{\Psi}(t)}{\hamil(t)}{\Psi(t)}
+                =
+                \mel*{\tilde{\Psi}(t)}{\Pi(t)\hamil(t)\Pi(t)}{\Psi(t)},
+            \end{align}
+            where we stress that $\Pi(t) \neq \Pi^{\dagger}(t)$.  This
+            corresponds to replacing all static second quantized operators by
+            the biorthogonal operators.
+            Instead of going through a description of the time-dependent
+            bivariational principle \cite{kvaal2012ab, arponen1983311}, we
+            define the bivariational form of the coupled cluster wave functions
+            to be
+            \begin{gather}
+                \ket{\Psi(t)} = \exp(\clust(t))\ket{\slat(t)}, \\
+                \bra*{\tilde{\Psi}(t)}
+                = \bra*{\tilde{\slat}(t)}\para{\1 + \clustl(t)}
+                \exp(-\clust(t)),
+            \end{gather}
+            where we impose the normalization that
+            \begin{align}
+                \braket*{\tilde{\Psi}(t)}{\Psi(t)} = 1.
+            \end{align}
+            From here on out we remove the explicit time-dependence on the
+            states and operators to avoid too much clutter.
+            We now define the action-like functional\footnote{%
+                This must not be mistaken for an actual action functional
+                \cite{arponen1983311}.
+            } by \cite{kvaal2012ab, arponen1983311}
+            \begin{align}
+                S[\clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}]
+                =
+                \int \dd t
+                \mel*{\tilde{\Psi}}{
+                    \para{
+                        i\hslash\partial_t - \hamil
+                    }
+                }{\Psi}
+                =
+                \int \dd t
+                L[\clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}],
+                \label{eq:oacc-action-functional}
+            \end{align}
+            which closely resembles the coupled-cluster action functional from
+            \autoref{eq:cc-action-functional} except that
+            \autoref{eq:oacc-action-functional} opens up for independent
+            variations over the orbitals.
+            To go from here we evalute the Lagrangian functional.
+            The time-derivative yields
+            \begin{align}
+                \mel*{\tilde{\Psi}}{\partial_t}{\Psi}
+                =
+                \mel*{\tilde{\Psi}}{
+                    \partial_t \clustamp_{\mu}\hat{X}_{\mu}
+                    +
+                    \hat{\eta}
+                }{\Psi}
+                =
+                \clustlamp_{\mu}\partial_t\clustamp_{\mu}
+                + \mel*{\tilde{\Psi}}{\hat{\eta}}{\Psi},
+            \end{align}
+            where the first term comes from the time-derivative of the cluster
+            amplitudes as seen in \autoref{eq:td-clustamp}, and the second term
+            comes from the time-derivative of the orbitals.
+            This operator is given by
+            \begin{align}
+                \hat{\eta}
+                = \mel*{\tilde{\phi}_p}{\partial_t}{\phi_q}
+                \biccr{p}\bican{q}
+                = \eta^{p}_{q}\biccr{p}\bican{q}
+            \end{align}
+            which is a one-body operator similar to the projected one-body
+            Hamiltonian.
+            We define the orbital-adaptive couple-cluster energy functional by
+            \begin{align}
+                \mathcal{E}[
+                    \clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}
+                ]
+                = \mel*{\tilde{\Psi}}{
+                    \hamil - i\hslash\hat{\eta}
+                }{\Psi},
+            \end{align}
+            which should be compared with \autoref{eq:cc-energy-functional}.
+            We can now write the Lagrangian functional as
+            \begin{align}
+                L[\clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}]
+                =
+                i\hslash\clustlamp_{\mu}\partial_t\clustamp_{\mu}
+                -
+                \mathcal{E}[
+                    \clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}
+                ].
+            \end{align}
+            We are now interested in finding stationary conditions for the
+            action-like functional by performing variations for all the
+            functions.
+            The stationary conditions for the $\clustl$-amplitudes are given by
+            \begin{align}
+                i\hslash\partial_t \clustamp_{\mu}
+                = \dpd{\mathcal{E}[
+                    \clustamp_{\nu}, \clustlamp_{\nu}
+                    \slat, \tilde{\slat}
+                ]}{\clustlamp_{\mu}}
+                =
+                \mel*{\tilde{\slat}_{\mu}}{
+                    \exp(-\clust)\brak{
+                        \hamil
+                        - i\hslash\hat{\eta}
+                    }\exp(\clust)
+                }{\slat}.
+            \end{align}
+            Comparing this to \autoref{eq:time-evolution-tau} we see that the
+            only difference is the inclusion of the one-body operator
+            $i\hslash\hat{\eta}$.
+            The stationary conditions for the $\clust$-amplitudes then yields
+            \begin{align}
+                -i\hslash\partial_t\clustlamp_{\mu}
+                &=
+                \dpd{\mathcal{E}[
+                    \clustamp_{\nu}, \clustlamp_{\nu}
+                    \slat, \tilde{\slat}
+                ]}{\clustamp_{\mu}}
+                =
+                \mel*{\tilde{\Psi}}{
+                    \com{
+                        \hamil
+                        - i\hslash\hat{\eta}
+                    }{
+                        \hat{X}_{\mu}
+                    }
+                }{\Psi},
+            \end{align}
+            which is also comparable to the time-dependent coupled-cluster
+            method with stationary orbitals in
+            \autoref{eq:time-evolution-lambda}.
 
         \subsection{Normalization of the coupled cluster wave functions in time}
             We compute the normalization of the coupled cluster wave function by
