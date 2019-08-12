@@ -1437,6 +1437,7 @@
                 \hat{\eta}
                 = \eta^{i}_{a}\biccr{i}\bican{a}
                 + \eta^{a}_{i}\biccr{a}\bican{i},
+                \label{eq:eta-gauge}
             \end{align}
             that is, the occupied-occupied and virtual-virtual rotations are set
             to zero.
@@ -1628,10 +1629,267 @@
             This is however not the case for $\densityten^{a}_{i}$ as the
             operator string acts as a relaxtion operator.
 
-            The variation over the occupied-virtual orbitals and the
-            virtual-occupied orbitals can be done independently
-            \cite{kvaal2012ab}.
+            The variation over the occupied orbitals and the virtual orbitals
+            can be done independently \cite{kvaal2012ab}.
             This yields two sets of equations for the $P$-variation.
+            We start by looking at the variation over the occupied orbitals in
+            the energy functional.
+            \begin{align}
+                \delta\mathcal{E}
+                &=
+                \mel*{\delta\tilde{\Psi}}{\hamil - i\hslash\hat{\eta}}{\Psi}
+                +
+                \mel*{\tilde{\Psi}}{\hamil - i\hslash\hat{\eta}}{\delta\Psi}
+                -i\hslash
+                \mel*{\tilde{\Psi}}{\delta\hat{\eta}}{\Psi}
+                \\
+                &=
+                \epsilon
+                \mel*{\tilde{\Psi}}{
+                    \com{
+                        \hamil - i\hslash\hat{\eta}
+                    }{
+                        \biccr{a}\bican{i}
+                    }
+                }{\Psi}
+                + \epsilon i\hslash\partial_t\densityten^{i}_{a}
+                =
+                \epsilon
+                \mel*{\tilde{\Psi}}{
+                    \com{
+                        \hamil - i\hslash\hat{\eta}
+                    }{
+                        \biccr{a}\bican{i}
+                    }
+                }{\Psi}.
+                \label{eq:occupied-variation}
+            \end{align}
+            The variation over the virtual orbitals gives
+            \begin{align}
+                \delta\mathcal{E}
+                &=
+                \epsilon
+                \mel*{\tilde{\Psi}}{
+                    \com{
+                        \hamil - i\hslash\hat{\eta}
+                    }{
+                        \biccr{i}\bican{a}
+                    }
+                }{\Psi}
+                + \epsilon i\hslash\partial_t\densityten^{a}_{i},
+                \label{eq:virtual-variation}
+            \end{align}
+            where the time-derivative of the one-body density matrix is
+            retained.
+            Recalling that the amplitudes do not depend on the orbital
+            variations directly we can compute the variation over the orbitals
+            in the action functional by
+            \begin{align}
+                \delta S
+                = \int \dd t \delta L
+                = \int \dd t \delta\mathcal{E}
+                = 0.
+            \end{align}
+            The requirement that $\delta S$ is zero for all $\epsilon$ implies
+            that we can remove the integrand and $\epsilon$ as it factors out.
+            This means that we can write \autoref{eq:occupied-variation} and
+            \autoref{eq:virtual-variation} on the form
+            \begin{gather}
+                i\hslash\mel*{\tilde{\Psi}}{
+                    \com{
+                        \hat{\eta}
+                    }{
+                        \biccr{a}\bican{i}
+                    }
+                }{\Psi}
+                =
+                \mel*{\tilde{\Psi}}{
+                    \com{
+                        \hamil
+                    }{
+                        \biccr{a}\bican{i}
+                    }
+                }{\Psi},
+                \\
+                i\hslash\mel*{\tilde{\Psi}}{
+                    \com{
+                        \hat{\eta}
+                    }{
+                        \biccr{i}\bican{a}
+                    }
+                }{\Psi}
+                =
+                \mel*{\tilde{\Psi}}{
+                    \com{
+                        \hamil
+                    }{
+                        \biccr{i}\bican{a}
+                    }
+                }{\Psi}
+                + \epsilon i\hslash\partial_t\densityten^{a}_{i}.
+            \end{gather}
+            Looking at the gauge condition for $\hat{\eta}$ given in
+            \autoref{eq:eta-gauge} we see that the only non-zero terms in the
+            commutators on the left-hand side becomes
+            \begin{gather}
+                i\hslash\eta^{j}_{b}\mel*{\tilde{\Psi}}{
+                    \com{
+                        \biccr{j}\bican{b}
+                    }{
+                        \biccr{a}\bican{i}
+                    }
+                }{\Psi}
+                = i\hslash\eta^{j}_{b}\brak{
+                    \delta^{b}_{a}\densityten^{i}_{j}
+                    - \delta^{i}_{j}\densityten^{b}_{a}
+                }
+                \equiv
+                i\hslash\eta^{j}_{b}A^{ib}_{aj},
+                \\
+                i\hslash\eta^{b}_{j}\mel*{\tilde{\Psi}}{
+                    \com{
+                        \biccr{b}\bican{j}
+                    }{
+                        \biccr{i}\bican{a}
+                    }
+                }{\Psi}
+                =
+                i\hslash\eta^{b}_{j}\brak{
+                    \delta^{j}_{i}\densityten^{a}_{b}
+                    - \delta^{a}_{b}\densityten^{j}_{i}
+                }
+                \equiv
+                -i\hslash\eta^{b}_{j}
+                A^{ja}_{bi},
+            \end{gather}
+            where we've defined the coefficient matrix $\vfg{A}$.
+            What remains is to evaluate the commutators with the Hamiltonian
+            matrix on the right-hand side.
+            For brevity we restrict ourselves to only looking at the operator
+            strings.
+            We have for the one-body Hamiltonian
+            \begin{gather}
+                \com{\biccr{p}\bican{q}}{\biccr{a}\bican{i}}
+                = \delta^{q}_{a}\biccr{p}\bican{i}
+                - \delta^{i}_{p}\biccr{a}\bican{q}, \\
+                \com{\biccr{p}\bican{q}}{\biccr{i}\bican{a}}
+                = \delta^{q}_{i}\biccr{p}\bican{a}
+                - \delta^{a}_{p}\biccr{i}\bican{q}.
+            \end{gather}
+            The expectation value of these operator strings will be made into
+            one-body density matrices.
+            That is, for the one-body Hamiltonian we get
+            \begin{gather}
+                \mel*{\tilde{\Psi}}{
+                    \com{
+                        \onehamil
+                    }{
+                        \biccr{a}
+                        \bican{i}
+                    }
+                }{\Psi}
+                = \oneten^{p}_{a}\densityten^{i}_{p}
+                - \oneten^{i}_{q}\densityten^{q}_{a},
+                \\
+                \mel*{\tilde{\Psi}}{
+                    \com{
+                        \onehamil
+                    }{
+                        \biccr{i}
+                        \bican{a}
+                    }
+                }{\Psi}
+                =
+                \oneten^{p}_{i}\densityten^{a}_{p}
+                -
+                \oneten^{a}_{q}\densityten^{q}_{i}.
+            \end{gather}
+            For the two-body operator we get
+            \begin{align}
+                \com{\biccr{p}\biccr{q}\bican{s}\bican{r}}{\biccr{a}\bican{i}}
+                &=
+                \delta^{r}_{a}\biccr{p}\biccr{q}\bican{s}\bican{i}
+                - \delta^{s}_{a}\biccr{p}\biccr{q}\bican{r}\bican{i}
+                \nonumber \\
+                &\qquad
+                - \delta^{i}_{p}\biccr{a}\biccr{q}\bican{s}\bican{r}
+                + \delta^{i}_{q}\biccr{a}\biccr{p}\bican{s}\bican{r},
+                \\
+                \com{\biccr{p}\biccr{q}\bican{s}\bican{r}}{\biccr{i}\bican{a}}
+                &=
+                \delta^{r}_{i}\biccr{p}\biccr{q}\bican{s}\bican{a}
+                - \delta^{s}_{i}\biccr{p}\biccr{q}\bican{r}\bican{a}
+                \nonumber \\
+                &\qquad
+                - \delta^{a}_{p}\biccr{i}\biccr{q}\bican{s}\bican{r}
+                + \delta^{a}_{q}\biccr{i}\biccr{p}\bican{s}\bican{r}.
+            \end{align}
+            Similarly to the one-body Hamiltonain, the expectation value will
+            yield two-body density matrices for the operator strings.
+            Using the antisymmetry of the two-body matrix elements, we get
+            \begin{gather}
+                \mel*{\tilde{\Psi}}{
+                    \com{
+                        \twohamil
+                    }{
+                        \biccr{a}
+                        \bican{i}
+                    }
+                }{\Psi}
+                =
+                \half\twoten^{pq}_{is}\densityten^{as}_{pq}
+                - \half\twoten^{aq}_{rs}\densityten^{sr}_{iq},
+                \\
+                \mel*{\tilde{\Psi}}{
+                    \com{
+                        \twohamil
+                    }{
+                        \biccr{i}
+                        \bican{a}
+                    }
+                }{\Psi}
+                =
+                \half
+                \twoten^{pq}_{is}\densityten^{sa}_{pq}
+                -
+                \half
+                \twoten^{aq}_{rs}\densityten^{sr}_{iq}.
+            \end{gather}
+            Putting everything together we get equations for the
+            occupied-virtual part of $\hat{\eta}$ and the virtual-occupied
+            block.
+            The former is given by
+            \begin{align}
+                i\hslash A^{ib}_{aj}\eta^{j}_{b}
+                = \oneten^{p}_{a}\densityten^{i}_{p}
+                - \oneten^{i}_{q}\densityten^{q}_{a}
+                + \half\twoten^{pq}_{is}\densityten^{as}_{pq}
+                - \half\twoten^{aq}_{rs}\densityten^{sr}_{iq}.
+                \label{eq:eta-jb}
+            \end{align}
+            This is a linear equation system that can be solved for
+            $\eta^{j}_{b}$.
+            The virtual-occupied block equation is
+            \begin{align}
+                -i\hslash\eta^{b}_{j}
+                A^{ja}_{bi}
+                =
+                \oneten^{p}_{i}\densityten^{a}_{p}
+                -
+                \oneten^{a}_{q}\densityten^{q}_{i}
+                +
+                \half
+                \twoten^{pq}_{is}\densityten^{sa}_{pq}
+                -
+                \half
+                \twoten^{aq}_{rs}\densityten^{sr}_{iq},
+                \label{eq:eta-bj}
+            \end{align}
+            which resembles a transposed linear equation.
+            Solving both \autoref{eq:eta-jb} and \autoref{eq:eta-bj} we are able
+            to construct the $\vfg{\eta}$ matrix.
+            We shall in the following derivation of the $Q$-space equations see
+            how this gives an expression for the time-evolution of the orbitals.
 
 
 
