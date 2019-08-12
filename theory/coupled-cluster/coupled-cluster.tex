@@ -1267,7 +1267,7 @@
             \begin{align}
                 \braket*{\tilde{\phi}_p(t)}{\phi_q(t)} = \delta_{pq}
                 \implies
-                \acom{\bican{p}(t)}{\biccr{q}(t)}
+                \acom{\bican{p}}{\biccr{q}}
                 = \delta_{pq},
             \end{align}
             where we denote the bra states by tilde to distinguish it from the
@@ -1305,7 +1305,7 @@
             define the bivariational form of the coupled cluster wave functions
             to be
             \begin{gather}
-                \ket{\Psi(t)} = \exp(\clust(t))\ket{\slat(t)}, \\
+                \ket*{\Psi(t)} = \exp(\clust(t))\ket*{\slat(t)}, \\
                 \bra*{\tilde{\Psi}(t)}
                 = \bra*{\tilde{\slat}(t)}\para{\1 + \clustl(t)}
                 \exp(-\clust(t)),
@@ -1364,12 +1364,12 @@
             \end{align}
             which is a one-body operator similar to the projected one-body
             Hamiltonian.
-            We define the orbital-adaptive couple-cluster energy functional by
+            We define the orbital-adaptive coupled-cluster energy functional by
             \begin{align}
                 \mathcal{E}[
                     \clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}
                 ]
-                = \mel*{\tilde{\Psi}}{
+                \equiv \mel*{\tilde{\Psi}}{
                     \hamil - i\hslash\hat{\eta}
                 }{\Psi},
             \end{align}
@@ -1383,10 +1383,11 @@
                 \mathcal{E}[
                     \clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}
                 ].
+                \label{eq:oatdcc-lagrangian}
             \end{align}
             We are now interested in finding stationary conditions for the
-            action-like functional by performing variations for all the
-            functions.
+            action-like functional by performing variations over all dependent
+            variables in the Lagrangian functional.
             The stationary conditions for the $\clustl$-amplitudes are given by
             \begin{align}
                 i\hslash\partial_t \clustamp_{\mu}
@@ -1439,6 +1440,200 @@
             \end{align}
             that is, the occupied-occupied and virtual-virtual rotations are set
             to zero.
+            Furthermore, the orbital rotations makes the singles amplitudes
+            $\clustamp^{a}_{i}$ redundant, and to avoid having more parameters
+            in $\bra*{\tilde{\Psi}}$ than in $\ket*{\Psi}$ we set
+            $\clustlamp^{i}_{a}$ to zero as well \cite{kvaal2012ab}.
+            We now perform variations over the orbitals
+            \begin{align}
+                \ket*{\phi_p'} = \ket*{\phi_p} + \ket*{\delta\phi_p},
+            \end{align}
+            and similarly for the dual single-particle state
+            $\bra*{\tilde{\phi}_p}$.
+            We restrict our attention to the variation $\ket*{\delta\phi_p}$ and
+            ignore the full state $\ket*{\phi_p'}$.
+            Now, we note that
+            \begin{align}
+                \ket*{\delta\phi_p}
+                = \hat{P}\ket*{\delta\phi_p}
+                + \hat{Q}\ket*{\delta\phi_p},
+            \end{align}
+            where the single-particle projection operator $\hat{P}$ is given by
+            \begin{align}
+                \hat{P}
+                = \dyad*{\tilde{\phi}_p}{\phi_p}
+                \implies
+                \hat{Q} = \1 - \hat{P}.
+            \end{align}
+            Due to the gauge condition imposed on $\eta^{p}_{q}$ we know that we
+            only need to concern ourselves with variations over occupied-virtual
+            and virtual-occupied pairs.
+            We can thus construct the two sets of orbital variations
+            \begin{gather}
+                \ket{\delta\phi_i}
+                = \epsilon^{a}_{i}\ket{\phi_a}
+                + \hat{Q}\ket{\delta\phi_i},
+                \\
+                \ket{\delta\phi_a}
+                = \epsilon^{a}_{i}\ket{\phi_i}
+                + \hat{Q}\ket{\delta\phi_a},
+            \end{gather}
+            where $\epsilon^{a}_{i}$ is an arbitrary function of time.
+            Furthermore, the functions $\hat{Q}\ket{\delta\phi_p}$ are also
+            arbitrary and independent of $\epsilon^{a}_{i}$.
+            This lets us perform the variations over the $P$ equations
+            independently of the variations over the $Q$ equations.
+
+            We therefore start by defining the variations over the orbitals to
+            be
+            \begin{align}
+                \ket{\delta\phi_i} = \epsilon\ket{\phi_a},
+                \qquad
+                \ket{\delta\phi_a} = \epsilon\ket{\phi_i},
+            \end{align}
+            where $\epsilon(t)$ is now an arbitrary function of time that is
+            independent of the labels $i$ and $a$.
+            Due to the biorthogonality of the orbitals, we can find the
+            corresponding variations over the dual states
+            \begin{gather}
+                0 = \delta\para{\braket*{\tilde{\phi}_a}{\phi_i}}
+                = \braket*{\delta\tilde{\phi}_a}{\phi_i}
+                + \braket*{\tilde{\phi}_a}{\delta\phi_i}
+                \\
+                \implies
+                \braket*{\delta\tilde{\phi}_a}{\phi_i}
+                = -\braket*{\tilde{\phi}_a}{\delta\phi_i}
+                = -\epsilon,
+            \end{gather}
+            which yields
+            \begin{gather}
+                \bra*{\delta\tilde{\phi}_i}
+                = -\epsilon\bra*{\tilde{\phi}_a},
+                \qquad
+                \bra*{\delta\tilde{\phi}_a}
+                = -\epsilon\bra*{\tilde{\phi}_i}.
+            \end{gather}
+            By inspecting the Lagrangian functional from
+            \autoref{eq:oatdcc-lagrangian} we note that only the energy
+            functional depends explicitly on the orbitals.
+            In terms of the biorthogonal second quantized operators we can
+            describe the variation over an orbital in an arbitrary state by the
+            action
+            \begin{gather}
+                \ket*{\delta\Psi}
+                = \epsilon\brak{
+                    \biccr{a}\bican{i}
+                    + \biccr{i}\bican{a}
+                }\ket*{\Psi},
+                \\
+                \bra*{\delta\tilde{\Psi}}
+                = -\epsilon\bra*{\tilde{\Psi}}\brak{
+                    \biccr{a}\bican{i}
+                    + \biccr{i}\bican{a}
+                },
+            \end{gather}
+            as the variation is performed by replacing a virtual orbital by an
+            occupied orbital and vice versa.
+            Now, the Hamiltonian and the cluster amplitudes do not explictly
+            depend on the orbitals and will therefore be unaffected by the
+            orbital variation.
+            However, $\hat{\eta}$ will be varied.
+            We see the effect of this variation by considering the matrix
+            elements $\eta^{p}_{q}$ prior to imposing the gauge condition for
+            the orbital rotations.
+            This yields
+            \begin{align}
+                \delta\eta^{p}_{q}
+                &= \mel*{\delta\tilde{\phi}_p}{
+                    \partial_t
+                }{\phi_q}
+                + \mel*{\tilde{\phi}_p}{
+                    \partial_t
+                }{\delta\phi_q}
+                \\
+                &=
+                -\epsilon\brak{
+                    \delta_{pa}\bra*{\tilde{\phi}_i}
+                    + \delta_{pi}\bra*{\tilde{\phi}_a}
+                }\partial_t\ket*{\phi_q}
+                \nonumber \\
+                &\qquad
+                + \bra*{\tilde{\phi}_p}\partial_t\brak{
+                    \epsilon \delta_{qa}\ket*{\phi_i}
+                    + \epsilon \delta_{qi}\ket*{\phi_a}
+                },
+            \end{align}
+            where the Kronecker-Deltas run over free indices and should be
+            treated more as running over occupied or virtual indices.
+            Now, due to the gauge conditions, we get
+            \begin{align}
+                \delta\eta^{p}_{q}
+                &=
+                - \epsilon\brak{
+                    \delta_{pa}\delta_{qb}\eta^{i}_{b}
+                    + \delta_{pi}\delta_{qj}\eta^{a}_{j}
+                }
+                + \partial_t \epsilon \brak{
+                    \delta_{qa}\delta_{pi}
+                    + \delta_{qi}\delta_{pa}
+                }
+                \nonumber \\
+                &\qquad
+                + \epsilon\brak{
+                    \delta_{qa}\delta_{pb}\eta^{b}_{i}
+                    + \delta_{qi}\delta_{pj}\eta^{a}_{j}
+                }
+                \\
+                &=
+                \partial_t \epsilon \brak{
+                    \delta_{qa}\delta_{pi}
+                    + \delta_{qi}\delta_{pa}
+                },
+            \end{align}
+            where the two other terms cancel as can be seen by shuffling the
+            free indices.
+            The variation over the full orbital operator is thus given by
+            \begin{align}
+                \delta\hat{\eta}
+                = \delta\eta^{p}_{q}\biccr{p}\bican{q}
+                = \partial_t\epsilon\brak{
+                    \biccr{a}\bican{i}
+                    + \biccr{i}\bican{a}
+                }.
+            \end{align}
+            The expectation value over the variation of $\hat{\eta}$ we find to
+            be
+            \begin{align}
+                \mel*{\tilde{\Psi}}{\delta\hat{\eta}}{\Psi}
+                = \para{\partial_t\epsilon}
+                \brak{
+                    \densityten^{i}_{a}
+                    + \densityten^{a}_{i}
+                }
+                =
+                -\epsilon\brak{
+                    \partial_t\densityten^{i}_{a}
+                    + \partial_t\densityten^{a}_{i}
+                },
+            \end{align}
+            where the boundary term disappears by definition of the variation
+            \cite{kvaal2012ab}.
+            Now, as we have set $\clustlamp^{i}_{a} = 0$, we have that
+            \begin{align}
+                \densityten^{i}_{a}
+                = \mel*{\tilde{\Psi}}{\biccr{a}\bican{i}}{\Psi}
+                = \clustlamp^{i}_{a}
+                = 0.
+            \end{align}
+            This is however not the case for $\densityten^{a}_{i}$ as the
+            operator string acts as a relaxtion operator.
+
+            The variation over the occupied-virtual orbitals and the
+            virtual-occupied orbitals can be done independently
+            \cite{kvaal2012ab}.
+            This yields two sets of equations for the $P$-variation.
+
+
 
         \subsection{Normalization of the coupled cluster wave functions in time}
             We compute the normalization of the coupled cluster wave function by
