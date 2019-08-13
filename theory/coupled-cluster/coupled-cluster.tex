@@ -1,14 +1,19 @@
 \chapter{Coupled cluster theory}
     \label{chap:cc}
-    % TODO: Why is coupled cluster so awesome?
-    % Discuss size-consistency and size-extensivity.
-    % Discuss exponential scaling catching all excitations of the reference
-    % state.
-    % Discuss how higher CI/CC coefficients/amplitudes contributing less than
-    % the singles and doubles coefficients/amplitudes.
-    % That is, for CCSDTQ, the doubles amplitudes will contribute more to the
-    % quadruply excited states than the quadruple amplitudes.
-    % See Crawford & Schaefer for a good intro to these topics.
+    In the previous chapter on the configuration interaction method we saw how
+    the size of the Slater determinant basis grows exponentially, and the
+    chapter demonstrated how the Hartree-Fock method only provides an
+    approximation using a single Slater determinant.
+    The coupled-cluster method provides an approximation to the exact many-body
+    wave function by an exponential ansatz.
+    This method provides higher order correlations beyond the single determinant
+    approximation given in the Hartree-Fock method, and maintains a polynomial
+    scaling for the Slater determinant basis if the cluster operators are
+    truncated.
+    In the untruncated limit we recover the full configuration interaction
+    method.
+    We shall also see how the truncated coupled-cluster method is
+    size-consistent and size-extensive.
 
 
     \section{Time-independent coupled cluster theory}
@@ -1248,185 +1253,189 @@
         \autoref{eq:time-evolution-lambda} we use the right-hand sides for the
         Lagrange multipliers from the time-independent situation.
 
-        \subsection{Orbital-adaptive time-dependent coupled-cluster theory}
-            In the article titled \citetitle{kvaal2012ab}
-            \citeauthor{kvaal2012ab} \cite{kvaal2012ab} employs the
-            bi-variational principle as discussed by \citeauthor{arponen1983311}
-            \cite{arponen1983311} to create a new family of coupled-cluster
-            methods dubbed ``orbital-adaptive time-dependent
-            coupled-cluster''.
-            They provide an approximation to the multi-configurational
-            time-dependent Hartree-Fock methods, which themselves are
-            approximations to the time-dependent full configuration interaction
-            method.
-            Similar to the non-orthogonal coupled-cluster method discussed in
-            \autoref{subsec:nocc} the orbital-adaptive method opens up for
-            orbital rotations along with the coupled-cluster amplitudes
-            $\clust(t)$ and $\clustl(t)$, with the orbitals subject to the
-            constraint that they are biorthogonal in time, that is,
-            \begin{align}
-                \braket*{\tilde{\phi}_p(t)}{\phi_q(t)} = \delta_{pq}
-                \implies
-                \acom{\bican{p}}{\biccr{q}}
-                = \delta_{pq},
-            \end{align}
-            where we denote the bra states by tilde to distinguish it from the
-            adjoint state.
-            In general we have $\ket{\phi_p(t)}^{\dagger} \neq
-            \bra*{\tilde{\phi}_p(t)}$ as the two orbitals are defined in two
-            separate Hilbert spaces \cite{kvaal2012ab}.
-            This extends through to the Slater determinants being biorthogonal
-            in time.
+    \section{Orbital-adaptive time-dependent coupled-cluster}
+        In the article titled \citetitle{kvaal2012ab}
+        \citeauthor{kvaal2012ab} \cite{kvaal2012ab} employs the
+        bi-variational principle as discussed by \citeauthor{arponen1983311}
+        \cite{arponen1983311} to create a new family of coupled-cluster
+        methods dubbed ``orbital-adaptive time-dependent
+        coupled-cluster''.
+        They provide an approximation to the multi-configurational
+        time-dependent Hartree-Fock methods, which themselves are
+        approximations to the time-dependent full configuration interaction
+        method.
+        Similar to the non-orthogonal coupled-cluster method discussed in
+        \autoref{subsec:nocc} the orbital-adaptive method opens up for
+        orbital rotations along with the coupled-cluster amplitudes
+        $\clust(t)$ and $\clustl(t)$, with the orbitals subject to the
+        constraint that they are biorthogonal in time, that is,
+        \begin{align}
+            \braket*{\tilde{\phi}_p(t)}{\phi_q(t)} = \delta_{pq}
+            \implies
+            \acom{\bican{p}}{\biccr{q}}
+            = \delta_{pq},
+        \end{align}
+        where we denote the bra states by tilde to distinguish it from the
+        adjoint state.
+        In general we have $\ket{\phi_p(t)}^{\dagger} \neq
+        \bra*{\tilde{\phi}_p(t)}$ as the two orbitals are defined in two
+        separate Hilbert spaces \cite{kvaal2012ab}.
+        This extends through to the Slater determinants being biorthogonal
+        in time.
 
-            In order to avoid two sets of second quantized operators, we
-            transform from the atomic orbital basis in a similar fashion as done
-            in the non-orthogonal coupled-cluster method.
-            However, the formulation of the orbital-adaptive method does not
-            contain an explicit single-particle operator as in the
-            non-orthogonal method.
-            Therefore, instead of transforming via \autoref{eq:biccr} and
-            \autoref{eq:bican}, we use the projection operator of the
-            biorthogonal Slater determinant basis \cite{kvaal2012ab}
-            \begin{align}
-                \Pi(t)
-                = \dyad*{\slat_{\mu}(t)}{\tilde{\slat}_{\mu}(t)}.
-            \end{align}
-            This lets us transform the Hamiltonian to the biorthogonal basis by
-            \begin{align}
-                \mel*{\tilde{\Psi}(t)}{\hamil(t)}{\Psi(t)}
-                =
-                \mel*{\tilde{\Psi}(t)}{\Pi(t)\hamil(t)\Pi(t)}{\Psi(t)},
-            \end{align}
-            where we stress that $\Pi(t) \neq \Pi^{\dagger}(t)$.  This
-            corresponds to replacing all static second quantized operators by
-            the biorthogonal operators.
-            Instead of going through a description of the time-dependent
-            bivariational principle \cite{kvaal2012ab, arponen1983311}, we
-            define the bivariational form of the coupled cluster wave functions
-            to be
-            \begin{gather}
-                \ket*{\Psi(t)} = \exp(\clust(t))\ket*{\slat(t)}, \\
-                \bra*{\tilde{\Psi}(t)}
-                = \bra*{\tilde{\slat}(t)}\para{\1 + \clustl(t)}
-                \exp(-\clust(t)),
-            \end{gather}
-            where we impose the normalization that
-            \begin{align}
-                \braket*{\tilde{\Psi}(t)}{\Psi(t)} = 1.
-            \end{align}
-            From here on out we remove the explicit time-dependence on the
-            states and operators to avoid too much clutter.
-            We now define the action-like functional\footnote{%
-                This must not be mistaken for an actual action functional
-                \cite{arponen1983311}.
-            } by \cite{kvaal2012ab, arponen1983311}
-            \begin{align}
-                S[\clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}]
-                =
-                \int \dd t
-                \mel*{\tilde{\Psi}}{
-                    \para{
-                        i\hslash\partial_t - \hamil
-                    }
-                }{\Psi}
-                =
-                \int \dd t
-                L[\clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}],
-                \label{eq:oacc-action-functional}
-            \end{align}
-            which closely resembles the coupled-cluster action functional from
-            \autoref{eq:cc-action-functional} except that
-            \autoref{eq:oacc-action-functional} opens up for independent
-            variations over the orbitals.
-            To go from here we evalute the Lagrangian functional.
-            The time-derivative yields
-            \begin{align}
-                \mel*{\tilde{\Psi}}{\partial_t}{\Psi}
-                =
-                \mel*{\tilde{\Psi}}{
-                    \partial_t \clustamp_{\mu}\hat{X}_{\mu}
-                    +
-                    \hat{\eta}
-                }{\Psi}
-                =
-                \clustlamp_{\mu}\partial_t\clustamp_{\mu}
-                + \mel*{\tilde{\Psi}}{\hat{\eta}}{\Psi},
-            \end{align}
-            where the first term comes from the time-derivative of the cluster
-            amplitudes as seen in \autoref{eq:td-clustamp}, and the second term
-            comes from the time-derivative of the orbitals.
-            This operator is given by
-            \begin{align}
+        In order to avoid two sets of second quantized operators, we
+        transform from the atomic orbital basis in a similar fashion as done
+        in the non-orthogonal coupled-cluster method.
+        However, the formulation of the orbital-adaptive method does not
+        contain an explicit single-particle operator as in the
+        non-orthogonal method.
+        Therefore, instead of transforming via \autoref{eq:biccr} and
+        \autoref{eq:bican}, we use the projection operator of the
+        biorthogonal Slater determinant basis \cite{kvaal2012ab}
+        \begin{align}
+            \Pi(t)
+            = \dyad*{\slat_{\mu}(t)}{\tilde{\slat}_{\mu}(t)}.
+        \end{align}
+        This lets us transform the Hamiltonian to the biorthogonal basis by
+        \begin{align}
+            \mel*{\tilde{\Psi}(t)}{\hamil(t)}{\Psi(t)}
+            =
+            \mel*{\tilde{\Psi}(t)}{\Pi(t)\hamil(t)\Pi(t)}{\Psi(t)},
+        \end{align}
+        where we stress that $\Pi(t) \neq \Pi^{\dagger}(t)$.  This
+        corresponds to replacing all static second quantized operators by
+        the biorthogonal operators.
+        Instead of going through a description of the time-dependent
+        bivariational principle \cite{kvaal2012ab, arponen1983311}, we
+        define the bivariational form of the coupled cluster wave functions
+        to be
+        \begin{gather}
+            \ket*{\Psi(t)} = \exp(\clust(t))\ket*{\slat(t)}, \\
+            \bra*{\tilde{\Psi}(t)}
+            = \bra*{\tilde{\slat}(t)}\para{\1 + \clustl(t)}
+            \exp(-\clust(t)),
+        \end{gather}
+        where we impose the normalization that
+        \begin{align}
+            \braket*{\tilde{\Psi}(t)}{\Psi(t)} = 1.
+        \end{align}
+        From here on out we remove the explicit time-dependence on the
+        states and operators to avoid too much clutter.
+        We now define the action-like functional\footnote{%
+            This must not be mistaken for an actual action functional
+            \cite{arponen1983311}.
+        } by \cite{kvaal2012ab, arponen1983311}
+        \begin{align}
+            S[\clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}]
+            =
+            \int \dd t
+            \mel*{\tilde{\Psi}}{
+                \para{
+                    i\hslash\partial_t - \hamil
+                }
+            }{\Psi}
+            =
+            \int \dd t
+            L[\clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}],
+            \label{eq:oacc-action-functional}
+        \end{align}
+        which closely resembles the coupled-cluster action functional from
+        \autoref{eq:cc-action-functional} except that
+        \autoref{eq:oacc-action-functional} opens up for independent
+        variations over the orbitals.
+        To go from here we evalute the Lagrangian functional.
+        The time-derivative yields
+        \begin{align}
+            \mel*{\tilde{\Psi}}{\partial_t}{\Psi}
+            =
+            \mel*{\tilde{\Psi}}{
+                \partial_t \clustamp_{\mu}\hat{X}_{\mu}
+                +
                 \hat{\eta}
-                = \mel*{\tilde{\phi}_p}{\partial_t}{\phi_q}
-                \biccr{p}\bican{q}
-                = \eta^{p}_{q}\biccr{p}\bican{q}
-            \end{align}
-            which is a one-body operator similar to the projected one-body
-            Hamiltonian.
-            We define the orbital-adaptive coupled-cluster energy functional by
-            \begin{align}
-                \mathcal{E}[
-                    \clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}
-                ]
-                \equiv \mel*{\tilde{\Psi}}{
+            }{\Psi}
+            =
+            \clustlamp_{\mu}\partial_t\clustamp_{\mu}
+            + \mel*{\tilde{\Psi}}{\hat{\eta}}{\Psi},
+        \end{align}
+        where the first term comes from the time-derivative of the cluster
+        amplitudes as seen in \autoref{eq:td-clustamp}, and the second term
+        comes from the time-derivative of the orbitals.
+        This operator is given by
+        \begin{align}
+            \hat{\eta}
+            = \mel*{\tilde{\phi}_p}{\partial_t}{\phi_q}
+            \biccr{p}\bican{q}
+            = \eta^{p}_{q}\biccr{p}\bican{q}
+        \end{align}
+        which is a one-body operator similar to the projected one-body
+        Hamiltonian.
+        We define the orbital-adaptive coupled-cluster energy functional by
+        \begin{align}
+            \mathcal{E}[
+                \clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}
+            ]
+            \equiv \mel*{\tilde{\Psi}}{
+                \para{
                     \hamil - i\hslash\hat{\eta}
-                }{\Psi},
-            \end{align}
-            which should be compared with \autoref{eq:cc-energy-functional}.
-            We can now write the Lagrangian functional as
-            \begin{align}
-                L[\clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}]
-                =
-                i\hslash\clustlamp_{\mu}\partial_t\clustamp_{\mu}
-                -
-                \mathcal{E}[
-                    \clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}
-                ].
-                \label{eq:oatdcc-lagrangian}
-            \end{align}
-            We are now interested in finding stationary conditions for the
-            action-like functional by performing variations over all dependent
-            variables in the Lagrangian functional.
-            The stationary conditions for the $\clustl$-amplitudes are given by
-            \begin{align}
-                i\hslash\partial_t \clustamp_{\mu}
-                = \dpd{\mathcal{E}[
-                    \clustamp_{\nu}, \clustlamp_{\nu}
-                    \slat, \tilde{\slat}
-                ]}{\clustlamp_{\mu}}
-                =
-                \mel*{\tilde{\slat}_{\mu}}{
-                    \exp(-\clust)\brak{
-                        \hamil
-                        - i\hslash\hat{\eta}
-                    }\exp(\clust)
-                }{\slat}.
-            \end{align}
-            Comparing this to \autoref{eq:time-evolution-tau} we see that the
-            only difference is the inclusion of the one-body operator
-            $i\hslash\hat{\eta}$.
-            The stationary conditions for the $\clust$-amplitudes then yields
-            \begin{align}
-                -i\hslash\partial_t\clustlamp_{\mu}
-                &=
-                \dpd{\mathcal{E}[
-                    \clustamp_{\nu}, \clustlamp_{\nu}
-                    \slat, \tilde{\slat}
-                ]}{\clustamp_{\mu}}
-                =
-                \mel*{\tilde{\Psi}}{
-                    \com{
-                        \hamil
-                        - i\hslash\hat{\eta}
-                    }{
-                        \hat{X}_{\mu}
-                    }
-                }{\Psi},
-            \end{align}
-            which is also comparable to the time-dependent coupled-cluster
-            method with stationary orbitals in
-            \autoref{eq:time-evolution-lambda}.
+                }
+            }{\Psi},
+        \end{align}
+        which should be compared with \autoref{eq:cc-energy-functional}.
+        We can now write the Lagrangian functional as
+        \begin{align}
+            L[\clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}]
+            =
+            i\hslash\clustlamp_{\mu}\partial_t\clustamp_{\mu}
+            -
+            \mathcal{E}[
+                \clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}
+            ].
+            \label{eq:oatdcc-lagrangian}
+        \end{align}
+        We are now interested in finding stationary conditions for the
+        action-like functional by performing variations over all dependent
+        variables in the Lagrangian functional.
+        The stationary conditions for the $\clustl$-amplitudes are given by
+        \begin{align}
+            i\hslash\partial_t \clustamp_{\mu}
+            = \dpd{\mathcal{E}[
+                \clustamp_{\nu}, \clustlamp_{\nu}
+                \slat, \tilde{\slat}
+            ]}{\clustlamp_{\mu}}
+            =
+            \mel*{\tilde{\slat}_{\mu}}{
+                \exp(-\clust)\brak{
+                    \hamil
+                    - i\hslash\hat{\eta}
+                }\exp(\clust)
+            }{\slat}.
+        \end{align}
+        Comparing this to \autoref{eq:time-evolution-tau} we see that the
+        only difference is the inclusion of the one-body operator
+        $i\hslash\hat{\eta}$.
+        The stationary conditions for the $\clust$-amplitudes then yields
+        \begin{align}
+            -i\hslash\partial_t\clustlamp_{\mu}
+            &=
+            \dpd{\mathcal{E}[
+                \clustamp_{\nu}, \clustlamp_{\nu}
+                \slat, \tilde{\slat}
+            ]}{\clustamp_{\mu}}
+            =
+            \mel*{\tilde{\Psi}}{
+                \com{
+                    \hamil
+                    - i\hslash\hat{\eta}
+                }{
+                    \hat{X}_{\mu}
+                }
+            }{\Psi},
+        \end{align}
+        which is also comparable to the time-dependent coupled-cluster
+        method with stationary orbitals in
+        \autoref{eq:time-evolution-lambda}.
+
+        \subsection{Orbital rotations}
             For the variation of the orbitals we start by noting that the four
             sets of parameters $\clust$, $\clustl$, $\slat$, and $\tilde{\slat}$
             are overdetermined \cite{kvaal2012ab}.
@@ -1485,6 +1494,7 @@
             This lets us perform the variations over the $P$ equations
             independently of the variations over the $Q$ equations.
 
+        \subsection{$P$-space equations}
             We therefore start by defining the variations over the orbitals to
             be
             \begin{align}
@@ -1882,14 +1892,181 @@
                 \twoten^{pq}_{is}\densityten^{sa}_{pq}
                 -
                 \half
-                \twoten^{aq}_{rs}\densityten^{sr}_{iq},
+                \twoten^{aq}_{rs}\densityten^{sr}_{iq}
+                + i\hslash\partial_t\rho^{a}_{i},
                 \label{eq:eta-bj}
             \end{align}
             which resembles a transposed linear equation.
+            Note that the time-derivative of the one-body density matrix does
+            not disappear in the latter equation.
             Solving both \autoref{eq:eta-jb} and \autoref{eq:eta-bj} we are able
             to construct the $\vfg{\eta}$ matrix.
             We shall in the following derivation of the $Q$-space equations see
             how this gives an expression for the time-evolution of the orbitals.
+
+        \subsection{$Q$-space equations}
+            For the $Q$-space equations we define the variation over the
+            orbitals to be
+            \begin{gather}
+                \ket*{\delta\phi_p}
+                \equiv \ket*{\theta}
+                = \hat{Q}\ket*{\theta},
+                \\
+                \bra*{\delta\tilde{\phi}_p}
+                \equiv \bra*{\theta}
+                = \bra*{\theta}\hat{Q},
+            \end{gather}
+            where the requirement that $\ket*{\theta}$ can be defined in terms
+            of itself acted upon by $\hat{Q}$ yields
+            \begin{align}
+                \braket*{\theta}{\phi_p}
+                = \braket*{\tilde{\phi}_p}{\theta}
+                = 0,
+            \end{align}
+            for all $p$.
+            This helps explain why we were able to split up the orbital
+            variations over $\hat{P}$ and $\hat{Q}$ as it demonstrates that the
+            $Q$-space equations are independent of the $P$-space equations.
+            The variation over $Q$-space will only apply to the energy
+            functional $\mathcal{E}$ as the amplitude term in the Lagrangian
+            does not explicitly depend on the orbitals.
+            We write the energy functional in terms of one- and two-body
+            matrices
+            \begin{align}
+                \mathcal{E}
+                &= \mel*{\tilde{\Psi}}{
+                    \para{
+                        \hamil - i\hslash\hat{\eta}
+                    }
+                }{\Psi}
+                =
+                \densityten^{q}_{p}\para{
+                    \oneten^{p}_{q}
+                    - i\hslash\eta^{p}_{q}
+                }
+                + \frac{1}{4}\densityten^{rs}_{pq}
+                \twoten^{pq}_{rs}
+                \\
+                &= \densityten^{q}_{p}
+                \mel*{\tilde{\phi}_p}{
+                    \para{
+                        \onehamil
+                        - i\hslash\partial_t
+                    }
+                }{\phi_{q}}
+                +
+                \frac{1}{4}\densityten^{rs}_{pq}
+                \mel*{\tilde{\phi}_p\tilde{\phi}_q}{
+                    \twohamil
+                }{\phi_r\phi_s}_{AS},
+            \end{align}
+            where we've written out the explicit orbital dependencies in the
+            one- and two-body Hamiltonian and the time-derivative.
+            Requiring that the first order variations over the orbitals should
+            make the action functional disappear, we have
+            \begin{align}
+                \delta S
+                &=
+                \int\dd t \brak{
+                    \rho^{q}_{p}
+                    \mel*{\theta}{
+                        \para{
+                            \onehamil
+                            - i\hslash\partial_t
+                        }
+                    }{\phi_q}
+                    +
+                    \densityten^{rs}_{pq}
+                    \mel*{\theta\tilde{\phi}_q}{
+                        \twohamil
+                    }{\phi_r\phi_s}
+                }
+                = 0,
+            \end{align}
+            where we stress that $p$ is now a free index, and where the two-body
+            elements no longer are antisymmetric.
+            The factor $1/4$ disappeared from the two-body integrals due to the
+            antisymmetric properties of the two-body density matrix and by
+            expanding the antisymmetric two-body Hamiltonian in its constituent
+            parts and using the symmetric properties of the two-body elements.
+            As the variation must be valid for all $\bra*{\theta}\hat{Q}$ we are
+            left with
+            \begin{align}
+                i\hslash\densityten^{q}_{p}\hat{Q}\partial_t\ket{\phi_q}
+                = \densityten^{q}_{p}\hat{Q}\onehamil\ket{\phi_q}
+                + \densityten^{rs}_{pq}\hat{Q}\hat{W}^{q}_{s}\ket{\phi_{r}},
+                \label{eq:ket-q}
+            \end{align}
+            where we've defined the mean-field potential $W^{q}_{s}$ to be
+            \cite{kvaal2012ab}
+            \begin{align}
+                \hat{W}^{q}_{s}\ket{\phi_r}
+                = \int\dd x_1 \dd x_2
+                \tilde{\phi}_{q}(x_2)
+                \twohamil(x_1, x_2)
+                \phi_s(x_2)
+                \phi_r(x_1),
+            \end{align}
+            similarly to the Coulomb operator in the Hartree-Fock theory.
+            Performing the variations over the ket-side of the energy functional
+            we have
+            \begin{align}
+                \delta S
+                = \int \dd t
+                \brak{
+                    \densityten^{q}_{p}
+                    \mel*{\tilde{\phi}_p}{
+                        \para{
+                            \onehamil
+                            - i\hslash \partial_t
+                        }
+                    }{\theta}
+                    + \densityten^{rs}_{pq}
+                    \mel*{\tilde{\phi}_p\tilde{\phi}_q}{
+                        \twohamil
+                    }{\theta\phi_s}
+                }
+                = 0,
+            \end{align}
+            where now $q$ in the first term and $r$ in the second term are free
+            indices.
+            This variation must be valid for all $\hat{Q}\ket{\theta}$ and we
+            get the equation
+            \begin{align}
+                -i\hslash\densityten^{q}_{p}\para{
+                    \partial_t \bra*{\tilde{\phi}_p}
+                }\hat{Q}
+                =
+                \densityten^{q}_{p}\bra*{\tilde{\phi}_p}
+                \onehamil\hat{Q}
+                + \densityten^{rs}_{pq}
+                \bra*{\tilde{\phi}_p}
+                \hat{W}^{q}_{s}\hat{Q},
+                \label{eq:bra-q}
+            \end{align}
+            where we get a change of sign on the left-hand side due to
+            integration by parts and removal of the boundary term.
+            Now \autoref{eq:ket-q} and \autoref{eq:bra-q} along with the
+            $P$-space equations provide the equations of motion for the orbital
+            rotations.
+
+            When \citeauthor{kvaal2012ab} formulated the orbital-adaptive
+            coupled-cluster method the intention was to provide an approximation
+            to the multi-configuration Hartree-Fock method.
+            The latter method approximates the full configuration interaction
+            method by truncating the single-particle basis beyond the originally
+            truncated basis set.
+            The orbital-adaptive coupled-cluster method approximates the
+            multi-configuration Hartree-Fock method by truncating the Slater
+            determinant space by using the exponential ansatz from
+            coupled-cluster.
+            Thus, we are in a position to do two truncations from the
+            full-configuration method; the Slater basis and the single-particle
+            basis.
+            Now, the former truncation comes from the choice of the cluster
+            operator truncation and the latter from the $Q$-space equations.
+            We shall discuss this in more detail when we look at the
+            implementation of the orbital-adaptive coupled-cluster method.
 
 
 
