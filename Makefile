@@ -15,7 +15,7 @@ build: main.makefile
 
 watch: main.makefile
 	make -j4 -f main.makefile
-	latexmk -lualatex -bibtex -shell-escape -pvc -view=none
+	latexmk -lualatex -bibtex -shell-escape -pvc -g -view=none
 
 
 .PHONY: clean clean-figures
