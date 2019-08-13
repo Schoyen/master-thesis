@@ -143,8 +143,8 @@
             determinants, we can construct the configuration interaction doubles
             (CID) wave function by
             \begin{align}
-                \ket{\Psi} = C\ketslat
-                + \frac{1}{4} C^{ab}_{ij} \ket{\slat^{ab}_{ij}},
+                \ket*{\Psi} = C\ket*{\slat}
+                + \frac{1}{4} C^{ab}_{ij} \ket*{\slat^{ab}_{ij}},
             \end{align}
             which reduces the number of Slater determinants to
             \begin{align}
@@ -300,6 +300,34 @@
             %        \ket{\phi_3}, \ket{\phi_4}}$ with two particles.}
             %        \label{fig:tiny-slater-basis}
             %    \end{figure}
+
+        \subsection{Size-consistency and size-extensivity}
+            The concept of size-consistency is defined as
+            \cite{pople-size-consistency}
+            \begin{align}
+                E(AB) = E(A) + E(B),
+                \label{eq:size-consistency}
+            \end{align}
+            where $A$ and $B$ are two non-interacting systems, and $AB$ are the
+            combined non-interacting systems.
+            This tells us that the sum of the energy of the two consituent parts
+            should equal the total energy of the combined system.
+            A generalization of this concept is size-extensivity
+            \cite{shavitt2009many} which extends the size-consistency
+            requirement to $N$ systems.
+            If we consider two non-interacting systems $A$ and $B$ with two
+            particles each, the full configuration-interaction method for each
+            system separately would be at the singles-and-doubles truncation.
+            However, the combined system consists of four particles and the
+            singles-and-doubles truncation would be unable to include all
+            excitations.
+            This means that we would violate \autoref{eq:size-consistency}
+            unless the left-hand side includes the triple and quadruple
+            excitations as well.
+            The fact that truncated configuration interaction is not
+            size-consistent motivates the need for better approximations to the
+            full many-body wave function.
+            % TODO: Check if this is ok.
 
     \section{Time-dependent configuration interaction}
         Starting from the time-dependent Schrödinger equation, we can formulate
