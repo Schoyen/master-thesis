@@ -352,23 +352,72 @@
             \begin{align}
                 \ket*{\Psi^{AB}}
                 = \ket*{\Psi^{A}}\ket*{\Psi^{B}},
+                \label{eq:multiplicately-separable}
             \end{align}
-            where the product of the two states is understood as acting on the
-            two separate subsystems $A$ and $B$.
-
-            If we consider two non-interacting systems $A$ and $B$ with two
-            particles each, the full configuration-interaction method for each
-            system separately would be at the singles-and-doubles truncation.
-            However, the combined system consists of four particles and the
-            singles-and-doubles truncation would be unable to include all
-            excitations.
-            This means that we would violate \autoref{eq:size-consistency}
-            unless the left-hand side includes the triple and quadruple
-            excitations as well.
-            The fact that truncated configuration interaction is not
-            size-consistent motivates the need for better approximations to the
-            full many-body wave function.
-            % TODO: Check if this is ok.
+            where the product of the two states is understood as each state
+            acting on a subsystem.
+            This last requirement is enough to demonstrate that truncated
+            configuration interaction is \emph{not size-consistent}.
+            Consider the truncated doubles wave function
+            \begin{align}
+                \ket{\Psi} = \para{\1 + \hat{C}}\ket{\slat},
+            \end{align}
+            where we've assumed intermediate normalization of the wave function
+            and we've denoted the doubles operator by
+            \begin{align}
+                \hat{C} \equiv \frac{1}{4}C^{ab}_{ij}\hat{X}^{ab}_{ij},
+            \end{align}
+            for the sake of brevity.
+            Now, looking at the right-hand side of
+            \autoref{eq:multiplicately-separable} we get
+            \begin{align}
+                \ket*{\Psi^{A}}\ket*{\Psi^{B}}
+                &= \para{\1^{A} + \hat{C}^{A}}\ket*{\slat^A}
+                \para{\1^{B} + \hat{C}^{B}}\ket*{\slat^B}
+                \\
+                &=
+                \ket*{\slat^{A}}\ket*{\slat^{B}}
+                \pm \ket*{\slat^{A}}\hat{C}^{B}\ket*{\slat^{B}}
+                + \hat{C}^{A}\ket*{\slat^{A}}\ket*{\slat^{B}}
+                \nonumber \\
+                &\qquad
+                \pm \hat{C}^{A}\ket*{\slat^{A}}\hat{C}^{B}\ket*{\slat^{B}},
+            \end{align}
+            where we repeat that the second quantized operators of the two
+            subsystems anticommute and we've included a possible sign change due
+            to an odd number of particles in subsystem $A$ and hence an odd
+            number of creation operators in this determinant.
+            What is important to note in the last equation is that the last term
+            consists of a \emph{quadruply} excited state as both determinants in
+            each subsystem is excited at the same time.
+            For the left-hand side of \autoref{eq:multiplicately-separable} we
+            have that the doubles wave function for the combined subsystem is
+            restricted to
+            \begin{align}
+                \ket*{\Psi^{AB}}
+                &= \para{\1^{AB} + \hat{C}^{AB}}\ket*{\slat^{AB}}
+                = \ket*{\slat^{A}}\ket*{\slat^{B}}
+                + \para{\hat{C}^{A} + \hat{C}^{B}}
+                \ket*{\slat^{A}}\ket*{\slat^{B}}
+                \\
+                &=
+                \ket*{\slat^{A}}\ket*{\slat^{B}}
+                + \hat{C}^{A}\ket*{\slat^{A}}\ket*{\slat^{B}}
+                \pm \ket*{\slat^{A}}\hat{C}^{B}\ket*{\slat^{B}},
+            \end{align}
+            where we have used that the compound doubles excitation operator can
+            at most be a sum of doubles operators for each subsystem.
+            We note that the left-hand side of
+            \autoref{eq:multiplicately-separable} lacks the expected quadruples
+            excitation coming from the doubles excitation of both subsystems at
+            the same time.
+            This situation extends beyond the doubles excitations
+            \cite{size-extensivity}, and we conclude that truncated
+            configuration interaction is not size-consistent.
+            However, if we use a full configuration interaction ansatz
+            corresponding to a full excitation of the combined system, we then
+            recover size consistency as both sides of
+            \autoref{eq:multiplicately-separable} will be fully excited.
 
     \section{Time-dependent configuration interaction}
         Starting from the time-dependent Schrödinger equation, we can formulate
