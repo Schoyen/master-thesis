@@ -301,20 +301,61 @@
             %        \label{fig:tiny-slater-basis}
             %    \end{figure}
 
-        \subsection{Size-consistency and size-extensivity}
+        \subsection{Size-consistency}
             The concept of size-consistency is defined as
             \cite{pople-size-consistency}
             \begin{align}
                 E(AB) = E(A) + E(B),
                 \label{eq:size-consistency}
             \end{align}
-            where $A$ and $B$ are two non-interacting systems, and $AB$ are the
-            combined non-interacting systems.
+            where $A$ and $B$ are two systems which do not interact with one
+            another.\footnote{%
+                Note that the particles in system $A$ and system $B$ internally
+                can include interations.
+                There is just no interaction between the particles in system $A$
+                with particles in system $B$, and vice versa.
+            }
             This tells us that the sum of the energy of the two consituent parts
             should equal the total energy of the combined system.
-            A generalization of this concept is size-extensivity
-            \cite{shavitt2009many} which extends the size-consistency
-            requirement to $N$ systems.
+            A similar concept is size-extensivity \cite{shavitt2009many}, which
+            is often a consequence of size-consistency.
+            In fact these two concepts tend to be discussed interchangeably
+            \cite{size-extensivity, helgaker-molecular}.
+            We will limit our attention to the case for size-consistency.
+            We can in this case write the idealized compound Hamiltonian as
+            \begin{align}
+                \hamil_{AB}
+                = \hamil_A + \hamil_B,
+            \end{align}
+            where it is understood that the second quantized operators in the
+            two subsystems anticommute, that is,
+            \begin{align}
+                \acom{\can{{p_A}}}{\ccr{{q_B}}} = 0,
+            \end{align}
+            and that the Hamiltonian of a given subsystem only contains
+            operators for that system.
+            We can now formulate \autoref{eq:size-consistency} from the
+            expectation value of the Hamiltonian by
+            \begin{align}
+                \mel*{\Psi^{AB}}{\hamil_{AB}}{\Psi^{AB}}
+                = \mel*{\Psi^{A}}{\hamil_{A}}{\Psi^{A}}
+                + \mel*{\Psi^{B}}{\hamil_{B}}{\Psi^{B}},
+            \end{align}
+            where we assume that both the compound wave function
+            $\ket*{\Psi^{AB}}$ and the wave functions of each subsystem
+            $\ket*{\Psi^{A}}$ and $\ket*{\Psi^{B}}$ are normalized.
+            We can thus formulate the requirements necessary for a
+            size-consistent method: the energy must be \emph{additively
+            separable}, viz. \autoref{eq:size-consistency}; the wave function
+            must be \emph{multiplicately separable} \cite{helgaker-molecular}.
+            The latter requirement is formulated by
+            \begin{align}
+                \ket*{\Psi^{AB}}
+                = \ket*{\Psi^{A}}\ket*{\Psi^{B}},
+            \end{align}
+            where the product of the two states is understood as acting on the
+            two separate subsystems $A$ and $B$.
+
             If we consider two non-interacting systems $A$ and $B$ with two
             particles each, the full configuration-interaction method for each
             system separately would be at the singles-and-doubles truncation.
