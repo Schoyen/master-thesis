@@ -539,11 +539,39 @@
             configuration interaction method in
             \autoref{subsec:size-consistency}, we now turn our attention to the
             exponential ansatz used in the coupled-cluster method.
-            We assume that the Hamiltonian is additively separable, that is
+            We assume that the Hamiltonian is additively separable as in
+            \autoref{eq:additively-separable}, and that the second quantized
+            operators for the two subsystems $A$ and $B$ anticommute with one
+            another.
+            We now need to demonstrate that the compound coupled-cluster wave
+            function $\ket*{\Psi^{AB}}$ is multiplicately separable as in
+            \autoref{eq:multiplicately-separable} in order for the method to be
+            size-consistent.
+            Now, as the cluster operators in the exponential ansatz consist of
+            an even number of second quantized operators and the operators
+            between different subsystems anticommute we have that
             \begin{align}
-                \hamil_{AB}
+                \com{\clust_{A}}{\clust_{B}} = 0.
             \end{align}
-            % TODO: Continue on this
+            Furthermore, this extends to the cluster operator in a subsystem
+            commuting with any other second quantized operator in the other
+            subsystem due to there being an even number of anticommutation.
+            The compound wave function can now be found to be
+            \begin{align}
+                \ket*{\Psi^{AB}}
+                &= \exp(\clust^{AB})\ket*{\slat^{AB}}
+                =
+                \exp(\clust^{A})\exp(\clust^{B})
+                \ket*{\slat^{A}}\ket*{\slat^{B}}
+                \\
+                &=
+                \exp(\clust^{A})\ket*{\slat^{A}}
+                \exp(\clust^{B})\ket*{\slat^{B}}
+                = \ket*{\Psi^{A}}\ket*{\Psi^{B}}.
+            \end{align}
+            The size-consistent property is a fact for all exponential wave
+            function ansatzes due to separability of the exponential operator
+            \cite{helgaker-molecular, size-extensivity}.
 
         \subsection{Non-variational coupled cluster}
             From the postulates of quantum mechanics we know that every physical

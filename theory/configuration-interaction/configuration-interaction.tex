@@ -327,6 +327,7 @@
             \begin{align}
                 \hamil_{AB}
                 = \hamil_A + \hamil_B,
+                \label{eq:additively-separable}
             \end{align}
             where it is understood that the second quantized operators in the
             two subsystems anticommute, that is,
@@ -345,6 +346,12 @@
             where we assume that both the compound wave function
             $\ket*{\Psi^{AB}}$ and the wave functions of each subsystem
             $\ket*{\Psi^{A}}$ and $\ket*{\Psi^{B}}$ are normalized.
+            Furthermore, we assume that the energy of the specific systems is
+            given by
+            \begin{align}
+                E(A) = \mel*{\Psi^{A}}{\hamil_{A}}{\Psi^{A}},
+            \end{align}
+            for all the systems.
             We can thus formulate the requirements necessary for a
             size-consistent method: the energy must be \emph{additively
             separable}, viz. \autoref{eq:size-consistency}; the wave function
