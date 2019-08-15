@@ -1447,3 +1447,38 @@ energy = np.trace(np.dot(term, density_matrix))
             We also compute the overlap from the initial time $t = 0$.
 
     \section{Coupled cluster}
+        In this thesis we have implemented a set of coupled-cluster solvers,
+        they are:
+        \begin{itemize}
+            \item The coupled-cluster doubles (CCD) and the coupled-cluster
+                singles-and-doubles (CCSD) methods with static orbitals.
+                This includes both time-independent and time-dependent solvers.
+            \item The non-orthogonal coupled-cluster doubles (NOCCD) ground
+                state solver.
+                Note that we often call this solver for the orbital-adaptive
+                coupled-cluster doubles method (OACCD).
+                This solver was written by \citeauthor{rolf-nocc}
+                \cite{rolf-nocc} and given to use as part of an ongoing article
+                on the stability of time-dependent coupled-cluster methods.
+                We still describe the implementation in some detail as we had to
+                integrate the solution into our library.
+                % TODO: Cite ongoing article
+            \item The orbital-adaptive time-dependent coupled-cluster doubles
+                (OATDCCD) method.
+                This method uses the OACCD method as an initial ground state
+                solver.
+        \end{itemize}
+        Our coupled-cluster library tries in as large degree as possible to
+        re-use routines for the different solvers as this makes optimization
+        more efficient, that is, we only need to optizime a specific function
+        once instead of once per solver.
+
+        \subsection{Ground state solvers with static orbitals}
+            From \autoref{chap:cc} we know that the projected amplitude
+            equations from \autoref{eq:cc_amp_sim} should be satisfied once we
+            have found the optimal $\clustamp_{\mu}$-amplitudes.
+
+        \subsection{Non-orthogonal ground state solver}
+
+        \subsection{Time-evolution with static orbitals}
+        \subsection{Orbital-adaptive time-evolution}
