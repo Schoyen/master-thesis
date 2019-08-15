@@ -314,279 +314,176 @@
 
         We denote the number of basis functions by $L$, the number of particles
         by $N$, and the number virtual states by $M = L - N$.
+        We assume that $N < L / 2$ so that it is better to replace a contraction
+        along a virtual index with an occupied index.
         Furthermore, we assume that the tensor contractions are performed as
         binary operations where the ordering of the contractions involving the
         lowest cost are performed.
-        As an example, consider the contraction
+        The permutation operator $P(ab)$ is defined by the action
         \begin{align}
-            g^{ab}_{ij} = \clustamp^{ab}_{lj} \clustamp^{dc}_{ik}
-            \twoten^{kl}_{cd}.
-        \end{align}
-        The naïve solution using explicit for-loops yields a $\mathcal{O}(M^4
-        N^4)$-complexity.
-        By first creating the intermediate contraction
-        \begin{align}
-            W^{l}_{i} = \clustamp^{dc}_{ik} \twoten^{kl}_{cd},
-        \end{align}
-        and then computing the total result from
-        \begin{align}
-            g^{ab}_{ij} = \clustamp^{ab}_{lj} W^{l}_{i},
-        \end{align}
-        we've reduced the complexity to $\mathcal{O}(M^2 N^3)$.
-        This incurs a memory penalty, but the gain in reduction of the number of
-        FLOPS far exceeds the cost.
-
-        \begin{table}
-            \centering
-            \caption{Terms included in the CCD amplitudes.
-            Note that the complexity is based on the tensor contraction being
-            performed as a binary operation where the optimal ordering of the
-            contraction is performed.}
-            \renewcommand{\arraystretch}{1.3}
-            \begin{tabular}{@{}lll@{}}
-                \toprule
-                Label & Term & Complexity \\
-                \midrule
-                D1 & $\twoten^{ab}_{ij}$ & $\mathcal{O}(M^2 N^2)$ \\
-                \bottomrule
-            \end{tabular}
-            \label{tab:ccd-amplitude-terms}
-        \end{table}
-
-        The doubles amplitude equations is given by\cite{shavitt2009many}
-        \begin{align}
-            0 &= g(f, u, \clustamp)
-            \equiv \braslate{ab}{ij}e^{-\clust_2}\HN e^{\clust_2}\ketslat
-            \\
-            &=
-            u^{ab}_{ij}
-            + f^{b}_{c} \clustamp^{ac}_{ij} P(ab)
-            - f^{k}_{j} \clustamp^{ab}_{ik} P(ij)
-            + \half \clustamp^{cd}_{ij} u^{ab}_{cd}
-            + \half \clustamp^{ab}_{kl} u^{kl}_{ij}
-            \nonumber \\
-            &\qquad
-            + \clustamp^{ac}_{ik} u^{bk}_{jc} P(ab) P(ij)
-            + \frac{1}{4} \clustamp^{cd}_{ij} \clustamp^{ab}_{kl} u^{kl}_{cd}
-            + \clustamp^{ac}_{ik} \clustamp^{bd}_{jl} u^{kl}_{cd} P(ij)
-            \nonumber \\
-            &\qquad
-            - \half \clustamp^{ab}_{lj} \clustamp^{dc}_{ik} u^{kl}_{cd} P(ij)
-            - \half \clustamp^{ac}_{lk} \clustamp^{db}_{ij} u^{kl}_{cd} P(ab).
-        \end{align}
-        In order to reduce the number of FLOPS when contracting the tensors, we
-        introduce so-called \emph{intermediates}\cite{hjorth2017advanced}. In
-        practice, this consists of precomputing some of the terms by choosing
-        which tensors to contract first. In the doubles approximation there are
-        four sensible intermediates we can define\footnote{Note that we use the
-        notation "$\gets$" to signify part of the expression, i.e., some of the
-        terms contained in the function.}.
-        \begin{gather}
-            g(f, u, \clustamp)
-            \gets
-            \frac{1}{4} \clustamp^{cd}_{ij} \clustamp^{ab}_{kl} u^{kl}_{cd}
-            + \half \clustamp^{cd}_{ij} u^{ab}_{cd}
+            \fockten^{b}_{c} \clustamp^{ac}_{ij} P(ab)
             =
-            \clustamp^{cd}_{ij}\para{
-                \frac{1}{4} \clustamp^{ab}_{kl} u^{kl}_{cd}
-                + \half u^{ab}_{cd}
-            }
-            = \clustamp^{cd}_{ij}W^{ab}_{cd},
-            \\
-            g(f, u, \clustamp)
-            \gets
-            \half \clustamp^{cd}_{jk} \clustamp^{ab}_{il} u^{kl}_{cd} P(ij)
-            = \clustamp^{ab}_{il}\para{
-                \half \clustamp^{cd}_{jk} u^{kl}_{cd}
-            } P(ij)
-            = \clustamp^{ab}_{il} W^{l}_{j} P(ij),
-            \\
-            g(f, u, \clustamp)
-            \gets
-            \half \clustamp^{ac}_{ij} \clustamp^{bd}_{kl} u^{kl}_{cd} P(ab)
-            = \clustamp^{ac}_{ij}\para{
-                \half \clustamp^{bd}_{kl} u^{kl}_{cd}
-            } P(ab)
-            = \clustamp^{ac}_{ij} W^{b}_{c} P(ab).
-        \end{gather}
-        The last intermediate requires a little work, as we have to insert an
-        extra exchange operator, $P(ij)$, in one of the terms in order to group
-        two terms into a single intermediate.
-        \begin{align}
-            g(f, u, \clustamp)
-            &\gets
-            \clustamp^{ac}_{ik} \clustamp^{bd}_{jl} u^{kl}_{cd} P(ab)
-            + \clustamp^{ac}_{ik} u^{bk}_{jc} P(ab) P(ij)
-            \\
-            &= \clustamp^{ac}_{ik}\para{
-                \half \clustamp^{bd}_{jl} u^{kl}_{cd}
-                + u^{bk}_{jc}
-            } P(ab) P(ij)
-            \\
-            &= \clustamp^{ac}_{ik} W^{bk}_{jc} P(ab) P(ij).
+            \fockten^{b}_{c} \clustamp^{ac}_{ij}
+            -
+            \fockten^{a}_{c} \clustamp^{bc}_{ij},
         \end{align}
-        We summarize the expression for the intermediates in
-        \autoref{tab:intermediates_ccd}, along with their computational
-        complexity. The total right-hand side of the $\clustamp$-amplitudes in the
-        doubles approximation using the intermediate calculations is thus
-        \begin{align}
-            g(f, u, \clustamp)
-            &=
-            f^{b}_{c} \clustamp^{ac}_{ij} P(ab)
-            - f^{k}_{j} \clustamp^{ab}_{ik} P(ij)
-            + \clustamp^{cd}_{ij} W^{ab}_{cd}
-            + \clustamp^{ab}_{il} W^{l}_{j} P(ij)
-            \nonumber \\
-            &\qquad
-            + \clustamp^{ac}_{ik} W^{bk}_{jc} P(ab) P(ij)
-            - \clustamp^{ac}_{ij} W^{b}_{c} P(ab)
-            + \half \clustamp^{ab}_{kl} u^{kl}_{ij}
-            + u^{ab}_{ij}.
-        \end{align}
-        The most time-consuming contraction is now the term $\clustamp^{cd}_{ij}
-        W^{ab}_{cd}$. This term uses $\mathcal{O}(m^4 n^2)$ FLOPS, which is a
-        reduction from $\mathcal{O}(m^4 n^4)$ when computing $\clustamp^{cd}_{ij}
-        \clustamp^{ab}_{kl} u^{kl}_{cd}$ directly.
+        that is, it subtracts the same term, but with two indices replaced.
 
         \begin{table}
             \centering
-            \caption{In this table we summarize the intermediates used in
-            the $\clustamp$-amplitudes of the coupled cluster doubles approximation. We
-            also list the computational complexity in FLOPS needed to construct
-            the intermediate. Recall that $n$ is the number of holes and $m$ the
-            number of particles.}
-            \renewcommand{\arraystretch}{1.3}
-            \begin{tabular}{@{}ll@{}}
+            \caption{Terms and intermediates included in the CCD
+            $\clustamp$-amplitudes.}
+            \renewcommand{\arraystretch}{1.5}
+            \begin{tabular}{@{}llll@{}}
                 \toprule
-                Intermediate & Complexity [FLOPS] \\
+                Label & Intermediate & Term & Complexity \\
                 \midrule
-                $W^{ab}_{cd}
-                = \frac{1}{4} \clustamp^{ab}_{kl} u^{kl}_{cd}
-                + \half u^{ab}_{cd}$
-                &
-                $\mathcal{O}(m^4 n^2)$ \\
-                \addlinespace
-                $W^{l}_{j}
-                = \half \clustamp^{cd}_{jk} u^{kl}_{cd}$
-                &
-                $\mathcal{O}(m^2 n^3)$
-                \\
-                \addlinespace
-                $W^{b}_{c}
-                = \half \clustamp^{bd}_{kl} u^{kl}_{cd}$
-                &
-                $\mathcal{O}(m^3 n^2)$
-                \\
-                \addlinespace
-                $W^{bk}_{jc}
-                = \half \clustamp^{bd}_{jl} u^{kl}_{cd}
-                + u^{bk}_{jc}$
-                &
-                $\mathcal{O}(m^3n^3)$
-                \\
+                D1 & & $\twoten^{ab}_{ij}$ & $\mathcal{O}(M^2 N^2)$ \\
+                D2a & & $\fockten^{b}_{c} \clustamp^{ac}_{ij} P(ab)$
+                & $\mathcal{O}(M^3 N^2)$ \\
+                D2b & & $-\fockten^{k}_{j} \clustamp^{ab}_{ik} P(ij)$
+                & $\mathcal{O}(M^2 N^3)$ \\
+                D2c & & $\half \clustamp^{cd}_{ij} \twoten^{ab}_{cd}$
+                & $\mathcal{O}(M^4 N^2)$ \\
+                D2d & & $\half \clustamp^{ab}_{kl} \twoten^{kl}_{ij}$
+                & $\mathcal{O}(M^2 N^4)$ \\
+                D2e & & $\clustamp^{ac}_{ik} \twoten^{kb}_{cj} P(ab) P(ij)$
+                & $\mathcal{O}(M^3 N^3)$ \\
+                D3a
+                & $W^{kl}_{ij} = \frac{1}{4} \clustamp^{cd}_{ij}
+                \twoten^{kl}_{cd}$
+                & $\clustamp^{ab}_{kl} W^{kl}_{ij}$
+                & $\mathcal{O}(M^2 N^4)$ \\
+                D3b
+                & $W^{bk}_{jc} = \clustamp^{bd}_{jl} \twoten^{kl}_{cd}$
+                & $\clustamp^{ac}_{ik} W^{bk}_{jc} P(ij)$
+                & $\mathcal{O}(M^3 N^3)$ \\
+                D3c
+                & $W^{l}_{i} = \half \clustamp^{dc}_{ik} \twoten^{kl}_{cd}$
+                & $-\clustamp^{ab}_{lj} W^{l}_{i} P(ij)$
+                & $\mathcal{O}(M^2 N^3)$ \\
+                D3d
+                & $W^{a}_{d} = \half \clustamp^{ac}_{lk} \twoten^{kl}_{cd}$
+                & $-\clustamp^{db}_{ij} W^{a}_{d} P(ab)$
+                & $\mathcal{O}(M^3 N^2)$ \\
                 \bottomrule
             \end{tabular}
-            \label{tab:intermediates_ccd}
+            \label{tab:ccd-tau-amplitude-terms}
         \end{table}
-        Moving on to the $\clustl$-equations we have for the doubles
-        approximation
-        \begin{align}
-            0 &=
-        \end{align}
 
-    \section{CCSD amplitude equations}
-        The energy for the singles-doubles truncation is given by
-        \begin{align}
-            \energyccsd
-            &= \energyref
-            + \braslat e^{-\clust_1 - \clust_2} \HN e^{\clust_1 + \clust_2}
-            \ketslat
-            \\
-            &=
-            \energyref
-            +
-            f^{k}_{c} \clustamp^{c}_{k}
-            - \half \clustamp^{c}_{l} \clustamp^{d}_{k} u^{kl}_{cd}
-            + \frac{1}{4} \clustamp^{cd}_{kl} u^{kl}_{cd}.
-        \end{align}
-        The singles amplitude equations becomes
-        \begin{align}
-            0 & = \braslate{a}{i} e^{-\clust_1 - \clust_2} \HN
-            e^{\clust_1 + \clust_2}\ketslat
-            \\
-            &=
-            f^{a}_{i}
-            - f^{k}_{c} \clustamp^{c}_{i} \clustamp^{a}_{k}
-            + f^{k}_{c} \clustamp^{ac}_{ik}
-            - f^{k}_{i} \clustamp^{a}_{k}
-            + f^{a}_{c} \clustamp^{c}_{i}
-            - \clustamp^{c}_{k} \clustamp^{d}_{i} \clustamp^{a}_{l} u^{kl}_{cd}
-            - \clustamp^{c}_{k} \clustamp^{d}_{i} u^{ak}_{cd}
-            \nonumber \\
-            &\qquad
-            + \clustamp^{c}_{k} \clustamp^{a}_{l} u^{kl}_{ic}
-            + \clustamp^{c}_{k} \clustamp^{ad}_{il} u^{kl}_{cd}
-            + \clustamp^{c}_{k} u^{ak}_{ic}
-            - \frac{1}{2} \clustamp^{c}_{i} \clustamp^{ad}_{kl} u^{kl}_{cd}
-            \nonumber \\
-            &\qquad
-            + \frac{1}{2} \clustamp^{a}_{l} \clustamp^{cd}_{ik} u^{kl}_{cd}
-            + \frac{1}{2} \clustamp^{cd}_{ik} u^{ak}_{cd}
-            - \frac{1}{2} \clustamp^{ac}_{kl} u^{kl}_{ic}.
-        \end{align}
-        % TODO: Introduce intermediates
-        The doubles amplitude equations are
-        \begin{align}
-            0 & = \braslate{ab}{ij} e^{-\clust_1 - \clust_2} \HN
-            e^{\clust_1 + \clust_2}\ketslat
-            \\
-            &=
-            f^{k}_{c} \clustamp^{c}_{i} \clustamp^{ab}_{jk} P(ij)
-            + f^{k}_{c} \clustamp^{a}_{k} \clustamp^{bc}_{ij} P(ab)
-            + f^{k}_{i} \clustamp^{ab}_{jk} P(ij)
-            - f^{a}_{c} \clustamp^{bc}_{ij} P(ab)
-            \nonumber \\
-            &\qquad
-            + \clustamp^{c}_{k} \clustamp^{d}_{i} \clustamp^{ab}_{jl} u^{kl}_{cd} P(ij)
-            + \clustamp^{c}_{k} \clustamp^{a}_{l} \clustamp^{bd}_{ij} u^{kl}_{cd} P(ab)
-            - \clustamp^{c}_{k} \clustamp^{ad}_{ij} u^{bk}_{cd} P(ab)
-            \nonumber \\
-            &\qquad
-            + \clustamp^{c}_{k} \clustamp^{ab}_{il} u^{kl}_{jc} P(ij)
-            + \clustamp^{c}_{i} \clustamp^{d}_{j} \clustamp^{a}_{k} \clustamp^{b}_{l} u^{kl}_{cd}
-            + \clustamp^{c}_{i} \clustamp^{d}_{j} \clustamp^{a}_{k} u^{bk}_{cd} P(ab)
-            + \frac{1}{2} \clustamp^{c}_{i} \clustamp^{d}_{j} \clustamp^{ab}_{kl} u^{kl}_{cd} 1
-            \nonumber \\
-            &\qquad
-            + \clustamp^{c}_{i} \clustamp^{d}_{j} u^{ab}_{cd}
-            - \clustamp^{c}_{i} \clustamp^{a}_{k} \clustamp^{b}_{l} u^{kl}_{jc} P(ij)
-            - \clustamp^{c}_{i} \clustamp^{a}_{k} \clustamp^{bd}_{jl} u^{kl}_{cd} P(ab) P(ij)
-            \nonumber \\
-            &\qquad
-            - \clustamp^{c}_{i} \clustamp^{a}_{k} u^{bk}_{jc} P(ab) P(ij)
-            - \clustamp^{c}_{i} \clustamp^{ad}_{jk} u^{bk}_{cd} P(ab) P(ij)
-            - \frac{1}{2} \clustamp^{c}_{i} \clustamp^{ab}_{kl} u^{kl}_{jc} P(ij)
-            \nonumber \\
-            &\qquad
-            - \clustamp^{c}_{i} u^{ab}_{jc} P(ij)
-            + \frac{1}{2} \clustamp^{a}_{k} \clustamp^{b}_{l} \clustamp^{cd}_{ij} u^{kl}_{cd}
-            + \clustamp^{a}_{k} \clustamp^{b}_{l} u^{kl}_{ij}
-            + \frac{1}{2} \clustamp^{a}_{k} \clustamp^{cd}_{ij} u^{bk}_{cd} 1 P(ab)
-            \nonumber \\
-            &\qquad
-            + \clustamp^{a}_{k} \clustamp^{bc}_{il} u^{kl}_{jc} P(ab) P(ij)
-            + \clustamp^{a}_{k} u^{bk}_{ij} P(ab)
-            + \frac{1}{4} \clustamp^{cd}_{ij} \clustamp^{ab}_{kl} u^{kl}_{cd} 1
-            + \frac{1}{2} \clustamp^{cd}_{ij} u^{ab}_{cd}
-            \nonumber \\
-            &\qquad
-            + \frac{1}{2} \clustamp^{cd}_{jk} \clustamp^{ab}_{il} u^{kl}_{cd} P(ij)
-            + \clustamp^{ac}_{ik} \clustamp^{bd}_{jl} u^{kl}_{cd} P(ab)
-            + \clustamp^{ac}_{ik} u^{bk}_{jc} P(ab) P(ij)
-            \nonumber \\
-            &\qquad
-            - \frac{1}{2} \clustamp^{ac}_{ij} \clustamp^{bd}_{kl} u^{kl}_{cd} P(ab)
-            + \frac{1}{2} \clustamp^{ab}_{kl} u^{kl}_{ij} 1
-            + u^{ab}_{ij}.
-        \end{align}
-        % TODO: Introduce intermediates
+        \begin{table}
+            \centering
+            \caption{New terms included in the CCSD $\clustamp_2$-amplitudes.
+            These terms should be added along with the ones from CCD in
+            \autoref{tab:ccd-tau-amplitude-terms}.
+            Empty lines continue from the line above.}
+            \renewcommand{\arraystretch}{1.5}
+            \begin{longtable}{@{}llll@{}}
+                \toprule
+                Label & Intermediate & Term & Complexity \\
+                \midrule
+
+                D4a
+                &
+                & $\twoten^{ab}_{cj} \clustamp^{c}_{i} P(ij)$
+                & $\mathcal{O}(M^3 N^2)$ \\
+
+                D4b
+                &
+                & $-\twoten^{kb}_{ij} \clustamp^{a}_{k} P(ab)$
+                & $\mathcal{O}(M^2 N^3)$ \\
+
+                D5a
+                & $W^{k}_{i} = \fockten^{k}_{c} \clustamp^{c}_{i}$
+                & $-t^{ab}_{kj} W^{k}_{i} P(ij)$
+                & $\mathcal{O}(M^2 N^3)$ \\
+
+                D5b
+                & $W^{a}_{c} = \clustamp^{a}_{k} \fockten^{k}_{c}$
+                & $- W^{a}_{c} \clustamp^{cb}_{ij} P(ab)$
+                & $\mathcal{O}(M^3 N^2)$ \\
+
+                D5c
+                & $W^{ak}_{di} = \twoten^{ak}_{cd} \clustamp^{c}_{i}$
+                & $W^{ak}_{di} \clustamp^{db}_{kj} P(ab) P(ij)$
+                & $\mathcal{O}(M^3 N^3)$ \\
+
+                D5d
+                & $W^{al}_{ic} = \clustamp^{a}_{k} \twoten^{kl}_{ic}$
+                & $-W^{al}_{ic} \clustamp^{cb}_{lj} P(ab) P(ij)$
+                & $\mathcal{O}(M^3 N^3)$ \\
+
+                D5e
+                & $W^{kb}_{ij} = \twoten^{kb}_{cd} \clustamp^{cd}_{ij}$
+                & $-\half \clustamp^{a}_{k} W^{kb}_{ij} P(ab)$
+                & $\mathcal{O}(M^3 N^3)$ \\
+
+                D5f
+                & $W^{kl}_{ji} = \twoten^{kl}_{cj} \clustamp^{c}_{i}$
+                & $\half \clustamp^{ab}_{kl} W^{kl}_{ji} P(ij)$
+                & $\mathcal{O}(M^2 N^4)$ \\
+
+                D5g
+                & $W^{a}_{d} = \twoten^{ka}_{cd} \clustamp^{c}_{k}$
+                & $W^{a}_{d} \clustamp^{db}_{ij} P(ab)$
+                & $\mathcal{O}(M^3 N^2)$ \\
+
+                D5h
+                & $W^{l}_{i} = \twoten^{kl}_{ci} \clustamp^{c}_{k}$
+                & $-\clustamp^{ab}_{lj} W^{l}_{i} P(ij)$
+                & $\mathcal{O}(M^2 N^3)$ \\
+
+                D6a
+                & $W^{ab}_{di} = \twoten^{ab}_{cd} \clustamp^{c}_{i}$
+                & $W^{ab}_{di} \clustamp^{d}_{j}$
+                & $\mathcal{O}(M^4 N)$ \\
+
+                D6b
+                & $W^{bk}_{ij} = \clustamp^{b}_{l} \twoten^{kl}_{ij}$
+                & $\clustamp^{a}_{k} W^{bk}_{ij}$
+                & $\mathcal{O}(M^2 N^3)$ \\
+
+                D6c
+                & $W^{kb}_{ji} = -\twoten^{kb}_{cj} \clustamp^{c}_{i}$
+                & $\clustamp^{a}_{k} W^{kb}_{ji} P(ab) P(ij)$
+                & $\mathcal{O}(M^2 N^3)$ \\
+
+                D7a
+                & $W^{kl}_{di} = \half \twoten^{kl}_{cd} \clustamp^{c}_{i}$
+                \\
+                & $W^{kl}_{ij} = W^{kl}_{di} \clustamp^{d}_{j}$
+                & $\clustamp^{ab}_{kl} W^{kl}_{ij}$
+                & $\mathcal{O}(M^2 N^4)$ \\
+
+                D7b
+                & $W^{kl}_{ij} = \half \twoten^{kl}_{cd} \clustamp^{cd}_{ij}$ \\
+                & $W^{bk}_{ij} = \clustamp^{b}_{l} W^{kl}_{ij}$
+                & $\clustamp^{a}_{k} W^{bk}_{ij}$
+                & $\mathcal{O}(M^2 N^4)$ \\
+
+                D7c
+                & $W^{al}_{cd} = - \clustamp^{a}_{k} \twoten^{kl}_{cd}$ \\
+                & $W^{al}_{di} = W^{al}_{cd} \clustamp^{c}_{i}$
+                & $W^{al}_{di} \clustamp^{db}_{lj} P(ij) P(ab)$
+                & $\mathcal{O}(M^3 N^3)$ \\
+
+                D7d
+                & $W^{l}_{d} = -\twoten^{kl}_{cd} \clustamp^{c}_{k}$ \\
+                & $W^{l}_{i} = W^{l}_{d} \clustamp^{d}_{i}$
+                & $\clustamp^{ab}_{lj} W^{l}_{i} P(ij)$
+                & $\mathcal{O}(M^2 N^3)$ \\
+
+                D7e
+                & $W^{l}_{d} = -\twoten^{kl}_{cd} \clustamp^{c}_{k}$ \\
+                & $W^{a}_{d} = \clustamp^{a}_{l} W^{l}_{d}$
+                & $W^{a}_{d} \clustamp^{db}_{ij} P(ab)$
+                & $\mathcal{O}(M^3 N^2)$ \\
+
+                D8a \\
+                D8b \\
+                D9 \\
+
+                \bottomrule
+            \end{longtable}
+            \label{tab:ccsd-tau-2-amplitude-terms}
+        \end{table}
