@@ -1477,6 +1477,74 @@ energy = np.trace(np.dot(term, density_matrix))
             From \autoref{chap:cc} we know that the projected amplitude
             equations from \autoref{eq:cc_amp_sim} should be satisfied once we
             have found the optimal $\clustamp_{\mu}$-amplitudes.
+            However, in order to find the optimal amplitudes we employ an
+            iterative \emph{quasi-Newton} method which avoids the need for
+            computing the Jacobian matrix and solving a linear equation as in
+            Newton's method \cite{helgaker-molecular}.
+            We define the left-hand side of \autoref{eq:cc_amp_sim} with the
+            normal-ordered Hamiltonian to be
+            \begin{align}
+                \Omega_{\mu}(\vfg{\clustamp}^{(i)})
+                = \mel*{\slat_{\mu}}{
+                    \exponential(-\clust^{(i)})
+                    \hamil_N
+                    \exponential(\clust^{(i)})
+                }{\slat},
+            \end{align}
+            where $\vfg{\clustamp}^{(i)}$ is the collection of cluster
+            amplitudes at iteration $i$ and $\mu$ denotes an excitation level.
+            Note that we treat $\Omega_{\mu}$ as a tensor of rank $\mu$ in
+            order to collect all elements from a cluster of rank $\mu$.
+            % TODO: Link to amplitude equations
+
+            In the quasi-Newton method we now solve \cite{bartlett-purvis,
+            helgaker-molecular}
+            \begin{align}
+                \Delta \clustamp^{(i)}_{\mu}
+                = \frac{\Omega_{\mu}(\vfg{\clustamp}^{(i)})}{
+                    D_{\mu}
+                },
+                \label{eq:delta-tau}
+            \end{align}
+            in order to find the change in the amplitudes between two
+            iterations.
+            In the former equation $\mu$ serves as a label and should not be
+            summed.
+            The division is also interpreted as an element-wise division.
+            Now, $D_{\mu}$ is a tensor of rank $\mu$ and serves as an
+            approximation to the Jacobian matrix in case of a full fledged
+            Newton's method \cite{helgaker-molecular}.
+            For the singles and doubles amplitudes we have the tensors
+            \begin{gather}
+                D^{a}_{i} \equiv \epsilon_i - \epsilon_a, \\
+                D^{ab}_{ij} \equiv \epsilon_i + \epsilon_j
+                - \epsilon_a - \epsilon_b,
+            \end{gather}
+            where $\epsilon = \diag(\epsilon_1, \dots, \epsilon_L)$ are the
+            diagonal elements of the normal-ordered Fock matrix.
+            In order for \autoref{eq:delta-tau} to be well-defined we require
+            that none of the elements in $D_{\mu}$ are zero.
+            This is ensured as long as we have a well-defined single-reference
+            problem as
+            \begin{align}
+                \epsilon_i \neq \epsilon_a,
+            \end{align}
+            for all $i \in \brac{1, \dots, N}$ and $a \in \brac{N + 1, \dots,
+            L}$ when the single-reference assumption holds.
+            However, do note that the lack of infinite precision on a computer
+            means that we can get instabillities if we approach a system that is
+            almost degenerate across the Fermi vacuum, that is, if we are almost
+            in a multireference situation.
+            % TODO: This sounds kinda sketchy!
+            We are now able to compute the next iteration of the cluster
+            amplitudes by
+            \begin{align}
+                \vfg{\clustamp}^{(i + 1)}
+                = \vfg{\clustamp}^{(i)}
+                + \Delta \vfg{\clustamp}^{(i)},
+            \end{align}
+            where we collect all the cluster amplitudes together when computing
+            the improved estimate.
 
         \subsection{Non-orthogonal ground state solver}
 

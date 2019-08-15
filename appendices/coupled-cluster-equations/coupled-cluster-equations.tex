@@ -1,13 +1,14 @@
-\chapter{Coupled cluster equations}
-    In this appendix we will show the explicit equations used for ground state
-    calculations in coupled cluster for different truncation levels.
+\chapter{Coupled-cluster equations}
+    In this appendix we will show the explicit equations used in the
+    coupled-cluster methods for different truncation levels.
 
     \section{Energy equations}
         \label{app:cc-energy-equations}
-        In this section we demonstrate how we can derive the energy contribution
-        to the coupled cluster energy from the contribution linear in the
-        cluster operator in \autoref{eq:cc-energy-linear-contrib} and the squared
-        cluster contribution in \autoref{eq:cc-energy-squared-contrib}.
+        In this section we derive the projected coupled-cluster correlation
+        energy from the normal-ordered Hamiltonian.
+        This consists of the linear contribution in
+        \autoref{eq:cc-energy-linear-contrib} and the squared contribution in
+        \autoref{eq:cc-energy-squared-contrib}.
         As stated in \autoref{subsec:cc-energy-equations}, we need only concern
         ourselves with the case where the cluster operator is given by
         \begin{align}
@@ -55,12 +56,12 @@
                 }_c
             }{\slat},
         \end{align}
-        where we have collected the non-zero contributions.
+        where we only keep the non-zero contributions in the last line.
         As we are projecting onto the reference determinant, we are dependent on
         the operators being fully contracted.
-        This means that all non-contracted operators will destroy the overlap
-        and hence the doubles cluster operator cannot couple with the
-        Fock-operator nor can a single singles cluster operator couple with the
+        This means that all non-contracted operators will destroy the overlap.
+        Hence, the doubles cluster operator cannot couple with the Fock-operator
+        nor can a single singles cluster operator couple with the
         two-body-operator.
         Looking at each operator pair separately we get
         \begin{align}
@@ -97,7 +98,7 @@
             \delta_{qa}\delta_{pi}
             = \fockten^{i}_{a}\clustamp^{a}_{i}.
         \end{align}
-        The doubles operator on the two-body operator yields
+        The doubles cluster operator on the two-body Hamiltonian yields
         \begin{align}
             \mel{\slat}{\brak{
                 \twohamil_N \clust_2
@@ -117,10 +118,8 @@
                     \can{j}
                     \can{i}
                 }
-            }{\slat},
+            }{\slat}.
         \end{align}
-        where the factor $1/16$ comes from the two factors $1/4$ of the doubles
-        amplitudes and the two-body operator to avoid overcounting.
         For the sake of brevity we will restrict our attention to the operator
         strings that are non-zero when utilizing Wick's theorem.
         \begin{align}
@@ -233,7 +232,7 @@
             \frac{1}{4}\twoten^{ij}_{ab}\clustamp^{ab}_{ij},
         \end{align}
         where we've used the antisymmetric properties of the two-body
-        elements.
+        elements to collect all four terms.
 
         Moving on to the squared cluster operator contribution we note that the
         only non-zero contribution to the energy can come from the singles
@@ -297,15 +296,63 @@
         \end{align}
         which is what we wanted to show.
 
-    \section{Coupled cluster doubles}
-        The energy for the doubles truncation is given by
+    \section{Coupled cluster amplitude equations}
+        Using SymPy \cite{sympy} we are able to efficiently create amplitude
+        equations by programmatically evaluating Wick's theorem.
+        The labelling of the terms in the equations are inspired by the naming
+        convention used in \citetitle{shavitt2009many} \cite{shavitt2009many},
+        but with slight modifications.
+        The first letter, either ``S'' or ``D'', denotes a singles or a doubles
+        contribution respectively.
+        The number is used to collect terms with a similar structure, e.g.,
+        contractions between a singles amplitude, a doubles amplitude, and the
+        two-body Hamiltonian will share the same number.
+        To differentiate the different terms with the same type of contractions
+        we tack on a second letter which is increased alphabetically.
+        However, the number and the second letter do not have a deeper meaning
+        as in the work by \citeauthor{shavitt2009many} \cite{shavitt2009many}.
+
+        We denote the number of basis functions by $L$, the number of particles
+        by $N$, and the number virtual states by $M = L - N$.
+        Furthermore, we assume that the tensor contractions are performed as
+        binary operations where the ordering of the contractions involving the
+        lowest cost are performed.
+        As an example, consider the contraction
         \begin{align}
-            \energyccd
-            &= \energyref
-            + \braslat e^{-\clust_2}\HN e^{\clust_2}\ketslat
-            = \energyref
-            + \frac{1}{4}\clustamp^{cd}_{kl} u^{kl}_{cd}.
+            g^{ab}_{ij} = \clustamp^{ab}_{lj} \clustamp^{dc}_{ik}
+            \twoten^{kl}_{cd}.
         \end{align}
+        The naïve solution using explicit for-loops yields a $\mathcal{O}(M^4
+        N^4)$-complexity.
+        By first creating the intermediate contraction
+        \begin{align}
+            W^{l}_{i} = \clustamp^{dc}_{ik} \twoten^{kl}_{cd},
+        \end{align}
+        and then computing the total result from
+        \begin{align}
+            g^{ab}_{ij} = \clustamp^{ab}_{lj} W^{l}_{i},
+        \end{align}
+        we've reduced the complexity to $\mathcal{O}(M^2 N^3)$.
+        This incurs a memory penalty, but the gain in reduction of the number of
+        FLOPS far exceeds the cost.
+
+        \begin{table}
+            \centering
+            \caption{Terms included in the CCD amplitudes.
+            Note that the complexity is based on the tensor contraction being
+            performed as a binary operation where the optimal ordering of the
+            contraction is performed.}
+            \renewcommand{\arraystretch}{1.3}
+            \begin{tabular}{@{}lll@{}}
+                \toprule
+                Label & Term & Complexity \\
+                \midrule
+                D1 & $\twoten^{ab}_{ij}$ & $\mathcal{O}(M^2 N^2)$ \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:ccd-amplitude-terms}
+        \end{table}
+
         The doubles amplitude equations is given by\cite{shavitt2009many}
         \begin{align}
             0 &= g(f, u, \clustamp)
@@ -447,7 +494,7 @@
             0 &=
         \end{align}
 
-    \section{Coupled cluster singles doubles}
+    \section{CCSD amplitude equations}
         The energy for the singles-doubles truncation is given by
         \begin{align}
             \energyccsd
@@ -543,156 +590,3 @@
             + u^{ab}_{ij}.
         \end{align}
         % TODO: Introduce intermediates
-
-    %\section{Coupled cluster doubles triples}
-    %    The energy of the doubles-triples truncation is given by
-    %    \begin{align}
-    %        \energyccdt
-    %        &= \energyref
-    %        + \braslat e^{-\clust_2 - \clust_3} \HN e^{\clust_2 + \clust_3}
-    %        \ketslat
-    %        \\
-    %        &=
-    %        E_0
-    %        + \frac{1}{4} \clustamp^{de}_{lm} u^{lm}_{de}.
-    %    \end{align}
-    %    The doubles amplitude equations are
-    %    \begin{align}
-    %        0 & = \braslate{ab}{ij} e^{-\clust_2 - \clust_3} \HN
-    %        e^{\clust_2 + \clust_3}\ketslat
-    %        \\
-    %        &=
-    %        f^{l}_{d} \clustamp^{abd}_{ijl}
-    %        + f^{l}_{i} \clustamp^{ab}_{jl} P(ij)
-    %        - f^{a}_{d} \clustamp^{bd}_{ij} P(ab)
-    %        + \frac{1}{4} \clustamp^{de}_{ij} \clustamp^{ab}_{lm} u^{lm}_{de}
-    %        \nonumber \\
-    %        &\qquad
-    %        + \frac{1}{2} \clustamp^{de}_{ij} u^{ab}_{de}
-    %        + \frac{1}{2} \clustamp^{de}_{jl} \clustamp^{ab}_{im} u^{lm}_{de} P(ij)
-    %        + \clustamp^{ad}_{il} \clustamp^{be}_{jm} u^{lm}_{de} P(ab)
-    %        \nonumber \\
-    %        &\qquad
-    %        + \clustamp^{ad}_{il} u^{bl}_{jd} P(ab) P(ij)
-    %        - \frac{1}{2} \clustamp^{ad}_{ij} \clustamp^{be}_{lm} u^{lm}_{de} P(ab)
-    %        + \frac{1}{2} \clustamp^{ab}_{lm} u^{lm}_{ij}
-    %        \nonumber \\
-    %        &\qquad
-    %        + \frac{1}{2} \clustamp^{ade}_{ijl} u^{bl}_{de} P(ab)
-    %        - \frac{1}{2} \clustamp^{abd}_{ilm} u^{lm}_{jd} P(ij)
-    %        + u^{ab}_{ij}.
-    %    \end{align}
-    %    Now to the beast...
-
-    %    The triples amplitude equations are
-    %    \begin{align}
-    %        0 & = \braslate{abc}{ijk} e^{-\clust_2 - \clust_3} \HN
-    %        e^{\clust_2 + \clust_3}\ketslat
-    %        \\
-    %        &=
-    %        f^{l}_{d} \clustamp^{ad}_{ij} \clustamp^{bc}_{kl} P(ab) P(ik)
-    %        + f^{l}_{d} \clustamp^{ab}_{il} \clustamp^{cd}_{jk} P(ij)
-    %        + f^{l}_{d} \clustamp^{ab}_{kl} \clustamp^{cd}_{ij}
-    %        + f^{l}_{d} \clustamp^{ac}_{jl} \clustamp^{bd}_{ik} P(ab)
-    %        \nonumber \\
-    %        &\qquad
-    %        - f^{l}_{i} \clustamp^{abc}_{jkl} P(ij)
-    %        - f^{l}_{k} \clustamp^{abc}_{ijl}
-    %        + f^{a}_{d} \clustamp^{bcd}_{ijk} P(ab)
-    %        + f^{c}_{d} \clustamp^{abd}_{ijk}
-    %        \nonumber \\
-    %        &\qquad
-    %        + \frac{1}{2} \clustamp^{de}_{il} \clustamp^{abc}_{jkm} u^{lm}_{de} P(ij)
-    %        + \frac{1}{2} \clustamp^{de}_{ij} \clustamp^{ab}_{kl} u^{cl}_{de}
-    %        - \frac{1}{2} \clustamp^{de}_{ij} \clustamp^{ac}_{kl} u^{bl}_{de} P(ab)
-    %        \nonumber \\
-    %        &\qquad
-    %        + \frac{1}{4} \clustamp^{de}_{ij} \clustamp^{abc}_{klm} u^{lm}_{de}
-    %        - \frac{1}{4} \clustamp^{de}_{ik} \clustamp^{abc}_{jlm} u^{lm}_{de} P(ij)
-    %        + \frac{1}{2} \clustamp^{de}_{jk} \clustamp^{ab}_{il} u^{cl}_{de} P(ij)
-    %        \nonumber \\
-    %        &\qquad
-    %        - \frac{1}{2} \clustamp^{de}_{jk} \clustamp^{ac}_{il} u^{bl}_{de} P(ab) P(ij)
-    %        + \frac{1}{2} \clustamp^{de}_{kl} \clustamp^{abc}_{ijm} u^{lm}_{de}
-    %        + \frac{1}{2} \clustamp^{ad}_{lm} \clustamp^{bce}_{ijk} u^{lm}_{de} P(ab)
-    %        \nonumber \\
-    %        &\qquad
-    %        + \clustamp^{ad}_{il} \clustamp^{bc}_{jm} u^{lm}_{kd} P(ab)
-    %        + \clustamp^{ad}_{il} \clustamp^{ce}_{jk} u^{bl}_{de} P(ab) P(ij)
-    %        + \clustamp^{ad}_{il} \clustamp^{bce}_{jkm} u^{lm}_{de} P(ab) P(ij)
-    %        \nonumber \\
-    %        &\qquad
-    %        - \clustamp^{ad}_{ij} \clustamp^{be}_{kl} u^{cl}_{de} P(ab)
-    %        + \clustamp^{ad}_{ij} \clustamp^{ce}_{kl} u^{bl}_{de} P(ab)
-    %        + \frac{1}{2} \clustamp^{ad}_{ij} \clustamp^{bce}_{klm} u^{lm}_{de} P(ab)
-    %        \nonumber \\
-    %        &\qquad
-    %        - \clustamp^{ad}_{ij} u^{bc}_{kd} P(ab)
-    %        + \clustamp^{ad}_{ik} \clustamp^{be}_{jl} u^{cl}_{de} P(ab) P(ij)
-    %        + \frac{1}{2} \clustamp^{ad}_{ik} \clustamp^{bc}_{lm} u^{lm}_{jd} P(ab) P(ij)
-    %        \nonumber \\
-    %        &\qquad
-    %        - \clustamp^{ad}_{ik} \clustamp^{ce}_{jl} u^{bl}_{de} P(ab) P(ij)
-    %        - \frac{1}{2} \clustamp^{ad}_{ik} \clustamp^{bce}_{jlm} u^{lm}_{de} P(ab) P(ij)
-    %        + \clustamp^{ad}_{ik} u^{bc}_{jd} P(ab) P(ij)
-    %        \nonumber \\
-    %        &\qquad
-    %        + \clustamp^{ad}_{kl} \clustamp^{ce}_{ij} u^{bl}_{de} P(ab)
-    %        + \clustamp^{ad}_{kl} \clustamp^{bce}_{ijm} u^{lm}_{de} P(ab)
-    %        - \frac{1}{2} \clustamp^{ab}_{lm} \clustamp^{cd}_{ij} u^{lm}_{kd}
-    %        \nonumber \\
-    %        &\qquad
-    %        + \frac{1}{2} \clustamp^{ab}_{lm} \clustamp^{cd}_{ik} u^{lm}_{jd} P(ij)
-    %        + \frac{1}{4} \clustamp^{ab}_{lm} \clustamp^{cde}_{ijk} u^{lm}_{de}
-    %        + \clustamp^{ab}_{il} \clustamp^{cd}_{jm} u^{lm}_{kd} P(ij)
-    %        \nonumber \\
-    %        &\qquad
-    %        - \clustamp^{ab}_{il} \clustamp^{cd}_{km} u^{lm}_{jd} P(ij)
-    %        + \frac{1}{2} \clustamp^{ab}_{il} \clustamp^{cde}_{jkm} u^{lm}_{de} P(ij)
-    %        + \clustamp^{ab}_{il} u^{cl}_{jk} P(ij)
-    %        \nonumber \\
-    %        &\qquad
-    %        + \clustamp^{ab}_{kl} \clustamp^{cd}_{im} u^{lm}_{jd} P(ij)
-    %        + \frac{1}{2} \clustamp^{ab}_{kl} \clustamp^{cde}_{ijm} u^{lm}_{de}
-    %        + \clustamp^{ab}_{kl} u^{cl}_{ij}
-    %        \nonumber \\
-    %        &\qquad
-    %        + \frac{1}{2} \clustamp^{ac}_{lm} \clustamp^{bd}_{ij} u^{lm}_{kd} P(ab)
-    %        - \frac{1}{4} \clustamp^{ac}_{lm} \clustamp^{bde}_{ijk} u^{lm}_{de} P(ab)
-    %        - \clustamp^{ac}_{il} \clustamp^{bd}_{jm} u^{lm}_{kd} P(ab)
-    %        \nonumber \\
-    %        &\qquad
-    %        + \clustamp^{ac}_{il} \clustamp^{bd}_{km} u^{lm}_{jd} P(ab) P(ij)
-    %        - \frac{1}{2} \clustamp^{ac}_{il} \clustamp^{bde}_{jkm} u^{lm}_{de} P(ab) P(ij)
-    %        - \clustamp^{ac}_{il} u^{bl}_{jk} P(ab) P(ij)
-    %        \nonumber \\
-    %        &\qquad
-    %        - \clustamp^{ac}_{kl} \clustamp^{bd}_{im} u^{lm}_{jd} P(ab) P(ij)
-    %        - \frac{1}{2} \clustamp^{ac}_{kl} \clustamp^{bde}_{ijm} u^{lm}_{de} P(ab)
-    %        - \clustamp^{ac}_{kl} u^{bl}_{ij} P(ab)
-    %        \nonumber \\
-    %        &\qquad
-    %        - \clustamp^{cd}_{ij} u^{ab}_{kd}
-    %        + \clustamp^{cd}_{ik} u^{ab}_{jd} P(ij)
-    %        - \frac{1}{2} \clustamp^{ce}_{lm} \clustamp^{abd}_{ijk} u^{lm}_{de}
-    %        \nonumber \\
-    %        &\qquad
-    %        + \clustamp^{ce}_{im} \clustamp^{abd}_{jkl} u^{lm}_{de} P(ij)
-    %        - \frac{1}{2} \clustamp^{ce}_{ij} \clustamp^{abd}_{klm} u^{lm}_{de}
-    %        + \frac{1}{2} \clustamp^{ce}_{ik} \clustamp^{abd}_{jlm} u^{lm}_{de} P(ij)
-    %        \nonumber \\
-    %        &\qquad
-    %        + \clustamp^{ce}_{km} \clustamp^{abd}_{ijl} u^{lm}_{de}
-    %        + \frac{1}{2} \clustamp^{ade}_{ijk} u^{bc}_{de} P(ab)
-    %        + \clustamp^{abd}_{ijl} u^{cl}_{kd}
-    %        \nonumber \\
-    %        &\qquad
-    %        - \clustamp^{abd}_{ikl} u^{cl}_{jd} P(ij)
-    %        + \frac{1}{2} \clustamp^{abc}_{ilm} u^{lm}_{jk} P(ij)
-    %        + \frac{1}{2} \clustamp^{abc}_{klm} u^{lm}_{ij}
-    %        \nonumber \\
-    %        &\qquad
-    %        - \clustamp^{acd}_{ijl} u^{bl}_{kd} P(ab)
-    %        + \clustamp^{acd}_{ikl} u^{bl}_{jd} P(ab) P(ij)
-    %        + \frac{1}{2} \clustamp^{cde}_{ijk} u^{ab}_{de}.
-    %    \end{align}
