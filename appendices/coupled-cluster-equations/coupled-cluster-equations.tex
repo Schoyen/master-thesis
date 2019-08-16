@@ -297,6 +297,7 @@
         which is what we wanted to show.
 
     \section{Coupled cluster amplitude equations}
+        \label{app:cc-amplitudes}
         Using SymPy \cite{sympy} we are able to efficiently create amplitude
         equations by programmatically evaluating Wick's theorem.
         The labelling of the terms in the equations are inspired by the naming
@@ -371,17 +372,31 @@
             \label{tab:ccd-tau-amplitude-terms}
         \end{table}
 
-        \begin{table}
-            \centering
-            \caption{New terms included in the CCSD $\clustamp_2$-amplitudes.
-            These terms should be added along with the ones from CCD in
-            \autoref{tab:ccd-tau-amplitude-terms}.
-            Empty lines continue from the line above.}
+        \begin{center}
             \renewcommand{\arraystretch}{1.5}
             \begin{longtable}{@{}llll@{}}
+                \caption{New terms included in the CCSD $\clustamp_2$-amplitudes.
+                These terms should be added along with the ones from CCD in
+                \autoref{tab:ccd-tau-amplitude-terms}.
+                Empty lines continue from the line above.}
+                \label{tab:ccsd-tau-2-amplitude-terms} \\
                 \toprule
+
                 Label & Intermediate & Term & Complexity \\
                 \midrule
+
+                \endfirsthead
+                \caption{(continued)} \\
+                \toprule
+
+                Label & Intermediate & Term & Complexity \\
+                \midrule
+
+                \endhead
+
+                \bottomrule
+
+                \endfoot
 
                 D4a
                 &
@@ -483,7 +498,5 @@
                 D8b \\
                 D9 \\
 
-                \bottomrule
             \end{longtable}
-            \label{tab:ccsd-tau-2-amplitude-terms}
-        \end{table}
+        \end{center}
