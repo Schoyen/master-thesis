@@ -1597,11 +1597,34 @@ energy = np.trace(np.dot(term, density_matrix))
 
 
         \subsection{Convergence acceleration}
-            The quasi-Newton method often suffers from convergence
-            instabillities, especially for the case of quantum dots.
-            % TODO: Back this up
-            In order to alleviate some of these problems we introduce techniques
-            which helps the method converge faster.
+            As discussed in \autoref{sec:convergence} the quasi-Newtion method
+            can suffer from convergence instabillities.
+            We can therefore use the alpha filter from
+            \autoref{subsec:alpha-filter} and the DIIS technique from
+            \autoref{subsec:diis} to accelerate the convergence.
+            In order to use these techniques as they stand we need to define the
+            predicted estimate $z_i$ to use in the alpha filter and the error
+            vectors in DIIS.
+
+            For the alpha filter we define our predicted estimate to be
+            \begin{align}
+                \vfg{z}^{(i)} = \vfg{\clustamp}^{(i)}
+                + \Delta\vfg{\clustamp}^{(i)}
+                = \vfg{\clustamp}^{(i + 1)},
+            \end{align}
+            for the $\clustamp$-amplitudes.
+            The measurement is thus $\clustamp^{(i)}$.
+            Moving to the $\clustlamp$-amplitudes we define the predicted
+            estimate similarly, viz.
+            \begin{align}
+                \vfg{z}^{(i)} = \vfg{\clustlamp}^{(i)}
+                + \Delta\vfg{\clustlamp}^{(i)}
+                = \vfg{\clustlamp}^{(i + 1)},
+            \end{align}
+            and with the measurement as $\clustlamp^{(i)}$.
+            This means that we need to represent our amplitude tensors as
+            vectors, and in the case of more than one set of amplitudes we need
+            to concatenate these vectors on top of one another.
 
         \subsection{Non-orthogonal ground state solver}
 

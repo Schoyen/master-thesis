@@ -158,6 +158,7 @@
 
 
     \section{Convergence acceleration}
+        \label{sec:convergence}
         When performing optimization techniques such as the quasi-Newton method
         for the coupled-cluster equations and the self-consistent field
         iterations in Hartree-Fock, we often find that the solutions can have
@@ -167,29 +168,109 @@
         converge at all.
 
         \subsection{Alpha filter}
+            \label{subsec:alpha-filter}
             A first order approximation stems from data estimation theory as an
             alternative to the more sophisticated Kalman filter.
-            % TODO: This sounds strange
+            This is a technique which lets us combine a predicted value and a
+            measured value.
             % TODO: Cite slides:
             % https://www.uio.no/studier/emner/matnat/fys/FYS3240/v19/lecturenotes/l12---data-fusion.pdf
-            Given a measurement $x_i$ at a time $i$ we can create an updated
-            estimate $\bar{z}_i$ from a predicted estimate $z_i$ by
+            Given a measurement $\vfg{x}^{(i)}$ at a time $i$ we can create an
+            updated estimate $\bar{\vfg{z}}^{(i)}$ from a predicted estimate
+            $\vfg{z}^{(i)}$ by
             \begin{align}
-                \bar{z}_i = (1 - \alpha) z_i + \alpha x_i,
+                \bar{\vfg{z}}^{(i)} = (1 - \alpha) \vfg{z}^{(i)}
+                + \alpha \vfg{x}^{(i)},
             \end{align}
             where $\alpha \in \brak{0, 1}$ is a gain parameter.
             We have in our implementations perhaps (mis)named this filter for
             alpha mixing, as we ``mix'' some of the predicted and measured
             values in a new estimate.
-            Note that for $\alpha = 0$ we only keep the predicted value $z_i$
-            whereas for $\alpha = 1$ we keep the raw measurements $x_i$.
+            Note that for $\alpha = 0$ we only keep the predicted value
+            $\vfg{z}^{(i)}$ whereas for $\alpha = 1$ we keep the raw
+            measurements $\vfg{x}^{(i)}$.
+            In our code we have dubbed the measurement vector by
+            \pyth{trial_vector} and the predicted estimate by
+            \pyth{direction_vector}.
 
         \subsection{Direct inversion of the iterative subspace}
+            \label{subsec:diis}
             A more sophisticated acceleration technique is DIIS (direction
             inversion of the iterative subspace) acceleration
             \cite{pulay1980393, helgaker-molecular}.
-            Given a set of error vectors $\vfg{e}_i$
-            % TODO: YOU ARE HERE.
+            In order to estimate a measured vector $\vfg{p}^{(i + 1)}$ at a
+            certain step $i + 1$ we use the linear combination
+            \begin{align}
+                \bar{\vfg{p}}^{(i + 1)} = \sum_{k = 1}^{i} c_k \vfg{p}^{(i)},
+                \label{eq:diis-estimate}
+            \end{align}
+            where $\bar{\vfg{p}}_i$ is the estimated value at step $i$, and
+            $c_k$ is a set of unknown coefficients subject to the constraint
+            that they should sum up to unity at every step $i$.
+            In order to find the coefficients, we construct an error vector
+            $\vfg{e}_i$ from $\vfg{p}_i$.
+            This step is dependent on the solver we are looking at and will be
+            postponed to the implementation chapters on Hartree-Fock and
+            coupled-cluster.
+            For now, consider the extrapolated error vector
+            \begin{align}
+                \bar{\vfg{e}}_i
+                = \sum_{k = 1}^{i - 1} c_k \vfg{e}_k,
+            \end{align}
+            calculated from the measured error vectors.
+            We now wish to minimize the error, and we do this using Lagrange's
+            method of undetermined multipliers in order to include the
+            constraint that the coefficients should sum up to unity, viz.
+            \begin{align}
+                L &=  \norm{\bar{\vfg{e}}_i}^2
+                - 2\lambda\para{
+                    \sum_{k = 1}^{i - 1} c_i
+                    - 1
+                }.
+                \label{eq:diis-lagrangian}
+            \end{align}
+            The squared norm of the error vectors can be expressed by
+            \begin{align}
+                \norm{\bar{\vfg{e}}_i}^2
+                = c_k B_{kl} c_l,
+            \end{align}
+            where we've defined the matrix elements
+            \begin{align}
+                B_{kl} \equiv \vfg{e}_k^T\vfg{e}_l.
+            \end{align}
+            Finding the stationary condition of the Lagrangian in
+            \autoref{eq:diis-lagrangian} with respect to the coefficients $c_k$
+            we get system of $i$ linear equations.
+            This can expressed as matrices by
+            \begin{align}
+                \begin{pmatrix}
+                    B_{11} & \dots & B_{1i} & -1 \\
+                    \vdots & \ddots & \vdots & \vdots \\
+                    B_{i1} & \dots & B_{ii} & -1 \\
+                    -1 & \dots & -1 & 0
+                \end{pmatrix}
+                \begin{pmatrix}
+                    c_1 \\
+                    \vdots \\
+                    c_i \\
+                    \lambda
+                \end{pmatrix}
+                = \begin{pmatrix}
+                    0 \\
+                    \vdots \\
+                    0 \\
+                    -1
+                \end{pmatrix}.
+            \end{align}
+            Solving this equation for the coefficients $c_k$ we are able to
+            compute the estimated quantity $\bar{\vfg{p}}_i$ from
+            \autoref{eq:diis-estimate}.
+            An existing implementation of the DIIS algorithm was given to us by
+            \citeauthor{rolf-nocc} along with the non-orthogonal coupled-cluster
+            method and has been integrated by the author into the libraries we
+            have created.
+            This makes the method available to all Hartree-Fock solvers and all
+            coupled-cluster implementations.
 
     \section{Numerical integration}
         \label{sec:numerical-integration}
