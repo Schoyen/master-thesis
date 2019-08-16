@@ -1495,7 +1495,9 @@ energy = np.trace(np.dot(term, density_matrix))
             amplitudes at iteration $i$ and $\mu$ denotes an excitation level.
             Note that we treat $\Omega_{\mu}$ as a tensor of rank $\mu$ in
             order to collect all elements from a cluster of rank $\mu$.
-            In \autoref{app:cc-amplitudes} the amplitude equations are listed.
+            In \autoref{app:cc-tau-amplitudes} the $\clustamp$-amplitude
+            equations are listed for the doubles (CCD) and singles-and-doubles
+            (CCSD) truncation levels.
 
             In the quasi-Newton method we now solve \cite{bartlett-purvis,
             helgaker-molecular}
@@ -1545,6 +1547,56 @@ energy = np.trace(np.dot(term, density_matrix))
             \end{align}
             where we collect all the cluster amplitudes together when computing
             the improved estimate.
+            We order the $\clustamp$-amplitudes with the virtual indices first,
+            for example the doubles amplitudes $\clustamp^{ab}_{ij}$ using NumPy
+            is given by \pyth{t_2[a, b, i, j]}.
+
+            Having found converged $\vfg{\clustamp}$-amplitudes we turn our
+            attention to the Lagrange multipliers, also known as the
+            $\vfg{\clustlamp}$-amplitudes.
+            The procedure is virtually the same as for the
+            $\vfg{\clustamp}$-amplitudes, but now we solve for the stationary
+            condition in \autoref{eq:cc-lagrangian-lambda}.
+            That is,
+            \begin{align}
+                \Omega_{\mu}(\vfg{\clustamp}, \vfg{\clustlamp}^{(i)})
+                = \mel{\slat}{
+                    (\1 + \clustl^{(i)})
+                    \exponential(-\clust)
+                    \com{\hamil}{\hat{X}_{\mu}}
+                    \exponential(\clust)
+                }{\slat}
+            \end{align}
+            where $\vfg{\clustamp}$ are now the converged
+            $\vfg{\clustamp}$-amplitudes.
+            The equations for CCD and CCSD are listed in
+            \autoref{app:cc-lambda-amplitudes}.
+            Reusing the quasi-Newton method we compute
+            \begin{align}
+                \Delta\clustlamp_{\mu}^{(i)}
+                = \frac{
+                    \Omega_{\mu}(\vfg{\clustamp}, \vfg{\clustlamp}^{(i)})
+                }{
+                    D_{\mu}
+                },
+            \end{align}
+            where the $D_{\mu}$ is the same tensor as for the
+            $\clustamp$-amplitudes, but with the occupied and the virtual
+            indices reversed.
+            That is, we order the indices of the $\clustlamp$-amplitudes
+            in the opposite order from the $\clustamp$-amplitudes, e.g., the
+            doubles amplitudes are $\clustlamp^{ij}_{ab}$ which using NumPy
+            translates to \pyth{l_2[i, j, a, b]} with the occupied indices
+            first.
+            We compute the next iteration of the $\clustlamp$-amplitudes from
+            \begin{align}
+                \vfg{\clustlamp}^{(i + 1)}
+                = \vfg{\clustlamp}^{(i)}
+                + \Delta\vfg{\clustlamp}^{(i)}.
+            \end{align}
+
+
+        \subsection{Convergence acceleration}
 
         \subsection{Non-orthogonal ground state solver}
 

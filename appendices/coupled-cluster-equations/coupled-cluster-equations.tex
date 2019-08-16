@@ -296,23 +296,22 @@
         \end{align}
         which is what we wanted to show.
 
-    \section{Coupled cluster amplitude equations}
-        \label{app:cc-amplitudes}
-        Using SymPy \cite{sympy} we are able to efficiently create amplitude
-        equations by programmatically evaluating Wick's theorem.
-        The labelling of the terms in the equations are inspired by the naming
-        convention used in \citetitle{shavitt2009many} \cite{shavitt2009many},
-        but with slight modifications.
-        The first letter, either ``S'' or ``D'', denotes a singles or a doubles
-        contribution respectively.
-        The number is used to collect terms with a similar structure, e.g.,
-        contractions between a singles amplitude, a doubles amplitude, and the
-        two-body Hamiltonian will share the same number.
-        To differentiate the different terms with the same type of contractions
-        we tack on a second letter which is increased alphabetically.
-        However, the number and the second letter do not have a deeper meaning
-        as in the work by \citeauthor{shavitt2009many} \cite{shavitt2009many}.
-
+    \section{Coupled cluster $\clustamp$-amplitude equations}
+        \label{app:cc-tau-amplitudes}
+        We use the amplitude expressions from the book
+        \citetitle{shavitt2009many} \cite{shavitt2009many} for the
+        $\clustamp$-amplitudes.
+        The task at hand is to evaluate
+        \begin{align}
+            \Omega_{\mu}(\vfg{\clustamp})
+            = \mel*{\slat_{\mu}}{
+                \exponential(-\clust)
+                \hamil_N
+                \exponential(\clust)
+            }{\slat},
+        \end{align}
+        for the CCD approximation with $\clust = \clust_2$ and CCSD with $\clust
+        = \clust_1 + \clust_2$.
         We denote the number of basis functions by $L$, the number of particles
         by $N$, and the number virtual states by $M = L - N$.
         We assume that $N < L / 2$ so that it is better to replace a contraction
@@ -329,6 +328,17 @@
             \fockten^{a}_{c} \clustamp^{bc}_{ij},
         \end{align}
         that is, it subtracts the same term, but with two indices replaced.
+
+        The CCD $\clustamp$-amplitudes are shown in
+        \autoref{tab:ccd-tau-amplitude-terms}.
+        For the CCSD $\clustamp$-amplitudes we have the doubles amplitudes from
+        CCD in \autoref{tab:ccd-tau-amplitude-terms} along with the new doubles
+        terms in \autoref{tab:ccsd-tau-2-amplitude-terms}.
+        Note that term D8a in \autoref{tab:ccsd-tau-2-amplitude-terms} is
+        different by a sign from the one in \citetitle{shavitt2009many} as the
+        latter contains a typo.
+        In \autoref{tab:ccsd-tau-1-amplitude-terms} we show the singles
+        amplitude contributions for CCSD.
 
         \begin{table}
             \centering
@@ -371,6 +381,104 @@
             \end{tabular}
             \label{tab:ccd-tau-amplitude-terms}
         \end{table}
+
+        \begin{center}
+            \renewcommand{\arraystretch}{1.5}
+            \begin{longtable}{@{}llll@{}}
+                \caption{Terms and intermediates included in the CCSD
+                $\clustamp_1$-amplitudes.  Empty lines continue from the line
+                above.}
+                \label{tab:ccsd-tau-1-amplitude-terms} \\
+                \toprule
+
+                Label & Intermediate & Term & Complexity \\
+                \midrule
+
+                \endfirsthead
+                \caption{(continued)} \\
+                \toprule
+
+                Label & Intermediate & Term & Complexity \\
+                \midrule
+
+                \endhead
+
+                \bottomrule
+
+                \endfoot
+
+                S1
+                &
+                & $\fockten^{a}_{i}$
+                & $\mathcal{O}(M N)$ \\
+
+                S2a
+                &
+                & $\fockten^{k}_{c} \clustamp^{ac}_{ik}$
+                & $\mathcal{O}(M^2 N^2)$ \\
+
+                S2b
+                &
+                & $\half \twoten^{ak}_{cd} \clustamp^{cd}_{ik}$
+                & $\mathcal{O}(M^3 N^2)$ \\
+
+                S2c
+                &
+                & $-\half \twoten^{kl}_{ic} \clustamp^{ac}_{kl}$
+                & $\mathcal{O}(M^2 N^3)$ \\
+
+                S3a
+                &
+                & $\fockten^{a}_{c} \clustamp^{c}_{i}$
+                & $\mathcal{O}(M^2 N)$ \\
+
+                S3b
+                &
+                & $-\fockten^{k}_{i} \clustamp^{a}_{k}$
+                & $\mathcal{O}(M N^2)$ \\
+
+                S3c
+                &
+                & $\twoten^{ak}_{ic} \clustamp^{c}_{k}$
+                & $\mathcal{O}(M^2 N^2)$ \\
+
+                S4a
+                & $W^{kl}_{di} = -\half\twoten^{kl}_{cd} \clustamp^{c}_{i}$
+                & $\clustamp^{ad}_{kl} W^{kl}_{di}$
+                & $\mathcal{O}(M^2 N^3)$ \\
+
+                S4b
+                & $W^{k}_{i} = -\half \twoten^{kl}_{cd} \clustamp^{cd}_{il}$
+                & $\clustamp^{a}_{k} W^{k}_{i}$
+                & $\mathcal{O}(M^2 N^3)$ \\
+
+                S4c
+                & $W^{l}_{d} = \twoten^{kl}_{cd} \clustamp^{c}_{k}$
+                & $W^{l}_{d} \clustamp^{da}_{li}$
+                & $\mathcal{O}(M^2 N^2)$ \\
+
+                S5a
+                & $W^{k}_{i} = -\fockten^{k}_{c} \clustamp^{c}_{i}$
+                & $\clustamp^{a}_{k} W^{k}_{i}$
+                & $\mathcal{O}(M N^2)$ \\
+
+                S5b
+                & $W^{ak}_{di} = \twoten^{ak}_{cd} \clustamp^{c}_{i}$
+                & $W^{ak}_{di} \clustamp^{d}_{k}$
+                & $\mathcal{O}(M^3 N^2)$ \\
+
+                S5c
+                & $W^{k}_{i} = -\twoten^{kl}_{ic} \clustamp^{c}_{l}$
+                & $\clustamp^{a}_{k} W^{k}_{i}$
+                & $\mathcal{O}(M N^3)$ \\
+
+                S6
+                & $W^{k}_{c} = -\twoten^{kl}_{cd} \clustamp^{d}_{l}$ \\
+                & $W^{k}_{i} = W^{k}_{c} \clustamp^{c}_{i}$
+                & $\clustamp^{a}_{k} W^{k}_{i}$
+                & $\mathcal{O}(M^2 N^2)$ \\
+            \end{longtable}
+        \end{center}
 
         \begin{center}
             \renewcommand{\arraystretch}{1.5}
@@ -494,9 +602,179 @@
                 & $W^{a}_{d} \clustamp^{db}_{ij} P(ab)$
                 & $\mathcal{O}(M^3 N^2)$ \\
 
-                D8a \\
-                D8b \\
-                D9 \\
+                D8a
+                & $W^{kb}_{di} = -\twoten^{kb}_{cd} \clustamp^{c}_{i}$ \\
+                & $W^{kb}_{ij} = W^{kb}_{di} \clustamp^{d}_{j}$
+                & $\clustamp^{a}_{k} W^{kb}_{ij} P(ab)$
+                & $\mathcal{O}(M^3 N^2)$
+                \\
+
+                D8b
+                & $W^{kl}_{ji} = \twoten^{kl}_{cj} \clustamp^{c}_{i}$ \\
+                & $W^{bk}_{ji} = \clustamp^{b}_{l} W^{kl}_{ji}$
+                & $\clustamp^{a}_{k} W^{bk}_{ji} P(ij)$
+                & $\mathcal{O}(M^2 N^3)$
+                \\
+
+                D9
+                & $W^{kl}_{di} = \twoten^{kl}_{cd} \clustamp^{c}_{i}$ \\
+                & $W^{kl}_{ij} = W^{kl}_{di} \clustamp^{d}_{j}$ \\
+                & $W^{bk}_{ij} = \clustamp^{b}_{l} W^{kl}_{ij}$
+                & $\clustamp^{a}_{k} W^{bk}_{ij}$
+                & $\mathcal{O}(M^2 N^3)$
+                \\
+
+            \end{longtable}
+        \end{center}
+
+    \section{Coupled cluster $\clustlamp$-amplitude equations}
+        \label{app:cc-lambda-amplitudes}
+        Using SymPy \cite{sympy} we are able to efficiently create amplitude
+        equations by programmatically evaluating Wick's theorem.
+        The labelling of the terms in the equations are inspired by the naming
+        convention used in \citetitle{shavitt2009many} \cite{shavitt2009many},
+        but with slight modifications.
+        The first letter, either ``S'' or ``D'', denotes a singles or a doubles
+        contribution respectively.
+        The number is used to collect terms with a similar structure, e.g.,
+        contractions between a singles amplitude, a doubles amplitude, and the
+        two-body Hamiltonian will share the same number.
+        To differentiate the different terms with the same type of contractions
+        we tack on a second letter which is increased alphabetically.
+        However, the number and the second letter do not have a deeper meaning
+        as in the work by \citeauthor{shavitt2009many} \cite{shavitt2009many}.
+
+        \begin{center}
+            \renewcommand{\arraystretch}{1.5}
+            \begin{longtable}{@{}llll@{}}
+                \caption{Terms included in the CCD $\clustlamp_2$-amplitudes.
+                Empty lines continue from the line above.}
+                \label{tab:ccd-lambda-amplitude-terms} \\
+                \toprule
+
+                Label & Intermediate & Term & Complexity \\
+                \midrule
+
+                \endfirsthead
+                \caption{(continued)} \\
+                \toprule
+
+                Label & Intermediate & Term & Complexity \\
+                \midrule
+
+                \endhead
+
+                \bottomrule
+
+                \endfoot
+
+                D1
+                &
+                & $\twoten^{ij}_{ab}$
+                & $\mathcal{O}(M^2 N^2)$
+                \\
+
+                D2a
+                &
+                & $\half \clustlamp^{kl}_{ab} \twoten^{ij}_{kl}$
+                & $\mathcal{O}(M^2 N^4)$
+                \\
+
+                D2b
+                &
+                & $\half \clustlamp^{ij}_{dc} \twoten^{dc}_{ab}$
+                & $\mathcal{O}(M^4 N^2)$
+                \\
+
+                D2c
+                &
+                & $-\fockten^{c}_{a} \clustlamp^{ij}_{bc} P(ab)$
+                & $\mathcal{O}(M^3 N^2)$
+                \\
+
+                D2d
+                &
+                & $\fockten^{i}_{k} \clustlamp^{jk}_{ab} P(ij)$
+                & $\mathcal{O}(M^2 N^3)$
+                \\
+
+                D2e
+                &
+                & $\clustlamp^{jk}_{bc} \twoten^{ic}_{ak} P(ab) P(ij)$
+                & $\mathcal{O}(M^3 N^3)$
+                \\
+
+                D3a
+                & $W^{c}_{a} = \half \clustamp^{dc}_{kl} u^{kl}_{ad}$
+                & $-\clustlamp^{ij}_{bc} W^{c}_{a} P(ab)$
+                & $\mathcal{O}(M^3 N^2)$
+                \\
+
+                D3b
+                & $W^{ij}_{kl} = \frac{1}{4} \clustlamp^{ij}_{dc} \clustamp^{dc}_{kl}$
+                & $W^{ij}_{kl} \twoten^{kl}_{ab}$
+                & $\mathcal{O}(M^2 N^4)$
+                \\
+
+                D3c
+                & $W^{i}_{k} = \half\clustamp^{dc}_{kl} \twoten^{il}_{dc}$
+                & $\clustlamp^{jk}_{ab} W^{i}_{k} P(ij)$
+                & $\mathcal{O}(M^2 N^3)$
+                \\
+
+                D3d
+                & $W^{jd}_{bl} = \clustlamp^{jk}_{bc} \clustamp^{dc}_{kl}$
+                & $-W^{jd}_{bl} \twoten^{il}_{ad} P(ab) P(ij)$
+                & $\mathcal{O}(M^3 N^3)$
+                \\
+
+                D3e
+                & $W^{j}_{l} = \half\clustlamp^{jk}_{dc} \clustamp^{dc}_{kl}$
+                & $W^{j}_{l} \twoten^{il}_{ab} P(ij)$
+                & $\mathcal{O}(M^2 N^3)$
+                \\
+
+                D3f
+                & $W^{ij}_{kl} = \frac{1}{4}\clustamp^{dc}_{kl} \twoten^{ij}_{dc}$
+                & $\clustlamp^{kl}_{ab} W^{ij}_{kl}$
+                & $\mathcal{O}(M^2 N^4)$
+                \\
+
+                D3g
+                & $W^{d}_{b} = \half \clustlamp^{kl}_{bc} \clustamp^{dc}_{kl}$
+                & $-W^{d}_{b} \twoten^{ij}_{ad} P(ab)$
+                & $\mathcal{O}(M^3 N^2)$
+                \\
+
+            \end{longtable}
+        \end{center}
+
+        \begin{center}
+            \renewcommand{\arraystretch}{1.5}
+            \begin{longtable}{@{}llll@{}}
+                \caption{New terms included in the CCSD
+                $\clustlamp_2$-amplitudes.
+                These terms should be added along with the ones from CCD in
+                \autoref{tab:ccd-lambda-amplitude-terms}.
+                Empty lines continue from the line above.}
+                \label{tab:ccsd-lambda-2-amplitude-terms} \\
+                \toprule
+
+                Label & Intermediate & Term & Complexity \\
+                \midrule
+
+                \endfirsthead
+                \caption{(continued)} \\
+                \toprule
+
+                Label & Intermediate & Term & Complexity \\
+                \midrule
+
+                \endhead
+
+                \bottomrule
+
+                \endfoot
 
             \end{longtable}
         \end{center}
