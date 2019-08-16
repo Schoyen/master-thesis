@@ -1597,6 +1597,11 @@ energy = np.trace(np.dot(term, density_matrix))
 
 
         \subsection{Convergence acceleration}
+            The quasi-Newton method often suffers from convergence
+            instabillities, especially for the case of quantum dots.
+            % TODO: Back this up
+            In order to alleviate some of these problems we introduce techniques
+            which helps the method converge faster.
 
         \subsection{Non-orthogonal ground state solver}
 
