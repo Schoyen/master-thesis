@@ -1105,32 +1105,40 @@
             coupled cluster equations \cite{rolf-nocc}.
             As $\nocc$ does not commute with $\clust$ and $\clustl$ we express
             the amplitude equations in the optimized basis where $\nocc = 0$
-            \cite{rolf-nocc}.
+            \cite{ugur-occ, rolf-nocc}.
             The stationary conditions for $\clustamp_{\mu}$ and
             $\clustlamp_{\mu}$ are thus the same as in
             \autoref{eq:cc-lagrangian-tau} and
             \autoref{eq:cc-lagrangian-lambda}.
-            For the orbital rotations, we have the stationary conditions
+            For the orbital rotations we compute the right-hand sides and set
+            $\nocc = 0$ afterwards \cite{ugur-occ}.
+            This yields the stationary conditions
             \begin{gather}
+                \left.
                 \dpd{L[\clustamp_{\mu}, \clustlamp_{\mu}, \noccten]}{
                     {\noccten^{u}}
                 }
+                \right\rvert_{\nocc = 0}
                 = \mel*{\tilde{\slat}}{
                     \para{\1 + \clustl}
                     \exp(-\clust)
                     \com{\hamil}{\biccr{a}\bican{i}}
                     \exp(\clust)
                 }{\slat},
+                \label{eq:nocc-kappa-up-rhs}
                 \\
+                \left.
                 \dpd{L[\clustamp_{\mu}, \clustlamp_{\mu}, \noccten]}{
                     {\noccten^{d}}
                 }
+                \right\rvert_{\nocc = 0}
                 = \mel*{\tilde{\slat}}{
                     \para{\1 + \clustl}
                     \exp(-\clust)
                     \com{\hamil}{\biccr{i}\bican{a}}
                     \exp(\clust)
                 }{\slat},
+                \label{eq:nocc-kappa-down-rhs}
             \end{gather}
             where it is important to note that all creation and annihilation
             operators in the cluster amplitudes and the Hamiltonian are the

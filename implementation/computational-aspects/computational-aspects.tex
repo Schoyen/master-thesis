@@ -189,6 +189,8 @@
             Note that for $\alpha = 0$ we only keep the predicted value
             $\vfg{z}^{(i)}$ whereas for $\alpha = 1$ we keep the raw
             measurements $\vfg{x}^{(i)}$.
+            The alpha filter suffers from the fact that finding a good value for
+            $\alpha$ is largely decided by trial and error.
             In our code we have dubbed the measurement vector by
             \pyth{trial_vector} and the predicted estimate by
             \pyth{direction_vector}.
@@ -197,16 +199,16 @@
             \label{subsec:diis}
             A more sophisticated acceleration technique is DIIS (direction
             inversion of the iterative subspace) acceleration
-            \cite{pulay1980393, helgaker-molecular}.
-            In order to estimate a measured vector $\vfg{p}^{(i + 1)}$ at a
+            \cite{pulay1980393, pulay1982, helgaker-molecular, shepard-diis}.
+            In order to estimate a measured vector $\vfg{p}_{i + 1}$ at a
             certain step $i + 1$ we use the linear combination
             \begin{align}
-                \bar{\vfg{p}}^{(i + 1)} = \sum_{k = 1}^{i} c_k \vfg{p}^{(i)},
+                \bar{\vfg{p}}_{i + 1} = \sum_{k = 1}^{i} c_k \vfg{p}_{i},
                 \label{eq:diis-estimate}
             \end{align}
-            where $\bar{\vfg{p}}_i$ is the estimated value at step $i$, and
-            $c_k$ is a set of unknown coefficients subject to the constraint
-            that they should sum up to unity at every step $i$.
+            where $\bar{\vfg{p}}_{i + 1}$ is the estimated value at step $i +
+            1$, and $c_k$ is a set of unknown coefficients subject to the
+            constraint that they should sum up to unity at every step $i$.
             In order to find the coefficients, we construct an error vector
             $\vfg{e}_i$ from $\vfg{p}_i$.
             This step is dependent on the solver we are looking at and will be
@@ -214,8 +216,8 @@
             coupled-cluster.
             For now, consider the extrapolated error vector
             \begin{align}
-                \bar{\vfg{e}}_i
-                = \sum_{k = 1}^{i - 1} c_k \vfg{e}_k,
+                \bar{\vfg{e}}_{i + 1}
+                = \sum_{k = 1}^{i} c_k \vfg{e}_k,
             \end{align}
             calculated from the measured error vectors.
             We now wish to minimize the error, and we do this using Lagrange's
@@ -224,11 +226,13 @@
             \begin{align}
                 L &=  \norm{\bar{\vfg{e}}_i}^2
                 - 2\lambda\para{
-                    \sum_{k = 1}^{i - 1} c_i
+                    \sum_{k = 1}^{i} c_i
                     - 1
                 }.
                 \label{eq:diis-lagrangian}
             \end{align}
+            We see that this is a least squares approach where we minimize the
+            error vectors subject to a constraint.
             The squared norm of the error vectors can be expressed by
             \begin{align}
                 \norm{\bar{\vfg{e}}_i}^2
@@ -266,11 +270,18 @@
             compute the estimated quantity $\bar{\vfg{p}}_i$ from
             \autoref{eq:diis-estimate}.
             An existing implementation of the DIIS algorithm was given to us by
-            \citeauthor{rolf-nocc} along with the non-orthogonal coupled-cluster
-            method and has been integrated by the author into the libraries we
-            have created.
+            \citeauthor{rolf-nocc} as part of his article \citetitle{rolf-nocc}
+            \cite{rolf-nocc} and has been integrated by the author into the
+            libraries we have created.
             This makes the method available to all Hartree-Fock solvers and all
             coupled-cluster implementations.
+
+            The DIIS method suffers from the fact that we store all $i$ previous
+            measurements in memory.
+            In the case of large systems this can become a problem as we spend
+            spend all our memory in the acceleration.
+            We can therefore adjust the number of vectors, i.e., $i$, in order
+            to limit the memory occupied by DIIS.
 
     \section{Numerical integration}
         \label{sec:numerical-integration}

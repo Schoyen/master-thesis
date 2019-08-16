@@ -1474,6 +1474,7 @@ energy = np.trace(np.dot(term, density_matrix))
         once instead of once per solver.
 
         \subsection{Ground state solvers with static orbitals}
+            \label{subsec:gs-cc}
             From \autoref{chap:cc} we know that the projected amplitude
             equations from \autoref{eq:cc_amp_sim} should be satisfied once we
             have found the optimal $\clustamp_{\mu}$-amplitudes.
@@ -1609,8 +1610,7 @@ energy = np.trace(np.dot(term, density_matrix))
             For the alpha filter we define our predicted estimate to be
             \begin{align}
                 \vfg{z}^{(i)} = \vfg{\clustamp}^{(i)}
-                + \Delta\vfg{\clustamp}^{(i)}
-                = \vfg{\clustamp}^{(i + 1)},
+                + \Delta\vfg{\clustamp}^{(i)},
             \end{align}
             for the $\clustamp$-amplitudes.
             The measurement is thus $\clustamp^{(i)}$.
@@ -1618,15 +1618,63 @@ energy = np.trace(np.dot(term, density_matrix))
             estimate similarly, viz.
             \begin{align}
                 \vfg{z}^{(i)} = \vfg{\clustlamp}^{(i)}
-                + \Delta\vfg{\clustlamp}^{(i)}
-                = \vfg{\clustlamp}^{(i + 1)},
+                + \Delta\vfg{\clustlamp}^{(i)},
             \end{align}
             and with the measurement as $\clustlamp^{(i)}$.
             This means that we need to represent our amplitude tensors as
             vectors, and in the case of more than one set of amplitudes we need
             to concatenate these vectors on top of one another.
 
+            For the DIIS algorithm described in \autoref{subsec:diis} we define
+            our error vectors to be
+            \begin{align}
+                \vfg{e}_{i} = \vfg{\Omega}^{(i)},
+            \end{align}
+            for both amplitude sets.
+            This choice is made as we know that $\vfg{\Omega} \to 0$ when we
+            reach convergence and have found the optimized amplitudes.
+            The measured vector $\vfg{p}_{i + 1}$ is given by
+            \begin{align}
+                \vfg{p}_{i + 1}
+                = \vfg{\clustamp}^{(i)}
+                + \Delta\vfg{\clustamp}^{(i)},
+            \end{align}
+            for the $\clustamp$-amplitudes and similarly for the
+            $\clustlamp$-amplitudes.
+            The extrapolated value from the DIIS algorithm is chosen as the new
+            amplitude before starting the next iteration of the quasi-Newton
+            method.
+
         \subsection{Non-orthogonal ground state solver}
+            The non-orthogonal coupled-cluster doubles (NOCCD/OACCD) method has been
+            implemented by \citeauthor{rolf-nocc} as part of his article
+            \citetitle{rolf-nocc} \cite{rolf-nocc} and has been implemented into
+            our framework by the author.
+            As discussed in \autoref{subsec:nocc} the ground state algorithm for
+            the NOCCD method can be formulated by:
+            \begin{enumerate}
+                \item Compute the orbital transformation matrices by
+                    \begin{gather}
+                        \vfg{S} = \exponential(\noccmat),
+                        \qquad
+                        \tilde{\vfg{S}} = \exponential(-\noccmat),
+                    \end{gather}
+                    where we use the matrix exponential function
+                    \pyth{scipy.linalg.expm} from SciPy \cite{scipy}.
+                \item Change from the original atomic orbital basis to the new
+                    non-orthogonal basis using $\vfg{S}$ and $\tilde{\vfg{S}}$
+                    as coefficient matrices for the ket and bra states
+                    respectively, as discussed in \autoref{sec:change-of-basis}.
+                \item Solve the $\clustamp$ and $\clustlamp$ equations as
+                    described in \autoref{subsec:gs-cc}.
+                    Note that as we have transformed to the new non-orthogonal
+                    basis we need to recompute the $D_{\mu}$-matrices.
+                \item Compute the stationary conditions for the orbital
+                    rotations from \autoref{eq:nocc-kappa-up-rhs} and
+                    \autoref{eq:nocc-kappa-down-rhs}.
+                    % TODO: How is kappa defined from these equations?
+                    % TODO: More importantly, how do we get the D-matrix?
+            \end{enumerate}
 
         \subsection{Time-evolution with static orbitals}
         \subsection{Orbital-adaptive time-evolution}
