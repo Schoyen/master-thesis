@@ -8,15 +8,15 @@ from coupled_cluster.ccd import OACCD
 
 
 atoms = [
-    "he 0.0 0.0 0.0",
-    "be 0.0 0.0 0.0",
-    "ne 0.0 0.0 0.0",
-    "mg 0.0 0.0 0.0",
-    "ar 0.0 0.0 0.0",
-    "kr 0.0 0.0 0.0",
+    "he",
+    "be",
+    "ne",
+    "mg",
+    "ar",
+    "kr",
 ]
 
-basis = "aug-ccpvdz"
+basis = "aug-ccpvtz"
 
 for atom in atoms:
     print(f"Atom: {atom}")
