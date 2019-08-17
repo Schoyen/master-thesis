@@ -4,7 +4,7 @@ import sys
 import numpy as np
 import pandas as pd
 
-from tdho_system import get_rhf_tdho
+from tdho_system import get_rhf_tdho, get_tdho
 from coupled_cluster.ccd import CoupledClusterDoubles as CCD, OACCD
 from coupled_cluster.ccsd import CoupledClusterSinglesDoubles as CCSD
 
@@ -27,24 +27,35 @@ for n in n_list:
         res_dict = dict(n=n, omega=omega)
 
         rhf = get_rhf_tdho(
-            n, l, radius_length=40, num_grid_points=201, tol=1e-7, omega=omega
+            n, l, radius_length=40, num_grid_points=201, tol=1e-5, omega=omega
         )
         res_dict["rhf"] = rhf.compute_energy().real
 
         system = rhf.system
         system.change_to_spin_orbital_basis()
 
-        ccd = CCD(system, verbose=True)
-        ccd.compute_ground_state()
-        res_dict["ccd"] = ccd.compute_energy().real
+        try:
+            ccd = CCD(system, verbose=True)
+            ccd.compute_ground_state()
+            res_dict["ccd"] = ccd.compute_energy().real
+        except AssertionError:
+            res_dict["ccd"] = np.nan
 
-        ccsd = CCSD(system, verbose=True)
-        ccsd.compute_ground_state()
-        res_dict["ccsd"] = ccsd.compute_energy().real
+        try:
+            ccsd = CCSD(system, verbose=True)
+            ccsd.compute_ground_state()
+            res_dict["ccsd"] = ccsd.compute_energy().real
+        except AssertionError:
+            res_dict["ccsd"] = np.nan
 
-        oaccd = OACCD(system, verbose=True)
-        oaccd.compute_ground_state()
-        res_dict["noccd"] = oaccd.compute_energy().real
+        try:
+            oaccd = OACCD(system, verbose=True)
+            oaccd.compute_ground_state(
+                num_vecs=10, tol=1e-3, termination_tol=1e-3
+            )
+            res_dict["noccd"] = oaccd.compute_energy().real
+        except AssertionError:
+            res_dict["noccd"] = np.nan
 
         df = df.append(pd.Series(res_dict), ignore_index=True)
 
