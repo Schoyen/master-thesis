@@ -26,6 +26,6 @@ def get_rhf_tdho(*args, tol=1e-7, **kwargs):
     tdho = cache_large_system(*args, **kwargs)
 
     rhf = RHF(tdho, verbose=True, mixer=DIIS)
-    rhf.compute_ground_state(change_system_basis=True)
+    rhf.compute_ground_state(change_system_basis=True, tol=tol)
 
     return rhf
