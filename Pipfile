@@ -13,7 +13,7 @@ pandas = "*"
 pytest = "*"
 numba = "*"
 quantum-systems = {git = "https://github.com/Schoyen/quantum-systems.git"}
-tdqd-tools = {git = "https://github.com/Schoyen/tdqd-tools.git"}
+tdqd-tools = {editable = true,git = "https://github.com/Schoyen/tdqd-tools.git"}
 hartree-fock = {editable = true,git = "ssh://git@github.com/Schoyen/hartree-fock.git"}
 coupled-cluster = {git = "ssh://git@github.com/Schoyen/coupled-cluster.git"}
 configuration-interaction = {git = "ssh://git@github.com/Schoyen/configuration-interaction.git"}
