@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d0f4782fcad41d249db49cc5f243912da5f11482fec21c6c7cd5d95c4002bb72"
+            "sha256": "cec245b7195ea9a1df84871c834602534e88fe74d174a8c0aa6a1dc2d8ebd2e9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -54,11 +54,11 @@
         },
         "configuration-interaction": {
             "git": "ssh://git@github.com/Schoyen/configuration-interaction.git",
-            "ref": "5376a1b8e8545483f3b7788a2eaec2a0cc9d71f2"
+            "ref": "16d4c15caaf3af1fcbda33ef51d012ed98b4ae50"
         },
         "coupled-cluster": {
             "git": "ssh://git@github.com/Schoyen/coupled-cluster.git",
-            "ref": "ecc915bbd79af2bcb9501de3ffa4494117826df4"
+            "ref": "dee8355738b873136a862fae0616835d23745cfe"
         },
         "cycler": {
             "hashes": [
@@ -431,6 +431,7 @@
             "ref": "2295b076b4084edbcb7ed11a3a0ef6f7da48658f"
         },
         "tdqd-tools": {
+            "editable": true,
             "git": "https://github.com/Schoyen/tdqd-tools.git",
             "ref": "f2330ccb946f44a304f95faa0a5f6082622e5e0a"
         },
