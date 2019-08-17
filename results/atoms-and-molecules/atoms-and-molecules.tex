@@ -1,0 +1,32 @@
+\chapter{Atoms and molecules}
+    In this chapter we'll discuss ground state and time-evolution of various
+    atomic and molecular systems.
+
+    \section{Ground state energies}
+        The basis sets for the atomic systems were built using PySCF
+        \cite{pyscf} along with their implementation of the restricted
+        Hartree-Fock scheme.
+
+        \begin{table}
+            \centering
+            \renewcommand{\arraystretch}{1.5}
+            \begin{tabular}{@{}lllll@{}}
+                \toprule
+                Atom & $E_{RHF}*$ & $E_{NOCCD}$ & $E_{exp}$ & $e$ \\
+                \midrule
+                He & $-2.8612$    & $-2.9006$    & \\
+                Be & $-14.5729$   & $-14.6242$   & \\
+                Ne & $-128.5333$  & $-128.8202$  &\\
+                Mg & $-199.6133$  & $-199.6664$  &\\
+                Ar & $-526.8134$  & $-527.0723$  &\\
+                Kr & $-2752.0522$ & $-2752.3438$ &\\
+                \bottomrule
+            \end{tabular}
+            \caption{Ground state energies for a select few atoms using the
+            aug-ccPVTZ basis from PySCF \cite{pyscf} along with the ground state
+            energies from their implementation of the restricted Hartree-Fock in
+            $E_{RHF}*$.}
+            \label{tab:gs-atoms}
+        \end{table}
+
+    \section{Time-evolution of noble gasses}
