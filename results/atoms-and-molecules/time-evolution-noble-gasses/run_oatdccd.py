@@ -15,7 +15,7 @@ from noble_gasses import get_system
 
 def store_data(atom, basis, time_points, td_energies, dipole_z):
     path = os.path.join(sys.path[0], "dat")
-    filename_stub = f"{atom}_{basis}_"
+    filename_stub = f"{atom}_{basis}_new_"
 
     write_data(
         os.path.join(path, filename_stub + "energy_real.dat"),
