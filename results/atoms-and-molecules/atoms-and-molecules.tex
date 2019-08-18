@@ -4,28 +4,52 @@
 
     \section{Ground state energies}
         The basis sets for the atomic systems were built using PySCF
-        \cite{pyscf} along with their implementation of the restricted
+        \cite{pyscf} along with PySCF's implementation of the restricted
         Hartree-Fock scheme.
+        We have computed the ground state energy using the NOCCD procedure and
+        compare with litterature in \autoref{tab:gs-atoms}.
+        The relative error is computed by
+        \begin{align}
+            e_{rel}
+            = \frac{\abs{E_{NOCCD} - E_{ref}}}{\abs{E_{ref}}},
+        \end{align}
+        as done by \citeauthor{hogberget2013quantum}
+        \cite{hogberget2013quantum}.
+        From \autoref{tab:gs-atoms} we see that the reference energies are
+        consistenly lower than our ground state calculations using the NOCCD
+        method for atoms He through Ar.
+        However, for the case of Kr we suddenly achieve lower values using NOCCD
+        than the reference result.
+        The reason for this is that the latter result for Kr is achieved using
+        Hartree-Fock \cite{partridge-nhf}, and indeed this corresponds well with
+        the restricted Hartree-Fock results from PySCF \cite{pyscf}.
 
         \begin{table}
             \centering
             \renewcommand{\arraystretch}{1.5}
             \begin{tabular}{@{}lllll@{}}
                 \toprule
-                Atom & $E_{RHF}*$ & $E_{NOCCD}$ & $E_{exp}$ & $e$ \\
+                Atom & $E_{RHF}*$ & $E_{NOCCD}$ & $E_{ref}$ & $e_{rel}$ \\
                 \midrule
-                He & $-2.8612$    & $-2.9006$    & \\
-                Be & $-14.5729$   & $-14.6242$   & \\
-                Ne & $-128.5333$  & $-128.8202$  &\\
-                Mg & $-199.6133$  & $-199.6664$  &\\
-                Ar & $-526.8134$  & $-527.0723$  &\\
-                Kr & $-2752.0522$ & $-2752.3438$ &\\
+                He & $-2.8612$    & $-2.9006$    & $-2.9037$    & $0.0011$ \\
+                Be & $-14.5729$   & $-14.6242$   & $-14.6674$   & $0.0029$\\
+                Ne & $-128.5333$  & $-128.8202$  & $-128.9383$  & $0.0009$\\
+                Mg & $-199.6133$  & $-199.6664$  & $-200.0540$  & $0.0019$\\
+                Ar & $-526.8134$  & $-527.0723$  & $-527.5440$  & $0.0009$\\
+                Kr & $-2752.0522$ & $-2752.3438$ & $-2752.0550$ & $0.0653$\\
                 \bottomrule
             \end{tabular}
             \caption{Ground state energies for a select few atoms using the
             aug-ccPVTZ basis from PySCF \cite{pyscf} along with the ground state
             energies from their implementation of the restricted Hartree-Fock in
-            $E_{RHF}*$.}
+            $E_{RHF}*$.
+            The reference results $E_{ref}$ are found from
+            \citeauthor{Degroote2013} \cite{Degroote2013} for atoms He
+            through Ar, and \citeauthor{partridge-nhf} \cite{partridge-nhf} for
+            Kr.
+            We have rounded the results to four decimal places for all presented
+            results as this corresponds our convergence criteria for the NOCCD
+            calculation.}
             \label{tab:gs-atoms}
         \end{table}
 
