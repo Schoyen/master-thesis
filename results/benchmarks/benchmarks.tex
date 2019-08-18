@@ -1,6 +1,8 @@
 \chapter{Benchmarking against litterature}
     In this chapter we use our developed code to reproduce results from relevant
     articles to verify that our implementation works as expected.
+    Furthermore, this chapter demonstrates the versatility our methods by the
+    application of many different types of systems.
 
     \section{The one-dimensional harmonic oscillator}
         An excellent starting point is the one-dimensional harmonic
@@ -397,297 +399,153 @@
         \end{figure}
 
 
-    \section{Atoms and molecules}
-        In this section we'll look at how our methods perform when applied to
-        atomic and molecular systems.
-        Building atomic and molecular systems is a large field in itself and we
-        will not make our own basis sets as there are already excellent
-        libraries available.
-        We'll mainly use two libraries throughout this thesis for creating
-        atomic systems and that is PySCF \cite{pyscf} and Psi4 \cite{psi4}.
 
-        \subsection{Two-electron atoms}
-            In a study on the Hydrogen molecule subject to an intense laser
-            field done by \citeauthor{li_2005} \cite{li_2005} a comparison of
-            the time-dependent Hartree-Fock method and the time-dependent full
-            configuration interaction\footnote{%
-                Note that \citeauthor{li_2005} calls the time-dependent
-                full-configuration interaction method for the time-dependent
-                Schrödinger equation.%
-            } is performed.
-            This provides us with an ample opportunity to repeat the
-            experiments in order for us to verify our methods.
-            Particularly, we are in a position to test the orbital-adaptive
-            time-dependent coupled cluster method as the dipole moment requires
-            us to do a basis transformation to the new orbital basis and compute
-            the one-body density matrix.
-            That is, we compute
-            \begin{align}
-                \tilde{\vfg{d}}^{p}_{q}(t)
-                = \mel*{\tilde{\phi}_p(t)}{\hat{\vfg{d}}}{\phi_q(t)}
-                = \tilde{C}_{p\alpha}(t)
-                \mel*{\chi_{\alpha}}{\hat{\vfg{d}}}{\chi_{\beta}}
-                C_{\beta q}(t),
-            \end{align}
-            as the basis transformed dipole matrix elements.
-            Having compute the one-body density matrix $\densityten^{q}_{p}(t)$
-            we can find the induced dipole-moment along the $z$-axis by picking
-            out the $z$-component of the dipole elements, that is,
-            \begin{align}
-                \expval{z(t)}
-                &= \densityten^{q}_{p}(t) \tilde{z}^{p}_{q}(t),
-            \end{align}
-            where $\tilde{z}^{p}_{q}(t)$ is the $z$-component of
-            $\tilde{\vfg{d}}^{p}_{q}(t)$.
-            The Hydrogen molecule is expressed in $14$ Gaussian type orbitals,
-            the $6-311++G(d, p)$ basis set, with an equilibrium geometry of $R_e
-            = \SI{0.7354}{\angstrom} \approx \SI{1.3897}{\bohr}$.
-            We center the molecule around the origin with each atom centered at
-            $\pm R_e/2$.
-            We then make the basis set doubly occupied by including spin.
-            The basis is run through a general Hartree-Fock solver which finds
-            the Hartree-Fock molecular orbitals and changes to this basis.
-            The laser field used by \citeauthor{li_2005} is
-            \begin{align}
-                \hat{\vfg{d}} \cdot \vfg{f}(t)
-                = \hat{\vfg{d}} \cdot \vfg{E}(t)\sin(\omega t),
-                \label{eq:li-field}
-            \end{align}
-            where $\hat{\vfg{d}}$ is the dipole operator in three dimensions and
-            the envelope $\vfg{E}(t) = E(t) \cdot \vfg{\epsilon}$ with
-            $\vfg{\epsilon}$ as the polarization vector.
-            We let the envelope cycle as a function of time by
-            \begin{align}
-                E(t) = \begin{cases}
-                    (\omega t / 2\pi) E_m, & \omega t \in [0, 2\pi], \\
-                    E_m, & \omega t \in [2\pi, 4\pi], \\
-                    [3 - \omega t / (2\pi)] E_m, & \omega t \in [4\pi, 6\pi], \\
-                    0, & \omega t \neq [0, 6\pi],
-                \end{cases}
-                \label{eq:li-laser}
-            \end{align}
-            where we set $E_m = \SI{0.07}{\text{a.u.}}$ and $\omega =
-            \SI{0.1}{\text{a.u.}}$.
-            A plot of the laser field during the simulation is shown in
-            \autoref{fig:li-laser}.
-            \begin{figure}
-                \centering
-                \begin{tikzpicture}
-                    \begin{axis}[
+    \section{Two-electron molecule}
+        In a study on the optical response of molecules subject to an
+        intense laser fields done by \citeauthor{li_2005} \cite{li_2005} a
+        comparison of the time-dependent Hartree-Fock method and the
+        time-dependent full configuration interaction\footnote{%
+            Note that \citeauthor{li_2005} denotes the time-dependent
+            full-configuration interaction method by: ``the time-dependent
+            Schrödinger equation''.
+        } is performed.
+        This provides us with an ample opportunity to repeat the
+        experiments in order for us to verify our methods.
+        We will therefore reproduce parts of the study done by
+        \citeauthor{li_2005} using TDCISD, TDHF, TDCCSD, and OATDCCD.
+
+        We'll look at the smallest molecule \ch{H2}, that is, the Hydrogen
+        molecule with two electrons.
+        This means that TDCISD, TDCCSD, and OATDCCD should produce exact
+        results for the single-particle basis that is used.
+        %That is, we compute
+        %\begin{align}
+        %    \tilde{\vfg{d}}^{p}_{q}(t)
+        %    = \mel*{\tilde{\phi}_p(t)}{\hat{\vfg{d}}}{\phi_q(t)}
+        %    = \tilde{C}_{p\alpha}(t)
+        %    \mel*{\chi_{\alpha}}{\hat{\vfg{d}}}{\chi_{\beta}}
+        %    C_{\beta q}(t),
+        %\end{align}
+        %as the basis transformed dipole matrix elements.
+        %Having computed the one-body density matrix $\densityten^{q}_{p}(t)$
+        %from OATDCCD, we can find the induced dipole-moment along the
+        %$z$-axis by picking out the $z$-component of the dipole elements,
+        %that is,
+        %\begin{align}
+        %    \expval{z(t)}
+        %    &= \densityten^{q}_{p}(t) \tilde{z}^{p}_{q}(t),
+        %\end{align}
+        %where $\tilde{z}^{p}_{q}(t)$ is the $z$-component of
+        %$\tilde{\vfg{d}}^{p}_{q}(t)$.
+        We express \ch{H2} in $14$ Gaussian type orbitals, that is, the
+        $6-311++G(d, p)$ basis set, with an equilibrium geometry of $R_e =
+        \SI{0.7354}{\angstrom} \approx \SI{1.3897}{\bohr}$.
+        We center the molecule around the origin with each atom located at
+        $\pm R_e/2$ in the $z$-direction zero for the $x$- and
+        $y$-direction.
+        We then make the basis set doubly occupied by including spin.
+        The basis is run through a general Hartree-Fock solver which finds
+        the Hartree-Fock molecular orbitals and changes to this basis.
+        The laser pulse used by \citeauthor{li_2005} is
+        \begin{align}
+            \hat{\vfg{d}} \cdot \vfg{f}(t)
+            = \hat{\vfg{d}} \cdot \vfg{E}(t)\sin(\omega t),
+            \label{eq:li-field}
+        \end{align}
+        where $\hat{\vfg{d}}$ is the dipole operator in three dimensions and
+        the envelope $\vfg{E}(t) = E(t)\vfg{\epsilon}$ with $\vfg{\epsilon}$
+        as the polarization vector.
+        We let the envelope cycle as a function of time by
+        \begin{align}
+            E(t) = \begin{cases}
+                (\omega t / 2\pi) E_m, & \omega t \in [0, 2\pi], \\
+                E_m, & \omega t \in [2\pi, 4\pi], \\
+                [3 - \omega t / (2\pi)] E_m, & \omega t \in [4\pi, 6\pi], \\
+                0, & \omega t \neq [0, 6\pi],
+            \end{cases}
+            \label{eq:li-laser}
+        \end{align}
+        where we set $E_m = \SI{0.07}{\hartree}$ and $\omega =
+        \SI{0.1}{\hartree/\hslash}$.
+        This envelope is slightly unconventional as compared to the more
+        common envelope functions discussed in \autoref{subsec:envelope}.
+        A plot of the laser field during the simulation is shown in
+        \autoref{fig:li-laser}.
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{axis}[
+                    width=11cm,
+                    height=6cm,
+                    xlabel={$t$ $[\text{a.u.}]$},
+                    ylabel={$E(t)$ $[\text{a.u.}]$},
+                    grid=major,
+                    enlarge x limits=false,
+                    enlarge y limits=false,
+                ]
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/benchmarks/li/dat/li_laser.dat};
+                \end{axis}
+            \end{tikzpicture}
+            \caption{In this figure we've plotted the laser field from
+            \autoref{eq:li-field} with the envelope described in
+            \autoref{eq:li-laser} as done in the study by
+            \citeauthor{li_2005} \cite{li_2005}.}
+            \label{fig:li-laser}
+        \end{figure}
+        In our programs the dipole moment is defined with a positive sign,
+        which means that we need to introduce a negative sign in the
+        envelope or the polarization vector to include the negative charge
+        of the electrons.
+        We have chosen to set the polarization vector along the negative
+        $z$-direction.
+        A plot of the instantaneous dipole moment of \ch{H2} in the
+        $z$-direction where we simulate for a total of $t_f =
+        \SI{225}{\hslash/\hartree}$ with the laser turned on from start
+        until $2\pi/\omega \approx \SI{62.8}{\hslash/\hartree}$ is shown in
+        \autoref{fig:dipole-moment-li}.
+        A by-eye comparison of the top figure in
+        \autoref{fig:dipole-moment-li} with figure 4 in \citetitle{li_2005}
+        \cite{li_2005} shows that we are in perfect agreement with the
+        results of \citeauthor{li_2005}.
+        In the lower figure we show the absolute error in the induced dipole
+        moment as calculated by the TDCCSD and OATDCCD methods compared with
+        the exact full configuration interaction solution.
+        The convergence threshold of the Gauss-Legendre integrator was set
+        to $\num{1e-6}$ which is larger than the absolute error between the
+        methods.
+        We therefore conclude that TDCCSD and OATDCCD reproduce the exact
+        results to a satisfying degree.
+
+        It is interesting to note in the top figure in
+        \autoref{fig:dipole-moment-li} that the time-dependent Hartree-Fock
+        method performs surprisingly well.
+        There are small discrepancies, but at the intensity we use for our
+        laser the mean-field approximation performs excellently.
+        However, we expect that as the intensity increases, this method will
+        prove inferior to the correlated methods.
+        % TODO: Back this up.
+
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{groupplot}[
+                        group style={
+                            group size=1 by 2,
+                            vertical sep=30pt,
+                            xlabels at=edge bottom,
+                        },
                         width=11cm,
                         height=6cm,
                         xlabel={$t$ $[\text{a.u.}]$},
-                        ylabel={$E(t)$ $[\text{a.u.}]$},
-                        grid=major,
-                        enlarge x limits=false,
-                        enlarge y limits=false,
                     ]
-                        \addplot+[
-                            mark=none,
-                            thick,
-                        ]
-                        table
-                        {results/benchmarks/li/dat/li_laser.dat};
-                    \end{axis}
-                \end{tikzpicture}
-                \caption{In this figure we've plotted the laser field from
-                \autoref{eq:li-field} with the envelope described in
-                \autoref{eq:li-laser} as done in the study by
-                \citeauthor{li_2005} \cite{li_2005}.}
-                \label{fig:li-laser}
-            \end{figure}
-            In our programs the dipole moment is defined with a positive sign,
-            which means that we need to introduce a negative sign in the
-            envelope or the polarization vector to include the negative charge
-            of the electrons.
-            We have chosen to set the polarization vector along the negative
-            $z$-direction.
-            A plot of the induced dipole moment in the $z$-direction where we
-            simulate for a total of $t_f = \SI{225}{\text{a.u.}}$ with the laser
-            turned on from start until $2\pi/\omega \approx
-            \SI{62.8}{\text{a.u.}}$ is shown in \autoref{fig:dipole-moment-li}.
-            In the lower figure we show the absolute error in the induced dipole
-            moment as calculated by the time-dependent coupled cluster singles
-            and doubles method and the orbital-adaptive time-dependent coupled
-            cluster doubles method compared with the exact full configuration
-            interaction solution.
-
-            It is interesting to note in the top figure in
-            \autoref{fig:dipole-moment-li} that the time-dependent Hartree-Fock
-            method performs surprisingly well.
-            There are small discrepancies, but at the intensity we use for our
-            laser the mean-field approximation performs excellently.
-            However, we expect that as the intensity increases, this method will
-            prove far more inferior to the correlated methods.
-            % TODO: Back this up.
-
-            \begin{figure}
-                \centering
-                \begin{tikzpicture}
-                    \begin{groupplot}[
-                            group style={
-                                group size=1 by 2,
-                                vertical sep=30pt,
-                                xlabels at=edge bottom,
-                            },
-                            width=11cm,
-                            height=6cm,
-                            xlabel={$t$ $[\text{a.u.}]$},
-                        ]
-                        \nextgroupplot[
-                                grid=major,
-                                ylabel={$\expval{z(t)}$},
-                                enlarge x limits=false,
-                                enlarge y limits=false,
-                            ]
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/li/dat/dipole_z_tdcisd_real.dat};
-                            \addlegendentry{TDCISD}
-
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/li/dat/dipole_z_tdhf_real.dat};
-                            \addlegendentry{TDHF}
-
-                        \nextgroupplot[
-                                ymode=log,
-                                grid=major,
-                                ylabel={$\abs{\Delta\expval{z(t)}}$},
-                                enlarge x limits=false,
-                                enlarge y limits=false,
-                                legend pos=south east,
-                            ]
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/li/dat/dipole_z_diff_tdccsd_tdcisd.dat};
-                            \addlegendentry{TDCCSD}
-
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/li/dat/dipole_z_diff_oatdccd_tdcisd.dat};
-                            \addlegendentry{OATDCCD}
-                    \end{groupplot}
-                \end{tikzpicture}
-                \caption{In the top figure we have plotted the induced dipole
-                moment by radiating a Hydrogen molecule with a dipole laser.
-                The figure reproduces Figure. 4 by \citeauthor{li_2005}
-                \cite{li_2005} using both the time-dependent general
-                Hartree-Fock solver and the time-dependent full
-                configuration-interation solver.}
-                \label{fig:dipole-moment-li}
-            \end{figure}
-
-        \subsection{Ionization of one-dimensional atoms}
-            The process of modelling ionization of electrons is atoms and
-            molecules is a tricky subject.
-            This is because we are forcing our systems to be bound by simulating
-            a restricted space and requiring that all particles are contained
-            inside the simulation box.
-            As a consequence, ionziation has to be inferred in some way or
-            another, e.g., an absorbing potential \cite{kosloff1986363,
-            miyagi_and_madsen}.
-            However, in our formalizm we use static atomic orbitals which we
-            force to zero at the boundaries of the simulation box.
-            This makes the use of an absorbing potential useless and ionization
-            must be inferred in some other way.
-
-            In a study done by \citeauthor{miyagi_and_madsen}
-            \cite{miyagi_and_madsen} they explored the dynamics of
-            one-dimensional atoms subject to a dipole laser.
-            This study provides us with an excellent benchmark to observe a form
-            of ionization and see if this is reproducible in our formalism.
-            Note that \citeauthor{miyagi_and_madsen} used a
-            discrete-variable-representation basis (DVR) which is why they
-            include an absorbing potential.
-            Our solution differs from this as we use the static one-dimensional
-            quantum dot basis with a one-dimensional atom potential.
-            In a position basis with Hartree atomic units, the one-body
-            Hamiltonian is given by \cite{miyagi_and_madsen}
-            \begin{align}
-                \oneten(x, t)
-                &= -\half \dod[2]{}{x}
-                - \frac{Z}{\sqrt{x^2 + 1}}
-                + xF(t)
-                - iW(x),
-            \end{align}
-            where $Z = N_e$, that is, the number of electrons in the system,
-            $W(x)$ is the absorbing potential, which we'll set to zero.
-            The second term gives rise to naming these systems as
-            one-dimensional atoms as this term serves as the electron-nuclear
-            interaction in the atomic Hamiltonian, but with the
-            three-dimensional position replaced with $x$.
-            One of the interesting aspects of the one-dimensional atoms is that
-            many open-shell systems such as Carbon gets closed shells in the
-            one-dimensional case.
-            We will however, limit our study to the one-dimensional Beryllium
-            system with $n = 4$ electrons in a closed shell.
-
-            The laser pulse $F(t)$ is given by \cite{miyagi_and_madsen}
-            \begin{align}
-                F(t)
-                &= -\dod[]{A(t)}{t}
-                = -\dod[]{}{t}\brak{
-                    \frac{F_0}{\omega}
-                    \sin^2\para{\frac{\pi t}{T}}
-                    \sin(\omega t)
-                }
-                \\
-                &=
-                -\sin\para{\frac{\pi t}{T}}\brak{
-                    \omega \sin\para{\frac{\pi t}{T}}
-                    \cos(\omega t)
-                    + \frac{2\pi}{T}
-                    \cos\para{\frac{\pi t}{T}}
-                    \sin(\omega t)
-                }.
-                \label{eq:miyagi-laser}
-            \end{align}
-            where this field is only turned on for $t \in [0, T]$.
-            A plot of the laser pulse is shown in \autoref{fig:miyagi-laser}.
-            The two-body Hamiltonian in coordinate representation is given by
-            \begin{align}
-                \twoten(x_i, x_j) = \frac{1}{\sqrt{(x_1 + x_2)^2 + 1}},
-            \end{align}
-            which corresponds to a shielding parameter of $a = 1$ and $\alpha =
-            1$.
-            % TODO: Refer to the shielded Coulomb model in the one-dimensional
-            % quantum dot.
-            To compare with the study by \citeauthor{miyagi_and_madsen} we will
-            run for $T = \SI{331}{\text{a.u.}}$ with $\Delta t = \num{1e-2}$
-            which corresponds to $n_t = 33100$ time-steps.
-            This computation is rather involved and we will therefore limit
-            ourselves to the time-dependent Hartree-Fock method and the
-            orbital-adaptive time-dependent coupled cluster method as the
-            full-configuration interaction method becomes quite expensive.
-            In fact, for $n = 4$ and $l = 40$ we have to create a Hamiltonian
-            matrix with $91390^2$ elements, each of size $\SI{16}{\text{B}}$ as
-            we use complex numbers.
-            To solve this system we require a much smarter implementation of the
-            configuration interaction method which is out of scope for this
-            thesis.
-
-            \begin{figure}
-                \centering
-                \begin{tikzpicture}
-                    \begin{axis}[
-                            width=11cm,
-                            height=6cm,
-                            xlabel={$t$ $[\text{a.u.}]$},
+                    \nextgroupplot[
                             grid=major,
-                            ylabel={$F(t)$},
+                            ylabel={$\expval{z(t)}$},
                             enlarge x limits=false,
                             enlarge y limits=false,
                         ]
@@ -696,486 +554,629 @@
                             thick,
                         ]
                         table
-                        {results/benchmarks/miyagi/dat/miyagi_laser.dat};
-                    \end{axis}
-                \end{tikzpicture}
-                \caption{In this figure we have plotted the laser pulse from
-                \autoref{eq:miyagi-laser} for $T = \SI{331}{\text{a.u.}}$,
-                $\omega = \SI{0.057}{\text{a.u.}}$, and $F_0 =
-                \SI{0.0755}{\text{a.u.}}$ \cite{miyagi_and_madsen}.}
-                \label{fig:miyagi-laser}
-            \end{figure}
+                        {results/benchmarks/li/dat/dipole_z_tdcisd_real.dat};
+                        \addlegendentry{TDCISD}
 
-
-            In order for us to observe ionization we need to have a basis
-            containing scattered states, that is, states that have an eigenenergy
-            above the potential well, such that we get a non-zero portion of the
-            wave function outside the potential well.
-            % TODO: This probably needs to be rephrased
-            If the basis set is too small all states will be bound in the atomic
-            potential and it is not possible to make a linear combination where
-            some parts of the total wave function is outside the potential well
-            more than a small tunneling effect.
-            % TODO: Include this study
-            In \autoref{fig:spf-potential-miyagi} we see the highest lying
-            orbitals we've used in the one-dimensional Beryllium system.
-            The plot demonstrates that we need a large basis in order to capture
-            scattered states.
-
-            \begin{figure}
-                \centering
-                \begin{tikzpicture}
-                    \begin{axis}[
-                        width=11cm,
-                        height=8cm,
-                        xlabel={$x$ $[\text{a.u.}]$},
-                        ylabel={$E$ $[\text{a.u.}]$},
-                        xmin=-100,
-                        xmax=100,
-                        ymin=-0.25,
-                        legend pos=south west,
-                        grid=major,
-                    ]
-                        \addplot+[
-                            mark=none,
-                            dashed,
-                        ]
-                        table
-                        {results/benchmarks/miyagi/dat/miyagi_potential.dat};
-
-                        \addplot+[
+                        \addplot+ [
                             mark=none,
                             thick,
                         ]
                         table
-                        {results/benchmarks/miyagi/dat/spf_l=10_sq.dat};
-                        \addlegendentry{$\abs{\psi_{10}(x)}^2$};
+                        {results/benchmarks/li/dat/dipole_z_tdhf_real.dat};
+                        \addlegendentry{TDHF}
 
-                        \addplot+[
-                            mark=none,
-                            thick,
-                        ]
-                        table
-                        {results/benchmarks/miyagi/dat/spf_l=15_sq.dat};
-                        \addlegendentry{$\abs{\psi_{15}(x)}^2$};
-
-                        \addplot+[
-                            mark=none,
-                            thick,
-                        ]
-                        table
-                        {results/benchmarks/miyagi/dat/spf_l=20_sq.dat};
-                        \addlegendentry{$\abs{\psi_{20}(x)}^2$};
-                    \end{axis}
-                \end{tikzpicture}
-                \caption{In this figure we've plotted some of the high lying
-                single-particle functions squared and scaled by their
-                eigenenergy inside the one-dimensional Beryllium potential.
-                We've only included a select few single-particle functions to
-                avoid the figure being too cluttered.}
-                \label{fig:spf-potential-miyagi}
-            \end{figure}
-
-            We can see this from \autoref{fig:one-particle-density-miyagi}
-            where a basis of $l = 20$ spin-orbitals has been used.
-            This basis is not able to capture much of the scattered states and
-            looking at the figure for $t = T$ we see that the system is
-            relatively confined still.
-            We can also see this from \autoref{fig:spf-potential-miyagi} as $l =
-            20$ means the highest single-particle function used is
-            $\psi_{10}(x)$ which is clearly confined in the potential well.
-            However, looking at \autoref{fig:one-particle-density-miyagi-l=40}
-            we see the same Beryllium system with a basis set of $l = 40$
-            spin-orbitals.
-            It is apparent that the system undergoes a larger degree of
-            ionization with more of the one-particle density further away from
-            the central potential.
-            This is also see in \autoref{fig:spf-potential-miyagi} as $l = 40$
-            includes the state $\psi_{20}(x)$ which is more dispersed.
-
-            \begin{figure}
-                \centering
-                \begin{tikzpicture}
-                    \begin{groupplot}[
-                            group style={
-                                group size=1 by 3,
-                                vertical sep=30pt,
-                                xlabels at=edge bottom,
-                                xticklabels at=edge bottom,
-                                ylabels at=edge left,
-                                vertical sep=10pt,
-                            },
-                            width=11cm,
-                            height=6cm,
-                            xlabel={$x$ $[\text{a.u.}]$},
-                            ylabel={$\rho(x, t)$ $[\text{a.u.}]$},
-                            xmin=-100,
-                            xmax=100,
-                            ymin=1e-4,
-                        ]
-                        \nextgroupplot[
-                                grid=major,
-                                ymode=log,
-                            ]
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/miyagi/dat/rho_tdhf_start_real.dat};
-                            \addlegendentry{TDHF}
-
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/miyagi/dat/rho_oatdccd_start_real.dat};
-                            \addlegendentry{OATDCCD}
-
-                            \node[anchor=north west] at (rel axis cs:0,1)
-                            {$t = 0$};
-                        \nextgroupplot[
-                                grid=major,
-                                ymode=log,
-                            ]
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/miyagi/dat/rho_tdhf_half_real.dat};
-                            \addlegendentry{TDHF}
-
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/miyagi/dat/rho_oatdccd_half_real.dat};
-                            \addlegendentry{OATDCCD}
-
-                            \node[anchor=north west] at (rel axis cs:0,1)
-                            {$t = T/2$};
-                        \nextgroupplot[
-                                grid=major,
-                                ymode=log,
-                            ]
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/miyagi/dat/rho_tdhf_end_real.dat};
-                            \addlegendentry{TDHF}
-
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/miyagi/dat/rho_oatdccd_end_real.dat};
-                            \addlegendentry{OATDCCD}
-
-                            \node[anchor=north west] at (rel axis cs:0,1)
-                            {$t = T$};
-                    \end{groupplot}
-                \end{tikzpicture}
-                \caption{In these figures we have included the one-particle
-                density for the initial ground state, after half the simulation
-                has been run and for the final state of the one-dimensional
-                Beryllium system.
-                For these figures we have $l = 20$ spin-orbitals, that is, $l /
-                2 = 10$ orbitals.
-                The $y$-axis has been truncated at $y = \num{1e-4}$ to avoid
-                including noise in the figures.}
-                \label{fig:one-particle-density-miyagi}
-            \end{figure}
-
-
-            \begin{figure}
-                \centering
-                \begin{tikzpicture}
-                    \begin{groupplot}[
-                            group style={
-                                group size=1 by 3,
-                                vertical sep=30pt,
-                                xlabels at=edge bottom,
-                                xticklabels at=edge bottom,
-                                ylabels at=edge left,
-                                vertical sep=10pt,
-                            },
-                            width=11cm,
-                            height=6cm,
-                            xlabel={$x$ $[\text{a.u.}]$},
-                            ylabel={$\rho(x, t)$ $[\text{a.u.}]$},
-                            xmin=-100,
-                            xmax=100,
-                            ymin=1e-4,
-                        ]
-                        \nextgroupplot[
-                                grid=major,
-                                ymode=log,
-                            ]
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/miyagi/dat/rho_tdhf_start_real_l=40.dat};
-                            \addlegendentry{TDHF}
-
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/miyagi/dat/rho_oatdccd_start_real_l=40.dat};
-                            \addlegendentry{OATDCCD}
-
-                            \node[anchor=north west] at (rel axis cs:0,1)
-                            {$t = 0$};
-                        \nextgroupplot[
-                                grid=major,
-                                ymode=log,
-                            ]
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/miyagi/dat/rho_tdhf_half_real_l=40.dat};
-                            \addlegendentry{TDHF}
-
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/miyagi/dat/rho_oatdccd_half_real_l=40.dat};
-                            \addlegendentry{OATDCCD}
-
-                            \node[anchor=north west] at (rel axis cs:0,1)
-                            {$t = T/2$};
-                        \nextgroupplot[
-                                grid=major,
-                                ymode=log,
-                            ]
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/miyagi/dat/rho_tdhf_end_real_l=40.dat};
-                            \addlegendentry{TDHF}
-
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/miyagi/dat/rho_oatdccd_end_real_l=40.dat};
-                            \addlegendentry{OATDCCD}
-
-                            \node[anchor=north west] at (rel axis cs:0,1)
-                            {$t = T$};
-                    \end{groupplot}
-                \end{tikzpicture}
-                \caption{These figures show the same situation as in
-                \autoref{fig:one-particle-density-miyagi} but for $l = 40$
-                spin-orbitals.
-                We have truncated the $y$-axis to $y = \num{1e-4}$ as lower
-                values include more noise and provides no more insight.}
-                \label{fig:one-particle-density-miyagi-l=40}
-            \end{figure}
-
-        \subsection{Electronic spectra of molecules}
-            In an article by \citeauthor{nest} \cite{nest} the
-            multiconfiguration time-dependent Hartree-Fock method was tested on
-            a system of lithium hydride and methane subject to spatially uniform
-            laser field on the form\footnote{%
-                Note that \citeauthor{nest} \cite{nest} does not explicitly add
-                a formula for the laser, but based on their description we infer
-                the form of the laser.
-            }
-            \begin{align}
-                \vfg{E}(t)
-                = -\vfg{\epsilon} E(t)
-                \sin[2](\pi t / T)
-                = -\vfg{\epsilon} E_0 \sin(\omega t)
-                \sin[2](\pi t / T),
-                \label{eq:nest-laser}
-            \end{align}
-            where $\vfg{\epsilon}$ is the polarization vector, $\omega$ is the
-            frequency corresponding to a photon energy of $E_h =
-            \SI{5.44}{\electronvolt}$.
-            The laser field is active for $t \in \brak{0, T}$ where $T =
-            \SI{1}{\femto\second} \approx \SI{41.3}{\planckbar / \hartree}$.
-            The intensity of the laser field is chosen to be $I =
-            \SI{3.5e12}{\watt/\cm^2}$.
-            The simulation is run for $\SI{100}{\femto\second}$.
-            A plot of the laser field in the first $t = \SI{50}{\planckbar /
-            \hartree}$ of the simulation is shown in \autoref{fig:nest-laser}.
-            \begin{figure}
-                \centering
-                \begin{tikzpicture}
-                    \begin{axis}[
-                            width=11cm,
-                            height=6cm,
-                            xlabel={$t$ $[\si{\planckbar / \hartree}]$},
+                    \nextgroupplot[
+                            ymode=log,
                             grid=major,
-                            ylabel={
-                                $E(t)$ $[
-                                    \si{\hartree / (\elementarycharge \bohr)}
-                                ]$
-                            },
+                            ylabel={$\abs{\Delta\expval{z(t)}}$},
                             enlarge x limits=false,
+                            enlarge y limits=false,
+                            legend pos=south east,
                         ]
                         \addplot+ [
                             mark=none,
                             thick,
                         ]
                         table
-                        {results/benchmarks/nest/dat/nest_laser.dat};
-                    \end{axis}
-                \end{tikzpicture}
-                \caption{In this figure we have plotted the laser pulse from
-                \autoref{eq:nest-laser} for $t = \SI{50}{\text{a.u.}}$, with
-                parameters as defined in the text \cite{nest}.}
-                \label{fig:nest-laser}
-            \end{figure}
-            We repeat this study for the lithium hydride molecule.
-            We use a bond-length of $\SI{3.08}{\bohr}$ in the $z$-direction
-            between the lithium and the hydrogen atoms.
-            We use the basis 6-31G*.
-            Finally, we run two simulations by setting the polarization vector
-            in $z$ and $x$ direction and measure the dipole moment in the same
-            direction as the polarization of the laser field.
-            A word of caution, when reproducing the results in this article some
-            care must be taken when converting to atomic units for the
-            frequency, time and the intensity of the laser as it is not clear
-            how much one should round the numbers.
-            We have used the Python library \citetitle{pint} \cite{pint} to
-            convert from SI units to atomic units as they stand in the text
-            without any rounding.
-            These conversions are summarized in \autoref{tab:nest-conversions}.
-            \begin{table}
-                \centering
-                \caption{In this table we show the conversions used to move from
-                the SI units given in the article by \citeauthor{nest}
-                \cite{nest} to the atomic units used in the simulation.}
-                \renewcommand{\arraystretch}{1.3}
-                \begin{tabular}{@{}lll@{}}
-                    \toprule
-                    Quantity & SI units & Atomic units \\
-                    \midrule
-                    $\omega$ & $\SI{5.44}{\electronvolt}$ &
-                    \SI{1.999163e-1}{\text{a.u.}}\\
-                    $F(t)$ & $\SI{3.5e12}{\watt/\cm^{2}}$ &
-                    \SI{9.973085e-5}{\text{a.u.}} \\
-                    $t$ & $\SI{1}{\femto\second}$ &
-                    \SI{4.134137e+1}{\text{a.u.}}
-                    \\
-                    \bottomrule
-                \end{tabular}
-                \label{tab:nest-conversions}
-            \end{table}
-            % TODO: Consider rounding these numbers.
+                        {results/benchmarks/li/dat/dipole_z_diff_tdccsd_tdcisd.dat};
+                        \addlegendentry{TDCCSD}
 
-            In \autoref{fig:fft_dipole_nest} we have included the Fourier
-            transform of the sampled dipole moment in $x$- and $z$-direction in
-            time, respectively.
-            These plots show the emission and absorption spectra for the
-            lithium hydride molecule.
-            \begin{figure}
-                \centering
-                \begin{tikzpicture}
-                    \begin{groupplot}[
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/li/dat/dipole_z_diff_oatdccd_tdcisd.dat};
+                        \addlegendentry{OATDCCD}
+                \end{groupplot}
+            \end{tikzpicture}
+            \caption{In the top figure we have plotted the instantaneous
+            dipole by radiating a \ch{H2} molecule with a dipole laser.
+            The lower figure shows the absolute error of the dipole using
+            the TDCCSD and OATDCCD methods compared to the TDCISD solver.}
+            \label{fig:dipole-moment-li}
+        \end{figure}
+
+    \section{Ionization of one-dimensional atoms}
+        The process of modelling ionization of electrons in atoms and
+        molecules is a tricky subject, particularly in our regime.
+        That is because we are forcing our systems to be bound by simulating a
+        restricted space and requiring that all particles be contained inside
+        the simulation box.
+        As a consequence, ionization has to be inferred in some way or another.
+        e.g., an absorbing potential with a time-dependent atomic orbital basis
+        on a grid \cite{kosloff1986363, miyagi_and_madsen, takeshi}.
+        However, in our formalism we use static atomic orbitals which we
+        force to zero at the boundaries of the simulation box.
+        This makes the use of an absorbing potential useless and ionization
+        must be inferred in some other way.
+
+        In a study done by \citeauthor{miyagi_and_madsen}
+        \cite{miyagi_and_madsen} they explored the dynamics of one-dimensional
+        atoms subject to a dipole laser.
+        This study provides us with an excellent benchmark to observe a form
+        of ionization and see if this is reproducible in our formalism.
+        Note that \citeauthor{miyagi_and_madsen} used a
+        discrete-variable-representation basis (DVR) which is why they include
+        an absorbing potential.
+        Our solution differs from this as we use the static one-dimensional
+        quantum dot basis with a one-dimensional atom potential.
+        In a position basis with Hartree atomic units, the one-body
+        Hamiltonian is given by \cite{miyagi_and_madsen}
+        \begin{align}
+            \oneten(x, t)
+            &= -\half \dod[2]{}{x}
+            - \frac{Z}{\sqrt{x^2 + 1}}
+            + xF(t)
+            - iW(x),
+        \end{align}
+        where $Z = N_e$, that is, the number of electrons in the system,
+        $W(x)$ is the absorbing potential, which we'll set to zero.
+        The second term gives rise to the naming of these systems as
+        one-dimensional atoms as this term serves as the electron-nuclear
+        interaction in the atomic Hamiltonian, but with the three-dimensional
+        position replaced with $x$.
+        One of the interesting aspects of the one-dimensional atoms is that many
+        open-shell systems such as \ch{C} gets closed shells in the
+        one-dimensional case.
+        We will however, limit our study to the one-dimensional Beryllium
+        system with $N = 4$ electrons in a closed shell.
+
+        The laser pulse $F(t)$ is given by \cite{miyagi_and_madsen}
+        \begin{align}
+            F(t)
+            &= -\dod[]{A(t)}{t}
+            = -\dod[]{}{t}\brak{
+                \frac{F_0}{\omega}
+                \sin^2\para{\frac{\pi t}{T}}
+                \sin(\omega t)
+            }
+            \\
+            &=
+            -\sin\para{\frac{\pi t}{T}}\brak{
+                \omega \sin\para{\frac{\pi t}{T}}
+                \cos(\omega t)
+                + \frac{2\pi}{T}
+                \cos\para{\frac{\pi t}{T}}
+                \sin(\omega t)
+            }.
+            \label{eq:miyagi-laser}
+        \end{align}
+        where this field is active for $t \in [0, T]$.
+        A plot of the laser pulse during the simulation is shown in
+        \autoref{fig:miyagi-laser}.
+        The Coulomb interaction is given by \autoref{eq:shield-coulomb} with a
+        shielding parameter of $a = 1$ and $\alpha = 1$.
+        To compare with the study by \citeauthor{miyagi_and_madsen} we will run
+        for $T = \SI{331}{\hslash/\hartree}$ with $\Delta t =
+        \SI{1e-2}{\hslash/\hartree}$ which corresponds to $n_t = 33100$
+        time-steps.
+        This computation is rather involved and we will therefore limit
+        ourselves to the time-dependent Hartree-Fock method and the
+        orbital-adaptive time-dependent coupled cluster method as the
+        full-configuration interaction method becomes quite expensive.
+        In fact, for $n = 4$ and $l = 40$ we have to create a Hamiltonian
+        matrix with $91390^2$ elements, each of size $\SI{16}{\text{B}}$ as
+        we use complex numbers.
+        To solve this system we require a much smarter implementation of the
+        configuration interaction method which is out of scope for this
+        thesis.
+
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{axis}[
+                        width=11cm,
+                        height=6cm,
+                        xlabel={$t$ $[\text{a.u.}]$},
+                        grid=major,
+                        ylabel={$F(t)$},
+                        enlarge x limits=false,
+                        enlarge y limits=false,
+                    ]
+                    \addplot+ [
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/benchmarks/miyagi/dat/miyagi_laser.dat};
+                \end{axis}
+            \end{tikzpicture}
+            \caption{In this figure we have plotted the laser pulse from
+            \autoref{eq:miyagi-laser} for $T = \SI{331}{\text{a.u.}}$,
+            $\omega = \SI{0.057}{\text{a.u.}}$, and $F_0 =
+            \SI{0.0755}{\text{a.u.}}$ \cite{miyagi_and_madsen}.}
+            \label{fig:miyagi-laser}
+        \end{figure}
+
+
+        In order for us to observe actual ionization we need to have a basis
+        containing scattered states, that is, states that have an eigenenergy
+        above the potential well such that we get a non-zero portion of the wave
+        function outside the potential well.
+        If the basis set is too small all states will be bound in the atomic
+        potential and it is not possible to make a linear combination where
+        some parts of the total wave function is outside the potential well
+        more than a small tunneling effect.
+        In \autoref{fig:spf-potential-miyagi} we see the highest lying
+        orbitals we've used in the one-dimensional Beryllium system.
+        The plot demonstrates that we need a large basis in order to capture
+        scattered states.
+
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{axis}[
+                    width=11cm,
+                    height=8cm,
+                    xlabel={$x$ $[\text{a.u.}]$},
+                    ylabel={$E$ $[\text{a.u.}]$},
+                    xmin=-100,
+                    xmax=100,
+                    ymin=-0.25,
+                    legend pos=south west,
+                    grid=major,
+                ]
+                    \addplot+[
+                        mark=none,
+                        dashed,
+                    ]
+                    table
+                    {results/benchmarks/miyagi/dat/miyagi_potential.dat};
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/benchmarks/miyagi/dat/spf_l=10_sq.dat};
+                    \addlegendentry{$\abs{\psi_{10}(x)}^2$};
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/benchmarks/miyagi/dat/spf_l=15_sq.dat};
+                    \addlegendentry{$\abs{\psi_{15}(x)}^2$};
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/benchmarks/miyagi/dat/spf_l=20_sq.dat};
+                    \addlegendentry{$\abs{\psi_{20}(x)}^2$};
+                \end{axis}
+            \end{tikzpicture}
+            \caption{In this figure we've plotted some of the high lying
+            single-particle functions squared and scaled by their
+            eigenenergy inside the one-dimensional Beryllium potential.
+            We've only included a select few single-particle functions to
+            avoid the figure being too cluttered.}
+            \label{fig:spf-potential-miyagi}
+        \end{figure}
+
+        We can see this from \autoref{fig:one-particle-density-miyagi}
+        where a basis of $l = 20$ spin-orbitals has been used.
+        This basis is not able to capture much of the scattered states and
+        looking at the figure for $t = T$ we see that the system is
+        relatively confined still.
+        We can also see this from \autoref{fig:spf-potential-miyagi} as $l =
+        20$ means the highest single-particle function used is
+        $\psi_{10}(x)$ which is clearly confined in the potential well.
+        However, looking at \autoref{fig:one-particle-density-miyagi-l=40}
+        we see the same Beryllium system with a basis set of $l = 40$
+        spin-orbitals.
+        It is apparent that the system undergoes a larger degree of
+        ionization with more of the one-particle density further away from
+        the central potential.
+        This is also see in \autoref{fig:spf-potential-miyagi} as $l = 40$
+        includes the state $\psi_{20}(x)$ which is more dispersed.
+
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{groupplot}[
                         group style={
-                            group size=1 by 2,
-                            vertical sep=60pt,
+                            group size=1 by 3,
+                            vertical sep=30pt,
                             xlabels at=edge bottom,
+                            xticklabels at=edge bottom,
+                            ylabels at=edge left,
+                            vertical sep=10pt,
                         },
                         width=11cm,
                         height=6cm,
-                        xlabel={Excitation energy $[\text{a.u.}]$},
+                        xlabel={$x$ $[\text{a.u.}]$},
+                        ylabel={$\rho(x, t)$ $[\text{a.u.}]$},
+                        xmin=-100,
+                        xmax=100,
+                        ymin=1e-4,
                     ]
-                        \nextgroupplot[
-                            title={$FT\brak{\expval{x(t)}}$},
+                    \nextgroupplot[
                             grid=major,
-                            ylabel={Intensity},
-                            enlarge x limits=false,
-                            %ymax=0.5e-4,
+                            ymode=log,
                         ]
-                            \addplot+[
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/nest/dat/fft_dipole_x_oatdccd_real.dat};
-                            \addlegendentry{OATDCCD}
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/miyagi/dat/rho_tdhf_start_real.dat};
+                        \addlegendentry{TDHF}
 
-                            \addplot+[
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/nest/dat/fft_dipole_x_tdhf_real.dat};
-                            \addlegendentry{TDHF}
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/miyagi/dat/rho_oatdccd_start_real.dat};
+                        \addlegendentry{OATDCCD}
 
-                            \addplot+[
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/nest/dat/fft_dipole_x_tdccsd_real.dat};
-                            \addlegendentry{TDCCSD}
-                        \nextgroupplot[
-                            title={$FT\brak{\expval{z(t)}}$},
-                            ylabel={Intensity},
+                        \node[anchor=north west] at (rel axis cs:0,1)
+                        {$t = 0$};
+                    \nextgroupplot[
                             grid=major,
-                            enlarge x limits=false,
-                            %ymax=0.5e-4,
+                            ymode=log,
                         ]
-                            \addplot+[
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/nest/dat/fft_dipole_z_oatdccd_real.dat};
-                            \addlegendentry{OATDCCD}
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/miyagi/dat/rho_tdhf_half_real.dat};
+                        \addlegendentry{TDHF}
 
-                            \addplot+[
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/nest/dat/fft_dipole_z_tdhf_real.dat};
-                            \addlegendentry{TDHF}
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/miyagi/dat/rho_oatdccd_half_real.dat};
+                        \addlegendentry{OATDCCD}
 
-                            \addplot+[
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/nest/dat/fft_dipole_z_tdccsd_real.dat};
-                            \addlegendentry{TDCCSD}
-                    \end{groupplot}
-                \end{tikzpicture}
-                \caption{In these figures we show the Fourier transform of the
-                dipole moment in $x$-and $y$-direction using time-dependent
-                Hartree-Fock, time-dependent coupled cluster with singles and
-                doubles, orbital-adaptive time-dependent coupled cluster with
-                doubles excitations.
-                The top figure shows the results in $x$-direction and the lower
-                in $z$-direction.
-                Note that we have removed the zero-frequency component from
-                these spectra.}
-                \label{fig:fft_dipole_nest}
-            \end{figure}
-            % TODO: Discuss sampling of the dipole moment and taking the Fourier
-            % transform in order to find the energy spectra.
-            % TODO: Add plot of energy conservation after laser pulse.
-            % TODO: Add results, remember to remove the zero-frequency
-            % component.
-            % TODO: The laser pulse used is wrong! Fix figures and results!
+                        \node[anchor=north west] at (rel axis cs:0,1)
+                        {$t = T/2$};
+                    \nextgroupplot[
+                            grid=major,
+                            ymode=log,
+                        ]
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/miyagi/dat/rho_tdhf_end_real.dat};
+                        \addlegendentry{TDHF}
+
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/miyagi/dat/rho_oatdccd_end_real.dat};
+                        \addlegendentry{OATDCCD}
+
+                        \node[anchor=north west] at (rel axis cs:0,1)
+                        {$t = T$};
+                \end{groupplot}
+            \end{tikzpicture}
+            \caption{In these figures we have included the one-particle
+            density for the initial ground state, after half the simulation
+            has been run and for the final state of the one-dimensional
+            Beryllium system.
+            For these figures we have $l = 20$ spin-orbitals, that is, $l /
+            2 = 10$ orbitals.
+            The $y$-axis has been truncated at $y = \num{1e-4}$ to avoid
+            including noise in the figures.}
+            \label{fig:one-particle-density-miyagi}
+        \end{figure}
+
+
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{groupplot}[
+                        group style={
+                            group size=1 by 3,
+                            vertical sep=30pt,
+                            xlabels at=edge bottom,
+                            xticklabels at=edge bottom,
+                            ylabels at=edge left,
+                            vertical sep=10pt,
+                        },
+                        width=11cm,
+                        height=6cm,
+                        xlabel={$x$ $[\text{a.u.}]$},
+                        ylabel={$\rho(x, t)$ $[\text{a.u.}]$},
+                        xmin=-100,
+                        xmax=100,
+                        ymin=1e-4,
+                    ]
+                    \nextgroupplot[
+                            grid=major,
+                            ymode=log,
+                        ]
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/miyagi/dat/rho_tdhf_start_real_l=40.dat};
+                        \addlegendentry{TDHF}
+
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/miyagi/dat/rho_oatdccd_start_real_l=40.dat};
+                        \addlegendentry{OATDCCD}
+
+                        \node[anchor=north west] at (rel axis cs:0,1)
+                        {$t = 0$};
+                    \nextgroupplot[
+                            grid=major,
+                            ymode=log,
+                        ]
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/miyagi/dat/rho_tdhf_half_real_l=40.dat};
+                        \addlegendentry{TDHF}
+
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/miyagi/dat/rho_oatdccd_half_real_l=40.dat};
+                        \addlegendentry{OATDCCD}
+
+                        \node[anchor=north west] at (rel axis cs:0,1)
+                        {$t = T/2$};
+                    \nextgroupplot[
+                            grid=major,
+                            ymode=log,
+                        ]
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/miyagi/dat/rho_tdhf_end_real_l=40.dat};
+                        \addlegendentry{TDHF}
+
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/miyagi/dat/rho_oatdccd_end_real_l=40.dat};
+                        \addlegendentry{OATDCCD}
+
+                        \node[anchor=north west] at (rel axis cs:0,1)
+                        {$t = T$};
+                \end{groupplot}
+            \end{tikzpicture}
+            \caption{These figures show the same situation as in
+            \autoref{fig:one-particle-density-miyagi} but for $l = 40$
+            spin-orbitals.
+            We have truncated the $y$-axis to $y = \num{1e-4}$ as lower
+            values include more noise and provides no more insight.}
+            \label{fig:one-particle-density-miyagi-l=40}
+        \end{figure}
+
+    \section{Electronic spectra of molecules}
+        In an article by \citeauthor{nest} \cite{nest} the
+        multiconfiguration time-dependent Hartree-Fock method was tested on
+        a system of lithium hydride and methane subject to spatially uniform
+        laser field on the form\footnote{%
+            Note that \citeauthor{nest} \cite{nest} does not explicitly add
+            a formula for the laser, but based on their description we infer
+            the form of the laser.
+        }
+        \begin{align}
+            \vfg{E}(t)
+            = -\vfg{\epsilon} E(t)
+            \sin[2](\pi t / T)
+            = -\vfg{\epsilon} E_0 \sin(\omega t)
+            \sin[2](\pi t / T),
+            \label{eq:nest-laser}
+        \end{align}
+        where $\vfg{\epsilon}$ is the polarization vector, $\omega$ is the
+        frequency corresponding to a photon energy of $E_h =
+        \SI{5.44}{\electronvolt}$.
+        The laser field is active for $t \in \brak{0, T}$ where $T =
+        \SI{1}{\femto\second} \approx \SI{41.3}{\planckbar / \hartree}$.
+        The intensity of the laser field is chosen to be $I =
+        \SI{3.5e12}{\watt/\cm^2}$.
+        The simulation is run for $\SI{100}{\femto\second}$.
+        A plot of the laser field in the first $t = \SI{50}{\planckbar /
+        \hartree}$ of the simulation is shown in \autoref{fig:nest-laser}.
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{axis}[
+                        width=11cm,
+                        height=6cm,
+                        xlabel={$t$ $[\si{\planckbar / \hartree}]$},
+                        grid=major,
+                        ylabel={
+                            $E(t)$ $[
+                                \si{\hartree / (\elementarycharge \bohr)}
+                            ]$
+                        },
+                        enlarge x limits=false,
+                    ]
+                    \addplot+ [
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/benchmarks/nest/dat/nest_laser.dat};
+                \end{axis}
+            \end{tikzpicture}
+            \caption{In this figure we have plotted the laser pulse from
+            \autoref{eq:nest-laser} for $t = \SI{50}{\text{a.u.}}$, with
+            parameters as defined in the text \cite{nest}.}
+            \label{fig:nest-laser}
+        \end{figure}
+        We repeat this study for the lithium hydride molecule.
+        We use a bond-length of $\SI{3.08}{\bohr}$ in the $z$-direction
+        between the lithium and the hydrogen atoms.
+        We use the basis 6-31G*.
+        Finally, we run two simulations by setting the polarization vector
+        in $z$ and $x$ direction and measure the dipole moment in the same
+        direction as the polarization of the laser field.
+        A word of caution, when reproducing the results in this article some
+        care must be taken when converting to atomic units for the
+        frequency, time and the intensity of the laser as it is not clear
+        how much one should round the numbers.
+        We have used the Python library \citetitle{pint} \cite{pint} to
+        convert from SI units to atomic units as they stand in the text
+        without any rounding.
+        These conversions are summarized in \autoref{tab:nest-conversions}.
+        \begin{table}
+            \centering
+            \caption{In this table we show the conversions used to move from
+            the SI units given in the article by \citeauthor{nest}
+            \cite{nest} to the atomic units used in the simulation.}
+            \renewcommand{\arraystretch}{1.3}
+            \begin{tabular}{@{}lll@{}}
+                \toprule
+                Quantity & SI units & Atomic units \\
+                \midrule
+                $\omega$ & $\SI{5.44}{\electronvolt}$ &
+                \SI{1.999163e-1}{\text{a.u.}}\\
+                $F(t)$ & $\SI{3.5e12}{\watt/\cm^{2}}$ &
+                \SI{9.973085e-5}{\text{a.u.}} \\
+                $t$ & $\SI{1}{\femto\second}$ &
+                \SI{4.134137e+1}{\text{a.u.}}
+                \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:nest-conversions}
+        \end{table}
+        % TODO: Consider rounding these numbers.
+
+        In \autoref{fig:fft_dipole_nest} we have included the Fourier
+        transform of the sampled dipole moment in $x$- and $z$-direction in
+        time, respectively.
+        These plots show the emission and absorption spectra for the
+        lithium hydride molecule.
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{groupplot}[
+                    group style={
+                        group size=1 by 2,
+                        vertical sep=60pt,
+                        xlabels at=edge bottom,
+                    },
+                    width=11cm,
+                    height=6cm,
+                    xlabel={Excitation energy $[\text{a.u.}]$},
+                ]
+                    \nextgroupplot[
+                        title={$FT\brak{\expval{x(t)}}$},
+                        grid=major,
+                        ylabel={Intensity},
+                        enlarge x limits=false,
+                        %ymax=0.5e-4,
+                    ]
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/nest/dat/fft_dipole_x_oatdccd_real.dat};
+                        \addlegendentry{OATDCCD}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/nest/dat/fft_dipole_x_tdhf_real.dat};
+                        \addlegendentry{TDHF}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/nest/dat/fft_dipole_x_tdccsd_real.dat};
+                        \addlegendentry{TDCCSD}
+                    \nextgroupplot[
+                        title={$FT\brak{\expval{z(t)}}$},
+                        ylabel={Intensity},
+                        grid=major,
+                        enlarge x limits=false,
+                        %ymax=0.5e-4,
+                    ]
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/nest/dat/fft_dipole_z_oatdccd_real.dat};
+                        \addlegendentry{OATDCCD}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/nest/dat/fft_dipole_z_tdhf_real.dat};
+                        \addlegendentry{TDHF}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/nest/dat/fft_dipole_z_tdccsd_real.dat};
+                        \addlegendentry{TDCCSD}
+                \end{groupplot}
+            \end{tikzpicture}
+            \caption{In these figures we show the Fourier transform of the
+            dipole moment in $x$-and $y$-direction using time-dependent
+            Hartree-Fock, time-dependent coupled cluster with singles and
+            doubles, orbital-adaptive time-dependent coupled cluster with
+            doubles excitations.
+            The top figure shows the results in $x$-direction and the lower
+            in $z$-direction.
+            Note that we have removed the zero-frequency component from
+            these spectra.}
+            \label{fig:fft_dipole_nest}
+        \end{figure}
+        % TODO: Discuss sampling of the dipole moment and taking the Fourier
+        % transform in order to find the energy spectra.
+        % TODO: Add plot of energy conservation after laser pulse.
+        % TODO: Add results, remember to remove the zero-frequency
+        % component.
+        % TODO: The laser pulse used is wrong! Fix figures and results!
