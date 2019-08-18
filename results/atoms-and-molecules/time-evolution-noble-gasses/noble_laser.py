@@ -43,7 +43,7 @@ if __name__ == "__main__":
     ureg = pint.UnitRegistry()
     t_end = (20 * ureg.fs).to(ureg.a_u_time)
 
-    laser = np.vectorize(NobleLaser(num_cycles=1))
+    laser = np.vectorize(NobleLaser(num_cycles=3))
 
     t = np.linspace(0, t_end, 10001)
 
