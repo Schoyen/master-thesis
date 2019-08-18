@@ -2,204 +2,400 @@
     In this chapter we use our developed code to reproduce results from relevant
     articles to verify that our implementation works as expected.
 
-    \section{Single quantum dots}
-        In this section we'll discuss results for quantum dots subject to a
-        harmonic oscillator potential in one and two dimensions.
-        These systems are rather well studied and therefore provides ample
-        results which can be used as verification.
+    \section{The one-dimensional harmonic oscillator}
+        An excellent starting point is the one-dimensional harmonic
+        oscillator described using the discretized one-dimensional quantum dot
+        system as discussed in \autoref{sec:one-dim-qd}.
+        A study done by \citeauthor{zanghellini_2004}
+        \cite{zanghellini_2004, skattum2013time, kristiansen2017time}
+        explores the multi-configuration time-dependent Hartree-Fock method
+        on the one-dimensional harmonic oscillator system for two particles
+        compared to a semi-analytic result.\footnote{%
+            Semi-analytic as the time-evolution is solved numerically.
+        }
+        In this study the external potential is given by
+        \begin{align}
+            \hat{v} = \half \omega^2\hat{x}^2,
+        \end{align}
+        where atomic units are used.
+        \citeauthor{zanghellini_2004} uses a monochromatic, dipole, laser field
+        described by
+        \begin{align}
+            E(t) = E_0\sin(\Omega t)\hat{x},
+        \end{align}
+        which is active for the entire simulation.
+        The Coulomb interaction is described by the shielded Coulomb interaction
+        from \autoref{eq:shielded-coulomb} with $\alpha = 1$ and the screening
+        parameter set to $a = 0.25$.
+        In the simulation done by \citeauthor{zanghellini_2004} the parameters
+        are chosen to be $\omega = 0.25$, $E_0 = 1$ and $\Omega =
+        8\omega$.
+        The simulation is run on a one-dimensional grid where $x \in [-10, 10]$.
+        We use a basis of $L = 20$ spin-orbitals, that is, the $L / 2 = 10$
+        first one-dimensional harmonic oscillator orbitals found by
+        diagonalizing the one-body Hamiltonian.
 
-        \subsection{The one-dimensional harmonic oscillator}
-            An excellent starting point is the one-dimensional harmonic
-            oscillator as discussed in \autoref{sec:one-dim-ho}.
-            A study done by \citeauthor{zanghellini_2004}
-            \cite{zanghellini_2004, skattum2013time, kristiansen2017time}
-            explores the multi-configuration time-dependent Hartree-Fock method
-            on the one-dimensional harmonic oscillator system for two particles
-            compared to a semi-analytic result\footnote{Semi-analytic as the
-            time-evolution is solved numerically.}.
-            In this study the Hamiltonian is given by
-            \begin{align}
-                \hamil
-                &=
-                \sum_{i = 1}^{N}
-                \para{
-                    \frac{\momentum^2_i}{2m}
-                    + \half m \omega^2 \position^2_i
-                    + \mathcal{E}_0 \sin(\Omega t)\position_i
-                }
-                \nonumber \\
-                &\qquad
-                + \sum_{i, j = 1}^{N}
-                \frac{1}{4\epsilon_0\pi}
-                \frac{e^2}{\sqrt{(\position_i - \position_j)^2 + a^2}}.
-            \end{align}
-            However, \citeauthor{zanghellini_2004} uses the more convenient set
-            of Hartree atomic units where $m = e = \hslash = k_e =
-            \para{4\epsilon_0\pi}^{-1} = 1$.
-            The term $a$ is a smoothing parameter included to remove the
-            singularity when we integrate over all space and the two positions
-            $x_i$ and $x_j$ overlap. \cite{suq, zanghellini_2004}
-            In the simulation done by \citeauthor{zanghellini_2004} they set $a
-            = 0.25$, $\omega = 0.25$, $\mathcal{E}_0 = 1$ and $\Omega = 8\omega$
-            on a grid where $x \in [-10, 10]$.
-            The laser pulse is turned on for the entirety of the simulation.
-            To reproduce these results we use a basis of single-particle states
-            with $L = 20$ spin-orbitals, that is, $L / 2 = 10$ one-dimensional
-            harmonic oscillator orbitals.
+        In \autoref{fig:one-body-density-zanghellini} we plot the ground
+        state one-body particle densities using Hartree-Fock and CISD, i.e.,
+        full configuration interaction for two particles.
+        In the lower plot in \autoref{fig:one-body-density-zanghellini} we
+        demonstrate that CCSD reproduces the exact solution as achieved from
+        configuration interaction to a high precision.
+        We've listed the ground state energies in \autoref{tab:gs-zanghellini}
+        for the different solver methods.
+        We compute the relative error by
+        \begin{align}
+            e_{rel} = \frac{\abs{E - E_{ref}}}{\abs{E_{ref}}},
+        \end{align}
+        where $E_{ref} = \SI{0.8247}{\hartree}$ as the exact value from
+        \citeauthor{zanghellini_2004} \cite{zanghellini_2004}.
+        Note that the relative error is computed for the rounded values.
 
-            In \autoref{fig:one-body-density-zanghellini} we plot the ground
-            state one-body particle densities using Hartree-Fock and
-            configuration interaction with singles and doubles, i.e., full
-            configuration interaction for two particles.
-            In the lower plot in \autoref{fig:one-body-density-zanghellini} we
-            demonstrate that the coupled cluster method with singles and double
-            reproduces the exact solution as achieved from configuration
-            interaction to a high precision.
-            Furthermore, in \autoref{fig:overlap-zanghellini}, we show the
-            time-dependent overlap for two one-dimensional quantum dots subject
-            to the same dipole laser as in the study done by
+        \begin{table}
+            \centering
+            \caption{In this table we list the ground state energies computed
+            for the one-dimensional harmonic oscillator.
+            The values are rounded to four decimal places.}
+            \renewcommand{\arraystretch}{1.3}
+            \begin{tabular}{@{}lll@{}}
+                \toprule
+                Method & Energy $[\si{\hartree}]$
+                & Relative error \\
+                \midrule
+                HF     & $1.1798$ & $0.4306$ \\
+                CID    & $1.0516$ & $0.2751$ \\
+                CCD    & $1.0516$ & $0.2751$ \\
+                CID-HF & $0.8384$ & $0.0166$ \\
+                CCD-HF & $0.8384$ & $0.0166$ \\
+                CISD   & $0.8253$ & $0.0007$ \\
+                CCSD   & $0.8253$ & $0.0007$ \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:gs-zanghellini}
+        \end{table}
+
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{groupplot}[
+                        group style={
+                            group size=1 by 2,
+                            vertical sep=30pt,
+                            xlabels at=edge bottom,
+                        },
+                        width=11cm,
+                        height=6cm,
+                        xlabel={$x$ $[\si{\bohr}]$},
+                    ]
+                    \nextgroupplot[
+                            grid=major,
+                            ylabel={$\densityten(x, 0)$},
+                            restrict x to domain=-6:6,
+                            enlarge x limits=false,
+                            ymin=0,
+                            ymax=0.4,
+                            enlarge y limits=false,
+                            title={Ground state particle density},
+                        ]
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/zanghellini/dat/rho_tdcisd_real.dat};
+                        \addlegendentry{TDCISD}
+
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                            dashed,
+                        ]
+                        table
+                        {results/benchmarks/zanghellini/dat/rho_tdhf_real.dat};
+                        \addlegendentry{TDHF}
+                    \nextgroupplot[
+                            ymode=log,
+                            grid=major,
+                            ylabel={$\abs{\Delta\densityten(x, 0)}$},
+                            restrict x to domain=-6:6,
+                            enlarge x limits=false,
+                        ]
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/zanghellini/dat/rho_diff_tdccsd_tdcisd.dat};
+                \end{groupplot}
+            \end{tikzpicture}
+            \caption{In the top figure we have reproduced Figure 1. in the
+            study done by \citeauthor{zanghellini_2004}
+            \cite{zanghellini_2004}, that is, we have plotted the one-body
+            particle density two one-dimensional quantum dots in an harmonic
+            oscillator trap using full-configuration interaction and a
+            general Hartree-Fock solver.
+            In the lower figure we have plotted the absolute difference
+            between the one-body particle densities from the
+            full-configuration interaction and coupled cluster with singles
+            and doubles methods.}
+            \label{fig:one-body-density-zanghellini}
+        \end{figure}
+
+        In \autoref{fig:overlap-zanghellini} we show the
+        time-dependent overlap for two one-dimensional quantum dots subject
+        to the same dipole laser as in the study done by
+        \citeauthor{zanghellini_2004} \cite{zanghellini_2004}.
+        We also show how CCSD reproduces the exact CISD solution to a large
+        degree.
+
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{groupplot}[
+                        group style={
+                            group size=1 by 2,
+                            vertical sep=30pt,
+                            xlabels at=edge bottom,
+                        },
+                        width=11cm,
+                        height=6cm,
+                        xlabel={$\omega t / (2\pi)$},
+                    ]
+                    \nextgroupplot[
+                            grid=major,
+                            ylabel={$\abs{\braket*{\Psi(t)}{\Psi(0)}}^2$},
+                            enlarge x limits=false,
+                            title={Time-dependent overlap},
+                        ]
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/zanghellini/dat/overlap_tdcisd_real.dat};
+                        \addlegendentry{TDCISD}
+
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                            dashed,
+                        ]
+                        table
+                        {results/benchmarks/zanghellini/dat/overlap_tdhf_real.dat};
+                        \addlegendentry{TDHF}
+                    \nextgroupplot[
+                            ymode=log,
+                            grid=major,
+                            ylabel={$\Delta\abs{\braket*{\Psi(t)}{\Psi(0)}}^2$},
+                            restrict x to domain=-6:6,
+                            enlarge x limits=false,
+                        ]
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/zanghellini/dat/overlap_diff_tdccsd_tdcisd.dat};
+                \end{groupplot}
+            \end{tikzpicture}
+            \caption{In the top figure we have plotted the time-dependent
+            overlap between the initial ground state $\ket{\Psi(0)}$ and the
+            state $\ket{\Psi(t)}$ at a later time.
+            We compare the time-dependent general Hartree-Fock method and
+            the time-dependent full configuration interaction method.
+            The figure is a reproduction of Figure 2. in the study done by
             \citeauthor{zanghellini_2004} \cite{zanghellini_2004}.
-            We also show how the coupled cluster method with singles and doubles
-            reproduces the exact solution to a large degree.
+            In the lower figure we show the absolute difference in the
+            overlap between the time-dependent full configuration
+            interaction method the time-dependent coupled cluster method
+            with singles and doubles.}
+            \label{fig:overlap-zanghellini}
+        \end{figure}
 
-            It is worth re-iterating that we have not included a comparison
-            using the orbital-adaptive time-dependent coupled cluster method due
-            to the frustrating fact that the orbital rotations induced by this
-            method makes the process of computing the time-dependent overlap a
-            challenging task and has therefore been treated as an out-of-scope
-            task for this thesis.
+        Before moving on to more exotic systems, we will look shortly at the
+        performance of CCD and CID applied to the same one-dimensional harmonic
+        oscillator system.
+        The reason for doing this is to demonstrate the importance of the
+        singles excitation operator.
+        Looking at \autoref{fig:one-body-density-doubles-zanghellini} we can see
+        how the doubles approximations CID and CCD with the harmonic oscillator
+        basis are quite far from the full configuration-interaction benchmark.
+        With a Hartree-Fock basis CID and CCD are much better at reproducing the
+        full configuration-interaction result.
+        This demonstrates the effectiveness of Brillouin's theorem by moving to
+        the optimal single-reference determinant found in Hartree-Fock.
+        However, this does not completely remove the need for a singles
+        operator.
 
-            \begin{figure}
-                \centering
-                \begin{tikzpicture}
-                    \begin{groupplot}[
-                            group style={
-                                group size=1 by 2,
-                                vertical sep=30pt,
-                                xlabels at=edge bottom,
-                            },
-                            width=11cm,
-                            height=6cm,
-                            xlabel={$x$ $[\text{a.u.}]$},
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{groupplot}[
+                        group style={
+                            group size=1 by 2,
+                            vertical sep=30pt,
+                            xlabels at=edge bottom,
+                        },
+                        width=11cm,
+                        height=6cm,
+                        xlabel={$x$ $[\si{\bohr}]$},
+                    ]
+                    \nextgroupplot[
+                            grid=major,
+                            ylabel={$\densityten(x, 0)$},
+                            restrict x to domain=-6:6,
+                            enlarge x limits=false,
+                            ymin=0,
+                            ymax=0.5,
+                            enlarge y limits=false,
+                            title={Ground state particle density},
                         ]
-                        \nextgroupplot[
-                                grid=major,
-                                ylabel={$\densityten(x, 0)$},
-                                restrict x to domain=-6:6,
-                                enlarge x limits=false,
-                                ymin=0,
-                                ymax=0.4,
-                                enlarge y limits=false,
-                            ]
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/zanghellini/dat/rho_tdcisd_real.dat};
-                            \addlegendentry{TDCISD}
 
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                                dashed,
-                            ]
-                            table
-                            {results/benchmarks/zanghellini/dat/rho_tdhf_real.dat};
-                            \addlegendentry{TDHF}
-                        \nextgroupplot[
-                                ymode=log,
-                                grid=major,
-                                ylabel={$\abs{\Delta\densityten(x, 0)}$},
-                                restrict x to domain=-6:6,
-                                enlarge x limits=false,
-                            ]
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/zanghellini/dat/rho_diff_tdccsd_tdcisd.dat};
-                    \end{groupplot}
-                \end{tikzpicture}
-                \caption{In the top figure we have reproduced Figure 1. in the
-                study done by \citeauthor{zanghellini_2004}
-                \cite{zanghellini_2004}, that is, we have plotted the one-body
-                particle density two one-dimensional quantum dots in an harmonic
-                oscillator trap using full-configuration interaction and a
-                general Hartree-Fock solver.
-                In the lower figure we have plotted the absolute difference
-                between the one-body particle densities from the
-                full-configuration interaction and coupled cluster with singles
-                and doubles methods.}
-                \label{fig:one-body-density-zanghellini}
-             \end{figure}
-
-            \begin{figure}
-                \centering
-                \begin{tikzpicture}
-                    \begin{groupplot}[
-                            group style={
-                                group size=1 by 2,
-                                vertical sep=30pt,
-                                xlabels at=edge bottom,
-                            },
-                            width=11cm,
-                            height=6cm,
-                            xlabel={$\omega t / (2\pi)$},
+                        \addplot+ [
+                            mark=none,
+                            thick,
                         ]
-                        \nextgroupplot[
-                                grid=major,
-                                ylabel={$\abs{\braket*{\Psi(t)}{\Psi(0)}}^2$},
-                                enlarge x limits=false,
-                            ]
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/zanghellini/dat/overlap_tdcisd_real.dat};
-                            \addlegendentry{TDCISD}
+                        table
+                        {results/benchmarks/zanghellini/dat/rho_tdcid_real.dat};
+                        \addlegendentry{TDCID}
 
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                                dashed,
-                            ]
-                            table
-                            {results/benchmarks/zanghellini/dat/overlap_tdhf_real.dat};
-                            \addlegendentry{TDHF}
-                        \nextgroupplot[
-                                ymode=log,
-                                grid=major,
-                                ylabel={$\Delta\abs{\braket*{\Psi(t)}{\Psi(0)}}^2$},
-                                restrict x to domain=-6:6,
-                                enlarge x limits=false,
-                            ]
-                            \addplot+ [
-                                mark=none,
-                                thick,
-                            ]
-                            table
-                            {results/benchmarks/zanghellini/dat/overlap_diff_tdccsd_tdcisd.dat};
-                    \end{groupplot}
-                \end{tikzpicture}
-                \caption{In the top figure we have plotted the time-dependent
-                overlap between the initial ground state $\ket{\Psi(0)}$ and the
-                state $\ket{\Psi(t)}$ at a later time.
-                We compare the time-dependent general Hartree-Fock method and
-                the time-dependent full configuration interaction method.
-                The figure is a reproduction of Figure 2. in the study done by
-                \citeauthor{zanghellini_2004} \cite{zanghellini_2004}.
-                In the lower figure we show the absolute difference in the
-                overlap between the time-dependent full configuration
-                interaction method the time-dependent coupled cluster method
-                with singles and doubles.}
-                \label{fig:overlap-zanghellini}
-             \end{figure}
-             % TODO: Add info on the number of basis functions used.
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/zanghellini/dat/rho_tdcid_hf_real.dat};
+                        \addlegendentry{TDCID-HF}
 
-    \section{Double-well quantum dots}
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                            dashed,
+                        ]
+                        table
+                        {results/benchmarks/zanghellini/dat/rho_tdcisd_real.dat};
+                        \addlegendentry{TDCISD}
+
+                    \nextgroupplot[
+                            ymode=log,
+                            grid=major,
+                            ylabel={$\abs{\Delta\densityten(x, 0)}$},
+                            restrict x to domain=-6:6,
+                            enlarge x limits=false,
+                        ]
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/zanghellini/dat/rho_diff_tdccd_tdcid.dat};
+                        \addlegendentry{HO}
+
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/zanghellini/dat/rho_diff_tdccd_tdcid_hf.dat};
+                        \addlegendentry{HF}
+                \end{groupplot}
+            \end{tikzpicture}
+            \caption{In this figure we try to reproduce
+            \autoref{fig:one-body-density-zanghellini} using plain CID and CID with
+            Hartree-Fock basis.
+            The lower figure shows the absolute difference between CCD and CID
+            with harmonic oscillator (HO) basis and Hartree-Fock (HF) basis.}
+            \label{fig:one-body-density-doubles-zanghellini}
+        \end{figure}
+
+        In \autoref{fig:overlap-doubles-zanghellini} we show CID and CCD with
+        and without a Hartree-Fock basis is unable to give a good reconstruction
+        of the exact solution from full configuration interaction.
+        The lack of singles excitations become glaringly apparent once we start
+        the time-evolution of the system.
+        This can be seen as an effect of the laser field being described by a
+        singles operator.
+        It is therefore likely that a singles-excitation operator best describes
+        this interaction and the doubles approximation will have problems
+        properly depicting the dynamics.
+
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{groupplot}[
+                        group style={
+                            group size=1 by 2,
+                            vertical sep=30pt,
+                            xlabels at=edge bottom,
+                        },
+                        width=11cm,
+                        height=6cm,
+                        xlabel={$\omega t / (2\pi)$},
+                    ]
+                    \nextgroupplot[
+                            grid=major,
+                            ylabel={$\abs{\braket*{\Psi(t)}{\Psi(0)}}^2$},
+                            enlarge x limits=false,
+                            title={Time-dependent overlap},
+                        ]
+
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/zanghellini/dat/overlap_tdcid_real.dat};
+                        \addlegendentry{TDCID}
+
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/zanghellini/dat/overlap_tdcid_hf_real.dat};
+                        \addlegendentry{TDCID-HF}
+
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                            dashed,
+                        ]
+                        table
+                        {results/benchmarks/zanghellini/dat/overlap_tdcisd_real.dat};
+                        \addlegendentry{TDCISD}
+
+                    \nextgroupplot[
+                            ymode=log,
+                            grid=major,
+                            ylabel={$\Delta\abs{\braket*{\Psi(t)}{\Psi(0)}}^2$},
+                            restrict x to domain=-6:6,
+                            enlarge x limits=false,
+                        ]
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/zanghellini/dat/overlap_diff_tdccd_tdcid.dat};
+                        \addlegendentry{HO}
+
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/zanghellini/dat/overlap_diff_tdccd_tdcid_hf.dat};
+                        \addlegendentry{HF}
+                \end{groupplot}
+            \end{tikzpicture}
+            \caption{Here we reproduce \autoref{fig:overlap-zanghellini} with
+            the doubles approximations CID and CCD using both the original
+            harmonic oscillator (HO) basis, and the Hartree-Fock (HF) basis.
+            In the lower figure we demonstrate the absolute error between CID
+            and CCD using both basis sets.}
+            \label{fig:overlap-doubles-zanghellini}
+        \end{figure}
+
 
     \section{Atoms and molecules}
         In this section we'll look at how our methods perform when applied to
@@ -512,7 +708,7 @@
 
 
             In order for us to observe ionization we need to have a basis
-            containing scattered states, that is, states that have an eigenenegy
+            containing scattered states, that is, states that have an eigenenergy
             above the potential well, such that we get a non-zero portion of the
             wave function outside the potential well.
             % TODO: This probably needs to be rephrased
@@ -797,41 +993,43 @@
             In an article by \citeauthor{nest} \cite{nest} the
             multiconfiguration time-dependent Hartree-Fock method was tested on
             a system of lithium hydride and methane subject to spatially uniform
-            laser field on the form
+            laser field on the form\footnote{%
+                Note that \citeauthor{nest} \cite{nest} does not explicitly add
+                a formula for the laser, but based on their description we infer
+                the form of the laser.
+            }
             \begin{align}
-                \vfg{F}(t)
-                = -\vfg{\epsilon} F(t)
-                = -\vfg{\epsilon}
-                f(t) \sin^2(\omega t),
+                \vfg{E}(t)
+                = -\vfg{\epsilon} E(t)
+                \sin[2](\pi t / T)
+                = -\vfg{\epsilon} E_0 \sin(\omega t)
+                \sin[2](\pi t / T),
                 \label{eq:nest-laser}
             \end{align}
-            where $\vfg{\epsilon}$ is the polarization vector, $\omega =
+            where $\vfg{\epsilon}$ is the polarization vector, $\omega$ is the
+            frequency corresponding to a photon energy of $E_h =
             \SI{5.44}{\electronvolt}$.
-            The intensity of the laser field is given by
-            \begin{align}
-                f(t) = \begin{cases}
-                    \SI{3.5e12}{\watt/\cm^2}
-                    & t \leq \SI{1}{\femto\second}, \\
-                    0 & t > \SI{1}{\femto\second},
-                \end{cases}
-                \label{eq:nest-intensity}
-            \end{align}
-            that is, they use an \emph{ultrashort} laser pulse and let the
-            system evolve in time for $\SI{100}{\femto\second}$.
-            A plot of the laser field in the first $t = \SI{50}{\text{a.u.}}$ of
-            the simulation is snown in \autoref{fig:nest-laser}.
-            We see that the laser field is cut rather abruptly.
+            The laser field is active for $t \in \brak{0, T}$ where $T =
+            \SI{1}{\femto\second} \approx \SI{41.3}{\planckbar / \hartree}$.
+            The intensity of the laser field is chosen to be $I =
+            \SI{3.5e12}{\watt/\cm^2}$.
+            The simulation is run for $\SI{100}{\femto\second}$.
+            A plot of the laser field in the first $t = \SI{50}{\planckbar /
+            \hartree}$ of the simulation is shown in \autoref{fig:nest-laser}.
             \begin{figure}
                 \centering
                 \begin{tikzpicture}
                     \begin{axis}[
                             width=11cm,
                             height=6cm,
-                            xlabel={$t$ $[\text{a.u.}]$},
+                            xlabel={$t$ $[\si{\planckbar / \hartree}]$},
                             grid=major,
-                            ylabel={$F(t)$},
+                            ylabel={
+                                $E(t)$ $[
+                                    \si{\hartree / (\elementarycharge \bohr)}
+                                ]$
+                            },
                             enlarge x limits=false,
-                            enlarge y limits=false,
                         ]
                         \addplot+ [
                             mark=none,
@@ -842,9 +1040,8 @@
                     \end{axis}
                 \end{tikzpicture}
                 \caption{In this figure we have plotted the laser pulse from
-                \autoref{eq:nest-laser} for $t = \SI{50}{\text{a.u.}}$,
-                $\omega = \SI{5.44}{\electronvolt}$, and $f(t)$ as defined in
-                \autoref{eq:nest-intensity} \cite{nest}.}
+                \autoref{eq:nest-laser} for $t = \SI{50}{\text{a.u.}}$, with
+                parameters as defined in the text \cite{nest}.}
                 \label{fig:nest-laser}
             \end{figure}
             We repeat this study for the lithium hydride molecule.
@@ -977,7 +1174,7 @@
                 \label{fig:fft_dipole_nest}
             \end{figure}
             % TODO: Discuss sampling of the dipole moment and taking the Fourier
-            % transform in order to find the enegy spectra.
+            % transform in order to find the energy spectra.
             % TODO: Add plot of energy conservation after laser pulse.
             % TODO: Add results, remember to remove the zero-frequency
             % component.
