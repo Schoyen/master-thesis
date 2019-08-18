@@ -92,25 +92,25 @@ except Exception:
 
 
 write_data(
-    os.path.join(path, f"dipole_{polarization_direction}_tdccsd_real.dat"),
+    os.path.join(path, f"dipole_{polarization_direction}_tdccsd_real_new.dat"),
     time_points,
     dipole.real,
 )
 
 write_data(
-    os.path.join(path, f"dipole_{polarization_direction}_tdccsd_imag.dat"),
+    os.path.join(path, f"dipole_{polarization_direction}_tdccsd_imag_new.dat"),
     time_points,
     dipole.imag,
 )
 
 write_data(
-    os.path.join(path, f"energy_{polarization_direction}_tdccsd_real.dat"),
+    os.path.join(path, f"energy_{polarization_direction}_tdccsd_real_new.dat"),
     time_points,
     energy.real,
 )
 
 write_data(
-    os.path.join(path, f"energy_{polarization_direction}_tdccsd_imag.dat"),
+    os.path.join(path, f"energy_{polarization_direction}_tdccsd_imag_new.dat"),
     time_points,
     energy.imag,
 )
