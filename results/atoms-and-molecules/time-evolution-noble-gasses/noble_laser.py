@@ -3,7 +3,7 @@ import numpy as np
 
 
 class NobleLaser:
-    def __init__(self, E=3.5e14, wavelength=200, num_cycles=1):
+    def __init__(self, E=3.5e12, wavelength=200, num_cycles=1):
         # Note that we assume the following units:
         #
         #    [E] = [W/cm^2]
