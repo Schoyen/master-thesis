@@ -1,4 +1,4 @@
 from run_oatdccd import run_simulation
 
 
-run_simulation("ne", t_end=100, basis="ccpvdz")
+run_simulation("ne", t_end=100, basis="ccpvdz", num_cycles=3)

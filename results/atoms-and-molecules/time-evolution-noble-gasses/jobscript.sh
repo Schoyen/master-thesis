@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Job name
-#SBATCH --job-name=kr-aug-ccpvdz
+#SBATCH --job-name=ar-aug-ccpvdz-3
 #
 # Project
 #SBATCH --account=nn2977k
@@ -32,4 +32,4 @@ cleanup "cp $SCRATCH/dat/* $SUBMITDIR/dat/"
 ## Run commands
 cd $SCRATCH
 export OMP_NUM_THREADS=4
-python kr_aug-ccpvdz.py
+python ar_aug-ccpvdz.py
