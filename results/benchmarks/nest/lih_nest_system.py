@@ -9,10 +9,10 @@ from tdqd_tools.io_data import write_data
 
 
 class NestLaser:
-    def __init__(self, f_max=3.5e12, omega=5.44, t_stop=1):
+    def __init__(self, I_max=3.5e12, omega=5.44, t_stop=1):
         # Note that we assume the following units:
         #
-        #    [f_max] = [W/cm^2]
+        #    [I] = [W/cm^2]
         #    [omega] = [eV]
         #    [t_stop] = [fs]
         #
@@ -21,11 +21,11 @@ class NestLaser:
 
         ureg = pint.UnitRegistry()
 
-        self.f_max = (
-            ureg.Quantity(f_max, ureg.watt / ureg.cm ** 2)
-            .to(ureg.a_u_intensity)
-            .magnitude
+        I_au = (I_max * ureg.watt / ureg.cm ** 2).to(ureg.a_u_intensity)
+        E = np.sqrt(2 * I_au / (ureg.epsilon_0 * ureg.c)).to(
+            ureg.a_u_electric_field
         )
+        self.f_max = E.magnitude
 
         # omega = E_nu / hbar
         self.omega = (
@@ -83,23 +83,24 @@ def get_time_points(t_start=0, t_end=100, dt=1e-2):
 
 
 if __name__ == "__main__":
-    ureg = pint.UnitRegistry()
+    laser = NestLaser()
+    # ureg = pint.UnitRegistry()
 
-    frequency = ureg.Quantity(0.2, ureg.hartree) / 1  # Unity Planck's constant
-    print(frequency)
-    print(ureg.Quantity(5.44, ureg.eV).to(ureg.hartree))
+    # frequency = ureg.Quantity(0.2, ureg.hartree) / 1  # Unity Planck's constant
+    # print(frequency)
+    # print(ureg.Quantity(5.44, ureg.eV).to(ureg.hartree))
 
-    t_end_laser = ureg.Quantity(1, ureg.fs)
-    print(t_end_laser)
-    print(t_end_laser.to(ureg.a_u_time))
-    t_end = ureg.Quantity(100, ureg.fs)
-    print(t_end)
-    print(t_end.to(ureg.a_u_time))
+    # t_end_laser = ureg.Quantity(1, ureg.fs)
+    # print(t_end_laser)
+    # print(t_end_laser.to(ureg.a_u_time))
+    # t_end = ureg.Quantity(100, ureg.fs)
+    # print(t_end)
+    # print(t_end.to(ureg.a_u_time))
 
-    F = ureg.Quantity(3.5e12, ureg.watt / ureg.cm ** 2)
-    print(F)
-    print(F.to(ureg.a_u_intensity))
+    # F = ureg.Quantity(3.5e12, ureg.watt / ureg.cm ** 2)
+    # print(F)
+    # print(F.to(ureg.a_u_intensity))
 
-    F = ureg.Quantity(1, ureg.a_u_intensity)
-    print(F)
-    print(F.to(ureg.watt / ureg.cm ** 2))
+    # F = ureg.Quantity(1, ureg.a_u_intensity)
+    # print(F)
+    # print(F.to(ureg.watt / ureg.cm ** 2))
