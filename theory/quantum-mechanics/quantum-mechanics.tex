@@ -1396,6 +1396,7 @@
         monochromatic, linearly polarized, laser field.
 
         \subsection{Envelope}
+            \label{subsec:envelope}
             The purpose of the envelope function $F(t)$ is to ensure that the
             laser pulse goes smoothly to zero outside some defined region such
             that the electric field disappears at $t \to \pm \infty$.
@@ -1417,7 +1418,7 @@
             \end{gather}
             where $T$ decides how long the envelope should last.
             We define a cycle of the laser pulse to be $2\pi/\omega_k$.
-            It is common to choose $T = 2n\pi\omega_k$, where $n \in
+            It is common to choose $T = 2n\pi/\omega_k$, where $n \in
             \mathbb{N}\setminus{0}$ to ensure that we fit $n$ cycles of the
             laser pulse inside the envelope, but this is strictly not necessary
             and we can choose any value for $T$.
@@ -1723,14 +1724,13 @@
         We will for the most part use Hartree atomic units \cite{hartree_1928}
         where we set the following quantities to unity:
         \begin{itemize}
-            \item Reduced Planck's constant $\hslash = \SI{1}{\text{a.u.}}$.
+            \item Reduced Planck's constant $\hslash = 1$.
             \item The magnitude of the charge of the electron
-                $e = \SI{1}{\text{a.u.}}$.
-            \item The electron rest mass $m_e = \SI{1}{\text{a.u.}}$.
+                $e = 1$.
+            \item The electron rest mass $m_e = 1$.
             \item The Coulomb force constant
-                $k_e = (4\pi \epsilon_0)^{-1} = \SI{1}{\text{a.u.}}$.
+                $k_e = (4\pi \epsilon_0)^{-1} = 1$.
         \end{itemize}
-        We've denoted the units by $\si{\text{a.u.}}$ for atomic units.
         As a consequence of converting to atomic units, we now measure various
         physical units in a scaled system.
         A list of the derived units and how they can be scaled are shown in
@@ -1738,7 +1738,7 @@
         \begin{table}
             \centering
             \caption{In this table we list some of derived atomic units from
-            working in Hartree atomic units \cite{wiki:units,
+            working in Hartree atomic units \cite{hartree_1928,
             joachain2012atoms}.}
             \renewcommand{\arraystretch}{1.3}
             \begin{tabular}{@{}ll@{}}
@@ -1758,6 +1758,10 @@
                 &
                 $t_a = \hslash/E_h$
                 \\
+                Frequency
+                &
+                $\omega_a = E_h/\hslash$
+                \\
                 Momentum
                 &
                 $p_a = \hslash/a_0$
@@ -1774,4 +1778,34 @@
             \end{tabular}
             \label{tab:atomic-units}
         \end{table}
-        % TODO: Remember to include atomic units for the intensity.
+
+        We will now list some common conversions that is used in this work.
+        In laser physics it is common to work with the intensity of the laser
+        field in units of $\si{\watt/\cm^2}$.
+        Consider a given intensity $I$ measured in $\si{\watt/\cm^2}$.
+        To convert this to an electric field strength $E$ in atomic units of
+        electric field, we compute
+        \begin{align}
+            E = \sqrt{\frac{2 I / I_a}{\epsilon_0 c}},
+            \label{eq:intnsity-to-au-electric-field}
+        \end{align}
+        where $I_a$ is the atomic unit of intensity from
+        \autoref{tab:atomic-units}.
+        Furthermore, it is common to describe a laser by its wavelength
+        $\lambda$ in nanometers\footnote{%
+            We will work with lasers in the visible spectrum.
+        } or the photon energy $E_{\nu}$ in electronvolt when characterising the
+        frequency.
+        To convert from a wavelength $\lambda$ measured in SI units to an
+        angular frequency $\omega$ in atomic units, we use
+        \begin{align}
+            \omega = \frac{2\pi c}{\lambda}\frac{1}{\omega_a}.
+        \end{align}
+        To go from a photon energy $E_{nu}$ in electronvolt to angular frequency
+        $\omega$ in atomic units we compute
+        \begin{align}
+            \omega = \frac{E_{\nu}}{\hslash}\frac{1}{\omega_a}.
+            = \frac{E_{\nu}}{E_h},
+        \end{align}
+        where $E_h \approx \SI{27.2}{\electronvolt}$.
+        % TODO: Review the formulas.

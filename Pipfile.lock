@@ -54,11 +54,11 @@
         },
         "configuration-interaction": {
             "git": "ssh://git@github.com/Schoyen/configuration-interaction.git",
-            "ref": "16d4c15caaf3af1fcbda33ef51d012ed98b4ae50"
+            "ref": "d3dec9c6b66294be9aa5f5fea056ed0269c50e28"
         },
         "coupled-cluster": {
             "git": "ssh://git@github.com/Schoyen/coupled-cluster.git",
-            "ref": "78c0c7a44b986fab16219b6cba49cf6cee02c45f"
+            "ref": "50a290206b92ab3990df458ca03ef92d9bf4e5f5"
         },
         "cycler": {
             "hashes": [

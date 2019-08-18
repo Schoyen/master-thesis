@@ -3,18 +3,22 @@ import numpy as np
 
 
 class NobleLaser:
-    def __init__(self, E=3.5e12, wavelength=200, num_cycles=1):
+    def __init__(self, I=3.5e12, wavelength=200, num_cycles=1):
         # Note that we assume the following units:
         #
-        #    [E] = [W/cm^2]
+        #    [I] = [W/cm^2]
         #    [wavelength] = [nm]
         #
         # This is similar to the article by T. Sato
         # https://doi.org/10.1103/PhysRevA.94.023405
         ureg = pint.UnitRegistry()
 
-        self.E = (E * ureg.watt / ureg.cm ** 2).to(ureg.a_u_intensity)
-        self.E = self.E.magnitude
+        # Convert W/cm^2 to atomic electric field strength
+        I_au = (I * ureg.watt / ureg.cm ** 2).to(ureg.a_u_intensity)
+        E = np.sqrt(2 * I_au / (ureg.epsilon_0 * ureg.c)).to(
+            ureg.a_u_electric_field
+        )
+        self.E = E.magnitude
 
         self.wavelength = wavelength * ureg.nm
         self.num_cycles = num_cycles
