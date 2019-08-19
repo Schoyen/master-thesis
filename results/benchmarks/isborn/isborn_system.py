@@ -7,7 +7,7 @@ from quantum_systems.time_evolution_operators import LaserField
 from isborn_laser import IsbornLaser
 
 
-def get_h2_system(basis="sto-3g"):
+def get_h2_system(basis="sto-3g", spin_dependent=True, spin_direction="up"):
     # Bond lengths are found here:
     # https://chem.libretexts.org/Bookshelves/Physical_and_Theoretical_Chemistry_Textbook_Maps/Supplemental_Modules_(Physical_and_Theoretical_Chemistry)/Chemical_Bonding/Fundamentals_of_Chemical_Bonding/Chemical_Bonds/Bond_Lengths_and_Energies
 
@@ -27,10 +27,13 @@ def get_h2_system(basis="sto-3g"):
         )
     )
 
+    if spin_dependent:
+        remove_dipole_component(h2, spin_direction=spin_direction)
+
     return h2
 
 
-def get_lih_system(basis="sto-3g"):
+def get_lih_system(basis="sto-3g", spin_dependent=True, spin_direction="up"):
     bond_length = 3.08  # Bohr
     molecule = f"li 0.0 0.0 0.0; h 0.0 0.0 {bond_length}"
 
@@ -46,10 +49,13 @@ def get_lih_system(basis="sto-3g"):
         )
     )
 
+    if spin_dependent:
+        remove_dipole_component(lih, spin_direction=spin_direction)
+
     return lih
 
 
-def get_co_system(basis="sto-3g"):
+def get_co_system(basis="sto-3g", spin_dependent=True, spin_direction="up"):
     ureg = pint.UnitRegistry()
 
     bond_length = (143 * ureg.pm).to(ureg.bohr).magnitude
@@ -66,6 +72,9 @@ def get_co_system(basis="sto-3g"):
             IsbornLaser(E_max=0.01), polarization_vector=polarization_vector
         )
     )
+
+    if spin_dependent:
+        remove_dipole_component(co, spin_direction=spin_direction)
 
     return co
 
