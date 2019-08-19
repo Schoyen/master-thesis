@@ -1,4 +1,3 @@
-import os
 import sys
 
 from oaccd_tdho import get_filename_stub, run_oaccd_tdho
@@ -17,8 +16,8 @@ radius_length = float(sys.argv[3])
 num_grid_points = int(sys.argv[4])
 omega = float(sys.argv[5])
 
-hf_tol = 1e-7 if len(sys.argv) <= 6 else float(sys.argv[6])
-oaccd_tol = 1e-4 if len(sys.argv) <= 7 else float(sys.argv[7])
+hf_tol = 1e-7 if len(sys.argv) == 6 else float(sys.argv[6])
+oaccd_tol = 1e-4 if len(sys.argv) == 7 else float(sys.argv[7])
 
 
 params = dict(

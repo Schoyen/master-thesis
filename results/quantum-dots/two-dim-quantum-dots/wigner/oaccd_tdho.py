@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 from tdho_system import get_tdho
 from coupled_cluster.ccd import OACCD
-from hartree_fock import HartreeFock, RHF
+from hartree_fock import HartreeFock
 from hartree_fock.mix import DIIS
 
 
@@ -14,51 +14,25 @@ def get_filename_stub(params):
 
 
 def run_oaccd_tdho(params, filename_stub, hf_tol=1e-7, oaccd_tol=1e-4):
-    path = os.path.join(sys.path[0], "dat")
+    tdho = get_tdho(**params)
 
-    tdho = get_tdho(add_spin=False, **params)
-
-    hf = RHF(tdho, mixer=DIIS, verbose=True)
+    hf = HartreeFock(tdho, mixer=DIIS, verbose=True)
     hf.compute_ground_state(tol=hf_tol, change_system_basis=True, num_vecs=10)
-    hf_energy = hf.compute_energy()
 
     rho_hf = hf.compute_particle_density()
 
+    path = os.path.join(sys.path[0], "dat")
     filename = "hf_" + filename_stub + "_rho_real.dat"
     filename = os.path.join(path, filename)
-
-    np.savetxt(
-        filename,
-        np.c_[
-            tdho.T.ravel()[:, np.newaxis],
-            tdho.R.ravel()[:, np.newaxis],
-            rho_hf.real.ravel()[:, np.newaxis],
-        ],
-    )
-
-    fig = plt.figure()
-    fig.add_subplot(1, 1, 1, polar=True)
-
-    plt.contourf(tdho.T, tdho.R, rho_hf.real)
-    plt.savefig(os.path.join(path, "hf_" + filename_stub + "_rho_real.pdf"))
-    plt.show()
-
-    tdho.change_to_spin_orbital_basis()
 
     oaccd = OACCD(tdho, verbose=True)
     oaccd.compute_ground_state(
         tol=oaccd_tol, termination_tol=oaccd_tol, num_vecs=20
     )
 
-    filename = "oaccd_" + filename_stub + "_energy.dat"
-    filename = os.path.join(path, filename)
-
-    with open(filename, "w") as f:
-        f.write(f"HF energy: {hf_energy}\n")
-        f.write(f"OACCD energy: {oaccd.compute_energy()}\n")
-
     rho = oaccd.compute_particle_density()
 
+    path = os.path.join(sys.path[0], "dat")
     filename = "oaccd_" + filename_stub + "_rho_real.dat"
     filename = os.path.join(path, filename)
 
@@ -76,4 +50,3 @@ def run_oaccd_tdho(params, filename_stub, hf_tol=1e-7, oaccd_tol=1e-4):
 
     plt.contourf(tdho.T, tdho.R, rho.real)
     plt.savefig(os.path.join(path, "oaccd_" + filename_stub + "_rho_real.pdf"))
-    plt.show()
