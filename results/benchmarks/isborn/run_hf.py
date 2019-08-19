@@ -18,6 +18,7 @@ from dump import dump_data
 
 if len(sys.argv) < 4:
     print(f"Usage: sys.argv[0] <molecule> <basis> <spin>")
+    sys.exit()
 
 molecule = sys.argv[1].lower()
 basis = sys.argv[2].lower()
@@ -44,12 +45,12 @@ kwargs = dict(
 system = molecule_func(**kwargs)
 time_points, num_steps = get_time_steps()
 
-integrator = GaussIntegrator(s=3, tol=1e-6, np=np)
+integrator = GaussIntegrator(s=3, eps=1e-6, np=np)
 tdhf = TDHF(system, integrator=integrator, verbose=True)
 tdhf.compute_ground_state()
-print(f"TDHF ground state energy: " + f"{tdhf.compute_energy()}")
-
 tdhf.set_initial_conditions()
+
+print(f"TDHF ground state energy: " + f"{tdhf.compute_energy()}")
 
 energy = np.zeros(num_steps, dtype=np.complex128)
 dipole = np.zeros(num_steps, dtype=np.complex128)

@@ -18,6 +18,7 @@ from dump import dump_data
 
 if len(sys.argv) < 4:
     print(f"Usage: sys.argv[0] <molecule> <basis> <spin>")
+    sys.exit()
 
 molecule = sys.argv[1].lower()
 basis = sys.argv[2].lower()
@@ -44,15 +45,15 @@ kwargs = dict(
 system = molecule_func(**kwargs)
 time_points, num_steps = get_time_steps()
 
-integrator = GaussIntegrator(s=3, tol=1e-6, np=np)
+integrator = GaussIntegrator(s=3, eps=1e-6, np=np)
 oatdccd = OATDCCD(system, integrator=integrator, verbose=True)
 oatdccd.compute_ground_state()
+oatdccd.set_initial_conditions()
+
 print(
     f"OATDCCD ground state energy: "
     + f"{oatdccd.compute_energy() + system.nuclear_repulsion_energy}"
 )
-
-oatdccd.set_initial_conditions()
 
 t, l, C, C_tilde = oatdccd.amplitudes
 
@@ -81,10 +82,9 @@ try:
         dipole[i + 1] = np.trace(rho @ z)
 except Exception:
     print("Crash!")
-
+finally:
     time_points = time_points[: i + 1]
     energy = energy[: i + 1]
     dipole = dipole[: i + 1]
 
-finally:
     dump_data(time_points, energy, dipole, "oatdccd", basis, molecule, spin)

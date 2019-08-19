@@ -1,3 +1,5 @@
+import os
+
 import pint
 import numpy as np
 
@@ -30,6 +32,9 @@ def get_h2_system(basis="sto-3g", spin_dependent=True, spin_direction="up"):
     if spin_dependent:
         remove_dipole_component(h2, spin_direction=spin_direction)
 
+    os.environ["OMP_NUM_THREADS"] = "4"
+    os.environ["MKL_NUM_THREADS"] = "4"
+
     return h2
 
 
@@ -51,6 +56,9 @@ def get_lih_system(basis="sto-3g", spin_dependent=True, spin_direction="up"):
 
     if spin_dependent:
         remove_dipole_component(lih, spin_direction=spin_direction)
+
+    os.environ["OMP_NUM_THREADS"] = "4"
+    os.environ["MKL_NUM_THREADS"] = "4"
 
     return lih
 
@@ -76,6 +84,9 @@ def get_co_system(basis="sto-3g", spin_dependent=True, spin_direction="up"):
     if spin_dependent:
         remove_dipole_component(co, spin_direction=spin_direction)
 
+    os.environ["OMP_NUM_THREADS"] = "4"
+    os.environ["MKL_NUM_THREADS"] = "4"
+
     return co
 
 
@@ -88,7 +99,7 @@ def get_time_steps(t_start=0, t_end=50, dt=0.002):
     t_end = (t_end * ureg.fs).to(ureg.a_u_time)
     dt = (dt * ureg.fs).to(ureg.a_u_time)
 
-    num_steps = int((t_start - t_end) / dt + 1)
+    num_steps = int((t_end - t_start) / dt + 1)
     time_points = np.linspace(t_start, t_end, num_steps)
 
     return time_points, num_steps

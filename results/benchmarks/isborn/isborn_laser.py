@@ -31,5 +31,5 @@ if __name__ == "__main__":
 
     t = np.linspace(0, t_stop, 10001)
 
-    plt.plot((t * ureg.a_u_time).to(ureg.fs), np.vectorize(laser)(t))
+    plt.plot(t, np.vectorize(laser)(t))
     plt.show()
