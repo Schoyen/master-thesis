@@ -456,9 +456,9 @@
             \begin{align}
                 \com{\clust_{A}}{\clust_{B}} = 0.
             \end{align}
-            Furthermore, this extends to the cluster operator in a subsystem
-            commuting with any other second quantized operator in the other
-            subsystem due to there being an even number of anticommutation.
+            Furthermore, this extends to the cluster operator in subsystem $A$
+            commuting with any other second quantized operator in subsystem $B$
+            due to there being an even number of anticommutation.
             The compound wave function can now be found to be
             \begin{align}
                 \ket*{\Psi^{AB}}
@@ -495,52 +495,54 @@
                     \braket*{\Psi}{\Psi}
                 }
                 = \frac{
-                    \braslat (e^{\clust})^{\dagger}\hamil e^{\clust}\ketslat
+                    \mel*{\slat}{
+                        (\exponential(\clust))^{\dagger}
+                        \hamil
+                        \exponential(\clust)
+                    }{\slat}
                 }{
-                    \braslat (e^{\clust})^{\dagger} e^{\clust}\ketslat
+                    \mel*{\slat}{
+                       (\exponential(\clust))^{\dagger}
+                       \exponential(\clust)
+                   }{\slat}
                 }.
                 \label{eq:variational-cc}
             \end{align}
             However, there are some serious limitations in
             \autoref{eq:variational-cc}.
-            The cluster operators are not Hermitian.
-            This can be observed from the fact that taking the Hermitian
-            conjugate of a cluster operator yields a relaxation operator instead
-            of an excitation operator.
             By computing the series expansion of the exponential operators we
             find
             \begin{align}
-                \braslat (e^{\clust})^{\dagger}\hamil e^{\clust}\ketslat
-                = \braslat\para{
-                    \1 + \clust^{\dagger} + \dots
-                }
-                \hamil
-                \para{
-                    \1 + \clust + \dots
-                }
-                \ketslat,
+                \mel*{\slat}{
+                   (\exponential(\clust))^{\dagger}
+                   \hamil
+                   \exponential(\clust)
+               }{\slat}
+                = \mel*{\slat}{
+                    \para{
+                        \1 + \clust^{\dagger} + \dots
+                    }
+                    \hamil
+                    \para{
+                        \1 + \clust + \dots
+                    }
+                }{\slat},
                 \label{eq:expansion-variational-cc}
             \end{align}
             where the relaxation operators on the left will act as excitation
             operators on the reference state we are projecting onto.
             This means that we no longer get a natural truncation with respect
-            to the Hamiltonian.
-            In \autoref{subsec:cc-energy-equations} we discussed how the
-            Hamiltonian at most can net relax an exited state by $2$.
-            This truncates the Baker-Campbell-Hausdorff expansion naturally at
-            squared cluster operators which can provide a net excitation of $2$.
-            In \autoref{eq:expansion-variational-cc} we no longer get this
-            truncation.
+            to the Hamiltonian \cite{crawford2000introduction}.
 
-            As the variational formulation of coupled cluster yields intractable
-            equations and we note that the similarity transformed Hamiltonian is
-            non-Hermitian thus violating the postulates of quantum mechanics, we
-            are seemingly in a lot of trouble.
-            Luckily, by not truncating the cluster operator\footnote{%
-                Or, for $N$ particles truncating at $\clust_N$.
-            } we will recover the formally exact solution within the space
-            spanned by our basis of spin-orbitals \cite{coester1958421,
-            monkhorst1977421}.
+            %As the variational formulation of coupled cluster yields intractable
+            %equations and we note that the similarity transformed Hamiltonian is
+            %non-Hermitian thus violating the postulates of quantum mechanics, we
+            %are seemingly in a lot of trouble.
+            %Luckily, by not truncating the cluster operator\footnote{%
+            %    Or, for $N$ particles truncating at $\clust_N$.
+            %} we will recover the formally exact solution within the space
+            %spanned by our basis of spin-orbitals \cite{coester1958421,
+            %monkhorst1977421}.
 
         \subsection{The coupled cluster Lagrangian}
             Even though we conclude that the non-variational formulation of
@@ -555,21 +557,21 @@
             \cite{exp-value-cizek, fink1974163}
             \begin{align}
                 \expval{O}
-                &= \frac{\mel{\Psi}{\hat{O}}{\Psi}}{\braket{\Psi}{\Psi}}
+                &= \frac{\mel*{\Psi}{\hat{O}}{\Psi}}{\braket*{\Psi}{\Psi}}
                 = \frac{
-                    \mel{\slat}{
-                        (e^{\clust})^{\dagger}
+                    \mel*{\slat}{
+                        (\exponential(\clust))^{\dagger}
                         \hat{O}
-                        e^{\clust}
+                        \exponential(\clust)
                     }{\slat}
                 }{
-                    \mel{\slat}{
-                        (e^{\clust})^{\dagger}
-                        e^{\clust}
+                    \mel*{\slat}{
+                        (\exponential(\clust))^{\dagger}
+                        \exponential(\clust)
                     }{\slat}
                 },
             \end{align}
-            but as $\ket{\Psi}$ is not found from optimization of the energy
+            but as $\ket*{\Psi}$ is not found from optimization of the energy
             using the variational principle in \autoref{eq:variational-cc}, we
             do not necessarily have that the energy found from the variational
             principle is the same as the energy found from the projected energy
@@ -584,21 +586,21 @@
 
             In order for us to conform to the Hellmann-Feynman theorem, we can
             use a technique where we construct a variational Lagrangian
-            \cite{helgaker1989}.
+            \cite{helgaker1989, helgaker-molecular}.
             To motivate the need for a variational Lagrangian, we consider the
-            coupled cluster energy functional subject to a small perturbation
+            coupled-cluster energy expression subject to a small perturbation
             $g$ \cite{monkhorst1977421}
             \begin{align}
-                E[g, \clustamp_{\mu}]
-                &= \braslat e^{-\clust(g)}
-                \hamil(g)
-                e^{\clust(g)}
-                \ketslat,
+                E(g, \vfg{\clustamp})
+                &= \mel*{\slat}{
+                    \exponential(-\clust(g))
+                    \hamil(g)
+                    \exponential(\clust(g))
+                }{\slat},
                 \label{eq:cc-perturbed-energy}
             \end{align}
-            where $\mu$ and $\nu$ denotes an excitation level and
-            $\clustamp_{\mu}$ is the set of all cluster amplitudes at this
-            excitation.
+            where $\mu$ denotes an excitation level and $\vfg{\clustamp}$ is the
+            set of all cluster amplitudes.
             We also note that as the perturbation is represented on a grid, we
             will in the second quantized formulation absorb the pertubation in
             the matrix elements of the wave function instead of the wave
@@ -611,95 +613,84 @@
             \end{align}
             We find the optimized energy of \autoref{eq:cc-perturbed-energy} by
             \begin{align}
-                E(g) &= E[g, \clustamp^{*}_{\mu}]
+                E(g) &= E(g, \vfg{\clustamp}^{*})
             \end{align}
-            where $\clustamp^{*}_{\mu}$ for a given $g$ represents the solution
+            where $\vfg{\clustamp}^{*}$ for a given $g$ represents the solution
             to the set of amplitude equations
             \begin{align}
-                f_{\mu}[g, \vfg{\clustamp}_{*}]
+                f_{\mu}(g, \vfg{\clustamp}_{*})
                 &=
                 \left.
-                \bra{\Phi_{\mu}}
-                e^{-\clust(g)}
-                \hamil(g)
-                e^{\clust(g)}
-                \ketslat
-                \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}}
-                = 0.
+                \mel*{\Phi_{\mu}}{
+                    \exponential(-\clust(g))
+                    \hamil(g)
+                    \exponential(\clust(g))
+                }{\slat}
+                \right\rvert_{\vfg{\clustamp} = \vfg{\clustamp}^{*}}
+                = 0,
                 \label{eq:cc-amplitude-set}
             \end{align}
-            Now if the coupled cluster wave function was indeed variational,
-            this condition corresponds to finding the stationary point of the
-            energy functional by
+            for all excitations $\mu$.
+            Now, if the coupled cluster wave function was indeed variational,
+            this condition corresponds to finding the stationary points of the
+            coupled-cluster energy by
             \begin{align}
                 \left.
-                \dpd[]{E[g, \clustamp_{\mu}]}{\clustamp_{\nu}}
-                \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}}
+                \dpd[]{E(g, \vfg{\clustamp})}{\clustamp_{\mu}}
+                \right\rvert_{\vfg{\clustamp} = \vfg{\clustamp}^{*}}
                 = 0,
                 \label{eq:cc-variational-condition}
             \end{align}
-            for every $g$ that we peruse.
-            As the wave function in fact isn't variational, this means that the
-            total derivative of the optimized energy with respect to the
-            pertubational parameter $g$ can not be computed simply as the
-            partial derivative of the energy functional with respect to $g$ with
-            $\clustamp_{\mu}$ evaluated at $\clustamp^{*}_{\mu}$.
-            That is,
-            \begin{align}
-                \dod[]{E(g)}{g}
-                =
-                \left.
-                \dod[]{E[g, \clustamp_{\mu}]}{g}
-                \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}}
-                &=
-                \left.
-                \dpd[]{E[g, \clustamp_{\mu}]}{g}
-                \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}}
-                +
-                \left.
-                \dpd[]{E[g, \clustamp_{\mu}]}{\clustamp_{\nu}}
-                \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}}
-                \left.
-                \dpd[]{\clustamp_{\nu}}{g}
-                \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}}
-                \\
-                &\neq
-                \left.
-                \dpd[]{E[g, \clustamp_{\mu}]}{g}
-                \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}},
-            \end{align}
-            as \autoref{eq:cc-variational-condition} is not satisified.
+            for every $g$.
+            %As the wave function in fact isn't variational, this means that
+            %\begin{align}
+            %    \dod[]{E(g)}{g}
+            %    &=
+            %    \left.
+            %    \dod[]{E[g, \clustamp_{\mu}]}{g}
+            %    \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}}
+            %    =
+            %    \left.
+            %    \dpd[]{E[g, \clustamp_{\mu}]}{g}
+            %    \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}}
+            %    +
+            %    \left.
+            %    \dpd[]{E[g, \clustamp_{\mu}]}{\clustamp_{\nu}}
+            %    \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}}
+            %    \left.
+            %    \dpd[]{\clustamp_{\nu}}{g}
+            %    \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}}
+            %    \\
+            %    &\neq
+            %    \left.
+            %    \dpd[]{E[g, \clustamp_{\mu}]}{g}
+            %    \right\rvert_{\clustamp_{\mu} = \clustamp^{*}_{\mu}},
+            %\end{align}
+            %as \autoref{eq:cc-variational-condition} is not satisified.
             In order to satisty \autoref{eq:cc-variational-condition} and the
             Hellmann-Feynman theorem we use Lagrange's method of undetermined
-            multipliers to introduce a new set of parameters $\clustlamp_{\mu}$,
-            one for every cluster amplitude.
-            We incorporate the original energy functional in
-            \autoref{eq:cc-perturbed-energy} into a Lagrangian functional with
-            the set of amplitude equations in \autoref{eq:cc-amplitude-set}
-            multiplied with the multipliers.
+            multipliers to introduce a new set of parameters $\vfg{\clustlamp}$,
+            one for every cluster amplitude \cite{helgaker-molecular}.
+            We incorporate the original energy function in
+            \autoref{eq:cc-perturbed-energy} into a Lagrangian with the set of
+            amplitude equations in \autoref{eq:cc-amplitude-set} multiplied with
+            the multipliers.
+            That is,
             \begin{align}
-                L[g, \clustamp_{\mu}, \clustlamp_{\mu}]
-                &= E[g, \clustamp_{\nu}]
-                + \clustlamp_{\mu} f_{\mu}[g, \clustamp_{\nu}]
-                \\
+                L(g, \vfg{\clustamp}, \vfg{\clustlamp})
                 &=
-                \bra{\slat}e^{-\clust(g)}\hamil(g) e^{\clust(g)}\ket{\slat}
-                +
-                \clustlamp_{\mu}
-                \bra{\slat_{\mu}}
-                e^{-\clust(g)}\hamil(g) e^{\clust(g)}\ket{\slat}
-                \\
-                &=
-                \bra{\slat}
-                \para{\1 + \clustl}
-                e^{-\clust(g)}\hamil(g) e^{\clust(g)}
-                \ket{\slat},
+                \mel*{\slat}{
+                    (\1 + \clustl)
+                    \exponential(-\clust(g))
+                    \hamil(g)
+                    \exponential(\clust(g))
+                }{\slat},
                 \label{eq:cc-perturbed-lagrangian}
             \end{align}
             where we've introduced the relaxation operator $\clustl$ from the
             Lagrange multipliers along with the string of relaxation operators
-            from the excited state $\ket{\slat_{\mu}} = \hat{X}_{\mu}\ketslat$
-            we project onto in the amplitude equations.
+            from the excited state $\ket{\slat_{\mu}}$ we project onto in the
+            amplitude equations.
             That is,
             \begin{align}
                 \clustl
@@ -714,25 +705,27 @@
             with the truncation level $\mu$ matching the truncation of the
             cluster operators $\clust$.
             Optimizing \autoref{eq:cc-perturbed-lagrangian} with respect to the
-            parameters $\clustamp_{\mu}$ and $\clustlamp_{\mu}$ we get equations
-            which lets us find the stationary points $\clustamp^{*}_{\mu}$ and
-            $\clustlamp^{*}_{\mu}$.
+            parameters $\vfg{\clustamp}$ and $\vfg{\clustlamp}$ we get equations
+            which lets us find the stationary points $\vfg{\clustamp}^{*}$ and
+            $\vfg{\clustlamp}^{*}$,
             \begin{gather}
-                \dpd[]{L[g, \clustamp_{\mu},\clustlamp_{\mu}]}
-                {\clustlamp_{\nu}}
-                = \bra{\slat_{\nu}}
-                e^{-\clust(g)}\hamil(g) e^{\clust(g)}
-                \ketslat
+                \dpd[]{L(g, \vfg{\clustamp}, \vfg{\clustlamp})}
+                {\clustlamp_{\mu}}
+                = \mel*{\slat_{\mu}}{
+                    \exponential(-\clust(g))
+                    \hamil(g)
+                    \exponential(\clust(g))
+                }{\slat}
                 = 0,
                 \\
-                \dpd[]{L[g, \clustamp_{\mu}, \clustlamp_{\mu}]}
-                {\clustamp_{\nu}}
-                = \bra{\slat}
-                \para{\1 + \clustl}
-                e^{-\clust(g)}
-                \com{\hamil(g)}{\hat{X}_{\nu}}
-                e^{\clust(g)}
-                \ketslat
+                \dpd[]{L(g, \vfg{\clustamp}, \vfg{\clustlamp})}
+                {\clustamp_{\mu}}
+                = \mel*{\slat}{
+                    (\1 + \clustl)
+                    \exponential(-\clust(g))
+                    \com{\hamil(g)}{\hat{X}_{\mu}}
+                    \exponential(\clust(g))
+                }{\slat}
                 = 0,
             \end{gather}
             where we note that the first equation in the absence of the
@@ -742,60 +735,61 @@
             This equation is slightly more involved as the extra set of
             amplitudes generates an increased amount of contractions to be
             solved.
-            Using Wick's generalized theorem in the same manner as for the
-            cluster amplitudes on the second equation yields explicit tensor
-            contractions which must be solved iteratively in order to find
-            self-consistent values for the Lagrange multipliers.
-            In the abscence of the perturbation we write the coupled cluster
+            We can use Wick's generalized theorem in order to find equations for
+            the Lagrange multipliers.
+            In the abscence of the perturbation we write the coupled-cluster
             Lagrangian as
             \begin{align}
-                L[\clustamp_{\mu}, \clustlamp_{\mu}]
+                L(\vfg{\clustamp}, \vfg{\clustlamp})
                 &= \mel*{\slat}{
-                    \para{\1 + \clustl}
-                    e^{-\clust}
+                    (\1 + \clustl)
+                    \exponential(-\clust)
                     \hamil
-                    e^{\clust}
+                    \exponential(\clust)
                 }{\slat}
-                = \mel*{\tilde{\Psi}}{\hamil}{\Psi}
-                = E[\clustamp_{\mu}, \clustlamp_{\mu}],
+                \equiv \mel*{\tilde{\Psi}}{\hamil}{\Psi}
+                = E(\vfg{\clustamp}, \vfg{\clustlamp}),
                 \label{eq:cc-energy-functional}
             \end{align}
-            which we interpret as the variational coupled cluster energy
-            functional.
+            which we interpret as the variational coupled-cluster energy
+            function.
+            Here we've denoted the right- and left-hand coupled-cluster wave
+            functions by
+            \begin{gather}
+                \ket*{\Psi} = \exponential(\clust)\ket{\slat},
+                \label{eq:cc-ket}
+                \\
+                \bra*{\tilde{\Psi}} = \bra*{\slat}(\1 + \clustl)
+                \exponential(-\clust).
+                \label{eq:cc-bra}
+            \end{gather}
             The stationary points of the cluster amplitudes and the Lagrange
             multipliers are then
             \begin{gather}
-                \dpd[]{L[\clustamp_{\mu},\clustlamp_{\mu}]}
-                {\clustlamp_{\nu}}
-                = \mel{\slat_{\nu}}{
-                    e^{-\clust}\hamil e^{\clust}
+                \dpd[]{L(\vfg{\clustamp}, \vfg{\clustlamp})}
+                {\clustlamp_{\mu}}
+                = \mel*{\slat_{\mu}}{
+                    \exponential(-\clust)
+                    \hamil
+                    \exponential(\clust)
                 }{\slat}
                 = 0,
                 \label{eq:cc-lagrangian-tau}
                 \\
-                \dpd[]{L[\clustamp_{\mu}, \clustlamp_{\mu}]}
-                {\clustamp_{\nu}}
-                = \mel{\slat}{
-                    \para{\1 + \clustl}
-                    e^{-\clust}
-                    \com{\hamil}{\hat{X}_{\nu}}
-                    e^{\clust}
+                \dpd[]{L(\vfg{\clustamp}, \vfg{\clustlamp})}
+                {\clustamp_{\mu}}
+                = \mel*{\slat}{
+                    (\1 + \clustl)
+                    \exponential(-\clust)
+                    \com{\hamil}{\hat{X}_{\mu}}
+                    \exponential(\clust)
                 }{\slat}
                 \label{eq:cc-lagrangian-lambda}
-                = 0,
+                = 0.
             \end{gather}
-            We've denoted the coupled cluster wave functions by
-            \begin{gather}
-                \ket{\Psi} = e^{\clust}\ket{\slat}, \\
-                \bra*{\tilde{\Psi}} = \bra{\slat}\para{\1 + \clustl}e^{-\clust}.
-            \end{gather}
-            Furthermore, we have that
-            \begin{align}
-                L[\clustamp_{\mu}, \clustlamp_{\mu}]
-                = \tr(\hamil\density),
-            \end{align}
-            where the coupled cluster density operator is defined by
-            \cite{kvaal2013variational}
+            The introduction of the coupled-cluster wave functions in
+            \autoref{eq:cc-ket} and \autoref{eq:cc-bra} motivates the
+            coupled-cluster density operator \cite{kvaal2013variational}
             \begin{align}
                 \density
                 &= \dyad*{\Psi}{\tilde{\Psi}}
@@ -805,7 +799,7 @@
             Using this definition for the coupled cluster density operator we
             have that
             \begin{align}
-                \tr{\density}
+                \tr(\density)
                 &= \tr{\dyad*{\Psi}{\tilde{\Psi}}}
                 = \bra*{\tilde{\Psi}}\ket{\Psi}
                 \bra*{\tilde{\Psi}}\ket{\Psi}
@@ -841,12 +835,10 @@
             time-dependent coupled cluster method later.
 
         \subsection{Density matrices}
-            From the variational energy functional in
-            \autoref{eq:cc-energy-functional} we can construct the one- and
-            two-body density matrices.
-            % TODO: What has this got to do with the Hellmann-Feynman theorem?
+            The variational energy function in \autoref{eq:cc-energy-functional}
+            can be written in terms of the one- and two-body density matrices,
             \begin{align}
-                E[\clustamp_{\mu}, \clustlamp_{\mu}]
+                E
                 &= \mel*{\tilde{\Psi}}{\hamil}{\Psi}
                 = \oneten^{p}_{q}
                 \mel*{\tilde{\Psi}}{\ccr{p}\can{q}}{\Psi}
@@ -861,30 +853,25 @@
                 \densityten^{rs}_{pq},
             \end{align}
             where the density matrices are treated as first order properties of
-            the energy functional thus making use of the Hellmann-Feynman
-            theorem.
+            the energy function.
+            Defining the coupled-cluster one- and two-body density matrices by
             \begin{align}
                 \densityten^{q}_{p}
-                &= \mel*{\tilde{\Psi}}{\ccr{p}\can{q}}{\Psi}
-                = \mel*{\slat}{
-                    \para{\1 + \clustl}e^{-\clust}\ccr{p}\can{q} e^{\clust}
-                }{\slat},
+                &\equiv \mel*{\tilde{\Psi}}{\ccr{p}\can{q}}{\Psi},
                 \label{eq:cc-one-body-density}
                 \\
                 \densityten^{rs}_{pq}
-                &= \mel*{\tilde{\Psi}}{
+                &\equiv
+                \mel*{\tilde{\Psi}}{
                     \ccr{p}\ccr{q}\can{s}\can{r}
-                }{\Psi}
-                = \mel*{\slat}{
-                    \para{\1 + \clustl}e^{-\clust}
-                    \ccr{p}\ccr{q}
-                    \can{s}\can{r}
-                    e^{\clust}
-                }{\slat},
+                }{\Psi},
                 \label{eq:cc-two-body-density}
             \end{align}
-            where an explicit solution depends on the truncation level $\clust$
-            and $\clustl$.
+            we recognize the ability to compute expectation values of one- and
+            two-body operators from \autoref{sec:mb-density-matrices}.
+            As the cluster amplitudes are now found using a variational
+            technique, these expectation values will conform to the
+            Hellmann-Feynman theorem.
 
         \subsection{The non-orthogonal coupled cluster method}
             \label{subsec:nocc}
@@ -967,13 +954,15 @@
             Constructing the bi-variational non-orthogonal coupled cluster
             Lagrangian
             \begin{align}
-                L[\clustamp_{\mu}, \clustlamp_{\mu}, \nocc^{u}, \nocc^{d}]
-                &= \mel*{\tilde{\Psi}}{\hamil}{\Psi}
+                L(\vfg{\clustamp}, \vfg{\clustlamp}, \noccten^{u},
+                \noccten^{d})
                 = \mel*{\tilde{\slat}}{
-                    \para{\1 + \clustl}
-                    e^{-\clust} e^{-\nocc}
+                    (\1 + \clustl)
+                    \exponential(-\clust)
+                    \exponential(-\nocc)
                     \hamil
-                    e^{\nocc} e^{\clust}
+                    \exponential(\nocc)
+                    \exponential(\clust)
                 }{\slat},
             \end{align}
             where we've introduced the left reference state
@@ -1003,7 +992,7 @@
             contribution to the coupled cluster amplitudes.
             This also applies for the non-orthogonal formulation and we have the
             doubles excitations with $\clust_2$ and $\clustl_2$ will be equally
-            good as the singles-and-dobules excitations.
+            good as the singles-and-doubles excitations.
 
             Returning to the process of finding the stationary conditions of the
             non-orthogonal coupled-cluster Lagrangian, we require that
@@ -1021,28 +1010,34 @@
             This yields the stationary conditions
             \begin{gather}
                 \left.
-                \dpd{L[\clustamp_{\mu}, \clustlamp_{\mu}, \noccten]}{
+                \dpd{
+                    L(\vfg{\clustamp}, \vfg{\clustlamp},
+                    \noccten^{u}, \noccten^{d})
+                }{
                     {\noccten^{u}}
                 }
-                \right\rvert_{\nocc = 0}
+                \right\rvert_{\noccten = 0}
                 = \mel*{\tilde{\slat}}{
-                    \para{\1 + \clustl}
-                    \exp(-\clust)
+                    (\1 + \clustl)
+                    \exponential(-\clust)
                     \com{\hamil}{\biccr{a}\bican{i}}
-                    \exp(\clust)
+                    \exponential(\clust)
                 }{\slat},
                 \label{eq:nocc-kappa-up-rhs}
                 \\
                 \left.
-                \dpd{L[\clustamp_{\mu}, \clustlamp_{\mu}, \noccten]}{
+                \dpd{
+                    L(\vfg{\clustamp}, \vfg{\clustlamp},
+                    \noccten^{u}, \noccten^{d})
+                }{
                     {\noccten^{d}}
                 }
-                \right\rvert_{\nocc = 0}
+                \right\rvert_{\noccten = 0}
                 = \mel*{\tilde{\slat}}{
-                    \para{\1 + \clustl}
-                    \exp(-\clust)
+                    (\1 + \clustl)
+                    \exponential(-\clust)
                     \com{\hamil}{\biccr{i}\bican{a}}
-                    \exp(\clust)
+                    \exponential(\clust)
                 }{\slat},
                 \label{eq:nocc-kappa-down-rhs}
             \end{gather}
@@ -1062,15 +1057,21 @@
         Schrödinger equation,
         \begin{align}
             i\hslash
-            \exp[-\clust(t)]\dpd{}{t}\exp[\clust(t)]\ket{\slat}
-            = \exp[-\clust(t)]\hamil(t)\exp[\clust(t)]\ket{\slat},
+            \exponential(-\clust(t))
+            \partial_t
+            \exponential(\clust(t))
+            \ket{\slat}
+            = \exponential(-\clust(t))
+            \hamil(t)
+            \exponential(\clust(t))
+            \ket{\slat},
         \end{align}
         which in many ways is the ``natural'' approach to take as this is the
         analog to the projected time-independent Schrödinger equation for the
         coupled-cluster wave function.
         The truncation level of this approach can be done in a similar manner as
         in the time-independent case, i.e., by projecting onto an excited state
-        $\ket{\slat_{\mu}}$, and the right-hand sides lead to the familiar
+        $\ket*{\slat_{\mu}}$, and the right-hand sides lead to the familiar
         projected amplitude equations in \autoref{eq:cc_amp_sim} and energy
         equation \autoref{eq:cc_energy_sim}.
         The time-dependence is kept in the wave function by the amplitudes and
@@ -1078,24 +1079,28 @@
         As the cluster amplitudes commute, we have that the time-derivative of
         coupled-cluster wave function is given by
         \begin{align}
-            i\hslash\dpd{}{t}\exp[\clust(t)]\ket{\slat}
+            i\hslash\partial_t
+            \exponential(\clust(t))
+            \ket{\slat}
             = i\hslash \para{
-                \dpd{\clustamp_{\mu}(t)}{t}
+                \partial_t\clustamp_{\mu}(t)
             }
             \hat{X}_{\mu}
-            \exp[\clust(t)]\ket{\slat}.
+            \exponential(\clust(t))
+            \ket{\slat}.
         \end{align}
         Left-projecting with an excited state we find that
         \begin{align}
             i\hslash
-            \mel{\slat_{\mu}}{
-                \exp[-\clust(t)]
-                \dpd{}{t}
-                \exp[\clust(t)]
+            \mel*{\slat_{\mu}}{
+                \exponential(-\clust(t))
+                \partial_t
+                \exponential(\clust(t))
             }{\slat}
             =
             i\hslash
-            \dpd{\clustamp_{\mu}(t)}{t}.
+            \partial_t
+            \clustamp_{\mu}(t).
             \label{eq:td-clustamp}
         \end{align}
         This means that the time-evolution of the amplitudes is given by the
@@ -1105,13 +1110,13 @@
         process of computing observables in time suffers from the same problems
         as in the non-variational time-independent case.
 
-        To fix this we re-use the variational coupled-cluster Lagrangian in the
+        To fix this we reuse the variational coupled-cluster Lagrangian in the
         time-dependent variational principle yielding the time-dependent
         coupled-cluster action functional \cite{kvaal2013variational}
         \begin{align}
             S[\Psi, \tilde{\Psi}]
             = \int\dd t
-            \mel{\tilde{\Psi}(t)}{
+            \mel*{\tilde{\Psi}(t)}{
                 \para{
                     i\hslash\partial_t
                     - \hamil(t)
@@ -1125,10 +1130,11 @@
         We can write the Lagrangian as
         \begin{align}
             L[\Psi, \tilde{\Psi}]
-            = i\hslash \clustlamp_{\mu}\dpd{\clustamp_{\mu}}{t}
+            = i\hslash \clustlamp_{\mu}\partial_t\clustamp_{\mu}
             - E[\Psi, \tilde{\Psi}],
         \end{align}
-        where $E[\Psi, \tilde{\Psi}]$ is the energy functional from
+        where $E[\Psi, \tilde{\Psi}]$ is the energy functional formulation of
+        the coupled-cluster energy function from
         \autoref{eq:cc-energy-functional}.
         Finding the stationary conditions for the action functional now consists
         of solving the two sets of equations
@@ -1144,19 +1150,19 @@
         \begin{gather}
             \dpd{L[\Psi, \tilde{\Psi}]}{\clustlamp_{\mu}}
             =
-            i\hslash\dpd{\clustamp_{\mu}}{t}
+            i\hslash\partial_t\clustamp_{\mu}
             - \dpd{E[\Psi, \tilde{\Psi}]}{\clustlamp_{\mu}}
             = 0
             \\
             \implies
-            i\hslash\dpd{\clustamp_{\mu}}{t}
+            i\hslash\partial_t\clustamp_{\mu}
             =
             \dpd{E[\Psi, \tilde{\Psi}]}{\clustlamp_{\mu}}
             =
-            \mel{\slat_{\mu}}{
-                \exp[-\clust(t)]
+            \mel*{\slat_{\mu}}{
+                \exponential(-\clust(t))
                 \hamil(t)
-                \exp[\clust(t)]
+                \exponential(\clust(t))
             }{\slat},
             \label{eq:time-evolution-tau}
         \end{gather}
@@ -1171,21 +1177,21 @@
         \begin{gather}
             \dpd{L[\Psi, \tilde{\Psi}]}{\clustamp_{\mu}}
             = i\hslash\dpd{}{\clustamp_{\mu}}\brak{
-                \dpd{}{t}\para{
+                \partial_t\para{
                     \clustlamp_{\nu}
                     \clustamp_{\nu}
                 }
-                - \para{\dpd{\clustlamp_{\nu}}{t}}
+                - \para{\partial_t\clustlamp_{\nu}}
                 \clustamp_{\nu}
             }
             - \dpd{E[\Psi, \tilde{\Psi}]}{\clustamp_{\mu}}
             = 0 \\
             \implies
-            -i\hslash\dpd{\clustlamp_{\mu}}{t}
+            -i\hslash\partial_t\clustlamp_{\mu}
             =
             \dpd{E[\Psi, \tilde{\Psi}]}{\clustamp_{\mu}}
             =
-            \mel{\tilde{\Psi}(t)}{
+            \mel*{\tilde{\Psi}(t)}{
                 \com{\hamil(t)}{\hat{X}_{\mu}}
             }{\Psi(t)},
             \label{eq:time-evolution-lambda}
@@ -1199,7 +1205,7 @@
         \autoref{eq:time-evolution-lambda} yields a variational formulation of
         the time-dependent coupled-cluster methods where $\mu$ decides the
         truncation level.
-        For \autoref{eq:time-evolution-tau} we can re-use the regular
+        For \autoref{eq:time-evolution-tau} we can reuse the regular
         $\clust$-amplitudes as the right-hand side, and for
         \autoref{eq:time-evolution-lambda} we use the right-hand sides for the
         Lagrange multipliers from the time-independent situation.
@@ -1232,7 +1238,11 @@
         \bra*{\tilde{\phi}_p(t)}$ as the two orbitals are defined in two
         separate Hilbert spaces \cite{kvaal2012ab}.
         This extends through to the Slater determinants being biorthogonal
-        in time.
+        in time, that is
+        \begin{align}
+            \braket*{\tilde{\slat}_{\mu}(t)}{\slat_{\nu}(t)}
+            = \delta_{\mu\nu}.
+        \end{align}
 
         In order to avoid two sets of second quantized operators, we
         transform from the atomic orbital basis in a similar fashion as done
@@ -1261,10 +1271,10 @@
         define the bivariational form of the coupled cluster wave functions
         to be
         \begin{gather}
-            \ket*{\Psi(t)} = \exp(\clust(t))\ket*{\slat(t)}, \\
+            \ket*{\Psi(t)} = \exponential(\clust(t))\ket*{\slat(t)}, \\
             \bra*{\tilde{\Psi}(t)}
-            = \bra*{\tilde{\slat}(t)}\para{\1 + \clustl(t)}
-            \exp(-\clust(t)),
+            = \bra*{\tilde{\slat}(t)}(\1 + \clustl(t))
+            \exponential(-\clust(t)),
         \end{gather}
         where we impose the normalization that
         \begin{align}
@@ -1277,7 +1287,7 @@
             \cite{arponen1983311}.
         } by \cite{kvaal2012ab, arponen1983311}
         \begin{align}
-            S[\clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}]
+            S[\vfg{\clustamp}, \vfg{\clustlamp}, \slat, \tilde{\slat}]
             =
             \int \dd t
             \mel*{\tilde{\Psi}}{
@@ -1287,14 +1297,14 @@
             }{\Psi}
             =
             \int \dd t
-            L[\clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}],
+            L[\vfg{\clustamp}, \vfg{\clustlamp}, \slat, \tilde{\slat}],
             \label{eq:oacc-action-functional}
         \end{align}
         which closely resembles the coupled-cluster action functional from
         \autoref{eq:cc-action-functional} except that
         \autoref{eq:oacc-action-functional} opens up for independent
         variations over the orbitals.
-        To go from here we evalute the Lagrangian functional.
+        To go from here we evaluate the Lagrangian functional.
         The time-derivative yields
         \begin{align}
             \mel*{\tilde{\Psi}}{\partial_t}{\Psi}
@@ -1320,10 +1330,11 @@
         \end{align}
         which is a one-body operator similar to the projected one-body
         Hamiltonian.
-        We define the orbital-adaptive coupled-cluster energy functional by
+        We define the time-dependent orbital-adaptive coupled-cluster energy
+        functional by
         \begin{align}
             \mathcal{E}[
-                \clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}
+                \vfg{\clustamp}, \vfg{\clustlamp}, \slat, \tilde{\slat}
             ]
             \equiv \mel*{\tilde{\Psi}}{
                 \para{
@@ -1334,12 +1345,12 @@
         which should be compared with \autoref{eq:cc-energy-functional}.
         We can now write the Lagrangian functional as
         \begin{align}
-            L[\clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}]
+            L[\vfg{\clustamp}, \vfg{\clustlamp}, \slat, \tilde{\slat}]
             =
             i\hslash\clustlamp_{\mu}\partial_t\clustamp_{\mu}
             -
             \mathcal{E}[
-                \clustamp_{\mu}, \clustlamp_{\mu}, \slat, \tilde{\slat}
+                \vfg{\clustamp}, \vfg{\clustlamp}, \slat, \tilde{\slat}
             ].
             \label{eq:oatdcc-lagrangian}
         \end{align}
@@ -1368,10 +1379,12 @@
         \begin{align}
             -i\hslash\partial_t\clustlamp_{\mu}
             &=
-            \dpd{\mathcal{E}[
-                \clustamp_{\nu}, \clustlamp_{\nu}
-                \slat, \tilde{\slat}
-            ]}{\clustamp_{\mu}}
+            \dpd{
+                \mathcal{E}[
+                    \vfg{\clustamp}, \vfg{\clustlamp},
+                    \slat, \tilde{\slat}
+                ]
+            }{\clustamp_{\mu}}
             =
             \mel*{\tilde{\Psi}}{
                 \com{
