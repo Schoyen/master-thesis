@@ -481,9 +481,9 @@
                 determinant $\ket{\slat}$ from the $N$ first single-particle
                 states, we have that
                 \begin{align}
-                    \mel{\slat}{\hamil}{\slat^{a}_{i}} = 0,
+                    \mel*{\slat}{\hamil}{\slat^{a}_{i}} = 0,
                 \end{align}
-                where $\ket{\slat^{a}_{i}}$ is a singly-excited determinant.
+                where $\ket*{\slat^{a}_{i}}$ is a singly-excited determinant.
                 The converse is also true.
             \end{theorem}
             This theorem is important because it tells us that all single
@@ -495,10 +495,10 @@
                 We prove the converse of Brillouin's theorem directly by
                 evaluating the matrix elements
                 \begin{align}
-                    \mel{\slat}{\hamil}{\slat^{a}_{i}}
-                    &= \mel{\phi_i}{\onehamil}{\phi_a}
-                    + \mel{\phi_i\phi_j}{\twohamil}{\phi_a\phi_j}_{AS}
-                    = \mel{\phi_i}{\fock}{\phi_a},
+                    \mel*{\slat}{\hamil}{\slat^{a}_{i}}
+                    &= \mel*{\phi_i}{\onehamil}{\phi_a}
+                    + \mel*{\phi_i\phi_j}{\twohamil}{\phi_a\phi_j}_{AS}
+                    = \mel*{\phi_i}{\fock}{\phi_a},
                 \end{align}
                 where we've used the Slater-Condon rules from
                 \autoref{lemma:slater-condon-one-body} and
@@ -509,8 +509,8 @@
                 matrix is diagonal.
                 This means that
                 \begin{align}
-                    \mel{\phi_i}{\fock}{\phi_a}
-                    = \varepsilon_a\braket{\phi_a}{\phi_i}
+                    \mel*{\phi_i}{\fock}{\phi_a}
+                    = \varepsilon_a\braket*{\phi_a}{\phi_i}
                     = 0,
                 \end{align}
                 where we've used that the molecular orbitals are orthonormal by
