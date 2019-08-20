@@ -4,12 +4,51 @@
     We'll explore both the time-independent and the time-dependent situations.
 
     \section{Ground state energies}
+        In \autoref{tab:gs-tdho} we list a select few ground state energies for
+        the two-dimensional harmonic osccilator to demonstrate that we are able
+        to reproduce energies found in the literature.
+        A few things to note is that we chose the number of spin-orbitals to be
+        $L = 90$ as this provided reasonable precision and few convergence
+        problems while still being fast.
+        Initially we run a restricted Hartree-Fock calculation, and transform to
+        this basis.
+        We then use this molecular orbital basis for the CCD, CCSD, and NOCCD
+        methods.
+
+        However, as a slight surprise it turns that CCSD and NOCCD had most
+        problems with convergence once the number of particles increased.
+        We have marked the numbers which required manual intervening after the
+        initial run had finished by a $*$.
+        We'll discuss what needed to be done in order to have these values
+        converge.
+
+        For $N = 12$ with $\omega = 0.28$, and $N = 12$ with $\omega = 0.5$
+        using CCSD we had to increase the convergence threshold from
+        $\num{1e-4}$ to $\num{1e-3}$ for the residuals of the amplitudes to
+        avoid diverging results.
+        The singles amplitudes converged to a satisfying result, but the doubles
+        amplitudes were unable to go as low as $\num{1e-4}$.
+
+        For $N = 12$ with $\omega = 0.28$ and $\omega = 0.5$ using NOCCD we had
+        to increase the convergence threshold of the amplitudes and the orbital
+        rotations from $\num{1e-3}$ to $\num{5e-3}$ to avoid diverging results.
+        For $N = 20$ with $\omega = 0.5$ and $\omega = 1.0$ using NOCCD required
+        that we set the tolerance to $\num{1e-2}$.
+        A similar type of behaviour occured for NOCCD as for CCSD where we
+        seemingly move towards a converging result, but at some point we make a
+        rotation which makes the doubles amplitudes start oscillating around a
+        value close to convergence.
+        % TODO: Should we include quantitative results for this?
+        % We can potentially add a graph of the residuals.
+
         \begin{table}
             \centering
             \caption{In this table we demonstrate a select few ground state
-            energies for $N$ two-dimensional quantum dots.
+            energies for $N$ two-dimensional harmonic oscillators.
             We have used a fixed basis size of $L = 90$ spin-orbitals which
             corresponds to $9$ closed shells.
+            The CCD, CCSD, and NOCCD methods use the (spin-doubled) RHF-state as
+            reference state.
             These results match well with the values found by \citeauthor{fei}
             \cite{fei}, and \citeauthor{lohne} \cite{lohne}.}
             \renewcommand{\arraystretch}{1.3}
@@ -20,65 +59,10 @@
             \label{tab:gs-tdho}
         \end{table}
 
-    \section{Ground state particle densities}
-        \begin{figure}
-            \centering
-            \begin{tabular}{cc}
-                \begin{tikzpicture}
-                    \pgfplotsset{small}
-                    \begin{polaraxis}[
-                            %colorbar,
-                            colormap/viridis,
-                            view={0}{90},
-                            xtick={0, 90, 180, 270},
-                            xticklabels={
-                                $0$,
-                                $\pi/2$,
-                                $\pi$,
-                                $3\pi/2$,
-                            },
-                            axis on top,
-                            title={$N = 2$},
-                        ]
-                        \addplot3[
-                            surf,
-                            data cs=polarrad,
-                            mesh/rows=201,
-                        ]
-                        table
-                        {results/quantum-dots/two-dim-quantum-dots/one-body-densities/dat/oaccd_n=2_l=72_omega=1.0_rho_real.dat};
-                    \end{polaraxis}
-                \end{tikzpicture}
-                &
-                \begin{tikzpicture}
-                    \pgfplotsset{small}
-                    \begin{polaraxis}[
-                            %colorbar,
-                            colormap/viridis,
-                            view={0}{90},
-                            xtick={0, 90, 180, 270},
-                            xticklabels={
-                                $0$,
-                                $\pi/2$,
-                                $\pi$,
-                                $3\pi/2$,
-                            },
-                            axis on top,
-                            title={$N = 6$},
-                        ]
-                        \addplot3[
-                            surf,
-                            data cs=polarrad,
-                            mesh/rows=201,
-                        ]
-                        table
-                        {results/quantum-dots/two-dim-quantum-dots/one-body-densities/dat/oaccd_n=6_l=72_omega=1.0_rho_real.dat};
-                    \end{polaraxis}
-                \end{tikzpicture}
-            \end{tabular}
-            \caption{Bleh}
-            \label{fig:densities-tdho-2-6}
-        \end{figure}
+        The behaviour where the singles amplitudes, or singles rotations,
+        destroy the convergence is seemingly a little strange as the CCD method
+        had no problems with convergence for the listed results.
+        % TODO: Is it possible make an analysis of this?
 
     \section{Wigner crystallization}
         In a seminal paper by \citeauthor{wigner-crystal}
@@ -284,14 +268,14 @@
             This is the system moving into a Wigner crystal.}
             \label{fig:wigner-tdho-2-6}
         \end{figure}
-        In \autoref{fig:ground-state-particle-densities-tdho-2-6} we are able to
-        observe how particle density gets ``pushed'' away from the center of the
-        well when we lower the frequency.
+        In \autoref{fig:wigner-tdho-2-6} we are able to observe how particle
+        density gets ``pushed'' away from the center of the well when we lower
+        the frequency.
         This is the crystallization effect where the particles move into
         localized shell structures.
 
         In order to produce the figures in
-        \autoref{fig:ground-state-particle-densities-tdho-2-6} we have used the
+        \autoref{fig:wigner-tdho-2-6} we have used the
         restricted Hartree-Fock method to produce a reference state before using
         either CCSD or NOCCD to compute the ground state particle densities.
         For all three systems with $N = 2$ and the system with $N = 6$ and

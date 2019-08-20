@@ -1,61 +1,60 @@
 \chapter{Coupled cluster theory}
     \label{chap:cc}
     In the previous chapter on the configuration interaction method we saw how
-    the size of the Slater determinant basis grows exponentially, and the
-    chapter demonstrated how the Hartree-Fock method only provides an
-    approximation using a single Slater determinant.
-    The coupled-cluster method provides an approximation to the exact many-body
-    wave function by an exponential ansatz.
+    the direct diagonalization of the full Slater determinant space led to an
+    exponential scaling in the number of determinants.
+    In \autoref{chap:hf} we demonstrated an approximation to the full many-body
+    wave function using a single Slater determinant.
+    The Hartree-Fock and the full configuration interaction methods therefore
+    serve as endpoints to the approximations that can be done for the exact
+    many-body wave function.
+    The former is too simple, whereas the latter proves too challenging.
+    The latter does open up for further approximations by truncating the Slater
+    determinant space, but this leads to a size-inconsistent model which scales
+    badly once we increase the number of particles.
+
+    In lieu of these considerations, the coupled-cluster method provides an
+    approximation to the exact many-body wave function by an exponential ansatz.
     This method provides higher order correlations beyond the single determinant
     approximation given in the Hartree-Fock method, and maintains a polynomial
     scaling for the Slater determinant basis if the cluster operators are
     truncated.
-    In the untruncated limit we recover the full configuration interaction
-    method.
+    In the untruncated limit the coupled-cluster method recovers the full
+    configuration interaction method.
     We shall also see how the truncated coupled-cluster method is
-    size-consistent and size-extensive.
+    size-consistent.
 
 
     \section{Time-independent coupled cluster theory}
-        This section follows closely the derivation done in
-        \citetitle{crawford2000introduction} by
-        \citeauthor{crawford2000introduction} \cite{crawford2000introduction}.
-        Starting with the time-independent Schrödinger equation, the coupled
-        cluster method seeks to find a many-body wave function $\ketcc$ which
-        solves
+        The coupled-cluster method seeks to find a many-body wave function
+        $\ket*{\Psi}$ which solves the time-independent Schrödinger equation.
+        Starting from a single reference Slater determinant $\ket*{\slat}$ built
+        from an orthonormal basis of single-particle states\footnote{%
+            We often use orthonormal molecular orbitals from the Hartree-Fock
+            minimization procedure as our basis.
+            This is the reason why coupled-cluster is often called a \emph{post
+            Hartree-Fock} method.
+        } coupled-cluster makes the ansatz that the true many-body wave function
+        can be approximated by the exponential ansatz
         \begin{align}
-            \hamil\ketcc = \energycc\ketcc.
-        \end{align}
-        Start from a single reference Slater determinant $\ketslat$ coupled
-        cluster makes the ansatz that the true many-body wave function is given
-        by
-        \begin{align}
-            \ketcc \equiv e^{\clust}\ketslat
-            = \sum_{n = 0}^{\infty}\frac{1}{n!}\clust^n\ketslat,
+            \ket*{\Psi} \equiv \exponential(\clust)\ket*{\slat}
+            = \sum_{n = 0}^{\infty}\frac{1}{n!}\clust^n\ket*{\slat},
             \label{eq:cc_wave_function}
         \end{align}
         where the \emph{cluster operator} $\clust$ is given by a sum of excitation
-        operators $\clust_{\mu}$.
+        operators $\hat{X}{\mu}$ and cluster amplitudes $\clustamp_{\mu}$
         \begin{align}
-            \clust &= \sum_{\mu = 1}^{\infty} \clust_{\mu}
+            \clust &= \sum_{\mu = 1}^{\infty} \hat{X}_{\mu}\clustamp_{\mu}
             = \clustamp^a_i\ccr{a}\can{i}
             + \para{\frac{1}{2!}}^2\clustamp^{ab}_{ij}\ccr{a}\ccr{b}\can{i}\can{j}
-            + \para{\frac{1}{3!}}^2\clustamp^{abc}_{ijk}
-            \ccr{a}\ccr{b}\ccr{c}\can{i}\can{j}\can{k}
-            + \dots,
+            + \dots.
             \label{eq:cluster-operator}
         \end{align}
-        where the cluster amplitudes $\clustamp^{abc\dots}_{ijk\dots}$ are the
-        primary unknowns.
-        In this formulation, the cluster amplitudes satisify the antisymmetric
-        properties
-        \begin{align}
-            \clustamp^{abc\dots}_{ijk\dots}
-            = -\clustamp^{bac\dots}_{ijk\dots}
-            = -\clustamp^{abc\dots}_{jik\dots}
-            = \clustamp^{bac\dots}_{jik\dots},
-        \end{align}
-        where interchange of a pair of indices gives rise to a sign change.
+        Here the cluster amplitudes are the primary unknowns.
+        Due to the antisymmetric properties of the excitation operators, the
+        cluster amplitudes will also be antisymmetric with respect to the
+        exchange of two virtual-virtual or occupied-occupied indices as seen in
+        \autoref{eq:antisymmetric-excitation}.
         Furthermore, the cluster amplitudes commute with one another as the
         creation and annihilation operators run over non-overlapping sets of
         indices.
@@ -64,26 +63,27 @@
         By inserting \autoref{eq:cc_wave_function} into the time-independent
         Schrödinger equation we get
         \begin{align}
-            \hamil\ketcc
-            = e^{\clust}\ketslat
-            = \energycc e^{\clust}\ketslat
-            = \energycc \ketcc.
+            \hamil\ket*{\Psi}
+            = \exponential(\clust)\ket*{\slat}
+            = \energy \exponential(\clust)\ket*{\slat}
+            = \energy \ket*{\Psi}.
         \end{align}
         Projecting onto the reference Slater determinant we are left with
         \begin{align}
-            \braslat\hamil\ketcc
-            &= \braslat\energycc e^{\clust}\ketslat
-            = \energycc \braslat e^{\clust}\ketslat
-            = \energycc,
+            \mel*{\slat}{\hamil}{\Psi}
+            &= \energy\mel*{\slat}{\exponential(\clust)}{\slat}
+            = \energy,
             \label{eq:cc_energy}
         \end{align}
-        where for orthonormal Slater determinants, the coupled cluster wave
-        function assumes \emph{intermediate normalization}, viz.
+        where the coupled-cluster wave function assumes \emph{intermediate
+        normalization}, viz.
         \begin{align}
-            \braket{\slat}{\cc}
-            &= \bra{\slat}\para{
-                \1 + \clust + \frac{1}{2!}\clust^2 + \dots
-            }\ket{\slat}
+            \braket*{\slat}{\Psi}
+            &= \mel*{\slat}{
+                \para{
+                    \1 + \clust + \frac{1}{2!}\clust^2 + \dots
+                }
+            }{\slat}
             = 1.
         \end{align}
         Using the same projection technique as for the energy equation, we can
@@ -91,66 +91,69 @@
         All we have to do is project onto an excited reference state, where the
         order of the excitation decides which order of the amplitudes we are
         solving for.
+        That is,
         \begin{align}
-            \bra{\slat_{\mu}}\hamil e^{\clust}\ketslat
-            &= \energycc \bra{\slat_{\mu}} e^{\clust}\ketslat.
+            \mel*{\slat_{\mu}}{
+                \hamil \exponential(\clust)
+            }{\slat}
+            &= \energy \mel*{\slat_{\mu}}{
+                \exponential(\clust)
+            }{\slat}.
             \label{eq:cc_amp}
         \end{align}
-        % TODO: Discuss how this equation arises.
-        % Check the pink book chapter 13.1.4.
         Here the excitation order $\mu$ decides which amplitudes we are solving
         for, e.g., for the doubles cluster amplitudes $\clustamp^{ab}_{ij}$ we
-        project onto the doubly excited reference state $\ket{\slat^{ab}_{ij}}$.
-        These equations are non-linear due to the presences of the exponential
+        project onto the doubly excited reference state
+        $\ket*{\slat^{ab}_{ij}}$.
+        These equations are non-linear due to the presence of the exponential
         function creating cross terms with other excited amplitudes.
-        Furthermore, if we don't truncate the cluster operatar, $\clust$, we
-        recover the exact wave function as in full configuration interaction,
-        that is, exact within the space spanned by the basis of single-particle
-        functions we are perusing.
-        % TODO: Add proof of recovery of the exact wave function.
-        The amplitude equations in \autoref{eq:cc_amp} must be solved
-        iteratively in order to find a minimum of the energy.
-        % TODO: Check this sentence again.
+        Furthermore, if we don't truncate the cluster operator $\clust$ we
+        recover the exact wave function as in the full configuration
+        interaction method \cite{coester1958421, monkhorst1977421}.
+        %The amplitude equations in \autoref{eq:cc_amp} must be solved
+        %iteratively in order to find a minimum of the energy.
 
         By expanding the exponential cluster operator in a power series, as in
         \autoref{eq:cc_wave_function}, and inserting it into
         \autoref{eq:cc_energy} we get
         \begin{align}
-            \bra{\slat}\hamil \ketcc
+            \mel*{\slat}{\hamil}{\Psi}
             &=
-            \bra{\slat}\hamil
-            \sum_{n = 0}^{\infty} \frac{1}{n!}\clust^n
-            \ket{\slat}
-            = \energycc.
+            \mel*{\slat}{
+                \hamil
+                \sum_{n = 0}^{\infty} \frac{1}{n!}\clust^n
+            }{\slat}
+            = \energy.
         \end{align}
         Depending on the form of the Hamiltonian, we will get a natural
         truncation of the cluster operators.
-        As a single cluster operator is at
-        least an operator exciting a single particle in our reference state, an
-        $n$-times exponentiated cluster operator will excite $n$ particles from
-        the reference.
-        Except for some rare cases in nuclear physics,
-        % TODO: Find references for some articles dealing with three-body
-        % problems.
-        the Hamiltonian will \emph{at most} contain two-body elements and thus
-        will only be able to excite or relax a pair of particles.
+        A single cluster operator is at least a singles excitation operator and
+        a cluster operator raised to the power of $n$ will at least excite $n$
+        particles from the reference state.
+        We restrict ourselves to at most two-body interactions in the
+        Hamiltonian and we are therefore at most able to relax two particles
+        from an excited state.
         As we are projecting onto the reference state the Hamiltonian is forced
         to relax the excitation done by the cluster operators in order to get a
         non-zero contribution.
         Thus, for a Hamiltonian with at most two-body operators the exponential
-        power series gets truncated at $n = 2$ for the cluster operators, viz.
+        power series truncates at $n = 2$ for the cluster operators.
+        That is
         \begin{align}
-            \bra{\slat}\hamil \ketcc
+            \mel*{\slat}{\hamil}{\Psi}
             &=
-            \bra{\slat}\hamil\ket{\slat}
-            + \bra{\slat}\hamil \clust \ket{\slat}
+            \mel*{\slat}{\hamil}{\slat}
+            + \mel*{\slat}{\hamil \clust}{\slat}
             + \frac{1}{2!}
-            \bra{\slat} \hamil \clust^2 \ket{\slat}
-            = \energycc.
+            \mel*{\slat}{\hamil \clust^2}{\slat}
+            = \energy.
+            \label{eq:cc-energy-initial}
         \end{align}
         Note that this result is general irrespective of the truncation level
-        chosen for the cluster operators themselves, which we'll discuss
-        shortly.
+        chosen for the cluster operators themselves.
+        This means that all cluster operators higher than doubles excitations
+        will only contribute indirectly to the energy calculation via the
+        singles and doubles amplitudes.
 
         \subsection{Rewriting the coupled cluster equations}
             In order to get amiable equations for the coupled cluster energy and
@@ -158,29 +161,35 @@
             exponential cluster operator.
             We then get the equations
             \begin{gather}
-                \braslat e^{-\clust} \hamil e^{\clust} \ketslat
-                = \energycc,
+                \mel*{\slat}{
+                    \exponential(-\clust)
+                    \hamil
+                    \exponential(\clust)
+                }{\slat}
+                = \energy,
                 \label{eq:cc_energy_sim}
                 \\
-                \bra{\slat_{\mu}} e^{-\clust} \hamil e^{\clust} \ketslat
+                \mel*{\slat_{\mu}}{
+                    \exponential(-\clust)
+                    \hamil
+                    \exponential(\clust)
+                }{\slat}
                 = 0.
                 \label{eq:cc_amp_sim}
             \end{gather}
             Even though \autoref{eq:cc_energy} and \autoref{eq:cc_amp} are
-            theoretically correct, they are not tractable for a numerical
+            formally correct, they are not tractable for numerical
             implementation, unlike \autoref{eq:cc_energy_sim} and
-            \autoref{eq:cc_amp_sim}.
-            Furthermore, the amplitude equations are
-            now decoupled from the energy equation, which will help conserve
-            size-extensivity.
-            % TODO: Elaborate on this point, see Crawford & Schaefer
-            By applying the Baker-Campbell-Hausdorff formula, we are able to
-            rewrite the Hamiltonian and the exponential operators as a linear
-            combination of nested commutators between $\hamil$ and $\clust$.
+            \autoref{eq:cc_amp_sim} \cite{crawford2000introduction}.
+            Furthermore, the amplitude equations are now decoupled from the
+            energy equation, which will ensure size-extensivity.
+            By applying the Baker-Campbell-Hausdorff formula we get
             \begin{align}
                 \simhamil
                 &=
-                e^{-\clust} \hamil e^{\clust}
+                \exponential(-\clust)
+                \hamil
+                \exponential(\clust)
                 =
                 \hamil
                 + \com{\hamil}{\clust}
@@ -193,17 +202,29 @@
                 }{
                     \clust
                 }
-                + \dots,
+                + \dots.
             \end{align}
-            where $\simhamil$ is dubbed the \emph{similarity transformed
+            We refer to $\simhamil$ as the \emph{similarity transformed
             Hamiltonian}.
-            Introducing the normal-ordered Hamiltonian, $\hamil_N$, given by
+            We now introduce the normal-ordered Hamiltonian $\hamil_N$ as defined in
+            \autoref{subsec:normal-ordered-hamiltonian} with the reference
+            energy from \autoref{subsec:reference-energy}.
+            As the reference energy is just a number, the similarity transformed
+            normal-ordered Hamiltonian takes on the form
             \begin{align}
+                \simhamil_N
+                &=
+                \exponential(-\clust)
                 \hamil_N
-                &= \hamil - \braslat\hamil\ketslat,
+                \exponential(\clust)
+                =
+                \exponential(-\clust)
+                \hamil
+                \exponential(\clust)
+                - \mel*{\slat}{\hamil}{\slat}
+                = \simhamil - \energyref.
+                \label{eq:sim-normal-hamil}
             \end{align}
-            where the latter term is known as the \emph{reference energy} of the
-            system, $\energyref \equiv \braslat\hamil\ketslat$.
             If the reference state is the Hartree-Fock state%
             \footnote{
                 The reference state is more or less always the Hartree-Fock
@@ -211,28 +232,18 @@
             }
             all energy contributions beyond the reference energy is known as
             \emph{correlation energy}.
-            As the reference energy is just a number, the similarity transformed
-            normal-ordered Hamiltonian takes on the form
-            \begin{align}
-                \simhamil_N
-                &= e^{-\clust}\hamil_N e^{\clust}
-                = e^{-\clust}\hamil e^{\clust} - \braslat\hamil\ketslat
-                = \simhamil - \energyref.
-                \label{eq:sim-normal-hamil}
-            \end{align}
             Next, we apply Baker-Campbell-Hausdorff formula to
-            \autoref{eq:sim-normal-hamil} and use the generalized Wick's theorem
-            to contract the Hamiltonian and the cluster operators.
+            \autoref{eq:sim-normal-hamil} and use generalized Wick's theorem to
+            contract the Hamiltonian and the cluster operators.
             The only nonzero terms in this expansion will be the terms
             containing at least one contraction between the normal-ordered
-            Hamiltonian and ever cluster operator on its right.
+            Hamiltonian and every cluster operator on its right.
             This is called the ``connected cluster'' theorem and yields a
-            natural truncation of the Baker-Campbell-Hausdorff expansion.
-            % TODO: Prove this.
-            % TODO: Cite sources on this.
-            For a Hamiltonian with at most two-body interactions, this means
-            that the expansion gets truncated at quartic terms, i.e., at most
-            four cluster operators to the right of the Hamiltonian.
+            natural truncation of the Baker-Campbell-Hausdorff expansion
+            \cite{crawford2000introduction, shavitt2009many}.
+            For a Hamiltonian with at most two-body interactions the expansion
+            contains at most four cluster operators to the right of the
+            Hamiltonian,
             \begin{align}
                 \simhamil_N
                 &=
@@ -242,79 +253,15 @@
                     + \frac{1}{2!} \hamil_N \clust^2
                     + \frac{1}{3!} \hamil_N \clust^3
                     + \frac{1}{4!} \hamil_N \clust^4
-                }_c,
+                }_c.
                 \label{eq:connected-hamil}
             \end{align}
-            where the subscript $c$ signifies that we only include the terms
-            that are connected, i.e., the Hamiltonian has at least one
+            Here the subscript $c$ signifies that we only include the terms that
+            are connected, i.e., that the Hamiltonian has at least one
             contraction with every cluster operator to its right.
             Note that the connected cluster theorem is a statement about the
             similarity transformed normal-ordered Hamiltonian.
-            It is therefore applicable even for the amplitude equations.
-
-        %\subsection{Truncated coupled cluster theory}
-        %    As discussed in \autoref{sub:truncated-configuration-interaction},
-        %    we demonstrated how the truncated configuration interaction wave
-        %    function was unable to represent the full Slater determinant basis
-        %    in a small toy system.
-        %    Repeating the same discussion, but now for $\clust = \clust_1$,
-        %    i.e., truncating the cluster operator at singles excitations, we can
-        %    construct the \emph{coupled cluster singles} wave function
-        %    \begin{align}
-        %        \ket{\Psi} &= e^{\clust_1}\ketslat
-        %        = \ketslat + \clust_1\ketslat + \frac{1}{2!}\clust_1^2\ketslat
-        %        \\
-        %        &= \ketslat
-        %        + \clustamp^{3}_{1}\ket{\slat^{3}_{1}}
-        %        + \clustamp^{4}_{1}\ket{\slat^{4}_{1}}
-        %        + \clustamp^{3}_{2}\ket{\slat^{3}_{2}}
-        %        + \clustamp^{4}_{2}\ket{\slat^{4}_{2}}
-        %        \nonumber \\
-        %        &\qquad
-        %        + \frac{1}{2!}\para{
-        %            \clustamp^{3}_{1}\clustamp^{4}_{2}\ket{\slat^{34}_{12}}
-        %            + \clustamp^{4}_{1}\clustamp^{3}_{2}\ket{\slat^{43}_{12}}
-        %            - \clustamp^{3}_{2}\clustamp^{4}_{1}\ket{\slat^{34}_{21}}
-        %            - \clustamp^{4}_{2}\clustamp^{3}_{1}\ket{\slat^{43}_{21}}
-        %        }
-        %        \\
-        %        &= \ketslat
-        %        + \clustamp^{3}_{1}\ket{\slat^{3}_{1}}
-        %        + \clustamp^{4}_{1}\ket{\slat^{4}_{1}}
-        %        + \clustamp^{3}_{2}\ket{\slat^{3}_{2}}
-        %        + \clustamp^{4}_{2}\ket{\slat^{4}_{2}}
-        %        + \clustamp^{3}_{1}\clustamp^{4}_{2}\ket{\slat^{34}_{12}}
-        %        + \clustamp^{4}_{1}\clustamp^{3}_{2}\ket{\slat^{43}_{12}},
-        %    \end{align}
-        %    where we've collected equal terms thus demonstrating the
-        %    double-counting that occurs for unbounded sums in the cluster
-        %    amplitudes.
-        %    In fact, we can go even further by realizing that
-        %    \begin{align}
-        %        \ket{\slat^{43}_{12}} = -\ket{\slat^{34}_{12}},
-        %    \end{align}
-        %    due to the indistinguishability of the particles.
-        %    This then yields the full wave function
-        %    \begin{align}
-        %        \ket{\Psi}
-        %        &= \ketslat
-        %        + \clustamp^{3}_{1}\ket{\slat^{3}_{1}}
-        %        + \clustamp^{4}_{1}\ket{\slat^{4}_{1}}
-        %        + \clustamp^{3}_{2}\ket{\slat^{3}_{2}}
-        %        + \clustamp^{4}_{2}\ket{\slat^{4}_{2}}
-        %        + \para{
-        %            \clustamp^{3}_{1}\clustamp^{4}_{2}
-        %            - \clustamp^{4}_{1}\clustamp^{3}_{2}
-        %        }
-        %        \ket{\slat^{34}_{12}}.
-        %        \label{eq:ccs_wave_function}
-        %    \end{align}
-        %    Comparing \autoref{eq:ccs_wave_function} with the singles truncated
-        %    configuration interaction wave function in
-        %    \autoref{eq:cis_wave_function} we see that the missing doubly
-        %    excited determinant is recovered.
-        %    That is, we are able to use all basis functions as seen in
-        %    \autoref{fig:tiny-slater-basis}.
+            It is therefore applicable to the amplitude equations as well.
 
         \subsection{Energy equations}
             \label{subsec:cc-energy-equations}
@@ -322,62 +269,31 @@
             many-body system using the coupled cluster method.
             We do this by computing
             \begin{align}
-                \bra{\slat}e^{-\clust}\hamil e^{\clust}\ket{\slat}
-                = \bra{\slat}\simhamil\ket{\slat}
-                = \bra{\slat}\simhamil_N\ket{\slat}
-                + \bra{\slat}\hamil\ket{\slat}
-                = \energycc.
-            \end{align}
-            Having already found an expression for the reference energy
-            \begin{align}
-                \energyref \equiv \bra{\slat}\hamil\ket{\slat}
-                = \oneten^{i}_{i}
-                + \half \twoten^{ij}_{ij}
-                = \fockten^{i}_{i}
-                - \half\twoten^{ij}_{ij},
-            \end{align}
-            our job is now to compute the expectation value of the similarity
-            transformed normal-ordered Hamiltonian, or more concisely, the
-            coupled cluster correlation energy.
-            Inserting the expression in \autoref{eq:connected-hamil} for the
-            Hamiltonian, we analyze term by term.
-            The first term is the expectation value of the normal-ordered
-            Hamiltonian.
-            This term is zero by construction, viz.
-            \begin{align}
-                \bra{\slat}\hamil_N\ket{\slat} = 0.
-            \end{align}
-            As we are perusing a Hamiltonian with at most two-body operators,
-            this means that the reference state can at most be twice excited by
-            the cluster ampltudes in order for the Hamiltonian to be able to
-            relax the excited state back to the reference state.
-            If not, the overlap with the reference state will become zero.
-            The cluster operators provide a net excitation of at least one each,
-            thus
-            \begin{align}
-                \frac{1}{3!}
-                \bra{\slat}\brak{
-                    \hamil_N
-                    \clust^3
-                }_c\ket{\slat}
+                \energy
                 =
-                \frac{1}{4!}
-                \bra{\slat}\brak{
-                    \hamil_N
-                    \clust^4
-                }_c\ket{\slat}
-                = 0,
+                \mel*{\slat}{
+                    \exponential(-\clust)
+                    \hamil
+                    \exponential(\clust)
+                }{\slat}
+                = \mel*{\slat}{\simhamil_N}{\slat}
+                + \mel*{\slat}{\hamil}{\slat}.
+                \label{eq:cc-energy-normal}
             \end{align}
-            where we again use the subscript $c$ to denote that we only include
-            connected cluster operators.
-            By virtue of the same argument as above, we come to realize that
-            only singles and doubles amplitudes can contribute to the energy
-            equations.
-            All higher order amplitudes will contribute by ``removing stress''
-            from the singles and doubles amplitudes.
-            This can in many ways be seen as a technique leading to more correct
-            singles and doubles amplitudes thus yielding better correlation
-            energies.
+            Having already found an expression for the reference energy from
+            \autoref{subsec:reference-energy}, our job is now to compute the
+            expectation value of the similarity transformed normal-ordered
+            Hamiltonian, or more concisely, the coupled-cluster correlation
+            energy.
+            We now insert the expression for the Hamiltonian from
+            \autoref{eq:connected-hamil} into \autoref{eq:cc-energy-normal}.
+            The first term is the expectation value of the normal-ordered
+            Hamiltonian which is zero by construction, viz.
+            \begin{align}
+                \mel*{\slat}{\hamil_N}{\slat} = 0.
+            \end{align}
+            From \autoref{eq:cc-energy-initial} we know that all higher powers of
+            the cluster operator than $2$ will annihilate the overlap.
             If we assume that the cluster operators contain at least the
             singles and doubles cluster operators, that is,
             \begin{align}
@@ -385,9 +301,11 @@
             \end{align}
             we get the energy contributions
             \begin{align}
-                \bra{\slat}\brak{
-                    \hamil_N \clust
-                }_c\ket{\slat}
+                \mel*{\slat}{
+                    \brak{
+                        \hamil_N \clust
+                    }_c
+                }{\slat}
                 =
                 \fockten^{i}_{a}\clustamp^{a}_{i}
                 +
@@ -396,9 +314,11 @@
             \end{align}
             for the lone cluster operator, whereas the squared operator yields
             \begin{align}
-                \frac{1}{2!}\bra{\slat}\brak{
-                    \hamil_N \clust^2
-                }_c\ket{\slat}
+                \frac{1}{2!}\mel*{\slat}{
+                    \brak{
+                        \hamil_N \clust^2
+                    }_c
+                }{\slat}
                 &=
                 \half \twoten^{ij}_{ab}\clustamp^{a}_{i}\clustamp^{b}_{j}.
                 \label{eq:cc-energy-squared-contrib}
@@ -408,8 +328,8 @@
             Including the reference energy, the total energy equation in the
             coupled cluster method is given by
             \begin{align}
-                \energycc
-                &= \bra{\slat}\simhamil\ket{\slat}
+                \energy
+                &= \mel*{\slat}{\simhamil}{\slat}
                 =
                 \fockten^{i}_{i}
                 - \half \twoten^{ij}_{ij}
@@ -422,23 +342,25 @@
             \end{align}
             Depending on the truncation level of the cluster operators, we can
             adjust the energy expression in \autoref{eq:cc-energy-equation}.
-            For example, in the coupled cluster doubles approximation, we get
-            the energy equation
+            For example, in the coupled cluster doubles (CCD) approximation, we
+            get the energy equation
             \begin{align}
-                \energyccd
-                &= \bra{\slat}e^{-\clust_2}\hamil e^{\clust_2}\ket{\slat}
+                \energy
+                &= \mel*{\slat}{
+                    \exponential(-\clust_2)
+                    \hamil
+                    \exponential(\clust_2)
+                }{\slat}
                 =
                 \fockten^{i}_{i}
                 - \half \twoten^{ij}_{ij}
                 + \frac{1}{4}\twoten^{ij}_{ab} \clustamp^{ab}_{ij}.
                 \label{eq:ccd-energy-equation}
             \end{align}
-            It is a sobering situation that only the reference, singly and
-            doubly excited states do contribute to the final energy expression.
-            All higher excitations couple to the energy, but the do not directly
-            occur in the energy equation.
-            % TODO: Why is it only singles and doubles excitations contributing
-            % to the overall energy?
+            As already mentioned, only the reference, singly and doubly excited
+            states contribute to the final energy expression.
+            All higher excitations couple to the energy, but only indirectly
+            through the singles and doubles amplitudes.
 
 
         \subsection{Amplitude equations}
@@ -452,89 +374,69 @@
             annihilation operators from the excited state we are projecting
             onto.
             This seemingly benign inclusion of pairs of operators leads to a
-            quite significant increase in the number of terms arising from
-            Wick's theorem and can quickly lead to long and winded computations
-            prone to much error.
+            significant increase in the number of terms arising from Wick's
+            theorem and can quickly lead to long and winded computations prone
+            to much error.
             There are several ways to attack this problem, either by direct
             computation using Wick's theorem \cite{crawford2000introduction} or
-            the more elegant solution of using diagrams \cite{shavitt2009many,
-            crawford2000introduction}.
+            the more elegant solution of using diagrams
+            \cite{crawford2000introduction, shavitt2009many}.
             The task at hand is to evaluate the equations
             \begin{align}
-                \bra{\slat_{\mu}}\simhamil\ket{\slat}
-                = \bra{\slat_{\mu}}\simhamil_N\ket{\slat}
-                = \bra{\slat}\hat{X}^{\dagger}_{\mu}\simhamil_N\ket{\slat}
+                \mel*{\slat_{\mu}}{\simhamil}{\slat}
+                = \mel*{\slat_{\mu}}{\simhamil_N}{\slat}
+                = \mel*{\slat}{
+                    \hat{X}^{\dagger}_{\mu}\simhamil_N
+                }{\slat}
                 = 0,
             \end{align}
             where we we've simplified by similarity transformed Hamiltonian
             by inserting the normal ordered similiarty transformed Hamiltonian
             as the overlap between the excited state and the reference state is
             zero.
-            Furthermore, we've introduced the excitation operator
-            $\hat{X}_{\mu}$ consisting of creation and annihilation operators
-            such that
-            \begin{align}
-                \ket{\slat_{\mu}} = \hat{X}_{\mu}\ket{\slat}.
-            \end{align}
-            As $\hat{X}_{\mu}$ is an excitation operator, this means that
-            $\hat{X}^{\dagger}_{\mu}$ is a relaxation operator annihilating the
-            reference state.
-            As an example we'll look at the excitation operator for a doubly
-            excited reference state
-            \begin{align}
-                \ket{\slat^{ab}_{ij}}
-                &= \hat{X}^{ab}_{ij}\ket{\slat}
-                = \ccr{b}\can{j}\ccr{a}\can{i}\ketslat
-                \\
-                \bra{\slat^{ab}_{ij}}
-                &= \bra{\slat}(\hat{X}^{ab}_{ij})^{\dagger}
-                = \braslat \ccr{i}\can{a}\ccr{j}\can{b},
-            \end{align}
-            where we note that the last operator string is on normal ordered
-            form relative to the Fermi vacuum.
+            Furthermore, we've expressed the excited determinant via the
+            relaxation operator from \autoref{def:excitation-operator}.
             As the operator $\hat{X}^{\dagger}_{\mu}$ relaxes the incoming state
-            by an order $\mu$ we need only keep terms from the normal ordered
-            similarity transformed Hamiltonian that leaves the reference state
-            excited at $\mu$.
+            from the right by an order $\mu$ we need only keep terms from the
+            normal-ordered similarity transformed Hamiltonian that leaves the
+            reference state excited at $\mu$.
             We will therefore look for terms in \autoref{eq:connected-hamil}
             that yields
             \begin{align}
-                \simhamil_N\ketslat
-                &\propto \ket{\slat_{\mu}},
+                \simhamil_N\ket*{\slat}
+                &\propto \ket*{\slat_{\mu}},
             \end{align}
             as all other terms will vanish.
             For each set of amplitudes we get a corresponding set of amplitude
             equations.
-            As an example, for the coupled cluster singles and doubles method we
-            get the pair of amplitude equations
+            As an example, for the coupled cluster singles and doubles (CCSD)
+            method we get the pair of amplitude equations
             \begin{gather}
-                \bra{\slat^{a}_{i}}
-                \simhamil_N\ketslat
+                \mel*{\slat^{a}_{i}}{
+                    \simhamil_N
+                }{\slat}
                 =
-                \bra{\slat}
-                (\hat{X}^{a}_{i})^{\dagger}
-                \simhamil_N\ketslat
+                \mel*{\slat}{
+                    (\hat{X}^{a}_{i})^{\dagger}
+                    \simhamil_N
+                }{\slat}
                 = 0,
                 \\
-                \bra{\slat^{ab}_{ij}}
-                \simhamil_N\ketslat
+                \mel*{\slat^{ab}_{ij}}{
+                    \simhamil_N
+                }{\slat}
                 =
-                \bra{\slat}
-                (\hat{X}^{ab}_{ij})^{\dagger}
-                \simhamil_N\ketslat
+                \mel*{\slat}{
+                    (\hat{X}^{ab}_{ij})^{\dagger}
+                    \simhamil_N
+                }{\slat}
                 = 0.
             \end{gather}
-            Having found expressions for the amplitudes, we do self-consistent
-            field iterations in order to find amplitudes which satisfies the
-            equations for the amplitudes.
-            % TODO: Discuss the SCF-procedure for CC
-            % TODO: Discuss the use of SymPy to find the amplitude equations
-            % TODO: Remember to discuss the D-matrix
+            We'll describe both the process of finding amplitude equations and
+            how we can solve these equations in \autoref{sec:cc-solver}.
 
 
         \subsection{Size-consistency}
-            % TODO: Add derivation shown in slides:
-            % http://www.ipc.kit.edu/theochem/download/Kapitel3.pdf
             Having discussed the lack of size-consistency in the truncated
             configuration interaction method in
             \autoref{subsec:size-consistency}, we now turn our attention to the
@@ -546,10 +448,11 @@
             We now need to demonstrate that the compound coupled-cluster wave
             function $\ket*{\Psi^{AB}}$ is multiplicately separable as in
             \autoref{eq:multiplicately-separable} in order for the method to be
-            size-consistent.
+            size-consistent \cite{helgaker-molecular}.
             Now, as the cluster operators in the exponential ansatz consist of
-            an even number of second quantized operators and the operators
-            between different subsystems anticommute we have that
+            excitation operators -- which we from
+            \autoref{subsec:excited-determinants} know to anticommute -- we have
+            that
             \begin{align}
                 \com{\clust_{A}}{\clust_{B}} = 0.
             \end{align}
@@ -559,35 +462,38 @@
             The compound wave function can now be found to be
             \begin{align}
                 \ket*{\Psi^{AB}}
-                &= \exp(\clust^{AB})\ket*{\slat^{AB}}
+                &= \exponential(\clust^{AB})\ket*{\slat^{AB}}
                 =
-                \exp(\clust^{A})\exp(\clust^{B})
+                \exponential(\clust^{A})\exp(\clust^{B})
                 \ket*{\slat^{A}}\ket*{\slat^{B}}
                 \\
                 &=
-                \exp(\clust^{A})\ket*{\slat^{A}}
-                \exp(\clust^{B})\ket*{\slat^{B}}
+                \exponential(\clust^{A})\ket*{\slat^{A}}
+                \exponential(\clust^{B})\ket*{\slat^{B}}
                 = \ket*{\Psi^{A}}\ket*{\Psi^{B}}.
             \end{align}
-            The size-consistent property is a fact for all exponential wave
-            function ansatzes due to separability of the exponential operator
-            \cite{helgaker-molecular, size-extensivity}.
+            The size-consistent property is retained for all exponential wave
+            function ansatzes due to the separability of the exponential
+            operator \cite{helgaker-molecular, size-extensivity}.
 
         \subsection{Non-variational coupled cluster}
             From the postulates of quantum mechanics we know that every physical
             observable $q$ is described by a Hermitian operator $\hat{Q}$ acting
             on the Hilbert space of state vectors.
-            Having defined the coupled cluster wave function $\ket{\Psi}$ by
+            Having defined the coupled-cluster wave function $\ket*{\Psi}$ by
             \begin{align}
-                \ket{\Psi} = e^{\clust}\ketslat,
+                \ket*{\Psi} = \exponential(\clust)\ket*{\slat},
             \end{align}
             we would expect to be able to construct a solution to the amplitudes
             by virtue of the variational principle.
-            That is, by requiring that the amplitudes minimize the expression
+            That is, by requiring that the amplitudes minimize the functional
             \begin{align}
-                \energygs
-                \leq \energycc
-                = \frac{\bra{\Psi}\hamil\ket{\Psi}}{\braket{\Psi}{\Psi}}
+                \energy[\Psi, \Psi*]
+                = \frac{
+                    \mel*{\Psi}{\hamil}{\Psi}
+                }{
+                    \braket*{\Psi}{\Psi}
+                }
                 = \frac{
                     \braslat (e^{\clust})^{\dagger}\hamil e^{\clust}\ketslat
                 }{
