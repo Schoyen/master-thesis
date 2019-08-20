@@ -32,5 +32,5 @@ cleanup "cp $SCRATCH/dat/* $SUBMITDIR/dat/"
 ## Run commands
 cd $SCRATCH
 export OMP_NUM_THREADS=4
-python run_hf lih 6-31gss both
-python run_hf lih 6-31gss up
+python run_hf.py lih 6-31gss both
+python run_hf.py lih 6-31gss up

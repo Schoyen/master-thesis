@@ -32,10 +32,10 @@ cleanup "cp $SCRATCH/dat/* $SUBMITDIR/dat/"
 ## Run commands
 cd $SCRATCH
 export OMP_NUM_THREADS=4
-python run_ccd lih sto-3g both
-python run_ccd lih sto-3g up
-python run_ccd lih sto-3g down
+python run_ccd.py lih sto-3g both
+python run_ccd.py lih sto-3g up
+python run_ccd.py lih sto-3g down
 
-python run_hf lih sto-3g both
-python run_hf lih sto-3g up
-python run_hf lih sto-3g down
+python run_hf.py lih sto-3g both
+python run_hf.py lih sto-3g up
+python run_hf.py lih sto-3g down
