@@ -4,8 +4,81 @@
     We'll explore both the time-independent and the time-dependent situations.
 
     \section{Ground state energies}
+        \begin{table}
+            \centering
+            \caption{In this table we demonstrate a select few ground state
+            energies for $N$ two-dimensional quantum dots.
+            We have used a fixed basis size of $L = 90$ spin-orbitals which
+            corresponds to $9$ closed shells.
+            These results match well with the values found by \citeauthor{fei}
+            \cite{fei}, and \citeauthor{lohne} \cite{lohne}.}
+            \renewcommand{\arraystretch}{1.3}
+            \begin{tabular}{@{}llllll@{}}
+                \toprule
+                \input{results/quantum-dots/two-dim-quantum-dots/ground-state/dat/gs_tab.csv}
+            \end{tabular}
+            \label{tab:gs-tdho}
+        \end{table}
 
     \section{Ground state particle densities}
+        \begin{figure}
+            \centering
+            \begin{tabular}{cc}
+                \begin{tikzpicture}
+                    \pgfplotsset{small}
+                    \begin{polaraxis}[
+                            %colorbar,
+                            colormap/viridis,
+                            view={0}{90},
+                            xtick={0, 90, 180, 270},
+                            xticklabels={
+                                $0$,
+                                $\pi/2$,
+                                $\pi$,
+                                $3\pi/2$,
+                            },
+                            axis on top,
+                            title={$N = 2$},
+                        ]
+                        \addplot3[
+                            surf,
+                            data cs=polarrad,
+                            mesh/rows=201,
+                        ]
+                        table
+                        {results/quantum-dots/two-dim-quantum-dots/one-body-densities/dat/oaccd_n=2_l=72_omega=1.0_rho_real.dat};
+                    \end{polaraxis}
+                \end{tikzpicture}
+                &
+                \begin{tikzpicture}
+                    \pgfplotsset{small}
+                    \begin{polaraxis}[
+                            %colorbar,
+                            colormap/viridis,
+                            view={0}{90},
+                            xtick={0, 90, 180, 270},
+                            xticklabels={
+                                $0$,
+                                $\pi/2$,
+                                $\pi$,
+                                $3\pi/2$,
+                            },
+                            axis on top,
+                            title={$N = 6$},
+                        ]
+                        \addplot3[
+                            surf,
+                            data cs=polarrad,
+                            mesh/rows=201,
+                        ]
+                        table
+                        {results/quantum-dots/two-dim-quantum-dots/one-body-densities/dat/oaccd_n=6_l=72_omega=1.0_rho_real.dat};
+                    \end{polaraxis}
+                \end{tikzpicture}
+            \end{tabular}
+            \caption{Bleh}
+            \label{fig:densities-tdho-2-6}
+        \end{figure}
 
     \section{Wigner crystallization}
         In a seminal paper by \citeauthor{wigner-crystal}
@@ -34,7 +107,7 @@
         As a consequence, we will not demonstrate Wigner crystallization for
         larger systems than $6$ particles.
         A plot of the particle densities for $N = 2$ and $N = 6$ are shown in
-        \autoref{fig:ground-state-particle-densities-tdho-2-6}.
+        \autoref{fig:wigner-tdho-2-6}.
         \begin{figure}
             \centering
             \begin{tabular}{cc}
@@ -66,7 +139,7 @@
                             mesh/rows=101,
                         ]
                         table
-                        {results/quantum-dots/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=132_omega=0.28_rho_real.dat};
+                        {results/quantum-dots/two-dim-quantum-dots/wigner/dat/ccsd_n=2_l=132_omega=0.28_rho_real.dat};
                     \end{polaraxis}
                 \end{tikzpicture}
                 &
@@ -91,7 +164,7 @@
                             mesh/rows=101,
                         ]
                         table
-                        {results/quantum-dots/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=6_l=90_omega=0.28_rho_real.dat};
+                        {results/quantum-dots/two-dim-quantum-dots/wigner/dat/ccsd_n=6_l=90_omega=0.28_rho_real.dat};
                     \end{polaraxis}
                 \end{tikzpicture}
                 \\
@@ -121,7 +194,7 @@
                             mesh/rows=101,
                         ]
                         table
-                        {results/quantum-dots/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=132_omega=0.1_rho_real.dat};
+                        {results/quantum-dots/two-dim-quantum-dots/wigner/dat/ccsd_n=2_l=132_omega=0.1_rho_real.dat};
                     \end{polaraxis}
                 \end{tikzpicture}
                 &
@@ -146,7 +219,7 @@
                             mesh/rows=201,
                         ]
                         table
-                        {results/quantum-dots/two-dim-quantum-dots/one-body-densities/dat/oaccd_n=6_l=72_omega=0.1_rho_real.dat};
+                        {results/quantum-dots/two-dim-quantum-dots/wigner/dat/oaccd_n=6_l=72_omega=0.1_rho_real.dat};
                     \end{polaraxis}
                 \end{tikzpicture}
                 \\
@@ -176,7 +249,7 @@
                             mesh/rows=201,
                         ]
                         table
-                        {results/quantum-dots/two-dim-quantum-dots/one-body-densities/dat/ccsd_n=2_l=132_omega=0.01_rho_real.dat};
+                        {results/quantum-dots/two-dim-quantum-dots/wigner/dat/ccsd_n=2_l=132_omega=0.01_rho_real.dat};
                     \end{polaraxis}
                 \end{tikzpicture}
                 &
@@ -201,7 +274,7 @@
                             mesh/rows=201,
                         ]
                         table
-                        {results/quantum-dots/two-dim-quantum-dots/one-body-densities/dat/oaccd_n=6_l=30_omega=0.01_rho_real.dat};
+                        {results/quantum-dots/two-dim-quantum-dots/wigner/dat/oaccd_n=6_l=30_omega=0.01_rho_real.dat};
                     \end{polaraxis}
                 \end{tikzpicture}
             \end{tabular}
@@ -209,7 +282,7 @@
             shell structures -- resembling waves in a pond -- when the frequency
             is lowered.
             This is the system moving into a Wigner crystal.}
-            \label{fig:ground-state-particle-densities-tdho-2-6}
+            \label{fig:wigner-tdho-2-6}
         \end{figure}
         In \autoref{fig:ground-state-particle-densities-tdho-2-6} we are able to
         observe how particle density gets ``pushed'' away from the center of the
