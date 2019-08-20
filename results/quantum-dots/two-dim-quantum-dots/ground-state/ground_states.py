@@ -10,7 +10,9 @@ from coupled_cluster.ccsd import CoupledClusterSinglesDoubles as CCSD
 
 
 n_list = [2, 6, 12, 20]
+n_list = [20]
 omega_list = [0.1, 0.28, 0.5, 1.0]
+omega_list = [1.0]
 l = 90
 
 df = pd.DataFrame(columns=["n", "omega", "rhf", "ccd", "ccsd", "noccd"])
@@ -34,24 +36,24 @@ for n in n_list:
         system = rhf.system
         system.change_to_spin_orbital_basis()
 
-        try:
-            ccd = CCD(system, verbose=True)
-            ccd.compute_ground_state()
-            res_dict["ccd"] = ccd.compute_energy().real
-        except AssertionError:
-            res_dict["ccd"] = np.nan
+        # try:
+        #    ccd = CCD(system, verbose=True)
+        #    ccd.compute_ground_state()
+        #    res_dict["ccd"] = ccd.compute_energy().real
+        # except AssertionError:
+        #    res_dict["ccd"] = np.nan
 
-        try:
-            ccsd = CCSD(system, verbose=True)
-            ccsd.compute_ground_state()
-            res_dict["ccsd"] = ccsd.compute_energy().real
-        except AssertionError:
-            res_dict["ccsd"] = np.nan
+        # try:
+        #    ccsd = CCSD(system, verbose=True)
+        #    ccsd.compute_ground_state(t_kwargs=dict(tol=1e-3), l_kwargs=dict(tol=1e-3))
+        #    res_dict["ccsd"] = ccsd.compute_energy().real
+        # except AssertionError:
+        #    res_dict["ccsd"] = np.nan
 
         try:
             oaccd = OACCD(system, verbose=True)
             oaccd.compute_ground_state(
-                num_vecs=10, tol=1e-3, termination_tol=1e-3
+                num_vecs=15, tol=1e-2, termination_tol=1e-2
             )
             res_dict["noccd"] = oaccd.compute_energy().real
         except AssertionError:
