@@ -4,10 +4,55 @@
     Perturbation theory bad, coupled-cluster good!\footnote{Yes!}
 
     \section{Goals}
-        Many!
+        The main goal of this thesis is to implement the orbital-adaptive
+        time-dependent coupled-cluster method with doubles excitations (OATDCCD)
+        \cite{kvaal2012ab}, and apply it to one- and two-dimensional quantum
+        dots, and atoms and molecules.
+        To simulate a time-evolving system we need an initial condition to start
+        the simulation.
+        We choose the ground state of the system to be our initial condition.
+        We therefore need to implement ground state solutions to the many-body
+        problem.
 
     \section{Our contribution}
-        So successful!
+        There already exists a plethora of many-body codes, but few exist that
+        concern itself with real-time solutions to the electronic many-body
+        problem.
+        To the authors knowledge there are no existing implementations of the
+        orbital-adaptive time-dependent coupled-cluster method applicable to
+        general many-body problems.
+        Our main contribution is therefore an implementation of this novel
+        solver along with time-dependent coupled-cluster solvers in the doubles
+        and singles-and-doubles approximation.
+        We have also implemented the
 
     \section{Thesis structure}
         Would be nice!
+
+    \section{Disclaimer}
+        There is only so much that can be done in a year as a master's student,
+        and indeed much of the code has been developed in collaboration with
+        other students and researchers.
+        Much of our work builds on the work done by Håkon Emil Kristiansen
+        \cite{kristiansen2017time}, and Håkon has provided invaluable guidance
+        and help as a supervisor in both validation and verification of the
+        implemented methods.
+        Both the work done by Sebastian Gregorius Winther-Larsen
+        \cite{greg-winther} and myself use the same many-body methods developed
+        in collaboration, but our work has diverged in terms of focus and
+        results.
+        % TODO: Should a list of implementations be included?
+        However, the collaboration has proved fruitful in the sense that we have
+        arguably reached further in our work as a team than going our separate
+        ways.
+
+        The novelty and applicability of the libraries we have developed has
+        spawned interest with researchers at the Hylleraas Centre at the
+        University of Oslo which has led to several researchers using the code.
+        As a consequence they have provided us with much feedback on the code
+        thus making the implementation more robust.
+        Furthermore, we have recieved working implementations of the
+        non-orthogonal coupled cluster doubles (NOCCD) method \cite{rolf-nocc},
+        the direct-inversion of the iterative subspace (DIIS) acceleration
+        \cite{rolf-nocc}, and the Gauss-Legendre \cite{pedersen2018symplectic}
+        integrator to include in our framework.
