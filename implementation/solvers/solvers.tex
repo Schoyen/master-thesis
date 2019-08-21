@@ -1618,51 +1618,97 @@ energy = np.trace(np.dot(term, density_matrix))
             predicted estimate $z_i$ to use in the alpha filter and the error
             vectors in DIIS.
 
-            For the alpha filter we define our predicted estimate to be
-            \begin{align}
-                \vfg{z}^{(i)} = \vfg{\clustamp}^{(i)}
-                + \Delta\vfg{\clustamp}^{(i)},
-            \end{align}
-            for the $\clustamp$-amplitudes.
-            The measurement is thus $\clustamp^{(i)}$.
-            Moving to the $\clustlamp$-amplitudes we define the predicted
-            estimate similarly, viz.
-            \begin{align}
-                \vfg{z}^{(i)} = \vfg{\clustlamp}^{(i)}
-                + \Delta\vfg{\clustlamp}^{(i)},
-            \end{align}
-            and with the measurement as $\clustlamp^{(i)}$.
-            This means that we need to represent our amplitude tensors as
-            vectors, and in the case of more than one set of amplitudes we need
-            to concatenate these vectors on top of one another.
+            \subsubsection{Alpha filter}
+                For the alpha filter we define our predicted estimate to be
+                \begin{align}
+                    \vfg{z}^{(i)} = \vfg{\clustamp}^{(i)}
+                    + \Delta\vfg{\clustamp}^{(i)},
+                \end{align}
+                for the $\clustamp$-amplitudes.
+                The measurement is thus $\vfg{\clustamp}^{(i)}$.
+                Moving to the $\clustlamp$-amplitudes we define the predicted
+                estimate similarly, viz.
+                \begin{align}
+                    \vfg{z}^{(i)} = \vfg{\clustlamp}^{(i)}
+                    + \Delta\vfg{\clustlamp}^{(i)},
+                \end{align}
+                and with the measurement as $\clustlamp^{(i)}$.
+                This means that we need to represent our amplitude tensors as
+                vectors, and in the case of more than one set of amplitudes we
+                need to concatenate these vectors on top of one another.
+                By letting $\alpha \to 1$ we include less and less of the next
+                time step.
+                Setting $\alpha = 0$ we remove the convergence acceleration
+                entirely.
 
-            For the DIIS algorithm described in \autoref{subsec:diis} we define
-            our error vectors to be
-            \begin{align}
-                \vfg{e}_{i} = \vfg{\Omega}^{(i)},
-            \end{align}
-            for both amplitude sets.
-            This choice is made as we know that $\vfg{\Omega} \to 0$ when we
-            reach convergence and have found the optimized amplitudes.
-            The measured vector $\vfg{p}_{i + 1}$ is given by
-            \begin{align}
-                \vfg{p}_{i + 1}
-                = \vfg{\clustamp}^{(i)}
-                + \Delta\vfg{\clustamp}^{(i)},
-            \end{align}
-            for the $\clustamp$-amplitudes and similarly for the
-            $\clustlamp$-amplitudes.
-            The extrapolated value from the DIIS algorithm is chosen as the new
-            amplitude before starting the next iteration of the quasi-Newton
-            method.
+            \subsubsection{DIIS}
+                For the DIIS algorithm described in \autoref{subsec:diis} we
+                define our error vectors to be
+                \begin{align}
+                    \vfg{e}_{i} = \vfg{\Omega}^{(i)},
+                \end{align}
+                for both amplitude sets.
+                This choice is made as we know that $\vfg{\Omega} \to 0$ when we
+                reach convergence and have found the optimized amplitudes.
+                Thus the least squares minimization of the error vectors should
+                yield the optimal converged amplitudes.
+                The measured vector $\vfg{p}_{i + 1}$ is given by
+                \begin{align}
+                    \vfg{p}_{i + 1}
+                    = \vfg{\clustamp}^{(i)}
+                    + \Delta\vfg{\clustamp}^{(i)},
+                \end{align}
+                for the $\clustamp$-amplitudes and similarly for the
+                $\clustlamp$-amplitudes.
+                The extrapolated value from the DIIS algorithm is chosen as the new
+                amplitude before starting the next iteration of the quasi-Newton
+                method.
 
         \subsection{Non-orthogonal ground state solver}
             The non-orthogonal coupled-cluster doubles (NOCCD/OACCD) method has been
             implemented by \citeauthor{rolf-nocc} as part of his article
             \citetitle{rolf-nocc} \cite{rolf-nocc} and has been implemented into
             our framework by the author.
+            We wish to use the quasi-Newton method for the orbital rotations
+            $\noccten$ in a similar fashion as for the cluster amplitudes in
+            \autoref{subsec:gs-cc}.
+            From the stationary conditions in \autoref{eq:nocc-kappa-up-rhs} and
+            \autoref{eq:nocc-kappa-down-rhs}, we can compute the change in the
+            orbitals rotations by \cite{ugur-occ}
+            \begin{gather}
+                \Delta (\noccten^{u})^{(i)}
+                = -\frac{1}{D^a_i}
+                \left.
+                \dpd{
+                    L(\vfg{\clustamp}, \vfg{\clustlamp},
+                    \noccten^{u}, \noccten^{d})
+                }{
+                    {\noccten^{d}}
+                }
+                \right\rvert_{\noccten = 0},
+                \\
+                \Delta (\noccten^{d})^{(i)}
+                = -\frac{1}{D^i_a}
+                \left.
+                \dpd{
+                    L(\vfg{\clustamp}, \vfg{\clustlamp},
+                    \noccten^{u}, \noccten^{d})
+                }{
+                    {\noccten^{u}}
+                }
+                \right\rvert_{\noccten = 0},
+            \end{gather}
+            where the index placement of the $\vfg{D}$-matrix should be noted.
+            This lets us compute the next iteration of the rotations in the
+            quasi-Newton method by
+            \begin{gather}
+                (\noccten^{u})^{(i + 1)}
+                = (\noccten^{u})^{(i)} + \Delta(\noccten^{u})^{(i)}, \\
+                (\noccten^{d})^{(i + 1)}
+                = (\noccten^{d})^{(i)} + \Delta(\noccten^{d})^{(i)}.
+            \end{gather}
             As discussed in \autoref{subsec:nocc} the ground state algorithm for
-            the NOCCD method can be formulated by:
+            the NOCCD method can be formulated as \cite{ugur-occ, rolf-nocc}:
             \begin{enumerate}
                 \item Compute the orbital transformation matrices by
                     \begin{gather}
@@ -1672,6 +1718,7 @@ energy = np.trace(np.dot(term, density_matrix))
                     \end{gather}
                     where we use the matrix exponential function
                     \pyth{scipy.linalg.expm} from SciPy \cite{scipy}.
+                    Initially we set $\noccmat = \1$.
                 \item Change from the original atomic orbital basis to the new
                     non-orthogonal basis using $\vfg{S}$ and $\tilde{\vfg{S}}$
                     as coefficient matrices for the ket and bra states
@@ -1682,10 +1729,81 @@ energy = np.trace(np.dot(term, density_matrix))
                     basis we need to recompute the $D_{\mu}$-matrices.
                 \item Compute the stationary conditions for the orbital
                     rotations from \autoref{eq:nocc-kappa-up-rhs} and
-                    \autoref{eq:nocc-kappa-down-rhs}.
-                    % TODO: How is kappa defined from these equations?
-                    % TODO: More importantly, how do we get the D-matrix?
+                    \autoref{eq:nocc-kappa-down-rhs}, and build the next
+                    $\noccmat$ from the new matrices $(\noccten^{u})^{(i + 1)}$
+                    and $(\noccten^{d})^{(i + 1)}$ found from the quasi-Newton
+                    method.
             \end{enumerate}
+            We start the initial minimization using $\noccmat = \1$.
+            This means that the initial iterations of the $\clustamp$- and
+            $\clustlamp$-amplitudes are the same as for the CCD-method, and if
+            we are looking at a system where the CCD-method has ``extreme''
+            convergence issues, \footnote{%
+                By ``extreme'' convergence issues we mean so severe problems
+                that the first iteration of the cluster amplitudes yield
+                residuals that blow up and clearly diverges.
+            } the NOCCD-method will also follow the same diverging trend.
+
+            Now, the convergence criteria for the NOCCD method is slightly
+            different than in the static ground state solvers.
+            The method uses a semi-adaptive convergence scheme where we
+            initially let the cluster amplitudes converge to a very low
+            tolerance, i.e., a non-precise convergence.
+            We then compute the new orbital rotations using the quasi-Newton
+            method with optional convergence acceleration, e.g., DIIS.
+            The convergence critera of the orbital rotations are found from the
+            Frobenius norm of $\Delta(\noccten^{u})^{(i)}$ and
+            $\Delta(\noccten^{d})^{(i)}$ as these should be zero in the optimal
+            basis.
+            Now we update the convergence criteria of the cluster amplitudes by
+            multiplying the smallest orbital residual and multiplying it with
+            some pre-defined factor.
+            Choosing the largest tolerance criterion, either the newly computed
+            tolerance from the orbital rotations, or some pre-defined
+            termination tolerance we repeat the steps numerated above.
+            Once the residuals of the orbital matrices are below the termination
+            tolerance, we say that the method has converged.
+
+        \subsection{Computing the coupled-cluster energy}
+            In the case of ``pure'' ground state calculations for CCD and CCSD
+            where we are only interested in the energy, we can compute the
+            projected coupled-cluster energy from
+            \autoref{eq:cc-energy-equation}.
+            However, for the NOCCD-method we compute the full Lagrangian from
+            \autoref{eq:nocc-lagrangian}.
+            As we continually transform to the new basis in the NOCCD-method
+            this is equivalent to the coupled-cluster Lagrangian in
+            \autoref{eq:cc-energy-functional}.
+            This Lagrangian can also be used for the CCD- and CCSD-methods once
+            we have found the optimal values for $\vfg{\clustlamp}$.
+            % TODO: Refer to full expression in appendix
 
         \subsection{Time-evolution with static orbitals}
+            From \autoref{eq:time-evolution-tau} and
+            \autoref{eq:time-evolution-lambda} we find the equations of motion
+            for the amplitudes.
+            To evolve the amplitudes in time using a numerical integration
+            scheme we compute
+            \begin{gather}
+                \partial_t \clustamp_{\mu}
+                = -i\mel*{\slat_{\mu}}{
+                    \exponential(-\clust(t))
+                    \hamil(t)
+                    \exponential(\clust(t))
+                }{\slat},
+                \\
+                \partial_t \clustlamp_{\mu}
+                = i\mel*{\slat}{
+                    (\1 + \clustl(t))
+                    \exponential(-\clust(t))
+                    \com{\hamil(t)}{\hat{X}_{\mu}}
+                    \exponential(\clust(t))
+                }{\slat},
+            \end{gather}
+            where we've set $\hslash = 1$ in atomic units.
+            As the integration schemes assume a vector of derivatives, we ravel
+            the amplitude tensors to represent them as a one-dimensional array
+            and stack them on top of one another.
+
         \subsection{Orbital-adaptive time-evolution}
+
