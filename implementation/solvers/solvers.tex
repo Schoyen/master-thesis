@@ -1552,6 +1552,13 @@ energy = np.trace(np.dot(term, density_matrix))
             We order the $\clustamp$-amplitudes with the virtual indices first,
             for example the doubles amplitudes $\clustamp^{ab}_{ij}$ using NumPy
             is given by \pyth{t_2[a, b, i, j]}.
+            To determine if we have found a converged set of cluster amplitude
+            we compute the Frobenius norm of each set of amplitudes using
+            NumPy, and checking whether or not we have a value below a set
+            threshold.
+            An alternative is to compute the energy in every iteration of the
+            cluster amplitudes and determining convergence based on the
+            difference in energy between each step.
 
             Having found converged $\vfg{\clustamp}$-amplitudes we turn our
             attention to the Lagrange multipliers, also known as the
@@ -1596,6 +1603,9 @@ energy = np.trace(np.dot(term, density_matrix))
                 = \vfg{\clustlamp}^{(i)}
                 + \Delta\vfg{\clustlamp}^{(i)}.
             \end{align}
+            The convergence criteria for $\vfg{\clustlamp}$ is the same as for
+            the $\vfg{\clustamp}$-amplitudes, i.e., we check if the Frobenius
+            norm of each amplitude set is below a certain threshold.
 
 
         \subsection{Convergence acceleration}
