@@ -36,4 +36,7 @@ export OMP_NUM_THREADS=4
 #python run_ccd.py co sto-3g up
 
 #python run_ccd.py co 6-31gss both
-python run_ccd.py co 6-31gss up
+#python run_ccd.py co 6-31gss up
+
+#python run_ccd.py co ccpvdz both
+python run_ccd.py co ccpvdz up
