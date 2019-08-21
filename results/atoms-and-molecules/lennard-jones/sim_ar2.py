@@ -6,6 +6,8 @@ from coupled_cluster.ccd import OACCD
 
 def get_ar2_system(bond, basis="ccpvdz"):
     mol = f"ar 0.0 0.0 {-bond / 2}; ar 0.0 0.0 {bond / 2}"
+    mol = f"li 0.0 0.0 {-bond / 2}; h 0.0 0.0 {bond / 2}"
+    mol = f"o 0.0 0.0 {-bond / 2}; o 0.0 0.0 {bond / 2}"
 
     return construct_pyscf_system_rhf(mol, basis=basis)
 
@@ -24,10 +26,10 @@ for i, bond in enumerate(bonds):
 energies = energies.real
 energies_no_nuc = energies_no_nuc.real
 np.savetxt(
-    "lennard-jones-ish.dat",
+    "lennard-jones-lih.dat",
     np.c_[bonds[:, np.newaxis], energies[:, np.newaxis]],
 )
 np.savetxt(
-    "lennard-jones-no-nuc.dat",
+    "lennard-jones-lih-no-nuc.dat",
     np.c_[bonds[:, np.newaxis], energies_no_nuc[:, np.newaxis]],
 )
