@@ -80,7 +80,8 @@ try:
 
         energy[i + 1] = oatdccd.compute_energy()
         dipole[i + 1] = np.trace(rho @ z)
-except Exception:
+except Exception as e:
+    print(e)
     print("Crash!")
 finally:
     time_points = time_points[: i + 1]
