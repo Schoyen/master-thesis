@@ -25,7 +25,7 @@ basis = sys.argv[2].lower()
 spin = sys.argv[3].lower()
 
 assert molecule in ["h2", "lih", "co"]
-assert basis in ["sto-3g", "6-31gss"]
+assert basis in ["sto-3g", "6-31gss", "ccpvdz"]
 assert spin in ["both", "up", "down"]
 
 spin_dependent = False
