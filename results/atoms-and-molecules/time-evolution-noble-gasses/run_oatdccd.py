@@ -7,6 +7,7 @@ import pint
 import tqdm
 
 from coupled_cluster.ccd import OATDCCD
+from coupled_cluster.ccsd import TDCCSD
 from coupled_cluster.integrators import GaussIntegrator
 from tdqd_tools.io_data import write_data
 
@@ -15,7 +16,7 @@ from noble_gasses import get_system
 
 def store_data(atom, basis, time_points, td_energies, dipole_z):
     path = os.path.join(sys.path[0], "dat")
-    filename_stub = f"{atom}_{basis}_new_"
+    filename_stub = f"tdccsd_{atom}_{basis}_new_"
 
     write_data(
         os.path.join(path, filename_stub + "energy_real.dat"),
@@ -60,33 +61,46 @@ def run_simulation(
 
     integrator = GaussIntegrator(s=3, eps=1e-6, np=np)
 
-    oatdccd = OATDCCD(system, verbose=True, integrator=integrator)
-    oatdccd.compute_ground_state(tol=1e-6, termination_tol=1e-6)
-    oatdccd.set_initial_conditions()
+    # oatdccd = OATDCCD(system, verbose=True, integrator=integrator)
+    # oatdccd.compute_ground_state(tol=1e-6, termination_tol=1e-6)
+    # oatdccd.set_initial_conditions()
+    tdccsd = TDCCSD(system, verbose=True, integrator=integrator)
+    tdccsd.compute_ground_state(
+        t_kwargs=dict(tol=1e-6), l_kwargs=dict(tol=1e-6)
+    )
+    tdccsd.set_initial_conditions()
 
     td_energies = np.zeros(num_steps, dtype=np.complex128)
     dipole_z = np.zeros_like(td_energies)
 
-    t, l, C, C_tilde = oatdccd.amplitudes
+    # t, l, C, C_tilde = oatdccd.amplitudes
 
-    rho_qp = oatdccd.compute_one_body_density_matrix()
-    z = C_tilde @ system.dipole_moment[2] @ C
+    # rho_qp = oatdccd.compute_one_body_density_matrix()
+    # z = C_tilde @ system.dipole_moment[2] @ C
 
-    td_energies[0] = oatdccd.compute_energy()
+    rho_qp = tdccsd.compute_one_body_density_matrix()
+    z = system.dipole_moment[2]
+
+    # td_energies[0] = oatdccd.compute_energy()
+    td_energies[0] = tdccsd.compute_energy()
     dipole_z[0] = np.trace(rho_qp @ z)
 
     i = 0
 
     try:
         for i, amp in tqdm.tqdm(
-            enumerate(oatdccd.solve(time_points)), total=num_steps - 1
+            enumerate(tdccsd.solve(time_points)), total=num_steps - 1
         ):
-            t, l, C, C_tilde = amp
+            # t, l, C, C_tilde = amp
 
-            td_energies[i + 1] = oatdccd.compute_energy()
+            # td_energies[i + 1] = oatdccd.compute_energy()
+            td_energies[i + 1] = tdccsd.compute_energy()
 
-            rho_qp = oatdccd.compute_one_body_density_matrix()
-            z = C_tilde @ system.dipole_moment[2] @ C
+            # rho_qp = oatdccd.compute_one_body_density_matrix()
+            # z = C_tilde @ system.dipole_moment[2] @ C
+
+            rho_qp = tdccsd.compute_one_body_density_matrix()
+            z = system.dipole_moment[2]
 
             dipole_z[i + 1] = np.trace(rho_qp @ z)
 
