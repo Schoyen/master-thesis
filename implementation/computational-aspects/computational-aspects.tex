@@ -293,10 +293,10 @@
             The problem we are trying to solve can be formulated as the
             two coupled time-dependent Schrödinger equations on the form
             \begin{gather}
-                \dpd{}{t}\ket{\psi(t)}
+                \partial_t\ket{\psi(t)}
                 = -i\hamil(t)\ket{\psi(t)},
                 \\
-                \bra{\psi(t)}\dpd{}{t}
+                \partial_t\bra{\psi(t)}
                 = i\bra{\psi(t)}\hamil(t),
             \end{gather}
             where we've assumed atomic units, and moved $\pm i$ to the right-hand
@@ -316,17 +316,40 @@
             after one another creating a long vector as each index in this
             vector can be updated individually as long as the coupling is
             handled in the derivatives.
+            We will discuss this stacking more in-depth in
+            \autoref{subsec:tdcc-implementation} and
+            \autoref{subsec:oatdcc-implementation}.
             Thus, we are able to formulate the time-evolution of the
             parameters of the wave function by
             \begin{align}
-                \dot{y} = f(y, t),
+                \partial_t y(t) = f(y, t),
             \end{align}
-            where $f(y, t)$ represents the right-hand side the time-dependent
+            where $f(y, t)$ represents the right-hand side of the time-dependent
             Schrödinger equation, the time-dependent Hartree-Fock equation, or
             the right-hand sides of the derivative of the coupled cluster
             Lagrangian.
-            Discretizing time with a constant step $h = \Delta t$ such that $t_i
-            = t_0 + i h$ for $i \in \brac{0, N_t}$, where $N_t$ is the number of
+            Note that $y(t)$ is here interpreted as a vector and $f(y, t)$ a
+            vector-valued function.
+            In order to allow for custom right-hand side functions $f(y, t)$
+            each solver class needs to implement a \pyth{__call__} method which
+            is Python dunder method allowing classes to be called in a similar
+            fashion as functions.
+            Most differential equation libraries \cite{sympy} \cite{julia-diff}
+            assume the right-hand side to be a callable function with a
+            \pyth{__call__}-method.
+            Annoyingly enough, there seems to be no consensus of the ordering of
+            the parameters to the function $f(y, t)$ which means that each
+            library will require a different definition of the right-hand side
+            functions.
+            In the current implementation of our programs we have chosen the
+            ordering $f(y, t)$, but for us to use differential equation solvers
+            from SymPy \cite{sympy} or diffeqpy \cite{julia-diff} we need to
+            reverse the order, or add an extra parameter $p$ such that $f(y, p,
+            t)$ respectively.
+
+
+            Discretizing time with a constant step $h = \Delta t$ such that $t_n
+            = t_0 + n h$ for $n \in \brac{0, N_t}$, where $N_t$ is the number of
             time-steps and $t_0$ is the initial time-step.
             Note that we typically choose a time-step $h$ such that $N_t$ can be
             found by
@@ -334,10 +357,10 @@
                 N_t = \floor{\frac{t_f - t_0}{h}} + 1,
             \end{align}
             where $t_f$ is the final time-step.
-            We denote $y_0 \equiv y(t_0)$ and $y_i \equiv y(t_i)$, where $y_0$
+            We denote $y_0 \equiv y(t_0)$ and $y_n \equiv y(t_n)$, where $y_0$
             is the initial value of the problem.
-            Typically we choose the initial value to be the ground state of the
-            specific solver.
+            In this thesis we will always choose the initial value to be the
+            ground state of the specific solver.
             This abstraction thus enables us to work with known ordinary
             differential equation solvers formulated in a familiar way.
 
@@ -376,16 +399,12 @@
             approximated by the Magnus expansion \cite{magnus-expansion}.
             This leads to implicit differential equation integration methods
             that are \emph{symplectic} \cite{joshua-magnus}.
-            These methods will in a much large degree conserve the energy as
-            opposed to the explicit schemes such as Runge-Kutta 4.
-            % TODO: Demonstrate this.
-            We will also observe that the symplectic integrator that we have
-            used, in a much larger degree preserves the unitarity requirement
-            by, i.e., the bi-orthonormality, of the time-dependent coefficients
-            in the orbital-adaptive time-dependent coupled-cluster method.
-            % TODO: Demonstrate this as well.
+            These methods will in a much larger degree conserve the energy,
+            normalization, and unitariy of the coefficients and amplitudes as
+            opposed to the explicit schemes such as Runge-Kutta 4
+            \cite{joshua-magnus, pedersen2018symplectic}.
             One of the first approximations to the Magnus expansion is the
-            Crank-Nicolson algorithm \cite{ullrich2011time}.
+            Crank-Nicolson algorithm \cite{ullrich2011time, joshua-magnus}.
 
 
         \subsection{Gauss-Legendre}
@@ -395,12 +414,16 @@
             \cite{pedersen2018symplectic} used symplectic, implicit Runge-Kutta
             methods in an attempt to alleviate some of the stability issues they
             faced.
-            As part of an ongoing publication we have been given the
-            % TODO: Cite publication in progress.
-            implementation of the Gauss integrator\footnote{%
-                Note that the name ``Gauss integrator'' is a notoriously
+            As part of an ongoing publication on the stability of time-dependent
+            coupled-cluster methods \cite{oa-stability} we have been given the
+            implementation of the Gauss-integrator\footnote{%
+                Note that the name ``Gauss-integrator'' is a notoriously
                 ambigious name as this can refer to a multitude of techniques
                 and solvers due to the use of named polynomials such as
                 Legendre, and Laguerre polynomials, etc.%
             } as used by \citeauthor{pedersen2018symplectic}
             \cite{pedersen2018symplectic} to include it in our libraries.
+            This method is described in depth in
+            \citetitle{pedersen2018symplectic} \cite{pedersen2018symplectic} and
+            will not be renditioned in this thesis.
+            % TODO: Maybe do this?

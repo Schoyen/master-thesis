@@ -990,7 +990,7 @@ energy = np.trace(np.dot(term, density_matrix))
         \subsection{Time-dependent energy}
             The time-dependent energy is computed in exactly same way as for the
             general Hartree-Fock method.
-            We therefore re-use this functionality, but use the time-dependent
+            We therefore reuse this functionality, but use the time-dependent
             coefficients for the density matrices.
             % TODO: Consider adding normalization
 
@@ -1356,7 +1356,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 + \frac{1}{4}\twoten^{pq}_{rs}(t)
                 \bra{\slat_I}\ccr{p}\ccr{q}\can{s}\can{r}\ket{\slat_J}.
             \end{align}
-            and re-use the Slater-Condon rules to evaluate the one- and two-body
+            and reuse the Slater-Condon rules to evaluate the one- and two-body
             operators.
             Our implementation does programmatically support a time-dependent
             two-body operator, but this is not something that we will use.
@@ -1470,7 +1470,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 solver.
         \end{itemize}
         Our coupled-cluster library tries in as large degree as possible to
-        re-use routines for the different solvers as this makes optimization
+        reuse routines for the different solvers as this makes optimization
         more efficient, that is, we only need to optizime a specific function
         once instead of once per solver.
 
@@ -1779,6 +1779,7 @@ energy = np.trace(np.dot(term, density_matrix))
             % TODO: Refer to full expression in appendix
 
         \subsection{Time-evolution with static orbitals}
+            \label{subsec:tdcc-implementation}
             From \autoref{eq:time-evolution-tau} and
             \autoref{eq:time-evolution-lambda} we find the equations of motion
             for the amplitudes.
@@ -1801,9 +1802,164 @@ energy = np.trace(np.dot(term, density_matrix))
                 }{\slat},
             \end{gather}
             where we've set $\hslash = 1$ in atomic units.
-            As the integration schemes assume a vector of derivatives, we ravel
-            the amplitude tensors to represent them as a one-dimensional array
-            and stack them on top of one another.
+            Sans the imaginary number and sign these are just the $\clustamp$-
+            and $\clustlamp$-amplitude equations as used in the time-independent
+            case.
+            However, the Hamiltonian and the amplitudes themselves are the
+            time-evolved states.
+            The explicit tensor contractions for CCD and CCSD are listed in
+            \autoref{app:cc-tau-amplitudes} and
+            \autoref{app:cc-lambda-amplitudes}.
+
+            Now, the integration schemes assume a \emph{vector} of derivatives
+            instead of a set of rank $2$ and rank $4$ tensors.
+            We therefore ravel the amplitude tensors to represent them as a
+            one-dimensional array and stack them on top of one another.
+            However, we've formulated all our amplitude equations using the rank
+            $2$ and $4$ tensors and we must transform the input vector with
+            amplitudes from the integration schemes to the correct shape of the
+            amplitudes when solving the right-hand sides.
+            To do this we've created a Python class called
+            \pyth{AmplitudeContainer} which defines convenience functions
+            handling the reshaping of the amplitudes.
+            This class was originally intended to provide operators such as
+            \pyth{__add__}, \pyth{__mul__}, etc, to allow direct manipulation of
+            the amplitudes inside the containers when calling differential
+            equation solvers.
+            This worked relatively right out of the box for the Runge-Kutta 4
+            scheme, but once we included the Gauss-integrator with more complex
+            manipulations of the solution vector we were forced to move to the
+            -- in hindsight -- much smarter solution of making all the
+            amplitudes into a single vector.
+
+            Using the Python dunder method \pyth{__iter__} we make
+            \pyth{AmplitudeContainer} into a generator object, viz.
+            \begin{python}
+class AmplitudeContainer:
+    # Code removed for clarity
+
+    def __iter__(self):
+        yield self._t
+        yield self._l
+
+    def unpack(self):
+        yield from self._t
+        yield from self._l
+            \end{python}
+            where \pyth{self._t} and \pyth{self._l} are Python lists with the
+            $\clustamp$- and $\clustlamp$-amplitudes respectively.
+            The latter method \pyth{unpack} allows us to iterate over all the
+            amplitudes in a \pyth{for}-loop.
+            For CCSD \pyth{self._t} will be a list of three amplitudes,
+            $\clustamp_0$, $\clustamp^{a}_{i}$ and $\clustamp^{ab}_{ij}$, where
+            the $\clustamp_0$ is the phase defined in \autoref{subsec:cc-phase}.
+            The \pyth{self._l}-list will contain the two amplitudes
+            $\clustlamp^{i}_{a}$ and $\clustlamp^{ij}_{ab}$.
+            The method for stacking all the amplitudes into a vector is now
+            given by \autoref{alg:cc-asarray}.
+            \begin{algorithm}
+                \begin{python}
+class AmplitudeContainer:
+    # Code removed for clarity
+
+    def asarray(self):
+        np = self.np
+
+        amp_vec = np.zeros(self.n)
+        start_index = 0
+        stop_index = 0
+
+        for amp in self.unpack():
+            start_index = stop_index
+            stop_index += amp.size
+
+            try:
+                amp_vec[start_index:stop_index] += amp.ravel()
+            except TypeError:
+                amp_vec = amp_vec.astype(amp.dtype)
+                amp_vec[start_index:stop_index] += amp.ravel()
+
+        return amp_vec
+                \end{python}
+                \caption{Function in \pyth{AmplitudeContainer} building a single
+                vector with all coupled-cluster ampltides stacked on top of one
+                another.}
+                \label{alg:cc-asarray}
+            \end{algorithm}
+            The inverse operation where we go from a vector of amplitudes to two
+            sets of amplitudes is demonstrated in \autoref{alg:cc-from_array}.
+            Note that this is a static method which means that the function is
+            available outside an instance of the container object.
+            This lets us build the container by comparing with an existing
+            container denoted \pyth{u} where we assume that the dimensionality
+            are the same in both containers.
+            \begin{algorithm}
+                \begin{python}
+class AmplitudeContainer:
+    # Code removed for clarity
+
+    @staticmethod
+    def from_array(u, arr):
+        np = u.np
+
+        args = []
+        start_index = 0
+        stop_index = 0
+
+        for amps in u:
+            inner = []
+
+            if type(amps) == list:
+                for amp in amps:
+                    start_index = stop_index
+                    stop_index += amp.size
+
+                    inner.append(arr[start_index:stop_index].reshape(amp.shape))
+            else:
+                start_index = stop_index
+                stop_index += amps.size
+                inner = arr[start_index:stop_index].reshape(amps.shape)
+
+            args.append(inner)
+
+        return type(u)(*args, np=np)
+                \end{python}
+                \caption{Function in \pyth{AmplitudeContainer} building lists
+                amplitudes and reshaping them into the correct rank.}
+                \label{alg:cc-from_array}
+            \end{algorithm}
+
+        \subsection{Time-dependent energy}
+            The time-dependent energy for the coupled-cluster method is computed
+            in exactly the same way as for the variational ground state solvers,
+            that is, by computing the Lagrangian from
+            \autoref{eq:cc-energy-functional}.
+
+        \subsection{Time-dependent overlap}
+            Due to the dual state of $\ket{\Psi}$ in coupled-cluster not being
+            the adjoint, we have that
+            \begin{align}
+                \braket*{\tilde{\Psi}}{\Psi}
+                \neq \braket*{\Psi}{\tilde{\Psi}}^{*}.
+            \end{align}
+            This means that there is an inherent ambiguity in the calculation of
+            the autocorrelation as defined \autoref{eq:autocorrelation} where
+            $A(t, t_0) \neq A^{*}(t_0, t)$.
+            To get around this we force hermiticity by computing the
+            autocorrelation from \cite{pedersen2018symplectic}
+            \begin{align}
+                A(t, t_0)
+                \equiv \half\para{
+                    \braket*{\tilde{\Psi}(t)}{\Psi(t_0)}
+                    + \braket*{\tilde{\Psi}(t_0)}{\Psi(t)}^{*}
+                }.
+            \end{align}
+            The time-dependent overlap can then be found by
+            \begin{align}
+                P(t, t_0)
+                = \abs{A(t, t_0)}^2.
+            \end{align}
+
 
         \subsection{Orbital-adaptive time-evolution}
-
+            \label{subsec:oatdcc-implementation}
