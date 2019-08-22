@@ -1674,7 +1674,7 @@ energy = np.trace(np.dot(term, density_matrix))
             \autoref{subsec:gs-cc}.
             From the stationary conditions in \autoref{eq:nocc-kappa-up-rhs} and
             \autoref{eq:nocc-kappa-down-rhs}, we can compute the change in the
-            orbitals rotations by \cite{ugur-occ}
+            orbital rotations by \cite{ugur-occ}
             \begin{gather}
                 \Delta (\noccten^{u})^{(i)}
                 = -\frac{1}{D^a_i}
@@ -1717,7 +1717,8 @@ energy = np.trace(np.dot(term, density_matrix))
                         \tilde{\vfg{S}} = \exponential(-\noccmat),
                     \end{gather}
                     where we use the matrix exponential function
-                    \pyth{scipy.linalg.expm} from SciPy \cite{scipy}.
+                    \pyth{scipy.linalg.expm} from SciPy \cite{scipy} to compute
+                    the exponential of the $\noccmat$-matrices.
                     Initially we set $\noccmat = \1$.
                 \item Change from the original atomic orbital basis to the new
                     non-orthogonal basis using $\vfg{S}$ and $\tilde{\vfg{S}}$
@@ -1777,6 +1778,17 @@ energy = np.trace(np.dot(term, density_matrix))
             This Lagrangian can also be used for the CCD- and CCSD-methods once
             we have found the optimal values for $\vfg{\clustlamp}$.
             % TODO: Refer to full expression in appendix
+
+        \subsection{Density matrices}
+            Having found the converged $\clustamp$- and $\clustlamp$-amplitudes
+            we can compute the one- and two-body density matrices as discussed
+            in \autoref{subsec:cc-density-matrices}.
+            These values only depend on the cluster amplitudes which means that
+            NOCCD can reuse the density matrices from the static CCD-method.
+            We have listed the tensor contractions involved for the one- and
+            two-body density matrices in the CCD-method, and the one-body
+            density matrix for the CCSD-method in
+            \autoref{app:cc-density-matrices}.
 
         \subsection{Time-evolution with static orbitals}
             \label{subsec:tdcc-implementation}
@@ -1959,7 +1971,9 @@ class AmplitudeContainer:
                 P(t, t_0)
                 = \abs{A(t, t_0)}^2.
             \end{align}
-
+            In \autoref{app:cc-autocorrelation} we've added explicit tensor
+            contractions for both CCD and CCSD in order to compute the
+            coupled-cluster autocorrelation.
 
         \subsection{Orbital-adaptive time-evolution}
             \label{subsec:oatdcc-implementation}

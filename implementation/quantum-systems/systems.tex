@@ -1,9 +1,11 @@
 \chapter{Quantum systems}
     In this chapter we'll discuss different quantum systems which will be
-    explored. We'll be discussing the one-body part of the systems and explore
-    how we can construct basis sets from the different systms. Furthermore,
-    we'll be discussing how we can construct expectation values of different
-    operators such as the dipole moment and the two-body Coulomb interaction.
+    explored.
+    We'll discuss how we represent a general quantum system via the Python class
+    \pyth{QuantumSystem} and the methods that this class incorporates.
+    We'll also discuss how this class implements an interface towards existing
+    libraries such as PySCF \cite{pyscf} and Psi4 \cite{psi4} in order to get
+    access to good and efficient basis sets for atoms and molecules.
 
     % TODO: Discuss short why we've chosen the basis sets we have
     Much of the limitation of good basis sets to be used in our methods comes
@@ -15,3 +17,67 @@
 
     \section{Change of basis}
         \label{sec:change-of-basis}
+        Much of what we do in this thesis is related to basis transformations.
+        Either by diagonalization of the one-body Hamiltonian, an initial
+        Hartree-Fock calculation, or in the orbital rotations in the
+        non-orthogonal and orbital-adaptive coupled-cluster methods.
+        A basis transformation can in general be represented by
+        \begin{align}
+            \ket*{\psi_p} = C_{\alpha p} \ket*{\phi_{\alpha}},
+        \end{align}
+        where we use greek indices to denote a basis of $K$ orbitals
+        $\brac{\phi_{\alpha}}$ and latin letters for the basis of $L$
+        transformed orbitals $\brac{\psi_p}$, and where $\vfg{C} \in
+        \mathbb{C}^{K\times L}$ is a complex matrix with the coefficients.
+
+    \section{Particle density}
+        \label{sec:particle-density}
+        From \autoref{subsec:particle-density} we know how to compute the
+        one-body particle density once we have found the one-body density matrix
+        from a specific solver.
+        For variational methods where the dual state of $\ket{\phi_p}$ is the
+        adjoint $\bra{\phi_p}$ we can use the expression in
+        \autoref{eq:particle-density}.
+        However, as we are focusing much of our work on the bi-variational
+        formulation of coupled-cluster we will implement the more general
+        particle-density calculation
+        \begin{align}
+            \densityten(x)
+            = \tilde{\phi}_{q}(x)
+            \densityten^{q}_{p}
+            \phi_p(x),
+        \end{align}
+        where $\tilde{\phi}_q(x)$ is the bi-variational dual state of
+        $\phi_p(x)$.
+        For the Hartree-Fock methods and configuration-interaction solvers we
+        choose $\tilde{\phi}_q(x) = \phi^{*}_q(x)$ and we have recovered the
+        original expression for the particle density as seen in
+        \autoref{eq:particle-density}.
+        In \autoref{alg:particle-density} we've included the code used to
+        compute the particle density given a one-body density matrix denoted
+        \pyth{rho_qp}, and the set of orbitals \pyth{bra_spf} and \pyth{ket_spf}
+        as the bra- and ket-states respectively.
+        We let the first index (the rows) of the orbital arrays denote the
+        orbital index $p$, $q$, etc, whereas the remaining indices define the
+        evaluation of the function on a $d$-dimensional grid $x \in
+        \mathbb{C}^{d}$.
+        \begin{algorithm}
+            \begin{python}
+def compute_particle_density(rho_qp, bra_spf, ket_spf):
+    rho = np.zeros(ket_spf.shape[1:], dtype=ket_spf.dtype)
+    spf_slice = slice(0, ket_spf.shape[0])
+
+    for _i in np.ndindex(rho.shape):
+        i = (spf_slice, *_i)
+        rho[_i] += np.dot(bra_spf[i], np.dot(rho_qp, ket_spf[i]))
+
+    return rho
+            \end{python}
+            \caption{In this listing we've added a function computing the
+            particle density on an arbitrary grid that the orbitals are
+            represented on.}
+            \label{alg:particle-density}
+        \end{algorithm}
+
+
+    \section{Spin-doubling}
