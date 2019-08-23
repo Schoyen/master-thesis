@@ -1926,11 +1926,17 @@ class AmplitudeContainer:
                     start_index = stop_index
                     stop_index += amp.size
 
-                    inner.append(arr[start_index:stop_index].reshape(amp.shape))
+                    inner.append(
+                        arr[start_index:stop_index].reshape(
+                            amp.shape
+                        )
+                    )
             else:
                 start_index = stop_index
                 stop_index += amps.size
-                inner = arr[start_index:stop_index].reshape(amps.shape)
+                inner = arr[start_index:stop_index].reshape(
+                    amps.shape
+                )
 
             args.append(inner)
 

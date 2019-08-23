@@ -127,6 +127,7 @@ def compute_particle_density(rho_qp, bra_spf, ket_spf):
         A basis transformation can in general be represented by
         \begin{align}
             \ket*{\psi_p} = C_{\alpha p} \ket*{\phi_{\alpha}},
+            \label{eq:spf-basis-change}
         \end{align}
         where we use greek indices to denote a basis of $K$ orbitals
         $\brac{\phi_{\alpha}}$ and latin letters for the basis of $L$
@@ -142,6 +143,7 @@ def compute_particle_density(rho_qp, bra_spf, ket_spf):
         \begin{align}
             \bra*{\tilde{\psi}_p}
             = \tilde{C}_{p \alpha}\bra*{\phi_{\alpha}},
+            \label{eq:spf-dual-basis-change}
         \end{align}
         where we assume that the dual states in the underlying orbital basis are
         the adjoint states.
@@ -206,7 +208,86 @@ def transform_one_body_elements(h, c, c_tilde=None):
             }{\phi_{\gamma}\phi_{\delta}},
         \end{align}
         where we do not care if the elements are antisymmetric or not as it does
-        not matter.
+        not change the basis transformation.
+        The transformation can now be done by
+        \begin{align}
+            \tilde{\twoten}^{pq}_{rs}
+            = \mel*{\phi_p\phi_q}{
+                \twohamil
+            }{\phi_r\phi_s}
+            = \tilde{C}_{p\alpha}
+            \tilde{C}_{q\beta}
+            \twoten^{\alpha\beta}_{\gamma\delta}
+            C_{\gamma r}
+            C_{\delta s}.
+        \end{align}
+        In \autoref{alg:transform-two-body-elements} we demonstrate the function
+        which changes the basis for the two-body elements.
+        We make use of temporary storage of a two-body matrix \pyth{_u} which
+        lowers the cost of the basis transformation from $\mathcal{O}(L^8)$ to
+        $\mathcal{O}(L^5)$.
+        \begin{algorithm}
+            \begin{python}
+def transform_two_body_elements(u, c, c_tilde=None):
+    if c_tilde is None:
+        c_tilde = c.conj().T
+
+    # abcd, ds -> abcs
+    _u = np.tensordot(u, c, axes=(3, 0))
+    # abcs, cr -> absr -> abrs
+    _u = np.tensordot(_u, c, axes=(2, 0)).transpose(0, 1, 3, 2)
+    # abrs, qb -> arsq -> aqrs
+    _u = np.tensordot(_u, c_tilde, axes=(1, 1)).transpose(
+        0, 3, 1, 2
+    )
+    # pa, aqrs -> pqrs
+    _u = np.tensordot(c_tilde, _u, axes=(1, 0))
+
+    return _u
+            \end{python}
+            \caption{This function changes the basis of the two-body elements
+            given a coefficient matrix \pyth{c} and an optional dual matrix
+            \pyth{c_tilde}.}
+            \label{alg:transform-two-body-elements}
+        \end{algorithm}
+        For the single-particle functions the basis transformation is performed
+        by the equations in \autoref{eq:spf-basis-change} and
+        \autoref{eq:spf-dual-basis-change} where the states are projected on a
+        grid.
+        We represent all the single-particle states as an $d + 1$-dimensional
+        array, where the first axis denotes which single-particle state we are
+        looking at, and the $d$-remaining axes denotes the grid.
+        In \autoref{alg:transform-spfs} we show the member function of
+        \pyth{QuantumSystem} for changing the single-particle state basis.
+        \begin{algorithm}
+            \begin{python}
+class QuantumSystem:
+    # Code removed for clarity
+
+    def change_basis_spf(self, c, c_tilde=None):
+        if c_tilde is not None:
+            # In case of bi-orthogonal basis sets, we create an
+            # extra set of single-particle functions for
+            # the bra-side
+            self._bra_spf = self.np.tensordot(
+                c_tilde,
+                self._spf.conj()
+                if self._bra_spf is None else self._bra_spf,
+                axes=((1), (0)),
+            )
+
+        self._spf = self.np.tensordot(
+            c, self._spf, axes=((0), (0))
+        )
+            \end{python}
+            \caption{Here we list the member function in \pyth{QuantumSystem}
+            that transforms the single-particle states given a coefficient
+            matrix \pyth{c} and an optional dual matrix \pyth{c_tilde}.
+            The single-particle states are denoted \pyth{self._spf} and
+            \pyth{self._bra_spf} in case of a dual state that is not the adjoint
+            state.}
+            \label{alg:transform-spfs}
+        \end{algorithm}
 
 
     \section{Spin-doubling}
