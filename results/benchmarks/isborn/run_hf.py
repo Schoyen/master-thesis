@@ -47,7 +47,6 @@ time_points, num_steps = get_time_steps()
 
 integrator = GaussIntegrator(s=3, eps=1e-6, np=np)
 tdhf = TDHF(system, integrator=integrator, verbose=True)
-tdhf.compute_ground_state()
 tdhf.set_initial_conditions()
 
 print(f"TDHF ground state energy: " + f"{tdhf.compute_energy()}")
