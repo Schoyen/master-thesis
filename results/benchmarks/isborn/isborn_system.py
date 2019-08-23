@@ -98,6 +98,7 @@ def get_time_steps(t_start=0, t_end=50, dt=0.002):
     t_start = (t_start * ureg.fs).to(ureg.a_u_time)
     t_end = (t_end * ureg.fs).to(ureg.a_u_time)
     dt = (dt * ureg.fs).to(ureg.a_u_time)
+    dt = 1e-3
 
     num_steps = int((t_end - t_start) / dt + 1)
     time_points = np.linspace(t_start, t_end, num_steps)
