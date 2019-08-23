@@ -3,33 +3,71 @@
     explored.
     We'll discuss how we represent a general quantum system via the Python class
     \pyth{QuantumSystem} and the methods that this class incorporates.
-    We'll also discuss how this class implements an interface towards existing
-    libraries such as PySCF \cite{pyscf} and Psi4 \cite{psi4} in order to get
-    access to good and efficient basis sets for atoms and molecules.
-    % TODO: List all the attributes that should be contained in a system
+    Before delving into the mathematics of quantum dots, and atoms and
+    molecules, we will discuss what we want from our basis sets.
+    \begin{enumerate}
+        \item For all types of calculations we need access to the one- and
+            two-body matrix elements of the Hamiltonian, and potentially the
+            nuclear repulsion energy.
+            That is, we need to find values for $\oneten^{p}_{q}$ and
+            $\twoten^{pq}_{rs}$.
+            In case of a non-orthonormal basis set we also need the overlap
+            matrix $\overlapten^{p}_{q}$.
+        \item For time-evolution using a dipole laser we need the dipole matrix
+            elements $\vfg{d}^{p}_{q}$.
+        \item For visualization of the particle density we need the
+            single-particle states.
+    \end{enumerate}
+    If our only interest is the ground state energy, we can get far with point 1
+    listed above.
+    However, for us to include interaction with a laser field we also need the
+    dipole matrix elements as we are working in the dipole approximation.
+    The single-particle states are necessary for visualization of the system on
+    a grid either via the particle density or by themselves.
+    We will visualize some of our systems to get a qualitative description of
+    what we are looking at, but often we are more interested in quanitifying our
+    results and they single-particle states are not necessarily needed.
+    That is, they are of course needed when computing the integrals for the
+    matrix elements, but an explicit evaluation of the single-particle states on
+    a grid is not always necessary.
+    The Python class \pyth{QuantumSystem} therefore builds the basis sets and
+    serves as a container of sorts with the necessary matrix elements listed
+    above.
 
-    % TODO: Discuss short why we've chosen the basis sets we have
-    Much of the limitation of good basis sets to be used in our methods comes
-    from the calculation of the two-body matrix elements.
+    Often the limitation of basis sets comes from the calculation of the
+    two-body matrix elements as these integrals will in many cases be the
+    bottleneck.
+    This is the reason why we choose systems with closed form solutions to the
+    most intensive integrals, and then do a basis transformation using the
+    variational method, and eventually Hartree-Fock to build more complicated
+    systems.
+    As part of this thesis we have implemented several systems, they are:
+    \begin{enumerate}
+        \item The one-dimensional quantum dot on a grid supporting arbitrary
+            one-dimensional potentials.
+        \item The two-dimensional quantum dot in a harmonic oscillator, in a
+            sharp double well, in a smooth double well, and subject to a
+            magnetic field.
+    \end{enumerate}
+    In this thesis we will look at the one-dimensional quantum dot, and briefly
+    at the two-dimensional quantum dot in a harmonic oscillator trap.
+    The remaining potentials for the two-dimensional quantum dot are discussed
+    in the thesis by \citeauthor{greg-winther} \cite{greg-winther}.
+    However, we will discuss the implementation of some of these systems as they
+    constituted a large part of this thesis.
+
+    We will in this thesis mainly concern ourselves with atoms and molecules.
+    The subject of atomic and molecular basis sets is a vast one, and we've not
+    had the luxury of implementing these systems ourselves.
+    We've instead implemented an interface towards the existing libraries PySCF
+    \cite{pyscf} and Psi4 \cite{psi4} in order to get access to good and
+    efficient basis sets for atoms and molecules.
+
 
     \input{implementation/quantum-systems/quantum-dots.tex}
 
     \section{Atomic and molecular systems}
 
-    \section{Change of basis}
-        \label{sec:change-of-basis}
-        Much of what we do in this thesis is related to basis transformations.
-        Either by diagonalization of the one-body Hamiltonian, an initial
-        Hartree-Fock calculation, or in the orbital rotations in the
-        non-orthogonal and orbital-adaptive coupled-cluster methods.
-        A basis transformation can in general be represented by
-        \begin{align}
-            \ket*{\psi_p} = C_{\alpha p} \ket*{\phi_{\alpha}},
-        \end{align}
-        where we use greek indices to denote a basis of $K$ orbitals
-        $\brac{\phi_{\alpha}}$ and latin letters for the basis of $L$
-        transformed orbitals $\brac{\psi_p}$, and where $\vfg{C} \in
-        \mathbb{C}^{K\times L}$ is a complex matrix with the coefficients.
 
     \section{Particle density}
         \label{sec:particle-density}
@@ -80,5 +118,97 @@ def compute_particle_density(rho_qp, bra_spf, ket_spf):
             \label{alg:particle-density}
         \end{algorithm}
 
+    \section{Change of basis}
+        \label{sec:change-of-basis}
+        Much of what we do in this thesis is related to basis transformations.
+        Either by diagonalization of the one-body Hamiltonian, an initial
+        Hartree-Fock calculation, or in the orbital rotations in the
+        non-orthogonal and orbital-adaptive coupled-cluster methods.
+        A basis transformation can in general be represented by
+        \begin{align}
+            \ket*{\psi_p} = C_{\alpha p} \ket*{\phi_{\alpha}},
+        \end{align}
+        where we use greek indices to denote a basis of $K$ orbitals
+        $\brac{\phi_{\alpha}}$ and latin letters for the basis of $L$
+        transformed orbitals $\brac{\psi_p}$, and where $\vfg{C} \in
+        \mathbb{C}^{K\times L}$ is a complex matrix with the coefficients.
+
+        Having found the coefficient matrix $\vfg{C}$ we can change basis for
+        all the existing matrix elements stored in the
+        \pyth{QuantumSystem}-class.
+        We will also here assume for the sake of generality that the dual state
+        $\tilde{\psi}_p(x)$ not necessarily is the adjoint of $\psi_p(x)$.
+        This means that
+        \begin{align}
+            \bra*{\tilde{\psi}_p}
+            = \tilde{C}_{p \alpha}\bra*{\phi_{\alpha}},
+        \end{align}
+        where we assume that the dual states in the underlying orbital basis are
+        the adjoint states.
+        Take extra note of the ordering of the indices in the coefficients in
+        the dual basis transformation.
+        In the case of adjoint states we have the familiar $\tilde{C}_{p \alpha}
+        = C^{*}_{\alpha p}$.
+        From the list of contents in \pyth{QuantumSystem} at the top of this
+        chapter, we have three types of basis transformations that we need to
+        support to fully change our system.
+        We need to be able to change basis for one- and two-body matrix
+        elements, and for the single-particle functions.
+
+        We denote arbitrary one-body matrix elements of the one-body matrix
+        $\vfg{\oneten}$ in the original orbital basis by
+        \begin{align}
+            \oneten_{\alpha \beta}
+            \equiv
+            \mel*{\phi_{\alpha}}{\onehamil}{\phi_{\beta}}.
+        \end{align}
+        Transforming to the new basis set we have
+        \begin{gather}
+            \tilde{\oneten}_{pq}
+            = \mel*{\tilde{\psi}_p}{\onehamil}{\psi_q}
+            =
+            \tilde{C}_{p\alpha}
+            \oneten_{\alpha \beta}
+            C_{\beta q}
+            \\
+            \implies
+            \tilde{\vfg{\oneten}}
+            = \tilde{\vfg{C}}
+            \vfg{\oneten}
+            \vfg{C},
+        \end{gather}
+        where $\tilde{\vfg{\oneten}}$ is the transformed one-body elements.
+        An implmentation of the change of basis for the one-body elements is
+        shown in \autoref{alg:transform-one-body-elements}.
+        In the case of the dipole moments we store these as an array of one-body
+        elements, one for every dimension, which means that we need to transform
+        each axis using the algorithm in
+        \autoref{alg:transform-one-body-elements}.
+        \begin{algorithm}
+            \begin{python}
+def transform_one_body_elements(h, c, c_tilde=None):
+    if c_tilde is None:
+        c_tilde = c.conj().T
+
+    return c_tilde @ h @ c
+            \end{python}
+            \caption{This function changes basis for the one-body matrix
+            elements given a coefficient matrix \pyth{c} and an optional dual
+            coefficient matrix \pyth{c_tilde}.}
+            \label{alg:transform-one-body-elements}
+        \end{algorithm}
+        For the two-body elements we denote the elements by
+        \begin{align}
+            \twoten^{\alpha\beta}_{\gamma\delta}
+            \equiv
+            \mel*{\phi_{\alpha}\phi_{\beta}}{
+                \twohamil
+            }{\phi_{\gamma}\phi_{\delta}},
+        \end{align}
+        where we do not care if the elements are antisymmetric or not as it does
+        not matter.
+
 
     \section{Spin-doubling}
+
+    \section{Time-evolution operators}
