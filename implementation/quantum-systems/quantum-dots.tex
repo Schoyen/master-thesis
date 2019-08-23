@@ -130,6 +130,7 @@
 
         Depending on the scheme chosen for solving the generalized eigenvalue
         equation, one might need to normalize the eigenstates.
+        % TODO: Explain how we normalize the states
         Lastly, we have not discussed the boundary conditions for the
         eigenstates.
         We require that $\psi_p(-\infty) = \psi_p(\infty) = 0$.
@@ -138,7 +139,7 @@
         set $\psi_p(x_0) = \psi_p(x_{n + 1}) = 0$.
 
         Having found the eigenpairs for the one-dimensional Hamiltonian, we
-        construct a new, diagonal, one-dimensional Hamiltonian from the
+        construct a new diagonal, one-dimensional Hamiltonian from the
         eigenenergies.
         The normalized eigenstates from the generalized eigenvalue equation will
         be orthonormal.
@@ -233,7 +234,7 @@
         initially.
         Defining the function $g_{qs}(x_i, x)$ to be
         \begin{align}
-            g_{qs}(x_i, x) = \psi^{*}_{q}(x) \twoten(x_1, x) \psi_s(x),
+            g_{qs}(x_i, x) = \psi^{*}_{q}(x) \twoten(x_i, x) \psi_s(x),
         \end{align}
         we can compute the inner integrals using the trapezoidal rule in the
         samme manner as for the dipole elements.
@@ -246,19 +247,19 @@
                 g_{qs}(x_i, x_j) + g_{qs}(x_i, x_{j - 1})
             }.
         \end{align}
-        From this we can compute the Coulomb element by
+        From this we can compute the Coulomb elements by
         \begin{align}
-            \mel{\psi_{p}\psi_{q}}{\twohamil}{\psi_{r}\psi_{s}}
+            \mel*{\psi_{p}\psi_{q}}{\twohamil}{\psi_{r}\psi_{s}}
             \approx
             \frac{\Delta x}{2}
             \sum_{i = 2}^{n}
             \brak{
-                h^{pq}_{rs}(x_i) + h^{pq}_{rs}(x_{i - 1})
+                v^{pq}_{rs}(x_i) + v^{pq}_{rs}(x_{i - 1})
             },
         \end{align}
         where we've defined the function
         \begin{align}
-            h^{pq}_{rs}(x_i)
+            v^{pq}_{rs}(x_i)
             = \psi^{*}_{p}(x_i) W_{qs}(x_i) \psi_{r}(x_i).
         \end{align}
         Again, we emphasize that the choice of using the trapezoidal rule is
@@ -266,48 +267,7 @@
         turns out that the integrals are too erroneous.
 
 
-    \subsection{One-dimensional harmonic oscillator}
-        The one-dimensional harmonic oscillator is usually one of the first
-        models studied in undergraduate quantum mechanics courses.
-        The one-body Hamiltonian of the one-dimensional harmonic oscillator is
-        given by
-        \begin{align}
-            \onehamil = \frac{\momentum^2}{2m} + \half m\omega^2 \position^2,
-            \label{eq:1dho-hamiltonian}
-        \end{align}
-        where the latter term, i.e., the one-body potential, gives rise to the
-        name of the system.
-        Plugging this operator into the time-independent Schrödinger equation
-        \begin{gather}
-            \onehamil\ket{n} = \epsilon_n\ket{n},
-        \end{gather}
-        which results in an energy eigenvalue equation we wish to solve in order
-        to find an expression for $\ket{n}$.
-        % TODO: Discuss both the algebraic derivation and the solution using
-        % diagonalization on a grid.
-        % TODO: Include analytic solution to \ket{n}.
-        % TODO: Include figues of the potential and the eigenstates.
-
-    \subsection{One-dimensional double well quantum dot}
-        A slightly more complicated model is the \emph{double well} quantum dot.
-        Succintly named due to its ``bump'' in the bottom of the parabolic
-        potential from the harmonic oscillator. The one-body hamiltonian is
-        given by
-        \begin{align}
-            \onehamil = \frac{\momentum^2}{2m}
-            + \half m\omega^2\para{
-                \position^2
-                + \frac{1}{4}l^2
-                - l\abs{\position}
-            },
-        \end{align}
-        where $l$ is the ``width'' of the potential barrier in the bottom of the
-        parabola.
-        % TODO: What is the width? RMS?
-        % TODO: Discuss the constant term occuring in the double-well.
-
 \section{Two-dimensional quantum dot}
-    % TODO: Discuss the importance of the two-dimensional quantum dot
     Extending the formalism of the one-dimensional quantum dot to two dimensions
     we look at a system of particles confined to the plane.
     Due to there existing analytical solutions to the Coulomb elements for the
@@ -1062,10 +1022,3 @@
             \ket{\phi_{q}}
             C^{q}_{\beta}.
         \end{align}
-
-        \subsubsection{Quality of the transformed single-particle functions}
-            As the harmonic oscillator basis in no way is a complete basis
-            covering enough of the Hilbert space in order to accurately describe
-            the double-well basis, we need to make a choice on how many basis
-            functions we deem ``good enough''.
-            % TODO: This sentence needs rephrasing.
