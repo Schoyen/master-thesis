@@ -291,5 +291,107 @@ class QuantumSystem:
 
 
     \section{Spin-doubling}
+        The basis sets we are exploring are always formulated as spatial
+        orbitals without any spin component.
+        Furthermore, we look at spin-independent Hamiltonians for the most
+        part\footnote{%
+            We explore a spin-dependent laser field to some extent as will be
+            demonstrated in the results.
+        } and a restricted solution can be used where we incorporate the spin by
+        reusing the doubly occupied orbitals.
+        We will use this to some extent for the restricted Hartree-Fock solver
+        which will be discussed in \autoref{subsec:rhf}.
+        However, most of the methods we've implemented make no assumption on the
+        spin-orbitals other than there being two spin-components, and therefore
+        allow general spin-orbitals as discussed in
+        \autoref{subsec:restrictions-on-spin-orbitals}.
+        This means that after we've created our basis sets, we include spin by
+        making the system doubly degenerate in each orbital.
+
+        The ordering of the spin-orbitals are important as some solvers
+        exploit the spin-degeneracy and therefore need to know how the
+        spin-orbitals are ordered.
+        We've chosen a solution which is far from optimal, but which is
+        reasonable as long as we have an even number of particles with the same
+        amount of particles in each spin-direction.
+        We use the convention that orbitals are ordered in an increasing order
+        based on their single-particle eigenenergy\footnote{%
+            This is the ordering that is returned by NumPy when diagonalizing
+            the one-body Hamiltonian.
+        }.
+        We then double the length of each orbital axis in the single-particle
+        functions,\footnote{%
+            Except for the grid axes.
+        } the one-body- and two-body Hamiltonians, and all other matrix
+        elements.
+        Next we repeat each orbital twice so that even indices corresponds to a
+        certain spin-direction and odd indices to the other direction.
+        We are able to achieve this quite succintly using the Kronecker-product
+        and slicing in NumPy.
+        In \autoref{alg:spin-doubling-spf} we demonstrate a snippet which adds
+        spin to a set of orbitals defined on an arbitrary grid.
+        \begin{algorithm}
+            \begin{python}
+class QuantumSystem:
+    # Code removed for clarity
+
+    def change_to_spin_orbital_basis(self, anti_symmetrize=True):
+        # Code removed for clarity
+
+        if not self._spf is None:
+            new_shape = [
+                self._spf.shape[0] * 2, *self._spf.shape[1:]
+            ]
+
+            spf = self.np.zeros(
+                tuple(new_shape), dtype=self._spf.dtype
+            )
+            spf[::2] += self._spf
+            spf[1::2] += self._spf
+
+            self._spf = spf
+            assert self._spf.shape[0] == self.l
+            \end{python}
+            \caption{Spin-doubling of the single-particle functions.}
+            \label{alg:spin-doubling-spf}
+        \end{algorithm}
+        For the one-body elements we use the function listed in
+        \autoref{alg:spin-doubling-one-body}.
+        The two-body elements requires us to do some more work as the Kronecker
+        product gets applied to the two last indices of the array.
+        We also want the product to be applied to pairwise indices that interact
+        in the two-body integrals.
+        This requires some transposing of the elements, and is shown in
+        \autoref{alg:spin-doubling-two-body}.
+        \begin{algorithm}
+            \begin{python}
+def add_spin_one_body(h):
+    return np.kron(h, np.eye(2))
+            \end{python}
+            \caption{Function adding spin to one-body matrix elements, that is,
+            matrices.}
+            \label{alg:spin-doubling-one-body}
+        \end{algorithm}
+        \begin{algorithm}
+            \begin{python}
+def add_spin_two_body(_u):
+    u = _u.transpose(1, 3, 0, 2)
+    u = np.kron(u, np.eye(2))
+    u = u.transpose(2, 3, 0, 1)
+    u = np.kron(u, np.eye(2))
+    u = u.transpose(0, 2, 1, 3)
+
+    return u
+            \end{python}
+            \caption{Function adding spin to the two-body elements.}
+            \label{alg:spin-doubling-two-body}
+        \end{algorithm}
+
+        A more general solution -- and which should be implemented in the future
+        -- is to create spin-blocks with each spin-direction following each
+        other as this allows for an unequal number of particles in each
+        spin-direction.
+        This is the solution that needs to be taken for the unrestricted
+        Hartree-Fock method when changing basis.
 
     \section{Time-evolution operators}
