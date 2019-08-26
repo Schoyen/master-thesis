@@ -395,3 +395,26 @@ def add_spin_two_body(_u):
         Hartree-Fock method when changing basis.
 
     \section{Time-evolution operators}
+        The only time-evolution operators used in this thesis are dipole lasers
+        in the length gauge.
+        We've implemented this by allowing \pyth{QuantumSystem} to have a
+        pointer to a \pyth{TimeEvolutionOperator}-class, where \pyth{LaserField}
+        is a subclass.
+        The \pyth{LaserField}-class takes in the parameter \pyth{laser_pulse}
+        and an optional \pyth{polarization_vector}.
+        The former parameter is the electric field of the laser including the
+        envelope function, whereas the latter defines which axis to polarize
+        along.
+        By default the polarization vector is set along the $x$-axis, that is,
+        the first axis.
+        Note that \pyth{QuantumSystem} so far does not have a charge which means
+        that for negative charge either the pulse or the polarization vector
+        needs to incorporate this sign.
+        Both \pyth{laser_pulse} and \pyth{polarization_vector} can be constants
+        or functions of a single parameter; time.
+        We restrict our attention to a constant linear polarization, but we use
+        time-dependent laser pulses.
+        To specify a laser pulse, the user creates a function or a class with a
+        \pyth{__call__}-method which takes in a single parameter as time.
+        This function should return the electric field at the given time
+        including the envelope function.
