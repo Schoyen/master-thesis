@@ -836,6 +836,7 @@
 
 
     \subsection{Two-dimensional double well quantum dot}
+        \label{subsec:tddw}
         Another interesting system to explore is the double well quantum dot,
         i.e., a quantum dot with a finite barrier in the potential trap.
         Building the barrier on top of the two-dimensional harmonic oscillator
@@ -869,13 +870,15 @@
         \begin{align}
             \oneten^{p}_{q}
             &= \epsilon_{p}\delta^{p}_{q}
-            + \half m \omega^2\mel{p}{\para{
-                \frac{1}{4} l^2 - l \abs{\position}
-            }}{q}
+            + \half m \omega^2\mel*{\phi_p}{
+                \para{
+                    \frac{1}{4} l^2 - l \abs{\position}
+                }
+            }{\phi_q}
             \\
             &= \epsilon_{p}\delta^{p}_{q}
             + \frac{1}{8} m \omega^2 l^2 \delta^{p}_{q}
-            - \half m \omega^2 l \mel{p}{\abs{\position}}{q},
+            - \half m \omega^2 l \mel*{\phi_p}{\abs{\position}}{\phi_q},
         \end{align}
         where we have used the mapping $(n, m) \to p$ from
         \autoref{alg:nm-to-p} described above and where
@@ -896,14 +899,14 @@
         where we've included the barrier in $y$-direction for the sake of
         generality.
         We can thus compute the barrier integrals using the eigenstates from the
-        harmonic oscillator.
+        harmonic oscillator,
         \begin{gather}
-            \mel{p}{\abs{\position}}{q}
+            \mel*{\phi_p}{\abs{\position}}{\phi_q}
             =
             N^{*}_{n_p m_p} N_{n_q m_q}
             \mathcal{R}_{pq} \tilde{\mathcal{C}}_{pq},
             \\
-            \mel{p}{\abs{\position[y]}}{q}
+            \mel*{\phi_p}{\abs{\position[y]}}{\phi_q}
             =
             N^{*}_{n_p m_p} N_{n_q m_q}
             \mathcal{R}_{pq} \tilde{\mathcal{S}}_{pq},
@@ -955,70 +958,9 @@
         For a full derivation, see \autoref{app:barrier-integrals}.
 
         Having constructed the full one-body Hamiltonian matrix $\onemat$, we
-        diagonalize and find the variationally optimized eigenvectors $\vf{C}$.
+        diagonalize and find the variationally optimized eigenvectors $\vf{C}$
+        and single-particle eigenenergies $\vfg{\varepsilon}$.
         We can now use the coefficients to transform to the new double-well
         basis.
-        That is, we construct the single-particle functions
-        \begin{align}
-            \ket{\psi_{\alpha}} = C^{p}_{\alpha}\ket{\phi_p},
-        \end{align}
-        where we label the double-well single-particle functions by
-        $\ket{\psi_{\alpha}}$ with greek indices to distinguish from the known
-        harmonic oscillator single-particle functions $\ket{\phi_p}$.
-        Stated as an eigenequation for the double-well one-body Hamiltonian
-        \begin{gather}
-            \onehamil \ket{\psi_{\alpha}}
-            = \varepsilon_{\alpha} \ket{\psi_{\alpha}}
-            \implies
-            \onehamil C^{q}_{\alpha} \ket{\phi_q}
-            = \varepsilon_{\alpha} C^{q}_{\alpha} \ket{\phi_q},
-        \end{gather}
-        where we've inserted the known single-particle functions along with the
-        coefficients.
-        The eigenenergy $\varepsilon_{\alpha}$ is the eigenenergy of the
-        double-well single-particle functions.
-        Projecting onto the harmonic oscillator basis, we find a generalized
-        eigenvalue equation.
-        \begin{gather}
-            \bra{\phi_{p}}\onehamil\ket{\phi_q} C^{q}_{\alpha}
-            = \varepsilon_{\alpha} C^{q}_{\alpha} \braket{\phi_{p}}{\phi_{q}}.
-        \end{gather}
-        Recalling that the harmonic oscillator basis is orthonormal and
-        inserting the matrix elements for the one-body Hamiltonian we are left
-        with
-        \begin{align}
-            \oneten^{p}_{q} C^{q}_{\alpha}
-            = \delta^{p}_{q} C^{q}_{\alpha} \varepsilon_{\alpha}
-            = C^{p}_{\alpha} \varepsilon_{\alpha}.
-        \end{align}
-        Solving this generalized eigenvalue equation yields the coefficient
-        matrix, $\vf{C} \in \mathbb{C}^{L\times L}$, and the eigenenergy matrix
-        $\vfg{\varepsilon} = \diag(\varepsilon_1, \dots, \varepsilon_L)$, where
-        $L$ is the number of harmonic oscillator basis functions.
-        Having found the coefficient matrix we can transform the two-body
-        elements from the harmonic oscillator basis to the double-well basis by
-        \begin{align}
-            \bra{\psi_{\alpha} \psi_{\beta}}
-            \twohamil
-            \ket{\psi_{\gamma} \psi_{\delta}}
-            = {C^{p}_{\alpha}}^{*}
-            {C^{q}_{\beta}}^{*}
-            \bra{\phi_{p} \phi_{q}}
-            \twohamil
-            \ket{\phi_{r} \phi_{s}}
-            C^{r}_{\gamma}
-            C^{s}_{\delta}.
-        \end{align}
-        The same procedure can also be used on other matrix elements defined in
-        the harmonic oscillator basis. For example, the dipole matrix elements
-        yields
-        \begin{align}
-            \bra{\psi_{\alpha}}
-            \vf{d}
-            \ket{\psi_{\beta}}
-            = {C^{p}_{\alpha}}^{*}
-            \bra{\phi_{p}}
-            \vf{d}
-            \ket{\phi_{q}}
-            C^{q}_{\beta}.
-        \end{align}
+        The process of changing basis will be discussed in
+        \autoref{sec:change-of-basis}.

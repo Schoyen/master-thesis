@@ -67,6 +67,93 @@
     \input{implementation/quantum-systems/quantum-dots.tex}
 
     \section{Atomic and molecular systems}
+        Having discussed systems of quantum dots, or so-called ``artificial
+        atoms'', we will now focus on actual atomic and molecular systems.
+        As stated at the start of this chapter we make use of existing
+        libraries to construct atomic and molecular basis sets.
+        We will therefore touch briefly on the topic of atomic and molecular
+        basis sets as much of the work therein will be treated as a black box.
+        The molecular electronic one-body Hamiltonian in the Born-Oppenheimer
+        approximation is given by \cite{basis-sets, hochstuhl2014time}
+        \begin{align}
+            \onehamil_i
+            = -\half \nabla^2_i
+            - \frac{Z_A}{\abs{\vfg{R}_A - \vfg{r}_i}}
+        \end{align}
+        where atomic units are assumed.
+        Note that we sum over all nuclei $A$.
+        Here we've left out the internuclear repulsion and the Coulomb
+        interaction.
+        Furthermore, in the Born-Oppenheimer approximation we treat the nuclei
+        as being frozen and therefore ignore the kinetic energy contribution of
+        the nuclear core.
+
+        Now, perhaps not surprisingly the exact solution of the full molecular
+        Hamiltonian\footnote{%
+            Even in the Born-Oppenheimer approximation.
+        } is a far fetched goal for all but the smallest systems to say the
+        least.
+        Similar to the procedure we did for the double-well in
+        \autoref{subsec:tddw} we can solve the molecular Hamiltonian in an
+        approximate basis set.
+        We can then diagonalize the one-body Hamiltonian and express the
+        matrix elements in this new basis.
+        We can also use Hartree-Fock to improve on our approximate basis, but
+        both of these methods rely on an approximate basis set which are
+        complete to be fully exact.
+        This is seldom the case due to computational limitations.
+        As a consequence a lot of effort in the quantum chemistry field has been
+        put into the construction of efficient and good basis sets.
+        We will in this thesis use the following basis sets:
+        \begin{itemize}
+            \item The minimal Slater-type orbital (STO-$k$G) basis sets
+                \cite{sto-3g, helgaker-molecular}.
+                Here $k$ denotes the number of Gaussian primitive functions used
+                in a single basis function.
+            \item The split-valence ($X$-$YZ$g) basis sets \cite{x-yzg,
+                helgaker-molecular}.
+                Here $X$ denotes the number of primite Gaussian functions for
+                the core basis functions.
+                The $Y$ and $Z$ tells us that there are two sets of basis
+                functions with $Y$ and $Z$ basis functions respectively, for the
+                valence orbitals.
+            \item The correlation-consistent polarized valence (cc-pV$X$Z) basis
+                sets \cite{cc-pVXZ, helgaker-molecular}.
+                These basis sets are better tuned for post Hartree-Fock methods.
+            \item The augmented correlation-consistent (aug-cc-pV$X$Z) basis
+                sets \cite{aug-cc-pVXZ, helgaker-molecular}.
+                The cc-pV$X$Z basis sets are designed for ground state
+                calculations, but are inferior when it comes to describing
+                excited states.
+                The aug-cc-pV$X$Z basis functions alleviates some of this by
+                incuding diffuse functions for the outer valence electrons
+                \cite{helgaker-molecular}.
+        \end{itemize}
+        To reuse the basis sets from PySCF \cite{pyscf} and Psi4 \cite{psi4}
+        we've created a class \pyth{CustomSystem} which allows us to build a
+        \pyth{QuantumSystem}-class by manually setting the matrix elements.
+        We can thus ask PySCF and Psi4 to use their well-optimized methods to
+        generate basis sets and reuse these in our solvers.
+        In this thesis we will only use basis sets from PySCF and we therefore
+        only describe the interface towards this library.
+        We've created three interface functions denoted
+        \pyth{construct_pyscf_system_ao}, \pyth{construct_pyscf_system_rhf}, and
+        \pyth{construct_pyscf_system} which sets up a \pyth{CustomSystem} of
+        atomic orbitals, restricted molecular orbitals, and unrestricted
+        molecular orbitals respectively.
+        The two latter methods use the restricted and unrestricted Hartree-Fock
+        solvers of PySCF.
+        There are two main input parameters to these functions and that is
+        \pyth{molecule} and \pyth{basis}.
+        The former is a string describing the atom or molecule.
+        In case of an atom it is enough to write the chemical symbol for the
+        atom, e.g., \pyth{"he"} for Helium.
+        For molecules the coordinates of the atoms contained in the system must
+        be included.
+        In the case of diatomic molecules we can then specify a bond distance
+        along a specific axis, e.g., %TODO: Fill in molecule string example
+        where \pyth{r} is a variable with the bond length in
+        atomic units and we've specified the separation along the $z$-axis.
 
 
     \section{Particle density}
