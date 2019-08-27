@@ -2168,4 +2168,160 @@ class AmplitudeContainer:
                 \partial_t\bra*{\tilde{\phi}_q}
                 = -\bra*{\tilde{\phi}_r}\eta^{q}_{r}.
             \end{gather}
-            % TODO: YOU ARE HERE!
+            We denote the biorthonormal basis of single-particle states from
+            NOCCD by $\brac{\chi_{\alpha}}$ where we have
+            \begin{align}
+                \braket*{\tilde{\chi}_{\alpha}}{\chi_{\beta}}
+                = \delta_{\alpha \beta}.
+            \end{align}
+            The time-dependent orbitals can then be constructed from the ground
+            state orbitals by
+            \begin{gather}
+                \ket*{\phi_p(t)}
+                = C_{\alpha p}(t) \ket*{\chi_{\alpha}},
+                \\
+                \bra*{\tilde{\phi}_p(t)}
+                = \tilde{C}_{p \alpha}(t) \bra*{\tilde{\chi}_{\alpha}},
+            \end{gather}
+            where the time-dependence is kept in the coefficients.
+            The equations of motion for the coefficients is then found by
+            projecting onto the ground state orbital basis.
+            This gives
+            \begin{gather}
+                \dot{C}_{\alpha q} = C_{\alpha r} \eta^{r}_{q}
+                \implies
+                \dot{\vfg{C}} = \vfg{C} \vfg{\eta},
+                \\
+                \dot{\tilde{C}}_{q \alpha}
+                = -\eta^{q}_{r} \tilde{C}_{r \alpha}
+                \implies
+                \dot{\tilde{\vfg{C}}}
+                = -\vfg{\eta} \tilde{\vfg{C}},
+            \end{gather}
+            where we denote the derivative of the coefficient matrices in time
+            by a dot.
+
+            In order to use known numerical integration schemes we collect all
+            the amplitudes and the coefficients together in a single vector
+            as done for the regular time-dependent coupled-cluster methods.
+            In fact, we are able to reuse the \pyth{AmplitudeContainer}-class by
+            creating a subclass called \pyth{OACCVector} which only needs new
+            \pyth{__iter__} and \pyth{unpack} methods thanks to the generality
+            of \pyth{AmplitudeContainer}.
+            These are listed in \autoref{alg:oaccvector-iter}.
+            \begin{algorithm}
+                \begin{python}
+class OACCVector(AmplitudeContainer):
+    # Code removed for clarity
+
+    def __iter__(self):
+        yield self._t
+        yield self._l
+        yield self._C
+        yield self._C_tilde
+
+    def unpack(self):
+        yield from super().unpack()
+        yield self._C
+        yield self._C_tilde
+                \end{python}
+                \caption{Iterator and unpacking methods for \pyth{OACCVector}.}
+                \label{alg:oaccvector-iter}
+            \end{algorithm}
+            We are then able to reuse the \pyth{asarray} and \pyth{from_array}
+            methods from \pyth{AmplitudeContainer}.
+            Thus we can use all types of known differential equation solvers.
+            % TODO: Add __call__?
+
+        \subsection{Measuring quantities}
+            More or less all measurable quantities can be computed in the same
+            manner as for the regular time-dependent coupled-cluster method, but
+            we must remember to change the basis of the matrix elements as
+            discussed in \autoref{sec:change-of-basis}.
+
+        \subsection{Time-dependent overlap}
+            A significant drawback of the orbital-adaptive time-dependent
+            coupled-cluster family of methods are their inability to compute the
+            time-dependent overlap, or the autocorrelation, in a polynomial
+            time.
+            The main reason for this is that the overlap is computed at two
+            separate times which yield two different sets of operators.
+            We can see this from
+            \begin{gather}
+                \ket*{\phi_p(t)}
+                = \biccr{p}(t)\ket*{\vac}
+                = C_{\alpha p}(t) \ket*{\chi_{\alpha}}
+                = C_{\alpha p}(t) \biccr{\alpha}(0)\ket*{\vac}
+                \\
+                \implies
+                \biccr{p}(t) = C_{\alpha p}(t) \biccr{\alpha}(0),
+                \\
+                \implies
+                \bican{p}(t) = \tilde{C}_{p \alpha}(t) \bican{\alpha}(0),
+            \end{gather}
+            where we've expressed the time-evolved biorthonormal second
+            quantized operators as a linear combination of the initial
+            operators.
+            Now, the biorthonormality condition is only maintained at equal
+            times which means that
+            \begin{align}
+                \acom{\biccr{p}(t)}{\bican{q}(t')} \neq \delta_{pq},
+            \end{align}
+            in general.
+            To get around this we express all operators in terms of the initial
+            operators and use the coefficient matrices to keep track of the
+            time-dependence.
+            Looking at the doubles cluster amplitudes we then have
+            \begin{align}
+                \clust_2(t)
+                &= \clustamp^{ab}_{ij}(t)
+                \biccr{a}(t)\biccr{b}(t)\bican{j}(t)\bican{i}(t)
+                = \clustamp^{\alpha \beta}_{\gamma \delta}(t)
+                \biccr{\alpha}(0)\biccr{\beta}(0)
+                \bican{\delta}(0)\bican{\gamma}(0),
+                \label{eq:transformed-cluster-operator}
+            \end{align}
+            where we've defined the transformed cluster amplitudes
+            \begin{align}
+                \clustamp^{\alpha \beta}_{\gamma \delta}(t)
+                \equiv
+                \clustamp^{ab}_{ij}(t)
+                C_{\alpha a}(t)
+                C_{\beta b}(t)
+                \tilde{C}_{j\delta}(t)
+                \tilde{C}_{i\gamma}(t).
+            \end{align}
+            An imporant point to note in
+            \autoref{eq:transformed-cluster-operator}
+            is that the sum over the greek indices run over the entire basis set
+            of initial orbitals $\brac{\chi_{\alpha}}$.
+            This means that the $\clust$-operators no longer are excitation
+            operators in the usual sense, and similarly for the
+            $\clustl$-operators no longer being relaxation operators.
+            At equal times the biorthonormality condition is fulfilled by the
+            coefficients.
+            As this is not the case for unequal times, the overlap can be found
+            by
+            \begin{align}
+                \braket*{\tilde{\Psi}(t)}{\Psi(t')}
+                =
+                \mel*{\tilde{\slat}(t)}{
+                    (
+                        \1 + \clustl(t)
+                    )
+                    \exponential(-\clust(t))
+                    \exponential(\clust(t'))
+                }{\slat(t')},
+            \end{align}
+            where the unequal times in the reference determinants remove our
+            ability to use the Fermi vacuum formalism as the right and left
+            reference determinants are defined in terms of different second
+            quantized operators.
+            This problem resembles the variational formulation of the
+            coupled-cluster method as discussed in
+            \autoref{subsec:non-variational-coupled-cluster}.
+
+            This means that we are unable to compute the spectrum of energy
+            levels of a system.
+            However, we are still able to compute the energy transitions using
+            the dipole moment.
