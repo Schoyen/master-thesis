@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Job name
-#SBATCH --job-name=be-oatdccd
+#SBATCH --job-name=be-aug-tdccsd
 #
 # Project
 #SBATCH --account=nn2977k
 #
 # Wall clock limit
-#SBATCH --time=48:00:00
+#SBATCH --time=168:00:00
 #
 # Max memory usage per core (MB)
 #SBATCH --mem-per-cpu=4G
@@ -34,5 +34,10 @@ cd $SCRATCH
 export OMP_NUM_THREADS=4
 #python lih_ccpvdz_oatdccd.py
 #python lih_ccpvdz_tdccsd.py
-python be_ccpvdz_oatdccd.py
+#python be_ccpvdz_oatdccd.py
 #python be_ccpvdz_tdccsd.py
+
+#python lih_aug-ccpvdz_oatdccd.py
+#python lih_aug-ccpvdz_tdccsd.py
+#python be_aug-ccpvdz_oatdccd.py
+python be_aug-ccpvdz_tdccsd.py
