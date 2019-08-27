@@ -778,3 +778,67 @@
 
             \end{longtable}
         \end{center}
+
+    \section{Untruncated $Q$-space equations}
+        \label{app:untruncated-q-space}
+        Let $\brac{\chi_{\alpha}}$ be an initial biorthonormal single-particle
+        basis with the corresponding dual states such that
+        \begin{gather}
+            \ket*{\phi_p} = C_{\alpha p} \ket*{\chi_{\alpha}}, \\
+            \bra*{\tilde{\phi}_p} = \tilde{C}_{p \alpha}
+            \bra*{\tilde{\chi}_{\alpha}},
+        \end{gather}
+        are the time-evolved biorthonormal orbitals in the OATDCC-method.
+        It is important to note that we are now in a position where we can
+        truncate the number of basis states $\brac{\phi_p}$.
+        That is, if we let $p \in \brac{1, \dots, L}$ we can choose a $K \leq L$
+        such that $p \in \brac{1, \dots, K}$ and thus lower the number of
+        orbitals that we need to evolve in time.
+        The time-dependency is kept in the coefficients and we have that
+        \begin{align}
+            \braket*{\tilde{\phi}_p}{\phi_q}
+            = \tilde{C}_{p\alpha} C_{q\beta}
+            \braket*{\tilde{\chi}_{\alpha}}{\chi_{\beta}}
+            = \tilde{C}_{p\alpha} C_{q\alpha}
+            = \delta_{pq},
+        \end{align}
+        at equal times.
+        Now, if we do not truncate the basis of time-evolved orbitals
+        $\brac{\phi_p}$, i.e., $K = L$, we have the inverse transformation
+        \begin{gather}
+            \ket*{\chi_{\beta}}
+            = \delta_{\alpha \beta} \ket*{\chi_{\alpha}}
+            = \tilde{C}_{p \beta} C_{\alpha p} \ket*{\chi_{\alpha}}
+            = \tilde{C}_{p \beta} \ket*{\phi_p}, \\
+            \bra*{\tilde{\chi}_{\beta}}
+            = \delta_{\beta \alpha} \bra*{\tilde{\chi}_{\alpha}}
+            = \tilde{C}_{p \alpha} C_{\beta p} \bra*{\tilde{\chi}_{\alpha}}
+            = C_{\beta p} \bra*{\phi_p}.
+        \end{gather}
+        In order to find equations for the coefficients using \autoref{eq:ket-q}
+        and \autoref{eq:bra-q} we left-project the former equation with
+        $\bra*{\tilde{\chi}_{\alpha}}$ and right-project the latter equation with
+        $\ket*{{\chi}_{\alpha}}$.
+        Looking at the one-body Hamiltonian term from \autoref{eq:ket-q} we have
+        \begin{align}
+            \densityten^{q}_{p}\mel*{\tilde{\chi}_{\alpha}}{
+                \hat{Q}\onehamil
+            }{\phi_q}
+            &=
+            \densityten^{q}_{p}\mel*{\tilde{\chi}_{\alpha}}{
+                \onehamil
+            }{\phi_q}
+            - \densityten^{q}_{p}\oneten^{r}_{q}
+            \braket*{\tilde{\chi}_{\alpha}}{\phi_r}
+            \\
+            &=
+            \densityten^{q}_{p}\oneten^{r}_{q}
+            C_{\alpha r}
+            - \densityten^{q}_{p} \oneten^{r}_{q}
+            C_{\beta r} \delta_{\alpha \beta}
+            = 0,
+        \end{align}
+        if the basis set over the time-evolved orbitals is untruncated.
+        This exact same cancellation will occur for the two-body Hamiltonian
+        term in \autoref{eq:ket-q} as well as both the one- and two-body
+        Hamiltonian terms in \autoref{eq:bra-q}.
