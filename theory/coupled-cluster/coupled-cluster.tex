@@ -912,11 +912,11 @@
             \cite{helgaker-molecular, rolf-nocc}
             \begin{gather}
                 \biccr{p}
-                = \exp[-\nocc]\ccr{p}\exp[\nocc],
+                = \exp(-\nocc)\ccr{p}\exp(\nocc),
                 \label{eq:biccr}
                 \\
                 \bican{p}
-                = \exp[-\nocc]\can{p}\exp[\nocc].
+                = \exp(-\nocc)\can{p}\exp(\nocc).
                 \label{eq:bican}
             \end{gather}
             The approach taken in the orthogonal coupled cluster method is to
@@ -1314,9 +1314,11 @@
             \mel*{\tilde{\Psi}}{\partial_t}{\Psi}
             =
             \mel*{\tilde{\Psi}}{
-                \partial_t \clustamp_{\mu}\hat{X}_{\mu}
-                +
-                \hat{\eta}
+                \para{
+                    \partial_t \clustamp_{\mu}\hat{X}_{\mu}
+                    +
+                    \hat{\eta}
+                }
             }{\Psi}
             =
             \clustlamp_{\mu}\partial_t\clustamp_{\mu}
@@ -1334,8 +1336,7 @@
         \end{align}
         which is a one-body operator similar to the projected one-body
         Hamiltonian.
-        We define the time-dependent orbital-adaptive coupled-cluster energy
-        functional by
+        We define the time-dependent energy functional by
         \begin{align}
             \mathcal{E}[
                 \vfg{\clustamp}, \vfg{\clustlamp}, \slat, \tilde{\slat}
