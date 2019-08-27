@@ -112,7 +112,7 @@
                 in a single basis function.
             \item The split-valence ($X$-$YZ$g) basis sets \cite{x-yzg,
                 helgaker-molecular}.
-                Here $X$ denotes the number of primite Gaussian functions for
+                Here $X$ denotes the number of primitive Gaussian functions for
                 the core basis functions.
                 The $Y$ and $Z$ tells us that there are two sets of basis
                 functions with $Y$ and $Z$ basis functions respectively, for the
@@ -120,6 +120,9 @@
             \item The correlation-consistent polarized valence (cc-pV$X$Z) basis
                 sets \cite{cc-pVXZ, helgaker-molecular}.
                 These basis sets are better tuned for post Hartree-Fock methods.
+                The $X$ parameter decides the number of functions for the
+                valence electrons, e.g., $D$ for double-zeta, $T$, for
+                triple-zeta, etc.
             \item The augmented correlation-consistent (aug-cc-pV$X$Z) basis
                 sets \cite{aug-cc-pVXZ, helgaker-molecular}.
                 The cc-pV$X$Z basis sets are designed for ground state
@@ -128,6 +131,8 @@
                 The aug-cc-pV$X$Z basis functions alleviates some of this by
                 incuding diffuse functions for the outer valence electrons
                 \cite{helgaker-molecular}.
+                The parameter $X$ is the same as in the case of the cc-pV$X$Z
+                basis set.
         \end{itemize}
         To reuse the basis sets from PySCF \cite{pyscf} and Psi4 \cite{psi4}
         we've created a class \pyth{CustomSystem} which allows us to build a
@@ -150,10 +155,13 @@
         atom, e.g., \pyth{"he"} for Helium.
         For molecules the coordinates of the atoms contained in the system must
         be included.
-        In the case of diatomic molecules we can then specify a bond distance
-        along a specific axis, e.g., %TODO: Fill in molecule string example
-        where \pyth{r} is a variable with the bond length in
-        atomic units and we've specified the separation along the $z$-axis.
+        In the case of a diatomic molecules we can then specify a bond distance
+        along a specific axis, e.g., \pyth{f"h 0 0 0; h 0 0 1.2"} for a
+        \ch{H2}-molecule with the bond distance $1.2$ specified in atomic units
+        along the $z$-axis.
+        The basis strings share the same format as discussed above, e.g., to
+        specify the usage of aug-cc-pVDZ, we pass in the string
+        \pyth{"aug-ccpvdz"} as the basis.
 
 
     \section{Particle density}
