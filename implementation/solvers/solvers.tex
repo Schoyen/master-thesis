@@ -1984,3 +1984,117 @@ class AmplitudeContainer:
 
         \subsection{Orbital-adaptive time-evolution}
             \label{subsec:oatdcc-implementation}
+            We have in this thesis implemented the doubles truncation of the
+            orbital-adaptive time-dependent coupled-cluster family; the
+            OATDCCD-method.
+            This method uses the NOCCD-method as its ground state solver due to
+            the lack of an existing ground state OACCD-method
+            \cite{kvaal2012ab}.
+            Thus, after we have computed the ground state using the
+            NOCCD-method, we change to this basis using the converged $\vfg{S}$
+            and $\tilde{\vfg{S}}$ as coefficient matrices with the latter
+            serving as the left-hand coefficients.
+
+            % TODO: Explain that D_0 is zero for OATDCCD
+            To propagate the cluster amplitudes and the orbitals in time we
+            start by noticing that
+            \begin{align}
+                \mathcal{E}[
+                    \vfg{\clustamp},
+                    \vfg{\clustlamp},
+                    \slat,
+                    \tilde{\slat}
+                ]
+                = \mel*{\tilde{\Psi}}{
+                    \para{
+                        \hamil
+                        - i\hslash\hat{\eta}
+                    }
+                }{\Psi}
+                = \mel*{\tilde{\Psi}}{
+                    \hamil
+                }{\Psi},
+            \end{align}
+            in the doubles approximation.
+            This is a consequence of the gauge condition imposed on the orbital
+            rotations with the occupied-occupied and virtual-virtual blocks of
+            $\eta^{p}_{q}$ being zero, viz.
+            \begin{align}
+                \eta^{a}_{b} = \eta^{i}_{j} = 0,
+            \end{align}
+            and from the CCD one-body density matrix.
+            In \autoref{app:ccd-density-matrices} we demonstrate that
+            \begin{align}
+                \densityten^{a}_{i} = \densityten^{i}_{a} = 0,
+            \end{align}
+            which means that
+            \begin{align}
+                \mel*{\tilde{\Psi}}{\hat{\eta}}{\Psi}
+                =
+                \eta^{p}_{q}
+                \mel*{\tilde{\Psi}}{\biccr{p}\bican{q}}{\Psi}
+                = \eta^{p}_{q}\densityten^{q}_{p}
+                = 0.
+            \end{align}
+            This means that the right-hand side evaluation in the OATDCCD-method
+            now consists of evaluating the $\clustamp$- and
+            $\clustlamp$-amplitudes similarly as in the time-dependent static
+            orbital coupled-cluster methods and we can reuse the machinery from
+            the TDCCD-method to propagate the amplitudes.
+            We then move on to evolving the orbitals in time.
+            This means that we must solve the $P$-space and $Q$-space equations
+            as discussed in \autoref{sec:oatdcc}.
+            The equations of motion for the orbitals can then be expressed as
+            \cite{kvaal2012ab}
+            \begin{gather}
+                \partial_t\ket*{\phi_p}
+                = (\hat{P} + \hat{Q})\partial_t\ket*{\phi_p}
+                = \eta^{q}_{p}\ket*{\phi_q}
+                + \hat{Q}\partial_t\ket*{\phi_p},
+                \\
+                \partial_t\bra*{\tilde{\phi}_p}
+                = \partial_t\bra*{\tilde{\phi}_p}(\hat{P} + \hat{Q})
+                = -\eta^{p}_{q}\bra*{\tilde{\phi}_q}
+                + \partial_t\bra*{\tilde{\phi}_p}\hat{Q},
+            \end{gather}
+            where we in the second equation used that
+            \begin{align}
+                \eta^{p}_{q}
+                = \mel*{\tilde{\phi}_{p}}{\partial_t}{\phi_q}
+                = -\para{
+                    \partial_t \bra*{\tilde{\phi}_{p}}
+                }\ket*{\phi_q}.
+            \end{align}
+            We start by solving the $P$-space equations, which means that we
+            need to compute the one- and two-body density matrices.
+            These are listed in \autoref{app:cc-density-matrices}.
+            From the right-hand sides of \autoref{eq:eta-jb} and
+            \autoref{eq:eta-bj} we can construct the two matrices $R^{i}_{a}$
+            and $R^{a}_{i}$ respectively, that is,
+            \begin{gather}
+                R^{i}_{a}
+                = \oneten^{p}_{a}\densityten^{i}_{p}
+                - \oneten^{i}_{q}\densityten^{q}_{a}
+                + \half\twoten^{pq}_{is}\densityten^{as}_{pq}
+                - \half\twoten^{aq}_{rs}\densityten^{sr}_{iq},
+                \\
+                R^{a}_{i}
+                =
+                \oneten^{p}_{i}\densityten^{a}_{p}
+                -
+                \oneten^{a}_{q}\densityten^{q}_{i}
+                +
+                \half
+                \twoten^{pq}_{is}\densityten^{sa}_{pq}
+                -
+                \half
+                \twoten^{aq}_{rs}\densityten^{sr}_{iq},
+            \end{gather}
+            where we note that $\partial_t\densityten^{a}_{i} = 0$ in the
+            doubles approximation.
+            Next we construct the coefficient matrix $\vfg{A}$ by
+            \begin{align}
+                A^{ib}_{aj}
+                \equiv \delta^{b}_{a}\densityten^{i}_{j}
+                - \delta^{i}_{j}\densityten^{b}_{a}.
+            \end{align}
