@@ -2078,7 +2078,7 @@ class AmplitudeContainer:
                 + \half\twoten^{pq}_{is}\densityten^{as}_{pq}
                 - \half\twoten^{aq}_{rs}\densityten^{sr}_{iq},
                 \\
-                R^{a}_{i}
+                \tilde{R}^{a}_{i}
                 =
                 \oneten^{p}_{i}\densityten^{a}_{p}
                 -
@@ -2098,3 +2098,74 @@ class AmplitudeContainer:
                 \equiv \delta^{b}_{a}\densityten^{i}_{j}
                 - \delta^{i}_{j}\densityten^{b}_{a}.
             \end{align}
+            We can now formulate the $P$-space equations quite succintly by
+            \begin{gather}
+                iA^{ib}_{aj}\eta^{j}_{b} = R^{i}_{a},
+                \label{eq:eta-jb-R}
+                \\
+                -i\eta^{b}_{j}A^{ja}_{bi} = \tilde{R}^{a}_{i},
+                \label{eq:eta-bj-R}
+            \end{gather}
+            where atomic units are assumed.
+            Here \autoref{eq:eta-jb-R} and \autoref{eq:eta-bj-R} are two linear
+            equations for $\eta^{j}_{b}$ and $\eta^{b}_{j}$ respectively.
+            To solve these equations we can either create compound indices such
+            that $\vfg{\eta}$, $\vfg{R}$, and $\tilde{\vfg{R}}$ become vectors,
+            and similarly for $\vfg{A}$ as a matrix.
+            We use NumPy's method \pyth{np.linalg.tensorsolve} \cite{numpy} to
+            solve the linear equation more or less as they stand and let NumPy
+            handle the dimensionality transformations.
+            However, we do need to transpose the axes in the $A^{ib}_{aj}$
+            array as we use a fixed ordering of the elements.
+            For \autoref{eq:eta-jb-R} we have
+            \begin{align}
+                A^{ib}_{aj} \to A^{ai}_{jb} \equiv \vfg{A}_r,
+            \end{align}
+            whereas for \autoref{eq:eta-bj-R} we do
+            \begin{align}
+                A^{ib}_{aj} \to A^{bj}_{ai} \equiv \vfg{A}_l.
+            \end{align}
+            As matrices and vectors this then translates to the matrix equations
+            \begin{gather}
+                i \vfg{A}_r \vfg{\eta} = \vfg{R},
+                \\
+                -i\tilde{\vfg{\eta}}\vfg{A}_l = \tilde{\vfg{R}},
+            \end{gather}
+            where we've marked the virtual-occupied block of $\eta^{p}_{q}$ by a
+            tilde to distinguish it from merely the transpose of the
+            occupied-virtual block.
+            Solving both these equations yield the two non-zero blocks of
+            $\eta^{p}_{q}$.
+            % TODO: Add code example of this? The compute_eta-function maybe?
+
+            Having found $\eta^{p}_{q}$ we can now solve the $Q$-space
+            equations found in \autoref{eq:ket-q} and \autoref{eq:bra-q}.
+            Recalling that
+            \begin{align}
+                \hat{Q} \equiv \1 - \hat{P}
+                = \1 - \dyad*{\phi_p}{\tilde{\phi}_p},
+            \end{align}
+            where the sum over the orbitals can be truncated to further lower
+            the computational cost of the OATDCCD-method.
+            In this thesis we have not included any studies where we truncate
+            the orbital basis further, the $Q$-space equations therefore
+            simplifies as the right-hand side of \autoref{eq:ket-q} and
+            \autoref{eq:bra-q} will be zero.
+            A demonstration of this is shown in
+            \autoref{app:untruncated-q-space}.
+            The $Q$-space equations thus reduce to
+            \begin{gather}
+                i\densityten^{q}_{p}\hat{Q}\partial_t\ket*{\phi_q} = 0
+                \implies
+                \partial_t\ket*{\phi_q}
+                = \eta^{r}_{q}\ket*{\phi_r},
+                \\
+                -i\densityten^{q}_{p}\para{
+                    \partial_t\bra*{\tilde{\phi}_q}
+                }\hat{Q}
+                = 0
+                \implies
+                \partial_t\bra*{\tilde{\phi}_q}
+                = -\bra*{\tilde{\phi}_r}\eta^{q}_{r}.
+            \end{gather}
+            % TODO: YOU ARE HERE!
