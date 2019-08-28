@@ -1,17 +1,19 @@
 \section{One-dimensional quantum dots}
     \label{sec:one-dim-qd}
     Artificial atoms, or the so-called quantum dots, constitute a hot topic in
-    condensed matter physics and material sciences. We will be exploring
-    several types of quantum dots in both one and two dimensions in this
-    thesis. The difference between the types of quantum dots is found in the
-    one-body potential. All of the dots share the characteristic of being in an
-    infinite well which makes the systems \emph{bound}. In our study of systems
-    subject to intense laser fields, this will prove to be a bad approximation
-    when the laser becomes very strong as the particles have no way of being
-    ionized, i.e., escape the potential well.  Even so, for weak laser fields
-    and for ground state calculations, they serve as excellent candidates for
-    our methods.
-    % TODO: This text needs some work
+    condensed matter physics and material sciences \cite{hjorth2017advanced,
+    lohne, fei, anisimovas1998energy}.
+    We will be exploring several types of quantum dots in both one and two
+    dimensions in this thesis.
+    The difference between the types of quantum dots is found in the
+    one-body potential.
+    All of the dots share the characteristic of being in an infinite well which
+    makes the systems \emph{bound}.
+    In our study of systems subject to intense laser fields, this will prove to
+    be a bad approximation when the laser becomes very strong as the particles
+    have no way of being ionized, i.e., escaping the potential well.
+    Even so, for weak laser fields and for ground state calculations, they serve
+    as excellent candidates for our methods.
 
     The time-independent one-dimensional quantum dot can be described by the
     one-body Hamiltonian
@@ -35,14 +37,15 @@
     \subsection{Discretizing the one-dimensional quantum dot}
         \label{subsec:discretizing-the-odqd}
         For a given one-body Hamiltonian $h(x)$ on the form described in
-        \autoref{eq:one-body-odqd}, we wish to find a solution the
+        \autoref{eq:one-body-odqd}, we wish to find a solution to the
         time-indepedent Schrödinger equation
         \begin{align}
             \oneten(x)\psi(x) = \epsilon \psi(x),
         \end{align}
         where we've ignored labels on the eigenpair $(\epsilon, \psi(x))$ for
         now to avoid clutter.
-        However, do be aware that we are looking for a spectrum of eigenstate.
+        However, do be aware that we are looking for the spectrum of the
+        one-body Hamiltonian.
         We use the central finite difference scheme for the kinetic term in the
         one-body Hamiltonian, that is,
         \begin{align}
@@ -63,19 +66,24 @@
             + v(x)\psi(x)
             = \epsilon \psi(x),
         \end{align}
-        where we use the more convenient atomic units with $\hslash = m = 1$.
+        where we use atomic units.
         Introducing the uniformly discretized grid $x_i$ where $i \in \brac{1,
         n}$ and $n$ is the number of grid points, we label the wave function by
-        $\psi_i = \psi(x_i)$.
+        \begin{align}
+            \psi_i \equiv \psi(x_i),
+        \end{align}
+        and similarly for the one-body Hamiltonian and the potential.
+        By including the entire grid we denote the eigenstate as a vector
+        $\vfg{\psi}$.
         We have that
         \begin{align}
             x_{i + 1} = x_i + \Delta x,
         \end{align}
         with $\Delta x$ being the step-size between the grid points.
         There exists smarter grid choices than the uniform grid, but for our
-        simulations the uniform grid is quite good enough.
+        simulations the uniform grid is sufficient.
         Collecting the wave function evaluated at the same grid points in the
-        time-independent Schrödinger equation we can write
+        time-independent Schrödinger equation we can write the equation as
         \begin{align}
             \oneten \psi_i
             &=
@@ -90,8 +98,8 @@
             }
             = \epsilon \psi_i.
         \end{align}
-        We are now in a position to formulate this equation as a generalized
-        eigenvalue equation on the form
+        We are now in a position to formulate this equation as an eigenvalue
+        equation on the form
         \begin{align}
             \vfg{\oneten}\vfg{\psi}
             = \vfg{\epsilon}\vfg{\psi},
@@ -113,11 +121,20 @@
                 + \delta_{(i - 1) j}
             }.
         \end{align}
-        Solving \autoref{eq:one-dim-qd-eigh} yields the full spectrum of
-        $\vfg{h} \in \mathbf{C}^{n \times n}$ where $\vfg{\psi} \in
-        \mathbf{C}^{n \times n}$ becomes a matrix with each column representing
-        an eigenstate, and the rows the evaluation of the eigenstates on the
-        grid.
+        We now wish to diagonalize \autoref{eq:one-dim-qd-eigh} and find all
+        eigenpairs $(\epsilon_k, \vfg{\psi}_k)$.
+        As $\onemat$ is Hermitian we have that \cite{mat-inf4130}
+        \begin{align}
+            \onemat = \vfg{P}^{-1}\vfg{D}\vfg{P}
+            = \vfg{P}^{\dagger}\vfg{D}\vfg{P},
+        \end{align}
+        where $\vfg{P} \in \mathbb{C}^{n \times n}$ and $\vfg{D} = \diag(\epsilon_1,
+        \dots, \epsilon_n)$.
+        The columns of $\vfg{P}$ will now be the eigenstates $\vfg{\psi}_k$ with
+        the elements indexed by
+        \begin{align}
+            P_{ik} = \psi_k(x_i).
+        \end{align}
         The quality of the eigenpairs is dependent on the number of grid points
         $n$, and ideally we should include many grid points such that $\Delta x
         \to 0$.
@@ -126,23 +143,37 @@
         the number of basis functions $L$ that we wish to include.
         Furthermore, the systems we are exploring are spin-independent which
         means that we only use $L / 2$ orbitals from the spectrum of $\vfg{h}$,
-        thus greatly reducing the number of single-particle functions.
+        thus halving the number of single-particle functions.
 
-        Depending on the scheme chosen for solving the generalized eigenvalue
-        equation, one might need to normalize the eigenstates.
-        % TODO: Explain how we normalize the states
+        We use the function \pyth{np.linalg.eigh} from NumPy \cite{numpy} to
+        solve the eigenvalue equation in \autoref{eq:one-dim-qd-eigh}.
+        This means that the eigenstates $\vfg{\psi}_k$ are normalized to unity
+        with respect to the dot-product, that is,
+        \begin{align}
+            \vfg{\psi}_i^{\dagger} \vfg{\psi}_j = \delta_{ij}.
+        \end{align}
+        However, we wish to normalize the states to unity with respect to the
+        integral inner product.
+        To solve this we compute the normalized eigenstates $\tilde{\vfg{P}}$ by
+        \begin{align}
+            \tilde{\vfg{P}} = \frac{\vfg{P}}{\Delta x},
+        \end{align}
+        where an elementwise division is assumed.
         Lastly, we have not discussed the boundary conditions for the
         eigenstates.
         We require that $\psi_p(-\infty) = \psi_p(\infty) = 0$.
         We can realize this by introducing two extra grid points $i = 0$ and $i
         = n + 1$ after we have diagonalized the one-body Hamiltonian matrix and
-        set $\psi_p(x_0) = \psi_p(x_{n + 1}) = 0$.
+        set
+        \begin{align}
+            \psi_p(x_0) = \psi_p(x_{n + 1}) = 0.
+        \end{align}
 
         Having found the eigenpairs for the one-dimensional Hamiltonian, we
         construct a new diagonal, one-dimensional Hamiltonian from the
         eigenenergies.
-        The normalized eigenstates from the generalized eigenvalue equation will
-        be orthonormal.
+        The normalized eigenstates from the eigenvalue equation will be
+        orthonormal.
 
 
     \subsection{Constructing the dipole moments}
@@ -150,7 +181,7 @@
         dot is given by
         \begin{align}
             d_{pq}
-            = \mel{\psi_{p}}{\position}{\psi_{q}}
+            = \mel*{\psi_{p}}{\position}{\psi_{q}}
             = \int_{-\infty}^{\infty}\dd x
             \psi^{*}_{p}(x) x \psi_{q}(x).
         \end{align}
@@ -173,35 +204,40 @@
         \end{align}
         The reason for choosing the trapezoidal rule is for its ease of usage
         and implementation, as well as the method being quite fast and precise.
+        Furthermore, as our implementation is written in pure Python, we use
+        Numba \cite{numba} to speed up explicit for-loops, but Numba does not
+        support the usage of already implemented integrators.
+        Thus, by writing the trapezoidal rule by hand and using Numba to
+        jit-compile the function, we gain a significant speed-up over regular
+        Python.
         It is however, not the best integrator there is and more precise
         solutions should be considered.
-        % TODO: Explain the usage in numba
 
 
     \subsection{Integrating the Coulomb elements}
         The arguably heaviest computation in setting up a one-dimensional
         quantum dot system, is the Coulomb integrals.
-        Still working with atomic units, we have $e = (4\pi \epsilon_0)^{-1} =
-        1$ such that the Coulomb interaction can be represented by
+        In atomic units the one-dimensional Coulomb interaction can be
+        represented by
         \begin{align}
             \twoten(x_i, x_j) = \frac{1}{\abs{x_i - x_j}}.
         \end{align}
-        When integrating on a grid, we get numerical instabilities at the
-        singularity when $x_1 = x_2$.
+        Now, there are a few drawbacks of using this interaction.
+        For example, when integrating on a grid, we get numerical instabilities
+        at the singularity when $x_1 = x_2$.
         This motivates the introduction of a \emph{shielded Coulomb interaction}
-        \cite{suq, skattum2013time, kristiansen2017time} given by
+        \cite{suq} given by
         \begin{align}
             \twoten(x_i, x_j)
             &= \frac{\alpha}{\sqrt{(x_i - x_j)^2 + a^2}},
             \label{eq:shielded-coulomb}
         \end{align}
         where $\alpha$ is a dimensionless constant and the screening parameter
-        $a$ removes the singularity without ruining the asymptotic behavior
-        when $(x_i - x_j) \to \infty$ \cite{suq, kristiansen2017time}.
-
+        $a$ removes the singularity while retaining the asymptotic behavior when
+        $(x_i - x_j) \to \infty$ \cite{suq}.
         The integral we wish to solve is then
         \begin{align}
-            \mel{\psi_{p}\psi_{q}}{\twohamil}{\psi_{r}\psi_{s}}
+            \mel*{\psi_{p}\psi_{q}}{\twohamil}{\psi_{r}\psi_{s}}
             &=
             \int\dd x_1 \dd x_2
             \psi^{*}_{p}(x_1)\psi^{*}_{q}(x_2)
@@ -221,23 +257,28 @@
         Coulomb interaction.
         We can thus write the Coulomb elements as
         \begin{align}
-            \mel{\psi_{p}\psi_{q}}{\twohamil}{\psi_{r}\psi_{s}}
+            \mel*{\psi_{p}\psi_{q}}{\twohamil}{\psi_{r}\psi_{s}}
             &=
-            \mel{\psi_{p}}{\hat{W}_{qs}}{\psi_{r}}
+            \mel*{\psi_{p}}{\hat{W}_{qs}}{\psi_{r}}
             =
             \int\dd x_1
             \psi^{*}_{p}(x_1)
             W_{qs}(x_1)
             \psi_{r}(x_1),
         \end{align}
-        where we compute the inner integral $W_{qs}(x_1)$ on the entire grid
-        initially.
-        Defining the function $g_{qs}(x_i, x)$ to be
-        \begin{align}
+        where we initially compute the inner integral $W_{qs}(x_1)$ on the
+        entire grid and store it as a vector.
+        We define the functions
+        \begin{gather}
             g_{qs}(x_i, x) = \psi^{*}_{q}(x) \twoten(x_i, x) \psi_s(x),
-        \end{align}
-        we can compute the inner integrals using the trapezoidal rule in the
-        samme manner as for the dipole elements.
+            \\
+            v^{pq}_{rs}(x_i)
+            = \psi^{*}_{p}(x_i) W_{qs}(x_i) \psi_{r}(x_i),
+        \end{gather}
+        that is, the functions that occur under the integrals in the inner, and
+        the outer Coulomb integral respectively.
+        We can now compute the inner integrals using the trapezoidal rule in the
+        same manner as for the dipole elements.
         That is, for a given point $x_i$ we have
         \begin{align}
             W_{qs}(x_i)
@@ -255,12 +296,7 @@
             \sum_{i = 2}^{n}
             \brak{
                 v^{pq}_{rs}(x_i) + v^{pq}_{rs}(x_{i - 1})
-            },
-        \end{align}
-        where we've defined the function
-        \begin{align}
-            v^{pq}_{rs}(x_i)
-            = \psi^{*}_{p}(x_i) W_{qs}(x_i) \psi_{r}(x_i).
+            }.
         \end{align}
         Again, we emphasize that the choice of using the trapezoidal rule is
         based on convenience and can be replaced by a better integrator if it
@@ -292,7 +328,7 @@
     \subsection{Two-dimensional harmonic oscillator}
         \label{subsec:two-dim-ho}
         In the two-dimensional harmonic oscillator we have a circular symmetric
-        potential on the form
+        potential on the form,
         \begin{align}
             v(r, \phi) = v(r) = \half m \omega^2 r^2.
         \end{align}
@@ -300,8 +336,8 @@
         dimensionless in the same manner as done by
         \citeauthor{anisimovas1998energy} \cite{anisimovas1998energy} as we use
         their solution for the Coulomb elements.
-        The full two-dimensional Hamiltonian with Coulomb interaction in a
-        coordinate representation is given by
+        The full two-dimensional Hamiltonian with Coulomb interaction in
+        coordinate representation is given by,
         \begin{align}
             \hamilten(\vf{r})
             = \sum_{i = 1}^{N} \brak{
@@ -312,20 +348,19 @@
             \frac{e^2}{4\pi \epsilon_0 \abs{\vfg{r}_i - \vfg{r}_j}}.
             \label{eq:two-dim-ho-hamiltonian}
         \end{align}
-        We introduce a dimensionless position $\vfg{r}'$, which we scale by the
-        Bohr radius.
+        We introduce a dimensionless position $\vfg{r}'$
         \begin{align}
             \vfg{r} = a \vfg{r}',
         \end{align}
-        where the Bohr radius is given by
+        where the scaling radius $a$ is given by,
         \begin{align}
-            a = \sqrt{\frac{\hslash}{m\omega}}.
+            a \equiv \sqrt{\frac{\hslash}{m\omega}}.
             \label{eq:bohr-radius}
         \end{align}
         The complete derivation of the scaling is shown in
         \autoref{app:two-dim-ho-dimensionless}.
-        For the sake of brevity we relabel the dimensionless position to
-        $\vfg{r}' \to \vfg{r}$.
+        For the sake of brevity we relabel the dimensionless position $\vfg{r}'
+        \to \vfg{r}$.
         We then have the dimensionless form for the two-dimensionless harmonic
         oscillator Hamiltonian
         \begin{align}
@@ -352,12 +387,10 @@
         Hamiltonian.
         Now, we do not share the goal of expanding the Hamiltonian as a
         perturbation and we will therefore keep $\hslash\omega$ as they are.
-        Moving to atomc units with $\hslash = m = e = (4\pi \epsilon_0)^{-1} =
-        1$ we are left with the expression
-        % TODO: Perhaps lambda should include
+        Moving to atomic units we are left with the expression
         \begin{align}
             \hamilten(\vfg{r})
-            &= \frac{\omega}{2} \sum_{i = 1}^{N}
+            &= \omega \sum_{i = 1}^{N}
             \oneten(\vfg{r}_i)
             + \sqrt{\omega} \sum_{i < j}^{N} \twoten(\vfg{r}_i, \vfg{r}_j),
             \label{eq:tdho-hamiltonian}
@@ -365,13 +398,15 @@
         which reduces the scaling of the system down to the single parameter
         $\omega$ as the strength of the harmonic oscillator well.
         Furthermore, we've introduced the one-body Hamiltonian
-        $\oneten(\vfg{r})$ which contains the kinetic and potential energy terms
-        and the two-body Hamiltonian $\twoten(\vfg{r}_i, \vfg{r}_j)$ for the
+        $\oneten(\vfg{r})$ which contains the kinetic and potential energy
+        terms\footnote{%
+            This is where the factor $1/2$ went.
+        } and the two-body Hamiltonian $\twoten(\vfg{r}_i, \vfg{r}_j)$ for the
         Coulomb potential.
 
         Now, finding the spectrum of the full many-body Hamiltonian is
-        impossible for $N > 2$ and we will therefore use our repertoir of
-        many-body methods as discussed in the previous chapters.
+        computationally extreme for $N > 2$ and we will therefore use our
+        repertoir of many-body methods as discussed in the previous chapters.
         However, we still need a set of atomic orbitals to start our
         calculations and a natural starting point is the analytical solutions to
         the one-body Hamiltonian.
@@ -391,7 +426,7 @@
             which on coordinate form is given by
             \begin{align}
                 \oneten(\vfg{r})
-                = -\vfg{\nabla}^2 + \vfg{r}^2,
+                = -\half\vfg{\nabla}^2 + \half\vfg{r}^2,
                 \label{eq:tdho-one-body-hamiltonian}
             \end{align}
             where we've dropped the indices on the particles and left the energy
@@ -400,7 +435,7 @@
             \begin{align}
                 \oneten(\vfg{r})\psi(\vfg{r}) = \epsilon \psi(\vfg{r}),
             \end{align}
-            where $\para{\epsilon, \psi(\vfg{r})}$ are the eigenpairs of the
+            where $(\epsilon, \psi(\vfg{r}))$ are the eigenpairs of the
             non-interacting two-dimensional harmonic oscillator.
             The eigenstates to this equation in polar coordinates is
             \begin{align}
@@ -442,14 +477,12 @@
             for ease of lookup.
             The eigenstates are orthonormal in both their principal and
             azimuthal quantum numbers, that is,
-            % TODO: Show this!
             \begin{align}
-                \braket{\psi_{n_i m_i}}{\psi_{n_j m_j}}
+                \braket*{\psi_{n_i m_i}}{\psi_{n_j m_j}}
                 = \delta_{n_i n_j}\delta_{m_i m_j}.
             \end{align}
-            Furhtermore, by the orthonormality carries to the spin quantum
-            number $m_s$ as well.
-
+            Furthermore, the orthonormality carries to the spin quantum number
+            $m_s$ as well.
             The eigenenergies are given by
             \begin{align}
                 \epsilon_{nm}
@@ -538,21 +571,17 @@
             be unique.
             We thus have to decide in advance how we should count the basis
             states.
-            In this thesis we choose the convention that we start from the
+            In this work we choose the convention that we start from the
             lowest energy level and move up by counting from left to right.
-            Tabulating \autoref{fig:tdho-energy-levels} we get the table shown
-            in \autoref{tab:tdho-mapping}.
-            In \autoref{alg:nm-to-p} we give a sketch of the algorithm we use to
-            compute $(n, m) \mapsto p$. We show the inverse algorithm in
+            Tabulating \autoref{fig:tdho-energy-levels} in this convetion we get
+            the results shown in \autoref{tab:tdho-mapping}.
+            In \autoref{alg:nm-to-p} we demonstrate the algorithm we use to
+            compute $(n, m) \mapsto p$.
+            The inverse algorithm for $p \mapsto (n, m)$ is shown in
             \autoref{alg:p-to-nm}.
-
-            Using the aforementioned mapping we can find indices $p$ such that
+            We are now able to find indices $p$ such that
             \begin{align}
-                \ket{\psi_{nm}} \mapsto \ket{\psi_p},
-            \end{align}
-            and similarly for the eigenenergies
-            \begin{align}
-                \epsilon_{nm} \mapsto \epsilon_{p}.
+                (\epsilon_{nm}, \psi_{nm}) \mapsto (\epsilon_p, \psi_p).
             \end{align}
 
             \begin{table}
@@ -580,7 +609,7 @@
                 \inputpython{implementation/quantum-systems/get_index_p.py}{0}{35}
                 \caption{In this algorithm we describe how we can find $(n, m)
                 \mapsto p$ relatively quick without having to tabulate all
-                maps.}
+                states up to some level.}
                 \label{alg:nm-to-p}
             \end{algorithm}
 
@@ -596,36 +625,36 @@
             harmonic oscillator quantum dot is given by
             \begin{align}
                 \vf{d}_{ij}
-                \equiv \mel{i}{\positionvec}{j},
+                \equiv \mel*{\psi_i}{\positionvec}{\psi_j},
             \end{align}
-            where we get a dipole moment for each coordinate in $\vf{r}$. As
-            we've expressed the single particle functions in polar coordinates,
-            but wish to express the dipole moments in a cartesian coordinate
-            system, we have to compute the two integrals
+            where we get a dipole moment for each coordinate in $\vf{r}$.
+            As we've expressed the single particle functions in polar
+            coordinates, but wish to express the dipole moments in a cartesian
+            coordinate system, we have to compute the two integrals
             \begin{align}
                 \vf{d}_{ij}
-                &= \vf{i}\mel{i}{\position}{j}
-                + \vf{j}\mel{i}{\position[y]}{j}
-                = \vf{i}\mel{i}{r \cos(\phi)}{j}
-                + \vf{j}\mel{i}{r \sin(\phi)}{j},
+                &= \vf{i}\mel*{\psi_i}{\position}{\psi_j}
+                + \vf{j}\mel*{\psi_i}{\position[y]}{\psi_j}
+                = \vf{i}\mel*{\psi_i}{\hat{r} \cosine(\hat{\phi})}{\psi_j}
+                + \vf{j}\mel*{\psi_i}{\hat{r} \sine(\hat{\phi})}{\psi_j},
                 \label{eq:dipole_elements}
             \end{align}
             where $\vf{i}$ and $\vf{j}$ are the unit vectors along the $x$- and
             $y$-axis respectively.
             Using \autoref{eq:eigenstate-tdho} we are able to find analytical
             expressions for the angular integral.
-            The radial integral must be evaluated from $0$ to $\infty$, but
-            lucikly SymPy \cite{sympy} handles this for us.
+            The radial integral must be evaluated from $0$ to $\infty$, but we
+            choose to use SymPy \cite{sympy}, which handles this for us.
             Note that we use the notation $i \mapsto (n_i, m_i)$ from the
-            mapping algorithms described above. We then get the following
-            integrals
+            mapping algorithms described above.
+            We then get the following integrals
             \begin{align}
-                \mel{i}{r \cos(\phi)}{j}
+                \mel*{\psi_i}{\hat{r} \cosine(\hat{\phi})}{\psi_j}
                 &= N^{*}_{n_i m_i} N_{n_j m_j}
                 \mathcal{R}_{ij}
                 \mathcal{C}_{ij},
                 \\
-                \mel{i}{r \sin(\phi)}{j}
+                \mel*{\psi_i}{\hat{r} \sine(\hat{\phi})}{\psi_j}
                 &= N^{*}_{n_i m_i} N_{n_j m_j}
                 \mathcal{R}_{ij}
                 \mathcal{S}_{ij},
@@ -665,11 +694,11 @@
             \begin{algorithm}
                 \inputpython{implementation/quantum-systems/spf_radial_function.py}{0}{10}
                 \caption{Python function constructing the radial functions from
-                the \autoref{eq:radial-function-tdho}.}
+                \autoref{eq:radial-function-tdho}.}
                 \label{alg:radial-function-tdho}
             \end{algorithm}
             Having constructed the two radial functions we can perform the
-            integraion using the function in \autoref{alg:radial-integral-tdho}.
+            integration using the function in \autoref{alg:radial-integral-tdho}.
             \begin{algorithm}
                 \inputpython{implementation/quantum-systems/radial_integral.py}{0}{7}
                 \caption{Python function performing the radial integral in
@@ -680,107 +709,39 @@
 
             The two angular integrals in \autoref{eq:cos-integral-tdho} and
             \autoref{eq:sin-integral-tdho} have closed form solutions which we
-            derive.
-            Starting with \autoref{eq:cos-integral-tdho} we can write
+            derive in \autoref{app:tdho-dipole}.
+            Defining the difference in the azimuthal quantum number by,
             \begin{align}
-                \mathcal{C}_{ij}
-                &=
-                \int_{0}^{2\pi}
-                \dd \phi
-                \cos(\phi)
-                \exp[-i\Delta m_{ij} \phi],
-            \end{align}
-            where we've defined the difference in the angular quantum number by
-            \begin{align}
-                \Delta m_{ij} \equiv m_i - m_j.
+                \Delta m_{ij} \equiv m_i - m_j,
                 \label{eq:diff-m-tdqd}
             \end{align}
-            and we have that $\Delta m_{ij} \in \mathbb{Z}$.
-            The closed form solution to this integral is
+            where $\Delta m_{ij} \in \mathbb{Z}$.
+            We then have
             \begin{align}
                 \mathcal{C}_{ij}
-                &= \brak{
-                    \frac{\exp[-i\Delta m_{ij} \phi]}{1 - (\Delta m_{ij})^2}
-                    \brak{
-                        -i\Delta m_{ij} \cos(\phi)
-                        + \sin(\phi)
-                    }
-                }_{0}^{2\pi}
-                = 0,
-                \label{eq:dipole-x-tdqd}
+                = \begin{cases}
+                    \pi, & \Delta m_{ij} = \pm 1, \\
+                    0, & \text{else},
+                \end{cases}
             \end{align}
-            if $\Delta m_{ij} \neq \pm 1$.
-            For the case when $\Delta m_{ij} = \pm 1$ we solve the easier
-            integral
-            \begin{align}
-                \mathcal{C}_{ij}
-                &=
-                \int_{0}^{2\pi}
-                \dd \phi
-                \cos(\phi) \exp[\mp i\phi]
-                \\
-                &=
-                \int_{0}^{2\pi}
-                \dd \phi
-                \para{
-                    \cos^2(\phi)
-                    \mp i\cos(\phi)\sin(\phi)
-                }
-                = \pi.
-            \end{align}
-            % TODO: Discuss the connection to the allowed dipole transitions in
-            % a harmonic oscillator.
-            For the sine integral in \autoref{eq:sin-integral-tdho} we have
+            for the cosine integral in \autoref{eq:cos-integral-tdho}.
+            For the sine integral we get
             \begin{align}
                 \mathcal{S}_{ij}
-                &=
-                \int_{0}^{2\pi}
-                \dd\phi
-                \sin(\phi)
-                \exp[-i\Delta m_{ij} \phi].
+                = \begin{cases}
+                    \mp i\pi, & \Delta m_{ij} = \pm 1, \\
+                    0, & \text{else}.
+                \end{cases}
             \end{align}
-            The closed form solution of this integral is similar to the form for
-            the cosine-integral.
-            Again we look at the situation when $\Delta m_{ij} \neq \pm 1$
-            initially.
-            \begin{align}
-                \mathcal{S}_{ij}
-                &= \brak{
-                    \frac{\exp[-i\Delta m_{ij} \phi]}{1 - (\Delta m_{ij})^2}
-                    \brak{
-                        -i\Delta m_{ij} \sin(\phi)
-                        + \cos(\phi)
-                    }
-                }_{0}^{2\pi}
-                = 0.
-                \label{eq:dipole-y-tdqd}
-            \end{align}
-            For $\Delta m_{ij} = \pm 1$ we get
-            \begin{align}
-                \mathcal{S}_{ij}
-                &=
-                \int_{0}^{2\pi}
-                \dd\phi
-                \sin(\phi)
-                \exp[\mp i\phi]
-                \\
-                &=
-                \int_{0}^{2\pi}
-                \dd\phi
-                \para{
-                    \sin(\phi)\cos(\phi)
-                    \mp i\sin^2(\phi)
-                }
-                = \mp i\pi.
-            \end{align}
-            The results for the angular integrals yields the selection rules for
+            The results for the angular integrals yield the selection rules for
             the dipole approximation for the two-dimensional harmonic
             oscillator.
             Unless $\Delta m_{ij} = \pm 1$, the transition between the states is
             not allowed in the dipole approximation, i.e., the integral
             vanishes.
-            % TODO: Write the full expression for the dipole elements.
-            % TODO: Add plot of the dipole moments.
+            The selection rules for the dipole approximation for the
+            two-dimensional harmonic oscillator is directly linked to the
+            harmonic potential theorem \cite{kohn, brey}.
 
 
         \subsubsection{Computing the Coulomb elements}
@@ -796,16 +757,17 @@
             in the ket-part of their two-body integrals as opposed to our
             convention. That is, in our notation we would write
             \begin{align}
-                \mel{ij}{\twohamil}{kl}
+                \mel*{\psi_i\psi_j}{\twohamil}{\psi_k\psi_l}
                 &=
                 \int\dd x_1\dd x_2
                 \psi_{i}^{*}(x_1) \psi_{j}^{*}(x_2)
-                \twoten
+                \twoten(x_1, x_2)
                 \psi_{k}(x_1)\psi_{l}(x_2)
-                \equiv
-                \mel{ij}{\twohamil}{lk}_{AM},
+                \\
+                &\equiv
+                \mel*{\psi_i\psi_j}{\twohamil}{\psi_l\psi_k}_{AM},
             \end{align}
-            where $ \bra{ij}\twohamil\ket{lk}_{AM}$ is the convention used by
+            where $ \mel*{\psi_i\psi_j}{\twohamil}{\psi_l\psi_k}_{AM}$ is the convention used by
             \citeauthor{anisimovas1998energy}.
             There are two significant symmetries included in the calculation of
             the two-body elements.
@@ -813,7 +775,7 @@
             second comes from the azimuthal quantum number $m$.
             This can be expressed as
             \begin{align}
-                \mel{ij}{\twohamil}{kl}
+                \mel*{\psi_i\psi_j}{\twohamil}{\psi_k\psi_l}
                 = \delta_{\sigma_i \sigma_k} \delta_{\sigma_j \sigma_l}
                 \int\dd \vf{r}_1\dd \vf{r}_2
                 \psi_{i}^{*}(\vf{r}_i) \psi_{j}^{*}(\vf{r}_2)
@@ -865,7 +827,7 @@
         Hamiltonian, as we did for the harmonic oscillator, we'll instead use
         the single-particle functions in \autoref{eq:eigenstate-tdho} as trial
         wave functions and use the variational method to find as good an
-        estimate as possible to the underlying exact eigenpair.
+        estimate as possible to the underlying exact eigenpairs.
         The one-body matrix elements can then be found from
         \begin{align}
             \oneten^{p}_{q}

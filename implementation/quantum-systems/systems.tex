@@ -1,7 +1,7 @@
 \chapter{Quantum systems}
-    In this chapter we'll discuss different quantum systems which will be
-    explored.
-    We'll discuss how we represent a general quantum system via the Python class
+    In this chapter we'll discuss the different quantum systems which will be
+    explored in this thesis.
+    We'll discuss how we represent a general quantum system via the class
     \pyth{QuantumSystem} and the methods that this class incorporates.
     Before delving into the mathematics of quantum dots, and atoms and
     molecules, we will discuss what we want from our basis sets.
@@ -13,7 +13,7 @@
             $\twoten^{pq}_{rs}$.
             In case of a non-orthonormal basis set we also need the overlap
             matrix $\overlapten^{p}_{q}$.
-        \item For time-evolution using a dipole laser we need the dipole matrix
+        \item For time-evolution, using a dipole laser we need the dipole matrix
             elements $\vfg{d}^{p}_{q}$.
         \item For visualization of the particle density we need the
             single-particle states.
@@ -26,21 +26,21 @@
     a grid either via the particle density or by themselves.
     We will visualize some of our systems to get a qualitative description of
     what we are looking at, but often we are more interested in quanitifying our
-    results and they single-particle states are not necessarily needed.
+    results and the single-particle states are not necessarily needed.
     That is, they are of course needed when computing the integrals for the
     matrix elements, but an explicit evaluation of the single-particle states on
     a grid is not always necessary.
     The Python class \pyth{QuantumSystem} therefore builds the basis sets and
-    serves as a container of sorts with the necessary matrix elements listed
-    above.
+    serves as a container with the necessary matrix elements listed above, and
+    methods for manipulating these elements.
 
     Often the limitation of basis sets comes from the calculation of the
     two-body matrix elements as these integrals will in many cases be the
-    bottleneck.
-    This is the reason why we choose systems with closed form solutions to the
-    most intensive integrals, and then do a basis transformation using the
-    variational method, and eventually Hartree-Fock to build more complicated
-    systems.
+    computational bottleneck.
+    This is the reason why we often seek systems with closed form solutions to
+    the most intensive integrals -- or easier integral evaluation -- and then do
+    a basis transformation using the variational method, and eventually
+    Hartree-Fock to build more complicated systems.
     As part of this thesis we have implemented several systems, they are:
     \begin{enumerate}
         \item The one-dimensional quantum dot on a grid supporting arbitrary
@@ -54,14 +54,24 @@
     The remaining potentials for the two-dimensional quantum dot are discussed
     in the thesis by \citeauthor{greg-winther} \cite{greg-winther}.
     However, we will discuss the implementation of some of these systems as they
-    constituted a large part of this thesis.
+    constitute a large part of the work in this thesis.
 
     We will in this thesis mainly concern ourselves with atoms and molecules.
-    The subject of atomic and molecular basis sets is a vast one, and we've not
-    had the luxury of implementing these systems ourselves.
-    We've instead implemented an interface towards the existing libraries PySCF
-    \cite{pyscf} and Psi4 \cite{psi4} in order to get access to good and
-    efficient basis sets for atoms and molecules.
+    The subject of atomic and molecular basis sets is a vast topic in quantum
+    chemistry \cite{helgaker-molecular}.
+    To avoid reinventing the wheel we have implemented an interface towards the
+    existing libraries PySCF \cite{pyscf} and Psi4 \cite{psi4} in order to get
+    access to good and efficient basis sets for atoms and molecules.
+    Furthermore, we will explore \emph{bound systems} which we take to mean that
+    the underlying basis set will be fixed in time.
+    All time-evolution occurs in the coefficients and amplitudes of the solver
+    methods.
+    This means that we will have a hard time modelling ionization as this
+    requires the inclusion of continuum states to allow particles to move out of
+    the trapping potential.
+    An alternative is the usage of a time-dependent grid solver for the basis
+    set \cite{miyagi_and_madsen}, but this has not been implemented in this
+    thesis.
 
 
     \input{implementation/quantum-systems/quantum-dots.tex}
@@ -78,7 +88,7 @@
         \begin{align}
             \onehamil_i
             = -\half \nabla^2_i
-            - \frac{Z_A}{\abs{\vfg{R}_A - \vfg{r}_i}}
+            - \frac{Z_A}{\abs{\vfg{R}_A - \vfg{r}_i}},
         \end{align}
         where atomic units are assumed.
         Note that we sum over all nuclei $A$.
@@ -98,33 +108,28 @@
         approximate basis set.
         We can then diagonalize the one-body Hamiltonian and express the
         matrix elements in this new basis.
-        We can also use Hartree-Fock to improve on our approximate basis, but
-        both of these methods rely on an approximate basis set which are
-        complete to be fully exact.
-        This is seldom the case due to computational limitations.
         As a consequence a lot of effort in the quantum chemistry field has been
         put into the construction of efficient and good basis sets.
         We will in this thesis use the following basis sets:
         \begin{itemize}
             \item The minimal Slater-type orbital (STO-$k$G) basis sets
-                \cite{sto-3g, helgaker-molecular}.
+                \cite{sto-3g}.
                 Here $k$ denotes the number of Gaussian primitive functions used
                 in a single basis function.
-            \item The split-valence ($X$-$YZ$g) basis sets \cite{x-yzg,
-                helgaker-molecular}.
+            \item The split-valence ($X$-$YZ$g) basis sets \cite{x-yzg}.
                 Here $X$ denotes the number of primitive Gaussian functions for
                 the core basis functions.
                 The $Y$ and $Z$ tells us that there are two sets of basis
-                functions with $Y$ and $Z$ basis functions respectively, for the
-                valence orbitals.
+                functions with $Y$ and $Z$ basis functions for the valence
+                orbitals respectively.
             \item The correlation-consistent polarized valence (cc-pV$X$Z) basis
-                sets \cite{cc-pVXZ, helgaker-molecular}.
+                sets \cite{cc-pVXZ}.
                 These basis sets are better tuned for post Hartree-Fock methods.
                 The $X$ parameter decides the number of functions for the
-                valence electrons, e.g., $D$ for double-zeta, $T$, for
+                valence electrons, e.g., $D$ for double-zeta, $T$ for
                 triple-zeta, etc.
             \item The augmented correlation-consistent (aug-cc-pV$X$Z) basis
-                sets \cite{aug-cc-pVXZ, helgaker-molecular}.
+                sets \cite{aug-cc-pVXZ}.
                 The cc-pV$X$Z basis sets are designed for ground state
                 calculations, but are inferior when it comes to describing
                 excited states.
@@ -135,17 +140,16 @@
                 basis set.
         \end{itemize}
         To reuse the basis sets from PySCF \cite{pyscf} and Psi4 \cite{psi4}
-        we've created a class \pyth{CustomSystem} which allows us to build a
+        we've created a class \pyth{CustomSystem} which lets us build a
         \pyth{QuantumSystem}-class by manually setting the matrix elements.
         We can thus ask PySCF and Psi4 to use their well-optimized methods to
         generate basis sets and reuse these in our solvers.
         In this thesis we will only use basis sets from PySCF and we therefore
         only describe the interface towards this library.
-        We've created three interface functions denoted
-        \pyth{construct_pyscf_system_ao}, \pyth{construct_pyscf_system_rhf}, and
-        \pyth{construct_pyscf_system} which sets up a \pyth{CustomSystem} of
-        atomic orbitals, restricted molecular orbitals, and unrestricted
-        molecular orbitals respectively.
+
+        We've created three interface functions which sets up a
+        \pyth{CustomSystem} of atomic orbitals, restricted molecular orbitals,
+        and unrestricted molecular orbitals respectively.
         The two latter methods use the restricted and unrestricted Hartree-Fock
         solvers of PySCF.
         There are two main input parameters to these functions and that is
@@ -155,8 +159,8 @@
         atom, e.g., \pyth{"he"} for Helium.
         For molecules the coordinates of the atoms contained in the system must
         be included.
-        In the case of a diatomic molecules we can then specify a bond distance
-        along a specific axis, e.g., \pyth{f"h 0 0 0; h 0 0 1.2"} for a
+        In the case of diatomic molecules we can then specify a bond distance
+        along a specific axis, e.g., \pyth{f"h 0 0 0; h 0 0 1.2"} for the
         \ch{H2}-molecule with the bond distance $1.2$ specified in atomic units
         along the $z$-axis.
         The basis strings share the same format as discussed above, e.g., to
@@ -169,8 +173,8 @@
         From \autoref{subsec:particle-density} we know how to compute the
         one-body particle density once we have found the one-body density matrix
         from a specific solver.
-        For variational methods where the dual state of $\ket{\phi_p}$ is the
-        adjoint $\bra{\phi_p}$ we can use the expression in
+        For variational methods where the dual state of $\ket*{\phi_p}$ is the
+        adjoint $\bra*{\phi_p}$ we can use the expression in
         \autoref{eq:particle-density}.
         However, as we are focusing much of our work on the bi-variational
         formulation of coupled-cluster we will implement the more general
@@ -209,7 +213,7 @@ def compute_particle_density(rho_qp, bra_spf, ket_spf):
             \end{python}
             \caption{In this listing we've added a function computing the
             particle density on an arbitrary grid that the orbitals are
-            represented on.}
+            evaluated on.}
             \label{alg:particle-density}
         \end{algorithm}
 
@@ -227,21 +231,21 @@ def compute_particle_density(rho_qp, bra_spf, ket_spf):
         where we use greek indices to denote a basis of $K$ orbitals
         $\brac{\phi_{\alpha}}$ and latin letters for the basis of $L$
         transformed orbitals $\brac{\psi_p}$, and where $\vfg{C} \in
-        \mathbb{C}^{K\times L}$ is a complex matrix with the coefficients.
+        \mathbb{C}^{K\times L}$ is a complex matrix with the coefficients
+        necessary for the transformation.
 
         Having found the coefficient matrix $\vfg{C}$ we can change basis for
         all the existing matrix elements stored in the
         \pyth{QuantumSystem}-class.
-        We will also here assume for the sake of generality that the dual state
-        $\tilde{\psi}_p(x)$ not necessarily is the adjoint of $\psi_p(x)$.
+        We will also here assume for the sake of generality that the dual states
+        $\tilde{\psi}_p$ and $\tilde{\phi}_{\alpha}$ are not necessarily the
+        adjoints of $\psi_p$ and $\phi_{\alpha}$.
         This means that
         \begin{align}
             \bra*{\tilde{\psi}_p}
-            = \tilde{C}_{p \alpha}\bra*{\phi_{\alpha}},
+            = \tilde{C}_{p \alpha}\bra*{\tilde{\phi}_{\alpha}}.
             \label{eq:spf-dual-basis-change}
         \end{align}
-        where we assume that the dual states in the underlying orbital basis are
-        the adjoint states.
         Take extra note of the ordering of the indices in the coefficients in
         the dual basis transformation.
         In the case of adjoint states we have the familiar $\tilde{C}_{p \alpha}
@@ -257,7 +261,7 @@ def compute_particle_density(rho_qp, bra_spf, ket_spf):
         \begin{align}
             \oneten_{\alpha \beta}
             \equiv
-            \mel*{\phi_{\alpha}}{\onehamil}{\phi_{\beta}}.
+            \mel*{\tilde{\phi}_{\alpha}}{\onehamil}{\phi_{\beta}}.
         \end{align}
         Transforming to the new basis set we have
         \begin{gather}
@@ -267,7 +271,6 @@ def compute_particle_density(rho_qp, bra_spf, ket_spf):
             \tilde{C}_{p\alpha}
             \oneten_{\alpha \beta}
             C_{\beta q}
-            \\
             \implies
             \tilde{\vfg{\oneten}}
             = \tilde{\vfg{C}}
@@ -275,7 +278,7 @@ def compute_particle_density(rho_qp, bra_spf, ket_spf):
             \vfg{C},
         \end{gather}
         where $\tilde{\vfg{\oneten}}$ is the transformed one-body elements.
-        An implmentation of the change of basis for the one-body elements is
+        An implementation of the change of basis for the one-body elements is
         shown in \autoref{alg:transform-one-body-elements}.
         In the case of the dipole moments we store these as an array of one-body
         elements, one for every dimension, which means that we need to transform
@@ -298,7 +301,7 @@ def transform_one_body_elements(h, c, c_tilde=None):
         \begin{align}
             \twoten^{\alpha\beta}_{\gamma\delta}
             \equiv
-            \mel*{\phi_{\alpha}\phi_{\beta}}{
+            \mel*{\tilde{\phi}_{\alpha}\tilde{\phi}_{\beta}}{
                 \twohamil
             }{\phi_{\gamma}\phi_{\delta}},
         \end{align}
@@ -307,9 +310,9 @@ def transform_one_body_elements(h, c, c_tilde=None):
         The transformation can now be done by
         \begin{align}
             \tilde{\twoten}^{pq}_{rs}
-            = \mel*{\phi_p\phi_q}{
+            = \mel*{\psi_p\psi_q}{
                 \twohamil
-            }{\phi_r\phi_s}
+            }{\psi_r\psi_s}
             = \tilde{C}_{p\alpha}
             \tilde{C}_{q\beta}
             \twoten^{\alpha\beta}_{\gamma\delta}
@@ -346,10 +349,9 @@ def transform_two_body_elements(u, c, c_tilde=None):
             \label{alg:transform-two-body-elements}
         \end{algorithm}
         For the single-particle functions the basis transformation is performed
-        by the equations in \autoref{eq:spf-basis-change} and
-        \autoref{eq:spf-dual-basis-change} where the states are projected on a
-        grid.
-        We represent all the single-particle states as an $d + 1$-dimensional
+        by \autoref{eq:spf-basis-change} and \autoref{eq:spf-dual-basis-change}
+        where the states are projected on a grid.
+        We represent all the single-particle states as a $d + 1$-dimensional
         array, where the first axis denotes which single-particle state we are
         looking at, and the $d$-remaining axes denotes the grid.
         In \autoref{alg:transform-spfs} we show the member function of
@@ -410,16 +412,16 @@ class QuantumSystem:
         reasonable as long as we have an even number of particles with the same
         amount of particles in each spin-direction.
         We use the convention that orbitals are ordered in an increasing order
-        based on their single-particle eigenenergy\footnote{%
+        based on their single-particle eigenenergy.\footnote{%
             This is the ordering that is returned by NumPy when diagonalizing
             the one-body Hamiltonian.
-        }.
+        }
         We then double the length of each orbital axis in the single-particle
         functions,\footnote{%
             Except for the grid axes.
         } the one-body- and two-body Hamiltonians, and all other matrix
         elements.
-        Next we repeat each orbital twice so that even indices corresponds to a
+        Next we repeat each orbital twice so that even indices correspond to a
         certain spin-direction and odd indices to the other direction.
         We are able to achieve this quite succintly using the Kronecker-product
         and slicing in NumPy.
