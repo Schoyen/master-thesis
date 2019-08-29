@@ -972,9 +972,14 @@ energy = np.trace(np.dot(term, density_matrix))
             procedure described in \autoref{subsec:basis-transformation} can be
             used to make the orbitals orthonormal prior to starting the
             time-evolution.
-            % TODO: Add function computing the right-hand side
-            % TODO: Discuss ravel of the matrix
-            % TODO: YOU ARE HERE!
+            As discussed in \autoref{sec:numerical-integration} we need to
+            convert $\dot{\vfg{C}}$ to a vector.
+            Using NumPy we store the result from the right-hand side as a
+            two-dimensional array and we can use the function \pyth{np.ravel} to
+            convert the two-dimensional array to a contiguous, flattened,
+            one-dimensional array.
+            We use the member function \pyth{reshape} to go from the flattened
+            array back to the two-dimensional form.
 
         \subsection{Time-dependent energy}
             The time-dependent energy is computed in exactly same way as for the
@@ -989,19 +994,21 @@ energy = np.trace(np.dot(term, density_matrix))
             Due to the orthonormality of the atomic orbital basis, the
             time-dependent overlap is given by
             \begin{align}
-                P(t)
+                P(t, t_0)
                 =
-                \abs{\braket{\Phi(t)}{\Phi(0)}}^2
-                &= \abs{\det(\vf{C}^{\dagger}(t)\vf{C}(0))}^{2},
+                \abs{\braket*{\Phi(t)}{\Phi(t_0)}}^2
+                &= \abs{\determinant(\vf{C}^{\dagger}(t)\vf{C}(t_0))}^{2},
             \end{align}
             where $\vf{C}(t)$ is the coefficient matrix of the time evolved states.
-            % TODO: Consider adding normalization
 
 
     \section{Configuration interaction}
         As the main goal of this thesis has been to implement coupled-cluster
         solvers, the configuration interaction solver has not been worked at to
         such a large degree.
+        The motivation for implementing a full configuration interaction solver
+        for small systems is to compare our approximate methods to an -- within
+        the computational space -- exact method.
         We have therefore implemented a ``naïve'' configuration interaction
         solver where we create the full Slater determinant space and store it in
         memory.
@@ -1009,13 +1016,16 @@ energy = np.trace(np.dot(term, density_matrix))
         Our implementation thus quickly absorb too much memory and therefore
         limits the number of particles and basis functions that can be explored.
         To improve on the current scheme, an implementation of the \emph{direct
-        CI} methods \cite{helgaker-molecular} along with only storing non-zero
-        elements in $\hamilmat$ will yield a more powerfull method supporting
-        more particles and basis functions.
+        CI} methods \cite{helgaker-molecular, olsen2012full} along with only
+        storing non-zero elements in $\hamilmat$ will yield a more powerful
+        method supporting more particles and basis functions.
 
         \subsection{Constructing the Slater determinant basis}
             We represent the Slater determinants as NumPy-arrays \cite{numpy} of
             bit strings using unsigned integers.
+            The reason for choosing NumPy-arrays is that we are ble to use Numba
+            \cite{numba} to speed up much of the explicit for-loops.
+            Unfortunately this means that we have to the bit-twiddling manually.
             The default choice is to use \pyth{np.uint64}, i.e., 64-bit unsigned
             integers with room for 64 single-particle states, but other options
             such as 32-bit and 16-bit unsignd integers are available.
@@ -1028,7 +1038,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 N_i = \left\lfloor\frac{L}{b}\right\rfloor
                 + q,
             \end{align}
-            where $q$ is either one or zero by
+            where $q$ is either one or zero,
             \begin{align}
                 q = \begin{cases}
                     1 & L \mod b > 0, \\
@@ -1044,7 +1054,7 @@ energy = np.trace(np.dot(term, density_matrix))
                     N_s(S - 1) \frac{(N - [S - 1])(M - [S - 1])}{S^2}, & S > 0.
                 \end{cases}
             \end{align}
-            where $N$ is the number of particles, $M = L - N$ is the number of
+            Here $N$ is the number of particles, $M = L - N$ is the number of
             virtual states, and we've denoted the order $S$ as an integer where
             $1$ represents singles, $2$ doubles, and so forth.
             This formula counts the number of ways $N$ particles can be
@@ -1133,14 +1143,14 @@ energy = np.trace(np.dot(term, density_matrix))
             \pyth{o_remove} and then proceeds to add all the virtual indices in
             order into \pyth{v_insert}, before calling the excitation function
             defined in \autoref{alg:excite-state}.
-            This function is shown in
+            The full recursive procedure is shown in
+            \autoref{alg:create-excited-states}.
             \begin{algorithm}
                 \inputpython{implementation/solvers/determinants.py}{26}{56}
                 \caption{Function creating all excited determinants of a given
                 order \pyth{order}.}
                 \label{alg:create-excited-states}
             \end{algorithm}
-
             The entire implementation of the configuration interaction method is
             uniquely defined by the basis of Slater determinants.
             This means that after a truncation order has been chosen and the
@@ -1149,7 +1159,7 @@ energy = np.trace(np.dot(term, density_matrix))
             truncation level.
 
         \subsection{Constructing the Hamiltonian matrix}
-            The arguably most effective first order optimization that can be
+            The arguably most effective ``first order'' optimization that can be
             performed for the configuration interaction method is to implement
             the Slater-Condon rules when evaluating matrix elements of operator
             strings, as opposed to brute force evaluation of the action of the
@@ -1158,14 +1168,14 @@ energy = np.trace(np.dot(term, density_matrix))
             two-body operators, we wish to evaluate the matrix elements
             \begin{align}
                 \hamilten_{IJ}
-                = \mel{\Phi_{I}}{\hamil}{\Phi_J}
+                = \mel*{\Phi_{I}}{\hamil}{\Phi_J}
                 =
                 \oneten^{p}_{q}
-                \mel{\Phi_{I}}{\ccr{p}\can{q}}{\Phi_J}
+                \mel*{\Phi_{I}}{\ccr{p}\can{q}}{\Phi_J}
                 +
                 \frac{1}{4}
                 \twoten^{pq}_{rs}
-                \mel{\Phi_{I}}{
+                \mel*{\Phi_{I}}{
                     \ccr{p}
                     \ccr{q}
                     \can{r}
@@ -1175,12 +1185,12 @@ energy = np.trace(np.dot(term, density_matrix))
             using the Slater-Condon rules defined in
             \autoref{lemma:slater-condon-one-body} and
             \autoref{lemma:slater-condon-two-body}.
-            Given two Slater determinants $\ket{\slat_I}$ and $\ket{\slat_J}$
-            which we represent as two occupation number states $\ket{\vfg{n}}$
-            and $\ket{\vfg{m}}$, respectively, we need ways to evaluate the
+            Given two Slater determinants $\ket*{\slat_I}$ and $\ket*{\slat_J}$
+            which we represent as two occupation number states $\ket*{\vfg{n}}$
+            and $\ket*{\vfg{m}}$, respectively, we need ways to evaluate the
             following:
             \begin{itemize}
-                \item The sign given by
+                \item The sign given by the phase,
                     \begin{align}
                         (\Gamma_{-})^{\vfg{n}}_{p}
                         = \prod_{i = 1}^{p - 1}(-1)^{n_i},
@@ -1225,7 +1235,7 @@ energy = np.trace(np.dot(term, density_matrix))
             The counting of set bits in an integer is a topic which has been
             explored in some depth in the field of computer science and has led
             to some very efficient algorithms.
-            We use the population count algorithm \cite{wiki:popcount} shown in
+            We use the population count algorithm \cite{popcount} shown in
             \autoref{alg:popcount_64}.
             \begin{algorithm}
                 \inputpython{implementation/solvers/determinants.py}{84}{97}
@@ -1269,15 +1279,16 @@ energy = np.trace(np.dot(term, density_matrix))
             \dots, E_{N_s})$ and the eigenvectors, i.e., the coefficients for
             the eigenstates, $\vfg{C} \in \mathbb{C}^{N_s \times N_s}$.
             As stated in \autoref{chap:ci}, we restrict our attention to
-            orthonormal single-particle states and we therefore need to solve
-            the eigenvalue equation
+            orthonormal single-particle states and hence orthonormal Slater
+            determinants.
+            We therefore need to solve the eigenvalue equation
             \begin{align}
                 \hamilmat\vfg{C} = \vfg{E}\vfg{C}.
             \end{align}
             The Hamiltonian matrix is Hermitian and we can therefore use the
             function \pyth{np.linalg.eigh} \cite{numpy}, which uses the
             LAPACK-routines \cite{laug} \pyth{_syevd} and \pyth{_heevd} for
-            symmetrc and Hermitian matrices respectively, to solve the
+            symmetric and Hermitian matrices respectively, to solve the
             eigenvalue equation.
             This will yield the full spectrum of $\hamilmat$ and will often
             prove a limiting factor in terms of computational complexity as the
@@ -1289,7 +1300,7 @@ energy = np.trace(np.dot(term, density_matrix))
             We use the function \pyth{scipy.sparse.linalg.eigsh} from SymPy
             \cite{sympy} which is a wrapper around the ARPACK routines SSEUPD
             and DSEUPD \cite{arpack} implementing the Implictly Restarted
-            Lanczos Method with a theortical complexity of $\mathcal{O}(N_s^2)$.
+            Lanczos Method with a theoretical complexity of $\mathcal{O}(N_s^2)$.
             This lets us specify how many eigenpairs $k$ we wish to compute,
             which is then found iteratively.
 
@@ -1302,12 +1313,13 @@ energy = np.trace(np.dot(term, density_matrix))
         \subsection{One-body density matrix}
             Having diagonalized the Hamiltonian matrix we can compute the one-body
             density matrix of the system.
-            For a given eigenstate $\ket{\Psi_I}$ we compute the one-body
+            For a given eigenstate $\ket*{\Psi_I}$ we compute the one-body
             density matrix by
             \begin{align}
                 {\rho_I}^{q}_{p}
-                &= \bra{\Psi_I}\ccr{p}\can{q}\ket{\Psi_I}
-                = C_{JI}^{*}C_{KI}\bra{\slat_J}\ccr{p}\can{q}\ket{\slat_K}.
+                &= \mel*{\Psi_I}{\ccr{p}\can{q}}{\Psi_I}
+                = C_{JI}^{*}C_{KI}
+                \mel*{\slat_J}{\ccr{p}\can{q}}{\slat_K}.
                 \label{eq:ci-one-body-density}
             \end{align}
             As matrix elements of the one-body density matrix is given by a pair
@@ -1316,7 +1328,7 @@ energy = np.trace(np.dot(term, density_matrix))
             This results in virtually the same implementation as for the
             one-body Hamiltonian, but with a new one-body operator given by the
             coefficient vector $\vfg{c}_I$ for a specific eigenstate
-            $\ket{\Psi_I}$.
+            $\ket*{\Psi_I}$.
             Do note that $\vfg{c}_I \in \mathbb{C}^{N_s}$ and that the indices
             into this vector is given by the same indices as for the Slater
             determinants, unlike the single-particle indices used for the
@@ -1327,23 +1339,26 @@ energy = np.trace(np.dot(term, density_matrix))
             of the configuration interaction method.
             Choosing an initial state with a given coefficient vector
             $\vfg{c}(0) \in \mathbb{C}^{N_s}$, either from the ground state
-            problem or from some other method, we prooceed to solve the
+            problem or from some other method, we proceed to solve the
             differential equation demonstrated in \autoref{eq:tdci}.
             In atomic units this corresponds to solving
             \begin{align}
-                \dot{\vfg{c}}(t) = -i\hamilmat(t)\vfg{c}(t).
+                \dot{\vfg{c}}(t) = -i\hamilmat(t)\vfg{c}(t),
             \end{align}
-            Having already set up the framework for the numerical integrators as
-            described in \autoref{sec:numerical-integration}, our task is to
-            construct the time-dependent Hamiltonian matrix.
+            which we see is already a vector and therefore be directly fed into
+            the numerical integrators described in
+            \autoref{sec:numerical-integration}.
+            Our task is now to construct the time-dependent Hamiltonian matrix.
             In general we can construct the time-dependent matrix elements from
             \begin{align}
                 \hamilten_{IJ}(t)
                 &=
                 \oneten^{p}_{q}(t)
-                \bra{\slat_I}\ccr{p}\can{q}\ket{\slat_J}
+                \mel*{\slat_I}{\ccr{p}\can{q}}{\slat_J}
                 + \frac{1}{4}\twoten^{pq}_{rs}(t)
-                \bra{\slat_I}\ccr{p}\ccr{q}\can{s}\can{r}\ket{\slat_J}.
+                \mel*{\slat_I}{
+                    \ccr{p}\ccr{q}\can{s}\can{r}
+                }{\slat_J}.
             \end{align}
             and reuse the Slater-Condon rules to evaluate the one- and two-body
             operators.
@@ -1367,10 +1382,10 @@ energy = np.trace(np.dot(term, density_matrix))
             \begin{gather}
                 (\hamil_1)_{IJ}(t)
                 \equiv
-                \mel{\slat_I}{\onehamil(t)}{\slat_J}, \\
+                \mel*{\slat_I}{\onehamil(t)}{\slat_J}, \\
                 (\hamil_2)_{IJ}(t)
                 \equiv
-                \mel{\slat_I}{\twohamil(t)}{\slat_J}.
+                \mel*{\slat_I}{\twohamil(t)}{\slat_J}.
             \end{gather}
             Setting $\twohamil(t) = \twohamil$ we now compute the Hamiltonian
             matrix from
@@ -1382,14 +1397,14 @@ energy = np.trace(np.dot(term, density_matrix))
             Slater-Condon rules for the one-body operator -- at every time step.
 
         \subsection{Time-dependent energy}
-            For a time-evolved state $\ket{\Psi(t)}$ with a time-evolved
+            For a time-evolved state $\ket*{\Psi(t)}$ with a time-evolved
             Hamiltonian $\hamil(t)$, we can compute the energy of the state at a
             certain time $t$ by
             \begin{align}
                 E(t) = \frac{
-                    \mel{\Psi(t)}{\hamil(t)}{\Psi(t)}
+                    \mel*{\Psi(t)}{\hamil(t)}{\Psi(t)}
                 }{
-                    \braket{\Psi(t)}
+                    \braket*{\Psi(t)}
                 },
             \end{align}
             where we've included an explicit normalization due to potential
@@ -1402,7 +1417,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 E(t)
                 &=
                 \frac{
-                    c^{*}_I(t)\mel{\slat_I}{\hamil(t)}{\slat_J}c_J(t)
+                    c^{*}_I(t)\mel*{\slat_I}{\hamil(t)}{\slat_J}c_J(t)
                 }{
                     c^{*}_I(t)c_I(t)
                 }
@@ -1417,23 +1432,22 @@ energy = np.trace(np.dot(term, density_matrix))
         \subsection{Time-dependent overlap}
             We compute the time-dependent overlap by
             \begin{align}
-                P(t)
+                P(t, t_0)
                 =
                 \frac{
-                    \abs{\braket{\Psi(t)}{\Psi(0)}}^2
+                    \abs{\braket*{\Psi(t)}{\Psi(t_0)}}^2
                 }{
-                    \braket{\Psi(t)}\braket{\Psi(0)}
+                    \braket*{\Psi(t)}\braket*{\Psi(t_0)}
                 }
                 = \frac{
-                    \abs{\vfg{c}^{\dagger}(t)\vfg{c}(0)}^2
+                    \abs{\vfg{c}^{\dagger}(t)\vfg{c}(t_0)}^2
                 }{
                     \abs{\vfg{c}(t)}^2
-                    \abs{\vfg{c}(0)}^2
+                    \abs{\vfg{c}(t_0)}^2
                 },
             \end{align}
             where we again include an explicit normalization term in case of
             drift in the normalization due to the integrator.
-            We also compute the overlap from the initial time $t = 0$.
 
     \section{Coupled cluster}
         \label{sec:cc-solver}
@@ -1461,7 +1475,7 @@ energy = np.trace(np.dot(term, density_matrix))
         Our coupled-cluster library tries in as large degree as possible to
         reuse routines for the different solvers as this makes optimization
         more efficient, that is, we only need to optizime a specific function
-        once instead of once per solver.
+        once, instead of once per solver.
 
         \subsection{Ground state solvers with static orbitals}
             \label{subsec:gs-cc}
@@ -1518,7 +1532,7 @@ energy = np.trace(np.dot(term, density_matrix))
             In order for \autoref{eq:delta-tau} to be well-defined we require
             that none of the elements in $D_{\mu}$ are zero.
             This is ensured as long as we have a well-defined single-reference
-            problem as
+            problem as \cite{cramer2004computational}
             \begin{align}
                 \epsilon_i \neq \epsilon_a,
             \end{align}
@@ -1539,8 +1553,12 @@ energy = np.trace(np.dot(term, density_matrix))
             where we collect all the cluster amplitudes together when computing
             the improved estimate.
             We order the $\clustamp$-amplitudes with the virtual indices first,
-            for example the doubles amplitudes $\clustamp^{ab}_{ij}$ using NumPy
-            is given by \pyth{t_2[a, b, i, j]}.
+            for example the doubles amplitudes is given by
+            \begin{align}
+                \clustamp^{ab}_{ij}
+                \to \text{\pyth{t_2[a, b, i, j]}},
+            \end{align}
+            as NumPy arrays.
             To determine if we have found a converged set of cluster amplitude
             we compute the Frobenius norm of each set of amplitudes using
             NumPy, and checking whether or not we have a value below a set
@@ -1583,9 +1601,12 @@ energy = np.trace(np.dot(term, density_matrix))
             indices reversed.
             That is, we order the indices of the $\clustlamp$-amplitudes
             in the opposite order from the $\clustamp$-amplitudes, e.g., the
-            doubles amplitudes are $\clustlamp^{ij}_{ab}$ which using NumPy
-            translates to \pyth{l_2[i, j, a, b]} with the occupied indices
-            first.
+            doubles amplitudes are
+            \begin{align}
+                \clustlamp^{ij}_{ab}
+                \to \text{\pyth{l_2[i, j, a, b]}},
+            \end{align}
+            using NumPy arrays.
             We compute the next iteration of the $\clustlamp$-amplitudes from
             \begin{align}
                 \vfg{\clustlamp}^{(i + 1)}
@@ -1626,7 +1647,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 vectors, and in the case of more than one set of amplitudes we
                 need to concatenate these vectors on top of one another.
                 By letting $\alpha \to 1$ we include less and less of the next
-                time step.
+                iteration.
                 Setting $\alpha = 0$ we remove the convergence acceleration
                 entirely.
 
@@ -1812,10 +1833,12 @@ energy = np.trace(np.dot(term, density_matrix))
             \autoref{app:cc-tau-amplitudes} and
             \autoref{app:cc-lambda-amplitudes}.
 
-            Now, the integration schemes assume a \emph{vector} of derivatives
-            instead of a set of rank $2$ and rank $4$ tensors.
-            We therefore ravel the amplitude tensors to represent them as a
-            one-dimensional array and stack them on top of one another.
+            Now, the integration schemes assume a vector of derivatives instead
+            of a set of rank $2$ and rank $4$ tensors.
+            We therefore ravel the amplitude tensors using \pyth{np.ravel} from
+            NumPy to represent them as a one-dimensional array.
+            We then concatenate the arrays as a single long one-dimensional
+            array.
             However, we've formulated all our amplitude equations using the rank
             $2$ and $4$ tensors and we must transform the input vector with
             amplitudes from the integration schemes to the correct shape of the
@@ -1850,7 +1873,7 @@ class AmplitudeContainer:
             where \pyth{self._t} and \pyth{self._l} are Python lists with the
             $\clustamp$- and $\clustlamp$-amplitudes respectively.
             The latter method \pyth{unpack} allows us to iterate over all the
-            amplitudes in a \pyth{for}-loop.
+            amplitudes in a for-loop.
             For CCSD \pyth{self._t} will be a list of three amplitudes,
             $\clustamp_0$, $\clustamp^{a}_{i}$ and $\clustamp^{ab}_{ij}$, where
             the $\clustamp_0$ is the phase defined in \autoref{subsec:cc-phase}.
@@ -2136,10 +2159,10 @@ class AmplitudeContainer:
             where the sum over the orbitals can be truncated to further lower
             the computational cost of the OATDCCD-method.
             In this thesis we have not included any studies where we truncate
-            the orbital basis further, the $Q$-space equations therefore
-            simplifies as the right-hand side of \autoref{eq:ket-q} and
-            \autoref{eq:bra-q} will be zero.
-            A demonstration of this is shown in
+            the orbital basis further.
+            The $Q$-space equations therefore simplifies as the right-hand side
+            of \autoref{eq:ket-q} and \autoref{eq:bra-q} will be zero.
+            A demonstration of this fact is shown in
             \autoref{app:untruncated-q-space}.
             The $Q$-space equations thus reduce to
             \begin{gather}
@@ -2218,8 +2241,8 @@ class OACCVector(AmplitudeContainer):
             \end{algorithm}
             We are then able to reuse the \pyth{asarray} and \pyth{from_array}
             methods from \pyth{AmplitudeContainer}.
-            Thus we can use all types of known differential equation solvers.
-            % TODO: Add __call__?
+            Thus we can reuse the already implemented differential equation
+            solvers.
 
         \subsection{Measuring quantities}
             More or less all measurable quantities can be computed in the same
@@ -2230,8 +2253,7 @@ class OACCVector(AmplitudeContainer):
         \subsection{Time-dependent overlap}
             A significant drawback of the orbital-adaptive time-dependent
             coupled-cluster family of methods are their inability to compute the
-            time-dependent overlap, or the autocorrelation, in a polynomial
-            time.
+            time-dependent overlap, or the autocorrelation, in polynomial time.
             The main reason for this is that the overlap is computed at two
             separate times which yield two different sets of operators.
             We can see this from
@@ -2253,7 +2275,7 @@ class OACCVector(AmplitudeContainer):
             Now, the biorthonormality condition is only maintained at equal
             times which means that
             \begin{align}
-                \acom{\biccr{p}(t)}{\bican{q}(t')} \neq \delta_{pq},
+                \acom{\biccr{p}(t)}{\bican{q}(t_0)} \neq \delta_{pq},
             \end{align}
             in general.
             To get around this we express all operators in terms of the initial
@@ -2291,15 +2313,15 @@ class OACCVector(AmplitudeContainer):
             As this is not the case for unequal times, the overlap can be found
             by
             \begin{align}
-                \braket*{\tilde{\Psi}(t)}{\Psi(t')}
+                \braket*{\tilde{\Psi}(t)}{\Psi(t_0)}
                 =
                 \mel*{\tilde{\slat}(t)}{
                     (
                         \1 + \clustl(t)
                     )
                     \exponential(-\clust(t))
-                    \exponential(\clust(t'))
-                }{\slat(t')},
+                    \exponential(\clust(t_0))
+                }{\slat(t_0)},
             \end{align}
             where the unequal times in the reference determinants remove our
             ability to use the Fermi vacuum formalism as the right and left
