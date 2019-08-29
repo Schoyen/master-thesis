@@ -8,3 +8,62 @@
     orbitals.
 
     \section{Why bother with orbital rotations?}
+        In \autoref{chap:validation} we demonstrated how both TDCCSD and OATDCCD
+        provided excellent agreement with exact solution for the $2$-particle
+        systems.
+        An important question to answer is then why we should even bother
+        implementing OATDCCD, when TDCCSD seems to do the trick.
+        Especially in our implementation where we do not truncate the
+        single-particle basis further for OATDCCD, thus removing one of its
+        strengths as compared to the static TDCCSD solver.
+        As part of the original motivation for this thesis, we wished to study
+        the OATDCCD-method as an academic study of a rather novel method.
+        However, as pointed out by \citeauthor{pedersen2018symplectic}
+        \cite{pedersen2018symplectic}, the TDCCSD-method is \emph{unstable} in
+        the limit of very strong laser pulses.
+        This is even the case for $2$-particle systems where TDCCSD is formally
+        exact within the finite single-particle basis.
+        \citeauthor{pedersen2018symplectic} conjectured that the inclusion of
+        orbital rotations might be a solution to the stability issues
+        experienced by TDCCSD, and we will here verify that this is indeed the
+        case.
+
+        We will use exactly the same fields, atoms, and parameters as
+        \citeauthor{pedersen2018symplectic}.
+        The dipole laser pulse is given by
+        \begin{align}
+            \vfg{E}(t)
+            = \vfg{E} \sine(\omega t) G(t),
+        \end{align}
+        where the envelope function $G(t)$ is given by
+        \begin{align}
+            G(t)
+            = \sine^2(\pi t / t_d),
+        \end{align}
+        where $t_d$ is the duration of the laser pulse and the envelope is
+        active for $t \in [0, t_d]$.
+        We let the negative charge of the electrons occur in the polarization
+        vector.
+        The atoms we look at are \ch{He} and \ch{Be}, and we'll use TDFCI
+        simulations as the ground truth.
+        We'll run the simulations using both TDCCSD and OATDCCD with the
+        restricted Hartree-Fock reference determinant from PySCF.
+        As has been stated several times is the lack of the time-dependent
+        overlap for the OATDCCD-method.
+        Therefore, as part of the stability analysis we will sample the
+        Frobenius norm of the cluster amplitudes, and the time-dependent overlap
+        with the reference determinant as discussed in \autoref{sec:cc-phase}.
+        We'll compare this with the weight of the reference determinant in the
+        TDFCI simulations, i.e., $\abs{c_0(t)}^2$, the zeroth compononent in the
+        TDFCI coefficient vector.
+
+
+    \section{Summing up the stability analysis}
+        We have now demonstrated why the OATDCCD-method is an important method
+        for dynamics of many-body systems as it provides a more stable solver
+        than the TDCCSD-method.
+        A further study of this phenomenon will not included in this thesis as
+        the author is participating in an ongoing work on the stability of the
+        OATDCCD-method with \citeauthor{oa-stability} \cite{oa-stability}.
+        Also, in the following results we do not include any stability analysis,
+        but merely compare with known litterature where we are able.

@@ -2048,220 +2048,220 @@
 
 
 
-        \subsection{Normalization of the coupled-cluster wave functions}
-            We compute the normalization of the coupled-cluster wave function by
-            \begin{align}
-                \braket*{\tilde{\Psi}(t)}{\Psi(t)} = N(t).
-            \end{align}
-            When using static orbitals this reduces to
-            \begin{align}
-                \braket*{\tilde{\Psi}(t)}{\Psi(t)}
-                = \mel*{\slat}{
-                    (\1 + \clustl(t))
-                    \exponential(-\clust(t))
-                    \exponential(\clust(t))
-                }{\slat}
-                = \braket*{\slat}{\slat}
-                = 1,
-            \end{align}
-            where we assume that the reference determinant is normalized to
-            unity.
-            We can then see that the static formulation of the coupled-cluster
-            methods are, by construction, normalized to unity.
-            However, for the orbital-adaptive methods where the orbitals are
-            allowed to vary in time, the picture changes.
-            We then have
-            \begin{align}
-                \braket*{\tilde{\Psi}(t)}{\Psi(t)}
-                &=
-                \mel*{\tilde{\slat}(t)}{
-                    (\1 + \clustl(t))
-                    \exponential(-\clust(t))
-                    \exponential(\clust(t))
-                }{\slat(t)}
-                \\
-                &= \braket*{\tilde{\slat}(t)}{\slat(t)}
-                = \det[\vfg{T}(t)]
-                = N(t),
-                \label{eq:norm-oatdcc}
-            \end{align}
-            where we have introduced the matrix $\vfg{T}(t)$ as the product of
-            the coefficient matrices for occupied indices.
-            That is,
-            \begin{align}
-                T_{ij}(t) = \tilde{C}_{i\alpha}(t) C_{\alpha j}(t)
-            \end{align}
-            where the coefficients are limited to run over the occupied orbitals
-            in the reference Slater determinants, but $\alpha$ runs over all the
-            atomic orbitals\footnote{%
-                There is no problem in computing the determinant of the full
-                product between the coefficient matrices as this should yield
-                the identity, but formally only the occupied orbitals are
-                included in the reference states.
-            }.
-            Here we observe that the normalization constant can change in time.
-            Mathematically, we construct the product between the coefficients to
-            be the identity, i.e.,
-            \begin{align}
-                \tilde{\vfg{C}}(t)\vfg{C}(t)
-                = \1,
-                \label{eq:oatdcc-coeff-identity}
-            \end{align}
-            where this product runs over all indices $p$ and $q$.
-            We therefore expect that $N(t) = 1$ for all times $t$, but due to
-            integration errors in the numerical differential equation solvers we
-            will observe a time-dependent drift.
-            By measuring the time-dependent norm from \autoref{eq:norm-oatdcc}
-            and the preservation of the identity for the coefficients from
-            \autoref{eq:oatdcc-coeff-identity} in the orbital-adaptive regime,
-            we can make an educated guess as to when the integration breaks.
-            This motivates the need for good differential equation integrators
-            which preserve the norm.
-            % TODO: If this should be left in the text, we must include some
-            % results demonstrating this.
+    \section{Normalization of the coupled-cluster wave functions}
+        We compute the normalization of the coupled-cluster wave function by
+        \begin{align}
+            \braket*{\tilde{\Psi}(t)}{\Psi(t)} = N(t).
+        \end{align}
+        When using static orbitals this reduces to
+        \begin{align}
+            \braket*{\tilde{\Psi}(t)}{\Psi(t)}
+            = \mel*{\slat}{
+                (\1 + \clustl(t))
+                \exponential(-\clust(t))
+                \exponential(\clust(t))
+            }{\slat}
+            = \braket*{\slat}{\slat}
+            = 1,
+        \end{align}
+        where we assume that the reference determinant is normalized to
+        unity.
+        We can then see that the static formulation of the coupled-cluster
+        methods are, by construction, normalized to unity.
+        However, for the orbital-adaptive methods where the orbitals are
+        allowed to vary in time, the picture changes.
+        We then have
+        \begin{align}
+            \braket*{\tilde{\Psi}(t)}{\Psi(t)}
+            &=
+            \mel*{\tilde{\slat}(t)}{
+                (\1 + \clustl(t))
+                \exponential(-\clust(t))
+                \exponential(\clust(t))
+            }{\slat(t)}
+            \\
+            &= \braket*{\tilde{\slat}(t)}{\slat(t)}
+            = \det[\vfg{T}(t)]
+            = N(t),
+            \label{eq:norm-oatdcc}
+        \end{align}
+        where we have introduced the matrix $\vfg{T}(t)$ as the product of
+        the coefficient matrices for occupied indices.
+        That is,
+        \begin{align}
+            T_{ij}(t) = \tilde{C}_{i\alpha}(t) C_{\alpha j}(t)
+        \end{align}
+        where the coefficients are limited to run over the occupied orbitals
+        in the reference Slater determinants, but $\alpha$ runs over all the
+        atomic orbitals\footnote{%
+            There is no problem in computing the determinant of the full
+            product between the coefficient matrices as this should yield
+            the identity, but formally only the occupied orbitals are
+            included in the reference states.
+        }.
+        Here we observe that the normalization constant can change in time.
+        Mathematically, we construct the product between the coefficients to
+        be the identity, i.e.,
+        \begin{align}
+            \tilde{\vfg{C}}(t)\vfg{C}(t)
+            = \1,
+            \label{eq:oatdcc-coeff-identity}
+        \end{align}
+        where this product runs over all indices $p$ and $q$.
+        We therefore expect that $N(t) = 1$ for all times $t$, but due to
+        integration errors in the numerical differential equation solvers we
+        will observe a time-dependent drift.
+        By measuring the time-dependent norm from \autoref{eq:norm-oatdcc}
+        and the preservation of the identity for the coefficients from
+        \autoref{eq:oatdcc-coeff-identity} in the orbital-adaptive regime,
+        we can make an educated guess as to when the integration breaks.
+        This motivates the need for good differential equation integrators
+        which preserve the norm.
+        % TODO: If this should be left in the text, we must include some
+        % results demonstrating this.
 
-        \subsection{Measuring the quality of the reference state in time}
-            \label{subsec:cc-phase}
-            When evolving a system in time, we can -- and will -- get in a
-            situation where our initial state has little overlap with the
-            time-evolved state \cite{pedersen2018symplectic}.\footnote{%
-                Note that even though there might be a nonzero overlap with our
-                initial state, this overlap can be so small that within
-                computational precision it is zero.
-            }
-            That is, we can get in a situation where
-            \begin{align}
-                \braket*{\psi(t)}{\psi(0)} \to 0,
-            \end{align}
-            where $\ket{\psi(0)}$ is some initial state and $\ket{\psi(t)}$ is
-            the time-evolved state at a later time $t$.
-            In time-dependent configuration interaction theory this is handled
-            automatically by the zero-order amplitude, viz.
-            \begin{gather}
-                \ket*{\Psi(t)}
-                = C_0(t)\ket*{\slat}
-                + C^{a}_{i}(t)\ket*{\slat^{a}_{i}}
+    \section{Measuring the quality of the reference state in time}
+        \label{sec:cc-phase}
+        When evolving a system in time, we can -- and will -- get in a
+        situation where our initial state has little overlap with the
+        time-evolved state \cite{pedersen2018symplectic}.\footnote{%
+            Note that even though there might be a nonzero overlap with our
+            initial state, this overlap can be so small that within
+            computational precision it is zero.
+        }
+        That is, we can get in a situation where
+        \begin{align}
+            \braket*{\psi(t)}{\psi(0)} \to 0,
+        \end{align}
+        where $\ket{\psi(0)}$ is some initial state and $\ket{\psi(t)}$ is
+        the time-evolved state at a later time $t$.
+        In time-dependent configuration interaction theory this is handled
+        automatically by the zero-order amplitude, viz.
+        \begin{gather}
+            \ket*{\Psi(t)}
+            = C_0(t)\ket*{\slat}
+            + C^{a}_{i}(t)\ket*{\slat^{a}_{i}}
+            + \dots
+            \implies
+            \braket*{\slat}{\Psi(t)} = C_0(t),
+        \end{gather}
+        where $\ketslat$ is the reference determinant and we assume an
+        orthonormal set of single-particle states as our basis.
+        In time-dependent coupled-cluster theory where we assume
+        intermediate normalization, there is however a different story to be
+        told.
+        For the time-dependent coupled-cluster wavefunction we have that
+        \begin{gather}
+            \ket*{\Psi(t)}
+            = \exponential(\clust(t))\ket*{\slat}
+            = \para{
+                \1
+                + \clust(t)
                 + \dots
-                \implies
-                \braket*{\slat}{\Psi(t)} = C_0(t),
-            \end{gather}
-            where $\ketslat$ is the reference determinant and we assume an
-            orthonormal set of single-particle states as our basis.
-            In time-dependent coupled-cluster theory where we assume
-            intermediate normalization, there is however a different story to be
-            told.
-            For the time-dependent coupled-cluster wavefunction we have that
-            \begin{gather}
-                \ket*{\Psi(t)}
-                = \exponential(\clust(t))\ket*{\slat}
-                = \para{
-                    \1
-                    + \clust(t)
-                    + \dots
-                }\ket*{\slat}
-                \implies
-                \braket*{\slat}{\Psi(t)} = 1.
-            \end{gather}
-            This might not look like much, but for strong fields, or long
-            time-evolution, we can find states which have very little overlap
-            with the reference state.
-            In numerical simulations the lack of infinite precision leads to
-            numerial problems when the overlap goes to zero.
-            When this is the case the cluster amplitudes are left with the job
-            of both ``removing'' the reference state from the cluster wave
-            function \emph{and} providing contribution from higher excited
-            determinants \cite{pedersen2018symplectic}.
-            Frustratingly enough the formulation of the time-dependent
-            coupled-cluster method with static spin-orbitals is seemingly not
-            able to solve this problem.
-            % TODO: Add snide remark on lowering the integration time step?
-            When
-            \begin{align}
-                \braket*{\slat}{\Psi(t)} \to 0,
-            \end{align}
-            the magnitude of the amplitudes sky-rocket, the energy is no longer
-            conserved (when the time-dependence in the Hamiltonian is turned
-            off), and the data produced can no longer be trusted
-            \cite{pedersen2018symplectic}.
-            Luckily, the orbital-adaptive time-dependent coupled-cluster method
-            seems to remove much of these problems.
-            We will in the coming sections demonstrate that the orbital-adaptive
-            formulation of coupled-cluster fixes some of the problems described
-            by \citeauthor{pedersen2018symplectic}
-            \cite{pedersen2018symplectic}.
-            However, the orbital-adaptive formulation does not seem to solve all
-            stability problems, and an ongoing study into this is being
-            conducted by \citeauthor{oa-stability} \cite{oa-stability}.
-            % TODO: Should we include any study at all of the stability?
+            }\ket*{\slat}
+            \implies
+            \braket*{\slat}{\Psi(t)} = 1.
+        \end{gather}
+        This might not look like much, but for strong fields, or long
+        time-evolution, we can find states which have very little overlap
+        with the reference state.
+        In numerical simulations the lack of infinite precision leads to
+        numerial problems when the overlap goes to zero.
+        When this is the case the cluster amplitudes are left with the job
+        of both ``removing'' the reference state from the cluster wave
+        function \emph{and} providing contribution from higher excited
+        determinants \cite{pedersen2018symplectic}.
+        Frustratingly enough the formulation of the time-dependent
+        coupled-cluster method with static spin-orbitals is seemingly not
+        able to solve this problem.
+        % TODO: Add snide remark on lowering the integration time step?
+        When
+        \begin{align}
+            \braket*{\slat}{\Psi(t)} \to 0,
+        \end{align}
+        the magnitude of the amplitudes sky-rocket, the energy is no longer
+        conserved (when the time-dependence in the Hamiltonian is turned
+        off), and the data produced can no longer be trusted
+        \cite{pedersen2018symplectic}.
+        Luckily, the orbital-adaptive time-dependent coupled-cluster method
+        seems to remove much of these problems.
+        We will in the coming sections demonstrate that the orbital-adaptive
+        formulation of coupled-cluster fixes some of the problems described
+        by \citeauthor{pedersen2018symplectic}
+        \cite{pedersen2018symplectic}.
+        However, the orbital-adaptive formulation does not seem to solve all
+        stability problems, and an ongoing study into this is being
+        conducted by \citeauthor{oa-stability} \cite{oa-stability}.
+        % TODO: Should we include any study at all of the stability?
 
-            But, before we try to solve the problem, we can formulate a
-            ``zero-order'' amplitude for the time-dependent coupled-cluster wave
-            function which does not solve the problem, but at least lets us
-            measure how good or bad the reference state is in time.
-            This is done by introducing a phase factor $\clustamp_0(t) \in
-            \mathbb{C}$ which we insert in the exponential ansatz, viz.
-            \begin{gather}
-                \ket*{\Psi(t)}
-                = \exponential(\clustamp_0(t) + \clust(t))\ket*{\slat},
-                \\
-                \bra*{\tilde{\Psi}(t)}
-                = \bra*{\slat}(\1 + \clustl(t))
-                \exponential(-\clustamp_0(t) - \clust(t)),
-            \end{gather}
-            where $\clustamp_0(t)$ is a number and therefore commutes with the
-            cluster operators.
-            Regardless if $\clustamp_0(t)$ is real or not, the inclusion of the
-            phase does not change any of the equations used in coupled-cluster
-            methods as it oes not couple amplitude equations.
-            However, we can now see that
-            \begin{gather}
-                \braket*{\slat}{\Psi(t)} = \exponential(\clustamp_0(t)),
-                \\
-                \braket*{\tilde{\Psi}(t)}{\slat}
-                = \exponential(-\clustamp_0(t)) \brak{
-                    1
-                    - \mel*{\slat}{
-                        \clustl(t)
-                        \clust(t)
-                    }{\slat}
-                },
-            \end{gather}
-            which tells us how much overlap the reference state $\ket*{\slat}$ has
-            with the time-evolved state at a time $t$.
-            Stated differently, it measures how well the reference state
-            is at approximating the time-evolved state.
-            Note that the inclusion of $\clustamp_0(t)$ is in no way able to be
-            used as an amplitude to lower the presence of the reference as in
-            the configuration interaction method.
-            We also see that for $\clustamp_0(t) = 0$ we recover intermediate
-            normalization and the known time-dependent coupled-cluster method.
-            The question remains how we can evaluate $\clustamp_0(t)$ from the
-            coupled-cluster equations.
-            In general we find the time derivative of the cluster amplitudes
-            from
-            \begin{align}
-                i\hslash \partial_t\clustamp_{\mu}
-                &=
-                \mel*{\slat_{\mu}}{
-                    \exponential(-\clust(t))
-                    \hamil(t)
-                    \exponential(\clust(t))
-                }{\slat},
-            \end{align}
-            where $\mu$ denotes the excitation level of the reference slater
-            determinant and the order of the cluster amplitudes as in
-            \autoref{eq:cluster-operator}.
-            By choosing $\mu = 0$ we are left with
-            \begin{align}
-                i\hslash \partial_t\clustamp_{0}
-                &=
-                \mel*{\slat}{
-                    \exponential(-\clust(t))
-                    \hamil(t)
-                    \exponential(\clust(t))
-                }{\slat},
-            \end{align}
-            which looks familiar as the equation for the ground state
-            energy in the time-independent coupled-cluster method if the
-            explicit time-dependence is removed from the Hamiltonian and the
-            cluster amplitudes.
+        But, before we try to solve the problem, we can formulate a
+        ``zero-order'' amplitude for the time-dependent coupled-cluster wave
+        function which does not solve the problem, but at least lets us
+        measure how good or bad the reference state is in time.
+        This is done by introducing a phase factor $\clustamp_0(t) \in
+        \mathbb{C}$ which we insert in the exponential ansatz, viz.
+        \begin{gather}
+            \ket*{\Psi(t)}
+            = \exponential(\clustamp_0(t) + \clust(t))\ket*{\slat},
+            \\
+            \bra*{\tilde{\Psi}(t)}
+            = \bra*{\slat}(\1 + \clustl(t))
+            \exponential(-\clustamp_0(t) - \clust(t)),
+        \end{gather}
+        where $\clustamp_0(t)$ is a number and therefore commutes with the
+        cluster operators.
+        Regardless if $\clustamp_0(t)$ is real or not, the inclusion of the
+        phase does not change any of the equations used in coupled-cluster
+        methods as it oes not couple amplitude equations.
+        However, we can now see that
+        \begin{gather}
+            \braket*{\slat}{\Psi(t)} = \exponential(\clustamp_0(t)),
+            \\
+            \braket*{\tilde{\Psi}(t)}{\slat}
+            = \exponential(-\clustamp_0(t)) \brak{
+                1
+                - \mel*{\slat}{
+                    \clustl(t)
+                    \clust(t)
+                }{\slat}
+            },
+        \end{gather}
+        which tells us how much overlap the reference state $\ket*{\slat}$ has
+        with the time-evolved state at a time $t$.
+        Stated differently, it measures how well the reference state
+        is at approximating the time-evolved state.
+        Note that the inclusion of $\clustamp_0(t)$ is in no way able to be
+        used as an amplitude to lower the presence of the reference as in
+        the configuration interaction method.
+        We also see that for $\clustamp_0(t) = 0$ we recover intermediate
+        normalization and the known time-dependent coupled-cluster method.
+        The question remains how we can evaluate $\clustamp_0(t)$ from the
+        coupled-cluster equations.
+        In general we find the time derivative of the cluster amplitudes
+        from
+        \begin{align}
+            i\hslash \partial_t\clustamp_{\mu}
+            &=
+            \mel*{\slat_{\mu}}{
+                \exponential(-\clust(t))
+                \hamil(t)
+                \exponential(\clust(t))
+            }{\slat},
+        \end{align}
+        where $\mu$ denotes the excitation level of the reference slater
+        determinant and the order of the cluster amplitudes as in
+        \autoref{eq:cluster-operator}.
+        By choosing $\mu = 0$ we are left with
+        \begin{align}
+            i\hslash \partial_t\clustamp_{0}
+            &=
+            \mel*{\slat}{
+                \exponential(-\clust(t))
+                \hamil(t)
+                \exponential(\clust(t))
+            }{\slat},
+        \end{align}
+        which looks familiar as the equation for the ground state
+        energy in the time-independent coupled-cluster method if the
+        explicit time-dependence is removed from the Hamiltonian and the
+        cluster amplitudes.
