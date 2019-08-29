@@ -8,8 +8,9 @@
         \href{mailto:o.s.schoyen@fys.uio.no}{o.s.schoyen@fys.uio.no}, and we'll
         set you up.
     }
+    These are:
     \begin{itemize}
-        \item Quantum-systems is a Python package containing modules to set up
+        \item Quantum-systems is a Python library containing modules to set up
             matrix elements, time-evolution operators, and single-particle
             states to be used by the many-body solvers.
             Quantum-systems provides interfaces to the PySCF \cite{pyscf} and
@@ -18,7 +19,7 @@
             \url{https://github.com/Schoyen/quantum-systems} with the
             documentation at
             \url{https://schoyen.github.io/quantum-systems/}.
-        \item Coupled-cluster is a Python package with modules containing ground
+        \item Coupled-cluster is a Python library with modules containing ground
             state and time-dependent coupled cluster solvers.
             Currently this packages contains doubles, singles-and-doubles ,
             non-orthogonal coupled cluster doubles, and the orbital adaptive
@@ -28,7 +29,7 @@
             \url{https://github.com/Schoyen/coupled-cluster} with the
             documentation at
             \url{https://schoyen.github.io/coupled-cluster/}.
-        \item Configuration-interaction is a package containing ground state and
+        \item Configuration-interaction is a library containing ground state and
             time-dependent configuration interaction solvers.
             This code supports arbitrary levels of excitations, e.g.,
             singles-and-doubles, doubles-and-triples, etc, and full
@@ -38,7 +39,7 @@
             \url{https://github.com/Schoyen/configuration-interaction} with
             the documentation at
             \url{https://schoyen.github.io/configuration-interaction/}.
-        \item Hartree-Fock is a package containing ground state and
+        \item Hartree-Fock is a library containing ground state and
             time-dependent Hartree-Fock solvers.
             We've implemented Hartree-Fock for general, restricted and
             unrestricted spin-orbitals.
@@ -50,14 +51,15 @@
     \end{itemize}
     We will in the rest of this chapter discuss various aspects of the
     implementation that we deem important to elaborate on, but we will leave
-    specific implementation details and usage of the solvers to the
-    repositiories and the documentation.
+    a discussion of the quantum systems and the solvers for the next two
+    chapters and the documentation.
 
     \section{Why Python?}
         In working with this thesis we have developed a large computational
         framework for performing real-time quantum mechanics simulations for
         many-body problems in the programming language Python \cite{python}.
         The choice of using Python comes with a list of pros and cons.
+        On the pro-side we have that:
         \begin{itemize}
             \item The development time is much lower when using Python as
                 opposed to more verbose, but efficient languages such as C/C++,
@@ -65,8 +67,19 @@
             \item Integration with other Python libraries are relatively easy.
             \item Libraries such as SciPy \cite{scipy}, NumPy \cite{numpy}, and
                 SymPy \cite{sympy} provides fast, and efficient interfaces to
-                BLAS and LAPACK along with convenient array abstractions.
+                amongst other, BLAS and LAPACK, along with convenient
+                mathematical abstractions.
         \end{itemize}
+        However, the use of Python comes with the price of less memory control
+        and less scalability.
+        The former is somewhat alleviated by using NumPy as many operations can
+        be performed on already allocated arrays.
+        The drawback is that this requires a keen eye, and can quickly lead to
+        memory leaks which eventually triggers the Python garbage collector.
+        The scalability problem is also somewhat alleviated by NumPy as many of
+        the operations run in parallel via OpenMP.
+        However, large scale computations requires either more sophisticated
+        libraries such as Dask \cite{dask} or CuPY \cite{cupy}.
 
     \section{Computing tensor contractions}
         Quite a significant amount of computational resources will go into the
@@ -80,19 +93,19 @@
         Consider the antisymmetric, two-body, Coulomb elements given by
         \begin{align}
             \twoten^{pq}_{rs}
-            = \mel{\phi_p\phi_q}{\twohamil}{\phi_r\phi_s}_{AS},
+            = \mel*{\phi_p\phi_q}{\twohamil}{\phi_r\phi_s}_{AS},
         \end{align}
         which, along with the two-body density matrix, is the largest tensor in
         use.
         This tensor often represents the bottleneck both in terms of memory and
         contraction time.
         When we represent these tensors mathematically, the labelling of the
-        indices are in some sense arbitrary and depends on the context that the
-        tensors are used.
+        indices are in some sense arbitrary and depends on the context in which
+        the tensors are used.
         On a computer we however need to decide on a specific way of storing
-        memory, and often this choice is related to speed concerns where some
-        storage schemes show vast improvements in terms of cache hits as opposed
-        to other schemes.
+        memory, and often this choice is related to speed concerns.
+        Some storage schemes show vast improvements in terms of cache hits as
+        opposed to other schemes.
         However, tensor contractions are notoriously difficult to handle in
         terms of memory as they often involve change of dimensionality,
         re-ordering of indices resulting in the need of reshapes, and summation
@@ -104,8 +117,13 @@
         of reshapes and memory allocations.
         In our programs we read the axis from top-left and moving right before
         starting on bottom-left and going right.
-        That is, to access element $\twoten^{pq}_{rs}$ we use the ordering
-        \pyth{u[p, q, r, s]} in NumPy-arrays \cite{numpy}.
+        That is,
+        \begin{align}
+            \twoten^{pq}_{rs}
+            \to \text{\pyth{u[p, q, r, s]}}
+        \end{align}
+        where the right-hand side is the representation of the element using
+        NumPy-arrays.
         This ordering is used consistenly for all tensors in all solver
         implementations.
         Other orderings might be smarter due to efficient usage of cache hits,
@@ -113,14 +131,14 @@
 
         \subsection{Intermediates}
             It is common in the coupled cluster litterature to talk about
-            \emph{intermediates} \cite{hjorth2017advanced, gauss1995coupled}, or
+            \emph{intermediates} \cite{gauss1995coupled, hjorth2017advanced}, or
             intermediate computations, as a technique for speeding up tensor
             contractions involving three or more tensors.
             The basics of intermediate computations is to treat a tensor
             contraction as a binary operation and precomputing common factors,
             or one of the contractions.
-            As an example, consider the D3c term, sans the permutation opeator,
-            from the coupled cluster doubles amplitudes in
+            As an example, consider the D3c term, sans the permutation operator,
+            from the coupled-cluster doubles $\clustamp$-amplitudes in
             \autoref{tab:ccd-tau-amplitude-terms},
             \begin{align}
                 g^{ab}_{ij} = \clustamp^{ab}_{lj} \clustamp^{dc}_{ik}
@@ -131,6 +149,7 @@
             By first creating the intermediate contraction
             \begin{align}
                 W^{l}_{i} = \clustamp^{dc}_{ik} \twoten^{kl}_{cd},
+                \label{eq:w_li}
             \end{align}
             and then computing the total result from
             \begin{align}
@@ -143,10 +162,10 @@
 
             The choice of which terms to use when creating intermediates has
             been explored in some depth, especially in the case of the
-            coupled-cluster singles-and-doubles as done by
+            coupled-cluster singles-and-doubles method as done by
             \citeauthor{gauss1995coupled} \cite{gauss1995coupled}.
             We will however not employ pre-defined intermediates, but rather use
-            the binary operator \pyth{np.tensordot} \cite{numpy} to do
+            the binary operator \pyth{np.tensordot} from NumPy to do
             contractions.
             This forces us to pre-compute terms with three or more tensors thus
             lowering the cost.
@@ -155,6 +174,26 @@
             By inspection we choose the contractions which will yield the lowest
             amount of computational complexity by counting the number of unique
             indices and the lowest amount of storage cost.
+            As an example of the converse, consider again the D3c term shown above,
+            where we chose the intermediate $W^{l}_{i}$ in \autoref{eq:w_li}.
+            Another choice for an intermediate would be a contraction with the
+            other $\clustamp$-amplitude and the two-body elements, viz.
+            \begin{align}
+                W^{abk}_{lcd} = \clustamp^{ab}_{lj} \twoten^{kl}_{cd},
+            \end{align}
+            or even worse, the intermediate constructed from both
+            $\clustamp$-amplitudes
+            \begin{align}
+                W^{abdc}_{ljik} = \clustamp^{ab}_{lj} \clustamp^{dc}_{ik}.
+            \end{align}
+            The former expression incurs an extra memory penalty of
+            $\mathcal{O}_M(M^4 N^2)$ along with a computational complexity of
+            $\mathcal{O}(M^4 N^2)$.
+            The latter takes up $\mathcal{O}_M(M^4 N^4)$ memory and
+            $\mathcal{O}(M^4 N^2)$ computational complexity.
+            The tactic is thus to choose intermediates which contain the fewest
+            amount of axes and of these as many as possible should be occupied
+            axes as we often have $M > N$.
 
 
     \section{Convergence acceleration}
@@ -170,11 +209,10 @@
         \subsection{Alpha filter}
             \label{subsec:alpha-filter}
             A first order approximation stems from data estimation theory as an
-            alternative to the more sophisticated Kalman filter.
+            alternative to the more sophisticated Kalman filter
+            \cite{brookner1998tracking}.
             This is a technique which lets us combine a predicted value and a
             measured value.
-            % TODO: Cite slides:
-            % https://www.uio.no/studier/emner/matnat/fys/FYS3240/v19/lecturenotes/l12---data-fusion.pdf
             Given a measurement $\vfg{x}^{(i)}$ at a time $i$ we can create an
             updated estimate $\bar{\vfg{z}}^{(i)}$ from a predicted estimate
             $\vfg{z}^{(i)}$ by
@@ -244,8 +282,8 @@
             \end{align}
             Finding the stationary condition of the Lagrangian in
             \autoref{eq:diis-lagrangian} with respect to the coefficients $c_k$
-            we get system of $i$ linear equations.
-            This can expressed as matrices by
+            we get a system of $i$ linear equations.
+            This can be expressed as matrices by
             \begin{align}
                 \begin{pmatrix}
                     B_{11} & \dots & B_{1i} & -1 \\
@@ -279,7 +317,7 @@
             The DIIS method suffers from the fact that we store all $i$ previous
             measurements in memory.
             In the case of large systems this can become a problem as we spend
-            spend all our memory in the acceleration.
+            all our memory in the acceleration.
             We can therefore adjust the number of vectors, i.e., $i$, in order
             to limit the memory occupied by DIIS.
 
@@ -290,97 +328,90 @@
         applicability of each scheme.
 
         \subsection{Problem statement}
-            The problem we are trying to solve can be formulated as the
-            two coupled time-dependent Schrödinger equations on the form
-            \begin{gather}
-                \partial_t\ket{\psi(t)}
-                = -i\hamil(t)\ket{\psi(t)},
-                \\
-                \partial_t\bra{\psi(t)}
-                = i\bra{\psi(t)}\hamil(t),
-            \end{gather}
-            where we've assumed atomic units, and moved $\pm i$ to the right-hand
-            side.
-            In the case of the time-dependent Hartree-Fock and the
-            time-dependent configuration interaction methods, we only need to
-            evaluate the former Schrödinger equation as the wave functions are
-            variational and $\bra{\psi(t)}$ will be the adjoint of
-            $\ket{\psi(t)}$.
-            For the coupled cluster methods we need to solve both equations as
-            the bra and ket sides of the wave function are no longer the adjoint
-            of one another.
-            Furthermore, in the orbital-adaptive formulation we need to include
-            the time-dependence of the coefficients used in the orbital
-            rotations.
-            However, we can stack all the coefficients and/or the amplitudes
-            after one another creating a long vector as each index in this
-            vector can be updated individually as long as the coupling is
-            handled in the derivatives.
-            We will discuss this stacking more in-depth in
-            \autoref{subsec:tdcc-implementation} and
-            \autoref{subsec:oatdcc-implementation}.
-            Thus, we are able to formulate the time-evolution of the
-            parameters of the wave function by
+            The problem we are trying to solve can be formulated as
             \begin{align}
-                \partial_t y(t) = f(y, t),
+                \dot{\vfg{y}}(t) = \vfg{F}(\vfg{y}, t),
+                \label{eq:ode-problem}
             \end{align}
-            where $f(y, t)$ represents the right-hand side of the time-dependent
-            Schrödinger equation, the time-dependent Hartree-Fock equation, or
-            the right-hand sides of the derivative of the coupled cluster
-            Lagrangian.
-            Note that $y(t)$ is here interpreted as a vector and $f(y, t)$ a
-            vector-valued function.
-            In order to allow for custom right-hand side functions $f(y, t)$
-            each solver class needs to implement a \pyth{__call__} method which
-            is Python dunder method allowing classes to be called in a similar
-            fashion as functions.
+            where $\dot{\vfg{y}}(t)$ is the derivative of the vector
+            $\vfg{y}(t)$ with respect to time.
+            The function $\vfg{F}(\vfg{y}, t)$ is a vector valued function
+            evaluating the right-hand side of the first order differential
+            equation listed above.
+            Most implemented integration schemes assumes that the problem can
+            be formulated as in \autoref{eq:ode-problem}, but as we've seen the
+            time-dependent Hartree-Fock method is defined in terms of a matrix,
+            and the time-dependet coupled-cluster methods as two sets of
+            amplitudes of different sizes and coefficient matrices for the
+            orbital-adaptive methods.
+            To get around this we let each time-dependent solver class implement
+            a Python dunder method \pyth{__call__} which accepts the two
+            parameters \pyth{y} and \pyth{t} to represent the right-hand side
+            function $\vfg{F}(\vfg{y}, t)$.
+            The innards of this method can now be describe by the following
+            steps:
+            \begin{enumerate}
+                \item Make sure the vector $\vfg{y}$ is reshaped to the correct
+                    formulation as required by the right-hand sides.
+                    For configuration interaction this is handled automatically,
+                    but for the time-dependent Hartree-Fock method this means
+                    that we need to reshape the vector into a coefficient
+                    matrix.
+                    For the time-dependent coupled-cluster methods this is even
+                    more involved and will be discussed in due time.
+                \item Update the time-dependent Hamiltonian to the current time
+                    step $t$.
+                \item Compute the right-hand sides to get the derivative of the
+                    coefficients and amplitudes.
+                \item Convert the coefficients and amplitudes to a new vector
+                    $\dot{\vfg{y}}$ and return this to the differential
+                    equation solver.
+            \end{enumerate}
+            Now, the process of stacking all the elements in the coefficient
+            matrices and amplitudes as a single vector is possible as each index
+            is independent of each other in terms of time-evolution.
+            However, they do coupled when evaluating the right-hand sides and we
+            therefore need to recover the original shape.
             Most differential equation libraries \cite{sympy} \cite{julia-diff}
             assume the right-hand side to be a callable function with a
             \pyth{__call__}-method.
             Annoyingly enough, there seems to be no consensus of the ordering of
-            the parameters to the function $f(y, t)$ which means that each
-            library will require a different definition of the right-hand side
-            functions.
+            the parameters to the function $\vfg{F}(\vfg{y}, t)$ which means
+            that each library will require a different definition of the
+            right-hand side functions.
             In the current implementation of our programs we have chosen the
-            ordering $f(y, t)$, but for us to use differential equation solvers
-            from SymPy \cite{sympy} or diffeqpy \cite{julia-diff} we need to
-            reverse the order, or add an extra parameter $p$ such that $f(y, p,
-            t)$ respectively.
+            ordering $\vfg{F}(\vfg{y}, t)$, but for us to use differential
+            equation solvers from SymPy \cite{sympy} or diffeqpy
+            \cite{julia-diff} we need to reverse the order, or add extra
+            parameters.
+            This process will be discussed more in \autoref{sec:future-work} as
+            we've not implemented an interface towards these libraries in this
+            work.
 
-
-            Discretizing time with a constant step $h = \Delta t$ such that $t_n
-            = t_0 + n h$ for $n \in \brac{0, N_t}$, where $N_t$ is the number of
-            time-steps and $t_0$ is the initial time-step.
-            Note that we typically choose a time-step $h$ such that $N_t$ can be
+            Discretizing time with a constant step $\Delta t$ such that $t_n
+            = t_0 + n \Delta t$ for $n \in \brac{0, N_t}$, where $N_t$ is the number of
+            time steps and $t_0$ is the initial time step.
+            Note that we typically choose a time step $\Delta t$ such that $N_t$ can be
             found by
             \begin{align}
-                N_t = \floor{\frac{t_f - t_0}{h}} + 1,
+                N_t = \floor{\frac{t_f - t_0}{\Delta t}} + 1,
             \end{align}
-            where $t_f$ is the final time-step.
-            We denote $y_0 \equiv y(t_0)$ and $y_n \equiv y(t_n)$, where $y_0$
-            is the initial value of the problem.
+            where $t_f$ is the final time step.
+            We denote $\vfg{y}_0 \equiv \vfg{y}(t_0)$ and $\vfg{y}_n \equiv
+            \vfg{y}(t_n)$, where $\vfg{y}_0$ is the initial value of the
+            problem.
             In this thesis we will always choose the initial value to be the
             ground state of the specific solver.
             This abstraction thus enables us to work with known ordinary
             differential equation solvers formulated in a familiar way.
 
-        \subsection{Runge-Kutta}
             As a first approximation to solving the time-dependent equations,
             we've implemented the Runge-Kutta 4 algorithm.
-            This algorithm is given by \cite{morken2017notes}
-            \begin{gather}
-                y_{i + 1} = y_i + \frac{1}{6}\para{
-                    k_1 + 2 k_2 + 2 k_3 + k_4
-                }, \\
-                t_{i + 1} = t_i + h,
-            \end{gather}
-            where the equations for the $k$'s are given by
-            \begin{gather}
-                k_1 = h f(y_i, t_i), \\
-                k_2 = h f(y_i + k_1 / 2, t_i + h / 2), \\
-                k_3 = h f(y_i + k_2 / 2, t_i + h / 2), \\
-                k_4 = h f(y_i + k_3, t_i + h).
-            \end{gather}
+            A rendition of this algorithm can be found in
+            \citetitle{morken2017notes} \cite{morken2017notes} and will not be
+            repeated in this text as all results are achieved using the more
+            sophisticated Gauss-Legendre integrator which will be discussed
+            shortly.
             Runge-Kutta 4 is a fourth-order method with a local numerical error
             of the order of $\mathcal{O}(h^5)$ and a total error of
             $\mathcal{O}(h^4)$.
@@ -388,19 +419,19 @@
         \subsection{Symplectic integrators}
             Looking back to \autoref{sec:time-evolution-operators} we note that
             for a time-dependent Hamiltonian in the Schrödinger picture, the
-            time-evolution of a state $\ket{\psi(t)}$ is described by the
+            time-evolution of a state $\ket*{\psi(t)}$ is described by the
             time-evolution operator shown in \autoref{eq:td-evolution}, where
-            the Hamiltonian in general does not commute at different time-steps.
+            the Hamiltonian in general does not commute at different time steps.
             It is perhaps somewhat naïve to hope for a numerical method such as
             Runge-Kutta 4 to yield good results without some extra concern for
             the problem at hand.
             As discussed by \citeauthor{joshua-magnus} \cite{joshua-magnus} the
             solution to the time-dependent Schrödinger equation can be better
             approximated by the Magnus expansion \cite{magnus-expansion}.
-            This leads to implicit differential equation integration methods
-            that are \emph{symplectic} \cite{joshua-magnus}.
-            These methods will in a much larger degree conserve the energy,
-            normalization, and unitariy of the coefficients and amplitudes as
+            This leads to implicit integration methods that are
+            \emph{symplectic} \cite{joshua-magnus}.
+            These methods will to a much larger degree conserve the energy,
+            normalization, and unitarity of the coefficients and amplitudes as
             opposed to the explicit schemes such as Runge-Kutta 4
             \cite{joshua-magnus, pedersen2018symplectic}.
             One of the first approximations to the Magnus expansion is the
@@ -409,8 +440,8 @@
 
         \subsection{Gauss-Legendre}
             In an article on the stability of the time-dependent coupled-cluster
-            singles-and-doubles on atomic systems subject to intense laser
-            pulses, \citeauthor{pedersen2018symplectic}
+            singles-and-doubles method on atomic systems subject to intense
+            laser pulses, \citeauthor{pedersen2018symplectic}
             \cite{pedersen2018symplectic} used symplectic, implicit Runge-Kutta
             methods in an attempt to alleviate some of the stability issues they
             faced.
@@ -423,7 +454,6 @@
                 Legendre, and Laguerre polynomials, etc.%
             } as used by \citeauthor{pedersen2018symplectic}
             \cite{pedersen2018symplectic} to include it in our libraries.
-            This method is described in depth in
+            This method is described in depth in their text
             \citetitle{pedersen2018symplectic} \cite{pedersen2018symplectic} and
-            will not be renditioned in this thesis.
-            % TODO: Maybe do this?
+            will not be renditioned in this work.

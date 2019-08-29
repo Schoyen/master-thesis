@@ -896,7 +896,7 @@
         \begin{align}
             \vfg{r} = a \vfg{r}',
         \end{align}
-        where $a$ is the Bohr radius given by \autoref{eq:bohr-radius}.
+        where $a$ is the scaling radius given by \autoref{eq:bohr-radius}.
         Inserting the dimensionless position into the Hamiltonian from
         \autoref{eq:two-dim-ho-hamiltonian} we find for the Laplace operator in
         polar coordinates $\vfg{r} = (r, \phi)$,
@@ -1171,6 +1171,96 @@
         % TODO: Discuss orthonormality of the radial equation.
         % TODO: Introduce the normalization constant.
 
+    \section{Two-dimensional harmonic oscillator dipole}
+        \label{app:tdho-dipole}
+        Starting with \autoref{eq:cos-integral-tdho} we can write
+        \begin{align}
+            \mathcal{C}_{ij}
+            &=
+            \int_{0}^{2\pi}
+            \dd \phi
+            \cos(\phi)
+            \exp[-i\Delta m_{ij} \phi],
+        \end{align}
+        where we use the definition of the difference in the azimuthal quantum
+        from \autoref{eq:diff-m-tdqd}.
+        The closed form solution to this integral is
+        \begin{align}
+            \mathcal{C}_{ij}
+            &= \brak{
+                \frac{\exp[-i\Delta m_{ij} \phi]}{1 - (\Delta m_{ij})^2}
+                \brak{
+                    -i\Delta m_{ij} \cos(\phi)
+                    + \sin(\phi)
+                }
+            }_{0}^{2\pi}
+            = 0,
+            \label{eq:dipole-x-tdqd}
+        \end{align}
+        if $\Delta m_{ij} \neq \pm 1$.
+        For the case when $\Delta m_{ij} = \pm 1$ we solve the easier
+        integral
+        \begin{align}
+            \mathcal{C}_{ij}
+            &=
+            \int_{0}^{2\pi}
+            \dd \phi
+            \cos(\phi) \exp[\mp i\phi]
+            \\
+            &=
+            \int_{0}^{2\pi}
+            \dd \phi
+            \para{
+                \cos^2(\phi)
+                \mp i\cos(\phi)\sin(\phi)
+            }
+            = \pi.
+        \end{align}
+        For the sine integral in \autoref{eq:sin-integral-tdho} we have
+        \begin{align}
+            \mathcal{S}_{ij}
+            &=
+            \int_{0}^{2\pi}
+            \dd\phi
+            \sin(\phi)
+            \exp[-i\Delta m_{ij} \phi].
+        \end{align}
+        The closed form solution of this integral is similar to the form for
+        the cosine-integral.
+        Again we look at the situation when $\Delta m_{ij} \neq \pm 1$
+        initially.
+        \begin{align}
+            \mathcal{S}_{ij}
+            &= \brak{
+                \frac{\exp[-i\Delta m_{ij} \phi]}{1 - (\Delta m_{ij})^2}
+                \brak{
+                    -i\Delta m_{ij} \sin(\phi)
+                    + \cos(\phi)
+                }
+            }_{0}^{2\pi}
+            = 0.
+            \label{eq:dipole-y-tdqd}
+        \end{align}
+        For $\Delta m_{ij} = \pm 1$ we get
+        \begin{align}
+            \mathcal{S}_{ij}
+            &=
+            \int_{0}^{2\pi}
+            \dd\phi
+            \sin(\phi)
+            \exp[\mp i\phi]
+            \\
+            &=
+            \int_{0}^{2\pi}
+            \dd\phi
+            \para{
+                \sin(\phi)\cos(\phi)
+                \mp i\sin^2(\phi)
+            }
+            = \mp i\pi.
+        \end{align}
+
+
     \section{Coulomb elements}
         \label{app:coulomb-elements}
         In this section we'll write out the closed form solution to the Coulomb
@@ -1183,7 +1273,7 @@
             &= \frac{1}{4\pi\epsilon_0}\frac{e^2}{\abs{\vf{r}_i - \vf{r}_j}}.
         \end{align}
         Replacing the positions with the dimensionless length $\vf{r} \to
-        \vf{r}/a$, where $a$ is the Bohr radius from \autoref{eq:bohr-radius},
+        \vf{r}/a$, where $a$ is the scaling radius from \autoref{eq:bohr-radius},
         and measuring energy in dimensionless units of $\hslash \omega$
         \cite{anisimovas1998energy} we can write the Coulomb interaction as
         \begin{align}
@@ -1202,7 +1292,7 @@
             &= \sqrt{\omega}
             \frac{1}{\abs{\vf{r}_i - \vf{r}_j}},
         \end{align}
-        where the frequency comes from the Bohr radius.
+        where the frequency comes from the scaling radius.
         The scaled eigenstates are then given by
         \begin{align}
             \psi_{nm}(r, \phi)
