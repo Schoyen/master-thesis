@@ -3,9 +3,16 @@ import scipy.signal
 
 from tdqd_tools.io_data import return_time_data
 
-data = return_time_data("fft_dipole_x_tdhf_real_new.dat")
-time, spec = data[:, 0], data[:, 1]
+directions = ["x", "z"]
+solvers = ["tdhf", "tdccsd", "oatdccd"]
 
-peak_indices = scipy.signal.find_peaks(spec)
+for direction in directions:
+    for solver in solvers:
+        filename = f"fft_dipole_{direction}_{solver}_real_new.dat"
 
-print(time[peak_indices[0]])
+        data = return_time_data(filename)
+        time, spec = data[:, 0], data[:, 1]
+
+        peak_indices = scipy.signal.find_peaks(spec)
+        print(filename)
+        print(time[peak_indices[0]])
