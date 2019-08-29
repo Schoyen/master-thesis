@@ -9,9 +9,7 @@ from lih_nest_system import NestLaser, get_time_points
 
 
 laser = np.vectorize(NestLaser())
-time_points = get_time_points()
-
-time_points = time_points[time_points <= 50]
+time_points = get_time_points(t_end=2)
 
 
 path = os.path.join(sys.path[0], "dat")
