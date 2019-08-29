@@ -515,3 +515,18 @@ def add_spin_two_body(_u):
         \pyth{__call__}-method which takes in a single parameter as time.
         This function should return the electric field at the given time
         including the envelope function.
+
+    \section{Measuring the dipole moment}
+        In order to measure the dipole moment in time we use the one-body
+        density matrix from the given solver to compute
+        \begin{align}
+            \expval*{\vfg{d}(t)}
+            = \densityten^{q}_{p}(t)\vfg{d}^{p}_{q},
+        \end{align}
+        where the time-dependence is kept in the one-body density matrix.
+        For the time-dependent Hartree-Fock method and the orbital-adaptive
+        time-dependent coupled-cluster methods we have to make sure that we
+        change basis at each time step before computing the trace of the
+        one-body density matrix and the dipole moment.
+        This yields a time-dependent dipole moment.
+        Note also that we choose a specific axis of the dipole moment.
