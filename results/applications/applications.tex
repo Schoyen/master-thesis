@@ -8,9 +8,252 @@
     multi-configuration Hartree-Fock method, while achieving a quality of the
     results beyond what is possible with the mean-field approximation using
     Hartree-Fock.
-    Note that we in this chapter do no conscious effort in terms of
-    optimization.
-    We focus all our attention on the physics of the problem.
+    Note that we in this chapter do little to no conscious effort in terms of
+    optimization as the default setup of the solvers often yield more than good
+    enough results.
+    This means that we can focus as much as possible on the physics of the
+    problems.
+
+    \section{Electronic spectra of molecules}
+        In an article by \citeauthor{nest} \cite{nest} the
+        multiconfiguration time-dependent Hartree-Fock method was tested on
+        a system of lithium hydride and methane subject to a dipole
+        laser pulse with a sine-squared envelope on the form\footnote{%
+            Note that \citeauthor{nest} \cite{nest} does not explicitly add
+            a formula for the laser, but based on their description we infer
+            the form of the laser.
+        }
+        \begin{align}
+            \vfg{E}(t)
+            = -\vfg{\epsilon} E(t)
+            \sin[2](\pi t / T)
+            = -\vfg{\epsilon} E_0 \sin(\omega t)
+            \sin[2](\pi t / T),
+            \label{eq:nest-laser}
+        \end{align}
+        where $\vfg{\epsilon}$ is the polarization vector, $\omega$ is the
+        frequency corresponding to a photon energy of $E_{\nu} =
+        \SI{5.44}{\electronvolt}$.
+        The negative sign in the polarization vector comes from the charge of
+        the electrons.
+        The laser field is active for $t \in \brak{0, T}$ where $T =
+        \SI{1}{\femto\second}$, and the intensity of the laser field is chosen
+        to be $I = \SI{3.5e12}{\watt/\cm^2}$.
+        The simulation is run for $\SI{100}{\femto\second}$.
+        A plot of the laser field in the first $t = \SI{2}{\femto\second}$ of
+        the simulation is shown in \autoref{fig:nest-laser}.
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{axis}[
+                        width=11cm,
+                        height=6cm,
+                        xlabel={$t$ $[\si{\planckbar / \hartree}]$},
+                        grid=major,
+                        ylabel={
+                            $E(t)$ $[
+                                \si{\hartree / (\elementarycharge \bohr)}
+                            ]$
+                        },
+                        enlarge x limits=false,
+                    ]
+                    \addplot+ [
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/benchmarks/nest/dat/nest_laser_new.dat};
+                \end{axis}
+            \end{tikzpicture}
+            \caption{In this figure we have plotted the laser pulse from
+            \autoref{eq:nest-laser} for $t = \SI{2}{\femto\second} \approx
+            \SI{82.6}{\hslash / \hartree}$, with parameters as defined in the
+            text.}
+            \label{fig:nest-laser}
+        \end{figure}
+        A word of caution, when reproducing the results in this article some
+        care must be taken when converting to atomic units for the frequency,
+        time, and the intensity of the laser as it is not clear how much one
+        should round the numbers.
+        We have used the Python library \citetitle{pint} \cite{pint} to
+        convert from SI units to atomic units as they stand in the text
+        without any rounding.
+        These conversions are summarized in \autoref{tab:nest-conversions}.
+        \begin{table}
+            \centering
+            \caption{In this table we show the conversions used to move from
+            the SI units given in the article by \citeauthor{nest}
+            \cite{nest} to the atomic units used in the simulation.}
+            \renewcommand{\arraystretch}{1.3}
+            \begin{tabular}{@{}lll@{}}
+                \toprule
+                Quantity & SI units & Atomic units \\
+                \midrule
+                $E_{\nu}$ & $\SI{5.44}{\electronvolt}$ &
+                \SI{1.999163e-1}{\hartree} \\
+                $I$ & $\SI{3.5e12}{\watt/\cm^{2}}$ &
+                \SI{9.973085e-5}{\text{a.u.}} \\
+                $t$ & $\SI{1}{\femto\second}$ &
+                \SI{4.134137e+1}{\hslash/\hartree}
+                \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:nest-conversions}
+        \end{table}
+        The corresponding frequency in atomic units of the laser specified by
+        the photon energy $E_{\nu}$ in \autoref{tab:nest-conversions} is $\omega
+        = \SI{1.999163e-1}{\hartree/\hslash}$.
+        The electric field strength from the intensity is found to be $E =
+        \SI{9.986533e-4}{\hartree/(\elementarycharge \bohr)}$.
+
+        We repeat the study for the \ch{LiH}-molecule as done by
+        \citeauthor{nest}.
+        We use a bond-length of $\SI{3.08}{\bohr}$ in the $z$-direction
+        between the lithium and the hydrogen atoms with the basis 6-31G*.
+        To specify this basis in PySCF we pass in the string \pyth{"6-31Gs"}.
+        We use the TDHF, TDCCSD, and the OATDCCD solvers in this study and we
+        sample the dipole moment for each method.
+        Computing the Fourier transform of the dipole moment after the laser is
+        turned off yields the absorption spectra of \ch{LiH}.
+        We run two simulations; one where we polarize the laser along the
+        $z$-direction and measure along the same axis, and another simulation
+        where we do the same in the $x$-direction.
+
+        In \autoref{fig:fft_dipole_nest} we have included the Fourier
+        transform of the sampled dipole moment in $x$- and $z$-direction in
+        time, respectively.
+        These plots show the absorption spectra for the \ch{LiH}-molecule.
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{groupplot}[
+                    group style={
+                        group size=1 by 2,
+                        vertical sep=60pt,
+                        xlabels at=edge bottom,
+                    },
+                    width=11cm,
+                    height=6cm,
+                    xlabel={Excitation energy $[\si{\hartree}]$},
+                ]
+                    \nextgroupplot[
+                        title={$\mathcal{F}\brak{\expval*{x(t)}}$},
+                        grid=major,
+                        ylabel={Intensity},
+                        enlarge x limits=false,
+                        %ymax=0.5e-4,
+                    ]
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/nest/dat/fft_dipole_x_oatdccd_real_new.dat};
+                        \addlegendentry{OATDCCD}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/nest/dat/fft_dipole_x_tdhf_real_new.dat};
+                        \addlegendentry{TDHF}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/nest/dat/fft_dipole_x_tdccsd_real_new.dat};
+                        \addlegendentry{TDCCSD}
+                    \nextgroupplot[
+                        title={$\mathcal{F}\brak{\expval*{z(t)}}$},
+                        ylabel={Intensity},
+                        grid=major,
+                        enlarge x limits=false,
+                        %ymax=0.5e-4,
+                    ]
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/nest/dat/fft_dipole_z_oatdccd_real_new.dat};
+                        \addlegendentry{OATDCCD}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/nest/dat/fft_dipole_z_tdhf_real_new.dat};
+                        \addlegendentry{TDHF}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/nest/dat/fft_dipole_z_tdccsd_real_new.dat};
+                        \addlegendentry{TDCCSD}
+                \end{groupplot}
+            \end{tikzpicture}
+            \caption{In these figures we show the Fourier transform of the
+            dipole moment in $x$-and $y$-direction of the \ch{LiH}-molecule
+            using time-dependent Hartree-Fock, time-dependent coupled cluster
+            with singles and doubles, orbital-adaptive time-dependent coupled
+            cluster with doubles excitations.
+            The top figure shows the results in $x$-direction and the lower
+            in $z$-direction.
+            Note that we have removed the zero-frequency component from
+            these spectra.}
+            \label{fig:fft_dipole_nest}
+        \end{figure}
+
+        \begin{table}
+            \centering
+            \caption{Transition energies from peaks in Fourier specter of the
+            dipole moment in the $x$-direction as seen in the top palette of
+            \autoref{fig:fft_dipole_nest}.
+            The peaks are counted from left to right.}
+            \renewcommand{\arraystretch}{1.3}
+            \begin{tabular}{@{}lll@{}}
+                \toprule
+                Solver & Peak [$n$] & $\Delta \energy$ $[\si{\hartree}]$ \\
+                \midrule
+                TDHF & $1$ & $0.18922721$ \\
+                & $2$ & $0.32307085$ \\
+                TDCCSD & $1$ & $0.15999699$ \\
+                & $2$ & $0.29691749$ \\
+                OATDCCD & $1$ & $0.15999699$ \\
+                & $2$ & $0.29691749$ \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:fft_dipole_nest_x}
+        \end{table}
+
+        \begin{table}
+            \centering
+            \caption{Transition energies from peaks in Fourier specter of the
+            dipole moment in the $z$-direction as seen in the bottom palette of
+            \autoref{fig:fft_dipole_nest}.
+            The peaks are counted from left to right.}
+            \renewcommand{\arraystretch}{1.3}
+            \begin{tabular}{@{}lll@{}}
+                \toprule
+                Solver & Peak [$n$] & $\Delta \energy$ $[\si{\hartree}]$ \\
+                \midrule
+                TDHF & $1$ & $0.18922721$ \\
+                & $2$ & $0.32307085$ \\
+                TDCCSD & $1$ & $0.15999699$ \\
+                & $2$ & $0.29691749$ \\
+                OATDCCD & $1$ & $0.15999699$ \\
+                & $2$ & $0.29691749$ \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:fft_dipole_nest_z}
+        \end{table}
+
 
     \section{Ionization of one-dimensional atoms}
         The process of modelling ionization of electrons in atoms and
@@ -404,197 +647,3 @@
             values include more noise and provides no more insight.}
             \label{fig:one-particle-density-miyagi-l=40}
         \end{figure}
-
-    \section{Electronic spectra of molecules}
-        In an article by \citeauthor{nest} \cite{nest} the
-        multiconfiguration time-dependent Hartree-Fock method was tested on
-        a system of lithium hydride and methane subject to spatially uniform
-        laser field on the form\footnote{%
-            Note that \citeauthor{nest} \cite{nest} does not explicitly add
-            a formula for the laser, but based on their description we infer
-            the form of the laser.
-        }
-        \begin{align}
-            \vfg{E}(t)
-            = -\vfg{\epsilon} E(t)
-            \sin[2](\pi t / T)
-            = -\vfg{\epsilon} E_0 \sin(\omega t)
-            \sin[2](\pi t / T),
-            \label{eq:nest-laser}
-        \end{align}
-        where $\vfg{\epsilon}$ is the polarization vector, $\omega$ is the
-        frequency corresponding to a photon energy of $E_h =
-        \SI{5.44}{\electronvolt}$.
-        The laser field is active for $t \in \brak{0, T}$ where $T =
-        \SI{1}{\femto\second} \approx \SI{41.3}{\planckbar / \hartree}$.
-        The intensity of the laser field is chosen to be $I =
-        \SI{3.5e12}{\watt/\cm^2}$.
-        The simulation is run for $\SI{100}{\femto\second}$.
-        A plot of the laser field in the first $t = \SI{50}{\planckbar /
-        \hartree}$ of the simulation is shown in \autoref{fig:nest-laser}.
-        \begin{figure}
-            \centering
-            \begin{tikzpicture}
-                \begin{axis}[
-                        width=11cm,
-                        height=6cm,
-                        xlabel={$t$ $[\si{\planckbar / \hartree}]$},
-                        grid=major,
-                        ylabel={
-                            $E(t)$ $[
-                                \si{\hartree / (\elementarycharge \bohr)}
-                            ]$
-                        },
-                        enlarge x limits=false,
-                    ]
-                    \addplot+ [
-                        mark=none,
-                        thick,
-                    ]
-                    table
-                    {results/benchmarks/nest/dat/nest_laser.dat};
-                \end{axis}
-            \end{tikzpicture}
-            \caption{In this figure we have plotted the laser pulse from
-            \autoref{eq:nest-laser} for $t = \SI{50}{\text{a.u.}}$, with
-            parameters as defined in the text \cite{nest}.}
-            \label{fig:nest-laser}
-        \end{figure}
-        We repeat this study for the lithium hydride molecule.
-        We use a bond-length of $\SI{3.08}{\bohr}$ in the $z$-direction
-        between the lithium and the hydrogen atoms.
-        We use the basis 6-31G*.
-        Finally, we run two simulations by setting the polarization vector
-        in $z$ and $x$ direction and measure the dipole moment in the same
-        direction as the polarization of the laser field.
-        A word of caution, when reproducing the results in this article some
-        care must be taken when converting to atomic units for the
-        frequency, time and the intensity of the laser as it is not clear
-        how much one should round the numbers.
-        We have used the Python library \citetitle{pint} \cite{pint} to
-        convert from SI units to atomic units as they stand in the text
-        without any rounding.
-        These conversions are summarized in \autoref{tab:nest-conversions}.
-        \begin{table}
-            \centering
-            \caption{In this table we show the conversions used to move from
-            the SI units given in the article by \citeauthor{nest}
-            \cite{nest} to the atomic units used in the simulation.}
-            \renewcommand{\arraystretch}{1.3}
-            \begin{tabular}{@{}lll@{}}
-                \toprule
-                Quantity & SI units & Atomic units \\
-                \midrule
-                $\omega$ & $\SI{5.44}{\electronvolt}$ &
-                \SI{1.999163e-1}{\text{a.u.}}\\
-                $F(t)$ & $\SI{3.5e12}{\watt/\cm^{2}}$ &
-                \SI{9.973085e-5}{\text{a.u.}} \\
-                $t$ & $\SI{1}{\femto\second}$ &
-                \SI{4.134137e+1}{\text{a.u.}}
-                \\
-                \bottomrule
-            \end{tabular}
-            \label{tab:nest-conversions}
-        \end{table}
-        % TODO: Consider rounding these numbers.
-
-        In \autoref{fig:fft_dipole_nest} we have included the Fourier
-        transform of the sampled dipole moment in $x$- and $z$-direction in
-        time, respectively.
-        These plots show the emission and absorption spectra for the
-        lithium hydride molecule.
-        \begin{figure}
-            \centering
-            \begin{tikzpicture}
-                \begin{groupplot}[
-                    group style={
-                        group size=1 by 2,
-                        vertical sep=60pt,
-                        xlabels at=edge bottom,
-                    },
-                    width=11cm,
-                    height=6cm,
-                    xlabel={Excitation energy $[\text{a.u.}]$},
-                ]
-                    \nextgroupplot[
-                        title={$FT\brak{\expval{x(t)}}$},
-                        grid=major,
-                        ylabel={Intensity},
-                        enlarge x limits=false,
-                        %ymax=0.5e-4,
-                    ]
-                        \addplot+[
-                            mark=none,
-                            thick,
-                        ]
-                        table
-                        {results/benchmarks/nest/dat/fft_dipole_x_oatdccd_real.dat};
-                        \addlegendentry{OATDCCD}
-
-                        \addplot+[
-                            mark=none,
-                            thick,
-                        ]
-                        table
-                        {results/benchmarks/nest/dat/fft_dipole_x_tdhf_real.dat};
-                        \addlegendentry{TDHF}
-
-                        \addplot+[
-                            mark=none,
-                            thick,
-                        ]
-                        table
-                        {results/benchmarks/nest/dat/fft_dipole_x_tdccsd_real.dat};
-                        \addlegendentry{TDCCSD}
-                    \nextgroupplot[
-                        title={$FT\brak{\expval{z(t)}}$},
-                        ylabel={Intensity},
-                        grid=major,
-                        enlarge x limits=false,
-                        %ymax=0.5e-4,
-                    ]
-                        \addplot+[
-                            mark=none,
-                            thick,
-                        ]
-                        table
-                        {results/benchmarks/nest/dat/fft_dipole_z_oatdccd_real.dat};
-                        \addlegendentry{OATDCCD}
-
-                        \addplot+[
-                            mark=none,
-                            thick,
-                        ]
-                        table
-                        {results/benchmarks/nest/dat/fft_dipole_z_tdhf_real.dat};
-                        \addlegendentry{TDHF}
-
-                        \addplot+[
-                            mark=none,
-                            thick,
-                        ]
-                        table
-                        {results/benchmarks/nest/dat/fft_dipole_z_tdccsd_real.dat};
-                        \addlegendentry{TDCCSD}
-                \end{groupplot}
-            \end{tikzpicture}
-            \caption{In these figures we show the Fourier transform of the
-            dipole moment in $x$-and $y$-direction using time-dependent
-            Hartree-Fock, time-dependent coupled cluster with singles and
-            doubles, orbital-adaptive time-dependent coupled cluster with
-            doubles excitations.
-            The top figure shows the results in $x$-direction and the lower
-            in $z$-direction.
-            Note that we have removed the zero-frequency component from
-            these spectra.}
-            \label{fig:fft_dipole_nest}
-        \end{figure}
-        % TODO: Discuss sampling of the dipole moment and taking the Fourier
-        % transform in order to find the energy spectra.
-        % TODO: Add plot of energy conservation after laser pulse.
-        % TODO: Add results, remember to remove the zero-frequency
-        % component.
-        % TODO: The laser pulse used is wrong! Fix figures and results!
-
-        % TODO: ADD NEW RESULTS!
-
