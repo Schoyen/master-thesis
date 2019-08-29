@@ -8,13 +8,12 @@
     We will in this section limit our attention to small systems.
 
     \section{The one-dimensional harmonic oscillator}
-        An excellent starting point is the one-dimensional harmonic
-        oscillator described using the discretized one-dimensional quantum dot
+        An excellent starting point for validaion is the one-dimensional
+        harmonic oscillator using the discretized one-dimensional quantum dot
         system as discussed in \autoref{sec:one-dim-qd}.
-        A study done by \citeauthor{zanghellini_2004}
-        \cite{zanghellini_2004, skattum2013time, kristiansen2017time}
-        explores the multi-configuration time-dependent Hartree-Fock method
-        on the one-dimensional harmonic oscillator system for two particles
+        A study done by \citeauthor{zanghellini_2004} \cite{zanghellini_2004}
+        explores the multi-configuration time-dependent Hartree-Fock method on
+        the one-dimensional harmonic oscillator system for two particles
         compared to a semi-analytic result.\footnote{%
             Semi-analytic as the time-evolution is solved numerically.
         }
@@ -36,16 +35,29 @@
         are chosen to be $\omega = 0.25$, $E_0 = 1$ and $\Omega =
         8\omega$.
         The simulation is run on a one-dimensional grid where $x \in [-10, 10]$.
-        We use a basis of $L = 20$ spin-orbitals, that is, the $L / 2 = 10$
-        first one-dimensional harmonic oscillator orbitals found by
+        We use a relatively small basis of $L = 20$ spin-orbitals, that is, the
+        $L / 2 = 10$ first one-dimensional harmonic oscillator orbitals found by
         diagonalizing the one-body Hamiltonian.
 
-        In \autoref{fig:one-body-density-zanghellini} we plot the ground
-        state one-body particle densities using Hartree-Fock and CISD, i.e.,
-        full configuration interaction for two particles.
+        We will reproduce part of the study done by
+        \citeauthor{zanghellini_2004} using TDHF, TDCID, TDCISD, TDCCD, and
+        TDCCSD as well as the their ground state counterparts.
+        We do not include NOCCD nor OATDCCD, as part of the study is a
+        comparison of the time-dependent overlap which we have not implemented
+        for the latter method as dicussed in
+        \autoref{subsec:autocorrelation-oatdccd}.
+        In \autoref{fig:one-body-density-zanghellini} we plot the ground state
+        one-body particle densities using the general Hartree-Fock method and
+        CISD, i.e., full configuration interaction for two particles.
         In the lower plot in \autoref{fig:one-body-density-zanghellini} we
-        demonstrate that CCSD reproduces the exact solution as achieved from
-        configuration interaction to a high precision.
+        demonstrate that CCSD reproduces the exact solution for the one-body
+        particle density as achieved from configuration interaction to a high
+        precision by computing the absolute difference between each point on the
+        grid, that is,
+        \begin{align}
+            \abs{\Delta \densityten(x, 0)}
+            = \abs{\densityten_{CISD}(x, 0) - \densityten_{CCSD}(x, 0)}.
+        \end{align}
         We've listed the ground state energies in \autoref{tab:gs-zanghellini}
         for the different solver methods.
         We compute the relative error by
@@ -150,8 +162,16 @@
         time-dependent overlap for two one-dimensional quantum dots subject
         to the same dipole laser as in the study done by
         \citeauthor{zanghellini_2004} \cite{zanghellini_2004}.
-        We also show how CCSD reproduces the exact CISD solution to a large
-        degree.
+        We also show how TDCCSD reproduces the exact TDCISD solution to a large
+        degree by computing the absolute difference between the overlap from
+        TDCISD and TDCCSD.
+        By inspection we see that both the one-body particle density in
+        \autoref{fig:one-body-density-zanghellini} and the time-dependent
+        overlap in \autoref{fig:overlap-zanghellini} resembles the results from
+        \citeauthor{zanghellini_2004} \cite{zanghellini_2004}, and we conclude
+        that TDHF, TDCISD, and TDCCSD work as expected with the latter two
+        methods serving as exact solutions within the finite single-particle
+        space we explore.
 
         \begin{figure}
             \centering
@@ -204,8 +224,8 @@
                 \end{groupplot}
             \end{tikzpicture}
             \caption{In the top figure we have plotted the time-dependent
-            overlap between the initial ground state $\ket{\Psi(0)}$ and the
-            state $\ket{\Psi(t)}$ at a later time.
+            overlap between the initial ground state $\ket*{\Psi(0)}$ and the
+            state $\ket*{\Psi(t)}$ at a later time.
             We compare the time-dependent general Hartree-Fock method and
             the time-dependent full configuration interaction method.
             The figure is a reproduction of Figure 2. in the study done by
@@ -225,12 +245,14 @@
         Looking at \autoref{fig:one-body-density-doubles-zanghellini} we can see
         how the doubles approximations CID and CCD with the harmonic oscillator
         basis are quite far from the full configuration-interaction benchmark.
-        With a Hartree-Fock basis CID and CCD are much better at reproducing the
-        full configuration-interaction result.
+        Performing a Hartree-Fock calulation and transforming to the new
+        molecular orbital basis we see that CID and CCD are much better at
+        reproducing the full configuration-interaction result.
         This demonstrates the effectiveness of Brillouin's theorem by moving to
         the optimal single-reference determinant found in Hartree-Fock.
-        However, this does not completely remove the need for a singles
-        operator.
+        However, we see that this does not completely remove the need for a
+        singles operator as the result for CID and CCD in the molecular orbital
+        basis are still quite far from the exact results.
 
         \begin{figure}
             \centering
@@ -313,9 +335,10 @@
             \label{fig:one-body-density-doubles-zanghellini}
         \end{figure}
 
-        In \autoref{fig:overlap-doubles-zanghellini} we show CID and CCD with
-        and without a Hartree-Fock basis is unable to give a good reconstruction
-        of the exact solution from full configuration interaction.
+        In \autoref{fig:overlap-doubles-zanghellini} we show how TDCID and TDCCD
+        with and without a Hartree-Fock basis is unable to give a good
+        reconstruction of the exact solution from full configuration
+        interaction.
         The lack of singles excitations become glaringly apparent once we start
         the time-evolution of the system.
         This can be seen as an effect of the laser field being described by a
@@ -323,6 +346,10 @@
         It is therefore likely that a singles-excitation operator best describes
         this interaction and the doubles approximation will have problems
         properly depicting the dynamics.
+        In fact, comparing with \autoref{fig:overlap-zanghellini} we see that
+        TDHF gives a qualitatively much better approximation to the exact
+        results which demonstrates that the singles approximation is essential
+        for the laser driven dynamics we explore.
 
         \begin{figure}
             \centering
@@ -401,6 +428,11 @@
             \label{fig:overlap-doubles-zanghellini}
         \end{figure}
 
+        We therefore conclude that the pure doubles approximations are inferior
+        at describing the dipole laser fields we explore and we will therefore
+        not use these for any significant results in the remainder of this
+        thesis.
+
 
 
     \section{Two-electron molecule}
@@ -415,52 +447,34 @@
         This provides us with an ample opportunity to repeat the
         experiments in order for us to verify our methods.
         We will therefore reproduce parts of the study done by
-        \citeauthor{li_2005} using TDCISD, TDHF, TDCCSD, and OATDCCD.
+        \citeauthor{li_2005} using TDHF, TDCISD, TDCCSD, and OATDCCD.
 
         We'll look at the smallest molecule \ch{H2}, that is, the Hydrogen
         molecule with two electrons.
         This means that TDCISD, TDCCSD, and OATDCCD should produce exact
         results for the single-particle basis that is used.
-        %That is, we compute
-        %\begin{align}
-        %    \tilde{\vfg{d}}^{p}_{q}(t)
-        %    = \mel*{\tilde{\phi}_p(t)}{\hat{\vfg{d}}}{\phi_q(t)}
-        %    = \tilde{C}_{p\alpha}(t)
-        %    \mel*{\chi_{\alpha}}{\hat{\vfg{d}}}{\chi_{\beta}}
-        %    C_{\beta q}(t),
-        %\end{align}
-        %as the basis transformed dipole matrix elements.
-        %Having computed the one-body density matrix $\densityten^{q}_{p}(t)$
-        %from OATDCCD, we can find the induced dipole-moment along the
-        %$z$-axis by picking out the $z$-component of the dipole elements,
-        %that is,
-        %\begin{align}
-        %    \expval{z(t)}
-        %    &= \densityten^{q}_{p}(t) \tilde{z}^{p}_{q}(t),
-        %\end{align}
-        %where $\tilde{z}^{p}_{q}(t)$ is the $z$-component of
-        %$\tilde{\vfg{d}}^{p}_{q}(t)$.
         We express \ch{H2} in $14$ Gaussian type orbitals, that is, the
-        $6-311++G(d, p)$ basis set, with an equilibrium geometry of $R_e =
+        6-311++G(d, p) basis set, with an equilibrium geometry of $R_e =
         \SI{0.7354}{\angstrom} \approx \SI{1.3897}{\bohr}$.
+        We use PySCF \cite{pyscf} to create the basis set with the string
+        \pyth{"6-311++Gss"}.
         We center the molecule around the origin with each atom located at
         $\pm R_e/2$ in the $z$-direction zero for the $x$- and
         $y$-direction.
         We then make the basis set doubly occupied by including spin.
-        The basis is run through a general Hartree-Fock solver which finds
-        the Hartree-Fock molecular orbitals and changes to this basis.
+        The basis is run through our general Hartree-Fock solver which finds the
+        Hartree-Fock molecular orbitals and changes to this basis.
         The laser pulse used by \citeauthor{li_2005} is
         \begin{align}
-            \hat{\vfg{d}} \cdot \vfg{f}(t)
-            = \hat{\vfg{d}} \cdot \vfg{E}(t)\sin(\omega t),
+            \vfg{E}(t)
+            = \hat{\vfg{d}} \cdot \vfg{f}(t)\sin(\omega t),
             \label{eq:li-field}
         \end{align}
-        where $\hat{\vfg{d}}$ is the dipole operator in three dimensions and
-        the envelope $\vfg{E}(t) = E(t)\vfg{\epsilon}$ with $\vfg{\epsilon}$
-        as the polarization vector.
-        We let the envelope cycle as a function of time by
+        where the envelope function is given by $\vfg{f}(t) =
+        f(t)\vfg{\epsilon}$ with $\vfg{\epsilon}$ as the polarization vector.
+        The envelope is described by
         \begin{align}
-            E(t) = \begin{cases}
+            f(t) = \begin{cases}
                 (\omega t / 2\pi) E_m, & \omega t \in [0, 2\pi], \\
                 E_m, & \omega t \in [2\pi, 4\pi], \\
                 [3 - \omega t / (2\pi)] E_m, & \omega t \in [4\pi, 6\pi], \\
@@ -468,9 +482,11 @@
             \end{cases}
             \label{eq:li-laser}
         \end{align}
-        where we set $E_m = \SI{0.07}{\hartree}$ and $\omega =
-        \SI{0.1}{\hartree/\hslash}$.
-        This envelope is slightly unconventional as compared to the more
+        where we set $E_m = \SI{0.07}{\hartree} \approx
+        \SI{1.72e14}{\watt/\cm^2}$ and $\omega =
+        \SI{0.1}{\hartree/\hslash}$ which corresponds to a wave length of
+        $\lambda = \SI{456}{\nano\meter}$.
+        This linear envelope is slightly unconventional as compared to the more
         common envelope functions discussed in \autoref{subsec:envelope}.
         A plot of the laser field during the simulation is shown in
         \autoref{fig:li-laser}.
@@ -480,8 +496,8 @@
                 \begin{axis}[
                     width=11cm,
                     height=6cm,
-                    xlabel={$t$ $[\text{a.u.}]$},
-                    ylabel={$E(t)$ $[\text{a.u.}]$},
+                    xlabel={$t$ $[\si{\hslash/\hartree}]$},
+                    ylabel={$E(t)$ $[\si{\hartree}]$},
                     grid=major,
                     enlarge x limits=false,
                     enlarge y limits=false,
@@ -531,7 +547,6 @@
         laser the mean-field approximation performs excellently.
         However, we expect that as the intensity increases, this method will
         prove inferior to the correlated methods.
-        % TODO: Back this up.
 
         \begin{figure}
             \centering
@@ -544,11 +559,11 @@
                         },
                         width=11cm,
                         height=6cm,
-                        xlabel={$t$ $[\text{a.u.}]$},
+                        xlabel={$t$ $[\si{\hslash/\hartree}]$},
                     ]
                     \nextgroupplot[
                             grid=major,
-                            ylabel={$\expval{z(t)}$},
+                            ylabel={$\expval*{z(t)}$},
                             enlarge x limits=false,
                             enlarge y limits=false,
                         ]
@@ -571,7 +586,7 @@
                     \nextgroupplot[
                             ymode=log,
                             grid=major,
-                            ylabel={$\abs{\Delta\expval{z(t)}}$},
+                            ylabel={$\abs{\Delta\expval*{z(t)}}$},
                             enlarge x limits=false,
                             enlarge y limits=false,
                             legend pos=south east,
@@ -600,4 +615,10 @@
             \label{fig:dipole-moment-li}
         \end{figure}
 
-
+    \section{Summing up the validation}
+        We have now demonstrated that the bulk of our methods perform as
+        expected and give satisfying results for small systems.
+        Furthermore, we've demonstrated that the self-made one-dimensional
+        system and the interface towards PySCF are working.
+        We've also demonstrated that we support several dipole laser fields
+        and that we can compute various quantities from all methods.
