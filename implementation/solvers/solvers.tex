@@ -276,10 +276,10 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
                 \label{eq:ghf-scf-roothan-hall}
             \end{align}
             Here $\fockmat^{(i)}$ is built from the coefficient matrices at the
-            previous timestep, i.e., $\vfg{C}^{(i)}$.
+            previous time step, i.e., $\vfg{C}^{(i)}$.
             The generalized eigenvalue equation is solved in the same manner as
             described in \autoref{subsec:ghf} yielding the coefficient matrix
-            and the orbital eigenenergies for the next timestep.
+            and the orbital eigenenergies for the next time step.
 
             To start the self consistent iterations we need an initial value for
             the Fock matrix.
@@ -1391,7 +1391,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 = \hamilmat_1(t) + \hamilmat_2,
             \end{align}
             where we only construct a new $\hamilmat_1(t)$ -- using the
-            Slater-Condon rules for the one-body operator -- at every timestep.
+            Slater-Condon rules for the one-body operator -- at every time step.
 
         \subsection{Time-dependent energy}
             For a time-evolved state $\ket{\Psi(t)}$ with a time-evolved

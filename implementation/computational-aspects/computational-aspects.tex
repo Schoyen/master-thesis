@@ -328,97 +328,90 @@
         applicability of each scheme.
 
         \subsection{Problem statement}
-            The problem we are trying to solve can be formulated as the
-            two coupled time-dependent Schrödinger equations on the form
-            \begin{gather}
-                \partial_t\ket{\psi(t)}
-                = -i\hamil(t)\ket{\psi(t)},
-                \\
-                \partial_t\bra{\psi(t)}
-                = i\bra{\psi(t)}\hamil(t),
-            \end{gather}
-            where we've assumed atomic units, and moved $\pm i$ to the right-hand
-            side.
-            In the case of the time-dependent Hartree-Fock and the
-            time-dependent configuration interaction methods, we only need to
-            evaluate the former Schrödinger equation as the wave functions are
-            variational and $\bra{\psi(t)}$ will be the adjoint of
-            $\ket{\psi(t)}$.
-            For the coupled cluster methods we need to solve both equations as
-            the bra and ket sides of the wave function are no longer the adjoint
-            of one another.
-            Furthermore, in the orbital-adaptive formulation we need to include
-            the time-dependence of the coefficients used in the orbital
-            rotations.
-            However, we can stack all the coefficients and/or the amplitudes
-            after one another creating a long vector as each index in this
-            vector can be updated individually as long as the coupling is
-            handled in the derivatives.
-            We will discuss this stacking more in-depth in
-            \autoref{subsec:tdcc-implementation} and
-            \autoref{subsec:oatdcc-implementation}.
-            Thus, we are able to formulate the time-evolution of the
-            parameters of the wave function by
+            The problem we are trying to solve can be formulated as
             \begin{align}
-                \partial_t y(t) = f(y, t),
+                \dot{\vfg{y}}(t) = \vfg{F}(\vfg{y}, t),
+                \label{eq:ode-problem}
             \end{align}
-            where $f(y, t)$ represents the right-hand side of the time-dependent
-            Schrödinger equation, the time-dependent Hartree-Fock equation, or
-            the right-hand sides of the derivative of the coupled cluster
-            Lagrangian.
-            Note that $y(t)$ is here interpreted as a vector and $f(y, t)$ a
-            vector-valued function.
-            In order to allow for custom right-hand side functions $f(y, t)$
-            each solver class needs to implement a \pyth{__call__} method which
-            is Python dunder method allowing classes to be called in a similar
-            fashion as functions.
+            where $\dot{\vfg{y}}(t)$ is the derivative of the vector
+            $\vfg{y}(t)$ with respect to time.
+            The function $\vfg{F}(\vfg{y}, t)$ is a vector valued function
+            evaluating the right-hand side of the first order differential
+            equation listed above.
+            Most implemented integration schemes assumes that the problem can
+            be formulated as in \autoref{eq:ode-problem}, but as we've seen the
+            time-dependent Hartree-Fock method is defined in terms of a matrix,
+            and the time-dependet coupled-cluster methods as two sets of
+            amplitudes of different sizes and coefficient matrices for the
+            orbital-adaptive methods.
+            To get around this we let each time-dependent solver class implement
+            a Python dunder method \pyth{__call__} which accepts the two
+            parameters \pyth{y} and \pyth{t} to represent the right-hand side
+            function $\vfg{F}(\vfg{y}, t)$.
+            The innards of this method can now be describe by the following
+            steps:
+            \begin{enumerate}
+                \item Make sure the vector $\vfg{y}$ is reshaped to the correct
+                    formulation as required by the right-hand sides.
+                    For configuration interaction this is handled automatically,
+                    but for the time-dependent Hartree-Fock method this means
+                    that we need to reshape the vector into a coefficient
+                    matrix.
+                    For the time-dependent coupled-cluster methods this is even
+                    more involved and will be discussed in due time.
+                \item Update the time-dependent Hamiltonian to the current time
+                    step $t$.
+                \item Compute the right-hand sides to get the derivative of the
+                    coefficients and amplitudes.
+                \item Convert the coefficients and amplitudes to a new vector
+                    $\dot{\vfg{y}}$ and return this to the differential
+                    equation solver.
+            \end{enumerate}
+            Now, the process of stacking all the elements in the coefficient
+            matrices and amplitudes as a single vector is possible as each index
+            is independent of each other in terms of time-evolution.
+            However, they do coupled when evaluating the right-hand sides and we
+            therefore need to recover the original shape.
             Most differential equation libraries \cite{sympy} \cite{julia-diff}
             assume the right-hand side to be a callable function with a
             \pyth{__call__}-method.
             Annoyingly enough, there seems to be no consensus of the ordering of
-            the parameters to the function $f(y, t)$ which means that each
-            library will require a different definition of the right-hand side
-            functions.
+            the parameters to the function $\vfg{F}(\vfg{y}, t)$ which means
+            that each library will require a different definition of the
+            right-hand side functions.
             In the current implementation of our programs we have chosen the
-            ordering $f(y, t)$, but for us to use differential equation solvers
-            from SymPy \cite{sympy} or diffeqpy \cite{julia-diff} we need to
-            reverse the order, or add an extra parameter $p$ such that $f(y, p,
-            t)$ respectively.
+            ordering $\vfg{F}(\vfg{y}, t)$, but for us to use differential
+            equation solvers from SymPy \cite{sympy} or diffeqpy
+            \cite{julia-diff} we need to reverse the order, or add extra
+            parameters.
+            This process will be discussed more in \autoref{sec:future-work} as
+            we've not implemented an interface towards these libraries in this
+            work.
 
-
-            Discretizing time with a constant step $h = \Delta t$ such that $t_n
-            = t_0 + n h$ for $n \in \brac{0, N_t}$, where $N_t$ is the number of
-            time-steps and $t_0$ is the initial time-step.
-            Note that we typically choose a time-step $h$ such that $N_t$ can be
+            Discretizing time with a constant step $\Delta t$ such that $t_n
+            = t_0 + n \Delta t$ for $n \in \brac{0, N_t}$, where $N_t$ is the number of
+            time steps and $t_0$ is the initial time step.
+            Note that we typically choose a time step $\Delta t$ such that $N_t$ can be
             found by
             \begin{align}
-                N_t = \floor{\frac{t_f - t_0}{h}} + 1,
+                N_t = \floor{\frac{t_f - t_0}{\Delta t}} + 1,
             \end{align}
-            where $t_f$ is the final time-step.
-            We denote $y_0 \equiv y(t_0)$ and $y_n \equiv y(t_n)$, where $y_0$
-            is the initial value of the problem.
+            where $t_f$ is the final time step.
+            We denote $\vfg{y}_0 \equiv \vfg{y}(t_0)$ and $\vfg{y}_n \equiv
+            \vfg{y}(t_n)$, where $\vfg{y}_0$ is the initial value of the
+            problem.
             In this thesis we will always choose the initial value to be the
             ground state of the specific solver.
             This abstraction thus enables us to work with known ordinary
             differential equation solvers formulated in a familiar way.
 
-        \subsection{Runge-Kutta}
             As a first approximation to solving the time-dependent equations,
             we've implemented the Runge-Kutta 4 algorithm.
-            This algorithm is given by \cite{morken2017notes}
-            \begin{gather}
-                y_{i + 1} = y_i + \frac{1}{6}\para{
-                    k_1 + 2 k_2 + 2 k_3 + k_4
-                }, \\
-                t_{i + 1} = t_i + h,
-            \end{gather}
-            where the equations for the $k$'s are given by
-            \begin{gather}
-                k_1 = h f(y_i, t_i), \\
-                k_2 = h f(y_i + k_1 / 2, t_i + h / 2), \\
-                k_3 = h f(y_i + k_2 / 2, t_i + h / 2), \\
-                k_4 = h f(y_i + k_3, t_i + h).
-            \end{gather}
+            A rendition of this algorithm can be found in
+            \citetitle{morken2017notes} \cite{morken2017notes} and will not be
+            repeated in this text as all results are achieved using the more
+            sophisticated Gauss-Legendre integrator which will be discussed
+            shortly.
             Runge-Kutta 4 is a fourth-order method with a local numerical error
             of the order of $\mathcal{O}(h^5)$ and a total error of
             $\mathcal{O}(h^4)$.
@@ -426,19 +419,19 @@
         \subsection{Symplectic integrators}
             Looking back to \autoref{sec:time-evolution-operators} we note that
             for a time-dependent Hamiltonian in the Schrödinger picture, the
-            time-evolution of a state $\ket{\psi(t)}$ is described by the
+            time-evolution of a state $\ket*{\psi(t)}$ is described by the
             time-evolution operator shown in \autoref{eq:td-evolution}, where
-            the Hamiltonian in general does not commute at different time-steps.
+            the Hamiltonian in general does not commute at different time steps.
             It is perhaps somewhat naïve to hope for a numerical method such as
             Runge-Kutta 4 to yield good results without some extra concern for
             the problem at hand.
             As discussed by \citeauthor{joshua-magnus} \cite{joshua-magnus} the
             solution to the time-dependent Schrödinger equation can be better
             approximated by the Magnus expansion \cite{magnus-expansion}.
-            This leads to implicit differential equation integration methods
-            that are \emph{symplectic} \cite{joshua-magnus}.
-            These methods will in a much larger degree conserve the energy,
-            normalization, and unitariy of the coefficients and amplitudes as
+            This leads to implicit integration methods that are
+            \emph{symplectic} \cite{joshua-magnus}.
+            These methods will to a much larger degree conserve the energy,
+            normalization, and unitarity of the coefficients and amplitudes as
             opposed to the explicit schemes such as Runge-Kutta 4
             \cite{joshua-magnus, pedersen2018symplectic}.
             One of the first approximations to the Magnus expansion is the
@@ -447,8 +440,8 @@
 
         \subsection{Gauss-Legendre}
             In an article on the stability of the time-dependent coupled-cluster
-            singles-and-doubles on atomic systems subject to intense laser
-            pulses, \citeauthor{pedersen2018symplectic}
+            singles-and-doubles method on atomic systems subject to intense
+            laser pulses, \citeauthor{pedersen2018symplectic}
             \cite{pedersen2018symplectic} used symplectic, implicit Runge-Kutta
             methods in an attempt to alleviate some of the stability issues they
             faced.
@@ -461,7 +454,6 @@
                 Legendre, and Laguerre polynomials, etc.%
             } as used by \citeauthor{pedersen2018symplectic}
             \cite{pedersen2018symplectic} to include it in our libraries.
-            This method is described in depth in
+            This method is described in depth in their text
             \citetitle{pedersen2018symplectic} \cite{pedersen2018symplectic} and
-            will not be renditioned in this thesis.
-            % TODO: Maybe do this?
+            will not be renditioned in this work.
