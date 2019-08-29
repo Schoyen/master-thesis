@@ -84,7 +84,7 @@ def get_time_points(t_start=0, t_end=100, dt=1e-2):
 
 if __name__ == "__main__":
     laser = NestLaser()
-    # ureg = pint.UnitRegistry()
+    ureg = pint.UnitRegistry()
 
     # frequency = ureg.Quantity(0.2, ureg.hartree) / 1  # Unity Planck's constant
     # print(frequency)
@@ -104,3 +104,10 @@ if __name__ == "__main__":
     # F = ureg.Quantity(1, ureg.a_u_intensity)
     # print(F)
     # print(F.to(ureg.watt / ureg.cm ** 2))
+
+    I_max = 3.5e12
+    I_au = (I_max * ureg.watt / ureg.cm ** 2).to(ureg.a_u_intensity)
+    E = np.sqrt(2 * I_au / (ureg.epsilon_0 * ureg.c)).to(
+        ureg.a_u_electric_field
+    )
+    print(E)
