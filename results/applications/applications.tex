@@ -209,24 +209,38 @@
             these spectra.}
             \label{fig:fft_dipole_nest}
         \end{figure}
+        In \autoref{tab:fft_dipole_nest_x} we've used function
+        \pyth{scipy.signal.find_peaks} \cite{scipy} to locate the transition
+        energies for the Fourier specter of the dipole moment polarized along
+        the $x$-direction.
+        We've done the same in \autoref{tab:fft_dipole_nest_z} for the
+        $z$-direction.
+        Note that we've set a threshold for the minimum height of the peaks to
+        $\num{5e-6}$ to avoid some noisy signals.\footnote{%
+            This value was chosen by trial and error where we've inspected the
+            figures --especially for the $z$-direction -- in
+            \autoref{fig:fft_dipole_nest} to see that all peaks are in the
+            results at the approximate correct location.
+        }
 
         \begin{table}
             \centering
             \caption{Transition energies from peaks in Fourier specter of the
-            dipole moment in the $x$-direction as seen in the top palette of
-            \autoref{fig:fft_dipole_nest}.
+            dipole moment of \ch{LiH} in the $x$-direction as seen in the top
+            palette of \autoref{fig:fft_dipole_nest}.
             The peaks are counted from left to right.}
             \renewcommand{\arraystretch}{1.3}
-            \begin{tabular}{@{}lll@{}}
+            \begin{tabular}{@{}llll@{}}
                 \toprule
-                Solver & Peak [$n$] & $\Delta \energy$ $[\si{\hartree}]$ \\
+                Solver & Peak [$n$] & $\Delta \energy$ $[\si{\hartree}]$
+                & $\Delta \energy$ $[\si{\electronvolt}]$ \\
                 \midrule
-                TDHF & $1$ & $0.18922721$ \\
-                & $2$ & $0.32307085$ \\
-                TDCCSD & $1$ & $0.15999699$ \\
-                & $2$ & $0.29691749$ \\
-                OATDCCD & $1$ & $0.15999699$ \\
-                & $2$ & $0.29691749$ \\
+                TDHF & $1$ & $0.1892$ & $5.1491$ \\
+                & $2$ & $0.3231$ & $8.7912$ \\
+                TDCCSD & $1$ & $0.1600$ & $4.3537$ \\
+                & $2$ & $0.2969$ & $8.0795$ \\
+                OATDCCD & $1$ & $0.1600$ & $4.3537$ \\
+                & $2$ & $0.2969$ & $8.0795$ \\
                 \bottomrule
             \end{tabular}
             \label{tab:fft_dipole_nest_x}
@@ -234,25 +248,121 @@
 
         \begin{table}
             \centering
-            \caption{Transition energies from peaks in Fourier specter of the
-            dipole moment in the $z$-direction as seen in the bottom palette of
-            \autoref{fig:fft_dipole_nest}.
+            \caption{Transition energies from the peaks in the Fourier specter
+            of the dipole moment of \ch{LiH} in the $z$-direction as seen in the
+            bottom palette of \autoref{fig:fft_dipole_nest}.
             The peaks are counted from left to right.}
             \renewcommand{\arraystretch}{1.3}
-            \begin{tabular}{@{}lll@{}}
+            \begin{tabular}{@{}llll@{}}
                 \toprule
-                Solver & Peak [$n$] & $\Delta \energy$ $[\si{\hartree}]$ \\
+                Solver & Peak [$n$] & $\Delta \energy$ $[\si{\hartree}]$
+                & $\Delta \energy$ $[\si{\electronvolt}]$ \\
                 \midrule
-                TDHF & $1$ & $0.18922721$ \\
-                & $2$ & $0.32307085$ \\
-                TDCCSD & $1$ & $0.15999699$ \\
-                & $2$ & $0.29691749$ \\
-                OATDCCD & $1$ & $0.15999699$ \\
-                & $2$ & $0.29691749$ \\
+                TDHF & $1$ & $0.1492$ & $4.0607$ \\
+                & $2$ & $0.2785$ & $7.5772$ \\
+                & $3$ & $0.4277$ & $11.6379$ \\
+                TDCCSD & $1$ & $0.1215$ & $3.3072$ \\
+                & $2$ & $0.2615$ & $7.1167$ \\
+                & $3$ & $0.3061$ & $8.3307$ \\
+                & $4$ & $0.4108$ & $11.1774$ \\
+                OATDCCD & $1$ & $0.1215$ & $3.3072$ \\
+                & $2$ & $0.2615$ & $7.1167$ \\
+                & $3$ & $0.3061$ & $8.3307$ \\
+                & $4$ & $0.4108$ & $11.1774$ \\
                 \bottomrule
             \end{tabular}
             \label{tab:fft_dipole_nest_z}
         \end{table}
+
+        For the sake of comparison we have also used CISD to compute the excited
+        energy levels.
+        By subtracting the ground state energy from each excited energy level we
+        find the transition energies and are able to compare with the results in
+        \autoref{tab:fft_dipole_nest_x} and \autoref{tab:fft_dipole_nest_z}.
+        However, this will include all transition energies, even those that are
+        beyond the dipole allowed transitions.
+        We therefore wish to filter out all higher order transitions as we are
+        only looking for dipole allowed effects.
+        Now, the way we verify if a transition is an allowed dipole transition
+        once we have the spectrum $(\energy_K, \Psi_K)$ from the
+        CISD-Hamiltonian, is to compute a sort of ``transition one-body density
+        matrix'' defined as
+        % TODO: Is there a name for this quantity?
+        \begin{align}
+            (\densityten_{IJ})^{q}_{p}
+            \equiv \mel*{\Psi_I}{
+                \ccr{p}
+                \can{q}
+            }{\Psi_J}
+            = C^{*}_{KI} C_{LJ}
+            \mel*{\slat_{K}}{
+                \ccr{p}
+                \can{q}
+            }{\slat_L},
+        \end{align}
+        where the name stems from the fact that we can reuse the one-body
+        density matrix routine, but now with two different coefficient vectors
+        $\vfg{C}_I$ and $\vfg{C}_J$.
+        To verify if an energy transition between two states $\Psi_I$ and
+        $\Psi_J$ are allowed in the dipole approximation we compute
+        \begin{align}
+            \vfg{d}^{p}_{q} (\densityten_{IJ})^{q}_{p}
+            > \vfg{0},
+        \end{align}
+        where a non-zero -- or, numerically non-zero -- value means that the
+        transition is allowed along the axis that has a non-zero value.
+        Using these techniques to located allowed transitions, we map the
+        lowest lying allowed dipole transitions for the \ch{LiH}-molecule using
+        CISD in the restricted Hartree-Fock basis in
+        \autoref{tab:dipole_transition_cisd}.
+        \begin{table}
+            \centering
+            \caption{Here we see the allowed dipole transitions from the ground
+            state $I = 0$ to a higher excited state $J$.
+            We've only included results from the first $40$ states in the
+            spectrum from the CISD-Hamiltonian.}
+            \renewcommand{\arraystretch}{1.3}
+            \begin{tabular}{@{}llll@{}}
+                \toprule
+                Transition & Direction
+                &$\Delta \energy$ $[\si{\hartree}]$
+                & $\Delta \energy$ $[\si{\electronvolt}]$ \\
+                \midrule
+                $0 \to 4$ & $z$ & $0.1218$ & $3.3138$ \\
+                $0 \to 11$ & $x$, $y$ & $0.1595$ & $4.3398$ \\
+                $0 \to 12$ & $x$, $y$ & $0.1595$ & $4.3398$ \\
+                $0 \to 16$ & $z$ & $0.2613$ & $7.1108$ \\
+                $0 \to 23$ & $x$, $y$ & $0.2970$ & $8.0814$ \\
+                $0 \to 24$ & $x$, $y$ & $0.2970$ & $8.0814$ \\
+                $0 \to 28$ & $z$ & $0.3060$ & $8.3275$ \\
+                $0 \to 32$ & $z$ & $0.4115$ & $11.1974$ \\
+                $0 \to 33$ & $z$ & $0.5310$ & $14.4485$ \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:dipole_transition_cisd}
+        \end{table}
+        Comparing the results from \autoref{tab:fft_dipole_nest_x} and
+        \autoref{tab:fft_dipole_nest_z} with the results from CISD in
+        \autoref{tab:dipole_transition_cisd} we see that TDCCSD and OATDCCD are
+        in excellent agreement with the transition energies from the spectrum of
+        the CISD-Hamiltonian.
+        However, there are small discrepancies which we expect as all three
+        methods approximate the four-particle system of \ch{LiH}-molecule with
+        at most two-particle excitation operators.
+        We also see that OATDCCD and TDCCSD yields exactly the same dipole
+        transition energies within the precision that we've kept for these
+        results.
+        It is a little hard to determine if the coupled-cluster methods perform
+        better than CISD as the energies are simultaneously higher and lower at
+        different energy levels.
+        Furthermore, the converged ground state energy for all three methods is
+        \begin{align}
+            \energy_0 = \SI{-8.9772}{\hartree},
+        \end{align}
+        for the given precision.
+        % TODO: Discuss how this is "better" than Nest.
+
+        % TODO: Discuss how TDHF misses
 
 
     \section{Ionization of one-dimensional atoms}
