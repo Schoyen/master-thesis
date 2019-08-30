@@ -355,15 +355,39 @@
         It is a little hard to determine if the coupled-cluster methods perform
         better than CISD as the energies are simultaneously higher and lower at
         different energy levels.
-        Furthermore, the converged ground state energy for all three methods is
+        Furthermore, the converged ground state correlation energy for all three
+        methods is
         \begin{align}
             \energy_0 = \SI{-8.9772}{\hartree},
         \end{align}
-        for the given precision.
-        % TODO: Discuss how this is "better" than Nest.
+        for the given precision for the coupled-cluster methods.
+        The methods therefore seemingly perform just as well on the
+        \ch{LiH}-system.
+        We see that we are able to achieve a lower ground state energy than
+        \citeauthor{nest}.
 
-        % TODO: Discuss how TDHF misses
+        However, there is no doubt that TDHF is quite far off in terms of the
+        dipole transition energies when loooking at
+        \autoref{tab:fft_dipole_nest_x} and \autoref{tab:fft_dipole_nest_z}.
 
+
+    \section{Spectra of noble gasses}
+        Before moving on to more exotic systems we wish to demonstrate one of
+        the main goals in this thesis, and that is to prove that the implemented
+        methods are able to explore larger systes than what can achieved with
+        the full configuration interaction method.
+        We therefore wish to demonstrate some simulations for the \ch{Ne}- and
+        \ch{Ar}-atom in exactly the same laser field as in the study done by
+        \citeauthor{nest} \cite{nest} shown in \autoref{eq:nest-laser}, but with
+        a higher frequency.
+        We have chosen a frequency $\omega$ corresponding to a laser wave length
+        of $\lambda = \SI{200}{\nm}$ and let the envelope last for a full cycle,
+        that is, $T = 2\pi / \omega$.
+        We've chosen this frequency as this lets us simulate a full cycle of the
+        laser in a relatively short time, thus letting the atoms oscillate for a
+        long time after the laser is turned off.
+
+    \section{Spin-dependent laser pulses}
 
     \section{Ionization of one-dimensional atoms}
         The process of modelling ionization of electrons in atoms and
