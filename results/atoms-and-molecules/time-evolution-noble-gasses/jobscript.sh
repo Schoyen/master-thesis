@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Job name
-#SBATCH --job-name=ne-aug-ccpvtz
+#SBATCH --job-name=ne-aug-ccpvdz
 #
 # Project
 #SBATCH --account=nn2977k
@@ -10,7 +10,7 @@
 #SBATCH --time=168:00:00
 #
 # Max memory usage per core (MB)
-#SBATCH --mem-per-cpu=15G
+#SBATCH --mem-per-cpu=4G
 #
 # Number of CPU's/processes
 #SBATCH --cpus-per-task=4
@@ -32,4 +32,4 @@ cleanup "cp $SCRATCH/dat/* $SUBMITDIR/dat/"
 ## Run commands
 cd $SCRATCH
 export OMP_NUM_THREADS=4
-python ne_aug-ccpvtz.py
+python ne_aug-ccpvdz.py
