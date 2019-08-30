@@ -18,7 +18,7 @@ for direction in directions:
         data = return_time_data(filename)
         time, spec = data[:, 0], data[:, 1]
 
-        peak_indices = scipy.signal.find_peaks(spec, height=1e-6)
+        peak_indices = scipy.signal.find_peaks(spec, height=5e-6)
 
         peaks = list(time[peak_indices[0]])
 
