@@ -18,6 +18,7 @@
     problems.
 
     \section{Electronic spectra of molecules}
+        \label{sec:nest}
         In an article by \citeauthor{nest} \cite{nest} the
         multiconfiguration time-dependent Hartree-Fock method was tested on
         a system of lithium hydride and methane subject to a dipole
@@ -808,6 +809,241 @@
             No extra label means that the field is spin-indepdenent.}
             \label{fig:isborn-h2}
         \end{figure}
+
+        For the \ch{H2}-molecule we can use CISD to compute the entire spectrum
+        and locate the allowed dipole transitions using the same technique as
+        discussed in \autoref{sec:nest}.
+        Furthermore, using the spin-reduced dipole matrix elements we should
+        locate the allowed singlet-triplet transitions.
+        In \autoref{tab:h2-sto-3g-isborn-transitions} we've listed all allowed
+        dipole transitions in the STO-3G basis for \ch{H2}.
+        We've denoted singlet allowed transitions -- where it is understood that
+        the same transition is allowed in the spin-dependent case as well --
+        specifically to demonstrate which peaks we expect to see for the singlet
+        only transitions.
+        \begin{table}
+            \centering
+            \caption{Dipole allowed transitions for \ch{H2} in the STO-3G basis
+            computed using CISD.
+            The transition is from the ground state $I = 0$ to a higher excited
+            state $J$.
+            Spin-independent transitions, i.e., singlet-to-singlet transitions,
+            are denoted with a ``yes'' under the column ``Singlet allowed''.
+            These transitions are also allowed in the spin-dependent case.}
+            \begin{tabular}{@{}llll@{}}
+                \toprule
+                Transition & Singlet allowed
+                & $\Delta \energy$ $[\si{\hartree}]$
+                & $\Delta \energy$ $[\si{\electronvolt}]$ \\
+                \midrule
+                $0 \to 1$ & no & $0.6065$ & $16.5040$ \\
+                $0 \to 3$ & no & $0.6065$ & $16.5040$ \\
+                $0 \to 4$ & yes & $0.9689$ & $26.3660$ \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:h2-sto-3g-isborn-transitions}
+        \end{table}
+        From \autoref{tab:h2-sto-3g-isborn-transitions} we see that the
+        degenerate transitions $0 \to 1$ and $0 \to 3$ are triplet-only allowed
+        transitions, but the interesting thing is that the transition $0 \to 2$
+        is also a transition with the same energy level.
+        However, the latter transition is \emph{not} a dipole-allowed triplet
+        transition.
+        In \autoref{tab:h2-6-31gss-isborn-transitions} we've included the dipole
+        allowed transitions for \ch{H2} in the 6-31G** basis.
+        \begin{table}
+            \centering
+            \caption{Dipole allowed transitions for \ch{H2} in the 6-31G** basis
+            computed using CISD.
+            The interpretation of the columns is the same as in
+            \autoref{tab:h2-sto-3g-isborn-transitions}.
+            We've limited the energy levels to $\Delta \energy \leq
+            \SI{1}{\hartree}$ to avoid too much clutter.}
+            \begin{tabular}{@{}llll@{}}
+                \toprule
+                Transition & Singlet allowed
+                & $\Delta \energy$ $[\si{\hartree}]$
+                & $\Delta \energy$ $[\si{\electronvolt}]$ \\
+                \midrule
+                $0 \to 1$ & no & $0.4020$ & $10.9403$ \\
+                $0 \to 2$ & no & $0.4020$ & $10.9403$ \\
+                $0 \to 3$ & no & $0.4020$ & $10.9403$ \\
+                $0 \to 4$ & yes & $0.5523$ & $15.0277$ \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:h2-6-31gss-isborn-transitions}
+        \end{table}
+        % TODO: Add peaks from Fourier specter
+
+
+        Repeating the same exercise for the \ch{LiH}-system we have the
+        absorption spectra for both the spin-dependent and spin-independent
+        fields in the STO-3G and the 6-31G** basis sets in
+        \autoref{fig:isborn-lih}.
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{groupplot}[
+                    group style={
+                        group size=1 by 2,
+                        vertical sep=60pt,
+                        xlabels at=edge bottom,
+                    },
+                    width=11cm,
+                    height=6cm,
+                    xlabel={Excitation energy $[\si{\hartree}]$},
+                ]
+                    % TODO: Use correct basis
+                    \nextgroupplot[
+                        grid=major,
+                        title={Absorption spectra of \ch{LiH} (STO-3G)},
+                        ylabel={Intensity},
+                        enlarge x limits=false,
+                        xmax=0.5
+                    ]
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_lih_6-31gss_tdhf_both_real.dat};
+                        \addlegendentry{HF}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_lih_6-31gss_oatdccd_both_real.dat};
+                        \addlegendentry{OA}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                            dashed,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_lih_6-31gss_tdhf_up_real.dat};
+                        \addlegendentry{HF (up)}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                            dashed,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_lih_6-31gss_oatdccd_up_real.dat};
+                        \addlegendentry{OA (up)}
+
+
+                    \nextgroupplot[
+                        grid=major,
+                        title={Absorption spectra of \ch{LiH} (6-31G**)},
+                        ylabel={Intensity},
+                        enlarge x limits=false,
+                        xmax=0.5
+                    ]
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_lih_6-31gss_tdhf_both_real.dat};
+                        \addlegendentry{HF}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_lih_6-31gss_oatdccd_both_real.dat};
+                        \addlegendentry{OA}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                            dashed,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_lih_6-31gss_tdhf_up_real.dat};
+                        \addlegendentry{HF (up)}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                            dashed,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_lih_6-31gss_oatdccd_up_real.dat};
+                        \addlegendentry{OA (up)}
+                \end{groupplot}
+            \end{tikzpicture}
+            \caption{In these figures we've plotted the absorption spectra of
+            \ch{LiH} subject to a laser field using the TDHF (HF) and the OATDCCD
+            (OA) methods.
+            The label ``up'' denotes a spin-dependent field along one of the
+            spin-functions.
+            No extra label means that the field is spin-indepdenent.}
+            \label{fig:isborn-lih}
+        \end{figure}
+
+        \begin{table}
+            \centering
+            \caption{Dipole allowed transitions for \ch{LiH} in the STO-3G basis
+            computed using CISD.
+            We only include results for $\Delta \energy \leq
+            \SI{0.5}{\hartree}$.}
+            \begin{tabular}{@{}llll@{}}
+                \toprule
+                Transition & Singlet allowed
+                & $\Delta \energy$ $[\si{\hartree}]$
+                & $\Delta \energy$ $[\si{\electronvolt}]$ \\
+                \midrule
+                $0 \to 1$ & no & $0.1138$ & $3.0959$ \\
+                $0 \to 2$ & no & $0.1138$ & $3.0959$ \\
+                $0 \to 3$ & no & $0.1138$ & $3.0959$ \\
+                $0 \to 4$ & yes & $0.1313$ & $3.5741$ \\
+                $0 \to 13$ & no & $0.3891$ & $10.5879$ \\
+                $0 \to 14$ & no & $0.3891$ & $10.5879$ \\
+                $0 \to 15$ & no & $0.3891$ & $10.5879$ \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:lih-sto-3g-isborn-transitions}
+        \end{table}
+
+        \begin{table}
+            \centering
+            \caption{Dipole allowed transitions for \ch{LiH} in the 6-31G**
+            basis computed using CISD.
+            We only include results for $\Delta \energy \leq
+            \SI{0.5}{\hartree}$.}
+            \begin{tabular}{@{}llll@{}}
+                \toprule
+                Transition & Singlet allowed
+                & $\Delta \energy$ $[\si{\hartree}]$
+                & $\Delta \energy$ $[\si{\electronvolt}]$ \\
+                \midrule
+                $0 \to 1$ & no & $0.1099$ & $2.9894$ \\
+                $0 \to 2$ & no & $0.1099$ & $2.9894$ \\
+                $0 \to 3$ & no & $0.1099$ & $2.9894$ \\
+                $0 \to 4$ & yes & $0.1259$ & $3.4261$ \\
+                $0 \to 13$ & no & $0.2222$ & $6.0468$ \\
+                $0 \to 14$ & no & $0.2222$ & $6.0468$ \\
+                $0 \to 15$ & no & $0.2222$ & $6.0468$ \\
+                $0 \to 16$ & yes & $0.2639$ & $7.1813$ \\
+                $0 \to 25$ & no & $0.3098$ & $8.4313$ \\
+                $0 \to 26$ & no & $0.3098$ & $8.4313$ \\
+                $0 \to 27$ & no & $0.3098$ & $8.4313$ \\
+                $0 \to 28$ & yes & $0.3109$ & $8.4591$ \\
+                $0 \to 29$ & no & $0.3410$ & $9.2796$ \\
+                $0 \to 30$ & no & $0.3410$ & $9.2796$ \\
+                $0 \to 31$ & no & $0.3410$ & $9.2796$ \\
+                $0 \to 32$ & yes & $0.4127$ & $11.2290$ \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:lih-6-31gss-isborn-transitions}
+        \end{table}
+        % TODO: Add peaks from Fourier specter
 
         The inclusion of a spin-dependent laser field demonstrates that we are
         able to take a step further and include magnetic fields with spin-orbit
