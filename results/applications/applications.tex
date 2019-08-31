@@ -1,4 +1,7 @@
 \chapter{Applications}
+    \epigraph{Nå funker alt!}
+    {--- Morten Ledum}
+
     Having verified that our implementations work on smaller systems in
     \autoref{chap:validation} and demonstrated the strength of the
     orbital-adaptive coupled-cluster methods in \autoref{chap:stability} we now
@@ -550,6 +553,268 @@
         \end{figure}
 
     \section{Spin-dependent laser pulses}
+        We have so far demonstrated that our implemented methods reproduce known
+        results from the litterature on a wide range of systems.
+        Furthermore, we've demonstrated that we can run large simulations and
+        have presented new results for the \ch{Ar}-atom.
+        However, we now wish to demonstrate that our implemented methods are
+        able to simulate more exotic systems with \emph{spin-dependence}.
+
+        In a study by \citeauthor{isborn} \cite{isborn}, the authors explored a
+        spin-dependent laser field to see singlet-triplet transitions which are
+        invisible to a spin-symmetric field.
+        % TODO: Is this why?
+        This study is performed using the time-dependent unrestricted
+        Hartree-Fock (TDUHF) method and time-dependent density functional theory.
+        We've yet to implement a TDUHF-method and will therefore use regular
+        TDHF with general spin-orbitals and the OATDCCD-method.
+        We shall see that the former will experience spin-contamination and
+        break down when we include spin-dependency in the laser field.
+
+        The laser pulse used by \citeauthor{isborn} is given by
+        \begin{align}
+            \vfg{E}(t)
+            = E_m \vfg{\epsilon} \sine(\omega t),
+        \end{align}
+        where we polarize in the negative $z$-direction to correct for charge of
+        the electrons.
+        The field is active for $t \in [0, T]$ with $T = 6\pi / \omega$, i.e.,
+        the field is active for three cycles.
+        The frequency is set to $\omega = \SI{0.06}{\hartree/\hslash}$, the
+        integration time step to $\Delta t = \SI{0.002}{\fs}$ with the
+        simulation run for a total of $\SI{50}{\fs}$.
+        We simulate the three molecules \ch{H2}, \ch{LiH}, and \ch{CO} with the
+        two basis sets STO-3G and 6-31G**.
+        The laser field strength for \ch{H2} was set to $E_m = \num{0.1}$, and
+        for \ch{LiH} and \ch{CO} to $E_m = \num{0.01}$.
+        For \ch{CO} we had to lower the time step to $\Delta t =
+        \SI{0.01}{\hslash/\hartree}$ for the simulation to run for both basis
+        sets.
+        Furthermore, due to a hickup in the (self-made) caching scheme used on
+        the Abel compute cluster led to the seven days long run for \ch{CO} in
+        the 6-31G** basis using OATDCCD to get deleted.
+        Thus, our results for \ch{CO} will only be in the smaller STO-3G basis
+        set.
+        A frutstrating fact in the article by \citeauthor{isborn} is that the
+        bonding length of the molecules used are not reported.
+        We therefore guess that \citeauthor{isborn} used the equilibrium
+        bond-lengths in the $z$-direction for all three molecules.
+        These are listed in \autoref{tab:bond-length-isborn}.
+        \begin{table}
+            \centering
+            \caption{Equilibrium bond lengths for diatomic molecules used in the
+            study on spin-dependent laser fields \cite{bond-lengths}.
+            Note that the values for \ch{LiH} are reused from the study by
+            \citeauthor{nest} \cite{nest}, and converted to $\si{\pm}$ for the
+            sake of completeness.}
+            \renewcommand{\arraystretch}{1.3}
+            \begin{tabular}{@{}lll@{}}
+                \toprule
+                Molecule & $R_e$ $[\si{\pm}]$ & $R_e$ $[\si{\bohr}]$ \\
+                \midrule
+                \ch{H2} & $74$ & $1.40$ \\
+                \ch{LiH} & $163$ & $3.08$ \\
+                \ch{CO} & $143$ & $2.70$ \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:bond-length-isborn}
+        \end{table}
+        To included the spin-dependency in the electric fields we have chosen a
+        solution where we set the dipole moment matrix elements corresponding to
+        a specific spin-direction to zero and leave the other spin-direction as
+        it is.
+        A demonstration of the dipole matrix elements of the \ch{H2} molecule in
+        the 6-31G** basis is shown in \autoref{fig:dipole-matrices}.
+        By using the matrix elements on the right in
+        \autoref{fig:dipole-matrices} we effectively use a spin-dependent laser
+        field applied to all spins in the up-direction.\footnote{%
+            Note that which indices correspond to ``up'' or ``down'' is
+            completely arbitrary, we just need a name for the odd and even
+            indices.
+        }
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \pgfplotsset{small}
+                \begin{groupplot}[
+                    group style={
+                        group size=2 by 1,
+                    },
+                    width=0.5\textwidth,
+                    height=0.5\textwidth,
+                ]
+                    \nextgroupplot[
+                        view={0}{90},
+                        colormap/viridis,
+                        colorbar horizontal,
+                        colorbar style={
+                            at={
+                                (0, 1.2),
+                                anchor=south west,
+                            },
+                        },
+                        title={Spin-independent},
+                        title style={yshift=5ex},
+                    ]
+                        \addplot[
+                            matrix plot*,
+                            mesh/rows=20,
+                            point meta=explicit,
+                        ]
+                        file[meta=index 2]
+                        {results/benchmarks/isborn/dat/h2_6-31gss_dip_mat_both.dat};
+                    \nextgroupplot[
+                        view={0}{90},
+                        colormap/viridis,
+                        colorbar horizontal,
+                        colorbar style={
+                            at={
+                                (0, 1.2),
+                                anchor=north west,
+                            },
+                        },
+                        title={Spin-dependent},
+                        title style={yshift=5ex},
+                    ]
+                        \addplot[
+                            matrix plot*,
+                            mesh/rows=20,
+                            point meta=explicit,
+                        ]
+                        file[meta=index 2]
+                        {results/benchmarks/isborn/dat/h2_6-31gss_dip_mat_up.dat};
+                \end{groupplot}
+            \end{tikzpicture}
+            \caption{In these figures we've plotted the dipole matrix elements along
+            $z$-direction, that is, $z^{p}_{q}$, for \ch{H2} in the 6-31G**
+            basis.
+            The image on the left is of the full dipole matrix elements whereas
+            the image on the left shows the same matrix elements, but with all
+            odd indices set to zero which means that we are left with the dipole
+            matrix elements for the spin-up direction.
+            Note that we've scaled the values to be between $0$ and $1$.}
+            \label{fig:dipole-matrices}
+        \end{figure}
+
+        In \autoref{fig:isborn-h2} we have plotted the absorption spectra of
+        \ch{H2} using both basis sets and both TDHF and OATDCCD.
+        We've also included absorption spectra using a spin-dependent field as
+        the dashed lines in \autoref{fig:isborn-h2}.
+        As expected from the study done by \citeauthor{isborn} we see that the
+        spin-dependency adds an extra peak at a lower energy level than the
+        first allowed dipole transition.
+        This is the first singlet to triplet allowed dipole transition in
+        \ch{H2}.
+
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{groupplot}[
+                    group style={
+                        group size=1 by 2,
+                        vertical sep=60pt,
+                        xlabels at=edge bottom,
+                    },
+                    width=11cm,
+                    height=6cm,
+                    xlabel={Excitation energy $[\si{\hartree}]$},
+                ]
+                    \nextgroupplot[
+                        title={Absorption spectra of \ch{H2} (STO-3G)},
+                        grid=major,
+                        ylabel={Intensity},
+                        enlarge x limits=false,
+                    ]
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_h2_sto-3g_tdhf_both_real.dat};
+                        \addlegendentry{HF}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_h2_sto-3g_oatdccd_both_real.dat};
+                        \addlegendentry{OA}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                            dashed,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_h2_sto-3g_tdhf_up_real.dat};
+                        \addlegendentry{HF (up)}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                            dashed,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_h2_sto-3g_oatdccd_up_real.dat};
+                        \addlegendentry{OA (up)}
+
+                    \nextgroupplot[
+                        grid=major,
+                        title={Absorption spectra of \ch{H2} (6-31G**)},
+                        ylabel={Intensity},
+                        enlarge x limits=false,
+                    ]
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_h2_6-31gss_tdhf_both_real.dat};
+                        \addlegendentry{HF}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_h2_6-31gss_oatdccd_both_real.dat};
+                        \addlegendentry{OA}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                            dashed,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_h2_6-31gss_tdhf_up_real.dat};
+                        \addlegendentry{HF (up)}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                            dashed,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_h2_6-31gss_oatdccd_up_real.dat};
+                        \addlegendentry{OA (up)}
+                \end{groupplot}
+            \end{tikzpicture}
+            \caption{In these figures we've plotted the absorption spectra of
+            \ch{H2} subject to a laser field using the TDHF (HF) and the OATDCCD
+            (OA) methods.
+            The label ``up'' denotes a spin-dependent field along one of the
+            spin-functions.
+            No extra label means that the field is spin-indepdenent.}
+            \label{fig:isborn-h2}
+        \end{figure}
+
+        The inclusion of a spin-dependent laser field demonstrates that we are
+        able to take a step further and include magnetic fields with spin-orbit
+        coupling in future work.
+        In \citeauthor{greg-winther}'s work, a demonstration of an orbital
+        angular magnetic field is showcased \cite{greg-winther}, but we wish in the future to
+        include the spin-dependence as well.
 
     \section{Ionization of one-dimensional atoms}
         The process of modelling ionization of electrons in atoms and
