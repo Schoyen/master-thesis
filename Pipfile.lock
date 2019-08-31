@@ -54,11 +54,11 @@
         },
         "configuration-interaction": {
             "git": "ssh://git@github.com/Schoyen/configuration-interaction.git",
-            "ref": "d3dec9c6b66294be9aa5f5fea056ed0269c50e28"
+            "ref": "fa13e720253a0513574eb45cfcd67f89fdc9b4d2"
         },
         "coupled-cluster": {
             "git": "ssh://git@github.com/Schoyen/coupled-cluster.git",
-            "ref": "50a290206b92ab3990df458ca03ef92d9bf4e5f5"
+            "ref": "300f37a251c44f9c61dd2d115a10f89ba6f75cdb"
         },
         "cycler": {
             "hashes": [
@@ -312,28 +312,29 @@
         },
         "pandas": {
             "hashes": [
-                "sha256:074a032f99bb55d178b93bd98999c971542f19317829af08c99504febd9e9b8b",
-                "sha256:20f1728182b49575c2f6f681b3e2af5fac9e84abdf29488e76d569a7969b362e",
-                "sha256:2745ba6e16c34d13d765c3657bb64fa20a0e2daf503e6216a36ed61770066179",
-                "sha256:32c44e5b628c48ba17703f734d59f369d4cdcb4239ef26047d6c8a8bfda29a6b",
-                "sha256:3b9f7dcee6744d9dcdd53bce19b91d20b4311bf904303fa00ef58e7df398e901",
-                "sha256:544f2033250980fb6f069ce4a960e5f64d99b8165d01dc39afd0b244eeeef7d7",
-                "sha256:58f9ef68975b9f00ba96755d5702afdf039dea9acef6a0cfd8ddcde32918a79c",
-                "sha256:9023972a92073a495eba1380824b197ad1737550fe1c4ef8322e65fe58662888",
-                "sha256:914341ad2d5b1ea522798efa4016430b66107d05781dbfe7cf05eba8f37df995",
-                "sha256:9d151bfb0e751e2c987f931c57792871c8d7ff292bcdfcaa7233012c367940ee",
-                "sha256:b932b127da810fef57d427260dde1ad54542c136c44b227a1e367551bb1a684b",
-                "sha256:cfb862aa37f4dd5be0730731fdb8185ac935aba8b51bf3bd035658111c9ee1c9",
-                "sha256:de7ecb4b120e98b91e8a2a21f186571266a8d1faa31d92421e979c7ca67d8e5c",
-                "sha256:df7e1933a0b83920769611c5d6b9a1bf301e3fa6a544641c6678c67621fe9843"
+                "sha256:18d91a9199d1dfaa01ad645f7540370ba630bdcef09daaf9edf45b4b1bca0232",
+                "sha256:3f26e5da310a0c0b83ea50da1fd397de2640b02b424aa69be7e0784228f656c9",
+                "sha256:4182e32f4456d2c64619e97c58571fa5ca0993d1e8c2d9ca44916185e1726e15",
+                "sha256:426e590e2eb0e60f765271d668a30cf38b582eaae5ec9b31229c8c3c10c5bc21",
+                "sha256:5eb934a8f0dc358f0e0cdf314072286bbac74e4c124b64371395e94644d5d919",
+                "sha256:717928808043d3ea55b9bcde636d4a52d2236c246f6df464163a66ff59980ad8",
+                "sha256:8145f97c5ed71827a6ec98ceaef35afed1377e2d19c4078f324d209ff253ecb5",
+                "sha256:8744c84c914dcc59cbbb2943b32b7664df1039d99e834e1034a3372acb89ea4d",
+                "sha256:c1ac1d9590d0c9314ebf01591bd40d4c03d710bfc84a3889e5263c97d7891dee",
+                "sha256:cb2e197b7b0687becb026b84d3c242482f20cbb29a9981e43604eb67576da9f6",
+                "sha256:d4001b71ad2c9b84ff18b182cea22b7b6cbf624216da3ea06fb7af28d1f93165",
+                "sha256:d8930772adccb2882989ab1493fa74bd87d47c8ac7417f5dd3dd834ba8c24dc9",
+                "sha256:dfbb0173ee2399bc4ed3caf2d236e5c0092f948aafd0a15fbe4a0e77ee61a958",
+                "sha256:eebfbba048f4fa8ac711b22c78516e16ff8117d05a580e7eeef6b0c2be554c18",
+                "sha256:f1b21bc5cf3dbea53d33615d1ead892dfdae9d7052fa8898083bec88be20dcd2"
             ],
             "index": "pypi",
-            "version": "==0.25.0"
+            "version": "==0.25.1"
         },
         "pint": {
             "editable": true,
             "git": "ssh://git@github.com/hgrecco/pint.git",
-            "ref": "2afdc4bf5c5727ed9cef6fdaccb00b88813c4a24"
+            "ref": "f442426dc8515655806ceaf0abd0a4cce7494cc6"
         },
         "pluggy": {
             "hashes": [
@@ -376,11 +377,11 @@
         },
         "pytest": {
             "hashes": [
-                "sha256:3805d095f1ea279b9870c3eeae5dddf8a81b10952c8835cd628cf1875b0ef031",
-                "sha256:abc562321c2d190dd63c2faadf70b86b7af21a553b61f0df5f5e1270717dc5a3"
+                "sha256:95d13143cc14174ca1a01ec68e84d76ba5d9d493ac02716fd9706c949a505210",
+                "sha256:b78fe2881323bd44fd9bd76e5317173d4316577e7b1cddebae9136a4495ec865"
             ],
             "index": "pypi",
-            "version": "==5.1.0"
+            "version": "==5.1.2"
         },
         "python-dateutil": {
             "hashes": [
@@ -398,7 +399,7 @@
         },
         "quantum-systems": {
             "git": "https://github.com/Schoyen/quantum-systems.git",
-            "ref": "56d50483c3160f966be71ba1be3cfc0fc43fcd3f"
+            "ref": "18d5a615cd0970a7dde042ec2bdf28f4912c9b17"
         },
         "scipy": {
             "hashes": [
@@ -456,11 +457,11 @@
         },
         "tqdm": {
             "hashes": [
-                "sha256:1dc82f87a8726602fa7177a091b5e8691d6523138a8f7acd08e58088f51e389f",
-                "sha256:47220a4f2aeebbc74b0ab317584264ea44c745e1fd5ff316b675cd0aff8afad8"
+                "sha256:1be3e4e3198f2d0e47b928e9d9a8ec1b63525db29095cec1467f4c5a4ea8ebf9",
+                "sha256:7e39a30e3d34a7a6539378e39d7490326253b7ee354878a92255656dc4284457"
             ],
             "index": "pypi",
-            "version": "==4.33.0"
+            "version": "==4.35.0"
         },
         "wcwidth": {
             "hashes": [
@@ -471,10 +472,10 @@
         },
         "zipp": {
             "hashes": [
-                "sha256:4970c3758f4e89a7857a973b1e2a5d75bcdc47794442f2e2dd4fe8e0466e809a",
-                "sha256:8a5712cfd3bb4248015eb3b0b3c54a5f6ee3f2425963ef2a0125b8bc40aafaec"
+                "sha256:3718b1cbcd963c7d4c5511a8240812904164b7f381b647143a89d3b98f9bcd8e",
+                "sha256:f06903e9f1f43b12d371004b4ac7b06ab39a44adc747266928ae6debfa7b3335"
             ],
-            "version": "==0.5.2"
+            "version": "==0.6.0"
         }
     },
     "develop": {}
