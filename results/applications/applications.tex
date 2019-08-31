@@ -697,10 +697,10 @@
             \label{fig:dipole-matrices}
         \end{figure}
 
-        In \autoref{fig:isborn-h2} we have plotted the absorption spectra of
+        In \autoref{fig:h2-isborn} we have plotted the absorption spectra of
         \ch{H2} using both basis sets and both TDHF and OATDCCD.
         We've also included absorption spectra using a spin-dependent field as
-        the dashed lines in \autoref{fig:isborn-h2}.
+        the dashed lines in \autoref{fig:h2-isborn}.
         As expected from the study done by \citeauthor{isborn} we see that the
         spin-dependency adds an extra peak at a lower energy level than the
         first allowed dipole transition.
@@ -807,73 +807,100 @@
             The label ``up'' denotes a spin-dependent field along one of the
             spin-functions.
             No extra label means that the field is spin-indepdenent.}
-            \label{fig:isborn-h2}
+            \label{fig:h2-isborn}
         \end{figure}
-
+        In \autoref{tab:h2-isborn} we've listed the transition energies found
+        from the peaks in \autoref{fig:h2-isborn}.
+        \begin{table}
+            \centering
+            \caption{Dipole transition energy levels for the \ch{H2}-molecule in
+            both the STO-3G and the 6-31G** basis sets using TDHF and OATDCCD.
+            These results are found from the peaks in \autoref{fig:h2-isborn}.}
+            \renewcommand{\arraystretch}{1.3}
+            \begin{tabular}{@{}lllll@{}}
+                \toprule
+                Basis & Solver & Singlet allowed
+                & $\Delta \energy$ $[\si{\hartree}]$
+                & $\Delta \energy$ $[\si{\electronvolt}]$
+                \\
+                \midrule
+                STO-3G & TDHF & no & $0.5574$ & $15.1687$ \\
+                & & yes & $0.9315$ & $25.3464$ \\
+                & OATDCCD& no & $0.6078$ & $16.5395$ \\
+                & & yes & $0.9675$ & $26.3262$ \\
+                6-31G** & TDHF & no & $0.3632$ & $9.8841$ \\
+                & & yes & $0.5466$ & $14.8751$ \\
+                & OATDCCD & no & $0.4028$ & $10.9611$ \\
+                & & yes & $0.5539$ & $15.0715$ \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:h2-isborn}
+        \end{table}
         For the \ch{H2}-molecule we can use CISD to compute the entire spectrum
         and locate the allowed dipole transitions using the same technique as
         discussed in \autoref{sec:nest}.
         Furthermore, using the spin-reduced dipole matrix elements we should
         locate the allowed singlet-triplet transitions.
-        In \autoref{tab:h2-sto-3g-isborn-transitions} we've listed all allowed
-        dipole transitions in the STO-3G basis for \ch{H2}.
+        In \autoref{tab:h2-isborn-transitions} we've listed all allowed
+        dipole transitions in both basis sets for \ch{H2}.
         We've denoted singlet allowed transitions -- where it is understood that
         the same transition is allowed in the spin-dependent case as well --
         specifically to demonstrate which peaks we expect to see for the singlet
         only transitions.
         \begin{table}
             \centering
-            \caption{Dipole allowed transitions for \ch{H2} in the STO-3G basis
+            \caption{Dipole allowed transitions for \ch{H2} in both basis sets
             computed using CISD.
             The transition is from the ground state $I = 0$ to a higher excited
             state $J$.
+            We've limited the transition energies to $\Delta \energy \leq
+            \SI{1}{\hartree}$ for the 6-31G** basis.
             Spin-independent transitions, i.e., singlet-to-singlet transitions,
             are denoted with a ``yes'' under the column ``Singlet allowed''.
             These transitions are also allowed in the spin-dependent case.}
-            \begin{tabular}{@{}llll@{}}
+            \begin{tabular}{@{}lllll@{}}
                 \toprule
-                Transition & Singlet allowed
+                Basis & Transition & Singlet allowed
                 & $\Delta \energy$ $[\si{\hartree}]$
                 & $\Delta \energy$ $[\si{\electronvolt}]$ \\
                 \midrule
-                $0 \to 1$ & no & $0.6065$ & $16.5040$ \\
-                $0 \to 3$ & no & $0.6065$ & $16.5040$ \\
-                $0 \to 4$ & yes & $0.9689$ & $26.3660$ \\
+                STO-3G & $0 \to 1$ & no & $0.6065$ & $16.5040$ \\
+                & $0 \to 3$ & no & $0.6065$ & $16.5040$ \\
+                & $0 \to 4$ & yes & $0.9689$ & $26.3660$ \\
+                6-31G** & $0 \to 1$ & no & $0.4020$ & $10.9403$ \\
+                & $0 \to 2$ & no & $0.4020$ & $10.9403$ \\
+                & $0 \to 3$ & no & $0.4020$ & $10.9403$ \\
+                & $0 \to 4$ & yes & $0.5523$ & $15.0277$ \\
                 \bottomrule
             \end{tabular}
-            \label{tab:h2-sto-3g-isborn-transitions}
+            \label{tab:h2-isborn-transitions}
         \end{table}
-        From \autoref{tab:h2-sto-3g-isborn-transitions} we see that the
-        degenerate transitions $0 \to 1$ and $0 \to 3$ are triplet-only allowed
-        transitions, but the interesting thing is that the transition $0 \to 2$
-        is also a transition with the same energy level.
+        Comparing \autoref{tab:h2-isborn-transitions} with the results in
+        \autoref{tab:h2-isborn} we are able to locate the energy transitions in the
+        results from OATDCCD.
+        We note that the energies are not exactly the same -- even though both
+        CISD and OATDCCD are formally exact within the given basis for $N = 2$
+        particles -- but as the methods for discovering these energy transitions
+        are so vastly different we conclude that these energies are the same.
+        Comparing with the results from \citeauthor{isborn} we see that TDHF is
+        close to their results using TDUHF.
+        However, we conjecture that the discrepancies are mainly a result of
+        \citeauthor{isborn} using the presumably more stable TDUHF method for
+        these kind of simulations.
+        We also note that our results using the more exact methods OATDCCD and
+        CISD are higher than the results achieved from TDHF.
+        It seems that both TDHF and TDUHF predicts a lower transition energy
+        than what is correct.
+
+        From \autoref{tab:h2-isborn-transitions} we see that the degenerate
+        transitions in the STO-3G basis $0 \to 1$ and $0 \to 3$ are triplet-only
+        allowed transitions, but the interesting thing is that the transition $0
+        \to 2$ is also a transition with the same energy level.
         However, the latter transition is \emph{not} a dipole-allowed triplet
         transition.
-        In \autoref{tab:h2-6-31gss-isborn-transitions} we've included the dipole
-        allowed transitions for \ch{H2} in the 6-31G** basis.
-        \begin{table}
-            \centering
-            \caption{Dipole allowed transitions for \ch{H2} in the 6-31G** basis
-            computed using CISD.
-            The interpretation of the columns is the same as in
-            \autoref{tab:h2-sto-3g-isborn-transitions}.
-            We've limited the energy levels to $\Delta \energy \leq
-            \SI{1}{\hartree}$ to avoid too much clutter.}
-            \begin{tabular}{@{}llll@{}}
-                \toprule
-                Transition & Singlet allowed
-                & $\Delta \energy$ $[\si{\hartree}]$
-                & $\Delta \energy$ $[\si{\electronvolt}]$ \\
-                \midrule
-                $0 \to 1$ & no & $0.4020$ & $10.9403$ \\
-                $0 \to 2$ & no & $0.4020$ & $10.9403$ \\
-                $0 \to 3$ & no & $0.4020$ & $10.9403$ \\
-                $0 \to 4$ & yes & $0.5523$ & $15.0277$ \\
-                \bottomrule
-            \end{tabular}
-            \label{tab:h2-6-31gss-isborn-transitions}
-        \end{table}
-        % TODO: Add peaks from Fourier specter
+        In the 6-31G** basis the triplet transitions opens up for all
+        transitions up to the fourth excited state within the energy levels we
+        explore.
 
 
         Repeating the same exercise for the \ch{LiH}-system we have the
@@ -893,7 +920,6 @@
                     height=6cm,
                     xlabel={Excitation energy $[\si{\hartree}]$},
                 ]
-                    % TODO: Use correct basis
                     \nextgroupplot[
                         grid=major,
                         title={Absorption spectra of \ch{LiH} (STO-3G)},
@@ -906,7 +932,7 @@
                             thick,
                         ]
                         table
-                        {results/benchmarks/isborn/dat/fft_lih_6-31gss_tdhf_both_real.dat};
+                        {results/benchmarks/isborn/dat/fft_lih_sto-3g_tdhf_both_real.dat};
                         \addlegendentry{HF}
 
                         \addplot+[
@@ -914,7 +940,7 @@
                             thick,
                         ]
                         table
-                        {results/benchmarks/isborn/dat/fft_lih_6-31gss_oatdccd_both_real.dat};
+                        {results/benchmarks/isborn/dat/fft_lih_sto-3g_oatdccd_both_real.dat};
                         \addlegendentry{OA}
 
                         \addplot+[
@@ -923,7 +949,7 @@
                             dashed,
                         ]
                         table
-                        {results/benchmarks/isborn/dat/fft_lih_6-31gss_tdhf_up_real.dat};
+                        {results/benchmarks/isborn/dat/fft_lih_sto-3g_tdhf_up_real.dat};
                         \addlegendentry{HF (up)}
 
                         \addplot+[
@@ -932,7 +958,7 @@
                             dashed,
                         ]
                         table
-                        {results/benchmarks/isborn/dat/fft_lih_6-31gss_oatdccd_up_real.dat};
+                        {results/benchmarks/isborn/dat/fft_lih_sto-3g_oatdccd_up_real.dat};
                         \addlegendentry{OA (up)}
 
 
@@ -989,59 +1015,31 @@
 
         \begin{table}
             \centering
-            \caption{Dipole allowed transitions for \ch{LiH} in the STO-3G basis
+            \caption{Dipole allowed transitions for \ch{LiH} in both basis sets
             computed using CISD.
+            We use the notation $[J - K]$ to denote a range of excited states.
             We only include results for $\Delta \energy \leq
             \SI{0.5}{\hartree}$.}
-            \begin{tabular}{@{}llll@{}}
+            \begin{tabular}{@{}lllll@{}}
                 \toprule
                 Transition & Singlet allowed
                 & $\Delta \energy$ $[\si{\hartree}]$
                 & $\Delta \energy$ $[\si{\electronvolt}]$ \\
                 \midrule
-                $0 \to 1$ & no & $0.1138$ & $3.0959$ \\
-                $0 \to 2$ & no & $0.1138$ & $3.0959$ \\
-                $0 \to 3$ & no & $0.1138$ & $3.0959$ \\
-                $0 \to 4$ & yes & $0.1313$ & $3.5741$ \\
-                $0 \to 13$ & no & $0.3891$ & $10.5879$ \\
-                $0 \to 14$ & no & $0.3891$ & $10.5879$ \\
-                $0 \to 15$ & no & $0.3891$ & $10.5879$ \\
+                STO-3G & $0 \to [1-3]$ & no & $0.1138$ & $3.0959$ \\
+                & $0 \to 4$ & yes & $0.1313$ & $3.5741$ \\
+                & $0 \to [13-15]$ & no & $0.3891$ & $10.5879$ \\
+                6-31G** & $0 \to [1-3]$ & no & $0.1099$ & $2.9894$ \\
+                & $0 \to 4$ & yes & $0.1259$ & $3.4261$ \\
+                & $0 \to [13-15]$ & no & $0.2222$ & $6.0468$ \\
+                & $0 \to 16$ & yes & $0.2639$ & $7.1813$ \\
+                & $0 \to [25-27]$ & no & $0.3098$ & $8.4313$ \\
+                & $0 \to 28$ & yes & $0.3109$ & $8.4591$ \\
+                & $0 \to [29-31]$ & no & $0.3410$ & $9.2796$ \\
+                & $0 \to 32$ & yes & $0.4127$ & $11.2290$ \\
                 \bottomrule
             \end{tabular}
-            \label{tab:lih-sto-3g-isborn-transitions}
-        \end{table}
-
-        \begin{table}
-            \centering
-            \caption{Dipole allowed transitions for \ch{LiH} in the 6-31G**
-            basis computed using CISD.
-            We only include results for $\Delta \energy \leq
-            \SI{0.5}{\hartree}$.}
-            \begin{tabular}{@{}llll@{}}
-                \toprule
-                Transition & Singlet allowed
-                & $\Delta \energy$ $[\si{\hartree}]$
-                & $\Delta \energy$ $[\si{\electronvolt}]$ \\
-                \midrule
-                $0 \to 1$ & no & $0.1099$ & $2.9894$ \\
-                $0 \to 2$ & no & $0.1099$ & $2.9894$ \\
-                $0 \to 3$ & no & $0.1099$ & $2.9894$ \\
-                $0 \to 4$ & yes & $0.1259$ & $3.4261$ \\
-                $0 \to 13$ & no & $0.2222$ & $6.0468$ \\
-                $0 \to 14$ & no & $0.2222$ & $6.0468$ \\
-                $0 \to 15$ & no & $0.2222$ & $6.0468$ \\
-                $0 \to 16$ & yes & $0.2639$ & $7.1813$ \\
-                $0 \to 25$ & no & $0.3098$ & $8.4313$ \\
-                $0 \to 26$ & no & $0.3098$ & $8.4313$ \\
-                $0 \to 27$ & no & $0.3098$ & $8.4313$ \\
-                $0 \to 28$ & yes & $0.3109$ & $8.4591$ \\
-                $0 \to 29$ & no & $0.3410$ & $9.2796$ \\
-                $0 \to 30$ & no & $0.3410$ & $9.2796$ \\
-                $0 \to 31$ & no & $0.3410$ & $9.2796$ \\
-                $0 \to 32$ & yes & $0.4127$ & $11.2290$ \\
-                \bottomrule
-            \end{tabular}
-            \label{tab:lih-6-31gss-isborn-transitions}
+            \label{tab:lih-isborn-transitions}
         \end{table}
         % TODO: Add peaks from Fourier specter
 
