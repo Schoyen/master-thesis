@@ -9,10 +9,10 @@ solvers = ["tdhf", "oatdccd"]
 basis_sets = ["sto-3g", "6-31gss"]
 molecules = [
     "h2",
-    # "lih",
+    "lih",
     # "co",
 ]
-spins = ["both", "up"]
+spins = ["up", "both"]
 
 ureg = pint.UnitRegistry()
 
@@ -26,17 +26,37 @@ for molecule in molecules:
                 data = return_time_data(filename)
                 time, spec = data[:, 0], data[:, 1]
 
-                peak_indices = scipy.signal.find_peaks(spec, height=1e-1)
+                height = 5e-2
+
+                if molecule == "lih":
+                    if basis == "sto-3g":
+                        if spin == "both":
+                            height = 1e-3
+                        else:
+                            height = 1e-2
+                    else:
+                        height = 1e-2
+
+                peak_indices = scipy.signal.find_peaks(spec, height=height)
 
                 peaks = list(time[peak_indices[0]])
 
                 for i, peak in enumerate(peaks):
                     energy_au = peak
                     energy_ev = (peak * ureg.hartree).to(ureg.eV).magnitude
+                    singlet = "no" if spin == "up" else "yes"
 
-                    tab_entry = rf"& ${i + 1}$ & ${energy_au:.4f}$ & ${energy_ev:.4f}$ \\"
+                    tab_entry = rf"& {singlet} & ${energy_au:.4f}$ & ${energy_ev:.4f}$ \\"
                     if i == 0:
-                        tab_entry = solver.upper() + " " + tab_entry
+                        tab_entry = (
+                            basis.upper()
+                            + " & "
+                            + solver.upper()
+                            + " "
+                            + tab_entry
+                        )
+                    else:
+                        tab_entry = "& " + tab_entry
 
                     print(tab_entry)
 
