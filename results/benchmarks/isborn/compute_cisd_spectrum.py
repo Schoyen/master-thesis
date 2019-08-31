@@ -1,3 +1,4 @@
+import pint
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -14,18 +15,44 @@ cisd_no.compute_ground_state()
 cisd_yes = CISD(h2_yes, verbose=True)
 cisd_yes.compute_ground_state()
 
+ureg = pint.UnitRegistry()
 
-for I in range(len(cisd_no.energies)):
-    if cisd_no.energies[I] - cisd_no.energies[0] > 1.8:
+
+for J in range(len(cisd_no.energies)):
+    if cisd_no.energies[J] - cisd_no.energies[0] > 1.0:
         break
 
-    print(f"I = {I}")
-    print("Spin-independent:")
-    print(cisd_no.allowed_dipole_transition(I, 0))
-    print(cisd_no.energies[I] - cisd_no.energies[0])
+    allowed_dipole = cisd_no.allowed_dipole_transition(0, J)
+    singlet_allowed = "no"
 
-    print("---")
-    print("Spin-dependent")
-    print(cisd_yes.allowed_dipole_transition(I, 0))
-    print(cisd_yes.energies[I] - cisd_yes.energies[0])
-    print("=" * 100)
+    if np.abs(allowed_dipole[2]) > 1e-12:
+        singlet_allowed = "yes"
+
+    allowed_dipole = cisd_yes.allowed_dipole_transition(0, J)
+    triplet_allowed = "no"
+
+    if np.abs(allowed_dipole[2]) > 1e-12:
+        triplet_allowed = "yes"
+
+    if triplet_allowed == "no" and singlet_allowed == "no":
+        continue
+
+    energy_au = (cisd_no.energies[J] - cisd_no.energies[0]) * ureg.hartree
+    energy_ev = energy_au.to(ureg.eV).magnitude
+    energy_au = energy_au.magnitude
+
+    assert abs(energy_au - cisd_yes.energies[J] + cisd_yes.energies[0]) < 1e-12
+
+    tab_entry = rf"$0 \to {J}$ & {singlet_allowed} & ${energy_au:.4f}$ & ${energy_ev:.4f}$ \\"
+    print(tab_entry)
+
+    #print(f"J = {J}")
+    #print("Spin-independent:")
+    #print(cisd_no.allowed_dipole_transition(0, J))
+    #print(cisd_no.energies[J] - cisd_no.energies[0])
+
+    #print("---")
+    #print("Spin-dependent")
+    #print(cisd_yes.allowed_dipole_transition(0, J))
+    #print(cisd_yes.energies[J] - cisd_yes.energies[0])
+    #print("=" * 100)
