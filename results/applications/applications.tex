@@ -386,7 +386,6 @@
         We've chosen this frequency as this lets us simulate a full cycle of the
         laser in a relatively short time, thus letting the atoms oscillate for a
         long time after the laser is turned off.
-
         \begin{table}
             \centering
             \caption{Ground states}
@@ -455,6 +454,100 @@
             \end{tabular}
             \label{tab:dipole-ne-aug-cc-pvdz}
         \end{table}
+
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{axis}[
+                    width=11cm,
+                    height=6cm,
+                    title={Absorption spectra of Neon},
+                    xlabel={Excitation energy $[\si{\hartree}]$},
+                    grid=major,
+                    ylabel={Intensity},
+                    enlarge x limits=false,
+                    xmax=6,
+                ]
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/atoms-and-molecules/time-evolution-noble-gasses/dat/fft_ne_ccpvdz_oatdccd_new_real.dat};
+                    \addlegendentry{cc-pVDZ}
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/atoms-and-molecules/time-evolution-noble-gasses/dat/fft_ne_aug-ccpvdz_oatdccd_new_real.dat};
+                    \addlegendentry{aug-cc-pVDZ}
+                \end{axis}
+            \end{tikzpicture}
+            \caption{In this figure we've plotted the absorption spectra of the
+            \ch{Ne}-atom in two different basis sets using the OATDCCD-method.
+            The results achieved from the TDCCSD-method are indistinguishable by
+            eye.
+            The peaks for the cc-pVDZ basis are listed in
+            \autoref{tab:dipole-ne-cc-pvdz} and in
+            \autoref{tab:dipole-ne-aug-cc-pvdz} for the aug-cc-pVDZ basis.}
+            \label{fig:ne-spectra}
+        \end{figure}
+
+        \begin{table}
+            \centering
+            \caption{Dipole transitions for \ch{Ar} in cc-pVDZ and aug-cc-pVDZ
+            basis using the OATDCCD-method.}
+            \renewcommand{\arraystretch}{1.3}
+            \begin{tabular}{@{}llll@{}}
+                \toprule
+                Basis & Peak $[n]$
+                & $\Delta \energy$ $[\si{\hartree}]$
+                & $\Delta \energy$ $[\si{\electronvolt}]$
+                \\
+                \midrule
+                cc-pVDZ & $1$ & $1.1118$ & $30.2549$ \\
+                & $2$ & $1.4746$ & $40.1254$ \\
+                & $3$ & $1.6323$ & $44.4168$ \\
+                aug-cc-pVDZ & $1$ & $0.4677$ & $12.7275$ \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:dipole-ar-cc-pvdz}
+        \end{table}
+
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{axis}[
+                    width=11cm,
+                    height=6cm,
+                    title={Absorption spectra of Argon},
+                    xlabel={Excitation energy $[\si{\hartree}]$},
+                    grid=major,
+                    ylabel={Intensity},
+                    enlarge x limits=false,
+                    xmax=3,
+                ]
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/atoms-and-molecules/time-evolution-noble-gasses/dat/fft_ar_ccpvdz_oatdccd_new_real.dat};
+                    \addlegendentry{cc-pVDZ}
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/atoms-and-molecules/time-evolution-noble-gasses/dat/fft_ar_aug-ccpvdz_oatdccd_new_real.dat};
+                    \addlegendentry{aug-cc-pVDZ}
+                \end{axis}
+            \end{tikzpicture}
+            \caption{In this figure we've plotted the absorption spectra of the
+            \ch{Ar}-atom in two different basis sets using the OATDCCD-method.}
+            \label{fig:ar-spectra}
+        \end{figure}
 
     \section{Spin-dependent laser pulses}
 
