@@ -32,8 +32,8 @@ cleanup "cp $SCRATCH/dat/* $SUBMITDIR/dat/"
 ## Run commands
 cd $SCRATCH
 export OMP_NUM_THREADS=4
-#python run_hf.py co sto-3g both
-#python run_hf.py co sto-3g up
+python run_hf.py co sto-3g both
+python run_hf.py co sto-3g up
 
 #python run_hf.py co 6-31gss both
-python run_hf.py co 6-31gss up
+#python run_hf.py co 6-31gss up
