@@ -1,8 +1,97 @@
 \chapter{Conclusions and perspective}
     % Summarize achievements and goals
+    Our initial goal of this thesis was to implement time-dependent
+    coupled-cluster doubles, singles-and-doubles, and orbital-adaptive
+    time-dependent coupled-cluster doubles methods.
+    These were to be tested on one- and two-dimensional single and double
+    quantum dots.
+    However, due to the novelty of the  orbital-adaptive time-dependent
+    coupled-cluster doubles method this thesis diverged to a new set of goals.
+    We therefore switched focus to the stability of real-time coupled-cluster
+    methods -- which in itself is a rather new research area -- with researchers
+    at the Hylleraas Centre.
+    This lead to a larger focus on atoms and molecules as these systems are more
+    known and explored for quantum chemists than quantum dots.
+    Furthermore, to fully challenge and explore the coupled-cluster method we've
+    implemented a set of Hartree-Fock solvers and configuration interaction
+    methods which lets us improve and compare results from the coupled-cluster
+    solvers.
+
+    In this thesis we've described the implementation of all of these methods
+    along with descriptions on how to represent the quantum systems we are
+    exploring.
+    We've demonstrated that our methods work as expected by comparing with known
+    results from litterature.
+    We've also compared the various truncation levels of the coupled-cluster
+    and configuration interaction methods and demonstrated how Hartree-Fock can
+    be used to improve on these results.
+    We then moved on to demonstrate that orbital-adaptive time-dependent
+    coupled-cluster doubles is more stable than time-dependent coupled-cluster
+    singles-and-doubles for very intense fields.
+    We concluded that the inclusion of explicit orbital rotations -- as
+    conjectured by \citeauthor{pedersen2018symplectic}
+    \cite{pedersen2018symplectic} -- made the method more robust for the Helium
+    and Beryllium systems subject to very intense laser field than with static
+    orbitals in the regular time-dependent coupled-cluster method.
+    Further studies of this phenomenon is discussed in \citetitle{oa-stability}
+    \cite{oa-stability} of which this author is a part of.
+
+    Having verified that our implemented methods worked as expected we went on
+    to apply the methodology to four different topics.
+    \begin{enumerate}
+        \item We explored the \ch{LiH}-molecule subject to a laser field
+            polarized along the $x$- and $z$-direction and measured absorption
+            energies using TDHF, TDCCSD, and OATDCCD.
+            This was a study done by \citeauthor{nest} \cite{nest}, and we were
+            able to get comparable results.
+            We also used CISD to compute all dipole-allowed transition energies
+            from the ground state to a higher excited state which let us compare
+            higher energy transitions than reported by \citeauthor{nest}.
+        \item We then set out to demonstrate that the coupled-cluster
+            formulation lets us explore systems that are much larger than what
+            is possible using full configuration interaction.
+            We chose to explore the absorption energies of \ch{Ne} and \ch{Ar},
+            that is, atoms with $N = 10$ and $N = 18$ particles respectively.
+            We used two different basis sets and thereby also demonstrated that
+            in order to get good results we require a diffuse correlation
+            consisted basis set.
+            The results for Neon was compared with litterature, whereas the
+            Argon results are just presented as we were unable to find any known
+            results for these absorption energies.
+        \item Having demonstrated the applicability of the implemented methods,
+            we set out to demonstrate its versatility as well.
+            We modelled a spin-dependent laser field as done by
+            \citeauthor{isborn} \cite{isborn}.
+            We were able to achieve comparable results using OATDCCD, but we
+            also showed how the general TDHF-method failed to reproduce the
+            results from TDUHF reported by \citeauthor{isborn} for the larger
+            molecules.
+        \item Finally we explored ionization in a one-dimensional Beryllium
+            atom.
+            We demonstrated how the choice of basis limits the amount of
+            ionization and discussed that in order to achieve ``proper''
+            ionization we require continuum states either from a change grid
+            representation of the underlying atomic orbital basis or through
+            some other means.
+    \end{enumerate}
+    All in all we have demonstrated that our implemented libraries are robust
+    and that they can be applied to a wide range of physical and chemical
+    systems.
+    Furthermore, this conclusion should be seen in conjunction with the results
+    from the work of \citeauthor{greg-winther} \cite{greg-winther} as we've used
+    the same framework applied to different systems.
+    We've limited the discussion of the quantum dots in this thesis, but these
+    are explored in greater detail by \citeauthor{greg-winther}.
+    Also, as part of these theses there is an ongoing publication where we apply
+    these methods to more exotic systems of quantum dots \cite{td-quantum-dots}.
+
 
     \section{Future prospects}
         \label{sec:future-work}
+        Even though we have demonstrated a wide range of applications, there is
+        still a vast range of studies that can be done in lieu of this work.
+        In fact, much of the challenge in this thesis has been the narrowing of
+        focus in order to get sensible results.
         The future prospects from this thesis can be divided into two parts: the
         continued development of the methods and solvers, and the application of
         the methods to unexplored systems.
@@ -15,8 +104,10 @@
             Furthermore, much of our work is written in such a way that we wish
             to inspire continued development by other students and researchers,
             and we will hopefully be able to publish a software specification.
-
-            \begin{enumerate}
+            But as such, we will here list some topics we deem interesting to
+            explore and include in the implemented methods.
+            \begin{itemize}
+                \item GPU.
                 \item Differential equations.
                 \item Grid-solvers.
                 \item OATDCCDT.
@@ -26,7 +117,7 @@
                 \item Relativistic considerations.
                 \item Optimzation using C++ or Julia.
                 \item Implement the Kalman filter.
-            \end{enumerate}
+            \end{itemize}
 
         \subsection{Application to physical and chemical systems}
             We have in this thesis and the thesis by \citeauthor{greg-winther}
