@@ -1,7 +1,40 @@
 \chapter{Introduction}
-    M-O-T-I-V-A-T-I-O-N!
+    Quantum mechanics is a theory that describes the microscopical realm of
+    nature.
+    Given the wave function $\psi(x, t)$ we can in principle compute all there
+    is to know about the underlying system described by the Hamiltonian
+    $\hamil(t)$.
+    If we know the wave function at a given initial time we can from the
+    time-dependent Schrödinger equation,
+    \begin{align}
+        i\hslash\dpd{}{t}\psi(x, t) = \hamil(t)\psi(x, t),
+    \end{align}
+    compute all there is to know about the system for all future and earlier
+    times.
+    Analytical solutions to the time-dependent Schrödinger equation are truly
+    rare, and often too small to be of much use.
+    However, moving to the time-independent Schrödinger equation we can find the
+    spectrum of wave functions by solving the eigenvalue equation
+    \begin{align}
+        \hamil\psi(x) = \energy\psi(x).
+    \end{align}
+    We can then build the time-dependent wave function from a linear combination
+    of these stationary states.
+    The inclusion of many particles -- or the so-called many-body problem -- are
+    of great interest in quantum chemistry and nuclear physics, but this severly
+    complicates the matter of solving the time-independent Schrödinger equation,
+    and not to say, the time-dependent Schrödinger equation.
+    As a result there exists a plethora of approximate methods, e.g.,
+    Hartree-Fock, density functional, variational Monte-Carlo, configuration
+    interaction, and coupled-cluster theory, which lets us locate the ground
+    state, i.e., the eigenstate of the time-independent Schrödinger equation
+    with the lowest eigenenergy, with various degrees of accuracy.
+    % TODO: YOu are here
 
-    Perturbation theory bad, coupled-cluster good!\footnote{Yes!}
+
+    % TODO: Something, something real-time.
+    % TODO: Something, something perturbation theory.
+
 
     \section{Goals}
         The main goal of this thesis is to implement the orbital-adaptive
