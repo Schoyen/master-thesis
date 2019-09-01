@@ -33,8 +33,6 @@
     \cite{pedersen2018symplectic} -- made the method more robust for the Helium
     and Beryllium systems subject to very intense laser field than with static
     orbitals in the regular time-dependent coupled-cluster method.
-    Further studies of this phenomenon is discussed in \citetitle{oa-stability}
-    \cite{oa-stability} of which this author is a part of.
 
     Having verified that our implemented methods worked as expected we went on
     to apply the methodology to four different topics.
@@ -89,9 +87,7 @@
     \section{Future prospects}
         \label{sec:future-work}
         Even though we have demonstrated a wide range of applications, there is
-        still a vast range of studies that can be done in lieu of this work.
-        In fact, much of the challenge in this thesis has been the narrowing of
-        focus in order to get sensible results.
+        still a vast amount of studies that can be done in lieu of this work.
         The future prospects from this thesis can be divided into two parts: the
         continued development of the methods and solvers, and the application of
         the methods to unexplored systems.
@@ -107,16 +103,74 @@
             But as such, we will here list some topics we deem interesting to
             explore and include in the implemented methods.
             \begin{itemize}
-                \item GPU.
-                \item Differential equations.
-                \item Grid-solvers.
-                \item OATDCCDT.
-                \item TDCCSDT.
-                \item Three-dimensional quantum dots.
-                \item Magnetic fields with spin-coupling.
-                \item Relativistic considerations.
-                \item Optimzation using C++ or Julia.
-                \item Implement the Kalman filter.
+                \item CuPy \cite{cupy} is a Python library resembling NumPy
+                    \cite{numpy} in both use and content, however CuPy is an
+                    implementation of arrays and linear algebra on a graphics
+                    processing unit (GPU).  We've done some very short tests of
+                    tensor contractions using this library and the speed-up is
+                    almost uncanny.  Our libraries were originally set up to
+                    allow for the usage of CuPy, but due to a few shortcomings
+                    we've not had the time to fully integrate this into our
+                    systems.  However, this should absolutely be explored
+                    further as this will almost surely increase the speed of the
+                    methods and the amount of memory that can be used as the
+                    GPUs have a lot of RAM.
+                \item There exists excellent differential equation libraries
+                    such as SciPy \cite{scipy} and diffeqpy \cite{julia-diff}
+                    which would remove the need for self-implemented solvers as
+                    these can potentially lead to bugs and are most likely not
+                    properly optimized.
+                    However, do note that for the same reasons as discussed in
+                    \autoref{subsec:symplectic}, we want our integrators to be
+                    symplectic.
+                    SciPy does not have any implemented symplectic solvers.
+                    Diffeqpy on the other hand do contain quite a few solvers
+                    which are symplectic.
+                    A proper interface towards either or both of these libraries
+                    should be implemented and a thorough study of the effect of
+                    various solvers can be explored.
+                    Especially all things lowering the amount of right-hand side
+                    evlauations for the time-evolution is to be desired.
+                \item To properly study ionization we should include evolution
+                    of the atomic orbitals on a grid.
+                    This lets us model continuum states by having particles
+                    disappear out of the simulation box.
+                    In particular the discrete-variable-representation as used
+                    by \citeauthor{miyagi_and_madsen} \cite{miyagi_and_madsen}
+                    is of interest.
+                \item The inclusion of triples amplitudes in both the static and
+                    the orbital-adaptive time-dependent
+                    coupled-cluster methods is of interest.
+                    In the latter case this would include a substantial
+                    increase in complexity in the orbital equations.
+                    However, the OATDCCDT-method has -- to the authors knowledge
+                    -- \emph{never} been implemented.
+                \item Interesting systems to include are: three-dimensional
+                    quantum dots, magnetic fields with spin-coupling, and
+                    exploration, and relativistic systems.
+                \item One of the main obstacles -- in the authors opinion -- for
+                    an effective workflow with the implemented libraries are: the
+                    reimplementation of methods used to sample various
+                    quantities, e.g., the dipole moment, and the occasional
+                    manual optimization to ensure convergence.
+                    We've stressed a philosophy where all methods should behave
+                    in a similar way, that is, they compute the ground state,
+                    and they open up for propagation.
+                    All quantities should have a similar interace when it comes
+                    to measurement, but occasionally time and lack of creativity
+                    has hindered this philosophy leading to small discrepancies
+                    in the interfaces between the different methods.
+                    This is frustrating as each samplng script must be tailored
+                    to fit each method.
+
+                    The second obstacle with manual optimization should be
+                    improved by using adaptive techniques allowing for automatic
+                    improvement of convergence thresholds.
+                    For example, using a gradient descent method to improve upon
+                    a converged state.
+                    Directly related to this is also an attempt at implementing
+                    the Kalman filter as an improvement to the alpha filter
+                    discussed in \autoref{sec:convergence}.
             \end{itemize}
 
         \subsection{Application to physical and chemical systems}
@@ -137,12 +191,36 @@
             framework to studies on various quantum dot systems.
             Therefore, it is not surprising that much of this work will be
             presented in later studies as part of \citeauthor{greg-winther}'s
-            and my PhD-studies at the Centre for Computing in Science Education.
+            and my own PhD-studies at the Centre for Computing in Science
+            Education.
 
-            \begin{enumerate}
-                \item Large atoms.
-                \item Large molecules.
-                \item Atoms, molecules and quantum-dots subject to magnetic
-                    fields. Spin-orbit coupling.
-                \item Real-time fission and fusion simulations.
-            \end{enumerate}
+            \begin{itemize}
+                \item Large systems of atoms and molecules are often restricted
+                    to Hartree-Fock simulations.
+                    Real-time simulations of any such system could potentially
+                    lead to some new unseen results.
+                \item In the work of \citeauthor{greg-winther}
+                    \cite{greg-winther} the inclusion of an orbital-dependent
+                    magnetic field is done.
+                    By including a spin-dependent magnetic field this could
+                    potentially to some very interesting physics.
+                    In \autoref{sec:isborn} we saw some examples of a
+                    spin-dependent laser field leading to ``exotic''
+                    transitions.
+                \item Studies of nuclear systems and nuclear reactions such as
+                    fission and fusion are immensely interesting.
+                    The exploration of such phenomenon using real-time
+                    coupled-cluster methods would be fascinating.
+                \item We've demonstrated in \autoref{sec:noble-gasses} how the
+                    choice of basis set has much to say when it comes to the
+                    quality of the results from time-evolution.
+                    A proper study of this has been left out of this thesis, but
+                    should absolutely be done in the future.
+                \item We have in this thesis limited our attention to the dipole
+                    approximation.
+                    The inclusion of higher order multipoles could potentially
+                    let us move into the high-energy regime of Röntgen and the
+                    like.
+                    This would also require relativistic considerations for the
+                    basis sets as well.
+            \end{itemize}
