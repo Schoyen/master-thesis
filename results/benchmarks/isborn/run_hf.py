@@ -56,9 +56,7 @@ dipole = np.zeros(num_steps, dtype=np.complex128)
 
 energy[0] = tdhf.compute_energy()
 
-C = tdhf.C
-
-z = C.conj().T @ system.dipole_moment[2] @ C
+z = system.dipole_moment[2]
 rho = tdhf.compute_one_body_density_matrix()
 
 dipole[0] = np.trace(rho @ z)
@@ -70,8 +68,6 @@ try:
         enumerate(tdhf.solve(time_points)), total=num_steps - 1
     ):
         rho = tdhf.compute_one_body_density_matrix()
-
-        z = C.conj().T @ system.dipole_moment[2] @ C
 
         energy[i + 1] = tdhf.compute_energy()
         dipole[i + 1] = np.trace(rho @ z)
