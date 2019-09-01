@@ -56,7 +56,9 @@ dipole = np.zeros(num_steps, dtype=np.complex128)
 
 energy[0] = tdhf.compute_energy()
 
-z = system.dipole_moment[2]
+C = tdhf.C
+
+z = C.conj().T @ system.dipole_moment[2] @ C
 rho = tdhf.compute_one_body_density_matrix()
 
 dipole[0] = np.trace(rho @ z)
@@ -64,10 +66,12 @@ dipole[0] = np.trace(rho @ z)
 i = 0
 
 try:
-    for i, amp in tqdm.tqdm(
+    for i, C in tqdm.tqdm(
         enumerate(tdhf.solve(time_points)), total=num_steps - 1
     ):
         rho = tdhf.compute_one_body_density_matrix()
+
+        z = C.conj().T @ system.dipole_moment[2] @ C
 
         energy[i + 1] = tdhf.compute_energy()
         dipole[i + 1] = np.trace(rho @ z)
