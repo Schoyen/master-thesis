@@ -1,32 +1,34 @@
-\chapter{Stability}
+\chapter{Stability of coupled-cluster methods}
     \label{chap:stability}
-    In this chapter we'll explore some aspects of the stability of our developed
-    methods.
-    We also seek to answer the question of why we should even consider the more
-    complicated orbital-adaptive time-dependent coupled-cluster methods as
-    opposed to the known time-dependent coupled-cluster methods with static
-    orbitals.
+    In this chapter we'll explore some aspects of the stability of the
+    implemented coupled-cluster methods.
+    We also seek to answer the question of why we should even consider the
+    conceptually more complicated orbital-adaptive time-dependent
+    coupled-cluster methods as opposed to the known time-dependent
+    coupled-cluster methods with static orbitals.
 
     \section{Why bother with orbital rotations?}
         In \autoref{chap:validation} we demonstrated how both TDCCSD and OATDCCD
         provided excellent agreement with exact solution for the $2$-particle
         systems.
         An important question to answer is then why we should even bother
-        implementing OATDCCD, when TDCCSD seems to do the trick.
-        Especially in our implementation where we do not truncate the
-        single-particle basis further for OATDCCD, thus removing one of its
-        strengths as compared to the static TDCCSD solver.
+        implementing OATDCCD, when TDCCSD seems to suffice.
+        Especially so, as we in our implementation do not truncate the
+        single-particle basis for OATDCCD.
+        This is one of its strengths as an approximation to the
+        multi-configuration time-dependent Hartree-Fock family of methods.
+        Removing this strength from OATDCCD seems to leave us with a method that
+        performs just as well as the TDCCSD method.
         As part of the original motivation for this thesis, we wished to study
         the OATDCCD-method as an academic study of a rather novel method.
         However, as pointed out by \citeauthor{pedersen2018symplectic}
-        \cite{pedersen2018symplectic}, the TDCCSD-method is \emph{unstable} in
-        the limit of very strong laser pulses.
+        \cite{pedersen2018symplectic}, the TDCCSD-method is \emph{unstable} when
+        simulating a system subject to a strong external field.
         This is even the case for $2$-particle systems where TDCCSD is formally
         exact within the finite single-particle basis.
         \citeauthor{pedersen2018symplectic} conjectured that the inclusion of
-        orbital rotations might be a solution to the stability issues
-        experienced by TDCCSD, and we will here verify that this is indeed the
-        case.
+        orbital rotations might alleviate the stability issues experienced by
+        TDCCSD, and we will here verify that this is indeed the case.
 
         We will use exactly the same fields, atoms, and parameters as
         \citeauthor{pedersen2018symplectic}.
@@ -38,81 +40,84 @@
         where the envelope function $G(t)$ is given by
         \begin{align}
             G(t)
-            = \sine^2(\pi t / t_d),
+            = \sine^2(\pi t / t_d).
         \end{align}
-        where $t_d$ is the duration of the laser pulse and the envelope is
-        active for $t \in [0, t_d]$.
-        Note that atomic units are assume throughout this study.
+        Here $t_d$ is the duration of the laser pulse and the envelope is active
+        for $t \in [0, t_d]$.
+        Note that atomic units are assumed throughout this study.
         We let the negative charge of the electrons occur in the polarization
         vector.
-        The atoms we look at are \ch{He} and \ch{Be} in the cc-pVDZ-basis, and
-        we'll use TDFCI simulations as the ground truth.
+        The atoms we look at are \ch{He} (Helium) and \ch{Be} (Beryllium) in the
+        cc-pVDZ-basis, and we'll use TDFCI (TDCISDTQ) simulations as the ground
+        truth.
         We'll run the simulations using both TDCCSD and OATDCCD with the
-        restricted Hartree-Fock reference determinant from PySCF.
-        We set $t_d = \num{5}$ and run the simulation for $t_f = \num{10}$.
-        We've chosen a rather coarse time step of $\Delta t = \num{1e-2}$, but
-        for the Gauss-integrator this should be acceptable.
-        A lower time step will make the simulations so long that they lose much
-        of their practical usage.
+        restricted Hartree-Fock reference determinant from PySCF as our
+        reference state.
+        We set $t_d = \SI{5}{\hslash/\hartree}$ and run the simulation for $t_f
+        = \SI{10}{\hslash/\hartree}$.
+        We've chosen a rather crude time step of $\Delta t =
+        \SI{1e-2}{\hslash/\hartree}$, but for the Gauss-integrator with $s = 3$
+        and $\epsilon = \num{1e-6}$ this should be acceptable.
         The frequency for \ch{He} is set to $\omega_{\ch{He}} =
-        \num{2.8735643}$, and for \ch{Be} we have $\omega_{\ch{Be}} =
-        \num{0.2068175}$ in accordance with \citeauthor{pedersen2018symplectic}
-        \cite{pedersen2018symplectic}.
+        \SI{2.8735643}{\hartree/\hslash}$, and for \ch{Be} we have
+        $\omega_{\ch{Be}} = \SI{0.2068175}{\hartree/\hslash}$ in accordance with
+        \citeauthor{pedersen2018symplectic} \cite{pedersen2018symplectic}.
         As we merely wish to demonstrate that OATDCCD is stable where TDCCSD is
         not, we only look at the most intense case with an electric field
-        strength of $E_{\ch{He}} = \num{100}$ for \ch{He} and $E_{\ch{Be}} =
-        \num{1}$ for \ch{Be}.
-        A plot of these laser pulses for the simulation time listed above is
-        shown in \autoref{fig:stability-lasers}.
+        strength of $E_{\ch{He}} = \SI{100}{\hartree/(\elementarycharge \bohr)}$
+        for \ch{He} and $E_{\ch{Be}} =
+        \SI{1}{\hartree/(\elementarycharge\bohr)}$ for \ch{Be}.
+        %A plot of these laser pulses for the simulation time listed above is
+        %shown in \autoref{fig:stability-lasers}.
 
-        \begin{figure}
-            \centering
-            \begin{tikzpicture}
-                \begin{groupplot}[
-                        group style={
-                            group size=1 by 2,
-                            vertical sep=30pt,
-                            xlabels at=edge bottom,
-                        },
-                        width=11cm,
-                        height=6cm,
-                        xlabel={$t$ $[\si{\hslash/\hartree}]$},
-                    ]
-                    \nextgroupplot[
-                            grid=major,
-                            ylabel={
-                                $E$ $[\si{\hartree/(\elementarycharge\bohr)}]$
-                            },
-                            enlarge x limits=false,
-                            title={Laser pulses},
-                        ]
-                        \addplot+[
-                            mark=none,
-                            thick,
-                        ]
-                        table
-                        {results/stability/stability-runs/dat/laser_he.dat};
-                    \nextgroupplot[
-                            grid=major,
-                            ylabel={
-                                $E$ $[\si{\hartree/(\elementarycharge\bohr)}]$
-                            },
-                            enlarge x limits=false,
-                        ]
-                        \addplot+[
-                            mark=none,
-                            thick,
-                        ]
-                        table
-                        {results/stability/stability-runs/dat/laser_be.dat};
-                \end{groupplot}
-            \end{tikzpicture}
-            \caption{In these figures we plot the laser pulses used to study the
-            stability of the OATDCCD- and TDCCSD-methods.
-            The upper figure is the laser used for the simulation of \ch{He}
-            whereas the lower pulse is for the simulation of \ch{Be}.}
-            \label{fig:stability-lasers}
-        \end{figure}
+        %\begin{figure}
+        %    \centering
+        %    \begin{tikzpicture}
+        %        \begin{groupplot}[
+        %                group style={
+        %                    group size=1 by 2,
+        %                    vertical sep=30pt,
+        %                    xlabels at=edge bottom,
+        %                },
+        %                width=11cm,
+        %                height=6cm,
+        %                xlabel={$t$ $[\si{\hslash/\hartree}]$},
+        %            ]
+        %            \nextgroupplot[
+        %                    grid=major,
+        %                    ylabel={
+        %                        $E$ $[\si{\hartree/(\elementarycharge\bohr)}]$
+        %                    },
+        %                    enlarge x limits=false,
+        %                    title={Laser pulses},
+        %                ]
+        %                \addplot+[
+        %                    mark=none,
+        %                    thick,
+        %                ]
+        %                table
+        %                {results/stability/stability-runs/dat/laser_he.dat};
+        %            \nextgroupplot[
+        %                    grid=major,
+        %                    ylabel={
+        %                        $E$ $[\si{\hartree/(\elementarycharge\bohr)}]$
+        %                    },
+        %                    enlarge x limits=false,
+        %                ]
+        %                \addplot+[
+        %                    mark=none,
+        %                    thick,
+        %                ]
+        %                table
+        %                {results/stability/stability-runs/dat/laser_be.dat};
+        %        \end{groupplot}
+        %    \end{tikzpicture}
+        %    \caption{In these figures we plot the laser pulses used to study the
+        %    stability of the OATDCCD- and TDCCSD-methods.
+        %    The upper figure is the laser used for the simulation of \ch{He}
+        %    whereas the lower pulse is for the simulation of \ch{Be}.}
+        %    \label{fig:stability-lasers}
+        %\end{figure}
 
         As there are no expressions for the autocorrelation of the
         OATDCCD-method, we are unable to compare with the autocorrelation as
@@ -126,30 +131,28 @@
 
         In \autoref{fig:he-stability} we see the results from the
         \ch{He}-simulation.
-        We see that the dashed line with the results from the TDCCSD-method
-        stops after a short time, at approximately $t = \num{1}$.
+        We see that the dashed line with the results from the TDCCSD-method for
+        the time-dependent overlap and the time-dependent energy stops after a
+        short time, at $t \approx \SI{0.87}{\hslash/\hartree}$.
         This was where the Gauss-integrator crashed due to a non-converging
-        fixed point iteration.
+        fix-point iteration.
         We see that this point more or less exactly matches the point where the
         overlap with reference state becomes close to zero as conjectured.
+        Furthermore, by looking at the lowermost palette we see a perfect
+        correlation with the norm of the TDCCSD-amplitudes sky-rocketing when
+        the overlap goes to zero.
         We can push this simulation through by lowering the time step, but we've
         left this out of the study as we wish to demonstrate that OATDCCD is
         stable for the given time step.
-        And, as mentioned, a too low time step is not practical as the
-        simulation times would grow very long.
-
-        In \autoref{fig:be-stability} the results from the \ch{Be}-simulation is
-        shown.
-        Again the same behaviour as for the \ch{He}-simulation is exhibited;
-        once the overlap with the reference determinant becomes small, the
-        TDCCSD-method crashes.
-
+        A too low time step would result in an extremely impractical simulation
+        where the time to reach any reasonable length scales would take orders
+        of magnitude more simulation time.
         \begin{figure}
             \centering
             \begin{tikzpicture}
                 \begin{groupplot}[
                     group style={
-                        group size=1 by 2,
+                        group size=1 by 3,
                         vertical sep=30pt,
                         xlabels at=edge bottom,
                     },
@@ -161,7 +164,7 @@
                         grid=major,
                         ylabel={$\abs{\braket*{\slat}{\Psi(t)}}^2$},
                         enlarge x limits=false,
-                        title={\ch{He}-simulation},
+                        title={Helium-simulation},
                     ]
                         \addplot+[
                             mark=none,
@@ -217,21 +220,84 @@
                         table
                         {results/stability/stability-runs/dat/he_tdccsd_energy_real.dat};
                         \addlegendentry{TDCCSD}
+
+                    \nextgroupplot[
+                        grid=major,
+                        ylabel={Magnitude},
+                        enlarge x limits=false,
+                    ]
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/stability/stability-runs/dat/he_oatdccd_norm_t2_real.dat};
+                        \addlegendentry{$\norm{\tilde{\clustamp}_2}$}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/stability/stability-runs/dat/he_oatdccd_norm_l2_real.dat};
+                        \addlegendentry{$\norm{\tilde{\clustlamp}_2}$}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/stability/stability-runs/dat/he_tdccsd_norm_t1_real.dat};
+                        \addlegendentry{$\norm{\clustamp_1}$}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/stability/stability-runs/dat/he_tdccsd_norm_t2_real.dat};
+                        \addlegendentry{$\norm{\clustamp_2}$}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/stability/stability-runs/dat/he_tdccsd_norm_l1_real.dat};
+                        \addlegendentry{$\norm{\clustlamp_1}$}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/stability/stability-runs/dat/he_tdccsd_norm_l2_real.dat};
+                        \addlegendentry{$\norm{\clustlamp_2}$}
+
                 \end{groupplot}
             \end{tikzpicture}
             \caption{In these figures we've plotted the overlap with the
             reference state in time, and the real part of the time-dependent
             energy of the three solvers TDFCI (TDCISD), TDCCSD, and OATDCCD for
-            the \ch{He}-system.}
+            the \ch{He}-system.
+            In the lowermost palette we've plotted the magnitude of the cluster
+            amplitudes and the Lagrange multipliers for OATDCCD (marked with a
+            tilde) and TDCCSD.}
             \label{fig:he-stability}
         \end{figure}
 
+        In \autoref{fig:be-stability} the results from the \ch{Be}-simulation is
+        shown.
+        Again the same behaviour as for the \ch{He}-simulation is exhibited;
+        once the overlap with the reference determinant becomes small, the
+        amplitudes sky-rocket and the TDCCSD-method crashes.
         \begin{figure}
             \centering
             \begin{tikzpicture}
                 \begin{groupplot}[
                     group style={
-                        group size=1 by 2,
+                        group size=1 by 3,
                         vertical sep=30pt,
                         xlabels at=edge bottom,
                     },
@@ -243,7 +309,7 @@
                         grid=major,
                         ylabel={$\abs{\braket*{\slat}{\Psi(t)}}^2$},
                         enlarge x limits=false,
-                        title={\ch{Be}-simulation},
+                        title={Beryllium-simulation},
                     ]
                         \addplot+[
                             mark=none,
@@ -299,16 +365,96 @@
                         table
                         {results/stability/stability-runs/dat/be_tdccsd_energy_real.dat};
                         \addlegendentry{TDCCSD}
+
+                    \nextgroupplot[
+                        grid=major,
+                        ylabel={Magnitude},
+                        enlarge x limits=false,
+                    ]
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/stability/stability-runs/dat/be_oatdccd_norm_t2_real.dat};
+                        \addlegendentry{$\norm{\tilde{\clustamp}_2}$}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/stability/stability-runs/dat/be_oatdccd_norm_l2_real.dat};
+                        \addlegendentry{$\norm{\tilde{\clustlamp}_2}$}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/stability/stability-runs/dat/be_tdccsd_norm_t1_real.dat};
+                        \addlegendentry{$\norm{\clustamp_1}$}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/stability/stability-runs/dat/be_tdccsd_norm_t2_real.dat};
+                        \addlegendentry{$\norm{\clustamp_2}$}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/stability/stability-runs/dat/be_tdccsd_norm_l1_real.dat};
+                        \addlegendentry{$\norm{\clustlamp_1}$}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/stability/stability-runs/dat/be_tdccsd_norm_l2_real.dat};
+                        \addlegendentry{$\norm{\clustlamp_2}$}
                 \end{groupplot}
             \end{tikzpicture}
             \caption{In these figures we've plotted the overlap with the
             reference state in time, and the real part of the time-dependent
             energy of the three solvers TDFCI (TDCISD), TDCCSD, and OATDCCD for
-            the \ch{Be}-system.}
+            the \ch{Be}-system.
+            The lower palette exhibits the magnitude of the cluster amplitudes
+            and the Lagrange multipliers for OATDCCD (marked with a tilde) and
+            TDCCSD.}
             \label{fig:be-stability}
         \end{figure}
+        In both simulations we see that the TDFCI solutions drops down to a low
+        overlap with the reference state, but this is not a problem for the
+        TDFCI-methods as they can always remove the weigth of the reference
+        state.
+        This does however demonstrate that the initial Hartree-Fock reference
+        determinant is poor choice for the intense fields we explore in these
+        simulations.
+        It is more interesting to see how the OATDCCD-method seems completely
+        unaffected by the choice of a poor reference state as it is able to
+        rotate to a new set of orbitals thereby creating a much better reference
+        state.
+        We also see his behavior in the norm of the amplitudes of the
+        OATDCCD-method.
+        The more optimal reference determinant seems to remove the stress from
+        the amplitudes and OATDCCD does not seem to exhibit the same stability
+        issues in the simulations we've demonstrated in
+        \autoref{fig:he-stability} and \autoref{fig:be-stability}.
 
-        % TODO: Discuss the overlap with the reference determinants
+        We do not however state that the OATDCCD-method is infinitely stable as
+        there are several situations which we believe would break the
+        simulation, e.g., a near multireference state, oscillations between two
+        (almost) equally good reference states.
+        In short, if there does not exist a single good reference state, we
+        believe the OATDCCD-method will suffer the same fate as for the
+        TDCCSD-method.
 
 
     \section{Summing up the stability analysis}
@@ -317,6 +463,11 @@
         than the TDCCSD-method.
         A further study of this phenomenon will not included in this thesis as
         the author is participating in an ongoing work on the stability of the
-        OATDCCD-method with \citeauthor{oa-stability} \cite{oa-stability}.
-        Also, in the following results we do not include any stability analysis,
-        but merely compare with known litterature where we are able.
+        OATDCCD-method titled \citetitle{oa-stability} \cite{oa-stability}.
+        In the following we will not look at stability issues in more detail,
+        but rather focus on the application of the methods to various systems.
+
+
+
+
+\clearpage

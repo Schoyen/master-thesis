@@ -35,7 +35,7 @@ for molecule in molecules:
                         else:
                             height = 1e-2
                     else:
-                        height = 1e-2
+                        height = 2e-2
 
                 peak_indices = scipy.signal.find_peaks(spec, height=height)
 

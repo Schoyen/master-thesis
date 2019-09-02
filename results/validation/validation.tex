@@ -3,12 +3,36 @@
     \epigraph{Testing shows the presence, not the absence of bugs.}
     {--- Edsger Wybe Dijkstra}
 
+    As the quote by E. W. Dijkstra so succintly puts, testing will only reveal
+    the presence of bugs and there are most likely bugs present in the developed
+    code.
+    However, continuous testing over time will help make sure that new additions
+    and evolution of existing code will not break at a later time.
+    Our codes have contribution from several authors and we have therefore
+    implemented a wide range of unit tests where these make sense, integration
+    tests running longer simulations and checking the results against known
+    results.
+    In fact, both the studies in this chapter are implemented as tests in a more
+    brief version to make sure that changes to the code should still reproduce
+    what we present in this chapter.
+    To ensure continuous testing -- and deployment of the documentation --
+    we use Travis CI.\footnote{%
+        See: \url{https://travis-ci.com/}
+    }
+    This means that all changes to the git-repositories run through the
+    test-suites automatically and checks that known values are reproduced.
+
+    The focus in this thesis is on time-evolution of quantum mechanical systems,
+    and as such we will mainly look at time-dependent phenomenon with little
+    focus on ground state solutions.
+    However, note that several known ground state values, in particular for one-
+    and two-dimensional quantum dots, are implemented as tests.
     In this chapter we wish to demonstrate that our implementations work as
-    expected by reproducing known results from the litterature.
+    expected by reproducing known results from the literature.
     We will in this section limit our attention to small systems.
 
     \section{The one-dimensional harmonic oscillator}
-        An excellent starting point for validaion is the one-dimensional
+        An excellent starting point for validation is the one-dimensional
         harmonic oscillator using the discretized one-dimensional quantum dot
         system as discussed in \autoref{sec:one-dim-qd}.
         A study done by \citeauthor{zanghellini_2004} \cite{zanghellini_2004}
@@ -17,7 +41,8 @@
         compared to a semi-analytic result.\footnote{%
             Semi-analytic as the time-evolution is solved numerically.
         }
-        In this study the external potential is given by
+        In this study the confining potential is given by the harmonic
+        oscillator potential,
         \begin{align}
             \hat{v} = \half \omega^2\hat{x}^2,
         \end{align}
@@ -32,12 +57,19 @@
         from \autoref{eq:shielded-coulomb} with $\alpha = 1$ and the screening
         parameter set to $a = 0.25$.
         In the simulation done by \citeauthor{zanghellini_2004} the parameters
-        are chosen to be $\omega = 0.25$, $E_0 = 1$ and $\Omega =
-        8\omega$.
+        are chosen to be $\omega = 0.25$, $E_0 = 1$, and $\Omega = 8\omega$.
         The simulation is run on a one-dimensional grid where $x \in [-10, 10]$.
         We use a relatively small basis of $L = 20$ spin-orbitals, that is, the
         $L / 2 = 10$ first one-dimensional harmonic oscillator orbitals found by
         diagonalizing the one-body Hamiltonian.
+        The time-evolution is run for $t = 4\tau$ where $\tau$ is a cycle of the
+        laser given by
+        \begin{align}
+            \tau = \frac{2\pi}{\Omega}.
+        \end{align}
+        We use an integration time step of $\Delta t = \num{1e-2}$ and the
+        Gauss-integrator with $s = 3$ and a fix-point convergence threshold of
+        $\epsilon = \num{1e-6}$.
 
         We will reproduce part of the study done by
         \citeauthor{zanghellini_2004} using TDHF, TDCID, TDCISD, TDCCD, and
@@ -47,13 +79,13 @@
         for the latter method as dicussed in
         \autoref{subsec:autocorrelation-oatdccd}.
         In \autoref{fig:one-body-density-zanghellini} we plot the ground state
-        one-body particle densities using the general Hartree-Fock method and
-        CISD, i.e., full configuration interaction for two particles.
+        particle densities using the general Hartree-Fock method and CISD, i.e.,
+        full configuration interaction for two particles.
         In the lower plot in \autoref{fig:one-body-density-zanghellini} we
-        demonstrate that CCSD reproduces the exact solution for the one-body
-        particle density as achieved from configuration interaction to a high
-        precision by computing the absolute difference between each point on the
-        grid, that is,
+        demonstrate that CCSD reproduces the exact solution for the particle
+        density as achieved from configuration interaction to a high precision
+        by computing the absolute difference between each point on the grid,
+        that is,
         \begin{align}
             \abs{\Delta \densityten(x, 0)}
             = \abs{\densityten_{CISD}(x, 0) - \densityten_{CCSD}(x, 0)}.
@@ -184,7 +216,7 @@
                         },
                         width=11cm,
                         height=6cm,
-                        xlabel={$\omega t / (2\pi)$},
+                        xlabel={$\Omega t / (2\pi)$},
                     ]
                     \nextgroupplot[
                             grid=major,
@@ -362,7 +394,7 @@
                         },
                         width=11cm,
                         height=6cm,
-                        xlabel={$\omega t / (2\pi)$},
+                        xlabel={$\Omega t / (2\pi)$},
                     ]
                     \nextgroupplot[
                             grid=major,
@@ -449,8 +481,8 @@
         We will therefore reproduce parts of the study done by
         \citeauthor{li_2005} using TDHF, TDCISD, TDCCSD, and OATDCCD.
 
-        We'll look at the smallest molecule \ch{H2}, that is, the Hydrogen
-        molecule with two electrons.
+        We'll look at the smallest molecule \ch{H2}, that is, the
+        Hydrogen-molecule with two electrons.
         This means that TDCISD, TDCCSD, and OATDCCD should produce exact
         results for the single-particle basis that is used.
         We express \ch{H2} in $14$ Gaussian type orbitals, that is, the
@@ -462,8 +494,10 @@
         $\pm R_e/2$ in the $z$-direction zero for the $x$- and
         $y$-direction.
         We then make the basis set doubly occupied by including spin.
-        The basis is run through our general Hartree-Fock solver which finds the
-        Hartree-Fock molecular orbitals and changes to this basis.
+        We perform a ground state calculation using the general Hartree-Fock
+        solver and transform to this basis.
+        We then do ground state computations using the time-independent version
+        of the specific solvers berfore starting the time-evolution.
         The laser pulse used by \citeauthor{li_2005} is
         \begin{align}
             \vfg{E}(t)
@@ -484,48 +518,48 @@
         \end{align}
         where we set $E_m = \SI{0.07}{\hartree} \approx
         \SI{1.72e14}{\watt/\cm^2}$ and $\omega =
-        \SI{0.1}{\hartree/\hslash}$ which corresponds to a wave length of
+        \SI{0.1}{\hartree/\hslash}$ which corresponds to a wavelength of
         $\lambda = \SI{456}{\nano\meter}$.
-        This linear envelope is slightly unconventional as compared to the more
-        common envelope functions discussed in \autoref{subsec:envelope}.
-        A plot of the laser field during the simulation is shown in
-        \autoref{fig:li-laser}.
-        \begin{figure}
-            \centering
-            \begin{tikzpicture}
-                \begin{axis}[
-                    width=11cm,
-                    height=6cm,
-                    xlabel={$t$ $[\si{\hslash/\hartree}]$},
-                    ylabel={$E(t)$ $[\si{\hartree}]$},
-                    grid=major,
-                    enlarge x limits=false,
-                    enlarge y limits=false,
-                ]
-                    \addplot+[
-                        mark=none,
-                        thick,
-                    ]
-                    table
-                    {results/benchmarks/li/dat/li_laser.dat};
-                \end{axis}
-            \end{tikzpicture}
-            \caption{In this figure we've plotted the laser field from
-            \autoref{eq:li-field} with the envelope described in
-            \autoref{eq:li-laser} as done in the study by
-            \citeauthor{li_2005} \cite{li_2005}.}
-            \label{fig:li-laser}
-        \end{figure}
+        We run the simulation for a total of $t_f = \SI{225}{\hslash/\hartree}$
+        with the laser turned on from the start.
+        We use the Gauss-integrator with $s = 3$ a fix-point convergence
+        threshold of $\epsilon = \num{1e-6}$ and an integration time step of
+        $\Delta t = \SI{1e-2}{\hslash/\hartree}$.
+        %A plot of the laser field during the simulation is shown in
+        %\autoref{fig:li-laser}.
+        %\begin{figure}
+        %    \centering
+        %    \begin{tikzpicture}
+        %        \begin{axis}[
+        %            width=11cm,
+        %            height=6cm,
+        %            xlabel={$t$ $[\si{\hslash/\hartree}]$},
+        %            ylabel={$E(t)$ $[\si{\hartree}]$},
+        %            grid=major,
+        %            enlarge x limits=false,
+        %            enlarge y limits=false,
+        %        ]
+        %            \addplot+[
+        %                mark=none,
+        %                thick,
+        %            ]
+        %            table
+        %            {results/benchmarks/li/dat/li_laser.dat};
+        %        \end{axis}
+        %    \end{tikzpicture}
+        %    \caption{In this figure we've plotted the laser field from
+        %    \autoref{eq:li-field} with the envelope described in
+        %    \autoref{eq:li-laser} as done in the study by
+        %    \citeauthor{li_2005} \cite{li_2005}.}
+        %    \label{fig:li-laser}
+        %\end{figure}
         In our programs the dipole moment is defined with a positive sign,
         which means that we need to introduce a negative sign in the
         envelope or the polarization vector to include the negative charge
         of the electrons.
         We have chosen to set the polarization vector along the negative
         $z$-direction.
-        A plot of the instantaneous dipole moment of \ch{H2} in the
-        $z$-direction where we simulate for a total of $t_f =
-        \SI{225}{\hslash/\hartree}$ with the laser turned on from start
-        until $2\pi/\omega \approx \SI{62.8}{\hslash/\hartree}$ is shown in
+        A plot of the instantaneous dipole moment of \ch{H2} is shown in
         \autoref{fig:dipole-moment-li}.
         A by-eye comparison of the top figure in
         \autoref{fig:dipole-moment-li} with figure 4 in \citetitle{li_2005}
@@ -534,17 +568,15 @@
         In the lower figure we show the absolute error in the induced dipole
         moment as calculated by the TDCCSD and OATDCCD methods compared with
         the exact full configuration interaction solution.
-        The convergence threshold of the Gauss-Legendre integrator was set
-        to $\num{1e-6}$ which is larger than the absolute error between the
-        methods.
-        We therefore conclude that TDCCSD and OATDCCD reproduce the exact
-        results to a satisfying degree.
-
-        It is interesting to note in the top figure in
-        \autoref{fig:dipole-moment-li} that the time-dependent Hartree-Fock
-        method performs surprisingly well.
-        There are small discrepancies, but at the intensity we use for our
-        laser the mean-field approximation performs excellently.
+        As the error between the TDCISD, and TDCCSD and OATDCCD are smaller than
+        the convergence threshold of the Gauss-integrator, we conclude that
+        TDCCSD and OATDCCD reproduce the exact results to a satisfying degree.
+        The TDHF-method is several orders of magnitude off from the
+        coupled-cluster methods, but it is interesting to note in the top figure
+        in \autoref{fig:dipole-moment-li} that the time-dependent Hartree-Fock
+        method performs qualitatively well.
+        There are small discrepancies visible to the eye, but at the intensity
+        we use for our laser the mean-field approximation performs excellently.
         However, we expect that as the intensity increases, this method will
         prove inferior to the correlated methods.
 
@@ -566,6 +598,7 @@
                             ylabel={$\expval*{z(t)}$},
                             enlarge x limits=false,
                             enlarge y limits=false,
+                            title={Dipole moment of \ch{H2}-molecule},
                         ]
                         \addplot+ [
                             mark=none,
@@ -606,12 +639,20 @@
                         table
                         {results/benchmarks/li/dat/dipole_z_diff_oatdccd_tdcisd.dat};
                         \addlegendentry{OATDCCD}
+
+                        \addplot+ [
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/li/dat/dipole_z_diff_tdhf_tdcisd.dat};
+                        \addlegendentry{TDHF}
                 \end{groupplot}
             \end{tikzpicture}
             \caption{In the top figure we have plotted the instantaneous
             dipole by radiating a \ch{H2} molecule with a dipole laser.
-            The lower figure shows the absolute error of the dipole using
-            the TDCCSD and OATDCCD methods compared to the TDCISD solver.}
+            The lower figure shows the absolute error of the dipole using the
+            TDHF, TDCCSD, and OATDCCD methods compared to the TDCISD solver.}
             \label{fig:dipole-moment-li}
         \end{figure}
 
@@ -619,6 +660,11 @@
         We have now demonstrated that the bulk of our methods perform as
         expected and give satisfying results for small systems.
         Furthermore, we've demonstrated that the self-made one-dimensional
-        system and the interface towards PySCF are working.
-        We've also demonstrated that we support several dipole laser fields
-        and that we can compute various quantities from all methods.
+        system and the interface towards PySCF \cite{pyscf} are working.
+        We've also demonstrated that we support several dipole laser fields and
+        that we can compute various quantities from all methods.
+        Recalling the words of E. W. Dijkstra we do note that we have not proven
+        our methods to be free of bugs, but at least we have demonstrated that a
+        wide range of our code works as expected.
+
+\clearpage
