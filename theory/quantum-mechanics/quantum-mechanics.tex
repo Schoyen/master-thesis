@@ -113,13 +113,13 @@
         The coordinate representation of the time-dependent Schrödinger equation
         thus becomes
         \begin{align}
-            i\hslash\partial_t\Psi(\vfg{r}, t)
+            i\hslash\dpd{}{t}\Psi(\vfg{r}, t)
             = -\frac{\hslash^2}{2m}\vfg{\nabla}^2\Psi(\vfg{r}, t)
             + \hat{v}(\vfg{r}, t)\Psi(\vfg{r}, t),
             \label{eq:coordinate-tdse}
         \end{align}
         where the total time-derivative in the Schrödinger equation has been
-        replaced by a partial derivative $\partial_t$.
+        replaced by a partial derivative with respect to time.
         The Hamiltonian is replaced by the kinetic term represented as a Laplace
         operator and we've included the external potential $\hat{v}(\vfg{r},
         t)$.
@@ -809,7 +809,7 @@
         The time evolution operator can be found by solving the time-dependent
         Schrödinger equation
         \begin{gather}
-            i\partial_t\hat{U}(t, t_0) = \hamil(t)\hat{U}(t, t_0).
+            i\dpd{}{t}\hat{U}(t, t_0) = \hamil(t)\hat{U}(t, t_0).
         \end{gather}
         Now, if the Hamiltonian is time-independent the time evolution operator
         takes on the closed form solution
@@ -849,7 +849,7 @@
         Now, all observables that commute with the time-independent Hamiltonian
         will still be time-indepedent for $\ket*{\psi(t)}$.
         We can see this by looking at a time-independent observable $\hat{Q}$
-        which commute with the time-independent Hamiltonian such that the
+        which commutes with the time-independent Hamiltonian such that the
         eigenstate of the Hamiltonian will be eigenstates of $\hat{Q}$ with
         eigenvalues $q_n$.
         We then have
@@ -903,13 +903,12 @@
         \begin{align}
             L[\psi, \psi^{*}]
             =
-            \mel{\psi(t)}{
+            \mel*{\psi(t)}{
                 \para{
                     i\hslash\partial_t - \hamil(t)
                 }
             }{\psi(t)},
         \end{align}
-        % TODO: Confirm that the Hamiltonian is time-dependent.
         where we for the sake of brevity have introduced the short-hand notation
         $\partial_t$ for the partial derivative with respect to time.
         If the wave functions are not required to be normalized in time the
@@ -939,10 +938,18 @@
             in the requirements that
             \begin{gather}
                 \delta L[\tilde{\psi}, \psi^{*}]
-                = \mel{\psi(t)}{i\hslash\partial_t - \hamil(t)}{\delta\psi(t)}
+                = \mel*{\psi(t)}{
+                    \para{
+                        i\hslash\partial_t - \hamil(t)
+                    }
+                }{\delta\psi(t)}
                 = 0, \\
                 \delta L[\psi, \tilde{\psi}^{*}]
-                = \mel{\delta\psi(t)}{i\hslash\partial_t - \hamil(t)}{\psi(t)}
+                = \mel*{\delta\psi(t)}{
+                    \para{
+                        i\hslash\partial_t - \hamil(t)
+                    }
+                }{\psi(t)}
                 = 0.
             \end{gather}
             The latter of these two equations is known as the Dirac-Frenkel
@@ -950,10 +957,9 @@
             Letting $\delta\psi(x, t)$ be arbitrary variations vanishing at the
             endpoints $t = t_1$ and $t = t_2$, we recover the
             time-dependent Schrödinger equation and the complex conjugate
-            formulation from the fundamental lemma of calculus \cite{frenkel,
-            wiki:fundamental-lemma}.
+            formulation from the fundamental lemma of calculus of variations \cite{frenkel,
+            jost1998calculus}.
         \end{proof}
-        % TODO: Review this section
 
     \section{Electrodynamics}
         In vacuum the classical electromagnetic field is described by Maxwell's
@@ -976,13 +982,12 @@
             \vfg{B} = \vfg{\nabla}\times\vfg{A}.
         \end{gather}
         In addition to Maxwell's equations, the potentials and the electric and
-        magnetic fields satisfies the homogeneous wave equation
+        magnetic fields satisfy the homogeneous wave equation
         \cite{joachain2012atoms}
         \begin{align}
             \vfg{\nabla}^2\vfg{A} = \frac{1}{c^2}\dpd[2]{}{t}\vfg{A}.
             \label{eq:wave-equation}
         \end{align}
-        % TODO: This might be a result of the Coulomb gauge condition...
         Maxwell's equations and the wave equation does not uniquely define the
         scalar and vector potentials as the electric and magnetic field are
         invariant under the gauge transformations
@@ -997,11 +1002,10 @@
         Lorenz gauge\footnote{%
             Yes, this is \emph{actually} spelled ``the Lorenz gauge'', named
             after the Danish physicist Ludvig Lorenz and is \emph{not} to be
-            confused with the wrongly named ``Lorentz gauge'' after Hendrik
-            Lorentz.
+            confused with the misnamed ``Lorentz gauge'' after Hendrik Lorentz.
             However, the Lorenz gauge is a Lorentz invariant condition where the
-            two terms frequently coincide and is therefore quite often misnamed
-            \cite{wiki:lorenz}.
+            two terms frequently coincide and is therefore quite often
+            interchanged \cite{wiki:lorenz}.
         } is unnecessary.
         We will be using the Coulomb gauge given by
         \begin{align}
@@ -1461,9 +1465,8 @@
             and we can choose any value for $T$.
             As the cosine-squared envelope is a periodic function, we have to
             define a region where the function should be cut off and yield zero.
-            This is solved by the cases-statement above.
-            On the other hand, the hyperbolic secant and the Guassian envelopes
-            will remove the pulse gradually.
+            On the other hand, the hyperbolic secant and the Gaussian envelopes
+            will remove the pulse gradually,
             \begin{gather}
                 F(t) = \sech\brak{
                     \frac{\pi t}{T}
@@ -1473,8 +1476,8 @@
                 ].
             \end{gather}
             These functions are however harder to turn on and off as they are
-            small, but non-zero, for a wide range of time points $t$ both before
-            and after the peak intensity.
+            small, but non-zero, for a wide range of time points both before and
+            after the peak intensity.
             In accordance with much of the literature, we will almost
             exclusively use the sine-squared envelope function given by
             \begin{align}
@@ -1614,7 +1617,7 @@
                 = \hamil_p + \hamil_{ep}(t),
             \end{align}
             where the time-dependence is kept in the particle-field interaction.
-            The scenarios we will consider consists of describing the system
+            The scenarios we will consider consist of describing the system
             before and after the laser pulse is active.
             At $t = 0$ we have the time-independent Schrödinger equation
             \begin{align}
@@ -1630,7 +1633,7 @@
                 this thesis.
             } we can ``turn on'' the laser pulse for $t \in \brak{0, T}$ using
             an envelope function.
-            We can in some ways conider the laser as a thermalization step where
+            We can in some ways consider the laser as a thermalization step where
             we move from an initial state that might be slightly unphysical in
             the sense that the pure eigenstates are very unlikely states to find
             a system in.
@@ -1659,20 +1662,20 @@
 
             \subsubsection{Autocorrelation}
                 We define the autocorrelation as the overlap between the
-                time-evolved stated $\ket{\psi(t)}$ with the initial state
-                $\ket{\psi(T)}$ for $t \geq T$ \cite{robinett20041,
+                time-evolved stated $\ket*{\psi(t)}$ with the initial state
+                $\ket*{\psi(T)}$ for $t \geq T$ \cite{robinett20041,
                 pedersen2018symplectic},\footnote{%
                     Note that the autocorrelation can be computed for arbitrary
                     states, but we use it in a specific way for measurements.
                 }
                 \begin{align}
                     A(t, T)
-                    &= \braket{\psi(t)}{\psi(T)}
+                    &= \braket*{\psi(t)}{\psi(T)}
                     =
                     \sum_{i = 0}^{\infty}
                     \sum_{j = 0}^{\infty}
                     c^{*}_i(t) c_j(T)
-                    \braket{\phi_i}{\phi_j}
+                    \braket*{\phi_i}{\phi_j}
                     \\
                     &=
                     \sum_{i = 0}^{\infty}
@@ -1691,10 +1694,10 @@
                 Computing the expectation value of the dipole moment for $t \geq
                 T$ we have
                 \begin{align}
-                    \expval{\vfg{d}(t)}
-                    &= \mel{\psi(t)}{\hat{\vfg{d}}}{\psi(t)}
+                    \expval*{\vfg{d}(t)}
+                    &= \mel*{\psi(t)}{\hat{\vfg{d}}}{\psi(t)}
                     =
-                    c^{*}_i(t)c_j(t)\mel{\phi_i}{\hat{\vfg{d}}}{\phi_j}
+                    c^{*}_i(t)c_j(t)\mel*{\phi_i}{\hat{\vfg{d}}}{\phi_j}
                     \\
                     &=
                     c^{*}_i(T)c_j(T) e^{i E_i t/\hslash}
@@ -1739,13 +1742,13 @@
                 This is given by
                 \begin{align}
                     P(t, t_0)
-                    &= \abs{\braket{\psi(t)}{\psi(t_0)}}^2.
+                    &= \abs{\braket*{\psi(t)}{\psi(t_0)}}^2.
                 \end{align}
                 Instead of taking the Fourier transform of this quantity we use
                 it as a measure of the transition probability to go from state
-                $\ket{\psi(t_0)}$ to $\ket{\psi(t)}$.
+                $\ket*{\psi(t_0)}$ to $\ket*{\psi(t)}$.
                 It can also be interpreted as the ``amount'' of
-                $\ket{\psi(t_0)}$ in state $\ket{\psi(t)}$.
+                $\ket*{\psi(t_0)}$ in state $\ket*{\psi(t)}$.
                 This can be used as a measure of how much the state changes in
                 time from some initial configuration.
 
@@ -1786,7 +1789,7 @@
                 \midrule
                 Length
                 &
-                $a_0 = 4\pi\epsilon_0\hslash^2/\para{m_e e^2}$
+                $a_0 = 4\pi\epsilon_0\hslash^2/(m_e e^2)$
                 \\
                 Energy
                 &
@@ -1817,7 +1820,7 @@
             \label{tab:atomic-units}
         \end{table}
 
-        We will now list some common conversions that is used in this work.
+        We will now list some common conversions that are used in this work.
         In laser physics it is common to work with the intensity of the laser
         field in units of $\si{\watt/\cm^2}$.
         Consider a given intensity $I$ measured in $\si{\watt/\cm^2}$.
@@ -1831,7 +1834,8 @@
         \autoref{tab:atomic-units}.
         Furthermore, it is common to describe a laser by its wavelength
         $\lambda$ in nanometers\footnote{%
-            We will work with lasers in the visible spectrum.
+            We will work with lasers in the visible and low energy ultraviolet
+            spectrum.
         } or the photon energy $E_{\nu}$ in electronvolt when characterising the
         frequency.
         To convert from a wavelength $\lambda$ measured in SI units to an
@@ -1842,7 +1846,7 @@
         To go from a photon energy $E_{nu}$ in electronvolt to angular frequency
         $\omega$ in atomic units we compute
         \begin{align}
-            \omega = \frac{E_{\nu}}{\hslash}\frac{1}{\omega_a}.
+            \omega = \frac{E_{\nu}}{\hslash}\frac{1}{\omega_a}
             = \frac{E_{\nu}}{E_h},
         \end{align}
         where $E_h \approx \SI{27.2}{\electronvolt}$.

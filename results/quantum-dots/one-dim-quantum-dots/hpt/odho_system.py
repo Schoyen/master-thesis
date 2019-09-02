@@ -25,7 +25,8 @@ from quantum_systems.quantum_dots.one_dim.one_dim_potentials import (
 from quantum_systems.time_evolution_operators import LaserField
 
 odqd = ODQD(n, l, grid_length, num_grid_points)
-odqd.setup_system(potential=DWPotential(omega=omega, l=2))
+#odqd.setup_system(potential=DWPotential(omega=omega, l=2))
+odqd.setup_system(potential=HOPotential(omega=omega))
 
 
 laser_omega = 1
@@ -55,6 +56,11 @@ plt.show()
 tdcisd = TDCISD(odqd, verbose=True)
 tdcisd.compute_ground_state()
 tdcisd.set_initial_conditions()
+
+for J in range(1, len(tdcisd.ci.energies)):
+    if np.any(np.abs(tdcisd.ci.allowed_dipole_transition(J - 1, J)) > 1e-12):
+        print(f"J = {J}")
+        print(tdcisd.ci.energies[J] - tdcisd.ci.energies[J - 1])
 
 background = odqd.potential(odqd.grid)
 
