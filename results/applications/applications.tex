@@ -11,6 +11,9 @@
     multi-configuration Hartree-Fock method, while achieving a quality of the
     results beyond what is possible with the mean-field approximation using
     Hartree-Fock.
+    Furthermore, we wish to demonstrate the versatility of our methods by
+    studying exotic systems such as spin-dependent laser field interactions and
+    ionization of the one-dimensional Beryllium-atom.
     Note that we in this chapter do little to no conscious effort in terms of
     optimization as the default setup of the solvers often yield more than good
     enough results.
@@ -43,38 +46,44 @@
         The laser field is active for $t \in \brak{0, T}$ where $T =
         \SI{1}{\femto\second}$, and the intensity of the laser field is chosen
         to be $I = \SI{3.5e12}{\watt/\cm^2}$.
-        The simulation is run for $\SI{100}{\femto\second}$.
-        A plot of the laser field in the first $t = \SI{2}{\femto\second}$ of
-        the simulation is shown in \autoref{fig:nest-laser}.
-        \begin{figure}
-            \centering
-            \begin{tikzpicture}
-                \begin{axis}[
-                        width=11cm,
-                        height=6cm,
-                        xlabel={$t$ $[\si{\planckbar / \hartree}]$},
-                        grid=major,
-                        ylabel={
-                            $E(t)$ $[
-                                \si{\hartree / (\elementarycharge \bohr)}
-                            ]$
-                        },
-                        enlarge x limits=false,
-                    ]
-                    \addplot+ [
-                        mark=none,
-                        thick,
-                    ]
-                    table
-                    {results/benchmarks/nest/dat/nest_laser_new.dat};
-                \end{axis}
-            \end{tikzpicture}
-            \caption{In this figure we have plotted the laser pulse from
-            \autoref{eq:nest-laser} for $t = \SI{2}{\femto\second} \approx
-            \SI{82.6}{\hslash / \hartree}$, with parameters as defined in the
-            text.}
-            \label{fig:nest-laser}
-        \end{figure}
+        The simulation is run for $\SI{100}{\femto\second}$ with a time step
+        of\footnote{%
+            Note that we specify the time step in atomic units as we convert all
+            the SI units to atomic units when doing the simulation.
+        }
+        $\Delta t = \SI{1e-2}{\hslash/\hartree}$ using the Gauss-integrator with
+        $s = 3$ and $\epsilon = \num{1e-6}$.
+        %A plot of the laser field in the first $t = \SI{2}{\femto\second}$ of
+        %the simulation is shown in \autoref{fig:nest-laser}.
+        %\begin{figure}
+        %    \centering
+        %    \begin{tikzpicture}
+        %        \begin{axis}[
+        %                width=11cm,
+        %                height=6cm,
+        %                xlabel={$t$ $[\si{\planckbar / \hartree}]$},
+        %                grid=major,
+        %                ylabel={
+        %                    $E(t)$ $[
+        %                        \si{\hartree / (\elementarycharge \bohr)}
+        %                    ]$
+        %                },
+        %                enlarge x limits=false,
+        %            ]
+        %            \addplot+ [
+        %                mark=none,
+        %                thick,
+        %            ]
+        %            table
+        %            {results/benchmarks/nest/dat/nest_laser_new.dat};
+        %        \end{axis}
+        %    \end{tikzpicture}
+        %    \caption{In this figure we have plotted the laser pulse from
+        %    \autoref{eq:nest-laser} for $t = \SI{2}{\femto\second} \approx
+        %    \SI{82.6}{\hslash / \hartree}$, with parameters as defined in the
+        %    text.}
+        %    \label{fig:nest-laser}
+        %\end{figure}
         A word of caution, when reproducing the results in this article some
         care must be taken when converting to atomic units for the frequency,
         time, and the intensity of the laser as it is not clear how much one
@@ -96,7 +105,7 @@
                 $E_{\nu}$ & $\SI{5.44}{\electronvolt}$ &
                 \SI{1.999163e-1}{\hartree} \\
                 $I$ & $\SI{3.5e12}{\watt/\cm^{2}}$ &
-                \SI{9.973085e-5}{\text{a.u.}} \\
+                \SI{9.973085e-5}{I_a} \\
                 $t$ & $\SI{1}{\femto\second}$ &
                 \SI{4.134137e+1}{\hslash/\hartree}
                 \\
@@ -213,7 +222,7 @@
             these spectra.}
             \label{fig:fft_dipole_nest}
         \end{figure}
-        In \autoref{tab:fft_dipole_nest_x} we've used function
+        In \autoref{tab:fft_dipole_nest_x} we've used the function
         \pyth{scipy.signal.find_peaks} \cite{scipy} to locate the transition
         energies for the Fourier specter of the dipole moment polarized along
         the $x$-direction.
@@ -221,11 +230,12 @@
         $z$-direction.
         Note that we've set a threshold for the minimum height of the peaks to
         $\num{5e-6}$ to avoid some noisy signals.\footnote{%
-            This value was chosen by trial and error where we've inspected the
+            This value was chosen by trial and error where we inspected the
             figures --especially for the $z$-direction -- in
             \autoref{fig:fft_dipole_nest} to see that all peaks are in the
             results at the approximate correct location.
         }
+        % TODO: YOU ARE HERE!
 
         \begin{table}
             \centering
