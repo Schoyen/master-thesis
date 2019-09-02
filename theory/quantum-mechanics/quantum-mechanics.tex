@@ -4,16 +4,10 @@
 
     We start our journey by reviewing parts of quantum mechanics that we deem
     necessary in order to understand the thesis.
-
-
-    \section{Canonical quantization}
-        \subsection{The Schrödinger equation}
-            \begin{align}
-                i\hslash\dpd{\Psi}{t}
-                = -\frac{\hslash^2}{2m}\vfg{\nabla}^2\Psi
-                +    v\Psi
-                \label{eq:coordinate-tdse}
-            \end{align}
+    We will in this chapter discuss the general theory of quantum mechanics
+    without any concern for the number of particles in a specific system.
+    In the following chapters we will discuss more specialized theories that
+    will utilize many of the results discusesed herein.
 
     \section{The postulates of quantum mechanics}
         In order to make sure that we have a common understanding of how to
@@ -26,51 +20,112 @@
         postulates, and in the accuracy of their description.
         We will base our definition of the postulates of quantum mechanics on
         the representation given in the book \citetitle{salasnich2017quantum} by
-        \citeauthor{salasnich2017quantum} \cite{salasnich2017quantum}.
+        \citeauthor{salasnich2017quantum} \cite{salasnich2017quantum} and the
+        lecture notes by \citeauthor{modern-qm} \cite{modern-qm}.
 
         \begin{enumerate}
-            \item A state $\ket{\psi}$ is a unitary vector defined on a
-                separably complex Hilbert space.
+            \item A state $\ket*{\psi}$ -- denoted a ``ket'' \cite{dirac_1939}
+                -- is a unitary vector defined on a separably complex Hilbert
+                space.
                 The state can be expanded in any complete set of basis vectors
-                on the Hilbert space by
+                $\ket{i}$ on the Hilbert space by
                 \begin{align}
-                    \ket{\psi} = c_i\ket{i},
+                    \ket*{\psi} = \sum_{i}c_i\ket*{i},
                 \end{align}
                 where $c_i \in \mathbb{C}$.
-            \item An observable is described by a Hermitian operator $\hat{Q}$
-                acting on the Hilbert space of state vectors.
+                For any state $\ket*{\psi}$ there is a corresponding dual state
+                $\bra*{\psi}$ which can be found by the anti-linear mapping
+                \begin{align}
+                    \ket*{\psi}
+                    \to \bra*{\psi}
+                    = \sum_{i}\bra*{i} c^{*}_i.
+                \end{align}
+                The dual state is denoted a ``bra'' and the inner product of a
+                ket and a bra is given by $\braket{\psi_1}{\psi_2} \in
+                \mathbb{C}$.
+            \item A physical observable is described by a Hermitian operator
+                $\hat{Q}$ acting on the Hilbert space of state vectors.
+                The spectrum of the operator $\hat{Q}$ spans the Hilbert space.
+                For a discrete spectrum we get orthogonal eigenfunctions which
+                can be made orthonormal.
+                The eigenfunctions form a complete basis set which can be seen
+                through the resolution of the identity, viz.
+                \begin{align}
+                    \sum_{i}\dyad*{i} = \1,
+                \end{align}
+                where $\1$ is the unit operator.
             \item The eigenvalue $q$ of the observable $\hat{Q}$ represents its
                 measurable values.
                 That is,
                 \begin{align}
                     \hat{Q}\ket{q} = q\ket{q},
                 \end{align}
-                where $\para{q, \ket{q}}$ are the eigenpairs of the observable.
-            \item We can measure the probability $p$ of finding the normalized
+                where $(q, \ket{q})$ are the eigenpairs of the observable.
+                We can measure the probability $p$ of finding the normalized
                 state $\ket{\psi}$ in the normalized eigenstate $\ket{q}$ by
                 \begin{align}
                     p = \abs{\braket{q}{\psi}}^2.
                 \end{align}
                 As a consequence $p$ also gives the probability of measuring the
-                eigenvalue $g$.
-                We can also measure the expectation value of the observable
-                $\hat{Q}$ for the state $\ket{\psi}$ by
+                eigenvalue $q$.
+                The expectation value of the observable $\hat{Q}$ for the state
+                $\ket{\psi}$ can be measured by
                 \begin{align}
-                    \expval{Q} = \expval{\hat{Q}}{\psi}.
+                    \expval*{Q} = \expval*{\hat{Q}}{\psi}.
                 \end{align}
-            \item The time-evolution of a state $\ket{\psi(t)}$ is defined by
+            \item The time-evolution of a state $\ket*{\psi(t)}$ is defined by
                 the Schrödinger equation
                 \begin{align}
-                    i\hslash \dod[]{}{t}\ket{\psi(t)} = \hamil\ket{\psi(t)},
+                    i\hslash \dod[]{}{t}\ket*{\psi(t)} = \hamil\ket*{\psi(t)},
                 \end{align}
-                where we work in the Schrödinger picture.
+                where the Hamiltonian of the system $\hamil$ is a linear,
+                Hermitian operator.
+                The Hamiltonian describes a unitary time-evolution of the state
+                $\ket*{\psi(t)}$.
+            \item The ideal measurement of $\hat{Q}$ on a state $\ket*{\psi}$
+                projects the state onto the subspace spanned by the eigenstates
+                of $\hat{Q}$.
+                We have
+                \begin{align}
+                    \ket*{\psi}
+                    \to
+                    \ket*{\psi'}
+                    =
+                    \hat{Q}\ket*{\psi},
+                \end{align}
+                which is often denoted a ``wave function collapse''.
+                The quote at the top of this chapter is a joke on this
+                phenomenon.
         \end{enumerate}
 
     \section{Time-independent Schrödinger equation}
-        In order to solve the Schrödinger equation in
-        \autoref{eq:coordinate-tdse} for a specified time-independent potential
-        $v(\vfg{r}, t) = v(\vfg{r})$, we use the method of separation of
-        variables for the wave function.
+        The abstract Dirac notation utilized in the postulates are useful for a
+        coordinate independent description of quantum mechanics.
+        However, we will often work with wave functions formulated in either
+        position $\vfg{r}$ or momentum $\vfg{p}$ space.
+        We define
+        \begin{align}
+            \Psi(\vfg{r}, t) \equiv \braket*{\vfg{r}}{\Psi(t)},
+        \end{align}
+        as the position space representation of the state vector
+        $\ket*{\Psi(t)}$, and similarly for the momentum space with $\vfg{r}$
+        replaced by $\vfg{p}$.
+        The coordinate representation of the time-dependent Schrödinger equation
+        thus becomes
+        \begin{align}
+            i\hslash\partial_t\Psi(\vfg{r}, t)
+            = -\frac{\hslash^2}{2m}\vfg{\nabla}^2\Psi(\vfg{r}, t)
+            + \hat{v}(\vfg{r}, t)\Psi(\vfg{r}, t),
+            \label{eq:coordinate-tdse}
+        \end{align}
+        where the total time-derivative in the Schrödinger equation has been
+        replaced by a partial derivative $\partial_t$.
+        The Hamiltonian is replaced by the kinetic term represented as a Laplace
+        operator and we've included the external potential $\hat{v}(\vfg{r},
+        t)$.
+        For a time-independent potential $\hat{v}(\vfg{r})$ we can solve the
+        Schrödinger equation in \autoref{eq:coordinate-tdse} using the method of
+        separation of variables, viz.
         \begin{align}
             \Psi(\vfg{r}, t) = \psi(\vfg{r})\phi(t),
         \end{align}
@@ -81,7 +136,7 @@
         \begin{align}
             i\hslash\frac{1}{\phi}\dod{\phi}{t}
             = -\frac{\hslash^2}{2m}\frac{1}{\psi}
-            \vfg{\nabla}^2\psi + v.
+            \vfg{\nabla}^2\psi + \hat{v}(\vfg{r}).
         \end{align}
         As both sides are functions of their own separate variable, they must be
         connected through a constant, $\energy$.
@@ -89,25 +144,25 @@
         \begin{gather}
             i\hslash\frac{1}{\phi}\dod{\phi}{t} = \energy, \\
             -\frac{\hslash^2}{2m}\frac{1}{\psi}\vfg{\nabla}^2\psi
-            + v = E,
+            + \hat{v}(\vfg{r}) = E,
         \end{gather}
         and we can solve the two equations independently.
         The former equation can be solved as a first order, ordinary
         differential equation.
         The solution is given by
         \begin{align}
-            \phi(t) = \exp[-\frac{iEt}{\hslash}].
+            \phi(t) = \exp(-\frac{iEt}{\hslash}).
         \end{align}
         This is a solution which we will discuss in more depth in
         \autoref{sec:time-evolution-operators}.
         Multiplying by $\psi(\vfg{r})$ on both sides in the second equation we
         find the \emph{time-indepedent Schrödinger equation},
         \begin{align}
-            -\frac{\hslash^2}{2m}\vfg{\nabla}^2\psi + v\psi = \energy\psi.
+            -\frac{\hslash^2}{2m}\vfg{\nabla}^2\psi + \hat{v}(\vfg{r})\psi
+            = \energy\psi.
         \end{align}
-        By virtue of the canonical quantization of the momentum operator
-        $\momentumvec$ we recognize the quantum mechanical Hamiltonian on the
-        left-hand side.
+        We recognize the left-hand side of the latter equation as the
+        time-independent Hamiltonian.
         We therefore write the time-independent Schrödinger equation on the form
         \begin{align}
             \hamil\psi = \energy\psi,
@@ -117,8 +172,8 @@
         The time-independent Schrödinger equation is an eigenvalue equation, and
         by diagonalizing the Hamiltonian we find the spectrum of the system with
         the eigenpairs $(\psi_n, E_n)$.
-        Once the spectrum is found it is common to call the problem solved as
-        the time-evolution of the wave function can be expressed as a linear
+        Once the spectrum is found we say that the problem is solved as the
+        time-evolution of the wave function can be expressed as a linear
         combination of the eigenstates $\psi_n$.
         However, we will see in this thesis that finding the spectrum of a
         many-body Hamiltonian proves a challenge indeed and therefore
@@ -126,59 +181,56 @@
 
     \section{Density operators}
         \label{sec:density-operators}
-        When working with many-body quantum mechanics, computing expectation
-        values can at times prove easier when done using density matrices.
-        A general density matrix of a \emph{pure state} is on the form
+        From the probability interpretation of quantum mechanics we have that a
+        quantum state described by a single state vector $\ket*{\psi}$ --
+        denoted \emph{pure state} -- contains the maximum amount of available
+        information about a system.
+        Thus, as discussed in the postulates we have that a measurement on the
+        state leads to a collapse of the wave function and therefore altering
+        the original state.
+        Often a single pure state is not known and instead we consider an
+        ensemble of $n$ pure states $\brac{\psi_k}$ with a corresponding
+        \emph{classical probability} $\brac{p_k}$ denoting the probability for
+        the system to be in a given pure state.
+        A system described by an ensemble of states is said to be in a
+        \emph{mixed state} \cite{modern-qm}.
+        To properly describe such a state we introduce the \emph{density
+        operator}
         \begin{align}
-            \densitymatrix = \ket{\psi}\bra{\psi}.
+            \density = \sum_{k = 1}^{n} p_k \dyad*{\psi_k}.
         \end{align}
-        A pure state is a quantum state $\ket{\psi}$ containing the maximum
-        amount of information about a given system.
-        For a \emph{mixed state}, i.e., a linear combination of pure states
-        $\ket{\psi_k}$ with a classical probability $p_k$ associated with the
-        state, we get a density matrix on the form
+        Let $\brac{\phi_i}$ be a basis of orthonormal states, we can then
+        compute the matrix elements of the density matrix $\densitymat$ by
         \begin{align}
-            \densitymatrix = \sum_{k} p_k \ket{\psi_k}\bra{\psi_k}.
+            \densityten_{ij}
+            = \sum_{k = 1}^{n}
+            p_k \braket*{\phi_i}{\psi_k}\braket*{\psi_k}{\phi_j}.
         \end{align}
-        Any density operator must satisfy the following
-        properties \cite{modern-qm}:
-        \begin{enumerate}
-            \item Hermiticity, that is
-                \begin{align}
-                    p_k = p_k^{*} \implies \densitymatrix = \densitymatrix^{\dagger}.
-                \end{align}
-                This translates to the probabilities being real, $p_k \in
-                \mathbb{R}$.
-            \item Positivity,
-                \begin{align}
-                    p_k \geq 0 \implies \bra{\chi}\densitymatrix\ket{\chi} \geq 0.
-                \end{align}
-                In other words, density matrices are \emph{positive
-                semidefinite}.
-            \item Normalization of the probabilities,
-                \begin{align}
-                    \sum_{k} p_k = 1 \implies \tr(\densitymatrix),
-                \end{align}
-                that is, the probabilities must sum up to one.
-        \end{enumerate}
-        Furthermore, by squaring the density matrix and taking the trace we can
-        infer if the system we are analyzing is in a mixed state or a pure state
-        \cite{modern-qm}.
+        From the density operator we can then compute the expectation value of
+        operators in the mixed state by
         \begin{align}
-            \tr(\densitymatrix^2) = \sum_{k} p_k^2 \leq 1,
+            \expval*{Q}
+            = \sum_{k = 1}^{n}
+            p_k\sum_{i}
+            \mel*{\psi_k}{\hat{Q}}{\phi_i}
+            \braket*{\phi_i}{\psi_k}
+            \equiv
+            \tr(\density\hat{Q}).
         \end{align}
-        with equality if, and only if, the system is in a pure state, viz.
+        The density operator $\density$ must satisfy the properties of being
+        Hermitian, which means that $p_k \in \mathbb{R}$; positivity leading to
+        the density matrix being \emph{positive semidefinite}; and finally
+        normalization of the probabilities.
+        The latter requirement means that the trace of the density operator in
+        any orthonormal basis must be unity.
+        A special case of the density operator for a mixed state is
         \begin{align}
-            \densitymatrix = \ket{\psi}\bra{\psi}
-            \implies \densitymatrix^2 = \densitymatrix
-            \implies \tr(\densitymatrix^2) = 1.
+            \density = \dyad*{\psi},
         \end{align}
-        Using density matrices, we can compute the expectation value of any
-        operator $\hat{O}$, by \cite{modern-qm}
-        \begin{align}
-            \expval{O} = \tr(\hat{O}\densitymatrix).
-        \end{align}
-        % TODO: Work this out further
+        where $\ket*{\psi}$ is a pure state \cite{modern-qm}.
+        In this thesis we will only work with pure states, but we shall see
+        examples of states which do not satisfy the hermiticity requirement of
+        the density operators.
 
     \section{The variational principle}
         \label{sec:variational-principle}
@@ -190,7 +242,7 @@
         \cite{griffiths2017introduction}.
         \begin{theorem}
             Given a Hamiltonian $\hamil$ describing the system we are examining,
-            and a normalized wave function $\ket{\psi}$, we have that
+            and a normalized wave function $\ket*{\psi}$, we have that
             \begin{align}
                 \energy_1
                 \leq
@@ -200,23 +252,23 @@
                 \label{eq:variational-principle}
             \end{align}
             where $E[\psi, \psi^{*}]$ is an energy functional dependent on the shape of
-            the wave function $\ket{\psi}$ and $x$ is a set of coordinates.
+            the wave function $\ket*{\psi}$ and $x$ is a set of coordinates.
             Here $\energy_1$ represents the true ground state of the
             Hamiltonian.
         \end{theorem}
-        The variational principle guarantees that any wave function $\ket{\psi}$
-        will overestimate the ground state energy unless we happened upon the
-        true ground state.
+        The variational principle guarantees that any wave function $\ket*{\psi}$
+        will overestimate the ground state energy unless we have the true ground
+        state function.
         \begin{proof}
             The eigenstates of the Hamiltonian will form a complete basis set
-            for the Hilbert space they are apart of.
-            This means that we can construct any state $\ket{\psi}$ as a linear
+            for the Hilbert space they are a part of.
+            This means that we can construct any state $\ket*{\psi}$ as a linear
             combination of these basis functions
             \begin{align}
-                \ket{\psi} = \sum_{i = 1}^{N} c_{i}\ket{\phi_i},
+                \ket*{\psi} = \sum_{i = 1}^{N} c_{i}\ket*{\phi_i},
             \end{align}
-            where the basis functions $\brac{\ket{\phi_i}}_{i = 1}^{N}$ are
-            eigenstates of the Hamiltonian
+            where the $N$ basis functions $\brac{\phi_i}$ are eigenstates of the
+            Hamiltonian
             \begin{align}
                 \hamil\ket{\phi_i} = \energy_i\ket{\phi_i},
             \end{align}
@@ -225,13 +277,13 @@
             for normalized wave functions, we require that the basis functions
             are orthornomal.
             \begin{align}
-                \braket{\phi_i}{\phi_j} = \delta_{ij},
+                \braket*{\phi_i}{\phi_j} = \delta_{ij},
             \end{align}
             and that the coefficients yield
             \begin{align}
                 \abs{\vfg{c}}^2 = \sum_{i = 1}^{N} c^{*}_{i}c_{i} = 1.
             \end{align}
-            Inserting the state $\ket{\psi}$ into the energy
+            Inserting the state $\ket*{\psi}$ into the energy
             function\footnote{%
                 The energy functional is no longer dependent on a function and
                 is therefore realized as a function instead.
@@ -239,7 +291,7 @@
             \begin{align}
                 E(\vfg{c})
                 &= \sum_{i = 1}^{N}\sum_{j = 1}^{N}
-                c^{*}_i\mel{\phi_i}{\hamil}{\phi_j}c_j
+                c^{*}_i\mel*{\phi_i}{\hamil}{\phi_j}c_j
                 = \sum_{i = 1}^{N}\sum_{j = 1}^{N}
                 c^{*}_i c_j \energy_j\delta_{ij}
                 = \sum_{i = 1}^{N}
@@ -248,7 +300,7 @@
             However, by definition $\energy_1$ is the smallest eigenvalue of the
             Hamiltonian, i.e., $\energy_1 \leq \energy_i$, for all $i \in
             \brac{1, \dots, N}$.
-            Whence, we find
+            We obtain
             \begin{align}
                 E(\vfg{c})
                 &= \sum_{i = 1}^{N}
@@ -271,8 +323,8 @@
                 \ket*{\tilde{\psi}} = \ket{\psi} + \ket{\delta\psi},
                 \label{eq:wave-variation}
             \end{align}
-            and the corresponding adjoint equation with the kets replaced by bras.
-            We denote $\delta\psi(x) = \epsilon\eta(x)$, where $x$ represents an
+            with a corresponding adjoint equation.
+            We denote $\delta\psi(x) \equiv \epsilon\eta(x)$, where $x$ represents an
             arbitrary set of coordinates.
             The function $\eta(x)$ is arbitrary and $\epsilon$ is a small
             number.
@@ -322,6 +374,11 @@
                 \eta^{*}(x)
                 = 0.
             \end{gather}
+            A word on notation, on the right-hand sides the integrals are over
+            the same coordinates as for the expectation value of the
+            Hamiltonian.
+            This means that we move $\delta\psi(x)$ and $\eta(x)$ into the
+            integral over the expectation value.
             Treating $\epsilon \in \mathbb{R}$ but allowing $\eta(x)$ to be
             complex, we have
             \begin{gather}
@@ -344,32 +401,26 @@
             We have
             \begin{align}
                 E[\tilde{\psi}, \psi^{*}]
-                = \frac{
-                    \mel{\psi}{\hamil}{\psi}
-                    + \mel{\psi}{\hamil}{\delta\psi}
+                &= \frac{
+                    \mel*{\psi}{\hamil}{\psi}
+                    + \mel*{\psi}{\hamil}{\delta\psi}
                 }{
-                    \braket{\psi}
-                    + \braket{\psi}{\delta\psi}
+                    \braket*{\psi}
+                    + \braket*{\psi}{\delta\psi}
+                }
+                \\
+                &= \frac{
+                    \mel*{\psi}{\hamil}{\psi}
+                    + \mel*{\psi}{\hamil}{\delta\psi}
+                }{
+                    \braket*{\psi}
+                }\brak{
+                    1 - \frac{\braket*{\psi}{\delta\psi}}{\braket*{\psi}}
+                    + \dots
                 },
             \end{align}
-            where we no longer require that the wave functions are normalized.
-            Looking at the denominator first we can move the inner product with
-            the state $\ket{\psi}$ outside.
-            This yields
-            \begin{align}
-                \braket{\psi}\brak{
-                    1 +
-                    \frac{
-                        \braket{\psi}{\delta\psi}
-                    }{
-                        \braket{\psi}
-                    }
-                }
-                = \braket{\psi}\brak{1 + x},
-            \end{align}
-            where we've defined $x$ as the second term in the bracket.
-            Here $x$ will be small and we expand the denominator in terms of
-            $x$, viz.
+            where we no longer require that the wave functions are normalized,
+            and we've used the relation
             \begin{align}
                 \frac{1}{1 + x} = 1 - x + \mathcal{O}(x^2).
             \end{align}
@@ -377,36 +428,26 @@
             energy functional as
             \begin{align}
                 E[\tilde{\psi}, \psi^{*}]
-                &= \frac{
-                    \mel{\psi}{\hamil}{\psi}
-                    + \mel{\psi}{\hamil}{\delta\psi}
-                }{
-                    \braket{\psi}
-                }\brak{
-                    1 - \frac{\braket{\psi}{\delta\psi}}{\braket{\psi}}
-                    + \dots
-                }
-                \\
                 &=
                 E[\psi, \psi^{*}]
                 + \frac{
-                    \mel{\psi}{\hamil}{\delta\psi}
+                    \mel*{\psi}{\hamil}{\delta\psi}
                 }{
-                    \braket{\psi}
+                    \braket*{\psi}
                 }
                 - E[\psi, \psi^{*}]
                 \frac{
-                    \mel{\psi}{\hamil}{\delta\psi}
+                    \braket*{\psi}{\delta\psi}
                 }{
-                    \braket{\psi}
+                    \braket*{\psi}
                 }
                 + \dots
                 \\
                 &=
                 E + \frac{
-                    \mel{\psi}{\para{\hamil - E}}{\delta\psi}
+                    \mel*{\psi}{(\hamil - E)}{\delta\psi}
                 }{
-                    \braket{\psi}
+                    \braket*{\psi}
                 },
             \end{align}
             where for brevity we have written $E = E[\psi, \psi^{*}]$.
@@ -415,7 +456,7 @@
                 E[\psi, \tilde{\psi}^{*}]
                 &=
                 E + \frac{
-                    \mel{\delta\psi}{\para{\hamil - E}}{\psi}
+                    \mel{\delta\psi}{(\hamil - E)}{\psi}
                 }{
                     \braket{\psi}
                 }.
@@ -432,13 +473,13 @@
                     \delta\psi^{*}(x)
                 }\eta^{*}(x)
                 &=
-                \frac{1}{\braket{\psi}}
+                \frac{1}{\braket*{\psi}}
                 \int\dd x
                 \frac{
-                    \epsilon\eta^{*}(x)\para{
+                    \epsilon\eta^{*}(x)(
                         \hamil
                         - E
-                    }
+                    )
                     \psi(x)
                 }{
                     \epsilon\eta^{*}(x)
@@ -447,9 +488,9 @@
                 \\
                 &=
                 \frac{
-                    \mel{\eta}{\para{\hamil - E}}{\psi}
+                    \mel*{\eta}{(\hamil - E)}{\psi}
                 }{
-                    \braket{\psi}
+                    \braket*{\psi}
                 }
                 = 0,
             \end{align}
@@ -457,7 +498,7 @@
             recover the time-independent Schrödinger equation instead of the
             adjoint formulation.
             From the fundamental lemma of calculus of variations
-            \cite{wiki:fundamental-lemma}, we have that the stationary condition
+            \cite{jost1998calculus}, we have that the stationary condition
             is fullfilled for all $\eta^{*}(x)$ as long as
             \begin{align}
                 \hamil\ket{\psi}
@@ -503,17 +544,18 @@
             stationary points with respect to the variational parameters
             $c_{\alpha}$.
             We do this by demanding that
-            \begin{align}
-                \dpd[]{E(\vfg{c})}{c_{\alpha}} &= 0,
-                \\
-                \dmd{E(\vfg{c})}{2}{c_{\alpha}}{}{c_{\beta}}{} &= 0,
-            \end{align}
+            \begin{gather}
+                \dpd[]{E(\vfg{c})}{c_{\alpha}} = 0,
+				\qquad
+                \dmd{E(\vfg{c})}{2}{c_{\alpha}}{}{c_{\beta}}{} = 0,
+            \end{gather}
             where the first variation locates the stationary point and the
-            second variation gives the Hessian matrix which categorizes the
-            point as a minimum, maxmimum, or saddle.
+            second variation gives the Hessian matrix elements which categorizes
+            the point as a minimum, maxmimum, or saddle
+            \cite{helgaker-molecular}.
             However, looking at the first variation we have
             \begin{align}
-                \dpd{}{c_{\alpha}}\mel{\psi}{\hamil}{\psi} = 0,
+                \dpd{}{c_{\alpha}}\mel*{\psi}{\hamil}{\psi} = 0,
             \end{align}
             which is not solvable as the equations stand \cite{szabo1996modern}
             as they are unbounded.
@@ -524,7 +566,7 @@
             \begin{align}
                 G(\vfg{c})
                 &=
-                \mel{\psi}{\hamil}{\psi}
+                \mel*{\psi}{\hamil}{\psi}
                 - E(\vfg{c}) \para{\braket{\psi}{\psi} - 1},
             \end{align}
             where we've introduced the normalization condition for the trial
@@ -561,7 +603,7 @@
                 }
                 \\
                 &=
-                2 \mel{\chi_{\alpha}}{\hamil}{\psi}
+                2 \mel*{\chi_{\alpha}}{\hamil}{\psi}
                 - 0
                 - 2E(\vfg{c})\braket{\chi_{\alpha}}{\psi}
                 = 0,
@@ -574,9 +616,9 @@
             we find
             \begin{gather}
                 \sum_{\beta = 0}^{L}
-                \mel{\chi_{\alpha}}{\hamil}{\chi_{\beta}} c_{\beta}
+                \mel*{\chi_{\alpha}}{\hamil}{\chi_{\beta}} c_{\beta}
                 - E(\vfg{c})\sum_{\beta = 0}^{L}
-                \braket{\chi_{\alpha}}{\chi_{\beta}} c_{\beta}
+                \braket*{\chi_{\alpha}}{\chi_{\beta}} c_{\beta}
                 = 0
                 \\
                 \implies
@@ -597,7 +639,7 @@
             \begin{align}
                 \overlapten_{\alpha\beta}
                 \equiv
-                \braket{\chi_{\alpha}}{\chi_{\beta}}
+                \braket*{\chi_{\alpha}}{\chi_{\beta}}
             \end{align}
             We have now reduced the task of optimizing the energy function to
             the problem of solving the generalized eigenvalue equation in
@@ -615,7 +657,7 @@
 
     \section{The Hellmann-Feynman theorem}
         The Hellmann-Feynman theorem provides us with a method of calculating
-        first-order change (also known as a first order property) in the energy
+        first-order changes (also known as a first order property) in the energy
         due to a perturbation \cite{helgaker-molecular}.
         \begin{theorem}
             If $\ket{\psi}$ is a normalized eigenstate of the Hamiltonian
@@ -714,14 +756,15 @@
         Moving to the time domain, the dynamics of an isolated quantum system is
         described by the Schrödinger equation
         \begin{align}
-            i\hslash \dod{}{t}\ket{\psi(t)}
-            = \hamil(t)\ket{\psi(t)}.
+            i\hslash \dod{}{t}\ket*{\psi(t)}
+            = \hamil(t)\ket*{\psi(t)}.
             \label{eq:tdse}
         \end{align}
-        Given $\ket{\psi(t_0)}$ the time-dependent Schrödinger equation will
-        determine $\ket{\psi(t)}$ for all earlier and later times.
+        Given an initial state $\ket*{\psi(t_0)}$ at an initial time $t_0$, the
+        time-dependent Schrödinger equation will determine $\ket*{\psi(t)}$ for
+        all earlier and later times.
         A point to note is that the time-dependent Schrödinger equation does not
-        require that the initial state $\ket{\psi(t)}$ be a ``meaningfull
+        require that the initial state $\ket*{\psi(t)}$ be a ``meaningfull
         state'', the equation will evolve this state -- whatever it is -- in
         time governed by the time-dependent Hamiltonian $\hamil(t)$.
         This is an important point in the sense that solving the time-dependent
@@ -736,31 +779,28 @@
 
     \section{The time evolution operators}
         \label{sec:time-evolution-operators}
-        %We will in the following subsection stay close to the derivation of
-        %\citeauthor{ullrich2011time} \cite{ullrich2011time}, section 3.1.2, and
-        %\citeauthor{joachain2012atoms} \cite{joachain2012atoms}, section 5.1.
         Any solution to the time-dependent Schrödinger equation is given by
         \begin{align}
-            \ket{\psi(t)} = \hat{U}(t, t_0)\ket{\psi(t_0)},
+            \ket*{\psi(t)} = \hat{U}(t, t_0)\ket*{\psi(t_0)},
         \end{align}
         where $\hat{U}(t, t_0)$ is the time evolution operator that acts on the
-        initial state $\ket{\psi(t_0)}$, and yields the state $\ket{\psi(t)}$ at
+        initial state $\ket*{\psi(t_0)}$, and yields the state $\ket*{\psi(t)}$ at
         some other time $t$.
         The time evolution operators are unitary at common times, viz.
         \begin{align}
             \hat{U}^{\dagger}(t, t_0)\hat{U}(t, t_0) = \1.
         \end{align}
         This means that we can go ``backwards in time'' in the sense that going
-        from $\ket{\psi(t)} \to \ket{\psi(t_0)}$ is done by
+        from $\ket*{\psi(t)} \to \ket*{\psi(t_0)}$ is done by
         \begin{align}
-            \ket{\psi(t_0)} = \hat{U}^{\dagger}(t, t_0)\ket{\psi(t)}.
+            \ket*{\psi(t_0)} = \hat{U}^{\dagger}(t, t_0)\ket*{\psi(t)}.
         \end{align}
         Furthermore, we can compose a time evolution operator from other time
         evolution operators as
         \begin{align}
             \hat{U}(t_2, t_0) = \hat{U}(t_2, t_1)\hat{U}(t_1, t_0).
         \end{align}
-        One way to realise this is that we are allowed to have intermediate
+        One way to realize this is that we are allowed to have intermediate
         states between two points in time $t_2$ and $t_0$.
         This seemingly benign result is important for our numerical time
         propagation schemes as we make use of this property to move between
@@ -769,64 +809,61 @@
         The time evolution operator can be found by solving the time-dependent
         Schrödinger equation
         \begin{gather}
-            i\dpd{}{t}\hat{U}(t, t_0) = \hamil(t)\hat{U}(t, t_0),
+            i\partial_t\hat{U}(t, t_0) = \hamil(t)\hat{U}(t, t_0).
         \end{gather}
-        where we've inserted $\ket{\psi(t)} = \hat{U}(t, t_0)\ket{\psi(t_0)}$
-        into \autoref{eq:tdse} and removed the initial state $\ket{\psi(t_0)}$
-        as it is independent of the time-derivative.
-        Now, if the Hamiltonian is time-independent, i.e., $\hat{H}(t) =
-        \hat{H}$, the time evolution operator takes on the closed form solution
+        Now, if the Hamiltonian is time-independent the time evolution operator
+        takes on the closed form solution
         \begin{align}
-            \hat{U}(t, t_0) = \exp\brac{
+            \hat{U}(t, t_0) = \exp(
                 \frac{-i \hamil}{\hslash} (t - t_0)
-            }.
+            ).
             \label{eq:ti-evolution}
         \end{align}
         Assuming we have found the spectrum of our time-independent Hamiltonian,
-        where $(E_n, \psi_n)$ are the eigenpairs, and we use this as our initial
-        state $\ket{\psi(t_0)} = \ket{\psi_n}$, we find that
+        where $(E_n, \psi_n)$ are the eigenpairs, and we use an eigenstate from
+        the the spectrum as our initial state, we find that
         \begin{gather}
-            \ket{\psi_n(t)}
-            = \exp{\frac{-i\hamil}{\hslash}(t - t_0)}\ket{\psi_n}
-            = \exp{\frac{-i E_n}{\hslash} (t - t_0)}\ket{\psi_n},
+            \ket*{\psi_n(t)}
+            = \exp(\frac{-i\hamil}{\hslash}(t - t_0))\ket*{\psi_n}
+            = \exp(\frac{-i E_n}{\hslash} (t - t_0))\ket*{\psi_n},
         \end{gather}
-        where $\ket{\psi_n(t)}$ is a \emph{stationary state}.
+        where $\ket*{\psi_n(t)}$ is a \emph{stationary state}.
         This means that all expectation values are stationary in time as can be
         seen from
         \begin{align}
-            \expval{O(t)}
-            &= \mel{\psi_n(t)}{\hat{O}}{\psi_n(t)}
-            = \mel{\psi_n}{\hat{O}}{\psi_n}
-            = \expval{O},
+            \expval*{O(t)}
+            &= \sum_{n}\mel*{\psi_n(t)}{\hat{O}}{\psi_n(t)}
+            = \sum_{n}\mel*{\psi_n}{\hat{O}}{\psi_n}
+            = \expval*{O},
         \end{align}
-        where the time dependence cancel.
-        However, a general time-dependent state $\ket{\psi(t)}$ can be written
-        as a linear combination of the eigenstates.
+        where the time dependence cancels.
+        However, a general time-dependent state $\ket*{\psi(t)}$ can be written
+        as a linear combination of the eigenstates, viz.
         \begin{align}
-            \ket{\psi(t)} = \sum_{n = 1}^{\infty}c_n(t)\ket{\psi_n},
+            \ket*{\psi(t)} = \sum_{n}c_n(t)\ket*{\psi_n},
         \end{align}
-        where we've absorbed the time-dependency into the coefficients and
-        require that the coefficients squared sum up to unity.
+        where we've absorbed the time-dependency into the coefficients, and
+        require that the squared sum of the coefficients should equal unity.
         This means that even though the Hamiltonian is time-independent, the
         states themselves are not stationary.
         Now, all observables that commute with the time-independent Hamiltonian
-        will still be time-indepedent for $\ket{\psi(t)}$.
+        will still be time-indepedent for $\ket*{\psi(t)}$.
         We can see this by looking at a time-independent observable $\hat{Q}$
         which commute with the time-independent Hamiltonian such that the
         eigenstate of the Hamiltonian will be eigenstates of $\hat{Q}$ with
         eigenvalues $q_n$.
         We then have
         \begin{align}
-            \expval{Q(t)}
-            &= \mel{\psi(t)}{\hat{Q}}{\psi(t)}
-            = \sum_{n, m = 1}^{\infty} c^{*}_n(t) c_m(t)
-            \mel{\psi_n}{\hat{Q}}{\psi_m}
+            \expval*{Q(t)}
+            &= \mel*{\psi(t)}{\hat{Q}}{\psi(t)}
+            = \sum_{n, m} c^{*}_n(t) c_m(t)
+            \mel*{\psi_n}{\hat{Q}}{\psi_m}
             \\
-            &= \sum_{n, m = 1}^{\infty}
+            &= \sum_{n, m}
             c^{*}_n(t) c_m(t) q_n \delta_{nm}
-            = \sum_{n = 1}^{\infty}
+            = \sum_{n}
             \abs{c_n(t)}^2 q_n
-            = \sum_{n = 1}^{\infty}
+            = \sum_{n}
             q_n,
         \end{align}
         which shows that the observables that commute with the time-independent
@@ -837,10 +874,10 @@
         takes on a more complicated shape.
         \begin{align}
             \hat{U}(t, t_0) =
-            \mathcal{T}\exp\brac{
+            \mathcal{T}\exp(
                 -\frac{i}{\hslash} \int_{t_0}^{t} \dd\tau
                 \hat{H}(\tau)
-            },
+            ),
             \label{eq:td-evolution}
         \end{align}
         where $\mathcal{T}$ is the time-ordering operator.
@@ -1810,3 +1847,5 @@
         \end{align}
         where $E_h \approx \SI{27.2}{\electronvolt}$.
         % TODO: Review the formulas.
+
+\clearpage
