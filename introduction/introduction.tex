@@ -1,5 +1,5 @@
 \chapter{Introduction}
-    Quantum mechanics is a theory that describes the microscopical realm of
+    Quantum mechanics is a theory that describes the microscopic realm of
     nature.
     Given the wave function $\psi(x, t)$ we can in principle compute all there
     is to know about the underlying system described by the Hamiltonian
@@ -12,7 +12,8 @@
     compute all there is to know about the system for all future and earlier
     times.
     Analytical solutions to the time-dependent Schrödinger equation are truly
-    rare, and often too small to be of much use.
+    rare, and are often of little practical value outside of a theoretical
+    framework.
     However, moving to the time-independent Schrödinger equation we can find the
     spectrum of wave functions by solving the eigenvalue equation
     \begin{align}
@@ -21,14 +22,16 @@
     We can then build the time-dependent wave function from a linear combination
     of these stationary states.
     The inclusion of many particles -- or the so-called many-body problem -- are
-    of great interest in quantum chemistry and nuclear physics, but this severly
-    complicates the matter of solving the time-independent Schrödinger equation,
-    and not to say, the time-dependent Schrödinger equation.
+    of great interest in quantum chemistry and nuclear physics, but this
+    severely complicates the matter of solving the time-independent Schrödinger
+    equation, and not to say, the time-dependent Schrödinger equation.
     As a result there exists a plethora of approximate methods, e.g.,
-    Hartree-Fock, density functional, variational Monte-Carlo, configuration
-    interaction, and coupled-cluster theory, which lets us locate the ground
-    state, i.e., the eigenstate of the time-independent Schrödinger equation
-    with the lowest eigenenergy, with various degrees of accuracy.
+    Hartree-Fock \cite{hartree_1928, szabo1996modern}, density functional
+    \cite{ullrich2011time}, variational Monte-Carlo \cite{hjorth2017advanced},
+    configuration interaction \cite{helgaker-molecular}, and coupled-cluster
+    theory \cite{coester1958421}, which lets us locate the ground state, i.e.,
+    the eigenstate of the time-independent Schrödinger equation with the lowest
+    eigenenergy, with various degrees of accuracy.
     Some of these methods allow for a description of higher excited states, and
     we often categorize a spectrum of the time-independent Schrödinger equation
     as a solved system.
@@ -71,9 +74,8 @@
         state and time-dependent solvers.
 
     \section{Our contribution}
-        There already exists a plethora of many-body codes, but few exist that
-        concern itself with real-time solutions to the electronic many-body
-        problem.
+        There already exists a plethora of many-body codes, but few exists that
+        concern real-time solutions to the electronic many-body problem.
         To the authors knowledge there are no existing implementations of the
         orbital-adaptive time-dependent coupled-cluster method applicable to
         general many-body problems.
@@ -123,7 +125,7 @@
                 The second chapter discuss the stability of the novel
                 OATDCCD-method.
                 In the third chapter we strut the quality of the implemented
-                code by studying systems explored in the litterature.
+                code by studying systems explored in the literature.
                 We demonstrate how the methods can be used to explore exotic
                 effects such as spin-dependent laser fields and ionization.
         \end{enumerate}
@@ -157,7 +159,7 @@
         University of Oslo which has led to several researchers using the code.
         As a consequence they have provided us with much feedback on the code
         thus making the implementation more robust.
-        Furthermore, we have recieved working implementations of the
+        Furthermore, we have received working implementations of the
         non-orthogonal coupled cluster doubles (NOCCD) method \cite{rolf-nocc},
         the direct-inversion of the iterative subspace (DIIS) acceleration
         \cite{rolf-nocc}, and the Gauss-Legendre \cite{pedersen2018symplectic}
