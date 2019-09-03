@@ -136,6 +136,12 @@
         transform of the sampled dipole moment in $x$- and $z$-direction in
         time, respectively.
         These plots show the absorption spectra for the \ch{LiH}-molecule.
+        For the $z$-direction it is important to note that the \ch{LiH}-molecule
+        with the bonding set in the $z$-direction has a non-zero dipole moment.
+        This makes the absorption spectra include a constant zero frequency
+        component.
+        We've removed this component from the figures by using the function
+        \pyth{scipy.signal.detrend} \cite{scipy}.
         \begin{figure}
             \centering
             \begin{tikzpicture}
@@ -148,13 +154,16 @@
                     width=11cm,
                     height=6cm,
                     xlabel={Excitation energy $[\si{\hartree}]$},
+                    xticklabel style={
+                        /pgf/number format/fixed,
+                        /pgf/number format/precision=2,
+                    },
                 ]
                     \nextgroupplot[
                         title={$\mathcal{F}\brak{\expval*{x(t)}}$},
                         grid=major,
                         ylabel={Intensity},
                         enlarge x limits=false,
-                        %ymax=0.5e-4,
                     ]
                         \addplot+[
                             mark=none,
@@ -184,7 +193,6 @@
                         ylabel={Intensity},
                         grid=major,
                         enlarge x limits=false,
-                        %ymax=0.5e-4,
                     ]
                         \addplot+[
                             mark=none,
@@ -217,9 +225,7 @@
             with singles and doubles, orbital-adaptive time-dependent coupled
             cluster with doubles excitations.
             The top figure shows the results in $x$-direction and the lower
-            in $z$-direction.
-            Note that we have removed the zero-frequency component from
-            these spectra.}
+            in $z$-direction.}
             \label{fig:fft_dipole_nest}
         \end{figure}
         In \autoref{tab:fft_dipole_nest_x} we've used the function
@@ -229,13 +235,12 @@
         We've done the same in \autoref{tab:fft_dipole_nest_z} for the
         $z$-direction.
         Note that we've set a threshold for the minimum height of the peaks to
-        $\num{5e-6}$ to avoid some noisy signals.\footnote{%
+        $\num{5e-3}$ to avoid some noisy signals.\footnote{%
             This value was chosen by trial and error where we inspected the
             figures --especially for the $z$-direction -- in
             \autoref{fig:fft_dipole_nest} to see that all peaks are in the
             results at the approximate correct location.
         }
-        % TODO: YOU ARE HERE!
 
         \begin{table}
             \centering
@@ -274,7 +279,8 @@
                 \midrule
                 TDHF & $1$ & $0.1492$ & $4.0607$ \\
                 & $2$ & $0.2785$ & $7.5772$ \\
-                & $3$ & $0.4277$ & $11.6379$ \\
+                & $3$ & $0.3308$ & $9.0005$ \\
+                & $4$ & $0.4277$ & $11.6379$ \\
                 TDCCSD & $1$ & $0.1215$ & $3.3072$ \\
                 & $2$ & $0.2615$ & $7.1167$ \\
                 & $3$ & $0.3061$ & $8.3307$ \\
@@ -291,17 +297,20 @@
         For the sake of comparison we have also used CISD to compute the excited
         energy levels.
         By subtracting the ground state energy from each excited energy level we
-        find the transition energies and are able to compare with the results in
+        find the transition energies from the ground state to a higher state,
+        and we are able to compare with the results in
         \autoref{tab:fft_dipole_nest_x} and \autoref{tab:fft_dipole_nest_z}.
         However, this will include all transition energies, even those that are
         beyond the dipole allowed transitions.
         We therefore wish to filter out all higher order transitions as we are
         only looking for dipole allowed effects.
-        Now, the way we verify if a transition is an allowed dipole transition
+        Now, the way we verify if a transition is an allowed dipole
+        transition\footnote{%
+            Within the CISD-approximation.
+        }
         once we have the spectrum $(\energy_K, \Psi_K)$ from the
-        CISD-Hamiltonian, is to compute a sort of ``transition one-body density
-        matrix'' defined as
-        % TODO: Is there a name for this quantity?
+        CISD-Hamiltonian, is to compute a transition one-body density matrix
+        defined as
         \begin{align}
             (\densityten_{IJ})^{q}_{p}
             \equiv \mel*{\Psi_I}{
@@ -320,12 +329,16 @@
         To verify if an energy transition between two states $\Psi_I$ and
         $\Psi_J$ are allowed in the dipole approximation we compute
         \begin{align}
-            \vfg{d}^{p}_{q} (\densityten_{IJ})^{q}_{p}
+            \abs{\vfg{d}^{p}_{q} (\densityten_{IJ})^{q}_{p}}
             > \vfg{0},
+            \label{eq:dipole-transition-cisd}
         \end{align}
         where a non-zero -- or, numerically non-zero -- value means that the
         transition is allowed along the axis that has a non-zero value.
-        Using these techniques to located allowed transitions, we map the
+        Note that the absolute value in \autoref{eq:dipole-transition-cisd}
+        should be interpreted as an elementwise absolute value for each spatial
+        component in $\vfg{d}^{p}_{q}$.
+        Using these techniques to locate allowed transitions, we map the
         lowest lying allowed dipole transitions for the \ch{LiH}-molecule using
         CISD in the restricted Hartree-Fock basis in
         \autoref{tab:dipole_transition_cisd}.
@@ -369,30 +382,48 @@
         It is a little hard to determine if the coupled-cluster methods perform
         better than CISD as the energies are simultaneously higher and lower at
         different energy levels.
-        Furthermore, the converged ground state correlation energy for all three
-        methods is
+        On one side we know that OATDCCD and TDCCSD are more correlated than
+        CISD and should in theory yield better results, however, the transition
+        energies from the coupled-cluster methods depends on a lot of factors
+        such as the time step of the integrator and the sampling time when
+        computing the Fourier transform of the dipole moment signal.
+        Within two decimal places the results from the coupled-cluster methods
+        and CISD are in perfect agreement.
+
+        Furthermore, the converged ground state energies\footnote{%
+            This energy is excluding the nuclear repulsion as reported by
+            \citeauthor{nest} \cite{nest}.
+        } for CISD, TDCCSD, and OATDCCD are
         \begin{align}
-            \energy_0 = \SI{-8.9772}{\hartree},
+            \energy_0 = \SI{-8.9772}{\hartree}.
         \end{align}
-        for the given precision for the coupled-cluster methods.
         The methods therefore seemingly perform just as well on the
         \ch{LiH}-system.
-        We see that we are able to achieve a lower ground state energy than
-        \citeauthor{nest}.
+        However we see that we are able to achieve a lower ground state energy than
+        reported by \citeauthor{nest}.
 
         However, there is no doubt that TDHF is quite far off in terms of the
         dipole transition energies when loooking at
         \autoref{tab:fft_dipole_nest_x} and \autoref{tab:fft_dipole_nest_z}.
+        This demonstrates the expected behavior as discussed in \autoref{sec:li}
+        that the TDHF will falter once the laser fields intesifies and the
+        correlations in the atoms and molecules becomes larger.
+        To properly explain the dynamics of even a $4$-particle system we need
+        something better than the signle-determinant mean-field approximation
+        achieved from TDHF.
+        The fact that TDHF is so far off shows promise in that the real-time
+        coupled-cluster methods can be used to improve on many reported results
+        achieved from using TDHF.
 
 
     \section{Spectra of noble gasses}
         \label{sec:noble-gasses}
         Before moving on to more exotic systems we wish to demonstrate one of
         the main goals in this thesis, and that is to prove that the implemented
-        methods are able to explore larger systes than what can achieved with
+        methods are able to explore larger systems than what can achieved with
         the full configuration interaction method.
         We therefore wish to demonstrate some simulations for the \ch{Ne}- and
-        \ch{Ar}-atom in exactly the same laser field as in the study done by
+        \ch{Ar}-atoms in exactly the same laser field as in the study done by
         \citeauthor{nest} \cite{nest} shown in \autoref{eq:nest-laser}, but with
         a higher frequency.
         We have chosen a frequency $\omega$ corresponding to a laser wavelength
@@ -401,30 +432,52 @@
         We've chosen this frequency as this lets us simulate a full cycle of the
         laser in a relatively short time, thus letting the atoms oscillate for a
         long time after the laser is turned off.
+
+        Due to the size of the atoms, $N = 10$ for \ch{Ne} and $N = 18$ for
+        \ch{Ar}, the evolution of the system takes a substantial amount of time.
+        We've used two different basis sets: cc-pVDZ and aug-cc-pVDZ for both
+        atoms.
+        For \ch{Ne} the basis set cc-pVDZ yields $L = 28$ spin-orbitals and
+        aug-cc-pVDZ contains $L = 46$ spin-orbitals.
+        Similarly for \ch{Ar} we get $L = 36$ spin-orbitals for cc-pVDZ and $L =
+        54$ for aug-cc-pVDZ.
+        In other words, the basis sets are still quite small, but due to the
+        number of particles the runs using our non-optimized code are still
+        slow.
+        Ideally we would like to run all simulations for $\SI{100}{\fs}$ with a
+        time step of $\Delta t = \SI{1e-2}{\hslash/\hartree}$, but in
+        practice the larger basis sets did limit the length of the simulations.
+        We managed to run \ch{Ne} in cc-pVDZ using OATDCCD for the full
+        duration, but all other runs were truncated to $\SI{25}{\fs}$, or in the
+        case of \ch{Ar} in aug-cc-pVDZ, were cut-off due to exceeding the max
+        time of a week at the Abel compute cluster.
+        We used the Gauss-integrator with $s = 3$ and $\epsilon = \num{1e-6}$ as
+        convegence threshold for the fix-point iterations.
+
+        All runs are done using the OATDCCD-method and we've repeated the runs
+        for \ch{Ne} in both basis sets using TDCCSD as well.
+        The ground state energies are listed in \autoref{tab:gs-noble-gasses}.
         \begin{table}
             \centering
-            \caption{Ground states}
+            \caption{Ground state energies for \ch{Ne} and \ch{Ar} in both
+            cc-pVDZ and aug-cc-pVDZ using OATDCCD and TDCCSD.
+            The convergence tolerance for all amplitudes in both methods were
+            set to $\num{1e-6}$.}
             \renewcommand{\arraystretch}{1.3}
             \begin{tabular}{@{}lllll@{}}
                 \toprule
-                Basis & Solver & Atom
+                Atom & Basis & Solver
                 & $\energy$ $[\si{\hartree}]$
                 & $\energy$ $[\si{\electronvolt}]$ \\
                 \midrule
-                cc-pVDZ & OATDCCD & \ch{Ne}
-                & $\SI{-128.6796}{\hartree}$
-                & \\
-                & TDCCSD & \ch{Ne}
-                & $\SI{-128.6796}{\hartree}$
-                & \\
-                aug-cc-pVDZ & OATDCCD & \ch{Ne}
-                & $\SI{-128.7082}{\hartree}$
-                &
-                \\
-                & TDCCSD & \ch{Ne}
-                & $\SI{-128.7085}{\hartree}$
-                &
-                \\
+                \ch{Ne} & cc-pVDZ & OATDCCD & $-128.6796$ & $-3501.5501$ \\
+                & & TDCCSD & $-128.6796$ & $-3501.5513$ \\
+                & aug-cc-pVDZ & OATDCCD & $-128.7082$ & $-3502.3294$ \\
+                & & TDCCSD & $-128.7085$ & $-3502.3364$ \\
+                \ch{Ar} & cc-pVDZ & OATDCCD & $-526.9562$ & $-14339.2093$ \\
+                & & TDCCSD & $-526.9562$ & $-14339.2094$ \\
+                & aug-cc-pVDZ & OATDCCD & $-526.9725$ & $-14339.6511$ \\
+                & & TDCCSD & $-526.9725$ & $-14339.6519$ \\
                 \bottomrule
             \end{tabular}
             \label{tab:gs-noble-gasses}
