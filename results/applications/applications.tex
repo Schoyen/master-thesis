@@ -437,6 +437,8 @@
         \ch{Ar}, the evolution of the system takes a substantial amount of time.
         We've used two different basis sets: cc-pVDZ and aug-cc-pVDZ for both
         atoms.
+        We specify these basis sets in PySCF \cite{pyscf} by the strings
+        \pyth{"ccpvdz"} and \pyth{"aug-ccpvdz"} respectively.
         For \ch{Ne} the basis set cc-pVDZ yields $L = 28$ spin-orbitals and
         aug-cc-pVDZ contains $L = 46$ spin-orbitals.
         Similarly for \ch{Ar} we get $L = 36$ spin-orbitals for cc-pVDZ and $L =
@@ -517,7 +519,6 @@
         value for the transition energy than TDCCSD.
         However, the second allowed dipole transition in \autoref{tab:dipole-ne}
         for \ch{Ne} in the aug-cc-pVDZ basis is not reported elsewhere.
-
         \begin{figure}
             \centering
             \begin{tikzpicture}
@@ -586,35 +587,33 @@
             \label{tab:dipole-ne}
         \end{table}
 
-
-        \begin{table}
-            \centering
-            \caption{Dipole transitions for \ch{Ar} in cc-pVDZ and aug-cc-pVDZ
-            basis using the OATDCCD-method.}
-            \renewcommand{\arraystretch}{1.3}
-            \begin{tabular}{@{}lllll@{}}
-                \toprule
-                Basis & Solver & Peak $[n]$
-                & $\Delta \energy$ $[\si{\hartree}]$
-                & $\Delta \energy$ $[\si{\electronvolt}]$
-                \\
-                \midrule
-                cc-pVDZ & OATDCCD & $1$ & $1.1118$ & $30.2549$ \\
-                & & $2$ & $1.4746$ & $40.1254$ \\
-                & & $3$ & $1.6323$ & $44.4168$ \\
-                aug-cc-pVDZ & OATDCCD & $1$ & $0.4677$ & $12.7275$ \\
-                \bottomrule
-            \end{tabular}
-            \label{tab:dipole-ar}
-        \end{table}
-
+        Mostly as a test of the applicability of our developed codes, we repeat
+        the same study we did for \ch{Ne} on the \ch{Ar}-atom.
+        We restrict our attention to the OATDCCD method for no other reason than
+        time limitations.\footnote{%
+            The inclusion of results using TDCCSD should absolutely have been
+            done, but this will have to be explored at a later time.
+        }
+        In \autoref{fig:dipole-ar} we have plotted the absorption spectra of
+        \ch{Ar} in both the cc-PVDZ and the aug-cc-pVDZ basis.
+        The results from the latter basis does not have a good resolution due to
+        relatively few samples after the laser pulse was switched off, but we
+        are able to see a trend.
+        In \autoref{tab:dipole-ar} we've listed the dipole allowed transition
+        energies for all the peaks that we see in \autoref{fig:dipole-ar}.
+        Recalling that the cc-pVDZ basis gave a much higher transition energy
+        than for the aug-cc-pVDZ basis for \ch{Ne} we see the same result for
+        \ch{Ar}.
+        Note that we have been unable to locate any results for the first
+        allowed dipole transitino for \ch{Ar} in the aug-cc-pVDZ basis and we
+        therefore merely report it in \autoref{tab:dipole-ar}.
         \begin{figure}
             \centering
             \begin{tikzpicture}
                 \begin{axis}[
                     width=11cm,
                     height=6cm,
-                    title={Absorption spectra of Argon},
+                    title={Absorption spectra for Argon},
                     xlabel={Excitation energy $[\si{\hartree}]$},
                     grid=major,
                     ylabel={Intensity},
@@ -637,10 +636,34 @@
                     \addlegendentry{aug-cc-pVDZ}
                 \end{axis}
             \end{tikzpicture}
-            \caption{In this figure we've plotted the absorption spectra of the
-            \ch{Ar}-atom in two different basis sets using the OATDCCD-method.}
+            \caption{In this figure we've plotted the Fourier transform of the
+            expectation value of the dipole moment in $z$-direction of the
+            \ch{Ar}-atom in both cc-pVDZ and aug-cc-pVDZ using OATDCCD.
+            The peaks for both basis sets and using both solvers are listed in
+            \autoref{tab:dipole-ar}.}
             \label{fig:dipole-ar}
         \end{figure}
+
+        \begin{table}
+            \centering
+            \caption{Dipole allowed transition energies for \ch{Ar} in cc-pVDZ
+            and aug-cc-pVDZ basis along the $z$-axis using the OATDCCD-method.}
+            \renewcommand{\arraystretch}{1.3}
+            \begin{tabular}{@{}lllll@{}}
+                \toprule
+                Basis & Solver & Peak $[n]$
+                & $\Delta \energy$ $[\si{\hartree}]$
+                & $\Delta \energy$ $[\si{\electronvolt}]$
+                \\
+                \midrule
+                cc-pVDZ & OATDCCD & $1$ & $1.1118$ & $30.2549$ \\
+                & & $2$ & $1.4746$ & $40.1254$ \\
+                & & $3$ & $1.6323$ & $44.4168$ \\
+                aug-cc-pVDZ & OATDCCD & $1$ & $0.4677$ & $12.7275$ \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:dipole-ar}
+        \end{table}
 
     \section{Spin-dependent laser pulses}
         \label{sec:isborn}
