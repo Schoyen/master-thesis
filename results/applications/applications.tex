@@ -1405,7 +1405,7 @@
 
         Using the same definition as \citeauthor{takeshi}, we define
         ionization as all components outside a radius of $\SI{20}{\bohr}$ from
-        the center of the nucleus \cite{takeshi}.
+        the center of the nucleus \cite{hochstuhl2014time, takeshi}.
         We can then measure the amount of ionization by computing the particle
         density outside this radius, or conversely, the amount of particle
         density still inside the nucleus.
@@ -1470,24 +1470,14 @@
         \end{figure}
         To demonstrate this we have in \autoref{fig:one-particle-density-miyagi}
         plotted the particle density using a basis of $L / 2 = 10$ orbitals.
-        We see that this basis does not allow any
-        where a basis of $L = 20$
-        spin-orbitals, that is, $L / 2 = 10$ orbitals, has been used.
-        This basis is not able to capture much of the scattered states and
-        looking at the figure for $t = T$ we see that the system is
-        relatively confined still.
+        Looking at the lower palette of
+        \autoref{fig:one-particle-density-miyagi} we see that the system is
+        still fairly confined.
+        This shows how this basis does not allow any significant particle
+        density outside the nucleus.
         We can also see this from \autoref{fig:spf-potential-miyagi} as $L =
         20$ means the highest single-particle function used is
         $\psi_{10}(x)$ which is clearly confined in the potential well.
-        However, looking at \autoref{fig:one-particle-density-miyagi-l=40}
-        we see the same Beryllium system with a basis set of $L = 40$
-        spin-orbitals.
-        It is apparent that the system undergoes a larger degree of
-        ionization with more of the one-particle density further away from
-        the central potential.
-        This is also see in \autoref{fig:spf-potential-miyagi} as $L = 40$
-        includes the state $\psi_{20}(x)$ which is more dispersed.
-
         \begin{figure}
             \centering
             \begin{tikzpicture}
@@ -1576,18 +1566,26 @@
                         {$t = T$};
                 \end{groupplot}
             \end{tikzpicture}
-            \caption{In these figures we have included the one-particle
-            density for the initial ground state, after half the simulation
-            has been run and for the final state of the one-dimensional
-            Beryllium system.
-            For these figures we have $l = 20$ spin-orbitals, that is, $l /
+            \caption{In these figures we plot the particle density for the
+            initial ground state, after half the simulation has been run and for
+            the final state of the one-dimensional \ch{Be}-system.
+            For these figures we have $L = 20$ spin-orbitals, that is, $L /
             2 = 10$ orbitals.
             The $y$-axis has been truncated at $y = \num{1e-4}$ to avoid
             including noise in the figures.}
             \label{fig:one-particle-density-miyagi}
         \end{figure}
-
-
+        Looking at \autoref{fig:one-particle-density-miyagi-l=40} we see the
+        same one-dimensional \ch{Be}-system with a basis set of $L = 40$
+        spin-orbitals.
+        It is apparent that the system undergoes a larger degree of ionization
+        with more of the particle density further away from the central
+        potential.
+        This is also seen in \autoref{fig:spf-potential-miyagi} as $L = 40$
+        includes the state $\psi_{20}(x)$ which is more dispersed.
+        Comparing with the results reported by \citeauthor{miyagi_and_madsen}
+        \cite{miyagi_and_madsen} we see that we are able to perform
+        qualitatively just as well.
         \begin{figure}
             \centering
             \begin{tikzpicture}
@@ -1677,9 +1675,51 @@
                 \end{groupplot}
             \end{tikzpicture}
             \caption{These figures show the same situation as in
-            \autoref{fig:one-particle-density-miyagi} but for $l = 40$
+            \autoref{fig:one-particle-density-miyagi} but for $L = 40$
             spin-orbitals.
             We have truncated the $y$-axis to $y = \num{1e-4}$ as lower
             values include more noise and provides no more insight.}
             \label{fig:one-particle-density-miyagi-l=40}
         \end{figure}
+        In \autoref{fig:one-particle-density-miyagi-l=40} we see that the
+        OATDCCD-method is able to describe a larger degree of ionization than
+        TDHF.
+        However, it is reasonable to believe that with either a larger basis
+        set, or a basis set with time-dependency on the grid we might get an
+        even large degree of ionization.
+        As it stands the particles can never escape the potential and once they
+        have reached the edge of their extent -- as seen in
+        \autoref{fig:spf-potential-miyagi} -- they can only be reflected.
+        This will then lead to the electrons oscillating in the well, when they
+        should in fact have escaped the trapping potential all together.
+
+        % TODO: Add plot of ionization as a function of time.
+        % Use L = 20, 30, 36, 40
+
+        If we were to describe ionization in three dimensions we would either
+        need a combination of diffues or continuum states which can describe
+        ionization.
+        An alternative is the use of a DVR basis \cite{miyagi_and_madsen,
+        takeshi}, but this would need a clever grid solution as the three
+        dimensional grid quickly becomes a memory and computational clog.
+
+
+    \section{Summing up the applications}
+        We have in this chapter explored several studies done on atoms and
+        molecules using real-time methods.
+        We have found our implemented methods to be comparable to what has been
+        reported in the literature.
+        We have demonstrated how the methods can be applied to larger systems
+        such as \ch{Ar}, and discussed how more time must be spent on the
+        optimization of our code for systems of $N = 18$ particles to be
+        practical.
+
+        We went on to look at more academic studies where we explored a
+        spin-depedent laser field as a taste of what can be done with the
+        addition of spin-orbit coupling.
+        Finally, we explored the highly interesting topic of ionization in a
+        one-dimensional atomic system highlighting how the implemented code can
+        be used to describe these type of effects.
+
+
+\clearpage
