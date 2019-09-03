@@ -920,10 +920,10 @@ energy = np.trace(np.dot(term, density_matrix))
                     \Biggr\}.
                 \end{align}
 
-        \subsection{Time-evolution}
+        \subsection{Time evolution}
             Due to time limitations we have only implemented a time-dependent
             general Hartree-Fock method.
-            From \autoref{eq:tdhf} we know that we can write the time-evolution
+            From \autoref{eq:tdhf} we know that we can write the time evolution
             of the molecular orbitals by,
             \begin{align}
                 i\hslash\dpd{}{t}\ket*{\phi_i(t)}
@@ -931,7 +931,7 @@ energy = np.trace(np.dot(term, density_matrix))
             \end{align}
             We can now insert the linear combination for the molecular orbitals in
             terms of the known atomic orbital basis.
-            The time-evolution of the molecular orbitals is kept in the
+            The time evolution of the molecular orbitals is kept in the
             coefficients leaving the atomic orbital basis static in time.
             This gives
             \begin{align}
@@ -971,7 +971,7 @@ energy = np.trace(np.dot(term, density_matrix))
             In case of non-orthogonal atomic orbitals, the orthonormalization
             procedure described in \autoref{subsec:basis-transformation} can be
             used to make the orbitals orthonormal prior to starting the
-            time-evolution.
+            time evolution.
             As discussed in \autoref{sec:numerical-integration} we need to
             convert $\dot{\vfg{C}}$ to a vector.
             Using NumPy we store the result from the right-hand side as a
@@ -1334,7 +1334,7 @@ energy = np.trace(np.dot(term, density_matrix))
             determinants, unlike the single-particle indices used for the
             one-body density matrix and the one-body Hamiltonian.
 
-        \subsection{Time-evolution}
+        \subsection{Time evolution}
             Having solved the ground state problem, we move on to the dynamics
             of the configuration interaction method.
             Choosing an initial state with a given coefficient vector
@@ -1408,7 +1408,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 },
             \end{align}
             where we've included an explicit normalization due to potential
-            drift in the coefficients from the time-evolution using numerical
+            drift in the coefficients from the time evolution using numerical
             integrators.
             Expanding the time-evolved state in the static basis of Slater
             determinants with time-dependent coefficients, $\vfg{c}(t)$, we find
@@ -1800,7 +1800,7 @@ energy = np.trace(np.dot(term, density_matrix))
             density matrix for the CCSD-method in
             \autoref{app:cc-density-matrices}.
 
-        \subsection{Time-evolution with static orbitals}
+        \subsection{Time evolution with static orbitals}
             \label{subsec:tdcc-implementation}
             From \autoref{eq:time-evolution-tau} and
             \autoref{eq:time-evolution-lambda} we find the equations of motion
@@ -1993,7 +1993,7 @@ class AmplitudeContainer:
             contractions for both CCD and CCSD in order to compute the
             coupled-cluster autocorrelation.
 
-        \subsection{Orbital-adaptive time-evolution}
+        \subsection{Orbital-adaptive time evolution}
             \label{subsec:oatdcc-implementation}
             We have in this thesis implemented the doubles truncation of the
             orbital-adaptive time-dependent coupled-cluster family; the

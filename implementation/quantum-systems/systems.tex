@@ -13,7 +13,7 @@
             $\twoten^{pq}_{rs}$.
             In case of a non-orthonormal basis set we also need the overlap
             matrix $\overlapten^{p}_{q}$.
-        \item For time-evolution, using a dipole laser we need the dipole matrix
+        \item For time evolution, using a dipole laser we need the dipole matrix
             elements $\vfg{d}^{p}_{q}$.
         \item For visualization of the particle density we need the
             single-particle states.
@@ -60,7 +60,7 @@
     access to good and efficient basis sets for atoms and molecules.
     Furthermore, we will explore \emph{bound systems} which we take to mean that
     the underlying basis set will be fixed in time.
-    All time-evolution occurs in the coefficients and amplitudes of the solver
+    All time evolution occurs in the coefficients and amplitudes of the solver
     methods.
     This means that we will have a hard time modelling ionization as this
     requires the inclusion of continuum states to allow particles to move out of
@@ -488,8 +488,8 @@ def add_spin_two_body(_u):
         This is the solution that needs to be taken for the unrestricted
         Hartree-Fock method when changing basis.
 
-    \section{Time-evolution operators}
-        The only time-evolution operators used in this thesis are dipole lasers
+    \section{Time evolution operators}
+        The only time evolution operators used in this thesis are dipole lasers
         in the length gauge.
         We've implemented this by allowing \pyth{QuantumSystem} to have a
         pointer to a \pyth{TimeEvolutionOperator}-class, where \pyth{LaserField}

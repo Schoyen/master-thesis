@@ -2,7 +2,7 @@
     Along with this thesis we have implemented several quantum-mechanical
     solvers that are separated into different Github repositiories.\footnote{%
         Due to ongoing publications using the code most of the repositiories are
-        at the time of writing private and access are therefore limited to
+        at the time of writing private and access is therefore limited to
         collaborators.
         However, please do request access by sending a mail to:
         \href{mailto:o.s.schoyen@fys.uio.no}{o.s.schoyen@fys.uio.no}, and we'll
@@ -11,7 +11,7 @@
     These are:
     \begin{itemize}
         \item Quantum-systems is a Python library containing modules to set up
-            matrix elements, time-evolution operators, and single-particle
+            matrix elements, time evolution operators, and single-particle
             states to be used by the many-body solvers.
             Quantum-systems provides interfaces to the PySCF \cite{pyscf} and
             Psi4 \cite{psi4} systems.
@@ -21,9 +21,10 @@
             \url{https://schoyen.github.io/quantum-systems/}.
         \item Coupled-cluster is a Python library with modules containing ground
             state and time-dependent coupled cluster solvers.
-            Currently this packages contains doubles, singles-and-doubles ,
-            non-orthogonal coupled cluster doubles, and the orbital adaptive
-            time-dependent coupled cluster doubles methods.
+            Currently this package contains doubles (CCD/TDCCD),
+            singles-and-doubles (CCSD/TDCCSD), non-orthogonal coupled cluster
+            doubles (NOCCD), and the orbital adaptive time-dependent coupled
+            cluster doubles (OATDCCD) methods.
             The module uses quantum-systems to get access to matrix elements.
             The code is located at
             \url{https://github.com/Schoyen/coupled-cluster} with the
@@ -32,8 +33,8 @@
         \item Configuration-interaction is a library containing ground state and
             time-dependent configuration interaction solvers.
             This code supports arbitrary levels of excitations, e.g.,
-            singles-and-doubles, doubles-and-triples, etc, and full
-            configuration interaction.
+            singles-and-doubles (CISD/TDCISD), doubles-and-triples
+            (CIDT/TDCIDT), etc, and full configuration interaction (FCI/TDFCI).
             The module uses quantum-systems to get access to matrix elements.
             The code is located at
             \url{https://github.com/Schoyen/configuration-interaction} with
@@ -41,8 +42,8 @@
             \url{https://schoyen.github.io/configuration-interaction/}.
         \item Hartree-Fock is a library containing ground state and
             time-dependent Hartree-Fock solvers.
-            We've implemented Hartree-Fock for general, restricted and
-            unrestricted spin-orbitals.
+            We've implemented Hartree-Fock for general (HF/TDHF), restricted
+            (RHF) and unrestricted spin-orbitals (UHF).
             The module uses quantum-systems to get access to matrix elements.
             The code is located at
             \url{https://github.com/Schoyen/hartree-fock} with
@@ -64,11 +65,11 @@
             \item The development time is much lower when using Python as
                 opposed to more verbose, but efficient languages such as C/C++,
                 and Fortran.
-            \item Integration with other Python libraries are relatively easy.
+            \item Integration with other Python libraries is relatively easy.
             \item Libraries such as SciPy \cite{scipy}, NumPy \cite{numpy}, and
-                SymPy \cite{sympy} provides fast, and efficient interfaces to
-                amongst other, BLAS and LAPACK, along with convenient
-                mathematical abstractions.
+                SymPy \cite{sympy} provide fast, and efficient interfaces
+                towards -- amongst others -- BLAS and LAPACK, along with
+                convenient mathematical abstractions.
         \end{itemize}
         However, the use of Python comes with the price of less memory control
         and less scalability.
@@ -100,7 +101,7 @@
         This tensor often represents the bottleneck both in terms of memory and
         contraction time.
         When we represent these tensors mathematically, the labelling of the
-        indices are in some sense arbitrary and depends on the context in which
+        indices is in some sense arbitrary and depends on the context in which
         the tensors are used.
         On a computer we however need to decide on a specific way of storing
         memory, and often this choice is related to speed concerns.
@@ -110,7 +111,6 @@
         terms of memory as they often involve change of dimensionality,
         re-ordering of indices resulting in the need of reshapes, and summation
         along axes that are inefficiently laid out in memory.
-        % TODO: Add demonstration of this from CCD
 
         For the sake of generality we therefore ignore much of these problems
         and have decided to use a fixed layout of the memory and absorb the cost
@@ -142,9 +142,13 @@
             \autoref{tab:ccd-tau-amplitude-terms},
             \begin{align}
                 g^{ab}_{ij} = \clustamp^{ab}_{lj} \clustamp^{dc}_{ik}
-                \twoten^{kl}_{cd}.
+                \twoten^{kl}_{cd},
             \end{align}
-            The naïve solution using explicit for-loops yields a
+            where we use the Fermi vacuum formalism for the indices as discussed
+            in \autoref{subsec:fermi-vacuum} with $N$ the number of occupied
+            states, $L$ the number of basis states, and $M = L - N$ the number
+            of virtual states.
+            The naïve solution using explicit for-loops yields an
             $\mathcal{O}(M^4 N^4)$-complexity.
             By first creating the intermediate contraction
             \begin{align}
@@ -191,9 +195,9 @@
             $\mathcal{O}(M^4 N^2)$.
             The latter takes up $\mathcal{O}_M(M^4 N^4)$ memory and
             $\mathcal{O}(M^4 N^2)$ computational complexity.
-            The tactic is thus to choose intermediates which contain the fewest
-            amount of axes and of these as many as possible should be occupied
-            axes as we often have $M > N$.
+            The tactic is thus to choose intermediates which contain the
+            smallest amount of axes and of these as many as possible should be
+            occupied axes as we often have $M > N$.
 
 
     \section{Convergence acceleration}
@@ -338,14 +342,22 @@
             The function $\vfg{F}(\vfg{y}, t)$ is a vector valued function
             evaluating the right-hand side of the first-order differential
             equation listed above.
-            Most implemented integration schemes assumes that the problem can
+            Most implemented integration schemes assume that the problem can
             be formulated as in \autoref{eq:ode-problem}, but as we've seen the
             time-dependent Hartree-Fock method is defined in terms of a matrix,
             and the time-dependet coupled-cluster methods as two sets of
             amplitudes of different sizes and coefficient matrices for the
             orbital-adaptive methods.
             To get around this we let each time-dependent solver class implement
-            a Python dunder method \pyth{__call__} which accepts the two
+            a Python dunder method\footnote{%
+                A ``dunder method'' is a special Python function denoted with a
+                double underscore in front and behind of the name.
+                These are often magic methods in the sense that they either
+                overwrite operators, such as: \pyth{__add__} for addition,
+                \pyth{__mul__} for multiplication, etc, or that they define some
+                special functionality, e.g., \pyth{__init__} as the constructor
+                for a class.
+            } \pyth{__call__} which accepts the two
             parameters \pyth{y} and \pyth{t} to represent the right-hand side
             function $\vfg{F}(\vfg{y}, t)$.
             The innards of this method can now be describe by the following
@@ -369,7 +381,7 @@
             \end{enumerate}
             Now, the process of stacking all the elements in the coefficient
             matrices and amplitudes as a single vector is possible as each index
-            is independent of each other in terms of time-evolution.
+            is independent of each other in terms of time evolution.
             However, they do coupled when evaluating the right-hand sides and we
             therefore need to recover the original shape.
             Most differential equation libraries \cite{sympy} \cite{julia-diff}
@@ -420,8 +432,8 @@
             \label{subsec:symplectic}
             Looking back to \autoref{sec:time-evolution-operators} we note that
             for a time-dependent Hamiltonian in the Schrödinger picture, the
-            time-evolution of a state $\ket*{\psi(t)}$ is described by the
-            time-evolution operator shown in \autoref{eq:td-evolution}, where
+            time evolution of a state $\ket*{\psi(t)}$ is described by the
+            time evolution operator shown in \autoref{eq:td-evolution}, where
             the Hamiltonian in general does not commute at different time steps.
             It is perhaps somewhat naïve to hope for a numerical method such as
             Runge-Kutta 4 to yield good results without some extra concern for
@@ -450,7 +462,7 @@
             coupled-cluster methods \cite{oa-stability} we have been given the
             implementation of the Gauss-integrator\footnote{%
                 Note that the name ``Gauss-integrator'' is a notoriously
-                ambigious name as this can refer to a multitude of techniques
+                ambiguous name as this can refer to a multitude of techniques
                 and solvers due to the use of named polynomials such as
                 Legendre, and Laguerre polynomials, etc.%
             } as used by \citeauthor{pedersen2018symplectic}
@@ -458,3 +470,5 @@
             This method is described in depth in their text
             \citetitle{pedersen2018symplectic} \cite{pedersen2018symplectic} and
             will not be renditioned in this work.
+
+\clearemptydoublepage
