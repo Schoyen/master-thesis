@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Job name
-#SBATCH --job-name=benchmark-thesis
+#SBATCH --job-name=ion-20-hf
 #
 # Project
 #SBATCH --account=nn2977k
@@ -33,4 +33,12 @@ cleanup "cp $SCRATCH/dat/* $SUBMITDIR/dat/"
 ## Run commands
 cd $SCRATCH
 export OMP_NUM_THREADS=8
-python ccd_miyagi.py > dat/ccd_miyagi.log
+#python ccd_miyagi.py 20
+#python ccd_miyagi.py 30
+#python ccd_miyagi.py 36
+#python ccd_miyagi.py 40
+
+python hf_miyagi.py 20
+#python hf_miyagi.py 30
+#python hf_miyagi.py 36
+#python hf_miyagi.py 40
