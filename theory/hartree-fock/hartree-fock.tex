@@ -45,10 +45,10 @@
             functional
             \begin{align}
                 \energyfunc{\slat, \slat^{*}}
-                \equiv \mel{\slat}{\hamil}{\slat}
+                \equiv \mel*{\slat}{\hamil}{\slat}
                 =
-                \mel{\phi_i}{\onehamil}{\phi_i}
-                + \half\mel{\phi_i\phi_j}{\twohamil}{\phi_i\phi_j}_{AS},
+                \mel*{\phi_i}{\onehamil}{\phi_i}
+                + \half\mel*{\phi_i\phi_j}{\twohamil}{\phi_i\phi_j}_{AS},
                 \label{eq:energy_func_hf}
             \end{align}
             found from the definition of the reference energy in
@@ -65,7 +65,7 @@
                 \lagrangianfunc{\slat, \slat^{*}, \lambda}
                 &= \energyfunc{\slat, \slat^{*}}
                 - \lambda_{ji}\para{
-                    \braket{\phi_i}{\phi_j}
+                    \braket*{\phi_i}{\phi_j}
                     - \delta_{ij}
                 },
             \end{align}
@@ -81,32 +81,32 @@
                 \cite{mayer2003simple}, we start by noticing that the constraint is
                 Hermitian, i.e.,
                 \begin{align}
-                    \braket{\phi_i}{\phi_j} - \delta_{ij}
-                    = \braket{\phi_j}{\phi_i}^{*} - \delta_{ji}.
+                    \braket*{\phi_i}{\phi_j} - \delta_{ij}
+                    = \braket*{\phi_j}{\phi_i}^{*} - \delta_{ji}.
                 \end{align}
-                As of now we have two independent Lagrange multipliers; one for the
-                overlap $\braket{\phi_i}{\phi_j}$ and another for the the complex
-                conjugate $\braket{\phi_j}{\phi_i}$.
+                As of now we have two independent Lagrange multipliers; one for
+                the overlap $\braket*{\phi_i}{\phi_j}$ and another for the the
+                complex conjugate $\braket*{\phi_j}{\phi_i}$.
                 We can formulate the constraint for the real and imaginary part
                 separately,
                 \begin{align}
                     \Re\brac{
-                        \braket{\phi_i}{\phi_j}
+                        \braket*{\phi_i}{\phi_j}
                     }
                     &=
                     \half\brac{
-                        \braket{\phi_i}{\phi_j}
-                        + \braket{\phi_j}{\phi_i}
+                        \braket*{\phi_i}{\phi_j}
+                        + \braket*{\phi_j}{\phi_i}
                     }
                     = 0,
                     \\
                     \Im\brac{
-                        \braket{\phi_i}{\phi_j}
+                        \braket*{\phi_i}{\phi_j}
                     }
                     &=
                     \frac{1}{2i}\brac{
-                        \braket{\phi_i}{\phi_j}
-                        - \braket{\phi_j}{\phi_i}
+                        \braket*{\phi_i}{\phi_j}
+                        - \braket*{\phi_j}{\phi_i}
                     }
                     = 0.
                 \end{align}
@@ -114,23 +114,23 @@
                 $\nu_{ij}$ for the two latter conditions, we get
                 \begin{align}
                     \mu_{ij}\Re\brac{
-                        \braket{\phi_i}{\phi_j}
+                        \braket*{\phi_i}{\phi_j}
                     }
                     + \nu_{ij}\Im\brac{
-                        \braket{\phi_i}{\phi_j}
+                        \braket*{\phi_i}{\phi_j}
                     }
                     &=
                     \half\brak{
                         \mu_{ij} - i\nu_{ij}
                     }
-                    \braket{\phi_i}{\phi_j}
+                    \braket*{\phi_i}{\phi_j}
                     \nonumber
                     \\
                     &\qquad
                     + \half\brak{
                         \mu_{ij} + i\nu_{ij}
                     }
-                    \braket{\phi_j}{\phi_i}.
+                    \braket*{\phi_j}{\phi_i}.
                 \end{align}
                 We now choose our combined Lagrange multipliers to be
                 \begin{align}
@@ -157,7 +157,7 @@
                 \dpd{}{\lambda_{ji}}\lagrangianfunc{\slat, \slat^{*}, \lambda}
                 = 0
                 \implies
-                \braket{\phi_i}{\phi_j} = \delta_{ij},
+                \braket*{\phi_i}{\phi_j} = \delta_{ij},
             \end{gather}
             which are included in the end when we find solutions that are
             orthonormal as the constraint is included in the variation over the
@@ -201,7 +201,7 @@
                 \epsilon
                 + \dots,
             \end{align}
-            where the dots represent variations beyond the first order
+            where the dots represent variations beyond the first-order
             stationary condition.
             As discussed in the section on the variational principle, the first
             order variations does not guarantee that we have found a minimum,
@@ -220,20 +220,20 @@
                 =
                 \energyfunc{\Phi, \tilde{\Phi}^{*}}
                 - \lambda_{ji}\brak{
-                    \braket{\phi_i}{\phi_j}
-                    + \epsilon \delta_{ik}\braket{\eta}{\phi_j}
+                    \braket*{\phi_i}{\phi_j}
+                    + \epsilon \delta_{ik}\braket*{\eta}{\phi_j}
                     - \delta_{ij}
                 },
             \end{align}
             where we used the linearity of the inner product to split ut the
             variation over the orbital $\phi^{*}_i(x)$ in the constraint term.
-            Keeping only first order variations in the energy functional we find
+            Keeping only first-order variations in the energy functional we find
             \begin{align}
                 \energyfunc{\Phi, \tilde{\Phi}^{*}}
                 = \energyfunc{\Phi, \Phi^{*}}
                 + \epsilon\para{
-                    \mel{\eta}{\onehamil}{\phi_k}
-                    + \mel{\eta\phi_j}{\twohamil}{\phi_k\phi_j}_{AS}
+                    \mel*{\eta}{\onehamil}{\phi_k}
+                    + \mel*{\eta\phi_j}{\twohamil}{\phi_k\phi_j}_{AS}
                 }
                 + \mathcal{O}(\epsilon^2),
             \end{align}
@@ -252,11 +252,11 @@
                 \\
                 &=
                 \epsilon\brak{
-                    \mel{\eta}{\onehamil}{\phi_k}
+                    \mel*{\eta}{\onehamil}{\phi_k}
                     +
-                    \mel{\eta\phi_j}{\twohamil}{\phi_k\phi_j}_{AS}
+                    \mel*{\eta\phi_j}{\twohamil}{\phi_k\phi_j}_{AS}
                     - \lambda_{jk}
-                    \braket{\eta}{\phi_j}
+                    \braket*{\eta}{\phi_j}
                 }.
             \end{align}
             Having collapsed one of the orbital sums to yield $\phi_k$ we now
@@ -283,9 +283,9 @@
                 = 0
                 \\
                 \implies
-                \mel{\eta}{\onehamil}{\phi_k}
-                + \mel{\eta\phi_j}{\twohamil}{\phi_k\phi_j}_{AS}
-                = \lambda_{jk}\braket{\eta}{\phi_j},
+                \mel*{\eta}{\onehamil}{\phi_k}
+                + \mel*{\eta\phi_j}{\twohamil}{\phi_k\phi_j}_{AS}
+                = \lambda_{jk}\braket*{\eta}{\phi_j},
                 \label{eq:stationary-lagrangian}
             \end{gather}
             which according to the fundamental lemma of calculus of variations
@@ -294,19 +294,19 @@
             We now introduce the single-particle \emph{Fock operator} by
             its matrix elements
             \begin{align}
-                \mel{\phi_p}{\fock}{\phi_q}
+                \mel*{\phi_p}{\fock}{\phi_q}
                 \equiv
-                \mel{\phi_p}{\onehamil}{\phi_q}
+                \mel*{\phi_p}{\onehamil}{\phi_q}
                 +
-                \mel{\phi_p\phi_j}{\twohamil}{\phi_q\phi_j}_{AS},
+                \mel*{\phi_p\phi_j}{\twohamil}{\phi_q\phi_j}_{AS},
                 \label{eq:fock-mel}
             \end{align}
             where we use the Fermi vacuum formalism for the sums.
             This lets us write the stationary point of the Lagrangian functional
             from \autoref{eq:stationary-lagrangian} as
             \begin{align}
-                \fock\ket{\phi_k}
-                = \lambda_{jk}\ket{\phi_j}.
+                \fock\ket*{\phi_k}
+                = \lambda_{jk}\ket*{\phi_j}.
                 \label{eq:non-canonical-hartree-fock}
             \end{align}
             This equation is known as the \emph{non-canonical Hartree-Fock
@@ -323,9 +323,9 @@
             We define the unitary transformation from the non-canonical orbitals
             $\brac{\phi_p}$ to the new spin-orbitals by
             \begin{align}
-                \ket{\psi_p} = U_{qp}\ket{\phi_q}
+                \ket*{\psi_p} = U_{qp}\ket*{\phi_q}
                 \iff
-                \ket{\phi_r} = U^{*}_{pr}\ket{\psi_p},
+                \ket*{\phi_r} = U^{*}_{pr}\ket*{\psi_p},
             \end{align}
             where $U_{qp}$ is an element in the unitary matrix $\vfg{U}$.
             From \autoref{lemma:unitary-transformation-orthonormality} we know
@@ -355,32 +355,32 @@
             \autoref{eq:non-canonical-hartree-fock} to the new spin-orbital
             basis, we get
             \begin{gather}
-                \fock\ket{\phi_k} = \lambda_{jk}\ket{\phi_j}
+                \fock\ket*{\phi_k} = \lambda_{jk}\ket*{\phi_j}
                 \implies
-                \fock U^{*}_{lk}\ket{\psi_{l}}
-                = \lambda_{jk} U^{*}_{lj} \ket{\psi_l}
+                \fock U^{*}_{lk}\ket*{\psi_{l}}
+                = \lambda_{jk} U^{*}_{lj} \ket*{\psi_l}
                 \\
                 \implies
-                U^{*}_{lk} U_{km} \fock\ket{\psi_l}
-                = U^{*}_{lj} \lambda_{jk} U_{km} \ket{\psi_l}
+                U^{*}_{lk} U_{km} \fock\ket*{\psi_l}
+                = U^{*}_{lj} \lambda_{jk} U_{km} \ket*{\psi_l}
                 \implies
-                \delta_{ml} \fock \ket{\psi_l}
-                = \delta^{n}_{lm} \epsilon_{n} \ket{\psi_l}
+                \delta_{ml} \fock \ket*{\psi_l}
+                = \delta^{n}_{lm} \epsilon_{n} \ket*{\psi_l}
                 \\
                 \implies
-                \fock\ket{\psi_m}
-                = \epsilon_{m} \ket{\psi_m},
+                \fock\ket*{\psi_m}
+                = \epsilon_{m} \ket*{\psi_m},
                 \label{eq:canonical-hartree-fock}
             \end{gather}
             where we are left with the \emph{canonical Hartree-Fock equations},
             which constitutes an eigenvalue equation.
             It is worth re-iterating that the equations were found from first
-            order variations in the variational principle and therefore does not
+            order variations in the variational principle and therefore do not
             guarantee that we have found a minimum.
-            In order to categorize the stationary point we can perform higher order
-            variations to determine if we have find a minimum, saddle point, or
-            a maximum.
-            However, we will not explore higher order variations any further.
+            In order to categorize the stationary point we can perform higher
+            order variations to determine if we have found a minimum, saddle
+            point, or a maximum.
+            However, we will not explore higher-order variations any further.
 
         \subsection{The mean-field approximation}
             It is worth discussing the Fock operator defined in
@@ -389,7 +389,7 @@
             First, if we look at a non-interacting system, that is,
             $\twoten^{pq}_{rs} = 0$ for all indices, then the canonical
             Hartree-Fock equations in \autoref{eq:canonical-hartree-fock}
-            reduces to the time-independent Schrödinger equation for the
+            reduce to the time-independent Schrödinger equation for the
             orbitals.
             Furthermore, creating a Slater determinant from the spin-orbitals
             with the lowest eigenenergy yield the ground state of the
@@ -408,31 +408,31 @@
             where we denote the two-body operator $\twohamil(x_1, x_2)$ with
             explicit coordinates to describe which coordinates are to be
             integrated.
-            The matrix elements of the Coulomb operator is given by
+            The matrix elements of the Coulomb operator are given by
             \begin{align}
-                \mel{\phi_i}{\hat{J}}{\phi_k}
+                \mel*{\phi_i}{\hat{J}}{\phi_k}
                 &= \int\dd x_1\dd x_2
                 \phi^{*}_i(x_1)\phi^{*}_j(x_2)
                 \twohamil(x_1, x_2)
                 \phi_k(x_1)\phi_j(x_2)
                 \\
                 &=
-                \mel{\phi_i\phi_j}{\twohamil}{\phi_k\phi_j}.
+                \mel*{\phi_i\phi_j}{\twohamil}{\phi_k\phi_j}.
             \end{align}
             That is, the Coulomb operator is just the two-body elements, but
             formulated as a single-particle operator as the inner integral is
             pre-computed.
             The interpretation of the Coulomb operator is that all
-            single-particle states $\phi_j(x)$ creates an average potential
+            single-particle states $\phi_j(x)$ create an average potential
             which an individual particle will interact with, hence the name
             ``mean-field potential''.
             Now, the second term arising from the antisymmetric two-body
-            elements yields nonlocal effects as it cannot be described as an
+            elements yield nonlocal effects as it cannot be described as an
             average potential in the same way as the Coulomb operator.
             The exchange potential is therefore defined in terms of its action
             on a spin-orbital $\phi_k(x)$,
             \begin{align}
-                \hat{K}\ket{\phi_k}
+                \hat{K}\ket*{\phi_k}
                 = \brak{
                     \int\dd x_2 \phi^{*}_j(x_2)\twohamil(x, x_2)\phi_k(x_2)
                 }\phi_j(x).
@@ -442,18 +442,18 @@
             mechanics as the potential experienced by a single-particle state
             depends on the value of the single-particle state in all of
             coordinate space.
-            The matrix elements of the exchange operator is given by
+            The matrix elements of the exchange operator are given by
             \begin{align}
-                \mel{\phi_i}{\hat{K}}{\phi_k}
+                \mel*{\phi_i}{\hat{K}}{\phi_k}
                 &= \int\dd x_1\dd x_2
                 \phi^{*}_i(x_1)\phi^{*}_j(x_2)
                 \twohamil(x_1, x_2)
                 \phi_j(x_1)\phi_k(x_2)
                 \\
                 &=
-                \mel{\phi_i\phi_j}{\twohamil}{\phi_j\phi_k}.
+                \mel*{\phi_i\phi_j}{\twohamil}{\phi_j\phi_k}.
             \end{align}
-            The Fock operator can now be written
+            The Fock operator can now be written as
             \begin{align}
                 \fock
                 = \onehamil
@@ -478,7 +478,7 @@
                 states found by solving the canonical Hartree-Fock equations,
                 and sorted such that the Fock energies $\epsilon_1 \leq
                 \epsilon_2 \leq \dots$, then building the reference Slater
-                determinant $\ket{\slat}$ from the $N$ first single-particle
+                determinant $\ket*{\slat}$ from the $N$ first single-particle
                 states, we have that
                 \begin{align}
                     \mel*{\slat}{\hamil}{\slat^{a}_{i}} = 0,
@@ -504,9 +504,9 @@
                 \autoref{lemma:slater-condon-one-body} and
                 \autoref{lemma:slater-condon-two-body} to evaluate the matrix
                 elements.
-                As the single-particle basis is the molecular orbitals found
-                from solving the canonical Hartree-Fock equations, that the Fock
-                matrix is diagonal.
+                As the single-particle basis is represented by the molecular
+                orbitals found from solving the canonical Hartree-Fock
+                equations, the Fock matrix is diagonal.
                 This means that
                 \begin{align}
                     \mel*{\phi_i}{\fock}{\phi_a}

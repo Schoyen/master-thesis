@@ -1253,84 +1253,84 @@
             We will often denote the known set of spin-orbitals as \emph{atomic
             orbitals} as done in the field of quantum chemistry.
 
-            If the basis of atomic orbitals is non-orthogonal, that is,
-            \begin{align}
-                \braket{\chi_{\alpha}}{\chi_{\beta}}
-                = \overlapten_{\alpha\beta}
-                \neq \delta_{\alpha\beta},
-            \end{align}
-            where $\overlapten_{\alpha\beta}$ is an element in the overlap
-            matrix $\overlapmat \in \mathbb{C}^{L \times L}$, we can transform
-            to a new basis of orthonormal basis states $\brac{\xi_{\mu}}_{\mu =
-            1}^{L}$ \cite{szabo1996modern, mayer2002lowdin}.
-            The transformation from the atomic orbitals to the orthonormal basis
-            states is given by
-            \begin{align}
-                \ket{\chi_{\mu}}
-                = X_{\alpha\mu}\ket{\chi_{\alpha}},
-            \end{align}
-            where $\vfg{X} \in \mathbb{C}^{L \times L}$ is the coefficient
-            matrix.
-            In order for the new basis set to be othonormal, we require
-            \begin{align}
-                \braket{\xi_{\mu}}{\xi_{\nu}}
-                = X^{*}_{\alpha\mu}\overlapten_{\alpha\beta} X_{\beta\nu}
-                = \delta_{\mu\nu}
-                \implies
-                \vfg{X}^{\dagger}\overlapmat\vfg{X}
-                = \1.
-            \end{align}
-            Furthermore, we have that $\vfg{X}$ must be non-singular as we need
-            to compute the inverse $\vfg{X}^{-1}$ which we'll see shortly.
-            The overlap matrix $\overlapmat$ is Hermitian by construction, and
-            we can therefore diagonalize $\overlapmat$ by a unitary matrix
-            $\vfg{U}$, viz.
-            \begin{align}
-                \vfg{U}^{\dagger}\overlapmat\vfg{U} = \vfg{s},
-            \end{align}
-            where $\vfg{s} = \diag(\lambda_1, \dots, \lambda_L)$ is a diagonal
-            matrix with the eigenvalues $\lambda_i$ of $\overlapmat$.
-            We know that the eigenvalues $\lambda_i > 0$ as the overlap matrix
-            is positive definite.
-            For a proof of the overlap matrix being positive definite see
-            \autoref{app:positive-definite-overlap}.
+            %If the basis of atomic orbitals is non-orthogonal, that is,
+            %\begin{align}
+            %    \braket{\chi_{\alpha}}{\chi_{\beta}}
+            %    = \overlapten_{\alpha\beta}
+            %    \neq \delta_{\alpha\beta},
+            %\end{align}
+            %where $\overlapten_{\alpha\beta}$ is an element in the overlap
+            %matrix $\overlapmat \in \mathbb{C}^{L \times L}$, we can transform
+            %to a new basis of orthonormal basis states $\brac{\xi_{\mu}}_{\mu =
+            %1}^{L}$ \cite{szabo1996modern, mayer2002lowdin}.
+            %The transformation from the atomic orbitals to the orthonormal basis
+            %states is given by
+            %\begin{align}
+            %    \ket{\chi_{\mu}}
+            %    = X_{\alpha\mu}\ket{\chi_{\alpha}},
+            %\end{align}
+            %where $\vfg{X} \in \mathbb{C}^{L \times L}$ is the coefficient
+            %matrix.
+            %In order for the new basis set to be othonormal, we require
+            %\begin{align}
+            %    \braket{\xi_{\mu}}{\xi_{\nu}}
+            %    = X^{*}_{\alpha\mu}\overlapten_{\alpha\beta} X_{\beta\nu}
+            %    = \delta_{\mu\nu}
+            %    \implies
+            %    \vfg{X}^{\dagger}\overlapmat\vfg{X}
+            %    = \1.
+            %\end{align}
+            %Furthermore, we have that $\vfg{X}$ must be non-singular as we need
+            %to compute the inverse $\vfg{X}^{-1}$ which we'll see shortly.
+            %The overlap matrix $\overlapmat$ is Hermitian by construction, and
+            %we can therefore diagonalize $\overlapmat$ by a unitary matrix
+            %$\vfg{U}$, viz.
+            %\begin{align}
+            %    \vfg{U}^{\dagger}\overlapmat\vfg{U} = \vfg{s},
+            %\end{align}
+            %where $\vfg{s} = \diag(\lambda_1, \dots, \lambda_L)$ is a diagonal
+            %matrix with the eigenvalues $\lambda_i$ of $\overlapmat$.
+            %We know that the eigenvalues $\lambda_i > 0$ as the overlap matrix
+            %is positive definite.
+            %For a proof of the overlap matrix being positive definite see
+            %\autoref{app:positive-definite-overlap}.
 
-            To find an equation for $\vfg{X}$ we wil use a procedure known as
-            \emph{symmetric orthogonalization} \cite{szabo1996modern,
-            mayer2002lowdin}.
-            We define
-            \begin{align}
-                \vfg{X} \equiv \overlapmat^{-1/2}
-                = \vfg{U}\vfg{s}^{-1/2}\vfg{U}^{\dagger},
-            \end{align}
-            where the square root is defined as the square root of the
-            eigenvalues of $\overlapmat$ as seen in the last equality.
-            Now, since $\overlapmat$ is positive definite, the square root and
-            inverse of $\overlapmat$ will always be defined.
+            %To find an equation for $\vfg{X}$ we wil use a procedure known as
+            %\emph{symmetric orthogonalization} \cite{szabo1996modern,
+            %mayer2002lowdin}.
+            %We define
+            %\begin{align}
+            %    \vfg{X} \equiv \overlapmat^{-1/2}
+            %    = \vfg{U}\vfg{s}^{-1/2}\vfg{U}^{\dagger},
+            %\end{align}
+            %where the square root is defined as the square root of the
+            %eigenvalues of $\overlapmat$ as seen in the last equality.
+            %Now, since $\overlapmat$ is positive definite, the square root and
+            %inverse of $\overlapmat$ will always be defined.
 
-            We are now in a position to return to the original basis
-            transformation by
-            \begin{align}
-                \ket{\phi_i}
-                = C_{\alpha i}\ket{\chi_{\alpha}}
-                = C_{\alpha i}\para{X^{-1}}_{\mu \alpha}
-                \ket{\xi_{\mu}}
-                = C_{\mu i}' \ket{\xi_{\mu}},
-            \end{align}
-            where we've defined the transformed coefficient matrix
-            \begin{align}
-                \vfg{C}'
-                = \vfg{X}^{-1}\vfg{C},
-            \end{align}
-            where $\vfg{C}' \in \mathbb{C}^{L \times K}$.
+            %We are now in a position to return to the original basis
+            %transformation by
+            %\begin{align}
+            %    \ket{\phi_i}
+            %    = C_{\alpha i}\ket{\chi_{\alpha}}
+            %    = C_{\alpha i}\para{X^{-1}}_{\mu \alpha}
+            %    \ket{\xi_{\mu}}
+            %    = C_{\mu i}' \ket{\xi_{\mu}},
+            %\end{align}
+            %where we've defined the transformed coefficient matrix
+            %\begin{align}
+            %    \vfg{C}'
+            %    = \vfg{X}^{-1}\vfg{C},
+            %\end{align}
+            %where $\vfg{C}' \in \mathbb{C}^{L \times K}$.
 
             \begin{lemma}
                 \label{lemma:unitary-transformation-orthonormality}
-                Let $\brac{\xi_{\mu}}_{\mu = 1}^{L}$ be an orthonormal set of
+                Let $\brac{\xi_{\mu}}$ be an orthonormal set of $L$
                 spin-orbitals.
                 Performing a unitary transformation of this basis set will yield
-                a new basis set $\brac{\phi_{p}}_{p = 1}^{L}$ which is also
-                orthonormal.
+                a new basis set $\brac{\phi_{p}}$ of $L$ orthonormal
+                spin-orbitals.
             \end{lemma}
             \begin{proof}
                 Performing a unitary transformation from the orthonormal basis
@@ -1515,7 +1515,7 @@
             \label{subsec:fermi-vacuum}
             Having introduced the reference state as the Slater determinant
             consisting of the $N$ lowest single-particle states, and being the
-            determinant that all other higher order determinants are built from,
+            determinant that all other higher-order determinants are built from,
             we define a ``new vacuum'' called the \emph{Fermi vacuum}.
             That is, for a given basis of single-particle states
             $\brac{\phi_{p}}_{p = 1}^{L}$, we split the basis into an
@@ -1595,7 +1595,7 @@
             annihilation operator.
             An excited determinant is defined as a Slater determinant containing
             the same number of single-particle states $N$ as the reference
-            determinant, but with higher order single-particle states.
+            determinant, but with higher-order single-particle states.
             That is, in the non-interacting case, an excited determinant will
             yield a higher, or equal, eigenenergy than the reference
             state.\footnote{%
@@ -2030,10 +2030,10 @@
         system.
         For example, the Coulomb interaction is a two-body interaction between
         particle pairs and is described by $\hamil_2$.
-        More exotic higher order interactions can occur in nuclear physics and
+        More exotic higher-order interactions can occur in nuclear physics and
         the sort.
         However, it is common to truncate the interactions in the many-body
-        Hamiltonian as higher order terms leads to complicated equations which
+        Hamiltonian as higher-order terms leads to complicated equations which
         become intractable unless clever approximations are introduced.
 
         Luckily, much of solid-state physics, and almost all of quantum
@@ -2527,4 +2527,4 @@
         % TODO: Discuss this in the coupled cluster and Hartree-Fock methods.
         % TODO: See static vs dynamic correlation in Helgaker.
 
-\clearpage
+\clearemptydoublepage
