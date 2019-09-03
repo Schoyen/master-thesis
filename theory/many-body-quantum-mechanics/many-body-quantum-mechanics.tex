@@ -5,8 +5,12 @@
     these laws leads to equations much too complicated to be soluble.}
     {--- P. A. M. Dirac}
 
-    In this chapter we'll describe some of the formalism used when describing
-    many-body quantum mechanics.
+    Having discussed the rather general formulation of quantum mechanics we now
+    move to the more specialized field of many-body quantum mechanics.
+    In this chapter we'll consider explicit wave functions and systems of more
+    than a single particle.
+    The results from the previous chapter are still applicable, but now we
+    extend on the theory by introducing a more convenient formalism.
 
     \section{Summation convention}
         We will throughout this thesis use a summation convention that
@@ -317,14 +321,14 @@
             that we can never have a system containing two fermions \emph{in the
             same state}.
             We demonstrate this by considering an antisymmetric wave function
-            $\psi(\vf{x})$ where $\vf{x} = (x_1, \dots, x_N) \in X^{N}$ is the
-            coordinates of the $N$ particles in the system.
+            $\psi(\vf{x})$ where $\vf{x} = (x_1, \dots, x_N) \in X^{N}$
+            represents the coordinates of the $N$ particles in the system.
             We now have that the eigenvalue of $\hat{P}_{ij}$ on $\psi(\vf{x})$
             will be $p = -1$, that is,
             \begin{align}
                 \hat{P}_{ij}\psi(\vf{x})
                 = \psi(\vf{x}_{ij})
-                = -1\psi(\vf{x}),
+                = -\psi(\vf{x}),
             \end{align}
             where we interpret $\vf{x}_{ij}$ as the same collection of
             coordinates as $\vf{x}$ but with $x_i$ and $x_j$ interchanged.
@@ -333,7 +337,7 @@
                 \hat{P}_{ij}\psi(\vf{x})
                 = \psi(\vf{x}_{ij})
                 = \psi(\vf{x})
-                = -1\psi(\vf{x}),
+                = -\psi(\vf{x}),
             \end{gather}
             which means that $\psi(\vf{x}) = 0$ for the equation to be
             satisified.
@@ -430,8 +434,8 @@
             sum of subspaces $F_{\nu}(L, N)$
             \begin{align}
                 F_{\nu}(L)
-                = \bigoplus_{n = 0}^{L}
-                F_{\nu}(L, n),
+                = \bigoplus_{N = 0}^{L}
+                F_{\nu}(L, N),
             \end{align}
             where $F_{\nu}(L, N)$ is the Fock space with all Fock states
             $\ket{\vfg{n}}$ where $\abs{\vfg{n}} = N$, i.e., all states where
@@ -477,7 +481,7 @@
 
         \subsection{Creation and annihilation operators}
             We now introduce the \emph{creation} and \emph{annihilation}
-            operators which acts on Fock states by adding or removing single
+            operators which act on Fock states by adding or removing single
             particle states.
 
             \begin{definition}
@@ -512,7 +516,7 @@
             The phase factor is again a way of incorporating the particle
             statistics of the system we are exploring.
             A bosonic wave function is symmetric with respect to its particles
-            and its phase is therefore constant regardles of the ordering of the
+            and its phase is therefore constant regardless of the ordering of the
             creation of its particle states.
             For a fermionic wave function, the interchange of two particles will
             incur a sign change as discussed in
@@ -520,7 +524,7 @@
             The fact that the ordering of the indices in a fermionic Fock state
             will depend on the overall sign of the state can lead to ambiguity.
             We therefore introduce \emph{canonical ordering} with respect to the
-            particle indices.
+            particle indices,
             \begin{align}
                 \ket{\vfg{n}}
                 \equiv \brak{
@@ -930,7 +934,7 @@
             where the sums run over all singly, doubly, and higher, contracted
             normal-ordered strings.
         \end{theorem}
-        Contractions inside normal-ordering braces is performed by permuting
+        Contractions inside normal-ordered braces are performed by permuting
         the two operators together where each permutation between operators
         introduce a sign-change.
         Once the pair has been collected, the contraction can be evaluated.
@@ -1355,7 +1359,7 @@
     \section{Slater determinants}
         \label{sec:slater-determinants}
         So far we have established that the full many-body wave function of a
-        fermionic system should be anti-symmtric with respect to its particles.
+        fermionic system should be antisymmetric with respect to its particles.
         The creation and annihilation operators for the Fock space
         representation of many-body configurations incorporates the
         anti-symmetry requirement, but we are no closer to establishing what our
@@ -1849,7 +1853,7 @@
                 where the phase $(\Gamma_{-})^{\vfg{n}}_{p}$ is the same as in
                 \autoref{def:creation_1}.
                 The factor $(1 - \delta_{pq})$ in the first case comes about as
-                a consequence of Pauli exclusion principle where
+                a consequence of the Pauli exclusion principle where
                 $\can{p}\can{p}$ always destroys an antisymmetric state.
                 Pay extra close attention to the Kronecker-Deltas in the
                 evaluation of the matrix elements when $\abs{\vfg{n} - \vfg{m}}
@@ -1881,93 +1885,9 @@
                 This unitary transformation will leave the determinant invariant
                 up to a complex phase.
             \end{lemma}
-            \begin{proof}
-                Let $\brac{\phi_i}_{i = 1}^{L}$ be an orthonormal basis of
-                atomic orbitals.
-                We can then do a unitary transformation from this basis to a new
-                basis $\brac{\ket{\psi_i}}_{i = 1}^{L}$ by
-                \begin{align}
-                    \ket{\psi_i} = U_{ji}\ket{\phi_j},
-                    \label{eq:unitary_transformation}
-                \end{align}
-                where $U_{ji}$ is an element in the unitary matrix $\vfg{U} \in
-                \mathbb{C}^{L \times L}$.
-                For a set of coordinates $\vfg{x} = \brac{x_1, \dots, x_N}$, we
-                write
-                \begin{align}
-                    \psi_{ij} \equiv \psi_j(x_i)
-                    = \braket{x_i}{\psi_j},
-                \end{align}
-                and equivalently for $\phi_{ij}$. Projecting onto the coordinate
-                basis we can write \autoref{eq:unitary_transformation} as
-                \begin{gather}
-                    \psi_{ki} = U_{ji}\phi_{kj}
-                    \implies
-                    \vfg{\Psi} = \vfg{\Phi}\vfg{U},
-                \end{gather}
-                where the matrices $\vfg{\Psi}$, $\vfg{\Phi}$, and $\vfg{U}$ are
-                the matrices with elements
-                \begin{align}
-                    \vfg{\Psi}
-                    &= \begin{pmatrix}
-                        \psi_{11} & \psi_{12} & \dots & \psi_{1N} \\
-                        \vdots & \vdots & \ddots & \vdots \\
-                        \psi_{N1} & \psi_{N2} & \dots & \psi_{NN}
-                    \end{pmatrix}, \\
-                    \vfg{\Phi}
-                    &= \begin{pmatrix}
-                        \phi_{11} & \phi_{12} & \dots & \phi_{1N} \\
-                        \vdots & \vdots & \ddots & \vdots \\
-                        \phi_{N1} & \phi_{N2} & \dots & \phi_{NN}
-                    \end{pmatrix}, \\
-                    \vfg{U}
-                    &= \begin{pmatrix}
-                        U_{11} & U_{12} & \dots & U_{1N} \\
-                        \vdots & \vdots & \ddots & \vdots \\
-                        U_{N1} & U_{N2} & \dots & U_{NN}
-                    \end{pmatrix}.
-                \end{align}
-                The Slater determinants projected onto the coordinates $\vfg{x}$
-                can now be found by
-                \begin{align}
-                    \Psi(\vfg{x})
-                    = \braket{\vfg{x}}{\Psi}
-                    = \frac{1}{\sqrt{N!}}\det(\vfg{\Psi}),
-                \end{align}
-                and similarly for $\Phi(\vfg{x})$.
-                We can now write the unitary transformation from $\Phi(\vfg{x})$
-                to $\Psi(\vfg{x})$ as
-                \begin{align}
-                    \Psi(\vfg{x})
-                    = \frac{1}{\sqrt{N!}}
-                    \det(\vfg{U}\vfg{\Phi})
-                    = \det(\vfg{U})\Phi(\vfg{x}),
-                \end{align}
-                where we used that the determinant of a product is the product
-                of the determinants.
-                Since $\vfg{U}$ is unitary we have that the squared determinant
-                of $\vfg{U}$ will $1$, as can be seen by using the product rule
-                of determinants described above.
-                This means that
-                \begin{align}
-                    \det(\vfg{U}) = \exp[i\phi],
-                \end{align}
-                that is, the determinant of a unitary matrix becomes a complex
-                phase factor.
-                In other words, $\Psi(\vfg{x})$ will differ from $\Phi(\vfg{x})$
-                by at most a complex phase factor and
-                \begin{align}
-                    \braket{\Psi}
-                    = \norm{\det(U)}^2\braket{\Phi}
-                    = \braket{\Phi}
-                    = \1,
-                \end{align}
-                and the lemma is proved.
-            \end{proof}
-
-            % TODO: Connect these two sections.
-            An important theorem for computational many-body quantum mechanics
-            is \emph{Thouless theorem} as it explains the role and the
+            See \autoref{sec:orbital-rotations} for a proof of this lemma.
+            Another important theorem for computational many-body quantum
+            mechanics is \emph{Thouless theorem} as it explains the role and the
             influence of the singles excitations operators
             \cite{thouless1960225}.
             \begin{theorem}
@@ -2104,7 +2024,7 @@
         value.
         The one-body term, $\hamil_1$, is the familiar Hamiltonian from
         introductory courses in quantum mechanics.
-        This term describes one-particle contribution, e.g., the kinetic
+        This term describes one-particle contributions, e.g., the kinetic
         energy, external potentials of the system, external fields, etc.
         Higher order terms describe interactions between particles in the
         system.
@@ -2113,7 +2033,7 @@
         More exotic higher order interactions can occur in nuclear physics and
         the sort.
         However, it is common to truncate the interactions in the many-body
-        Hamiltonian as high order terms leads to complicated equations which
+        Hamiltonian as higher order terms leads to complicated equations which
         become intractable unless clever approximations are introduced.
 
         Luckily, much of solid-state physics, and almost all of quantum
@@ -2254,9 +2174,9 @@
             the later many-body methods as it removes the explicit grid
             representation of the operators and introduces abstract matrix
             elements as coefficients to the second quantized operators.
-            For a given basis of orthonormal single-particle states
-            $\brac{\ket{\phi_{p}}}_{p = 1}^{L}$ we can write the second
-            quantized formulation of the electronic Hamiltonian as
+            For a given basis of $L$ orthonormal single-particle states
+            $\brac{\phi_{p}}$ we can write the second quantized formulation of
+            the electronic Hamiltonian as
             \begin{align}
                 \hamil
                 =
@@ -2278,22 +2198,22 @@
             \begin{align}
                 \twoten^{pq}_{rs}
                 \equiv
-                \mel{\phi_p\phi_q}{\twohamil}{\phi_r\phi_s}_{AS}
+                \mel*{\phi_p\phi_q}{\twohamil}{\phi_r\phi_s}_{AS}
                 =
-                \mel{\phi_p\phi_q}{\twohamil}{\phi_r\phi_s}
+                \mel*{\phi_p\phi_q}{\twohamil}{\phi_r\phi_s}
                 -
-                \mel{\phi_p\phi_q}{\twohamil}{\phi_s\phi_r}.
+                \mel*{\phi_p\phi_q}{\twohamil}{\phi_s\phi_r}.
                 \label{eq:antisymmetric_two_body}
             \end{align}
             The matrix elements of the one- and two-body elements are given by
             \begin{gather}
                 \oneten^{p}_{q}
                 \equiv
-                \mel{\phi_{p}}{\onehamil}{\phi_{q}}
+                \mel*{\phi_{p}}{\onehamil}{\phi_{q}}
                 =
                 \int\dd x\phi^{*}_{p}(x)\onehamil\phi_q(x),
                 \\
-                \mel{\phi_p\phi_q}{\twohamil}{\phi_r\phi_s}
+                \mel*{\phi_p\phi_q}{\twohamil}{\phi_r\phi_s}
                 =
                 \int\dd x_1\dd x_2
                 \phi^{*}_p(x_1)
@@ -2307,11 +2227,11 @@
 
         \subsection{The reference energy}
             \label{subsec:reference-energy}
-            Given a basis of $L$ orthonormal single-particle state
-            $\brac{\phi_p}$ and constructing a Slater determinant from the $N$
-            first states, viz.
+            Given a basis of $L$ orthonormal single-particle states
+            $\brac{\phi_p}$ we construct a Slater determinant from the $N$ first
+            states, viz.
             \begin{align}
-                \ket{\slat} = \ket{\phi_1 \dots \phi_N},
+                \ket*{\slat} = \ket*{\phi_1 \dots \phi_N},
             \end{align}
             that is, we have $N$ occupied states and $M = L - N$ virtual states
             using the same convention for the indices as discussed in
@@ -2322,13 +2242,13 @@
             operators, we can compute the expectation value of the energy from
             the reference state.
             \begin{align}
-                \mel{\slat}{\hamil}{\slat}
+                \mel*{\slat}{\hamil}{\slat}
                 &=
                 \oneten^{p}_{q}
-                \mel{\slat}{\ccr{p}\can{q}}{\slat}
+                \mel*{\slat}{\ccr{p}\can{q}}{\slat}
                 + \frac{1}{4}
                 \twoten^{pq}_{rs}
-                \mel{\slat}{\ccr{p}\ccr{q}\can{s}\can{r}}{\slat},
+                \mel*{\slat}{\ccr{p}\ccr{q}\can{s}\can{r}}{\slat},
             \end{align}
             where we use the antisymmetric two-body elements.
             Using Wick's theorem\footnote{%
@@ -2338,7 +2258,7 @@
             \begin{align}
                 \energyref
                 &\equiv
-                \mel{\slat}{\hamil}{\slat}
+                \mel*{\slat}{\hamil}{\slat}
                 =
                 \oneten^{i}_{i}
                 + \frac{1}{2}\twoten^{ij}_{ij}.
@@ -2503,7 +2423,6 @@
                 \phi^{*}_q(x) \densityten^{q}_{p} \phi_p(x).
                 \label{eq:particle-density}
             \end{align}
-            % TODO: Check the indexing.
             An interesting property of the particle density is that we can
             define a sort of ad-hoc ionization description.
             The process of ionization can be described by a bound particle
@@ -2513,14 +2432,16 @@
             well to the edge where the influence of the well is zero, or close
             to zero, then we can measure the amount of ionization by
             \begin{align}
-                I(R) = \int_{\abs{x} \geq R}\dd x\densityten(x).
+                I(R) = N\int_{\abs{x} \leq R}\dd x\densityten(x),
             \end{align}
+            where $N$ is a normalization factor which we take to be the particle
+            density integrated over the entire coordinate space such that $I(R)
+            \in [0, 1]$.
             Note that the choice of $R$ depends on the system.
             Some systems such as the infinite harmonic oscillator will always
             have bound states and the ionization can thus be interpreted as a
             measure of how much of the state is still distributed in the centre
             of the well.
-            % TODO: Review this last sentence.
 
         \subsection{Two-body density matrix}
             We denote the two-body density operator by $\density_2$ with
@@ -2605,3 +2526,5 @@
         assumption and will not work in the multireference regime.
         % TODO: Discuss this in the coupled cluster and Hartree-Fock methods.
         % TODO: See static vs dynamic correlation in Helgaker.
+
+\clearpage

@@ -235,6 +235,94 @@
         Now, as $\overlapmat$ is positive definite, we have that the eigenvalues
         $\lambda_i > 0$.
 
+    \section{Orbital rotations}
+        \label{sec:orbital-rotations}
+        We prove \autoref{lemma:unitary-transformation-slater}.
+        \begin{proof}
+            Let $\brac{\phi_i}_{i = 1}^{L}$ be an orthonormal basis of
+            atomic orbitals.
+            We can then do a unitary transformation from this basis to a new
+            basis $\brac{\ket{\psi_i}}_{i = 1}^{L}$ by
+            \begin{align}
+                \ket{\psi_i} = U_{ji}\ket{\phi_j},
+                \label{eq:unitary_transformation}
+            \end{align}
+            where $U_{ji}$ is an element in the unitary matrix $\vfg{U} \in
+            \mathbb{C}^{L \times L}$.
+            For a set of coordinates $\vfg{x} = \brac{x_1, \dots, x_N}$, we
+            write
+            \begin{align}
+                \psi_{ij} \equiv \psi_j(x_i)
+                = \braket{x_i}{\psi_j},
+            \end{align}
+            and equivalently for $\phi_{ij}$. Projecting onto the coordinate
+            basis we can write \autoref{eq:unitary_transformation} as
+            \begin{gather}
+                \psi_{ki} = U_{ji}\phi_{kj}
+                \implies
+                \vfg{\Psi} = \vfg{\Phi}\vfg{U},
+            \end{gather}
+            where the matrices $\vfg{\Psi}$, $\vfg{\Phi}$, and $\vfg{U}$ are
+            the matrices with elements
+            \begin{align}
+                \vfg{\Psi}
+                &= \begin{pmatrix}
+                    \psi_{11} & \psi_{12} & \dots & \psi_{1N} \\
+                    \vdots & \vdots & \ddots & \vdots \\
+                    \psi_{N1} & \psi_{N2} & \dots & \psi_{NN}
+                \end{pmatrix}, \\
+                \vfg{\Phi}
+                &= \begin{pmatrix}
+                    \phi_{11} & \phi_{12} & \dots & \phi_{1N} \\
+                    \vdots & \vdots & \ddots & \vdots \\
+                    \phi_{N1} & \phi_{N2} & \dots & \phi_{NN}
+                \end{pmatrix}, \\
+                \vfg{U}
+                &= \begin{pmatrix}
+                    U_{11} & U_{12} & \dots & U_{1N} \\
+                    \vdots & \vdots & \ddots & \vdots \\
+                    U_{N1} & U_{N2} & \dots & U_{NN}
+                \end{pmatrix}.
+            \end{align}
+            The Slater determinants projected onto the coordinates $\vfg{x}$
+            can now be found by
+            \begin{align}
+                \Psi(\vfg{x})
+                = \braket{\vfg{x}}{\Psi}
+                = \frac{1}{\sqrt{N!}}\det(\vfg{\Psi}),
+            \end{align}
+            and similarly for $\Phi(\vfg{x})$.
+            We can now write the unitary transformation from $\Phi(\vfg{x})$
+            to $\Psi(\vfg{x})$ as
+            \begin{align}
+                \Psi(\vfg{x})
+                = \frac{1}{\sqrt{N!}}
+                \det(\vfg{U}\vfg{\Phi})
+                = \det(\vfg{U})\Phi(\vfg{x}),
+            \end{align}
+            where we used that the determinant of a product is the product
+            of the determinants.
+            Since $\vfg{U}$ is unitary we have that the squared determinant
+            of $\vfg{U}$ will $1$, as can be seen by using the product rule
+            of determinants described above.
+            This means that
+            \begin{align}
+                \det(\vfg{U}) = \exp[i\phi],
+            \end{align}
+            that is, the determinant of a unitary matrix becomes a complex
+            phase factor.
+            In other words, $\Psi(\vfg{x})$ will differ from $\Phi(\vfg{x})$
+            by at most a complex phase factor and
+            \begin{align}
+                \braket{\Psi}
+                = \norm{\det(U)}^2\braket{\Phi}
+                = \braket{\Phi}
+                = \1,
+            \end{align}
+            and the lemma is proved.
+        \end{proof}
+
+
     \section{Deriving the reference energy}
         \label{sec:deriving-the-reference-energy}
         For the orthormal basis $\brac{\ket{\phi_p}}_{p = 1}^{L}$ with the $N$
