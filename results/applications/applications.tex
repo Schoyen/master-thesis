@@ -1323,27 +1323,24 @@
         include the spin-dependence as well.
 
     \section{Ionization of one-dimensional atoms}
-        The process of modelling ionization of electrons in atoms and
-        molecules is a tricky subject, particularly in our regime.
-        That is because we are forcing our systems to be bound by simulating a
-        restricted space and requiring that all particles be contained inside
-        the simulation box.
-        As a consequence, ionization has to be inferred in some way or another.
-        e.g., an absorbing potential with a time-dependent atomic orbital basis
-        on a grid \cite{kosloff1986363, miyagi_and_madsen, takeshi}.
-        However, in our formalism we use static atomic orbitals which we
-        force to zero at the boundaries of the simulation box.
-        This makes the use of an absorbing potential useless and ionization
-        must be inferred in some other way.
+        The process of modelling ionization of electrons in atoms is a hot
+        topic \cite{kosloff1986363, miyagi_and_madsen, takeshi, sawada,
+        Sato_2014}.
+        It is also of the utmost importance when doing laser driven dynamics as
+        at some point or another we will use a field which in reality would rip
+        the electrons away from the atoms and molecules.
+        An accurate description of this process is therefore important in order
+        to model real experiments, which after all, is what we are trying to
+        do.
 
         In a study done by \citeauthor{miyagi_and_madsen}
         \cite{miyagi_and_madsen} they explored the dynamics of one-dimensional
         atoms subject to a dipole laser.
         This study provides us with an excellent benchmark to observe a form
         of ionization and see if this is reproducible in our formalism.
-        Note that \citeauthor{miyagi_and_madsen} used a
-        discrete-variable-representation basis (DVR) which is why they include
-        an absorbing potential.
+        Note that \citeauthor{miyagi_and_madsen} uses a
+        discrete-variable-representation basis (DVR) \cite{miyagi_and_madsen,
+        takeshi} which is why they include an absorbing potential.
         Our solution differs from this as we use the static one-dimensional
         quantum dot basis with a one-dimensional atom potential.
         In a position basis with Hartree atomic units, the one-body
@@ -1355,19 +1352,20 @@
             + xF(t)
             - iW(x),
         \end{align}
-        where $Z = N_e$, that is, the number of electrons in the system,
-        $W(x)$ is the absorbing potential, which we'll set to zero.
+        where $Z = N_e$ -- the number of electrons in the system -- and $W(x)$
+        is the absorbing potential, which we'll set to zero.
         The second term gives rise to the naming of these systems as
         one-dimensional atoms as this term serves as the electron-nuclear
         interaction in the atomic Hamiltonian, but with the three-dimensional
         position replaced with $x$.
         One of the interesting aspects of the one-dimensional atoms is that many
-        open-shell systems such as \ch{C} gets closed shells in the
-        one-dimensional case.
-        We will however, limit our study to the one-dimensional Beryllium
+        open-shell systems such as Carbon (\ch{C}) becomes closed shell systems
+        in the one-dimensional case.
+        We will limit our study to the one-dimensional Beryllium (\ch{Be})
         system with $N = 4$ electrons in a closed shell.
 
-        The laser pulse $F(t)$ is given by \cite{miyagi_and_madsen}
+        The laser pulse $F(t)$ used by \citeauthor{miyagi_and_madsen} is given
+        by \cite{miyagi_and_madsen}
         \begin{align}
             F(t)
             &= -\dod[]{A(t)}{t}
@@ -1398,26 +1396,25 @@
         ourselves to the time-dependent Hartree-Fock method and the
         orbital-adaptive time-dependent coupled cluster method as the
         full-configuration interaction method becomes quite expensive.
-        In fact, for $n = 4$ and $l = 40$ we have to create a Hamiltonian
+        In fact, for $N = 4$ and $L = 40$ we have to create a Hamiltonian
         matrix with $91390^2$ elements, each of size $\SI{16}{\text{B}}$ as
         we use complex numbers.
         To solve this system we require a more efficient implementation of the
         configuration interaction method which is out of scope for this thesis.
 
 
-        In order for us to observe actual ionization we need to have a basis
-        containing scattered states, that is, states that have an eigenenergy
-        above the potential well such that we get a non-zero portion of the wave
-        function outside the potential well.
-        If the basis set is too small all states will be bound in the atomic
-        potential and it is not possible to make a linear combination where
-        some parts of the total wave function is outside the potential well
-        more than a small tunneling effect.
+        Using the same definition as \citeauthor{takeshi}, we define
+        ionization as all components outside a radius of $\SI{20}{\bohr}$ from
+        the center of the nucleus \cite{takeshi}.
+        We can then measure the amount of ionization by computing the particle
+        density outside this radius, or conversely, the amount of particle
+        density still inside the nucleus.
+        However, note that as we use static orbitals, we are dependent on having
+        a large enough basis set to actually observe ionization.
         In \autoref{fig:spf-potential-miyagi} we see the highest lying
         orbitals we've used in the one-dimensional Beryllium system.
-        The plot demonstrates that we need a large basis in order to capture
-        scattered states.
-
+        We see that unless we include more than $10$ orbitals we will not
+        include states that are outside the radius of $\SI{20}{\bohr}$.
         \begin{figure}
             \centering
             \begin{tikzpicture}
@@ -1471,22 +1468,24 @@
             avoid the figure being too cluttered.}
             \label{fig:spf-potential-miyagi}
         \end{figure}
-
-        We can see this from \autoref{fig:one-particle-density-miyagi}
-        where a basis of $l = 20$ spin-orbitals has been used.
+        To demonstrate this we have in \autoref{fig:one-particle-density-miyagi}
+        plotted the particle density using a basis of $L / 2 = 10$ orbitals.
+        We see that this basis does not allow any
+        where a basis of $L = 20$
+        spin-orbitals, that is, $L / 2 = 10$ orbitals, has been used.
         This basis is not able to capture much of the scattered states and
         looking at the figure for $t = T$ we see that the system is
         relatively confined still.
-        We can also see this from \autoref{fig:spf-potential-miyagi} as $l =
+        We can also see this from \autoref{fig:spf-potential-miyagi} as $L =
         20$ means the highest single-particle function used is
         $\psi_{10}(x)$ which is clearly confined in the potential well.
         However, looking at \autoref{fig:one-particle-density-miyagi-l=40}
-        we see the same Beryllium system with a basis set of $l = 40$
+        we see the same Beryllium system with a basis set of $L = 40$
         spin-orbitals.
         It is apparent that the system undergoes a larger degree of
         ionization with more of the one-particle density further away from
         the central potential.
-        This is also see in \autoref{fig:spf-potential-miyagi} as $l = 40$
+        This is also see in \autoref{fig:spf-potential-miyagi} as $L = 40$
         includes the state $\psi_{20}(x)$ which is more dispersed.
 
         \begin{figure}
