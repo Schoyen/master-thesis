@@ -6,11 +6,11 @@ import pint
 from tdqd_tools.io_data import return_time_data
 
 solvers = ["tdhf", "oatdccd"]
-basis_sets = ["sto-3g", "6-31gss"]
+basis_sets = ["sto-3g"]  # , "6-31gss"]
 molecules = [
-    "h2",
-    "lih",
-    # "co",
+    # "h2",
+    # "lih",
+    "co"
 ]
 spins = ["up", "both"]
 
@@ -26,16 +26,20 @@ for molecule in molecules:
                 data = return_time_data(filename)
                 time, spec = data[:, 0], data[:, 1]
 
-                height = 5e-2
+                height = 1
+                if solver == "oatdccd":
+                    height = 0.05
+                else:
+                    height = 0.8
 
-                if molecule == "lih":
-                    if basis == "sto-3g":
-                        if spin == "both":
-                            height = 1e-3
-                        else:
-                            height = 1e-2
-                    else:
-                        height = 2e-2
+                # if molecule == "lih":
+                #    if basis == "sto-3g":
+                #        if spin == "both":
+                #            height = 1e-3
+                #        else:
+                #            height = 1e-2
+                #    else:
+                #        height = 0.5
 
                 peak_indices = scipy.signal.find_peaks(spec, height=height)
 

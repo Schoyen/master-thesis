@@ -53,37 +53,6 @@
         }
         $\Delta t = \SI{1e-2}{\hslash/\hartree}$ using the Gauss-integrator with
         $s = 3$ and $\epsilon = \num{1e-6}$.
-        %A plot of the laser field in the first $t = \SI{2}{\femto\second}$ of
-        %the simulation is shown in \autoref{fig:nest-laser}.
-        %\begin{figure}
-        %    \centering
-        %    \begin{tikzpicture}
-        %        \begin{axis}[
-        %                width=11cm,
-        %                height=6cm,
-        %                xlabel={$t$ $[\si{\planckbar / \hartree}]$},
-        %                grid=major,
-        %                ylabel={
-        %                    $E(t)$ $[
-        %                        \si{\hartree / (\elementarycharge \bohr)}
-        %                    ]$
-        %                },
-        %                enlarge x limits=false,
-        %            ]
-        %            \addplot+ [
-        %                mark=none,
-        %                thick,
-        %            ]
-        %            table
-        %            {results/benchmarks/nest/dat/nest_laser_new.dat};
-        %        \end{axis}
-        %    \end{tikzpicture}
-        %    \caption{In this figure we have plotted the laser pulse from
-        %    \autoref{eq:nest-laser} for $t = \SI{2}{\femto\second} \approx
-        %    \SI{82.6}{\hslash / \hartree}$, with parameters as defined in the
-        %    text.}
-        %    \label{fig:nest-laser}
-        %\end{figure}
         A word of caution, when reproducing the results in this article some
         care must be taken when converting to atomic units for the frequency,
         time, and the intensity of the laser as it is not clear how much one
@@ -136,6 +105,12 @@
         transform of the sampled dipole moment in $x$- and $z$-direction in
         time, respectively.
         These plots show the absorption spectra for the \ch{LiH}-molecule.
+        For the $z$-direction it is important to note that the \ch{LiH}-molecule
+        with the bonding set in the $z$-direction has a non-zero dipole moment.
+        This makes the absorption spectra include a constant zero frequency
+        component.
+        We've removed this component from the figures by using the function
+        \pyth{scipy.signal.detrend} \cite{scipy}.
         \begin{figure}
             \centering
             \begin{tikzpicture}
@@ -148,13 +123,16 @@
                     width=11cm,
                     height=6cm,
                     xlabel={Excitation energy $[\si{\hartree}]$},
+                    xticklabel style={
+                        /pgf/number format/fixed,
+                        /pgf/number format/precision=2,
+                    },
                 ]
                     \nextgroupplot[
                         title={$\mathcal{F}\brak{\expval*{x(t)}}$},
                         grid=major,
                         ylabel={Intensity},
                         enlarge x limits=false,
-                        %ymax=0.5e-4,
                     ]
                         \addplot+[
                             mark=none,
@@ -184,7 +162,6 @@
                         ylabel={Intensity},
                         grid=major,
                         enlarge x limits=false,
-                        %ymax=0.5e-4,
                     ]
                         \addplot+[
                             mark=none,
@@ -217,9 +194,7 @@
             with singles and doubles, orbital-adaptive time-dependent coupled
             cluster with doubles excitations.
             The top figure shows the results in $x$-direction and the lower
-            in $z$-direction.
-            Note that we have removed the zero-frequency component from
-            these spectra.}
+            in $z$-direction.}
             \label{fig:fft_dipole_nest}
         \end{figure}
         In \autoref{tab:fft_dipole_nest_x} we've used the function
@@ -229,13 +204,12 @@
         We've done the same in \autoref{tab:fft_dipole_nest_z} for the
         $z$-direction.
         Note that we've set a threshold for the minimum height of the peaks to
-        $\num{5e-6}$ to avoid some noisy signals.\footnote{%
+        $\num{5e-3}$ to avoid some noisy signals.\footnote{%
             This value was chosen by trial and error where we inspected the
             figures --especially for the $z$-direction -- in
             \autoref{fig:fft_dipole_nest} to see that all peaks are in the
             results at the approximate correct location.
         }
-        % TODO: YOU ARE HERE!
 
         \begin{table}
             \centering
@@ -274,7 +248,8 @@
                 \midrule
                 TDHF & $1$ & $0.1492$ & $4.0607$ \\
                 & $2$ & $0.2785$ & $7.5772$ \\
-                & $3$ & $0.4277$ & $11.6379$ \\
+                & $3$ & $0.3308$ & $9.0005$ \\
+                & $4$ & $0.4277$ & $11.6379$ \\
                 TDCCSD & $1$ & $0.1215$ & $3.3072$ \\
                 & $2$ & $0.2615$ & $7.1167$ \\
                 & $3$ & $0.3061$ & $8.3307$ \\
@@ -291,17 +266,20 @@
         For the sake of comparison we have also used CISD to compute the excited
         energy levels.
         By subtracting the ground state energy from each excited energy level we
-        find the transition energies and are able to compare with the results in
+        find the transition energies from the ground state to a higher state,
+        and we are able to compare with the results in
         \autoref{tab:fft_dipole_nest_x} and \autoref{tab:fft_dipole_nest_z}.
         However, this will include all transition energies, even those that are
         beyond the dipole allowed transitions.
         We therefore wish to filter out all higher order transitions as we are
         only looking for dipole allowed effects.
-        Now, the way we verify if a transition is an allowed dipole transition
+        Now, the way we verify if a transition is an allowed dipole
+        transition\footnote{%
+            Within the CISD-approximation.
+        }
         once we have the spectrum $(\energy_K, \Psi_K)$ from the
-        CISD-Hamiltonian, is to compute a sort of ``transition one-body density
-        matrix'' defined as
-        % TODO: Is there a name for this quantity?
+        CISD-Hamiltonian, is to compute a transition one-body density matrix
+        defined as
         \begin{align}
             (\densityten_{IJ})^{q}_{p}
             \equiv \mel*{\Psi_I}{
@@ -320,12 +298,16 @@
         To verify if an energy transition between two states $\Psi_I$ and
         $\Psi_J$ are allowed in the dipole approximation we compute
         \begin{align}
-            \vfg{d}^{p}_{q} (\densityten_{IJ})^{q}_{p}
+            \abs{\vfg{d}^{p}_{q} (\densityten_{IJ})^{q}_{p}}
             > \vfg{0},
+            \label{eq:dipole-transition-cisd}
         \end{align}
         where a non-zero -- or, numerically non-zero -- value means that the
         transition is allowed along the axis that has a non-zero value.
-        Using these techniques to located allowed transitions, we map the
+        Note that the absolute value in \autoref{eq:dipole-transition-cisd}
+        should be interpreted as an elementwise absolute value for each spatial
+        component in $\vfg{d}^{p}_{q}$.
+        Using these techniques to locate allowed transitions, we map the
         lowest lying allowed dipole transitions for the \ch{LiH}-molecule using
         CISD in the restricted Hartree-Fock basis in
         \autoref{tab:dipole_transition_cisd}.
@@ -369,30 +351,55 @@
         It is a little hard to determine if the coupled-cluster methods perform
         better than CISD as the energies are simultaneously higher and lower at
         different energy levels.
-        Furthermore, the converged ground state correlation energy for all three
-        methods is
+        An important point to note is that even though CISD is found using the
+        variational principle thus guaranteeing an upper bound to the energy,
+        the \emph{energy difference} does not have this requirement.
+        That is, the ground state energy and an excited state are both an upper
+        bound to the their respective energy, but the excited state might be
+        closer to the exact energy therefore making the difference smaller than
+        what it should be.
+        Furthermore, we know that OATDCCD and TDCCSD are more correlated than
+        CISD and should in theory yield better results, however, the transition
+        energies from the coupled-cluster methods depends on a lot of factors
+        such as the time step of the integrator and the sampling time when
+        computing the Fourier transform of the dipole moment signal.
+        But, within two decimal places the results from the coupled-cluster
+        methods and CISD are in perfect agreement.
+
+        As an extra point, the converged ground state energies\footnote{%
+            This energy is excluding the nuclear repulsion as reported by
+            \citeauthor{nest} \cite{nest}.
+        } for CISD, TDCCSD, and OATDCCD are
         \begin{align}
-            \energy_0 = \SI{-8.9772}{\hartree},
+            \energy_0 = \SI{-8.9772}{\hartree}.
         \end{align}
-        for the given precision for the coupled-cluster methods.
         The methods therefore seemingly perform just as well on the
         \ch{LiH}-system.
-        We see that we are able to achieve a lower ground state energy than
-        \citeauthor{nest}.
+        However, we see that we are able to achieve a lower ground state energy
+        than reported by \citeauthor{nest}.
 
-        However, there is no doubt that TDHF is quite far off in terms of the
-        dipole transition energies when loooking at
-        \autoref{tab:fft_dipole_nest_x} and \autoref{tab:fft_dipole_nest_z}.
+        There is no doubt that TDHF is quite far off in terms of the dipole
+        transition energies when loooking at \autoref{tab:fft_dipole_nest_x} and
+        \autoref{tab:fft_dipole_nest_z}.
+        This demonstrates the expected behavior as discussed in \autoref{sec:li}
+        that the TDHF will falter once the laser fields intesifies and the
+        correlations in the atoms and molecules becomes larger.
+        To properly explain the dynamics of even a $4$-particle system we need
+        something better than the signle-determinant mean-field approximation
+        achieved from TDHF.
+        The fact that TDHF is so far off shows promise in that the real-time
+        coupled-cluster methods can be used to improve on many reported results
+        achieved from using TDHF.
 
 
     \section{Spectra of noble gasses}
         \label{sec:noble-gasses}
         Before moving on to more exotic systems we wish to demonstrate one of
         the main goals in this thesis, and that is to prove that the implemented
-        methods are able to explore larger systes than what can achieved with
+        methods are able to explore larger systems than what can achieved with
         the full configuration interaction method.
         We therefore wish to demonstrate some simulations for the \ch{Ne}- and
-        \ch{Ar}-atom in exactly the same laser field as in the study done by
+        \ch{Ar}-atoms in exactly the same laser field as in the study done by
         \citeauthor{nest} \cite{nest} shown in \autoref{eq:nest-laser}, but with
         a higher frequency.
         We have chosen a frequency $\omega$ corresponding to a laser wavelength
@@ -401,82 +408,100 @@
         We've chosen this frequency as this lets us simulate a full cycle of the
         laser in a relatively short time, thus letting the atoms oscillate for a
         long time after the laser is turned off.
+
+        Due to the size of the atoms, $N = 10$ for \ch{Ne} and $N = 18$ for
+        \ch{Ar}, the evolution of the system takes a substantial amount of time.
+        We've used two different basis sets: cc-pVDZ and aug-cc-pVDZ for both
+        atoms.
+        We specify these basis sets in PySCF \cite{pyscf} by the strings
+        \pyth{"ccpvdz"} and \pyth{"aug-ccpvdz"} respectively.
+        For \ch{Ne} the basis set cc-pVDZ yields $L = 28$ spin-orbitals and
+        aug-cc-pVDZ contains $L = 46$ spin-orbitals.
+        Similarly for \ch{Ar} we get $L = 36$ spin-orbitals for cc-pVDZ and $L =
+        54$ for aug-cc-pVDZ.
+        In other words, the basis sets are still quite small, but due to the
+        number of particles the runs using our non-optimized code are still
+        slow.
+        Ideally we would like to run all simulations for $\SI{100}{\fs}$ with a
+        time step of $\Delta t = \SI{1e-2}{\hslash/\hartree}$, but in
+        practice the larger basis sets did limit the length of the simulations.
+        We managed to run \ch{Ne} in cc-pVDZ using OATDCCD for the full
+        duration, but all other runs were truncated to $\SI{25}{\fs}$, or in the
+        case of \ch{Ar} in aug-cc-pVDZ, were cut-off due to exceeding the max
+        time of a week at the Abel compute cluster.
+        We used the Gauss-integrator with $s = 3$ and $\epsilon = \num{1e-6}$ as
+        convegence threshold for the fix-point iterations.
+
+        All runs are done using the OATDCCD-method and we've repeated the runs
+        for \ch{Ne} in both basis sets using TDCCSD as well.
+        The ground state energies are listed in \autoref{tab:gs-noble-gasses}.
         \begin{table}
             \centering
-            \caption{Ground states}
+            \caption{Ground state energies for \ch{Ne} and \ch{Ar} in both
+            cc-pVDZ and aug-cc-pVDZ using OATDCCD and TDCCSD.
+            The convergence tolerance for all amplitudes in both methods were
+            set to $\num{1e-6}$.}
             \renewcommand{\arraystretch}{1.3}
             \begin{tabular}{@{}lllll@{}}
                 \toprule
-                Basis & Solver & Atom
+                Atom & Basis & Solver
                 & $\energy$ $[\si{\hartree}]$
                 & $\energy$ $[\si{\electronvolt}]$ \\
                 \midrule
-                cc-pVDZ & OATDCCD & \ch{Ne}
-                & $\SI{-128.6796}{\hartree}$
-                & \\
-                & TDCCSD & \ch{Ne}
-                & $\SI{-128.6796}{\hartree}$
-                & \\
-                aug-cc-pVDZ & OATDCCD & \ch{Ne}
-                & $\SI{-128.7082}{\hartree}$
-                &
-                \\
-                & TDCCSD & \ch{Ne}
-                & $\SI{-128.7085}{\hartree}$
-                &
-                \\
+                \ch{Ne} & cc-pVDZ & OATDCCD & $-128.6796$ & $-3501.5501$ \\
+                & & TDCCSD & $-128.6796$ & $-3501.5513$ \\
+                & aug-cc-pVDZ & OATDCCD & $-128.7082$ & $-3502.3294$ \\
+                & & TDCCSD & $-128.7085$ & $-3502.3364$ \\
+                \ch{Ar} & cc-pVDZ & OATDCCD & $-526.9562$ & $-14339.2093$ \\
+                & & TDCCSD & $-526.9562$ & $-14339.2094$ \\
+                & aug-cc-pVDZ & OATDCCD & $-526.9725$ & $-14339.6511$ \\
+                & & TDCCSD & $-526.9725$ & $-14339.6519$ \\
                 \bottomrule
             \end{tabular}
             \label{tab:gs-noble-gasses}
         \end{table}
-
-        \begin{table}
-            \centering
-            \caption{Dipole transitions for \ch{Ne} in cc-pVDZ basis.}
-            \renewcommand{\arraystretch}{1.3}
-            \begin{tabular}{@{}llll@{}}
-                \toprule
-                Solver & Peak $[n]$
-                & $\Delta \energy$ $[\si{\hartree}]$
-                & $\Delta \energy$ $[\si{\electronvolt}]$
-                \\
-                \midrule
-                TDCCSD & $1$ & $2.3116$ & $62.9005$ \\
-                & $2$ & $2.8879$ & $78.5830$ \\
-                & $3$ & $5.7507$ & $156.4842$ \\
-                OATDCCD & $1$ & $2.3087$ & $62.8237$ \\
-                & $2$ & $2.8890$ & $78.6130$ \\
-                & $3$ & $5.7412$ & $156.2261$ \\
-                \bottomrule
-            \end{tabular}
-            \label{tab:dipole-ne-cc-pvdz}
-        \end{table}
-
-        \begin{table}
-            \centering
-            \caption{Dipole transitions for \ch{Ne} in aug-cc-pVDZ basis.}
-            \renewcommand{\arraystretch}{1.3}
-            \begin{tabular}{@{}llll@{}}
-                \toprule
-                Solver & Peak $[n]$
-                & $\Delta \energy$ $[\si{\hartree}]$
-                & $\Delta \energy$ $[\si{\electronvolt}]$
-                \\
-                \midrule
-                OATDCCD & $1$ & $0.7141$ & $19.4327$ \\
-                & $2$ & $2.1863$ & $59.4913$ \\
-                \bottomrule
-            \end{tabular}
-            \label{tab:dipole-ne-aug-cc-pvdz}
-        \end{table}
-
+        In \autoref{fig:dipole-ne} we've plotted the absorption spectra for
+        \ch{Ne} using both basis sets.
+        The corresponding dipole allowed transition energies are listed in
+        \autoref{tab:dipole-ne}.
+        As discussed in \autoref{sec:atoms-and-molecules}, to properly model
+        dynamics we need an augmented basis set with diffues basis functions
+        beyond the ground state optimized correlation consistent basis sets.
+        We can see this in the transition energies found from cc-pVDZ as they
+        are far higher than the same transitions in aug-cc-pVDZ.
+        In the article \citetitle{gauge-invariant-thomas-2} by
+        \citeauthor{gauge-invariant-thomas-2} \cite{gauge-invariant-thomas-2}
+        they report both ground state results and the first allowed dipole
+        transition for \ch{Ne} in aug-cc-pVDZ.\footnote{%
+            They report results for more basis sets, but we can compare with
+            this basis set in particular.
+        }
+        For the ground state energies we have used the exact same methods, i.e.,
+        the CCSD and NOCCD ground state solvers, and we see that we agree with
+        the results found by \citeauthor{gauge-invariant-thomas-2} to three
+        decimal places for \ch{Ne} in the aug-cc-pVDZ basis.
+        In \autoref{tab:dipole-ne} we also see that OATDCCD and TDCCSD report
+        similar values for the first allowed dipole transition of \ch{Ne} in
+        aug-cc-pVDZ basis as reported by \citeauthor{gauge-invariant-thomas-2}
+        using linear response theory with CCSD and NOCCD.
+        The time-dependent NOCCD-method should be equal to OATDCCD if we let the
+        right-hand side of the $Q$-space equations in OATDCCD be
+        zero.\footnote{%
+            This is one of the reasons why we use NOCCD as the ground state
+            solver for OATDCCD.
+        }
+        We also see the same behvior as reported by
+        \citeauthor{gauge-invariant-thomas-2} that OATDCCD reports a higher
+        value for the transition energy than TDCCSD.
+        However, the second allowed dipole transition in \autoref{tab:dipole-ne}
+        for \ch{Ne} in the aug-cc-pVDZ basis is not reported elsewhere.
         \begin{figure}
             \centering
             \begin{tikzpicture}
                 \begin{axis}[
                     width=11cm,
                     height=6cm,
-                    title={Absorption spectra of Neon},
+                    title={Absorption spectra for Neon},
                     xlabel={Excitation energy $[\si{\hartree}]$},
                     grid=major,
                     ylabel={Intensity},
@@ -499,44 +524,72 @@
                     \addlegendentry{aug-cc-pVDZ}
                 \end{axis}
             \end{tikzpicture}
-            \caption{In this figure we've plotted the absorption spectra of the
-            \ch{Ne}-atom in two different basis sets using the OATDCCD-method.
-            The results achieved from the TDCCSD-method are indistinguishable by
-            eye.
-            The peaks for the cc-pVDZ basis are listed in
-            \autoref{tab:dipole-ne-cc-pvdz} and in
-            \autoref{tab:dipole-ne-aug-cc-pvdz} for the aug-cc-pVDZ basis.}
-            \label{fig:ne-spectra}
+            \caption{In this figure we've plotted the Fourier transform of the
+            expectation value of the dipole moment in $z$-direction of the
+            \ch{Ne}-atom in both cc-pVDZ and aug-cc-pVDZ using OATDCCD.
+            The results for TDCCSD are visually indistinguishable and we have
+            therefore refrained from plotting these.
+            The peaks for both basis sets and using both solvers are listed in
+            \autoref{tab:dipole-ne}.}
+            \label{fig:dipole-ne}
         \end{figure}
 
         \begin{table}
             \centering
-            \caption{Dipole transitions for \ch{Ar} in cc-pVDZ and aug-cc-pVDZ
-            basis using the OATDCCD-method.}
+            \caption{Dipole transitions for \ch{Ne} in both basis sets.
+            We've numbered the peaks from left to right from the plot in
+            \autoref{fig:dipole-ne}.}
             \renewcommand{\arraystretch}{1.3}
-            \begin{tabular}{@{}llll@{}}
+            \begin{tabular}{@{}lllll@{}}
                 \toprule
-                Basis & Peak $[n]$
+                Basis & Solver & Peak $[n]$
                 & $\Delta \energy$ $[\si{\hartree}]$
                 & $\Delta \energy$ $[\si{\electronvolt}]$
                 \\
                 \midrule
-                cc-pVDZ & $1$ & $1.1118$ & $30.2549$ \\
-                & $2$ & $1.4746$ & $40.1254$ \\
-                & $3$ & $1.6323$ & $44.4168$ \\
-                aug-cc-pVDZ & $1$ & $0.4677$ & $12.7275$ \\
+                cc-pVDZ & TDCCSD & $1$ & $2.3116$ & $62.9005$ \\
+                & & $2$ & $2.8879$ & $78.5830$ \\
+                & & $3$ & $5.7507$ & $156.4842$ \\
+                & OATDCCD & $1$ & $2.3087$ & $62.8237$ \\
+                & & $2$ & $2.8890$ & $78.6130$ \\
+                & & $3$ & $5.7412$ & $156.2261$ \\
+                % TODO: Use new results for TDCCSD once they are done
+                aug-cc-pVDZ & TDCCSD & $1$ & $0.7003$ & $19.0567$ \\
+                & & $2$ & $2.1700$ & $59.0489$ \\
+                & OATDCCD & $1$ & $0.7141$ & $19.4327$ \\
+                & & $2$ & $2.1863$ & $59.4913$ \\
                 \bottomrule
             \end{tabular}
-            \label{tab:dipole-ar-cc-pvdz}
+            \label{tab:dipole-ne}
         \end{table}
 
+        Mostly as a test of the applicability of our developed codes, we repeat
+        the same study we did for \ch{Ne} on the \ch{Ar}-atom.
+        We restrict our attention to the OATDCCD method for no other reason than
+        time limitations.\footnote{%
+            The inclusion of results using TDCCSD should absolutely have been
+            done, but this will have to be explored at a later time.
+        }
+        In \autoref{fig:dipole-ar} we have plotted the absorption spectra of
+        \ch{Ar} in both the cc-PVDZ and the aug-cc-pVDZ basis.
+        The results from the latter basis does not have a good resolution due to
+        relatively few samples after the laser pulse was switched off, but we
+        are able to see a trend.
+        In \autoref{tab:dipole-ar} we've listed the dipole allowed transition
+        energies for all the peaks that we see in \autoref{fig:dipole-ar}.
+        Recalling that the cc-pVDZ basis gave a much higher transition energy
+        than for the aug-cc-pVDZ basis for \ch{Ne} we see the same result for
+        \ch{Ar}.
+        Note that we have been unable to locate any results for the first
+        allowed dipole transitino for \ch{Ar} in the aug-cc-pVDZ basis and we
+        therefore merely report it in \autoref{tab:dipole-ar}.
         \begin{figure}
             \centering
             \begin{tikzpicture}
                 \begin{axis}[
                     width=11cm,
                     height=6cm,
-                    title={Absorption spectra of Argon},
+                    title={Absorption spectra for Argon},
                     xlabel={Excitation energy $[\si{\hartree}]$},
                     grid=major,
                     ylabel={Intensity},
@@ -559,58 +612,78 @@
                     \addlegendentry{aug-cc-pVDZ}
                 \end{axis}
             \end{tikzpicture}
-            \caption{In this figure we've plotted the absorption spectra of the
-            \ch{Ar}-atom in two different basis sets using the OATDCCD-method.}
-            \label{fig:ar-spectra}
+            \caption{In this figure we've plotted the Fourier transform of the
+            expectation value of the dipole moment in $z$-direction of the
+            \ch{Ar}-atom in both cc-pVDZ and aug-cc-pVDZ using OATDCCD.
+            The peaks for both basis sets and using both solvers are listed in
+            \autoref{tab:dipole-ar}.}
+            \label{fig:dipole-ar}
         \end{figure}
+
+        \begin{table}
+            \centering
+            \caption{Dipole allowed transition energies for \ch{Ar} in cc-pVDZ
+            and aug-cc-pVDZ basis along the $z$-axis using the OATDCCD-method.}
+            \renewcommand{\arraystretch}{1.3}
+            \begin{tabular}{@{}lllll@{}}
+                \toprule
+                Basis & Solver & Peak $[n]$
+                & $\Delta \energy$ $[\si{\hartree}]$
+                & $\Delta \energy$ $[\si{\electronvolt}]$
+                \\
+                \midrule
+                cc-pVDZ & OATDCCD & $1$ & $1.1118$ & $30.2549$ \\
+                & & $2$ & $1.4746$ & $40.1254$ \\
+                & & $3$ & $1.6323$ & $44.4168$ \\
+                aug-cc-pVDZ & OATDCCD & $1$ & $0.4677$ & $12.7275$ \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:dipole-ar}
+        \end{table}
 
     \section{Spin-dependent laser pulses}
         \label{sec:isborn}
         We have so far demonstrated that our implemented methods reproduce known
         results from the literature on a wide range of systems.
-        Furthermore, we've demonstrated that we can run large simulations and
-        have presented new results for the \ch{Ar}-atom.
+        Furthermore, we've demonstrated that we can run large simulations up to
+        $N = 18$ (\ch{Ar}) in a modest basis set.
         However, we now wish to demonstrate that our implemented methods are
-        able to simulate more exotic systems with \emph{spin-dependence}.
+        able to simulate systems with a \emph{spin-dependent} Hamiltonian.
+        Doing this will demonstrate that we should be able to simulate systems
+        with a spin-dependent magnetic field.
 
         In a study by \citeauthor{isborn} \cite{isborn}, the authors explored a
         spin-dependent laser field to see singlet-triplet transitions which are
         invisible to a spin-symmetric field.
-        % TODO: Is this why?
         This study is performed using the time-dependent unrestricted
         Hartree-Fock (TDUHF) method and time-dependent density functional theory.
         We've yet to implement a TDUHF-method and will therefore use regular
         TDHF with general spin-orbitals and the OATDCCD-method.
-        We shall see that the former will experience spin-contamination and
-        break down when we include spin-dependency in the laser field.
 
         The laser pulse used by \citeauthor{isborn} is given by
         \begin{align}
             \vfg{E}(t)
             = E_m \vfg{\epsilon} \sine(\omega t),
         \end{align}
-        where we polarize in the negative $z$-direction to correct for charge of
+        where we polarize in the negative $z$-direction to include the charge of
         the electrons.
         The field is active for $t \in [0, T]$ with $T = 6\pi / \omega$, i.e.,
-        the field is active for three cycles.
+        the field is active for three cycles of the laser frequency.
         The frequency is set to $\omega = \SI{0.06}{\hartree/\hslash}$, the
-        integration time step to $\Delta t = \SI{0.002}{\fs}$ with the
-        simulation run for a total of $\SI{50}{\fs}$.
+        integration time step to $\Delta t = \SI{1e-2}{\hslash/\hartree}$ and we
+        let the simulation run for a total of $\SI{50}{\fs}$.
         We simulate the three molecules \ch{H2}, \ch{LiH}, and \ch{CO} with the
         two basis sets STO-3G and 6-31G**.
         The laser field strength for \ch{H2} was set to $E_m = \num{0.1}$, and
         for \ch{LiH} and \ch{CO} to $E_m = \num{0.01}$.
-        For \ch{CO} we had to lower the time step to $\Delta t =
-        \SI{0.01}{\hslash/\hartree}$ for the simulation to run for both basis
-        sets.
-        Furthermore, due to a hickup in the (self-made) caching scheme used on
-        the Abel compute cluster led to the seven days long run for \ch{CO} in
-        the 6-31G** basis using OATDCCD to get deleted.
+        Furthermore, a hickup in the (self-made) caching scheme used on the Abel
+        computing cluster led to the seven days long run for \ch{CO} in the
+        6-31G** basis using OATDCCD being deleted.
         Thus, our results for \ch{CO} will only be in the smaller STO-3G basis
         set.
         A frutstrating fact in the article by \citeauthor{isborn} is that the
         bonding length of the molecules used are not reported.
-        We therefore guess that \citeauthor{isborn} used the equilibrium
+        We therefore assume that \citeauthor{isborn} used the equilibrium
         bond-lengths in the $z$-direction for all three molecules.
         These are listed in \autoref{tab:bond-length-isborn}.
         \begin{table}
@@ -632,11 +705,11 @@
             \end{tabular}
             \label{tab:bond-length-isborn}
         \end{table}
-        To included the spin-dependency in the electric fields we have chosen a
+        In order to make the applied field spin-dependent we have chosen a
         solution where we set the dipole moment matrix elements corresponding to
         a specific spin-direction to zero and leave the other spin-direction as
         it is.
-        A demonstration of the dipole matrix elements of the \ch{H2} molecule in
+        A demonstration of the dipole matrix elements of the \ch{H2}-molecule in
         the 6-31G** basis is shown in \autoref{fig:dipole-matrices}.
         By using the matrix elements on the right in
         \autoref{fig:dipole-matrices} we effectively use a spin-dependent laser
@@ -705,7 +778,9 @@
             the image on the left shows the same matrix elements, but with all
             odd indices set to zero which means that we are left with the dipole
             matrix elements for the spin-up direction.
-            Note that we've scaled the values to be between $0$ and $1$.}
+            Note that we've scaled the values to be between $0$ and $1$ by
+            taking the elementwise absolute value of $\vfg{z}$ and dividing by
+            the max value in the matrix.}
             \label{fig:dipole-matrices}
         \end{figure}
 
@@ -827,7 +902,8 @@
             \centering
             \caption{Dipole transition energy levels for the \ch{H2}-molecule in
             both the STO-3G and the 6-31G** basis sets using TDHF and OATDCCD.
-            These results are found from the peaks in \autoref{fig:h2-isborn}.}
+            These results are found from the visible peaks in
+            \autoref{fig:h2-isborn}.}
             \renewcommand{\arraystretch}{1.3}
             \begin{tabular}{@{}lllll@{}}
                 \toprule
@@ -848,9 +924,9 @@
             \end{tabular}
             \label{tab:h2-isborn}
         \end{table}
-        For the \ch{H2}-molecule we can use CISD to compute the entire spectrum
-        and locate the allowed dipole transitions using the same technique as
-        discussed in \autoref{sec:nest}.
+        For the \ch{H2}-molecule we can use CISD, i.e., FCI in this case, to
+        compute the entire spectrum and locate the allowed dipole transitions
+        using the same technique as discussed in \autoref{sec:nest}.
         Furthermore, using the spin-reduced dipole matrix elements we should
         locate the allowed singlet-triplet transitions.
         In \autoref{tab:h2-isborn-transitions} we've listed all allowed
@@ -893,12 +969,14 @@
         We note that the energies are not exactly the same -- even though both
         CISD and OATDCCD are formally exact within the given basis for $N = 2$
         particles -- but as the methods for discovering these energy transitions
-        are so vastly different we conclude that these energies are the same.
+        are so vastly different as discussed in \autoref{sec:nest} we conclude
+        that these energies are the same.
+        % TODO: Find out about resolution of FFT!
         Comparing with the results from \citeauthor{isborn} we see that TDHF is
         close to their results using TDUHF.
         However, we conjecture that the discrepancies are mainly a result of
         \citeauthor{isborn} using the presumably more stable TDUHF method for
-        these kind of simulations.
+        spin-dependent laser fields.
         We also note that our results using the more exact methods OATDCCD and
         CISD are higher than the results achieved from TDHF.
         It seems that both TDHF and TDUHF predicts a lower transition energy
@@ -1025,16 +1103,15 @@
             \label{fig:lih-isborn}
         \end{figure}
         We see that the signal from these simulations are rather noisy.
-        Especially for the spin-dependent field.
         Tabulating the values in \autoref{fig:lih-isborn} we get the results
         shown in \autoref{tab:lih-isborn}.
-        We've set the thresholds for the peaks to include all the visual peaks
-        in \autoref{fig:lih-isborn}.
         \begin{table}
             \centering
             \caption{Dipole transition energy levels for the \ch{LiH}-molecule in
             both the STO-3G and the 6-31G** basis sets using TDHF and OATDCCD.
-            These results are found from the peaks in \autoref{fig:lih-isborn}.}
+            These results are found from the peaks in \autoref{fig:lih-isborn}
+            with a threshold that the peaks must have a larger intensity than
+            $\num{0.2}$.}
             \renewcommand{\arraystretch}{1.3}
             \begin{tabular}{@{}lllll@{}}
                 \toprule
@@ -1059,8 +1136,6 @@
                 & & no & $0.1043^{\ddagger}$ & $2.8380$ \\
                 & & no & $0.1151$ & $3.1316$ \\
                 & & yes & $0.1510$ & $4.1102$ \\
-                & & no & $0.3488^{\ddagger}$ & $9.4927$ \\
-                & & no & $0.4280^{\ddagger}$ & $11.6456$ \\
                 & OATDCCD & no & $0.0144^{\diamond}$ & $0.3915$ \\
                 & & no & $0.1115$ & $3.0339$ \\
                 & & yes & $0.1259$ & $3.4253$ \\
@@ -1069,33 +1144,34 @@
             \label{tab:lih-isborn}
         \end{table}
         Unlike the \ch{H2}-molecule we see that the values in
-        \autoref{tab:lih-isborn} contain significantly more noise.
+        \autoref{tab:lih-isborn} contain significantly more noise, especially
+        for the transition energies found using the TDHF-method.
         Looking at the transition in \autoref{tab:lih-isborn} denoted with a
-        $\dagger$ we've left it as it is, but we conjecture that it should
-        really be the singlet-allowed transition listed below as the peaks in
-        the upper palette of \autoref{fig:lih-isborn} show that the two peaks
-        coincide, but due to few samples they become a little noisy and thus do
-        not overlap perfectly.
+        ``$\dagger$'' -- found using the OATDCCD-method -- is included as it is,
+        but we conjecture that it should really be the singlet-allowed
+        transition listed below as the peaks in the upper palette of
+        \autoref{fig:lih-isborn} show that the two peaks coincide, but due to
+        few samples they do not overlap perfectly.
         The values for TDHF in \autoref{tab:lih-isborn} denoted with a
-        $\ddagger$ are clearly noise.
+        ``$\ddagger$'' are clearly noise.
         Furthermore, comparing with \citeauthor{isborn} \cite{isborn} we see
-        that only the two values that are not denoted with a $\ddagger$ are the
-        actual dipole transition energies we should see.
+        that only the two values that are not denoted with a ``$\ddagger$'' are
+        the actual dipole transition energies we should see.
         However, they are so weak that they occur below the noise and would not
         have been discovered unless we knew what we were looking for.
         This demonstrates that the TDHF-method is unable to describe the
         spin-dependent field.
-        We conjecture that this has to do with \emph{spin-contamination} where
-        the lack of a spin-restriction on the molecular orbitals yield a linear
-        combination of combined spin-directions.
-        This suddenly means that the dipole matrix elements are no longer acting
-        on a clear spin-direction.
         As \citeauthor{isborn} \cite{isborn} were able to get better
         measurements we believe that the usage of a TDUHF-method would recover
         the desired results.
         This would be an interesting study to explore, but we've not had the
-        time to implement the TDUHF-method and the analysis will have to be
-        saved for another day!
+        time to implement the TDUHF-method and are therefore left as a future
+        project.
+        % TODO: Discuss the spin-mixing-thingy?
+        The values in \autoref{tab:lih-isborn} marked with a ``$\diamond$'' are
+        most likely a result of dipole transitions between two excited states.
+        We see that they are present in plots of \citeauthor{isborn} as well,
+        and we leave them as they are.
 
         Computing the dipole allowed transitions using the CISD-method we get
         the results shown in \autoref{tab:lih-isborn-transitions}.
@@ -1103,9 +1179,8 @@
         noise compare well with the results from \citeauthor{isborn}
         \cite{isborn} whereas the OATDCCD results are comparable to the results
         from CISD in \autoref{tab:lih-isborn-transitions}.
-        However, they are not the same and we expect the results from OATDCCD to
-        be more correct as they stem from a method that includes more
-        correlation.
+        However, they are not the same for the same reasons as discussed in the
+        two previous studies using this technique.
         \begin{table}
             \centering
             \caption{Dipole allowed transitions for \ch{LiH} in both basis sets
@@ -1129,7 +1204,116 @@
             \label{tab:lih-isborn-transitions}
         \end{table}
         % TODO: Add CO maybe?
-        % TODO: See if the lowest transition is between two excited states.
+        Finally, in \autoref{fig:co-isborn} we've listed the results from the
+        \ch{CO} simulations in the STO-3G basis.
+        Here we clearly see how TDHF really struggles with the spin-dependent
+        field.
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{groupplot}[
+                    group style={
+                        group size=1 by 1,
+                        vertical sep=60pt,
+                        xlabels at=edge bottom,
+                    },
+                    width=11cm,
+                    height=6cm,
+                    xlabel={Excitation energy $[\si{\hartree}]$},
+                ]
+                    \nextgroupplot[
+                        grid=major,
+                        title={Absorption spectra of \ch{CO} (STO-3G)},
+                        ylabel={Intensity},
+                        enlarge x limits=false,
+                        xmax=2,
+                    ]
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_co_sto-3g_tdhf_both_real.dat};
+                        \addlegendentry{HF}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_co_sto-3g_oatdccd_both_real.dat};
+                        \addlegendentry{OA}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                            dashed,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_co_sto-3g_tdhf_up_real.dat};
+                        \addlegendentry{HF (up)}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                            dashed,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_co_sto-3g_oatdccd_up_real.dat};
+                        \addlegendentry{OA (up)}
+                \end{groupplot}
+            \end{tikzpicture}
+            \caption{In these figures we've plotted the absorption spectra of
+            \ch{CO} subject to a laser field using the TDHF (HF) and the OATDCCD
+            (OA) methods.
+            The label ``up'' denotes a spin-dependent field along one of the
+            spin-functions.
+            No extra label means that the field is spin-indepdenent.}
+            \label{fig:co-isborn}
+        \end{figure}
+        In \autoref{tab:co-isborn} we've tabulated the peaks from
+        \autoref{fig:co-isborn}.
+        The results from the TDHF-method, especially for the spin-dependent
+        field, are hard to make any sense from.
+        They seemingly only consist of noisy data and by comparing with the
+        results found by \citeauthor{isborn} we see that there are little to no
+        comparison of the results.
+        For OATDCCD we trust our data a little more, but it is again hard to
+        compare with the results from \citeauthor{isborn} as they use TDUHF and
+        TDDFT.
+        Also, what is strange is that we only see a single clear peak once the
+        spin-dependent field is active, and this values is much lower than any
+        results reported by \citeauthor{isborn}.
+        \begin{table}
+            \centering
+            \caption{Dipole transition energy levels for the \ch{CO}-molecule in
+            the STO-3G basis using TDHF and OATDCCD.
+            These results are found from the peaks in \autoref{fig:co-isborn}
+            with a threshold that the peaks must have a larger intensity than
+            $\num{0.05}$ for the OATDCCD-method and $\num{0.8}$ for the
+            TDHF-method.}
+            \renewcommand{\arraystretch}{1.3}
+            \begin{tabular}{@{}lllll@{}}
+                \toprule
+                Basis & Solver & Singlet allowed
+                & $\Delta \energy$ $[\si{\hartree}]$
+                & $\Delta \energy$ $[\si{\electronvolt}]$
+                \\
+                \midrule
+                STO-3G & TDHF & no & $0.0036$ & $0.0979$ \\
+                & & yes & $0.1690$ & $4.5996$ \\
+                & & yes & $0.7013$ & $19.0833$ \\
+                & & yes & $0.7912$ & $21.5299$ \\
+                & & yes & $0.9315$ & $25.3465$ \\
+                & OATDCCD & no & $0.0971$ & $2.6423$ \\
+                & & yes & $0.3453$ & $9.3949$ \\
+                & & yes & $0.6869$ & $18.6919$ \\
+                & & yes & $0.8092$ & $22.0193$ \\
+                & & yes & $0.9171$ & $24.9552$ \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:co-isborn}
+        \end{table}
 
         The inclusion of a spin-dependent laser field demonstrates that we are
         able to take a step further and include magnetic fields with spin-orbit
@@ -1139,27 +1323,24 @@
         include the spin-dependence as well.
 
     \section{Ionization of one-dimensional atoms}
-        The process of modelling ionization of electrons in atoms and
-        molecules is a tricky subject, particularly in our regime.
-        That is because we are forcing our systems to be bound by simulating a
-        restricted space and requiring that all particles be contained inside
-        the simulation box.
-        As a consequence, ionization has to be inferred in some way or another.
-        e.g., an absorbing potential with a time-dependent atomic orbital basis
-        on a grid \cite{kosloff1986363, miyagi_and_madsen, takeshi}.
-        However, in our formalism we use static atomic orbitals which we
-        force to zero at the boundaries of the simulation box.
-        This makes the use of an absorbing potential useless and ionization
-        must be inferred in some other way.
+        The process of modelling ionization of electrons in atoms is a hot
+        topic \cite{kosloff1986363, miyagi_and_madsen, takeshi, sawada,
+        Sato_2014}.
+        It is also of the utmost importance when doing laser driven dynamics as
+        at some point or another we will use a field which in reality would rip
+        the electrons away from the atoms and molecules.
+        An accurate description of this process is therefore important in order
+        to model real experiments, which after all, is what we are trying to
+        do.
 
         In a study done by \citeauthor{miyagi_and_madsen}
         \cite{miyagi_and_madsen} they explored the dynamics of one-dimensional
         atoms subject to a dipole laser.
         This study provides us with an excellent benchmark to observe a form
         of ionization and see if this is reproducible in our formalism.
-        Note that \citeauthor{miyagi_and_madsen} used a
-        discrete-variable-representation basis (DVR) which is why they include
-        an absorbing potential.
+        Note that \citeauthor{miyagi_and_madsen} uses a
+        discrete-variable-representation basis (DVR) \cite{miyagi_and_madsen,
+        takeshi} which is why they include an absorbing potential.
         Our solution differs from this as we use the static one-dimensional
         quantum dot basis with a one-dimensional atom potential.
         In a position basis with Hartree atomic units, the one-body
@@ -1171,19 +1352,20 @@
             + xF(t)
             - iW(x),
         \end{align}
-        where $Z = N_e$, that is, the number of electrons in the system,
-        $W(x)$ is the absorbing potential, which we'll set to zero.
+        where $Z = N_e$ -- the number of electrons in the system -- and $W(x)$
+        is the absorbing potential, which we'll set to zero.
         The second term gives rise to the naming of these systems as
         one-dimensional atoms as this term serves as the electron-nuclear
         interaction in the atomic Hamiltonian, but with the three-dimensional
         position replaced with $x$.
         One of the interesting aspects of the one-dimensional atoms is that many
-        open-shell systems such as \ch{C} gets closed shells in the
-        one-dimensional case.
-        We will however, limit our study to the one-dimensional Beryllium
+        open-shell systems such as Carbon (\ch{C}) becomes closed shell systems
+        in the one-dimensional case.
+        We will limit our study to the one-dimensional Beryllium (\ch{Be})
         system with $N = 4$ electrons in a closed shell.
 
-        The laser pulse $F(t)$ is given by \cite{miyagi_and_madsen}
+        The laser pulse $F(t)$ used by \citeauthor{miyagi_and_madsen} is given
+        by \cite{miyagi_and_madsen}
         \begin{align}
             F(t)
             &= -\dod[]{A(t)}{t}
@@ -1203,10 +1385,8 @@
             }.
             \label{eq:miyagi-laser}
         \end{align}
-        where this field is active for $t \in [0, T]$.
-        A plot of the laser pulse during the simulation is shown in
-        \autoref{fig:miyagi-laser}.
-        The Coulomb interaction is given by \autoref{eq:shield-coulomb} with a
+        where the field is active for $t \in [0, T]$.
+        The Coulomb interaction is given by \autoref{eq:shielded-coulomb} with a
         shielding parameter of $a = 1$ and $\alpha = 1$.
         To compare with the study by \citeauthor{miyagi_and_madsen} we will run
         for $T = \SI{331}{\hslash/\hartree}$ with $\Delta t =
@@ -1216,54 +1396,25 @@
         ourselves to the time-dependent Hartree-Fock method and the
         orbital-adaptive time-dependent coupled cluster method as the
         full-configuration interaction method becomes quite expensive.
-        In fact, for $n = 4$ and $l = 40$ we have to create a Hamiltonian
+        In fact, for $N = 4$ and $L = 40$ we have to create a Hamiltonian
         matrix with $91390^2$ elements, each of size $\SI{16}{\text{B}}$ as
         we use complex numbers.
-        To solve this system we require a much smarter implementation of the
-        configuration interaction method which is out of scope for this
-        thesis.
-
-        \begin{figure}
-            \centering
-            \begin{tikzpicture}
-                \begin{axis}[
-                        width=11cm,
-                        height=6cm,
-                        xlabel={$t$ $[\text{a.u.}]$},
-                        grid=major,
-                        ylabel={$F(t)$},
-                        enlarge x limits=false,
-                        enlarge y limits=false,
-                    ]
-                    \addplot+ [
-                        mark=none,
-                        thick,
-                    ]
-                    table
-                    {results/benchmarks/miyagi/dat/miyagi_laser.dat};
-                \end{axis}
-            \end{tikzpicture}
-            \caption{In this figure we have plotted the laser pulse from
-            \autoref{eq:miyagi-laser} for $T = \SI{331}{\text{a.u.}}$,
-            $\omega = \SI{0.057}{\text{a.u.}}$, and $F_0 =
-            \SI{0.0755}{\text{a.u.}}$ \cite{miyagi_and_madsen}.}
-            \label{fig:miyagi-laser}
-        \end{figure}
+        To solve this system we require a more efficient implementation of the
+        configuration interaction method which is out of scope for this thesis.
 
 
-        In order for us to observe actual ionization we need to have a basis
-        containing scattered states, that is, states that have an eigenenergy
-        above the potential well such that we get a non-zero portion of the wave
-        function outside the potential well.
-        If the basis set is too small all states will be bound in the atomic
-        potential and it is not possible to make a linear combination where
-        some parts of the total wave function is outside the potential well
-        more than a small tunneling effect.
+        Using the same definition as \citeauthor{takeshi}, we define
+        ionization as all components outside a radius of $\SI{20}{\bohr}$ from
+        the center of the nucleus \cite{takeshi}.
+        We can then measure the amount of ionization by computing the particle
+        density outside this radius, or conversely, the amount of particle
+        density still inside the nucleus.
+        However, note that as we use static orbitals, we are dependent on having
+        a large enough basis set to actually observe ionization.
         In \autoref{fig:spf-potential-miyagi} we see the highest lying
         orbitals we've used in the one-dimensional Beryllium system.
-        The plot demonstrates that we need a large basis in order to capture
-        scattered states.
-
+        We see that unless we include more than $10$ orbitals we will not
+        include states that are outside the radius of $\SI{20}{\bohr}$.
         \begin{figure}
             \centering
             \begin{tikzpicture}
@@ -1317,22 +1468,24 @@
             avoid the figure being too cluttered.}
             \label{fig:spf-potential-miyagi}
         \end{figure}
-
-        We can see this from \autoref{fig:one-particle-density-miyagi}
-        where a basis of $l = 20$ spin-orbitals has been used.
+        To demonstrate this we have in \autoref{fig:one-particle-density-miyagi}
+        plotted the particle density using a basis of $L / 2 = 10$ orbitals.
+        We see that this basis does not allow any
+        where a basis of $L = 20$
+        spin-orbitals, that is, $L / 2 = 10$ orbitals, has been used.
         This basis is not able to capture much of the scattered states and
         looking at the figure for $t = T$ we see that the system is
         relatively confined still.
-        We can also see this from \autoref{fig:spf-potential-miyagi} as $l =
+        We can also see this from \autoref{fig:spf-potential-miyagi} as $L =
         20$ means the highest single-particle function used is
         $\psi_{10}(x)$ which is clearly confined in the potential well.
         However, looking at \autoref{fig:one-particle-density-miyagi-l=40}
-        we see the same Beryllium system with a basis set of $l = 40$
+        we see the same Beryllium system with a basis set of $L = 40$
         spin-orbitals.
         It is apparent that the system undergoes a larger degree of
         ionization with more of the one-particle density further away from
         the central potential.
-        This is also see in \autoref{fig:spf-potential-miyagi} as $l = 40$
+        This is also see in \autoref{fig:spf-potential-miyagi} as $L = 40$
         includes the state $\psi_{20}(x)$ which is more dispersed.
 
         \begin{figure}

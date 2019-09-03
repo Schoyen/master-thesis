@@ -886,615 +886,615 @@
         which is the same form as in the second term of
         \autoref{eq:many-body-operator}.
 
-    \section{Deriving the dimensionless Hamiltonian}
-        \label{app:two-dim-ho-dimensionless}
-        In \autoref{subsec:two-dim-ho} we introduced the dimensionless form of
-        the two-dimensional harmonic oscillator \cite{anisimovas1998energy}.
-        Here we will show the steps involved in the derivation to make the
-        Hamiltonian dimensionless.
-        Introducing the dimensionless position $\vfg{r}'$ given by
-        \begin{align}
-            \vfg{r} = a \vfg{r}',
-        \end{align}
-        where $a$ is the scaling radius given by \autoref{eq:bohr-radius}.
-        Inserting the dimensionless position into the Hamiltonian from
-        \autoref{eq:two-dim-ho-hamiltonian} we find for the Laplace operator in
-        polar coordinates $\vfg{r} = (r, \phi)$,
-        \begin{align}
-            \vfg{\nabla}^2
-            &= \frac{1}{r}\dpd{}{r}\para{
-                r\dpd{}{r}
-            }
-            + \frac{1}{r^2}\dpd[2]{}{\phi}
-            \\
-            &= \frac{1}{a r'}\frac{1}{a}\dpd{}{r'}\para{
-                a r' \frac{1}{a}\dpd{}{r'}
-            }
-            + \frac{1}{a^2 r^2}\dpd[2]{}{\phi}
-            = \frac{1}{a^2}\para{\vfg{\nabla}'}^2,
-        \end{align}
-        where we've dropped the particle indices for the sake of brevity.
-        Thus, the one-body part of the Hamiltonian becomes
-        \begin{align}
-            \oneten(\vfg{r})
-            = -\frac{\hslash^2}{2m a^2}\para{\vfg{\nabla}'}^2
-            + \half m \omega^2 a^2 \para{\vfg{r}'}^2
-            = \frac{\hslash\omega}{2}\brak{
-                -\para{\vfg{\nabla}'}^2
-                + \para{\vfg{r}'}^2
-            }.
-        \end{align}
-        The Coulomb interaction becomes
-        \begin{align}
-            \twoten(\vfg{r}_i, \vfg{r}_j)
-            &= \frac{e^2}{4\pi\epsilon_0 \abs{\vfg{r}_i - \vfg{r}_j}}
-            = \frac{e^2}{4\pi \epsilon_0 a}
-            \frac{1}{\abs{\vfg{r}_i' - \vfg{r}_j'}}.
-        \end{align}
-        Thus, the full dimensionless Hamitonian becomes
-        \begin{align}
-            \hamilten(\vfg{r})
-            = \frac{\hslash\omega}{2} \sum_{i = 1}^{N}\brak{
-                -\vfg{\nabla}^2_i
-                + \vfg{r}^2_i
-            }
-            + \hslash \omega \lambda
-            \sum_{i < j}^{N} \frac{1}{\abs{\vfg{r}_i - \vfg{r}_j}},
-        \end{align}
-        where $\lambda$ is defined as in \autoref{eq:two-dim-ho-lambda}.
-        This is the form of the Hamiltonian we wanted to show.
+    %\section{Deriving the dimensionless Hamiltonian}
+    %    \label{app:two-dim-ho-dimensionless}
+    %    In \autoref{subsec:two-dim-ho} we introduced the dimensionless form of
+    %    the two-dimensional harmonic oscillator \cite{anisimovas1998energy}.
+    %    Here we will show the steps involved in the derivation to make the
+    %    Hamiltonian dimensionless.
+    %    Introducing the dimensionless position $\vfg{r}'$ given by
+    %    \begin{align}
+    %        \vfg{r} = a \vfg{r}',
+    %    \end{align}
+    %    where $a$ is the scaling radius given by \autoref{eq:bohr-radius}.
+    %    Inserting the dimensionless position into the Hamiltonian from
+    %    \autoref{eq:two-dim-ho-hamiltonian} we find for the Laplace operator in
+    %    polar coordinates $\vfg{r} = (r, \phi)$,
+    %    \begin{align}
+    %        \vfg{\nabla}^2
+    %        &= \frac{1}{r}\dpd{}{r}\para{
+    %            r\dpd{}{r}
+    %        }
+    %        + \frac{1}{r^2}\dpd[2]{}{\phi}
+    %        \\
+    %        &= \frac{1}{a r'}\frac{1}{a}\dpd{}{r'}\para{
+    %            a r' \frac{1}{a}\dpd{}{r'}
+    %        }
+    %        + \frac{1}{a^2 r^2}\dpd[2]{}{\phi}
+    %        = \frac{1}{a^2}\para{\vfg{\nabla}'}^2,
+    %    \end{align}
+    %    where we've dropped the particle indices for the sake of brevity.
+    %    Thus, the one-body part of the Hamiltonian becomes
+    %    \begin{align}
+    %        \oneten(\vfg{r})
+    %        = -\frac{\hslash^2}{2m a^2}\para{\vfg{\nabla}'}^2
+    %        + \half m \omega^2 a^2 \para{\vfg{r}'}^2
+    %        = \frac{\hslash\omega}{2}\brak{
+    %            -\para{\vfg{\nabla}'}^2
+    %            + \para{\vfg{r}'}^2
+    %        }.
+    %    \end{align}
+    %    The Coulomb interaction becomes
+    %    \begin{align}
+    %        \twoten(\vfg{r}_i, \vfg{r}_j)
+    %        &= \frac{e^2}{4\pi\epsilon_0 \abs{\vfg{r}_i - \vfg{r}_j}}
+    %        = \frac{e^2}{4\pi \epsilon_0 a}
+    %        \frac{1}{\abs{\vfg{r}_i' - \vfg{r}_j'}}.
+    %    \end{align}
+    %    Thus, the full dimensionless Hamitonian becomes
+    %    \begin{align}
+    %        \hamilten(\vfg{r})
+    %        = \frac{\hslash\omega}{2} \sum_{i = 1}^{N}\brak{
+    %            -\vfg{\nabla}^2_i
+    %            + \vfg{r}^2_i
+    %        }
+    %        + \hslash \omega \lambda
+    %        \sum_{i < j}^{N} \frac{1}{\abs{\vfg{r}_i - \vfg{r}_j}},
+    %    \end{align}
+    %    where $\lambda$ is defined as in \autoref{eq:two-dim-ho-lambda}.
+    %    This is the form of the Hamiltonian we wanted to show.
 
-    \section{Two-dimensional harmonic oscillator spectrum}
-        \label{app:tdho-spectrum}
-        In this section we discuss how we can find the spectrum of the
-        non-interacting two-dimensional harmonic oscillator with the
-        dimensionless Hamiltonian given in
-        \autoref{eq:tdho-one-body-hamiltonian}.
-        In order to solve the time-independent Schrödinger equation
-        \begin{align}
-            \oneten(\vfg{r})\psi(\vfg{r}) = \epsilon \psi(\vfg{r}),
-        \end{align}
-        we assume a separable solution in polar coordinates to be given by
-        \begin{align}
-            \psi(\vfg{r}) = \psi(r, \phi)
-            = R(r)\Phi(\phi),
-        \end{align}
-        where we ignore the normalization condition for now.
-        Inserted into the one-body Hamiltonian and collecting terms we get
-        \begin{gather}
-            -\frac{\Phi}{r}\dpd{}{r}\para{
-                r\dpd{}{r}
-            }R
-            - \frac{R}{r^2}\dpd[2]{}{\phi}\Phi
-            + r^2 R \Phi = \epsilon R \Phi,
-        \end{gather}
-        where we've expressed the Laplace operator in polar coordinates.
-        Next we divide by $R\Phi$ on both sides and multiply by $-r^2$.
-        This yields
-        \begin{gather}
-            \frac{r}{R}\dpd{}{r}\para{
-                r\dpd{}{r}
-            } R
-            + \frac{1}{\Phi}
-            \dpd[2]{}{\phi}
-            \Phi
-            - r^2\brak{
-                r^2 - \epsilon
-            }
-            = 0,
-        \end{gather}
-        which has now been reduced to two separate differential equations as
-        we've decoupled radial and the azimuthal dependence.
-        Introducing a dependent variable $m^2$ we can write the two equations
-        as
-        \begin{gather}
-            \frac{1}{\Phi}\dod[2]{}{\phi}\Phi = -m^2,
-            \label{eq:tdho-angular-eq}
-            \\
-            \frac{r}{R}\dod{}{r}\para{
-                r\dod{}{r}
-            }R
-            - r^2 \brak{
-                r^2 - \epsilon
-            }
-            = m^2.
-            \label{eq:tdho-radial-eq}
-        \end{gather}
-        We recognize \autoref{eq:tdho-angular-eq} as the azimuthal equation from
-        solving the Schrödinger equation in three dimensions
-        \cite{griffiths2017introduction}.
-        This solution can be expressed as
-        \begin{align}
-            \Phi(\phi) &= \exp[im\phi],
-        \end{align}
-        where we absorb the constant term into the normalization of the wave
-        function which we solve in the end.
-        Furthermore, by allowing $m$ to be negative we can avoid including the
-        negative frequency solutions $\exp{-im\phi}$
-        \cite{griffiths2017introduction}.
+    %\section{Two-dimensional harmonic oscillator spectrum}
+    %    \label{app:tdho-spectrum}
+    %    In this section we discuss how we can find the spectrum of the
+    %    non-interacting two-dimensional harmonic oscillator with the
+    %    dimensionless Hamiltonian given in
+    %    \autoref{eq:tdho-one-body-hamiltonian}.
+    %    In order to solve the time-independent Schrödinger equation
+    %    \begin{align}
+    %        \oneten(\vfg{r})\psi(\vfg{r}) = \epsilon \psi(\vfg{r}),
+    %    \end{align}
+    %    we assume a separable solution in polar coordinates to be given by
+    %    \begin{align}
+    %        \psi(\vfg{r}) = \psi(r, \phi)
+    %        = R(r)\Phi(\phi),
+    %    \end{align}
+    %    where we ignore the normalization condition for now.
+    %    Inserted into the one-body Hamiltonian and collecting terms we get
+    %    \begin{gather}
+    %        -\frac{\Phi}{r}\dpd{}{r}\para{
+    %            r\dpd{}{r}
+    %        }R
+    %        - \frac{R}{r^2}\dpd[2]{}{\phi}\Phi
+    %        + r^2 R \Phi = \epsilon R \Phi,
+    %    \end{gather}
+    %    where we've expressed the Laplace operator in polar coordinates.
+    %    Next we divide by $R\Phi$ on both sides and multiply by $-r^2$.
+    %    This yields
+    %    \begin{gather}
+    %        \frac{r}{R}\dpd{}{r}\para{
+    %            r\dpd{}{r}
+    %        } R
+    %        + \frac{1}{\Phi}
+    %        \dpd[2]{}{\phi}
+    %        \Phi
+    %        - r^2\brak{
+    %            r^2 - \epsilon
+    %        }
+    %        = 0,
+    %    \end{gather}
+    %    which has now been reduced to two separate differential equations as
+    %    we've decoupled radial and the azimuthal dependence.
+    %    Introducing a dependent variable $m^2$ we can write the two equations
+    %    as
+    %    \begin{gather}
+    %        \frac{1}{\Phi}\dod[2]{}{\phi}\Phi = -m^2,
+    %        \label{eq:tdho-angular-eq}
+    %        \\
+    %        \frac{r}{R}\dod{}{r}\para{
+    %            r\dod{}{r}
+    %        }R
+    %        - r^2 \brak{
+    %            r^2 - \epsilon
+    %        }
+    %        = m^2.
+    %        \label{eq:tdho-radial-eq}
+    %    \end{gather}
+    %    We recognize \autoref{eq:tdho-angular-eq} as the azimuthal equation from
+    %    solving the Schrödinger equation in three dimensions
+    %    \cite{griffiths2017introduction}.
+    %    This solution can be expressed as
+    %    \begin{align}
+    %        \Phi(\phi) &= \exp[im\phi],
+    %    \end{align}
+    %    where we absorb the constant term into the normalization of the wave
+    %    function which we solve in the end.
+    %    Furthermore, by allowing $m$ to be negative we can avoid including the
+    %    negative frequency solutions $\exp{-im\phi}$
+    %    \cite{griffiths2017introduction}.
 
-        For the radial equation in \autoref{eq:tdho-radial-eq} we start by doing
-        a variable substitution \cite{439282}.
-        As $r \geq 0$ we define $r^2 \equiv \rho$ which yields
-        \begin{align}
-            r\dod{}{r} = r\dod{\rho}{r}\dod{}{\rho}
-            = 2r^2\dod{}{\rho}
-            = 2\rho\dod{}{\rho},
-        \end{align}
-        and for the full Laplace operator
-        \begin{align}
-            r\dod{}{r}\para{r \dod{}{r}}
-            &= 2r\dod{}{r}\para{\rho\dod{}{\rho}}
-            = 2r\para{
-                \dod{\rho}{r}\dod{}{\rho}
-                + \rho\dod{\rho}{r}\dod[2]{}{\rho}
-            }
-            \\
-            &= 4\rho\dod{}{\rho} + 4\rho^2\dod[2]{}{\rho}.
-        \end{align}
-        Now the radial equation in \autoref{eq:tdho-radial-eq} can be written
-        \begin{align}
-            \frac{4\rho}{R}\dod{R}{\rho}
-            + \frac{4\rho^2}{R}\dod[2]{R}{\rho}
-            - \rho\brak{
-                \rho - \epsilon
-            } = m^2.
-        \end{align}
-        Dividing through by $4\rho^2/R$ and moving the constant $m^2$ over to
-        the left-hand side we get
-        \begin{align}
-            \dod[2]{R}{\rho}
-            + \frac{1}{\rho}\dod{R}{\rho}
-            - \frac{1}{4\rho}\brak{
-                \rho
-                - \epsilon
-                + \frac{m^2}{\rho}
-            }R = 0
-            \label{eq:tdho-radial-sub}
-        \end{align}
-        A solution to this equation is given by \cite{439282,
-        sandev2005selection}
-        \begin{align}
-            R(\rho)
-            = \rho^{\abs{m}/2}
-            \exp[-\rho/2]
-            L(\rho),
-        \end{align}
-        where $L(\rho)$ is some function of $\rho$.
-        Computing the derivatives of $R(\rho)$ with respect to $\rho$ we get
-        \begin{gather}
-            \dod{R}{\rho}
-            = \rho^{\abs{m}/2} \exp[-\rho/2]\brak{
-                \frac{\abs{m}}{2\rho}
-                - \half
-                + \dod{}{\rho}
-            }L(\rho),
-            \\
-            \dod[2]{R}{\rho}
-            = \rho^{\abs{m}/2} \exp[-\rho/2]\brak{
-                \frac{\abs{m}}{2\rho}
-                - \half
-                + \dod{}{\rho}
-            }^2 L(\rho),
-        \end{gather}
-        where it is understood that the differential operator acts on everything
-        to its right, including the use of the product rule.
-        This means that unpacking the paranthesis for the second order
-        derivative must be done with some care.
-        Inserted into \autoref{eq:tdho-radial-sub} and dividing through by the
-        two first factors, we get
-        \begin{align}
-            \brak{
-                \frac{\abs{m}}{2\rho}
-                - \half
-                + \dod{}{\rho}
-            }^2
-            L(\rho)
-            &+ \frac{1}{\rho}
-            \brak{
-                \frac{\abs{m}}{2\rho}
-                - \half
-                + \dod{}{\rho}
-            }
-            L(\rho)
-            \nonumber \\
-            &\qquad
-            - \frac{1}{4\rho}\brak{
-                \rho
-                - \epsilon
-                + \frac{m^2}{\rho}
-            }
-            L(\rho)
-            = 0.
-        \end{align}
-        Expanding the paranthesis and collecting terms we are left with
-        \begin{align}
-            \dod[2]{L}{\rho}
-            + \frac{1}{\rho}\brak{
-                1 - \rho + \abs{m}
-            }\dod{L}{\rho}
-            + \frac{1}{2\rho}\brak{
-                \frac{\epsilon}{2}
-                - (\abs{m} + 1)
-            }L
-            = 0.
-        \end{align}
-        Finally, multiplying by $\rho$ we get
-        \begin{align}
-            \rho\dod[2]{L}{\rho}
-            + \brak{
-                \abs{m}+ 1 - \rho
-            }\dod{L}{\rho}
-            + \frac{1}{2}\brak{
-                \frac{\epsilon}{2}
-                - (\abs{m} + 1)
-            }L
-            = 0,
-        \end{align}
-        we recognize this as the differential equation where the
-        \emph{associated Laguerre polynomials}\footnote{%
-            Also known as the \emph{generalized Laguerre polynomial}.
-        } are the solutions as long as the requirement
-        \begin{align}
-            n \equiv \half\brak{
-                \frac{\epsilon}{2}
-                - (\abs{m} + 1)
-            } \geq 0,
-        \end{align}
-        with $n \in \mathbb{N}$ is upheld \cite{laguerre-polynomials}.
-        This automatically sets some restrictions on the values of $m$ and
-        $\epsilon$ as both will have to have integer values, with $\epsilon \in
-        \mathbb{N}$, and $m \in \mathbb{Z}$ as the absolute value ensures that
-        negative integers are allowed.
-        Substituting back to the regular radius $r$ we have the solution to the
-        radial equation as
-        \begin{align}
-            R_{nm}(r)
-            = r^{\abs{m}} \exp[-r^2 / 2]
-            L^{\abs{m}}_{n}(r^2),
-        \end{align}
-        where the \emph{Rodrigues formula} for the associated Laguerre
-        polynomials can be written
-        \begin{align}
-            L^{\abs{m}}_{n}(r^2)
-            &= \frac{r^{-2\abs{m}}}{n!}
-            \para{
-                \frac{1}{2r}
-                \dod{}{r}
-                - 1
-            }^{n}
-            r^{2(n + \abs{m})}.
-        \end{align}
-        Note that formula looks a little extra messy with the squared argument,
-        but luckily for us, we only need to call this function using SymPy
-        \cite{sympy}, which handles all the messy parts.
-        % TODO: Discuss orthonormality of the radial equation.
-        % TODO: Introduce the normalization constant.
+    %    For the radial equation in \autoref{eq:tdho-radial-eq} we start by doing
+    %    a variable substitution \cite{439282}.
+    %    As $r \geq 0$ we define $r^2 \equiv \rho$ which yields
+    %    \begin{align}
+    %        r\dod{}{r} = r\dod{\rho}{r}\dod{}{\rho}
+    %        = 2r^2\dod{}{\rho}
+    %        = 2\rho\dod{}{\rho},
+    %    \end{align}
+    %    and for the full Laplace operator
+    %    \begin{align}
+    %        r\dod{}{r}\para{r \dod{}{r}}
+    %        &= 2r\dod{}{r}\para{\rho\dod{}{\rho}}
+    %        = 2r\para{
+    %            \dod{\rho}{r}\dod{}{\rho}
+    %            + \rho\dod{\rho}{r}\dod[2]{}{\rho}
+    %        }
+    %        \\
+    %        &= 4\rho\dod{}{\rho} + 4\rho^2\dod[2]{}{\rho}.
+    %    \end{align}
+    %    Now the radial equation in \autoref{eq:tdho-radial-eq} can be written
+    %    \begin{align}
+    %        \frac{4\rho}{R}\dod{R}{\rho}
+    %        + \frac{4\rho^2}{R}\dod[2]{R}{\rho}
+    %        - \rho\brak{
+    %            \rho - \epsilon
+    %        } = m^2.
+    %    \end{align}
+    %    Dividing through by $4\rho^2/R$ and moving the constant $m^2$ over to
+    %    the left-hand side we get
+    %    \begin{align}
+    %        \dod[2]{R}{\rho}
+    %        + \frac{1}{\rho}\dod{R}{\rho}
+    %        - \frac{1}{4\rho}\brak{
+    %            \rho
+    %            - \epsilon
+    %            + \frac{m^2}{\rho}
+    %        }R = 0
+    %        \label{eq:tdho-radial-sub}
+    %    \end{align}
+    %    A solution to this equation is given by \cite{439282,
+    %    sandev2005selection}
+    %    \begin{align}
+    %        R(\rho)
+    %        = \rho^{\abs{m}/2}
+    %        \exp[-\rho/2]
+    %        L(\rho),
+    %    \end{align}
+    %    where $L(\rho)$ is some function of $\rho$.
+    %    Computing the derivatives of $R(\rho)$ with respect to $\rho$ we get
+    %    \begin{gather}
+    %        \dod{R}{\rho}
+    %        = \rho^{\abs{m}/2} \exp[-\rho/2]\brak{
+    %            \frac{\abs{m}}{2\rho}
+    %            - \half
+    %            + \dod{}{\rho}
+    %        }L(\rho),
+    %        \\
+    %        \dod[2]{R}{\rho}
+    %        = \rho^{\abs{m}/2} \exp[-\rho/2]\brak{
+    %            \frac{\abs{m}}{2\rho}
+    %            - \half
+    %            + \dod{}{\rho}
+    %        }^2 L(\rho),
+    %    \end{gather}
+    %    where it is understood that the differential operator acts on everything
+    %    to its right, including the use of the product rule.
+    %    This means that unpacking the paranthesis for the second order
+    %    derivative must be done with some care.
+    %    Inserted into \autoref{eq:tdho-radial-sub} and dividing through by the
+    %    two first factors, we get
+    %    \begin{align}
+    %        \brak{
+    %            \frac{\abs{m}}{2\rho}
+    %            - \half
+    %            + \dod{}{\rho}
+    %        }^2
+    %        L(\rho)
+    %        &+ \frac{1}{\rho}
+    %        \brak{
+    %            \frac{\abs{m}}{2\rho}
+    %            - \half
+    %            + \dod{}{\rho}
+    %        }
+    %        L(\rho)
+    %        \nonumber \\
+    %        &\qquad
+    %        - \frac{1}{4\rho}\brak{
+    %            \rho
+    %            - \epsilon
+    %            + \frac{m^2}{\rho}
+    %        }
+    %        L(\rho)
+    %        = 0.
+    %    \end{align}
+    %    Expanding the paranthesis and collecting terms we are left with
+    %    \begin{align}
+    %        \dod[2]{L}{\rho}
+    %        + \frac{1}{\rho}\brak{
+    %            1 - \rho + \abs{m}
+    %        }\dod{L}{\rho}
+    %        + \frac{1}{2\rho}\brak{
+    %            \frac{\epsilon}{2}
+    %            - (\abs{m} + 1)
+    %        }L
+    %        = 0.
+    %    \end{align}
+    %    Finally, multiplying by $\rho$ we get
+    %    \begin{align}
+    %        \rho\dod[2]{L}{\rho}
+    %        + \brak{
+    %            \abs{m}+ 1 - \rho
+    %        }\dod{L}{\rho}
+    %        + \frac{1}{2}\brak{
+    %            \frac{\epsilon}{2}
+    %            - (\abs{m} + 1)
+    %        }L
+    %        = 0,
+    %    \end{align}
+    %    we recognize this as the differential equation where the
+    %    \emph{associated Laguerre polynomials}\footnote{%
+    %        Also known as the \emph{generalized Laguerre polynomial}.
+    %    } are the solutions as long as the requirement
+    %    \begin{align}
+    %        n \equiv \half\brak{
+    %            \frac{\epsilon}{2}
+    %            - (\abs{m} + 1)
+    %        } \geq 0,
+    %    \end{align}
+    %    with $n \in \mathbb{N}$ is upheld \cite{laguerre-polynomials}.
+    %    This automatically sets some restrictions on the values of $m$ and
+    %    $\epsilon$ as both will have to have integer values, with $\epsilon \in
+    %    \mathbb{N}$, and $m \in \mathbb{Z}$ as the absolute value ensures that
+    %    negative integers are allowed.
+    %    Substituting back to the regular radius $r$ we have the solution to the
+    %    radial equation as
+    %    \begin{align}
+    %        R_{nm}(r)
+    %        = r^{\abs{m}} \exp[-r^2 / 2]
+    %        L^{\abs{m}}_{n}(r^2),
+    %    \end{align}
+    %    where the \emph{Rodrigues formula} for the associated Laguerre
+    %    polynomials can be written
+    %    \begin{align}
+    %        L^{\abs{m}}_{n}(r^2)
+    %        &= \frac{r^{-2\abs{m}}}{n!}
+    %        \para{
+    %            \frac{1}{2r}
+    %            \dod{}{r}
+    %            - 1
+    %        }^{n}
+    %        r^{2(n + \abs{m})}.
+    %    \end{align}
+    %    Note that formula looks a little extra messy with the squared argument,
+    %    but luckily for us, we only need to call this function using SymPy
+    %    \cite{sympy}, which handles all the messy parts.
+    %    % TODO: Discuss orthonormality of the radial equation.
+    %    % TODO: Introduce the normalization constant.
 
-    \section{Two-dimensional harmonic oscillator dipole}
-        \label{app:tdho-dipole}
-        Starting with \autoref{eq:cos-integral-tdho} we can write
-        \begin{align}
-            \mathcal{C}_{ij}
-            &=
-            \int_{0}^{2\pi}
-            \dd \phi
-            \cos(\phi)
-            \exp[-i\Delta m_{ij} \phi],
-        \end{align}
-        where we use the definition of the difference in the azimuthal quantum
-        from \autoref{eq:diff-m-tdqd}.
-        The closed form solution to this integral is
-        \begin{align}
-            \mathcal{C}_{ij}
-            &= \brak{
-                \frac{\exp[-i\Delta m_{ij} \phi]}{1 - (\Delta m_{ij})^2}
-                \brak{
-                    -i\Delta m_{ij} \cos(\phi)
-                    + \sin(\phi)
-                }
-            }_{0}^{2\pi}
-            = 0,
-            \label{eq:dipole-x-tdqd}
-        \end{align}
-        if $\Delta m_{ij} \neq \pm 1$.
-        For the case when $\Delta m_{ij} = \pm 1$ we solve the easier
-        integral
-        \begin{align}
-            \mathcal{C}_{ij}
-            &=
-            \int_{0}^{2\pi}
-            \dd \phi
-            \cos(\phi) \exp[\mp i\phi]
-            \\
-            &=
-            \int_{0}^{2\pi}
-            \dd \phi
-            \para{
-                \cos^2(\phi)
-                \mp i\cos(\phi)\sin(\phi)
-            }
-            = \pi.
-        \end{align}
-        For the sine integral in \autoref{eq:sin-integral-tdho} we have
-        \begin{align}
-            \mathcal{S}_{ij}
-            &=
-            \int_{0}^{2\pi}
-            \dd\phi
-            \sin(\phi)
-            \exp[-i\Delta m_{ij} \phi].
-        \end{align}
-        The closed form solution of this integral is similar to the form for
-        the cosine-integral.
-        Again we look at the situation when $\Delta m_{ij} \neq \pm 1$
-        initially.
-        \begin{align}
-            \mathcal{S}_{ij}
-            &= \brak{
-                \frac{\exp[-i\Delta m_{ij} \phi]}{1 - (\Delta m_{ij})^2}
-                \brak{
-                    -i\Delta m_{ij} \sin(\phi)
-                    + \cos(\phi)
-                }
-            }_{0}^{2\pi}
-            = 0.
-            \label{eq:dipole-y-tdqd}
-        \end{align}
-        For $\Delta m_{ij} = \pm 1$ we get
-        \begin{align}
-            \mathcal{S}_{ij}
-            &=
-            \int_{0}^{2\pi}
-            \dd\phi
-            \sin(\phi)
-            \exp[\mp i\phi]
-            \\
-            &=
-            \int_{0}^{2\pi}
-            \dd\phi
-            \para{
-                \sin(\phi)\cos(\phi)
-                \mp i\sin^2(\phi)
-            }
-            = \mp i\pi.
-        \end{align}
+    %\section{Two-dimensional harmonic oscillator dipole}
+    %    \label{app:tdho-dipole}
+    %    Starting with \autoref{eq:cos-integral-tdho} we can write
+    %    \begin{align}
+    %        \mathcal{C}_{ij}
+    %        &=
+    %        \int_{0}^{2\pi}
+    %        \dd \phi
+    %        \cos(\phi)
+    %        \exp[-i\Delta m_{ij} \phi],
+    %    \end{align}
+    %    where we use the definition of the difference in the azimuthal quantum
+    %    from \autoref{eq:diff-m-tdqd}.
+    %    The closed form solution to this integral is
+    %    \begin{align}
+    %        \mathcal{C}_{ij}
+    %        &= \brak{
+    %            \frac{\exp[-i\Delta m_{ij} \phi]}{1 - (\Delta m_{ij})^2}
+    %            \brak{
+    %                -i\Delta m_{ij} \cos(\phi)
+    %                + \sin(\phi)
+    %            }
+    %        }_{0}^{2\pi}
+    %        = 0,
+    %        \label{eq:dipole-x-tdqd}
+    %    \end{align}
+    %    if $\Delta m_{ij} \neq \pm 1$.
+    %    For the case when $\Delta m_{ij} = \pm 1$ we solve the easier
+    %    integral
+    %    \begin{align}
+    %        \mathcal{C}_{ij}
+    %        &=
+    %        \int_{0}^{2\pi}
+    %        \dd \phi
+    %        \cos(\phi) \exp[\mp i\phi]
+    %        \\
+    %        &=
+    %        \int_{0}^{2\pi}
+    %        \dd \phi
+    %        \para{
+    %            \cos^2(\phi)
+    %            \mp i\cos(\phi)\sin(\phi)
+    %        }
+    %        = \pi.
+    %    \end{align}
+    %    For the sine integral in \autoref{eq:sin-integral-tdho} we have
+    %    \begin{align}
+    %        \mathcal{S}_{ij}
+    %        &=
+    %        \int_{0}^{2\pi}
+    %        \dd\phi
+    %        \sin(\phi)
+    %        \exp[-i\Delta m_{ij} \phi].
+    %    \end{align}
+    %    The closed form solution of this integral is similar to the form for
+    %    the cosine-integral.
+    %    Again we look at the situation when $\Delta m_{ij} \neq \pm 1$
+    %    initially.
+    %    \begin{align}
+    %        \mathcal{S}_{ij}
+    %        &= \brak{
+    %            \frac{\exp[-i\Delta m_{ij} \phi]}{1 - (\Delta m_{ij})^2}
+    %            \brak{
+    %                -i\Delta m_{ij} \sin(\phi)
+    %                + \cos(\phi)
+    %            }
+    %        }_{0}^{2\pi}
+    %        = 0.
+    %        \label{eq:dipole-y-tdqd}
+    %    \end{align}
+    %    For $\Delta m_{ij} = \pm 1$ we get
+    %    \begin{align}
+    %        \mathcal{S}_{ij}
+    %        &=
+    %        \int_{0}^{2\pi}
+    %        \dd\phi
+    %        \sin(\phi)
+    %        \exp[\mp i\phi]
+    %        \\
+    %        &=
+    %        \int_{0}^{2\pi}
+    %        \dd\phi
+    %        \para{
+    %            \sin(\phi)\cos(\phi)
+    %            \mp i\sin^2(\phi)
+    %        }
+    %        = \mp i\pi.
+    %    \end{align}
 
 
-    \section{Coulomb elements}
-        \label{app:coulomb-elements}
-        In this section we'll write out the closed form solution to the Coulomb
-        elements for the two-dimensional harmonic oscillator in polar
-        coordinates \cite{anisimovas1998energy}.
-        The eigenstates are given by \autoref{eq:eigenstate-tdho} and the
-        Coulomb interaction in coordinate representation by
-        \begin{align}
-            u(\vf{r}_i, \vf{r}_j)
-            &= \frac{1}{4\pi\epsilon_0}\frac{e^2}{\abs{\vf{r}_i - \vf{r}_j}}.
-        \end{align}
-        Replacing the positions with the dimensionless length $\vf{r} \to
-        \vf{r}/a$, where $a$ is the scaling radius from \autoref{eq:bohr-radius},
-        and measuring energy in dimensionless units of $\hslash \omega$
-        \cite{anisimovas1998energy} we can write the Coulomb interaction as
-        \begin{align}
-            u(\vf{r}_i, \vf{r}_j)
-            &= \lambda
-            \frac{1}{\abs{\vf{r}_i - \vf{r}_j}},
-        \end{align}
-        where we have introduced the coupling constant
-        \begin{align}
-            \lambda = \frac{a m e^2}{4 \hslash^2 \pi \epsilon_0}.
-        \end{align}
-        In the case of atomic Hartree units, the Coulomb
-        interaction can be written
-        \begin{align}
-            u(\vf{r}_i, \vf{r}_j)
-            &= \sqrt{\omega}
-            \frac{1}{\abs{\vf{r}_i - \vf{r}_j}},
-        \end{align}
-        where the frequency comes from the scaling radius.
-        The scaled eigenstates are then given by
-        \begin{align}
-            \psi_{nm}(r, \phi)
-            &= \sqrt{\frac{n!}{\pi(\abs{m} + n)!}}
-            r^{\abs{m}} L^{\abs{m}}_n(r^2)
-            \exp[-r^2/2]
-            \exp[im\phi].
-        \end{align}
-        % TODO: Should there be a factor 2 in n! and pi?
-        % See Anisimovas article.
-        We will only look at the orbital part of the elements, as the
-        spin-symmetry can be added afterwards.
-        \begin{align}
-            \mel{ij}{\hat{u}}{kl}
-            &= \lambda
-            \mathcal{I}^{ij}_{kl},
-        \end{align}
-        where we are interested in computing the integral
-        \begin{align}
-            \mathcal{I}^{ij}_{kl}
-            &=
-            \delta_{m_i + m_j, m_k + m_l}
-            \int\dd \vf{r}_1\dd \vf{r}_2
-            \psi_{i}^{*}(\vf{r}_1) \psi_{j}^{*}(\vf{r}_2)
-            \frac{1}{\abs{\vf{r}_1 - \vf{r}_2}}
-            \psi_{k}(\vf{r}_1)\psi_{l}(\vf{r}_2),
-        \end{align}
-        Unlike \citeauthor{anisimovas1998energy} we will compute the log of the
-        integral they list as this is slightly more convenient in terms of
-        computation.
-        % TODO: Remember to introduce the index convention used by Anisimovas
-        % and Matulis.
+    %\section{Coulomb elements}
+    %    \label{app:coulomb-elements}
+    %    In this section we'll write out the closed form solution to the Coulomb
+    %    elements for the two-dimensional harmonic oscillator in polar
+    %    coordinates \cite{anisimovas1998energy}.
+    %    The eigenstates are given by \autoref{eq:eigenstate-tdho} and the
+    %    Coulomb interaction in coordinate representation by
+    %    \begin{align}
+    %        u(\vf{r}_i, \vf{r}_j)
+    %        &= \frac{1}{4\pi\epsilon_0}\frac{e^2}{\abs{\vf{r}_i - \vf{r}_j}}.
+    %    \end{align}
+    %    Replacing the positions with the dimensionless length $\vf{r} \to
+    %    \vf{r}/a$, where $a$ is the scaling radius from \autoref{eq:bohr-radius},
+    %    and measuring energy in dimensionless units of $\hslash \omega$
+    %    \cite{anisimovas1998energy} we can write the Coulomb interaction as
+    %    \begin{align}
+    %        u(\vf{r}_i, \vf{r}_j)
+    %        &= \lambda
+    %        \frac{1}{\abs{\vf{r}_i - \vf{r}_j}},
+    %    \end{align}
+    %    where we have introduced the coupling constant
+    %    \begin{align}
+    %        \lambda = \frac{a m e^2}{4 \hslash^2 \pi \epsilon_0}.
+    %    \end{align}
+    %    In the case of atomic Hartree units, the Coulomb
+    %    interaction can be written
+    %    \begin{align}
+    %        u(\vf{r}_i, \vf{r}_j)
+    %        &= \sqrt{\omega}
+    %        \frac{1}{\abs{\vf{r}_i - \vf{r}_j}},
+    %    \end{align}
+    %    where the frequency comes from the scaling radius.
+    %    The scaled eigenstates are then given by
+    %    \begin{align}
+    %        \psi_{nm}(r, \phi)
+    %        &= \sqrt{\frac{n!}{\pi(\abs{m} + n)!}}
+    %        r^{\abs{m}} L^{\abs{m}}_n(r^2)
+    %        \exp[-r^2/2]
+    %        \exp[im\phi].
+    %    \end{align}
+    %    % TODO: Should there be a factor 2 in n! and pi?
+    %    % See Anisimovas article.
+    %    We will only look at the orbital part of the elements, as the
+    %    spin-symmetry can be added afterwards.
+    %    \begin{align}
+    %        \mel{ij}{\hat{u}}{kl}
+    %        &= \lambda
+    %        \mathcal{I}^{ij}_{kl},
+    %    \end{align}
+    %    where we are interested in computing the integral
+    %    \begin{align}
+    %        \mathcal{I}^{ij}_{kl}
+    %        &=
+    %        \delta_{m_i + m_j, m_k + m_l}
+    %        \int\dd \vf{r}_1\dd \vf{r}_2
+    %        \psi_{i}^{*}(\vf{r}_1) \psi_{j}^{*}(\vf{r}_2)
+    %        \frac{1}{\abs{\vf{r}_1 - \vf{r}_2}}
+    %        \psi_{k}(\vf{r}_1)\psi_{l}(\vf{r}_2),
+    %    \end{align}
+    %    Unlike \citeauthor{anisimovas1998energy} we will compute the log of the
+    %    integral they list as this is slightly more convenient in terms of
+    %    computation.
+    %    % TODO: Remember to introduce the index convention used by Anisimovas
+    %    % and Matulis.
 
-    \section{Barrier integrals}
-        \label{app:barrier-integrals}
-        We start by solving the integral for the absolute value of the cosine.
-        \begin{align}
-            \tilde{\mathcal{C}}_{pq}
-            =
-            \int_{0}^{2\pi} \dd \phi
-            \abs{\cos(\phi)}
-            \exp[-i\Delta m_{pq} \phi],
-        \end{align}
-        where we've again introduced the difference in the angular quantum
-        number as in \autoref{eq:diff-m-tdqd}.
-        We split up the integrals in three parts where $\cos(\phi) \geq 0$ to
-        get rid of the absolute value.
-        \begin{align}
-            \tilde{\mathcal{C}}_{pq}
-            &=
-            \para{
-                \int_{0}^{\pi/2}
-                \dd \phi
-                -
-                \int_{\pi/2}^{3\pi/2}
-                \dd \phi
-                +
-                \int_{3\pi/2}^{2\pi}
-                \dd \phi
-            }
-            \cos(\phi)
-            \exp[-i\Delta m_{pq}\phi],
-        \end{align}
-        where the notation should be understood such that each integral should
-        evaluate the function to its right.
-        The sign of the second integral comes from the fact that $\cos(\phi)
-        \leq 0$ for $\phi \in [\pi/2, 3\pi/2]$.
-        The solutions to the indefinite integrals are the same as for the dipole
-        moment in the $x$-direction as seen in \autoref{eq:dipole-x-tdqd}.
-        Taking care to look at the situation when $\Delta m_{pq} \neq \pm 1$
-        first, we get
-        \begin{align}
-            \tilde{\mathcal{C}}_{pq}
-            &=
-            \frac{2}{1 - (\Delta m_{pq})^2}\brac{
-                \exp[-i\Delta m_{pq} \pi / 2]
-                + \exp[-i \Delta m_{pq} 3\pi / 2]
-            }
-            \\
-            &= \frac{2}{1 - (\Delta m_{pq})^2}
-            \exp[-i\Delta m_{pq} \pi / 2]
-            \para{
-                1 + \cos(\Delta m_{pq} \pi)
-            }.
-        \end{align}
-        We can then see that odd values of $\Delta m_{pq}$ makes the integral
-        vanish as
-        \begin{align}
-            1 + \cos(\Delta m_{pq} \pi)
-            = 1 + \cos((2k + 1) \pi) = 0,
-        \end{align}
-        where $k \in \mathbb{Z}$, whereas for even values of $\Delta m_{pq}$ we
-        get
-        \begin{align}
-            1 + \cos(\Delta m_{pq} \pi)
-            = 1 + \cos(2k \pi) = 2.
-        \end{align}
-        Furthermore, the sign of the exponential will alternate between $\pm 1$
-        for odd and even values of $k$.
-        We thus have
-        \begin{align}
-            \tilde{\mathcal{C}}_{pq}
-            =
-            \frac{4}{1 - (\Delta m_{pq})^2}
-            \begin{cases}
-                0 & \Delta m_{pq} = 2k + 1, \\
-                1 & \Delta m_{pq} = 4k, \\
-                -1 & \Delta m_{pq} = 4k + 2,
-            \end{cases}
-        \end{align}
-        where $k \in \mathbb{Z} \setminus \brac{0}$.
-        Looking at the case when $\Delta m_{pq} = \pm 1$ we get
-        \begin{align}
-            \tilde{\mathcal{C}}_{pq}
-            &=
-            \para{
-                \int_{0}^{\pi/2}
-                \dd \phi
-                -
-                \int_{\pi/2}^{3\pi/2}
-                \dd \phi
-                +
-                \int_{3\pi/2}^{2\pi}
-                \dd \phi
-            }
-            \cos(\phi)
-            \exp[\mp i\phi]
-            \\
-            &=
-            \para{
-                \int_{0}^{\pi/2}
-                \dd \phi
-                -
-                \int_{\pi/2}^{3\pi/2}
-                \dd \phi
-                +
-                \int_{3\pi/2}^{2\pi}
-                \dd \phi
-            }
-            \brak{
-                \cos^2(\phi)
-                \mp i \cos(\phi)\sin(\phi)
-            }
-            \\
-            &= 0.
-        \end{align}
-        Moving to the integral with the absolute value of the sine.
-        \begin{align}
-            \tilde{\mathcal{S}}_{pq}
-            &= \int_{0}^{2\pi} \dd \phi
-            \abs{\sin(\phi)}
-            \exp[-i\Delta m_{pq} \phi]
-            \\
-            &= \para{
-                \int_{0}^{\pi} \dd \phi
-                - \int_{\pi}^{2\pi} \dd \phi
-            }
-            \sin(\phi) \exp[-i\Delta m_{pq} \phi].
-        \end{align}
-        We again start our initial analysis for $\Delta m_{pq} \neq \pm 1$.
-        The solution to each of the indefinite integrals is the same as in
-        \autoref{eq:dipole-y-tdqd} but with changed integration limits.
-        Evaluating at the new limits we get
-        \begin{align}
-            \tilde{\mathcal{S}}_{pq}
-            &=
-            \frac{2}{1 - (\Delta m_{pq})^2}
-            \brak{
-                \exp[-i\Delta m_{pq} \pi]
-                + 1
-            }
-            \\
-            &= \frac{2}{1 - (\Delta m_{pq})^2}
-            \brak{
-                \cos(\Delta m_{pq} \pi)
-                + 1
-            }
-            \\
-            &=
-            \frac{4}{1 - (\Delta m_{pq})^2}
-            \begin{cases}
-                0 & \Delta m_{pq} = 2k + 1, \\
-                1 & \Delta m_{pq} = 2k,
-            \end{cases}
-        \end{align}
-        where $k \in \mathbb{Z} \setminus \brac{0}$.
-        For $\Delta m_{pq} = \pm 1$ we get
-        \begin{align}
-            \tilde{\mathcal{S}}_{pq}
-            &= \para{
-                \int_{0}^{\pi} \dd \phi
-                - \int_{\pi}^{2\pi} \dd \phi
-            }
-            \sin(\phi) \exp[\mp i \phi]
-            \\
-            &= \para{
-                \int_{0}^{\pi} \dd \phi
-                - \int_{\pi}^{2\pi} \dd \phi
-            }
-            \brak{
-                \sin(\phi)\cos(\phi)
-                \mp i\sin^2(\phi)
-            }
-            = 0.
-        \end{align}
+    %\section{Barrier integrals}
+    %    \label{app:barrier-integrals}
+    %    We start by solving the integral for the absolute value of the cosine.
+    %    \begin{align}
+    %        \tilde{\mathcal{C}}_{pq}
+    %        =
+    %        \int_{0}^{2\pi} \dd \phi
+    %        \abs{\cos(\phi)}
+    %        \exp[-i\Delta m_{pq} \phi],
+    %    \end{align}
+    %    where we've again introduced the difference in the angular quantum
+    %    number as in \autoref{eq:diff-m-tdqd}.
+    %    We split up the integrals in three parts where $\cos(\phi) \geq 0$ to
+    %    get rid of the absolute value.
+    %    \begin{align}
+    %        \tilde{\mathcal{C}}_{pq}
+    %        &=
+    %        \para{
+    %            \int_{0}^{\pi/2}
+    %            \dd \phi
+    %            -
+    %            \int_{\pi/2}^{3\pi/2}
+    %            \dd \phi
+    %            +
+    %            \int_{3\pi/2}^{2\pi}
+    %            \dd \phi
+    %        }
+    %        \cos(\phi)
+    %        \exp[-i\Delta m_{pq}\phi],
+    %    \end{align}
+    %    where the notation should be understood such that each integral should
+    %    evaluate the function to its right.
+    %    The sign of the second integral comes from the fact that $\cos(\phi)
+    %    \leq 0$ for $\phi \in [\pi/2, 3\pi/2]$.
+    %    The solutions to the indefinite integrals are the same as for the dipole
+    %    moment in the $x$-direction as seen in \autoref{eq:dipole-x-tdqd}.
+    %    Taking care to look at the situation when $\Delta m_{pq} \neq \pm 1$
+    %    first, we get
+    %    \begin{align}
+    %        \tilde{\mathcal{C}}_{pq}
+    %        &=
+    %        \frac{2}{1 - (\Delta m_{pq})^2}\brac{
+    %            \exp[-i\Delta m_{pq} \pi / 2]
+    %            + \exp[-i \Delta m_{pq} 3\pi / 2]
+    %        }
+    %        \\
+    %        &= \frac{2}{1 - (\Delta m_{pq})^2}
+    %        \exp[-i\Delta m_{pq} \pi / 2]
+    %        \para{
+    %            1 + \cos(\Delta m_{pq} \pi)
+    %        }.
+    %    \end{align}
+    %    We can then see that odd values of $\Delta m_{pq}$ makes the integral
+    %    vanish as
+    %    \begin{align}
+    %        1 + \cos(\Delta m_{pq} \pi)
+    %        = 1 + \cos((2k + 1) \pi) = 0,
+    %    \end{align}
+    %    where $k \in \mathbb{Z}$, whereas for even values of $\Delta m_{pq}$ we
+    %    get
+    %    \begin{align}
+    %        1 + \cos(\Delta m_{pq} \pi)
+    %        = 1 + \cos(2k \pi) = 2.
+    %    \end{align}
+    %    Furthermore, the sign of the exponential will alternate between $\pm 1$
+    %    for odd and even values of $k$.
+    %    We thus have
+    %    \begin{align}
+    %        \tilde{\mathcal{C}}_{pq}
+    %        =
+    %        \frac{4}{1 - (\Delta m_{pq})^2}
+    %        \begin{cases}
+    %            0 & \Delta m_{pq} = 2k + 1, \\
+    %            1 & \Delta m_{pq} = 4k, \\
+    %            -1 & \Delta m_{pq} = 4k + 2,
+    %        \end{cases}
+    %    \end{align}
+    %    where $k \in \mathbb{Z} \setminus \brac{0}$.
+    %    Looking at the case when $\Delta m_{pq} = \pm 1$ we get
+    %    \begin{align}
+    %        \tilde{\mathcal{C}}_{pq}
+    %        &=
+    %        \para{
+    %            \int_{0}^{\pi/2}
+    %            \dd \phi
+    %            -
+    %            \int_{\pi/2}^{3\pi/2}
+    %            \dd \phi
+    %            +
+    %            \int_{3\pi/2}^{2\pi}
+    %            \dd \phi
+    %        }
+    %        \cos(\phi)
+    %        \exp[\mp i\phi]
+    %        \\
+    %        &=
+    %        \para{
+    %            \int_{0}^{\pi/2}
+    %            \dd \phi
+    %            -
+    %            \int_{\pi/2}^{3\pi/2}
+    %            \dd \phi
+    %            +
+    %            \int_{3\pi/2}^{2\pi}
+    %            \dd \phi
+    %        }
+    %        \brak{
+    %            \cos^2(\phi)
+    %            \mp i \cos(\phi)\sin(\phi)
+    %        }
+    %        \\
+    %        &= 0.
+    %    \end{align}
+    %    Moving to the integral with the absolute value of the sine.
+    %    \begin{align}
+    %        \tilde{\mathcal{S}}_{pq}
+    %        &= \int_{0}^{2\pi} \dd \phi
+    %        \abs{\sin(\phi)}
+    %        \exp[-i\Delta m_{pq} \phi]
+    %        \\
+    %        &= \para{
+    %            \int_{0}^{\pi} \dd \phi
+    %            - \int_{\pi}^{2\pi} \dd \phi
+    %        }
+    %        \sin(\phi) \exp[-i\Delta m_{pq} \phi].
+    %    \end{align}
+    %    We again start our initial analysis for $\Delta m_{pq} \neq \pm 1$.
+    %    The solution to each of the indefinite integrals is the same as in
+    %    \autoref{eq:dipole-y-tdqd} but with changed integration limits.
+    %    Evaluating at the new limits we get
+    %    \begin{align}
+    %        \tilde{\mathcal{S}}_{pq}
+    %        &=
+    %        \frac{2}{1 - (\Delta m_{pq})^2}
+    %        \brak{
+    %            \exp[-i\Delta m_{pq} \pi]
+    %            + 1
+    %        }
+    %        \\
+    %        &= \frac{2}{1 - (\Delta m_{pq})^2}
+    %        \brak{
+    %            \cos(\Delta m_{pq} \pi)
+    %            + 1
+    %        }
+    %        \\
+    %        &=
+    %        \frac{4}{1 - (\Delta m_{pq})^2}
+    %        \begin{cases}
+    %            0 & \Delta m_{pq} = 2k + 1, \\
+    %            1 & \Delta m_{pq} = 2k,
+    %        \end{cases}
+    %    \end{align}
+    %    where $k \in \mathbb{Z} \setminus \brac{0}$.
+    %    For $\Delta m_{pq} = \pm 1$ we get
+    %    \begin{align}
+    %        \tilde{\mathcal{S}}_{pq}
+    %        &= \para{
+    %            \int_{0}^{\pi} \dd \phi
+    %            - \int_{\pi}^{2\pi} \dd \phi
+    %        }
+    %        \sin(\phi) \exp[\mp i \phi]
+    %        \\
+    %        &= \para{
+    %            \int_{0}^{\pi} \dd \phi
+    %            - \int_{\pi}^{2\pi} \dd \phi
+    %        }
+    %        \brak{
+    %            \sin(\phi)\cos(\phi)
+    %            \mp i\sin^2(\phi)
+    %        }
+    %        = 0.
+    %    \end{align}
