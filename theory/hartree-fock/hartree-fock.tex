@@ -1,17 +1,17 @@
 \chapter{Hartree-Fock theory}
     \label{chap:hf}
     One can not tackle the subject of many-body theory without a discussion of
-    the Hartree-Fock method. It serves as an excellent initial approximation,
-    and in many cases the \emph{only} approximation, to the many-body
-    wavefunction for a given system. It is a rather cheap method, in terms of
-    computational intensity, and explains much of the underlying physics of a
-    given system of many particles.
+    the Hartree-Fock method.
+    It serves as an excellent initial approximation, and in many cases the most
+    the favored approximation, to the many-body wavefunction for a given system.
+    It is a rather cheap method, in terms of computational intensity, and
+    explains much of the underlying physics of a given system of many particles.
 
     \section{Time-independent Hartree-Fock theory}
         \label{sec:hf}
-        Starting from the time-independent Schrödinger equation,
+        We start from the time-independent Schrödinger equation,
         \begin{align}
-            \hamil\ket{\Psi} = \energy\ket{\Psi},
+            \hamil\ket*{\Psi} = \energy\ket*{\Psi},
         \end{align}
         where $\hamil$ is the electronic Hamiltonian with one- and two-body
         operators.
@@ -25,19 +25,19 @@
             interaction becomes a little more than just a small perturbation.
         }
         This motivates the approximation that the many-body wave function
-        $\ket{\Psi}$ can be approximated by a single Slater determinant, viz.
+        $\ket*{\Psi}$ can be approximated by a single Slater determinant, viz.
         \begin{align}
-            \ket{\Psi} = \ket{\slat} = \ket{\phi_1 \phi_2 \dots \phi_N},
+            \ket*{\Psi} = \ket*{\slat} = \ket*{\phi_1 \phi_2 \dots \phi_N},
         \end{align}
-        where the \emph{molecular orbitals}\footnote{%
+        where the $N$ \emph{molecular orbitals}\footnote{%
             The term molecular orbitals will be used exclusively to denote the
             ``Hartree-Fock'' orbitals.
-        } $\brac{\phi_i}_{i = 1}^{N}$ are the
-        primary unknowns, subject to the constraint that they are orthonormal,
+        } $\brac{\phi_i}$ are the primary unknowns, subject to the constraint
+        that they are orthonormal,
         \begin{align}
-            \braket{\phi_i}{\phi_j} = \delta_{ij}
+            \braket*{\phi_i}{\phi_j} = \delta_{ij}
             \implies
-            \braket{\slat} = 1.
+            \braket*{\slat} = 1.
         \end{align}
 
         \subsection{The non-canonical Hartree-Fock equations}
@@ -54,7 +54,7 @@
             found from the definition of the reference energy in
             \autoref{subsec:reference-energy}.
             Our task is now to find the molecular orbitals $\brac{\phi_i}$ that
-            minimizes the energy functional, i.e., we find the stationary points
+            minimize the energy functional, i.e., we find the stationary points
             of the energy functional as discussed in
             \autoref{sec:variational-principle}.
             As the energy functional $\energyfunc{\slat, \slat^{*}}$ does not
