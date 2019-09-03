@@ -351,15 +351,22 @@
         It is a little hard to determine if the coupled-cluster methods perform
         better than CISD as the energies are simultaneously higher and lower at
         different energy levels.
-        On one side we know that OATDCCD and TDCCSD are more correlated than
+        An important point to note is that even though CISD is found using the
+        variational principle thus guaranteeing an upper bound to the energy,
+        the \emph{energy difference} does not have this requirement.
+        That is, the ground state energy and an excited state are both an upper
+        bound to the their respective energy, but the excited state might be
+        closer to the exact energy therefore making the difference smaller than
+        what it should be.
+        Furthermore, we know that OATDCCD and TDCCSD are more correlated than
         CISD and should in theory yield better results, however, the transition
         energies from the coupled-cluster methods depends on a lot of factors
         such as the time step of the integrator and the sampling time when
         computing the Fourier transform of the dipole moment signal.
-        Within two decimal places the results from the coupled-cluster methods
-        and CISD are in perfect agreement.
+        But, within two decimal places the results from the coupled-cluster
+        methods and CISD are in perfect agreement.
 
-        Furthermore, the converged ground state energies\footnote{%
+        As an extra point, the converged ground state energies\footnote{%
             This energy is excluding the nuclear repulsion as reported by
             \citeauthor{nest} \cite{nest}.
         } for CISD, TDCCSD, and OATDCCD are
@@ -368,12 +375,12 @@
         \end{align}
         The methods therefore seemingly perform just as well on the
         \ch{LiH}-system.
-        However we see that we are able to achieve a lower ground state energy than
-        reported by \citeauthor{nest}.
+        However, we see that we are able to achieve a lower ground state energy
+        than reported by \citeauthor{nest}.
 
-        However, there is no doubt that TDHF is quite far off in terms of the
-        dipole transition energies when loooking at
-        \autoref{tab:fft_dipole_nest_x} and \autoref{tab:fft_dipole_nest_z}.
+        There is no doubt that TDHF is quite far off in terms of the dipole
+        transition energies when loooking at \autoref{tab:fft_dipole_nest_x} and
+        \autoref{tab:fft_dipole_nest_z}.
         This demonstrates the expected behavior as discussed in \autoref{sec:li}
         that the TDHF will falter once the laser fields intesifies and the
         correlations in the atoms and molecules becomes larger.
