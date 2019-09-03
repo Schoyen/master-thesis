@@ -1,5 +1,5 @@
 import numpy as np
-from quantum_systems import OneDimensionalHarmonicOscillator
+from quantum_systems import ODQD
 from quantum_systems.time_evolution_operators import LaserField
 from quantum_systems.quantum_dots.one_dim.one_dim_potentials import (
     AtomicPotential,
@@ -36,7 +36,7 @@ def get_miyagi_system(n=4, l=30):
     potential = AtomicPotential(Za=Z, c=c)
     laser = MiyagiLaser()
 
-    odbe = OneDimensionalHarmonicOscillator(
+    odbe = ODQD(
         n,
         l,
         grid_length=grid_length,
