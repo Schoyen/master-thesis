@@ -4,7 +4,7 @@
     Given the wave function $\psi(x, t)$ we can in principle compute all there
     is to know about the underlying system described by the Hamiltonian
     $\hamil(t)$.
-    If we know the wave function at a given initial time we can from the
+    If we know the wave function at a given initial time $t_0$ we can from the
     time-dependent Schrödinger equation,
     \begin{align}
         i\hslash\dpd{}{t}\psi(x, t) = \hamil(t)\psi(x, t),
@@ -12,12 +12,13 @@
     compute all there is to know about the system for all future and earlier
     times.
     Analytical solutions to the time-dependent Schrödinger equation are truly
-    rare, and are often of little practical value outside of a theoretical
-    framework.
+    rare, and often idealized.
+    This means that we must resort to numerical methods for more complex
+    systems.
     However, moving to the time-independent Schrödinger equation we can find the
-    spectrum of wave functions by solving the eigenvalue equation
+    spectrum of wave functions by solving the eigenvalue equation,
     \begin{align}
-        \hamil\psi(x) = \energy\psi(x).
+        \hamil\psi_k(x) = \energy_k\psi_k(x).
     \end{align}
     We can then build the time-dependent wave function from a linear combination
     of these stationary states.
@@ -39,22 +40,22 @@
 
     Real-time methods lets us simulate experiments and describes the physics as
     they occur.
+    These methods provide a way to explore the evolution of particles in time as
+    they respond to interactions from external stimuli \cite{joshua-magnus}.
     Real-time simulations can be described as a way of preparing a system in a
     specific configuration, i.e., choosing an initial state $\psi(x)$, before
-    evolving the system in time using the time-dependent Schrödinger equation.
-    We can then incorporate external interactions in the time-dependent
-    Hamiltonian.
+    evolving the system in time using the time-dependent Schrödinger equation by
+    including time-dependent interactions in the Hamiltonian.
     With the evolution of attosecond physics and the invention of several bright
     light sources, our numerical experiments more and more resemble experiments
     done in the laboratory \cite{joachain2012atoms}.
     Due to the interest being in the many-body realm -- as we study atoms and
     molecules -- we must use an appropriate many-body method.
-    However, due to both the interaction between particles and the intense
-    strength of these laser pulses a physicists favorite tool, namely
-    perturbation theory, fails to properly describe the physics.
-    Coupled-cluster theory -- considered by many as the ``gold standard'' of
-    quantum chemistry -- is a rather novel method to be applied in the real-time
-    analysis of strongly correlated systems.
+    However, as both the interaction between particles and the intense strength
+    of these laser pulses a physicists favorite tool, namely perturbation
+    theory, fails to properly describe the physics.
+    Coupled-cluster theory is a rather novel method to be applied in the
+    real-time analysis of strongly correlated systems.
     In this thesis we shall explore this formalism.
 
 
@@ -65,13 +66,17 @@
         dots, and atoms and molecules.
         To simulate a time-evolving system we need an initial condition to start
         the simulation.
-        We choose the ground state of the system to be our initial condition.
+        Typically we choose the ground state of the system to be our initial
+        condition.
         We therefore need to implement ground state solutions to the many-body
         problem.
-        As the OATDCCD-method is a special case of other time-dependent
+        As the OATDCCD-method is an extension of other time-dependent
         coupled-cluster methods we have also implemented the coupled-cluster
         doubles (CCD), and the coupled-cluster singles-and-doubles (CCSD) ground
         state and time-dependent solvers.
+        Furthermore, the time-dependent Hartree-Fock (TDHF) and time-dependent
+        configuration interaction (TDCI) methods have been implemented for
+        comparison.
 
     \section{Our contribution}
         There already exists a plethora of many-body codes, but few exists that
