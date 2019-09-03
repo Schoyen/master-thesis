@@ -303,626 +303,626 @@
         turns out that the integrals are too erroneous.
 
 
-\section{Two-dimensional quantum dot}
-    Extending the formalism of the one-dimensional quantum dot to two dimensions
-    we look at a system of particles confined to the plane.
-    Due to there existing analytical solutions to the Coulomb elements for the
-    two-dimensional harmonic oscillator in polar coordinates
-    \cite{anisimovas1998energy}, this avoids the need of evaluating the two-body
-    elements on a grid as in the one-dimensional case.
-    The one-body Hamiltonian in coordinate representation can thus be
-    represented by
-    \begin{align}
-        \oneten(r, \phi)
-        = -\frac{\hslash^2}{2m}\brak{
-            \frac{1}{r}\dpd{}{r}\para{
-                r\dpd{}{r}
-            }
-            + \frac{1}{r^2}\dpd[2]{}{\phi}
-        }
-        + v(r, \phi),
-    \end{align}
-    where we do not necessarily assume that the potential is circular symmetric
-    unless specified.
-
-    \subsection{Two-dimensional harmonic oscillator}
-        \label{subsec:two-dim-ho}
-        In the two-dimensional harmonic oscillator we have a circular symmetric
-        potential on the form,
-        \begin{align}
-            v(r, \phi) = v(r) = \half m \omega^2 r^2.
-        \end{align}
-        Before solving the one-dimensional problem, we will make the system
-        dimensionless in the same manner as done by
-        \citeauthor{anisimovas1998energy} \cite{anisimovas1998energy} as we use
-        their solution for the Coulomb elements.
-        The full two-dimensional Hamiltonian with Coulomb interaction in
-        coordinate representation is given by,
-        \begin{align}
-            \hamilten(\vf{r})
-            = \sum_{i = 1}^{N} \brak{
-                -\frac{\hslash^2}{2m} \vfg{\nabla}^2_i
-                + \half m \omega \vfg{r}^2_i
-            }
-            + \sum_{i < j}^{N}
-            \frac{e^2}{4\pi \epsilon_0 \abs{\vfg{r}_i - \vfg{r}_j}}.
-            \label{eq:two-dim-ho-hamiltonian}
-        \end{align}
-        We introduce a dimensionless position $\vfg{r}'$
-        \begin{align}
-            \vfg{r} = a \vfg{r}',
-        \end{align}
-        where the scaling radius $a$ is given by,
-        \begin{align}
-            a \equiv \sqrt{\frac{\hslash}{m\omega}}.
-            \label{eq:bohr-radius}
-        \end{align}
-        The complete derivation of the scaling is shown in
-        \autoref{app:two-dim-ho-dimensionless}.
-        For the sake of brevity we relabel the dimensionless position $\vfg{r}'
-        \to \vfg{r}$.
-        We then have the dimensionless form for the two-dimensionless harmonic
-        oscillator Hamiltonian
-        \begin{align}
-            \hamilten(\vfg{r})
-            = \frac{\hslash\omega}{2} \sum_{i = 1}^{N}\brak{
-                -\vfg{\nabla}^2_i
-                + \vfg{r}^2_i
-            }
-            + \hslash\omega\lambda
-            \sum_{i < j}^{N}
-            \frac{1}{\abs{\vfg{r}_i - \vfg{r}_j}},
-        \end{align}
-        where we have
-        \begin{align}
-            \lambda \equiv \frac{e^2}{
-                4\pi \epsilon_0 \hslash \omega a_0
-            }.
-            \label{eq:two-dim-ho-lambda}
-        \end{align}
-        In the article by \citeauthor{anisimovas1998energy}
-        \cite{anisimovas1998energy} they go the extra step of measuring the
-        energy in units of $\hslash\omega$ as this makes it more natural to
-        define the Coulomb interaction as a perturbation to the one-body
-        Hamiltonian.
-        Now, we do not share the goal of expanding the Hamiltonian as a
-        perturbation and we will therefore keep $\hslash\omega$ as they are.
-        Moving to atomic units we are left with the expression
-        \begin{align}
-            \hamilten(\vfg{r})
-            &= \omega \sum_{i = 1}^{N}
-            \oneten(\vfg{r}_i)
-            + \sqrt{\omega} \sum_{i < j}^{N} \twoten(\vfg{r}_i, \vfg{r}_j),
-            \label{eq:tdho-hamiltonian}
-        \end{align}
-        which reduces the scaling of the system down to the single parameter
-        $\omega$ as the strength of the harmonic oscillator well.
-        Furthermore, we've introduced the one-body Hamiltonian
-        $\oneten(\vfg{r})$ which contains the kinetic and potential energy
-        terms\footnote{%
-            This is where the factor $1/2$ went.
-        } and the two-body Hamiltonian $\twoten(\vfg{r}_i, \vfg{r}_j)$ for the
-        Coulomb potential.
-
-        Now, finding the spectrum of the full many-body Hamiltonian is
-        computationally extreme for $N > 2$ and we will therefore use our
-        repertoir of many-body methods as discussed in the previous chapters.
-        However, we still need a set of atomic orbitals to start our
-        calculations and a natural starting point is the analytical solutions to
-        the one-body Hamiltonian.
-        If $\lambda$ is small, this can turn out to be a very good approximation
-        as we are close to the non-interacting case where the spectrum of the
-        Hamiltonian is the spectrum of the one-body Hamiltonian.
-        If $\lambda$ becomes large this approximation will turn out to be poor
-        and there exists better orbital sets, e.g., the molecular orbitals from
-        the Hartree-Fock method.
-        Still, both solutions requires an initial guess and we might as well
-        choose the spectrum of the one-body Hamiltonian as there exists closed
-        form solutions for these single particle functions.
-
-        \subsubsection{The spectrum of the two-dimensional harmonic oscillator}
-            For the non-interacting case the Hamiltonian in
-            \autoref{eq:tdho-hamiltonian} reduces to the one-body Hamiltonian
-            which on coordinate form is given by
-            \begin{align}
-                \oneten(\vfg{r})
-                = -\half\vfg{\nabla}^2 + \half\vfg{r}^2,
-                \label{eq:tdho-one-body-hamiltonian}
-            \end{align}
-            where we've dropped the indices on the particles and left the energy
-            scaling in the full Hamiltonian.
-            We now look for a solution to the time-independent Schrödinger equation
-            \begin{align}
-                \oneten(\vfg{r})\psi(\vfg{r}) = \epsilon \psi(\vfg{r}),
-            \end{align}
-            where $(\epsilon, \psi(\vfg{r}))$ are the eigenpairs of the
-            non-interacting two-dimensional harmonic oscillator.
-            The eigenstates to this equation in polar coordinates is
-            \begin{align}
-                \psi_{nm}(r, \phi)
-                &= \sqrt{\frac{(2n)!}{2\pi(\abs{m} + n)!}}
-                \exp[i m \phi]
-                r^{\abs{m}}
-                \exp[-r^2 / 2]
-                L^{\abs{m}}_{n}(r^2),
-                \label{eq:eigenstate-tdho}
-            \end{align}
-            where $L^{\abs{m}}_{n}(x)$ are the \emph{associated Laguerre
-            polynomials} \cite{anisimovas1998energy}.
-            Furthermore, we have the principal quantum number $n \in \mathbb{N}$
-            and the azimuthal quantum number $m \in \mathbb{Z}$.
-            We collect the eigenstates in its separable parts,
-            \begin{align}
-                \psi_{nm}(r, \phi)
-                = N_{nm} R_{nm}(r) \Phi_{m}(\phi),
-            \end{align}
-            where the normalization is given by
-            \begin{align}
-                N_{nm}
-                &= \sqrt{\frac{(2n)!}{2\pi(\abs{m} + n)!}},
-            \end{align}
-            the radial functions
-            \begin{align}
-                R_{nm}
-                &=
-                r^{\abs{m}}
-                \exp[-r^2 / 2]
-                L^{\abs{m}}_{n}(r^2),
-                \label{eq:radial-function-tdho}
-            \end{align}
-            and the azimuthal part
-            \begin{align}
-                \Phi_{m}(\phi) = \exp[i m \phi],
-            \end{align}
-            for ease of lookup.
-            The eigenstates are orthonormal in both their principal and
-            azimuthal quantum numbers, that is,
-            \begin{align}
-                \braket*{\psi_{n_i m_i}}{\psi_{n_j m_j}}
-                = \delta_{n_i n_j}\delta_{m_i m_j}.
-            \end{align}
-            Furthermore, the orthonormality carries to the spin quantum number
-            $m_s$ as well.
-            The eigenenergies are given by
-            \begin{align}
-                \epsilon_{nm}
-                = 2n + \abs{m} + 1,
-                \label{eq:eigenenergy-tdho}
-            \end{align}
-            where we re-iterate that $\hslash\omega$ is factored out of the
-            one-body Hamiltonian and gets included in the full Hamiltonian
-            energy expression.
-            The derivation of the spectrum of the two-dimensional harmonic
-            oscillator is included in \autoref{app:tdho-spectrum}.
-
-            Looking at the expression for the eigenenergy in
-            \autoref{eq:eigenenergy-tdho} we see that we get degenerate
-            energies.
-            As the Hamiltonian in \autoref{eq:tdho-hamiltonian} is independent
-            of spin, we will in the case of fermions with $m_s = \pm 1/2$ get
-            twice as many degenerate states at each energy level.
-            An illustration of this is shown in
-            \autoref{fig:tdho-energy-levels}.
-            \begin{figure}
-                \begin{center}
-                    \begin{tikzpicture}
-                        \begin{scope}
-                            \foreach \i in {1, 2, 3} {
-                                \draw(-1, \i - 1) node[anchor=east]
-                                {$\epsilon = \i$};
-                            }
-
-                            % Highest energy level
-                            \foreach \i in {0, 3, 6} {
-                                \draw (\i, 2) -- (\i + 2, 2);
-                                \node at (\i + 0.75, 2) {$\uparrow$};
-                                \node at (\i + 1.25, 2) {$\downarrow$};
-                            }
-                            \node[below, inner sep=.2cm] at (1, 2)
-                            {$n = 0, m = -2$};
-                            \node[below, inner sep=.2cm] at (4, 2)
-                            {$n = 1, m = 0$};
-                            \node[below, inner sep=.2cm] at (7, 2)
-                            {$n = 0, m = 2$};
-
-                            % Middle energy level
-                            \foreach \i in {1.5, 4.5} {
-                                \draw (\i, 1) -- (\i + 2, 1);
-                                \node at (\i + 0.75, 1) {$\uparrow$};
-                                \node at (\i + 1.25, 1) {$\downarrow$};
-                            }
-                            \node[below, inner sep=.2cm] at (2.5, 1)
-                            {$n = 0, m = -1$};
-                            \node[below, inner sep=.2cm] at (5.5, 1)
-                            {$n = 0, m = 1$};
-
-                            % Lowest energy level
-                            \draw (3, 0) -- (5, 0);
-                            \node at (3 + 0.75, 0) {$\uparrow$};
-                            \node at (3 + 1.25, 0) {$\downarrow$};
-                            \node[below, inner sep=.2cm] at (4, 0)
-                            {$n = 0, m = 0$};
-                        \end{scope}
-                    \end{tikzpicture}
-                \end{center}
-                \caption{In this plot we can see the energy degeneracy of the lowest
-                three energy levels in the two-dimensional quantum dot.
-                Each arrow representes a spin up or a spin down state with the
-                quantum numbers $n$ and $m$ as listed below.
-                This pattern goes on indefinitly with the addition of one bar
-                (two oscillators) per level.}
-                \label{fig:tdho-energy-levels}
-            \end{figure}
-
-
-        \subsubsection{Mapping the quantum numbers to a single value}
-            When working with second quantized operators, we distinguish single
-            particle functions in a Slater determinant by a single index.
-            Including spin in the two-dimensional harmonic oscillator
-            eigenstates we have to deal with three quantum numbers $n$, $m$, and
-            $m_s$ per state.
-            We are thus interested in finding a mapping $(n, m) \mapsto p$ and
-            the inverse mapping $p \mapsto (n, m)$.\footnote{%
-                The spin quantum number is easiest to deal with in the end as we
-                can double each dimension in every matrix and label all odd or
-                even indices by a spin direction.
-            }
-            Due to the degeneracy of the eigenenergies such a mapping will not
-            be unique.
-            We thus have to decide in advance how we should count the basis
-            states.
-            In this work we choose the convention that we start from the
-            lowest energy level and move up by counting from left to right.
-            Tabulating \autoref{fig:tdho-energy-levels} in this convetion we get
-            the results shown in \autoref{tab:tdho-mapping}.
-            In \autoref{alg:nm-to-p} we demonstrate the algorithm we use to
-            compute $(n, m) \mapsto p$.
-            The inverse algorithm for $p \mapsto (n, m)$ is shown in
-            \autoref{alg:p-to-nm}.
-            We are now able to find indices $p$ such that
-            \begin{align}
-                (\epsilon_{nm}, \psi_{nm}) \mapsto (\epsilon_p, \psi_p).
-            \end{align}
-
-            \begin{table}
-                \centering
-                \caption{In this table we show an example of how our mapping
-                convention will index the states shown in
-                \autoref{fig:tdho-energy-levels}.}
-                \renewcommand{\arraystretch}{1.3}
-                \begin{tabular}{@{}lll@{}}
-                    \toprule
-                    $\epsilon_{nm}$ & $(n, m)$ & $p$ \\
-                    \midrule
-                    $1$ & $(0, 0)$ & $0$ \\
-                    $2$ & $(0, -1)$ & $1$ \\
-                    $2$ & $(0, 1)$ & $2$ \\
-                    $3$ & $(0, -2)$ & $3$ \\
-                    $3$ & $(1, 0)$ & $4$ \\
-                    $3$ & $(0, 2)$ & $5$ \\
-                    \bottomrule
-                \end{tabular}
-                \label{tab:tdho-mapping}
-            \end{table}
-
-            \begin{algorithm}
-                \inputpython{implementation/quantum-systems/get_index_p.py}{0}{35}
-                \caption{In this algorithm we describe how we can find $(n, m)
-                \mapsto p$ relatively quick without having to tabulate all
-                states up to some level.}
-                \label{alg:nm-to-p}
-            \end{algorithm}
-
-            \begin{algorithm}
-                \inputpython{implementation/quantum-systems/get_indices_nm.py}{0}{48}
-                \caption{In this algorithm we sketch how we can find $p \mapsto
-                (n, m)$, i.e., the inverse of \autoref{alg:nm-to-p}.}
-                \label{alg:p-to-nm}
-            \end{algorithm}
-
-        \subsubsection{Computing the dipole moments}
-            The matrix elements of the dipole moment of the two-dimensional
-            harmonic oscillator quantum dot is given by
-            \begin{align}
-                \vf{d}_{ij}
-                \equiv \mel*{\psi_i}{\positionvec}{\psi_j},
-            \end{align}
-            where we get a dipole moment for each coordinate in $\vf{r}$.
-            As we've expressed the single particle functions in polar
-            coordinates, but wish to express the dipole moments in a cartesian
-            coordinate system, we have to compute the two integrals
-            \begin{align}
-                \vf{d}_{ij}
-                &= \vf{i}\mel*{\psi_i}{\position}{\psi_j}
-                + \vf{j}\mel*{\psi_i}{\position[y]}{\psi_j}
-                = \vf{i}\mel*{\psi_i}{\hat{r} \cosine(\hat{\phi})}{\psi_j}
-                + \vf{j}\mel*{\psi_i}{\hat{r} \sine(\hat{\phi})}{\psi_j},
-                \label{eq:dipole_elements}
-            \end{align}
-            where $\vf{i}$ and $\vf{j}$ are the unit vectors along the $x$- and
-            $y$-axis respectively.
-            Using \autoref{eq:eigenstate-tdho} we are able to find analytical
-            expressions for the angular integral.
-            The radial integral must be evaluated from $0$ to $\infty$, but we
-            choose to use SymPy \cite{sympy}, which handles this for us.
-            Note that we use the notation $i \mapsto (n_i, m_i)$ from the
-            mapping algorithms described above.
-            We then get the following integrals
-            \begin{align}
-                \mel*{\psi_i}{\hat{r} \cosine(\hat{\phi})}{\psi_j}
-                &= N^{*}_{n_i m_i} N_{n_j m_j}
-                \mathcal{R}_{ij}
-                \mathcal{C}_{ij},
-                \\
-                \mel*{\psi_i}{\hat{r} \sine(\hat{\phi})}{\psi_j}
-                &= N^{*}_{n_i m_i} N_{n_j m_j}
-                \mathcal{R}_{ij}
-                \mathcal{S}_{ij},
-            \end{align}
-            where no summation is implied in the index labels.
-            The integrals are given by
-            \begin{gather}
-                \mathcal{R}_{ij}
-                =
-                \int_{0}^{\infty} \dd r r^2
-                R_{n_i m_i}^{*}(r) R_{n_j m_j}(r),
-                \label{eq:radial-integral-tdho}
-                \\
-                \mathcal{C}_{ij}
-                =
-                \int_{0}^{2\pi}
-                \dd \phi
-                \cos(\phi)
-                \Phi_{m_i}^{*}(\phi)
-                \Phi_{m_j}(\phi),
-                \label{eq:cos-integral-tdho}
-                \\
-                \mathcal{S}_{ij}
-                =
-                \int_{0}^{2\pi}
-                \dd \phi
-                \sin(\phi)
-                \Phi_{m_i}^{*}(\phi)
-                \Phi_{m_j}(\phi).
-                \label{eq:sin-integral-tdho}
-            \end{gather}
-            We solve the radial integral using SymPy \cite{sympy}.
-            We start by constructing the radial functions $R_{n_i m_i}(r)$.
-            This is done by the Python function shown in
-            \autoref{alg:radial-function-tdho}, where the mapping from $i
-            \mapsto (n_i, m_i)$ is done by \autoref{alg:p-to-nm}.
-            \begin{algorithm}
-                \inputpython{implementation/quantum-systems/spf_radial_function.py}{0}{10}
-                \caption{Python function constructing the radial functions from
-                \autoref{eq:radial-function-tdho}.}
-                \label{alg:radial-function-tdho}
-            \end{algorithm}
-            Having constructed the two radial functions we can perform the
-            integration using the function in \autoref{alg:radial-integral-tdho}.
-            \begin{algorithm}
-                \inputpython{implementation/quantum-systems/radial_integral.py}{0}{7}
-                \caption{Python function performing the radial integral in
-                \autoref{eq:radial-integral-tdho} using SymPy \cite{sympy} to
-                evaluate the integral from $r \in [0, \infty)$.}
-                \label{alg:radial-integral-tdho}
-            \end{algorithm}
-
-            The two angular integrals in \autoref{eq:cos-integral-tdho} and
-            \autoref{eq:sin-integral-tdho} have closed form solutions which we
-            derive in \autoref{app:tdho-dipole}.
-            Defining the difference in the azimuthal quantum number by,
-            \begin{align}
-                \Delta m_{ij} \equiv m_i - m_j,
-                \label{eq:diff-m-tdqd}
-            \end{align}
-            where $\Delta m_{ij} \in \mathbb{Z}$.
-            We then have
-            \begin{align}
-                \mathcal{C}_{ij}
-                = \begin{cases}
-                    \pi, & \Delta m_{ij} = \pm 1, \\
-                    0, & \text{else},
-                \end{cases}
-            \end{align}
-            for the cosine integral in \autoref{eq:cos-integral-tdho}.
-            For the sine integral we get
-            \begin{align}
-                \mathcal{S}_{ij}
-                = \begin{cases}
-                    \mp i\pi, & \Delta m_{ij} = \pm 1, \\
-                    0, & \text{else}.
-                \end{cases}
-            \end{align}
-            The results for the angular integrals yield the selection rules for
-            the dipole approximation for the two-dimensional harmonic
-            oscillator.
-            Unless $\Delta m_{ij} = \pm 1$, the transition between the states is
-            not allowed in the dipole approximation, i.e., the integral
-            vanishes.
-            The selection rules for the dipole approximation for the
-            two-dimensional harmonic oscillator is directly linked to the
-            harmonic potential theorem \cite{kohn, brey}.
-
-
-        \subsubsection{Computing the Coulomb elements}
-            Having found the basis functions and the elements of the one-body
-            hamiltonian, we are left with the task of finding the two-body
-            elements from the Coulomb interaction.
-            Luckily, there exists an analytic formula finding these elements for
-            the two-dimensional harmonic oscillator in polar coordinates.
-            This formula is shown in appendix A in the article
-            \citetitle{anisimovas1998energy} by
-            \citeauthor{anisimovas1998energy} \cite{anisimovas1998energy}.
-            Note that \citeauthor{anisimovas1998energy} interchanges the indices
-            in the ket-part of their two-body integrals as opposed to our
-            convention. That is, in our notation we would write
-            \begin{align}
-                \mel*{\psi_i\psi_j}{\twohamil}{\psi_k\psi_l}
-                &=
-                \int\dd x_1\dd x_2
-                \psi_{i}^{*}(x_1) \psi_{j}^{*}(x_2)
-                \twoten(x_1, x_2)
-                \psi_{k}(x_1)\psi_{l}(x_2)
-                \\
-                &\equiv
-                \mel*{\psi_i\psi_j}{\twohamil}{\psi_l\psi_k}_{AM},
-            \end{align}
-            where $ \mel*{\psi_i\psi_j}{\twohamil}{\psi_l\psi_k}_{AM}$ is the convention used by
-            \citeauthor{anisimovas1998energy}.
-            There are two significant symmetries included in the calculation of
-            the two-body elements.
-            The first occurs as the Hamiltonian is spin-independent and the
-            second comes from the azimuthal quantum number $m$.
-            This can be expressed as
-            \begin{align}
-                \mel*{\psi_i\psi_j}{\twohamil}{\psi_k\psi_l}
-                = \delta_{\sigma_i \sigma_k} \delta_{\sigma_j \sigma_l}
-                \int\dd \vf{r}_1\dd \vf{r}_2
-                \psi_{i}^{*}(\vf{r}_i) \psi_{j}^{*}(\vf{r}_2)
-                \twoten
-                \psi_{k}(\vf{r}_1)\psi_{l}(\vf{r}_2),
-            \end{align}
-            where the symmetry that $m_i + m_j = m_k + m_l$ is baked into the
-            integral.
-            The formula for computing the integral
-            \begin{align}
-                \mathcal{I}^{ij}_{kl}
-                =
-                \int\dd \vf{r}_1\dd \vf{r}_2
-                \psi_{i}^{*}(\vf{r}_1) \psi_{j}^{*}(\vf{r}_2)
-                \twoten
-                \psi_{k}(\vf{r}_1)\psi_{l}(\vf{r}_2),
-            \end{align}
-            is rather involved and we've pushed it to
-            \autoref{app:coulomb-elements}.
-
-
-    \subsection{Two-dimensional double well quantum dot}
-        \label{subsec:tddw}
-        Another interesting system to explore is the double well quantum dot,
-        i.e., a quantum dot with a finite barrier in the potential trap.
-        Building the barrier on top of the two-dimensional harmonic oscillator
-        lets us reuse much of the machinery from the previous section.
-        There are a multitude of ways to create a confining double well
-        potential.
-        In the following we'll be focusing on a double well with a sharp
-        boundary for the barrier in either $x$- or $y$-direction.
-        The one-body Hamiltonian of the double well with the barrier in the
-        $x$-direction is given by
-        \begin{align}
-            \onehamil
-            &=
-            \frac{\momentum^2}{2m}
-            + \half m \omega^2 \position[r]^2
-            + \half m \omega^2 \para{
-                \frac{1}{4} l^2 - l\abs{\position}
-            }.
-            \label{eq:one-body-2ddw}
-        \end{align}
-        % TODO: Give motivation for the shape of the double-well.
-        % Discuss the constant term.
-        In \autoref{eq:one-body-2ddw} we recognize the two first terms as the
-        kinetic energy and the harmonic oscillator confining potential.
-        Instead of finding an analytical expression for the full one-body
-        Hamiltonian, as we did for the harmonic oscillator, we'll instead use
-        the single-particle functions in \autoref{eq:eigenstate-tdho} as trial
-        wave functions and use the variational method to find as good an
-        estimate as possible to the underlying exact eigenpairs.
-        The one-body matrix elements can then be found from
-        \begin{align}
-            \oneten^{p}_{q}
-            &= \epsilon_{p}\delta^{p}_{q}
-            + \half m \omega^2\mel*{\phi_p}{
-                \para{
-                    \frac{1}{4} l^2 - l \abs{\position}
-                }
-            }{\phi_q}
-            \\
-            &= \epsilon_{p}\delta^{p}_{q}
-            + \frac{1}{8} m \omega^2 l^2 \delta^{p}_{q}
-            - \half m \omega^2 l \mel*{\phi_p}{\abs{\position}}{\phi_q},
-        \end{align}
-        where we have used the mapping $(n, m) \to p$ from
-        \autoref{alg:nm-to-p} described above and where
-        the eigenenergies $\epsilon_p$ are given by
-        \autoref{eq:eigenenergy-tdho}.
-        The two first terms give a shifted harmonic oscillator potential, viz.
-        \begin{align}
-            \epsilon_p' = \epsilon_p + \frac{1}{8} m \omega^2 l^2.
-        \end{align}
-        The last term is the double well barrier and resembles the dipole matrix
-        elements from \autoref{eq:dipole_elements} except for the absolute
-        value.
-        We rewrite the potential barrier in polar coordinates by
-        \begin{gather}
-            \abs{x} = r\abs{\cos(\phi)}, \\
-            \abs{y} = r\abs{\sin(\phi)},
-        \end{gather}
-        where we've included the barrier in $y$-direction for the sake of
-        generality.
-        We can thus compute the barrier integrals using the eigenstates from the
-        harmonic oscillator,
-        \begin{gather}
-            \mel*{\phi_p}{\abs{\position}}{\phi_q}
-            =
-            N^{*}_{n_p m_p} N_{n_q m_q}
-            \mathcal{R}_{pq} \tilde{\mathcal{C}}_{pq},
-            \\
-            \mel*{\phi_p}{\abs{\position[y]}}{\phi_q}
-            =
-            N^{*}_{n_p m_p} N_{n_q m_q}
-            \mathcal{R}_{pq} \tilde{\mathcal{S}}_{pq},
-        \end{gather}
-        where the normalization and the radial integral is the same as for the
-        dipole moment in the harmonic oscillator system.
-        Note again that no summation is implied in the indices for the
-        integrals.
-        The only difference is the absolute value on the periodic functions in
-        the polar integrals.
-        These integrals are given by
-        \begin{gather}
-            \tilde{\mathcal{C}}_{pq}
-            =
-            \int_{0}^{2\pi} \dd \phi
-            \abs{\cos(\phi)}
-            \Phi^{*}_{m_p}(\phi)
-            \Phi_{m_q}(\phi),
-            \\
-            \tilde{\mathcal{S}}_{pq}
-            =
-            \int_{0}^{2\pi} \dd \phi
-            \abs{\sin(\phi)}
-            \Phi^{*}_{m_p}(\phi)
-            \Phi_{m_q}(\phi).
-        \end{gather}
-        For $k \in \mathbb{Z}$ and $\Delta m_{pq} \equiv m_p - m_q$, the
-        solution to the cosine integral is given by
-        \begin{align}
-            \tilde{\mathcal{C}}_{pq}
-            =
-            \frac{4}{1 - (\Delta m_{pq})^2}
-            \begin{cases}
-                0 & \Delta m_{pq} = 2k + 1, \\
-                1 & \Delta m_{pq} = 4k, \\
-                -1 & \Delta m_{pq} = 4k + 2,
-            \end{cases}
-        \end{align}
-        and for the sine integral we get
-        \begin{align}
-            \tilde{\mathcal{S}}_{pq}
-            &=
-            \frac{4}{1 - (\Delta m_{pq})^2}
-            \begin{cases}
-                0 & \Delta m_{pq} = 2k + 1, \\
-                1 & \Delta m_{pq} = 2k.
-            \end{cases}
-        \end{align}
-        For a full derivation, see \autoref{app:barrier-integrals}.
-
-        Having constructed the full one-body Hamiltonian matrix $\onemat$, we
-        diagonalize and find the variationally optimized eigenvectors $\vf{C}$
-        and single-particle eigenenergies $\vfg{\varepsilon}$.
-        We can now use the coefficients to transform to the new double-well
-        basis.
-        The process of changing basis will be discussed in
-        \autoref{sec:change-of-basis}.
+%\section{Two-dimensional quantum dot}
+%    Extending the formalism of the one-dimensional quantum dot to two dimensions
+%    we look at a system of particles confined to the plane.
+%    Due to there existing analytical solutions to the Coulomb elements for the
+%    two-dimensional harmonic oscillator in polar coordinates
+%    \cite{anisimovas1998energy}, this avoids the need of evaluating the two-body
+%    elements on a grid as in the one-dimensional case.
+%    The one-body Hamiltonian in coordinate representation can thus be
+%    represented by
+%    \begin{align}
+%        \oneten(r, \phi)
+%        = -\frac{\hslash^2}{2m}\brak{
+%            \frac{1}{r}\dpd{}{r}\para{
+%                r\dpd{}{r}
+%            }
+%            + \frac{1}{r^2}\dpd[2]{}{\phi}
+%        }
+%        + v(r, \phi),
+%    \end{align}
+%    where we do not necessarily assume that the potential is circular symmetric
+%    unless specified.
+%
+%    \subsection{Two-dimensional harmonic oscillator}
+%        \label{subsec:two-dim-ho}
+%        In the two-dimensional harmonic oscillator we have a circular symmetric
+%        potential on the form,
+%        \begin{align}
+%            v(r, \phi) = v(r) = \half m \omega^2 r^2.
+%        \end{align}
+%        Before solving the one-dimensional problem, we will make the system
+%        dimensionless in the same manner as done by
+%        \citeauthor{anisimovas1998energy} \cite{anisimovas1998energy} as we use
+%        their solution for the Coulomb elements.
+%        The full two-dimensional Hamiltonian with Coulomb interaction in
+%        coordinate representation is given by,
+%        \begin{align}
+%            \hamilten(\vf{r})
+%            = \sum_{i = 1}^{N} \brak{
+%                -\frac{\hslash^2}{2m} \vfg{\nabla}^2_i
+%                + \half m \omega \vfg{r}^2_i
+%            }
+%            + \sum_{i < j}^{N}
+%            \frac{e^2}{4\pi \epsilon_0 \abs{\vfg{r}_i - \vfg{r}_j}}.
+%            \label{eq:two-dim-ho-hamiltonian}
+%        \end{align}
+%        We introduce a dimensionless position $\vfg{r}'$
+%        \begin{align}
+%            \vfg{r} = a \vfg{r}',
+%        \end{align}
+%        where the scaling radius $a$ is given by,
+%        \begin{align}
+%            a \equiv \sqrt{\frac{\hslash}{m\omega}}.
+%            \label{eq:bohr-radius}
+%        \end{align}
+%        The complete derivation of the scaling is shown in
+%        \autoref{app:two-dim-ho-dimensionless}.
+%        For the sake of brevity we relabel the dimensionless position $\vfg{r}'
+%        \to \vfg{r}$.
+%        We then have the dimensionless form for the two-dimensionless harmonic
+%        oscillator Hamiltonian
+%        \begin{align}
+%            \hamilten(\vfg{r})
+%            = \frac{\hslash\omega}{2} \sum_{i = 1}^{N}\brak{
+%                -\vfg{\nabla}^2_i
+%                + \vfg{r}^2_i
+%            }
+%            + \hslash\omega\lambda
+%            \sum_{i < j}^{N}
+%            \frac{1}{\abs{\vfg{r}_i - \vfg{r}_j}},
+%        \end{align}
+%        where we have
+%        \begin{align}
+%            \lambda \equiv \frac{e^2}{
+%                4\pi \epsilon_0 \hslash \omega a_0
+%            }.
+%            \label{eq:two-dim-ho-lambda}
+%        \end{align}
+%        In the article by \citeauthor{anisimovas1998energy}
+%        \cite{anisimovas1998energy} they go the extra step of measuring the
+%        energy in units of $\hslash\omega$ as this makes it more natural to
+%        define the Coulomb interaction as a perturbation to the one-body
+%        Hamiltonian.
+%        Now, we do not share the goal of expanding the Hamiltonian as a
+%        perturbation and we will therefore keep $\hslash\omega$ as they are.
+%        Moving to atomic units we are left with the expression
+%        \begin{align}
+%            \hamilten(\vfg{r})
+%            &= \omega \sum_{i = 1}^{N}
+%            \oneten(\vfg{r}_i)
+%            + \sqrt{\omega} \sum_{i < j}^{N} \twoten(\vfg{r}_i, \vfg{r}_j),
+%            \label{eq:tdho-hamiltonian}
+%        \end{align}
+%        which reduces the scaling of the system down to the single parameter
+%        $\omega$ as the strength of the harmonic oscillator well.
+%        Furthermore, we've introduced the one-body Hamiltonian
+%        $\oneten(\vfg{r})$ which contains the kinetic and potential energy
+%        terms\footnote{%
+%            This is where the factor $1/2$ went.
+%        } and the two-body Hamiltonian $\twoten(\vfg{r}_i, \vfg{r}_j)$ for the
+%        Coulomb potential.
+%
+%        Now, finding the spectrum of the full many-body Hamiltonian is
+%        computationally extreme for $N > 2$ and we will therefore use our
+%        repertoir of many-body methods as discussed in the previous chapters.
+%        However, we still need a set of atomic orbitals to start our
+%        calculations and a natural starting point is the analytical solutions to
+%        the one-body Hamiltonian.
+%        If $\lambda$ is small, this can turn out to be a very good approximation
+%        as we are close to the non-interacting case where the spectrum of the
+%        Hamiltonian is the spectrum of the one-body Hamiltonian.
+%        If $\lambda$ becomes large this approximation will turn out to be poor
+%        and there exists better orbital sets, e.g., the molecular orbitals from
+%        the Hartree-Fock method.
+%        Still, both solutions requires an initial guess and we might as well
+%        choose the spectrum of the one-body Hamiltonian as there exists closed
+%        form solutions for these single particle functions.
+%
+%        \subsubsection{The spectrum of the two-dimensional harmonic oscillator}
+%            For the non-interacting case the Hamiltonian in
+%            \autoref{eq:tdho-hamiltonian} reduces to the one-body Hamiltonian
+%            which on coordinate form is given by
+%            \begin{align}
+%                \oneten(\vfg{r})
+%                = -\half\vfg{\nabla}^2 + \half\vfg{r}^2,
+%                \label{eq:tdho-one-body-hamiltonian}
+%            \end{align}
+%            where we've dropped the indices on the particles and left the energy
+%            scaling in the full Hamiltonian.
+%            We now look for a solution to the time-independent Schrödinger equation
+%            \begin{align}
+%                \oneten(\vfg{r})\psi(\vfg{r}) = \epsilon \psi(\vfg{r}),
+%            \end{align}
+%            where $(\epsilon, \psi(\vfg{r}))$ are the eigenpairs of the
+%            non-interacting two-dimensional harmonic oscillator.
+%            The eigenstates to this equation in polar coordinates is
+%            \begin{align}
+%                \psi_{nm}(r, \phi)
+%                &= \sqrt{\frac{(2n)!}{2\pi(\abs{m} + n)!}}
+%                \exp[i m \phi]
+%                r^{\abs{m}}
+%                \exp[-r^2 / 2]
+%                L^{\abs{m}}_{n}(r^2),
+%                \label{eq:eigenstate-tdho}
+%            \end{align}
+%            where $L^{\abs{m}}_{n}(x)$ are the \emph{associated Laguerre
+%            polynomials} \cite{anisimovas1998energy}.
+%            Furthermore, we have the principal quantum number $n \in \mathbb{N}$
+%            and the azimuthal quantum number $m \in \mathbb{Z}$.
+%            We collect the eigenstates in its separable parts,
+%            \begin{align}
+%                \psi_{nm}(r, \phi)
+%                = N_{nm} R_{nm}(r) \Phi_{m}(\phi),
+%            \end{align}
+%            where the normalization is given by
+%            \begin{align}
+%                N_{nm}
+%                &= \sqrt{\frac{(2n)!}{2\pi(\abs{m} + n)!}},
+%            \end{align}
+%            the radial functions
+%            \begin{align}
+%                R_{nm}
+%                &=
+%                r^{\abs{m}}
+%                \exp[-r^2 / 2]
+%                L^{\abs{m}}_{n}(r^2),
+%                \label{eq:radial-function-tdho}
+%            \end{align}
+%            and the azimuthal part
+%            \begin{align}
+%                \Phi_{m}(\phi) = \exp[i m \phi],
+%            \end{align}
+%            for ease of lookup.
+%            The eigenstates are orthonormal in both their principal and
+%            azimuthal quantum numbers, that is,
+%            \begin{align}
+%                \braket*{\psi_{n_i m_i}}{\psi_{n_j m_j}}
+%                = \delta_{n_i n_j}\delta_{m_i m_j}.
+%            \end{align}
+%            Furthermore, the orthonormality carries to the spin quantum number
+%            $m_s$ as well.
+%            The eigenenergies are given by
+%            \begin{align}
+%                \epsilon_{nm}
+%                = 2n + \abs{m} + 1,
+%                \label{eq:eigenenergy-tdho}
+%            \end{align}
+%            where we re-iterate that $\hslash\omega$ is factored out of the
+%            one-body Hamiltonian and gets included in the full Hamiltonian
+%            energy expression.
+%            The derivation of the spectrum of the two-dimensional harmonic
+%            oscillator is included in \autoref{app:tdho-spectrum}.
+%
+%            Looking at the expression for the eigenenergy in
+%            \autoref{eq:eigenenergy-tdho} we see that we get degenerate
+%            energies.
+%            As the Hamiltonian in \autoref{eq:tdho-hamiltonian} is independent
+%            of spin, we will in the case of fermions with $m_s = \pm 1/2$ get
+%            twice as many degenerate states at each energy level.
+%            An illustration of this is shown in
+%            \autoref{fig:tdho-energy-levels}.
+%            \begin{figure}
+%                \begin{center}
+%                    \begin{tikzpicture}
+%                        \begin{scope}
+%                            \foreach \i in {1, 2, 3} {
+%                                \draw(-1, \i - 1) node[anchor=east]
+%                                {$\epsilon = \i$};
+%                            }
+%
+%                            % Highest energy level
+%                            \foreach \i in {0, 3, 6} {
+%                                \draw (\i, 2) -- (\i + 2, 2);
+%                                \node at (\i + 0.75, 2) {$\uparrow$};
+%                                \node at (\i + 1.25, 2) {$\downarrow$};
+%                            }
+%                            \node[below, inner sep=.2cm] at (1, 2)
+%                            {$n = 0, m = -2$};
+%                            \node[below, inner sep=.2cm] at (4, 2)
+%                            {$n = 1, m = 0$};
+%                            \node[below, inner sep=.2cm] at (7, 2)
+%                            {$n = 0, m = 2$};
+%
+%                            % Middle energy level
+%                            \foreach \i in {1.5, 4.5} {
+%                                \draw (\i, 1) -- (\i + 2, 1);
+%                                \node at (\i + 0.75, 1) {$\uparrow$};
+%                                \node at (\i + 1.25, 1) {$\downarrow$};
+%                            }
+%                            \node[below, inner sep=.2cm] at (2.5, 1)
+%                            {$n = 0, m = -1$};
+%                            \node[below, inner sep=.2cm] at (5.5, 1)
+%                            {$n = 0, m = 1$};
+%
+%                            % Lowest energy level
+%                            \draw (3, 0) -- (5, 0);
+%                            \node at (3 + 0.75, 0) {$\uparrow$};
+%                            \node at (3 + 1.25, 0) {$\downarrow$};
+%                            \node[below, inner sep=.2cm] at (4, 0)
+%                            {$n = 0, m = 0$};
+%                        \end{scope}
+%                    \end{tikzpicture}
+%                \end{center}
+%                \caption{In this plot we can see the energy degeneracy of the lowest
+%                three energy levels in the two-dimensional quantum dot.
+%                Each arrow representes a spin up or a spin down state with the
+%                quantum numbers $n$ and $m$ as listed below.
+%                This pattern goes on indefinitly with the addition of one bar
+%                (two oscillators) per level.}
+%                \label{fig:tdho-energy-levels}
+%            \end{figure}
+%
+%
+%        \subsubsection{Mapping the quantum numbers to a single value}
+%            When working with second quantized operators, we distinguish single
+%            particle functions in a Slater determinant by a single index.
+%            Including spin in the two-dimensional harmonic oscillator
+%            eigenstates we have to deal with three quantum numbers $n$, $m$, and
+%            $m_s$ per state.
+%            We are thus interested in finding a mapping $(n, m) \mapsto p$ and
+%            the inverse mapping $p \mapsto (n, m)$.\footnote{%
+%                The spin quantum number is easiest to deal with in the end as we
+%                can double each dimension in every matrix and label all odd or
+%                even indices by a spin direction.
+%            }
+%            Due to the degeneracy of the eigenenergies such a mapping will not
+%            be unique.
+%            We thus have to decide in advance how we should count the basis
+%            states.
+%            In this work we choose the convention that we start from the
+%            lowest energy level and move up by counting from left to right.
+%            Tabulating \autoref{fig:tdho-energy-levels} in this convetion we get
+%            the results shown in \autoref{tab:tdho-mapping}.
+%            In \autoref{alg:nm-to-p} we demonstrate the algorithm we use to
+%            compute $(n, m) \mapsto p$.
+%            The inverse algorithm for $p \mapsto (n, m)$ is shown in
+%            \autoref{alg:p-to-nm}.
+%            We are now able to find indices $p$ such that
+%            \begin{align}
+%                (\epsilon_{nm}, \psi_{nm}) \mapsto (\epsilon_p, \psi_p).
+%            \end{align}
+%
+%            \begin{table}
+%                \centering
+%                \caption{In this table we show an example of how our mapping
+%                convention will index the states shown in
+%                \autoref{fig:tdho-energy-levels}.}
+%                \renewcommand{\arraystretch}{1.3}
+%                \begin{tabular}{@{}lll@{}}
+%                    \toprule
+%                    $\epsilon_{nm}$ & $(n, m)$ & $p$ \\
+%                    \midrule
+%                    $1$ & $(0, 0)$ & $0$ \\
+%                    $2$ & $(0, -1)$ & $1$ \\
+%                    $2$ & $(0, 1)$ & $2$ \\
+%                    $3$ & $(0, -2)$ & $3$ \\
+%                    $3$ & $(1, 0)$ & $4$ \\
+%                    $3$ & $(0, 2)$ & $5$ \\
+%                    \bottomrule
+%                \end{tabular}
+%                \label{tab:tdho-mapping}
+%            \end{table}
+%
+%            \begin{algorithm}
+%                \inputpython{implementation/quantum-systems/get_index_p.py}{0}{35}
+%                \caption{In this algorithm we describe how we can find $(n, m)
+%                \mapsto p$ relatively quick without having to tabulate all
+%                states up to some level.}
+%                \label{alg:nm-to-p}
+%            \end{algorithm}
+%
+%            \begin{algorithm}
+%                \inputpython{implementation/quantum-systems/get_indices_nm.py}{0}{48}
+%                \caption{In this algorithm we sketch how we can find $p \mapsto
+%                (n, m)$, i.e., the inverse of \autoref{alg:nm-to-p}.}
+%                \label{alg:p-to-nm}
+%            \end{algorithm}
+%
+%        \subsubsection{Computing the dipole moments}
+%            The matrix elements of the dipole moment of the two-dimensional
+%            harmonic oscillator quantum dot is given by
+%            \begin{align}
+%                \vf{d}_{ij}
+%                \equiv \mel*{\psi_i}{\positionvec}{\psi_j},
+%            \end{align}
+%            where we get a dipole moment for each coordinate in $\vf{r}$.
+%            As we've expressed the single particle functions in polar
+%            coordinates, but wish to express the dipole moments in a cartesian
+%            coordinate system, we have to compute the two integrals
+%            \begin{align}
+%                \vf{d}_{ij}
+%                &= \vf{i}\mel*{\psi_i}{\position}{\psi_j}
+%                + \vf{j}\mel*{\psi_i}{\position[y]}{\psi_j}
+%                = \vf{i}\mel*{\psi_i}{\hat{r} \cosine(\hat{\phi})}{\psi_j}
+%                + \vf{j}\mel*{\psi_i}{\hat{r} \sine(\hat{\phi})}{\psi_j},
+%                \label{eq:dipole_elements}
+%            \end{align}
+%            where $\vf{i}$ and $\vf{j}$ are the unit vectors along the $x$- and
+%            $y$-axis respectively.
+%            Using \autoref{eq:eigenstate-tdho} we are able to find analytical
+%            expressions for the angular integral.
+%            The radial integral must be evaluated from $0$ to $\infty$, but we
+%            choose to use SymPy \cite{sympy}, which handles this for us.
+%            Note that we use the notation $i \mapsto (n_i, m_i)$ from the
+%            mapping algorithms described above.
+%            We then get the following integrals
+%            \begin{align}
+%                \mel*{\psi_i}{\hat{r} \cosine(\hat{\phi})}{\psi_j}
+%                &= N^{*}_{n_i m_i} N_{n_j m_j}
+%                \mathcal{R}_{ij}
+%                \mathcal{C}_{ij},
+%                \\
+%                \mel*{\psi_i}{\hat{r} \sine(\hat{\phi})}{\psi_j}
+%                &= N^{*}_{n_i m_i} N_{n_j m_j}
+%                \mathcal{R}_{ij}
+%                \mathcal{S}_{ij},
+%            \end{align}
+%            where no summation is implied in the index labels.
+%            The integrals are given by
+%            \begin{gather}
+%                \mathcal{R}_{ij}
+%                =
+%                \int_{0}^{\infty} \dd r r^2
+%                R_{n_i m_i}^{*}(r) R_{n_j m_j}(r),
+%                \label{eq:radial-integral-tdho}
+%                \\
+%                \mathcal{C}_{ij}
+%                =
+%                \int_{0}^{2\pi}
+%                \dd \phi
+%                \cos(\phi)
+%                \Phi_{m_i}^{*}(\phi)
+%                \Phi_{m_j}(\phi),
+%                \label{eq:cos-integral-tdho}
+%                \\
+%                \mathcal{S}_{ij}
+%                =
+%                \int_{0}^{2\pi}
+%                \dd \phi
+%                \sin(\phi)
+%                \Phi_{m_i}^{*}(\phi)
+%                \Phi_{m_j}(\phi).
+%                \label{eq:sin-integral-tdho}
+%            \end{gather}
+%            We solve the radial integral using SymPy \cite{sympy}.
+%            We start by constructing the radial functions $R_{n_i m_i}(r)$.
+%            This is done by the Python function shown in
+%            \autoref{alg:radial-function-tdho}, where the mapping from $i
+%            \mapsto (n_i, m_i)$ is done by \autoref{alg:p-to-nm}.
+%            \begin{algorithm}
+%                \inputpython{implementation/quantum-systems/spf_radial_function.py}{0}{10}
+%                \caption{Python function constructing the radial functions from
+%                \autoref{eq:radial-function-tdho}.}
+%                \label{alg:radial-function-tdho}
+%            \end{algorithm}
+%            Having constructed the two radial functions we can perform the
+%            integration using the function in \autoref{alg:radial-integral-tdho}.
+%            \begin{algorithm}
+%                \inputpython{implementation/quantum-systems/radial_integral.py}{0}{7}
+%                \caption{Python function performing the radial integral in
+%                \autoref{eq:radial-integral-tdho} using SymPy \cite{sympy} to
+%                evaluate the integral from $r \in [0, \infty)$.}
+%                \label{alg:radial-integral-tdho}
+%            \end{algorithm}
+%
+%            The two angular integrals in \autoref{eq:cos-integral-tdho} and
+%            \autoref{eq:sin-integral-tdho} have closed form solutions which we
+%            derive in \autoref{app:tdho-dipole}.
+%            Defining the difference in the azimuthal quantum number by,
+%            \begin{align}
+%                \Delta m_{ij} \equiv m_i - m_j,
+%                \label{eq:diff-m-tdqd}
+%            \end{align}
+%            where $\Delta m_{ij} \in \mathbb{Z}$.
+%            We then have
+%            \begin{align}
+%                \mathcal{C}_{ij}
+%                = \begin{cases}
+%                    \pi, & \Delta m_{ij} = \pm 1, \\
+%                    0, & \text{else},
+%                \end{cases}
+%            \end{align}
+%            for the cosine integral in \autoref{eq:cos-integral-tdho}.
+%            For the sine integral we get
+%            \begin{align}
+%                \mathcal{S}_{ij}
+%                = \begin{cases}
+%                    \mp i\pi, & \Delta m_{ij} = \pm 1, \\
+%                    0, & \text{else}.
+%                \end{cases}
+%            \end{align}
+%            The results for the angular integrals yield the selection rules for
+%            the dipole approximation for the two-dimensional harmonic
+%            oscillator.
+%            Unless $\Delta m_{ij} = \pm 1$, the transition between the states is
+%            not allowed in the dipole approximation, i.e., the integral
+%            vanishes.
+%            The selection rules for the dipole approximation for the
+%            two-dimensional harmonic oscillator is directly linked to the
+%            harmonic potential theorem \cite{kohn, brey}.
+%
+%
+%        \subsubsection{Computing the Coulomb elements}
+%            Having found the basis functions and the elements of the one-body
+%            hamiltonian, we are left with the task of finding the two-body
+%            elements from the Coulomb interaction.
+%            Luckily, there exists an analytic formula finding these elements for
+%            the two-dimensional harmonic oscillator in polar coordinates.
+%            This formula is shown in appendix A in the article
+%            \citetitle{anisimovas1998energy} by
+%            \citeauthor{anisimovas1998energy} \cite{anisimovas1998energy}.
+%            Note that \citeauthor{anisimovas1998energy} interchanges the indices
+%            in the ket-part of their two-body integrals as opposed to our
+%            convention. That is, in our notation we would write
+%            \begin{align}
+%                \mel*{\psi_i\psi_j}{\twohamil}{\psi_k\psi_l}
+%                &=
+%                \int\dd x_1\dd x_2
+%                \psi_{i}^{*}(x_1) \psi_{j}^{*}(x_2)
+%                \twoten(x_1, x_2)
+%                \psi_{k}(x_1)\psi_{l}(x_2)
+%                \\
+%                &\equiv
+%                \mel*{\psi_i\psi_j}{\twohamil}{\psi_l\psi_k}_{AM},
+%            \end{align}
+%            where $ \mel*{\psi_i\psi_j}{\twohamil}{\psi_l\psi_k}_{AM}$ is the convention used by
+%            \citeauthor{anisimovas1998energy}.
+%            There are two significant symmetries included in the calculation of
+%            the two-body elements.
+%            The first occurs as the Hamiltonian is spin-independent and the
+%            second comes from the azimuthal quantum number $m$.
+%            This can be expressed as
+%            \begin{align}
+%                \mel*{\psi_i\psi_j}{\twohamil}{\psi_k\psi_l}
+%                = \delta_{\sigma_i \sigma_k} \delta_{\sigma_j \sigma_l}
+%                \int\dd \vf{r}_1\dd \vf{r}_2
+%                \psi_{i}^{*}(\vf{r}_i) \psi_{j}^{*}(\vf{r}_2)
+%                \twoten
+%                \psi_{k}(\vf{r}_1)\psi_{l}(\vf{r}_2),
+%            \end{align}
+%            where the symmetry that $m_i + m_j = m_k + m_l$ is baked into the
+%            integral.
+%            The formula for computing the integral
+%            \begin{align}
+%                \mathcal{I}^{ij}_{kl}
+%                =
+%                \int\dd \vf{r}_1\dd \vf{r}_2
+%                \psi_{i}^{*}(\vf{r}_1) \psi_{j}^{*}(\vf{r}_2)
+%                \twoten
+%                \psi_{k}(\vf{r}_1)\psi_{l}(\vf{r}_2),
+%            \end{align}
+%            is rather involved and we've pushed it to
+%            \autoref{app:coulomb-elements}.
+%
+%
+%    \subsection{Two-dimensional double well quantum dot}
+%        \label{subsec:tddw}
+%        Another interesting system to explore is the double well quantum dot,
+%        i.e., a quantum dot with a finite barrier in the potential trap.
+%        Building the barrier on top of the two-dimensional harmonic oscillator
+%        lets us reuse much of the machinery from the previous section.
+%        There are a multitude of ways to create a confining double well
+%        potential.
+%        In the following we'll be focusing on a double well with a sharp
+%        boundary for the barrier in either $x$- or $y$-direction.
+%        The one-body Hamiltonian of the double well with the barrier in the
+%        $x$-direction is given by
+%        \begin{align}
+%            \onehamil
+%            &=
+%            \frac{\momentum^2}{2m}
+%            + \half m \omega^2 \position[r]^2
+%            + \half m \omega^2 \para{
+%                \frac{1}{4} l^2 - l\abs{\position}
+%            }.
+%            \label{eq:one-body-2ddw}
+%        \end{align}
+%        % TODO: Give motivation for the shape of the double-well.
+%        % Discuss the constant term.
+%        In \autoref{eq:one-body-2ddw} we recognize the two first terms as the
+%        kinetic energy and the harmonic oscillator confining potential.
+%        Instead of finding an analytical expression for the full one-body
+%        Hamiltonian, as we did for the harmonic oscillator, we'll instead use
+%        the single-particle functions in \autoref{eq:eigenstate-tdho} as trial
+%        wave functions and use the variational method to find as good an
+%        estimate as possible to the underlying exact eigenpairs.
+%        The one-body matrix elements can then be found from
+%        \begin{align}
+%            \oneten^{p}_{q}
+%            &= \epsilon_{p}\delta^{p}_{q}
+%            + \half m \omega^2\mel*{\phi_p}{
+%                \para{
+%                    \frac{1}{4} l^2 - l \abs{\position}
+%                }
+%            }{\phi_q}
+%            \\
+%            &= \epsilon_{p}\delta^{p}_{q}
+%            + \frac{1}{8} m \omega^2 l^2 \delta^{p}_{q}
+%            - \half m \omega^2 l \mel*{\phi_p}{\abs{\position}}{\phi_q},
+%        \end{align}
+%        where we have used the mapping $(n, m) \to p$ from
+%        \autoref{alg:nm-to-p} described above and where
+%        the eigenenergies $\epsilon_p$ are given by
+%        \autoref{eq:eigenenergy-tdho}.
+%        The two first terms give a shifted harmonic oscillator potential, viz.
+%        \begin{align}
+%            \epsilon_p' = \epsilon_p + \frac{1}{8} m \omega^2 l^2.
+%        \end{align}
+%        The last term is the double well barrier and resembles the dipole matrix
+%        elements from \autoref{eq:dipole_elements} except for the absolute
+%        value.
+%        We rewrite the potential barrier in polar coordinates by
+%        \begin{gather}
+%            \abs{x} = r\abs{\cos(\phi)}, \\
+%            \abs{y} = r\abs{\sin(\phi)},
+%        \end{gather}
+%        where we've included the barrier in $y$-direction for the sake of
+%        generality.
+%        We can thus compute the barrier integrals using the eigenstates from the
+%        harmonic oscillator,
+%        \begin{gather}
+%            \mel*{\phi_p}{\abs{\position}}{\phi_q}
+%            =
+%            N^{*}_{n_p m_p} N_{n_q m_q}
+%            \mathcal{R}_{pq} \tilde{\mathcal{C}}_{pq},
+%            \\
+%            \mel*{\phi_p}{\abs{\position[y]}}{\phi_q}
+%            =
+%            N^{*}_{n_p m_p} N_{n_q m_q}
+%            \mathcal{R}_{pq} \tilde{\mathcal{S}}_{pq},
+%        \end{gather}
+%        where the normalization and the radial integral is the same as for the
+%        dipole moment in the harmonic oscillator system.
+%        Note again that no summation is implied in the indices for the
+%        integrals.
+%        The only difference is the absolute value on the periodic functions in
+%        the polar integrals.
+%        These integrals are given by
+%        \begin{gather}
+%            \tilde{\mathcal{C}}_{pq}
+%            =
+%            \int_{0}^{2\pi} \dd \phi
+%            \abs{\cos(\phi)}
+%            \Phi^{*}_{m_p}(\phi)
+%            \Phi_{m_q}(\phi),
+%            \\
+%            \tilde{\mathcal{S}}_{pq}
+%            =
+%            \int_{0}^{2\pi} \dd \phi
+%            \abs{\sin(\phi)}
+%            \Phi^{*}_{m_p}(\phi)
+%            \Phi_{m_q}(\phi).
+%        \end{gather}
+%        For $k \in \mathbb{Z}$ and $\Delta m_{pq} \equiv m_p - m_q$, the
+%        solution to the cosine integral is given by
+%        \begin{align}
+%            \tilde{\mathcal{C}}_{pq}
+%            =
+%            \frac{4}{1 - (\Delta m_{pq})^2}
+%            \begin{cases}
+%                0 & \Delta m_{pq} = 2k + 1, \\
+%                1 & \Delta m_{pq} = 4k, \\
+%                -1 & \Delta m_{pq} = 4k + 2,
+%            \end{cases}
+%        \end{align}
+%        and for the sine integral we get
+%        \begin{align}
+%            \tilde{\mathcal{S}}_{pq}
+%            &=
+%            \frac{4}{1 - (\Delta m_{pq})^2}
+%            \begin{cases}
+%                0 & \Delta m_{pq} = 2k + 1, \\
+%                1 & \Delta m_{pq} = 2k.
+%            \end{cases}
+%        \end{align}
+%        For a full derivation, see \autoref{app:barrier-integrals}.
+%
+%        Having constructed the full one-body Hamiltonian matrix $\onemat$, we
+%        diagonalize and find the variationally optimized eigenvectors $\vf{C}$
+%        and single-particle eigenenergies $\vfg{\varepsilon}$.
+%        We can now use the coefficients to transform to the new double-well
+%        basis.
+%        The process of changing basis will be discussed in
+%        \autoref{sec:change-of-basis}.
