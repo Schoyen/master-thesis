@@ -1387,10 +1387,8 @@
             }.
             \label{eq:miyagi-laser}
         \end{align}
-        where this field is active for $t \in [0, T]$.
-        A plot of the laser pulse during the simulation is shown in
-        \autoref{fig:miyagi-laser}.
-        The Coulomb interaction is given by \autoref{eq:shield-coulomb} with a
+        where the field is active for $t \in [0, T]$.
+        The Coulomb interaction is given by \autoref{eq:shielded-coulomb} with a
         shielding parameter of $a = 1$ and $\alpha = 1$.
         To compare with the study by \citeauthor{miyagi_and_madsen} we will run
         for $T = \SI{331}{\hslash/\hartree}$ with $\Delta t =
@@ -1403,36 +1401,8 @@
         In fact, for $n = 4$ and $l = 40$ we have to create a Hamiltonian
         matrix with $91390^2$ elements, each of size $\SI{16}{\text{B}}$ as
         we use complex numbers.
-        To solve this system we require a much smarter implementation of the
-        configuration interaction method which is out of scope for this
-        thesis.
-
-        \begin{figure}
-            \centering
-            \begin{tikzpicture}
-                \begin{axis}[
-                        width=11cm,
-                        height=6cm,
-                        xlabel={$t$ $[\text{a.u.}]$},
-                        grid=major,
-                        ylabel={$F(t)$},
-                        enlarge x limits=false,
-                        enlarge y limits=false,
-                    ]
-                    \addplot+ [
-                        mark=none,
-                        thick,
-                    ]
-                    table
-                    {results/benchmarks/miyagi/dat/miyagi_laser.dat};
-                \end{axis}
-            \end{tikzpicture}
-            \caption{In this figure we have plotted the laser pulse from
-            \autoref{eq:miyagi-laser} for $T = \SI{331}{\text{a.u.}}$,
-            $\omega = \SI{0.057}{\text{a.u.}}$, and $F_0 =
-            \SI{0.0755}{\text{a.u.}}$ \cite{miyagi_and_madsen}.}
-            \label{fig:miyagi-laser}
-        \end{figure}
+        To solve this system we require a more efficient implementation of the
+        configuration interaction method which is out of scope for this thesis.
 
 
         In order for us to observe actual ionization we need to have a basis
