@@ -1,34 +1,43 @@
 \chapter{Conclusions and perspective}
     % Summarize achievements and goals
     Our initial goal of this thesis was to implement time-dependent
-    coupled-cluster doubles, singles-and-doubles, and orbital-adaptive
-    time-dependent coupled-cluster doubles methods.
+    coupled-cluster doubles (CCD/TDCCD), singles-and-doubles (CCSD/TDCCSD), and
+    orbital-adaptive time-dependent coupled-cluster doubles (NOCCD/OATDCCD)
+    methods.
     These were to be tested on one- and two-dimensional single and double
     quantum dots.
-    However, due to the novelty of the  orbital-adaptive time-dependent
-    coupled-cluster doubles method this thesis diverged to a new set of goals.
+    However, due to the novelty of the OATDCCD method this thesis diverged to a
+    new set of goals.
     We therefore switched focus to the stability of real-time coupled-cluster
     methods -- which in itself is a rather new research area -- with researchers
-    at the Hylleraas Centre.
-    This lead to a larger focus on atoms and molecules as these systems are more
-    known and explored for quantum chemists than quantum dots.
-    Furthermore, to fully challenge and explore the coupled-cluster method we've
-    implemented a set of Hartree-Fock solvers and configuration interaction
-    methods which lets us improve and compare results from the coupled-cluster
-    solvers.
+    at the Hylleraas Centre which became the start of an ongoing article
+    \cite{oa-stability}.
+    This led to a larger focus on atoms and molecules as these systems are more
+    applicable and common among quantum chemists than quantum dots.
+    Also, due to the close collaboration with \citeauthor{greg-winther} this
+    proved a natural divergence on the systems to be explored on our separate
+    theses.
+    To fully challenge and explore the coupled-cluster methods we've implemented
+    a set of Hartree-Fock (HF/RHF/UHF/TDHF) solvers and configuration
+    interaction (CISD\dots/TDCISD\dots) methods which lets us improve and
+    compare results from the coupled-cluster solvers.
 
-    In this thesis we've described the implementation of all of these methods
-    along with descriptions on how to represent the quantum systems we are
-    exploring.
+    In this thesis we've described the implementation of the TDHF, TDCI and
+    TDCC/OATDCCD methods along with descriptions on how to represent the quantum
+    systems we are exploring.
     We've demonstrated that our methods work as expected by comparing with known
     results from literature.
-    We've also compared the various truncation levels of the coupled-cluster
+    We've also compared the various truncation levels of the
+    coupled-cluster\footnote{%
+        Up to and including the CCSD truncation level.
+    }
     and configuration interaction methods and demonstrated how Hartree-Fock can
-    be used to improve on these results.
+    be used to improve on these results by providing an optimal single reference
+    state.
     We then moved on to demonstrate that orbital-adaptive time-dependent
     coupled-cluster doubles is more stable than time-dependent coupled-cluster
-    singles-and-doubles for very intense fields.
-    We concluded that the inclusion of explicit orbital rotations -- as
+    singles-and-doubles subject to very intense fields.
+    We demonstrated that the inclusion of explicit orbital rotations -- as
     conjectured by \citeauthor{pedersen2018symplectic}
     \cite{pedersen2018symplectic} -- made the method more robust for the Helium
     and Beryllium systems subject to very intense laser field than with static
@@ -52,10 +61,11 @@
             that is, atoms with $N = 10$ and $N = 18$ particles respectively.
             We used two different basis sets and thereby also demonstrated that
             in order to get good results we require a diffuse correlation
-            consisted basis set.
-            The results for Neon was compared with literature, whereas the
-            Argon results are just presented as we were unable to find any known
-            results for these absorption energies.
+            consistent basis set (aug-cc-pVDZ).
+            The results for \ch{Ne} was compared with literature.
+            We were unable to find comparable results for \ch{Ar}, but we report
+            the first dipole allowed transition in the aug-cc-pVDZ basis to be
+            $\Delta\energy = \SI{0.4677}{\hartree}$.
         \item Having demonstrated the applicability of the implemented methods,
             we set out to demonstrate its versatility as well.
             We modelled a spin-dependent laser field as done by
@@ -67,10 +77,10 @@
         \item Finally we explored ionization in a one-dimensional Beryllium
             atom.
             We demonstrated how the choice of basis limits the amount of
-            ionization and discussed that in order to achieve ``proper''
-            ionization we require continuum states either from a change grid
-            representation of the underlying atomic orbital basis or through
-            some other means.
+            ionization.
+            We noted that if one is to consider ionization in a
+            three-dimensional system more flexible basis sets should be
+            utilized.
     \end{enumerate}
     All in all we have demonstrated that our implemented libraries are robust
     and that they can be applied to a wide range of physical and chemical
@@ -79,7 +89,7 @@
     from the work of \citeauthor{greg-winther} \cite{greg-winther} as we've used
     the same framework applied to different systems.
     We've limited the discussion of the quantum dots in this thesis, but these
-    are explored in greater detail by \citeauthor{greg-winther}.
+    are explored in detail by \citeauthor{greg-winther}.
     Also, as part of these theses there is an ongoing publication where we apply
     these methods to more exotic systems of quantum dots \cite{td-quantum-dots}.
 
@@ -106,15 +116,13 @@
                 \item CuPy \cite{cupy} is a Python library resembling NumPy
                     \cite{numpy} in both use and content, however CuPy is an
                     implementation of arrays and linear algebra on a graphics
-                    processing unit (GPU).  We've done some very short tests of
-                    tensor contractions using this library and the speed-up is
-                    almost uncanny.  Our libraries were originally set up to
-                    allow for the usage of CuPy, but due to a few shortcomings
-                    we've not had the time to fully integrate this into our
-                    systems.  However, this should absolutely be explored
+                    processing unit (GPU).
+                    Our libraries were originally set up to allow for the usage
+                    of CuPy, but due to a few shortcomings we've not had the
+                    time to fully integrate this into our systems.
+                    This should absolutely be explored
                     further as this will almost surely increase the speed of the
-                    methods and the amount of memory that can be used as the
-                    GPUs have a lot of RAM.
+                    methods.
                 \item There exists excellent differential equation libraries
                     such as SciPy \cite{scipy} and diffeqpy \cite{julia-diff}
                     which would remove the need for self-implemented solvers as
@@ -122,8 +130,8 @@
                     properly optimized.
                     However, do note that for the same reasons as discussed in
                     \autoref{subsec:symplectic}, we want our integrators to be
-                    symplectic.
-                    SciPy does not have any implemented symplectic solvers.
+                    symplectic, and SciPy does not have any implemented
+                    symplectic solvers.
                     Diffeqpy on the other hand do contain quite a few solvers
                     which are symplectic.
                     A proper interface towards either or both of these libraries
@@ -131,23 +139,20 @@
                     various solvers can be explored.
                     Especially all things lowering the amount of right-hand side
                     evlauations for the time-evolution is to be desired.
-                \item To properly study ionization we should include evolution
-                    of the atomic orbitals on a grid.
-                    This lets us model continuum states by having particles
-                    disappear out of the simulation box.
+                \item To properly study ionization we should investigate
+                    grid-based basis sets \cite{takeshi, miyagi_and_madsen,
+                    hochstuhl2014time}.
+                    This allows for a more flexible description away from
+                    equilibrium.
                     In particular the discrete-variable-representation as used
                     by \citeauthor{miyagi_and_madsen} \cite{miyagi_and_madsen}
                     is of interest.
-                \item The inclusion of triples amplitudes in both the static and
-                    the orbital-adaptive time-dependent
-                    coupled-cluster methods is of interest.
+                \item The inclusion of triples amplitudes in TDCCSDT and OATDCCD
+                    is of interest.
                     In the latter case this would include a substantial
                     increase in complexity in the orbital equations.
                     However, the OATDCCDT-method has -- to the authors knowledge
                     -- \emph{never} been implemented.
-                \item Interesting systems to include are: three-dimensional
-                    quantum dots, magnetic fields with spin-coupling, and
-                    exploration, and relativistic systems.
                 \item One of the main obstacles -- in the authors opinion -- for
                     an effective workflow with the implemented libraries are: the
                     reimplementation of methods used to sample various
@@ -160,7 +165,7 @@
                     to measurement, but occasionally time and lack of creativity
                     has hindered this philosophy leading to small discrepancies
                     in the interfaces between the different methods.
-                    This is frustrating as each samplng script must be tailored
+                    This is frustrating as each sampling script must be tailored
                     to fit each method.
 
                     The second obstacle with manual optimization should be
@@ -184,7 +189,7 @@
             Along with our work there is also two manuscripts in preparation.
             The first manuscript concerns itself with the stability of
             time-dependent coupled-cluster methods \cite{oa-stability} and
-            serves as a response to the work by
+            serves as a follow up to the work by
             \citeauthor{pedersen2018symplectic} \cite{pedersen2018symplectic}.
             The second manuscript is an extensive study on the time-evolution of
             quantum dots \cite{td-quantum-dots} and seeks to apply the developed
@@ -195,15 +200,18 @@
             Education.
 
             \begin{itemize}
+                \item Interesting systems to include are: three-dimensional
+                    quantum dots, magnetic fields with spin-coupling, and
+                    exploration, and relativistic systems.
                 \item Large systems of atoms and molecules are often restricted
                     to Hartree-Fock simulations.
                     Real-time simulations of any such system could potentially
-                    lead to some new unseen results.
+                    lead to new results.
                 \item In the work of \citeauthor{greg-winther}
                     \cite{greg-winther} the inclusion of an orbital-dependent
                     magnetic field is done.
                     By including a spin-dependent magnetic field this could
-                    potentially to some very interesting physics.
+                    potentially lead to interesting physics.
                     In \autoref{sec:isborn} we saw some examples of a
                     spin-dependent laser field leading to ``exotic''
                     transitions.
@@ -211,16 +219,15 @@
                     fission and fusion are immensely interesting.
                     The exploration of such phenomenon using real-time
                     coupled-cluster methods would be fascinating.
-                \item We've demonstrated in \autoref{sec:noble-gasses} how the
-                    choice of basis set has much to say when it comes to the
-                    quality of the results from time-evolution.
+                \item In \autoref{sec:noble-gasses} we demonstrated the
+                    importance of basis sets when it comes to the quality of the
+                    results achieved from dynamical systems.
                     A proper study of this has been left out of this thesis, but
-                    should absolutely be done in the future.
-                \item We have in this thesis limited our attention to the dipole
-                    approximation.
+                    is of fundamental interest.
+                \item We have in this thesis limited our attention to laser
+                    fields described in the dipole approximation.
                     The inclusion of higher order multipoles could potentially
                     let us move into the high-energy regime of Röntgen and the
                     like.
-                    This would also require relativistic considerations for the
-                    basis sets as well.
+                    This would also require relativistic considerations as well.
             \end{itemize}
