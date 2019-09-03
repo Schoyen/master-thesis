@@ -53,37 +53,6 @@
         }
         $\Delta t = \SI{1e-2}{\hslash/\hartree}$ using the Gauss-integrator with
         $s = 3$ and $\epsilon = \num{1e-6}$.
-        %A plot of the laser field in the first $t = \SI{2}{\femto\second}$ of
-        %the simulation is shown in \autoref{fig:nest-laser}.
-        %\begin{figure}
-        %    \centering
-        %    \begin{tikzpicture}
-        %        \begin{axis}[
-        %                width=11cm,
-        %                height=6cm,
-        %                xlabel={$t$ $[\si{\planckbar / \hartree}]$},
-        %                grid=major,
-        %                ylabel={
-        %                    $E(t)$ $[
-        %                        \si{\hartree / (\elementarycharge \bohr)}
-        %                    ]$
-        %                },
-        %                enlarge x limits=false,
-        %            ]
-        %            \addplot+ [
-        %                mark=none,
-        %                thick,
-        %            ]
-        %            table
-        %            {results/benchmarks/nest/dat/nest_laser_new.dat};
-        %        \end{axis}
-        %    \end{tikzpicture}
-        %    \caption{In this figure we have plotted the laser pulse from
-        %    \autoref{eq:nest-laser} for $t = \SI{2}{\femto\second} \approx
-        %    \SI{82.6}{\hslash / \hartree}$, with parameters as defined in the
-        %    text.}
-        %    \label{fig:nest-laser}
-        %\end{figure}
         A word of caution, when reproducing the results in this article some
         care must be taken when converting to atomic units for the frequency,
         time, and the intensity of the laser as it is not clear how much one
