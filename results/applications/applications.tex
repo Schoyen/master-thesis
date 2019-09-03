@@ -645,49 +645,45 @@
         \label{sec:isborn}
         We have so far demonstrated that our implemented methods reproduce known
         results from the literature on a wide range of systems.
-        Furthermore, we've demonstrated that we can run large simulations and
-        have presented new results for the \ch{Ar}-atom.
+        Furthermore, we've demonstrated that we can run large simulations up to
+        $N = 18$ (\ch{Ar}) in a modest basis set.
         However, we now wish to demonstrate that our implemented methods are
-        able to simulate more exotic systems with \emph{spin-dependence}.
+        able to simulate systems with a \emph{spin-dependent} Hamiltonian.
+        Doing this will demonstrate that we should be able to simulate systems
+        with a spin-dependent magnetic field.
 
         In a study by \citeauthor{isborn} \cite{isborn}, the authors explored a
         spin-dependent laser field to see singlet-triplet transitions which are
         invisible to a spin-symmetric field.
-        % TODO: Is this why?
         This study is performed using the time-dependent unrestricted
         Hartree-Fock (TDUHF) method and time-dependent density functional theory.
         We've yet to implement a TDUHF-method and will therefore use regular
         TDHF with general spin-orbitals and the OATDCCD-method.
-        We shall see that the former will experience spin-contamination and
-        break down when we include spin-dependency in the laser field.
 
         The laser pulse used by \citeauthor{isborn} is given by
         \begin{align}
             \vfg{E}(t)
             = E_m \vfg{\epsilon} \sine(\omega t),
         \end{align}
-        where we polarize in the negative $z$-direction to correct for charge of
+        where we polarize in the negative $z$-direction to include the charge of
         the electrons.
         The field is active for $t \in [0, T]$ with $T = 6\pi / \omega$, i.e.,
-        the field is active for three cycles.
+        the field is active for three cycles of the laser frequency.
         The frequency is set to $\omega = \SI{0.06}{\hartree/\hslash}$, the
-        integration time step to $\Delta t = \SI{0.002}{\fs}$ with the
-        simulation run for a total of $\SI{50}{\fs}$.
+        integration time step to $\Delta t = \SI{1e-2}{\hslash/\hartree}$ and we
+        let the simulation run for a total of $\SI{50}{\fs}$.
         We simulate the three molecules \ch{H2}, \ch{LiH}, and \ch{CO} with the
         two basis sets STO-3G and 6-31G**.
         The laser field strength for \ch{H2} was set to $E_m = \num{0.1}$, and
         for \ch{LiH} and \ch{CO} to $E_m = \num{0.01}$.
-        For \ch{CO} we had to lower the time step to $\Delta t =
-        \SI{0.01}{\hslash/\hartree}$ for the simulation to run for both basis
-        sets.
-        Furthermore, due to a hickup in the (self-made) caching scheme used on
-        the Abel compute cluster led to the seven days long run for \ch{CO} in
-        the 6-31G** basis using OATDCCD to get deleted.
+        Furthermore, a hickup in the (self-made) caching scheme used on the Abel
+        computing cluster led to the seven days long run for \ch{CO} in the
+        6-31G** basis using OATDCCD being deleted.
         Thus, our results for \ch{CO} will only be in the smaller STO-3G basis
         set.
         A frutstrating fact in the article by \citeauthor{isborn} is that the
         bonding length of the molecules used are not reported.
-        We therefore guess that \citeauthor{isborn} used the equilibrium
+        We therefore assume that \citeauthor{isborn} used the equilibrium
         bond-lengths in the $z$-direction for all three molecules.
         These are listed in \autoref{tab:bond-length-isborn}.
         \begin{table}
@@ -709,11 +705,11 @@
             \end{tabular}
             \label{tab:bond-length-isborn}
         \end{table}
-        To included the spin-dependency in the electric fields we have chosen a
+        In order to make the applied field spin-dependent we have chosen a
         solution where we set the dipole moment matrix elements corresponding to
         a specific spin-direction to zero and leave the other spin-direction as
         it is.
-        A demonstration of the dipole matrix elements of the \ch{H2} molecule in
+        A demonstration of the dipole matrix elements of the \ch{H2}-molecule in
         the 6-31G** basis is shown in \autoref{fig:dipole-matrices}.
         By using the matrix elements on the right in
         \autoref{fig:dipole-matrices} we effectively use a spin-dependent laser
@@ -782,7 +778,9 @@
             the image on the left shows the same matrix elements, but with all
             odd indices set to zero which means that we are left with the dipole
             matrix elements for the spin-up direction.
-            Note that we've scaled the values to be between $0$ and $1$.}
+            Note that we've scaled the values to be between $0$ and $1$ by
+            taking the elementwise absolute value of $\vfg{z}$ and dividing by
+            the max value in the matrix.}
             \label{fig:dipole-matrices}
         \end{figure}
 
@@ -904,7 +902,8 @@
             \centering
             \caption{Dipole transition energy levels for the \ch{H2}-molecule in
             both the STO-3G and the 6-31G** basis sets using TDHF and OATDCCD.
-            These results are found from the peaks in \autoref{fig:h2-isborn}.}
+            These results are found from the visible peaks in
+            \autoref{fig:h2-isborn}.}
             \renewcommand{\arraystretch}{1.3}
             \begin{tabular}{@{}lllll@{}}
                 \toprule
@@ -925,9 +924,9 @@
             \end{tabular}
             \label{tab:h2-isborn}
         \end{table}
-        For the \ch{H2}-molecule we can use CISD to compute the entire spectrum
-        and locate the allowed dipole transitions using the same technique as
-        discussed in \autoref{sec:nest}.
+        For the \ch{H2}-molecule we can use CISD, i.e., FCI in this case, to
+        compute the entire spectrum and locate the allowed dipole transitions
+        using the same technique as discussed in \autoref{sec:nest}.
         Furthermore, using the spin-reduced dipole matrix elements we should
         locate the allowed singlet-triplet transitions.
         In \autoref{tab:h2-isborn-transitions} we've listed all allowed
@@ -970,12 +969,14 @@
         We note that the energies are not exactly the same -- even though both
         CISD and OATDCCD are formally exact within the given basis for $N = 2$
         particles -- but as the methods for discovering these energy transitions
-        are so vastly different we conclude that these energies are the same.
+        are so vastly different as discussed in \autoref{sec:nest} we conclude
+        that these energies are the same.
+        % TODO: Find out about resolution of FFT!
         Comparing with the results from \citeauthor{isborn} we see that TDHF is
         close to their results using TDUHF.
         However, we conjecture that the discrepancies are mainly a result of
         \citeauthor{isborn} using the presumably more stable TDUHF method for
-        these kind of simulations.
+        spin-dependent laser fields.
         We also note that our results using the more exact methods OATDCCD and
         CISD are higher than the results achieved from TDHF.
         It seems that both TDHF and TDUHF predicts a lower transition energy
@@ -1102,16 +1103,15 @@
             \label{fig:lih-isborn}
         \end{figure}
         We see that the signal from these simulations are rather noisy.
-        Especially for the spin-dependent field.
         Tabulating the values in \autoref{fig:lih-isborn} we get the results
         shown in \autoref{tab:lih-isborn}.
-        We've set the thresholds for the peaks to include all the visual peaks
-        in \autoref{fig:lih-isborn}.
         \begin{table}
             \centering
             \caption{Dipole transition energy levels for the \ch{LiH}-molecule in
             both the STO-3G and the 6-31G** basis sets using TDHF and OATDCCD.
-            These results are found from the peaks in \autoref{fig:lih-isborn}.}
+            These results are found from the peaks in \autoref{fig:lih-isborn}
+            with a threshold that the peaks must have a larger intensity than
+            $\num{0.2}$.}
             \renewcommand{\arraystretch}{1.3}
             \begin{tabular}{@{}lllll@{}}
                 \toprule
@@ -1136,8 +1136,6 @@
                 & & no & $0.1043^{\ddagger}$ & $2.8380$ \\
                 & & no & $0.1151$ & $3.1316$ \\
                 & & yes & $0.1510$ & $4.1102$ \\
-                & & no & $0.3488^{\ddagger}$ & $9.4927$ \\
-                & & no & $0.4280^{\ddagger}$ & $11.6456$ \\
                 & OATDCCD & no & $0.0144^{\diamond}$ & $0.3915$ \\
                 & & no & $0.1115$ & $3.0339$ \\
                 & & yes & $0.1259$ & $3.4253$ \\
@@ -1146,33 +1144,34 @@
             \label{tab:lih-isborn}
         \end{table}
         Unlike the \ch{H2}-molecule we see that the values in
-        \autoref{tab:lih-isborn} contain significantly more noise.
+        \autoref{tab:lih-isborn} contain significantly more noise, especially
+        for the transition energies found using the TDHF-method.
         Looking at the transition in \autoref{tab:lih-isborn} denoted with a
-        $\dagger$ we've left it as it is, but we conjecture that it should
-        really be the singlet-allowed transition listed below as the peaks in
-        the upper palette of \autoref{fig:lih-isborn} show that the two peaks
-        coincide, but due to few samples they become a little noisy and thus do
-        not overlap perfectly.
+        ``$\dagger$'' -- found using the OATDCCD-method -- is included as it is,
+        but we conjecture that it should really be the singlet-allowed
+        transition listed below as the peaks in the upper palette of
+        \autoref{fig:lih-isborn} show that the two peaks coincide, but due to
+        few samples they do not overlap perfectly.
         The values for TDHF in \autoref{tab:lih-isborn} denoted with a
-        $\ddagger$ are clearly noise.
+        ``$\ddagger$'' are clearly noise.
         Furthermore, comparing with \citeauthor{isborn} \cite{isborn} we see
-        that only the two values that are not denoted with a $\ddagger$ are the
-        actual dipole transition energies we should see.
+        that only the two values that are not denoted with a ``$\ddagger$'' are
+        the actual dipole transition energies we should see.
         However, they are so weak that they occur below the noise and would not
         have been discovered unless we knew what we were looking for.
         This demonstrates that the TDHF-method is unable to describe the
         spin-dependent field.
-        We conjecture that this has to do with \emph{spin-contamination} where
-        the lack of a spin-restriction on the molecular orbitals yield a linear
-        combination of combined spin-directions.
-        This suddenly means that the dipole matrix elements are no longer acting
-        on a clear spin-direction.
         As \citeauthor{isborn} \cite{isborn} were able to get better
         measurements we believe that the usage of a TDUHF-method would recover
         the desired results.
         This would be an interesting study to explore, but we've not had the
-        time to implement the TDUHF-method and the analysis will have to be
-        saved for another day!
+        time to implement the TDUHF-method and are therefore left as a future
+        project.
+        % TODO: Discuss the spin-mixing-thingy?
+        The values in \autoref{tab:lih-isborn} marked with a ``$\diamond$'' are
+        most likely a result of dipole transitions between two excited states.
+        We see that they are present in plots of \citeauthor{isborn} as well,
+        and we leave them as they are.
 
         Computing the dipole allowed transitions using the CISD-method we get
         the results shown in \autoref{tab:lih-isborn-transitions}.
@@ -1180,9 +1179,8 @@
         noise compare well with the results from \citeauthor{isborn}
         \cite{isborn} whereas the OATDCCD results are comparable to the results
         from CISD in \autoref{tab:lih-isborn-transitions}.
-        However, they are not the same and we expect the results from OATDCCD to
-        be more correct as they stem from a method that includes more
-        correlation.
+        However, they are not the same for the same reasons as discussed in the
+        two previous studies using this technique.
         \begin{table}
             \centering
             \caption{Dipole allowed transitions for \ch{LiH} in both basis sets
@@ -1206,7 +1204,116 @@
             \label{tab:lih-isborn-transitions}
         \end{table}
         % TODO: Add CO maybe?
-        % TODO: See if the lowest transition is between two excited states.
+        Finally, in \autoref{fig:co-isborn} we've listed the results from the
+        \ch{CO} simulations in the STO-3G basis.
+        Here we clearly see how TDHF really struggles with the spin-dependent
+        field.
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}
+                \begin{groupplot}[
+                    group style={
+                        group size=1 by 1,
+                        vertical sep=60pt,
+                        xlabels at=edge bottom,
+                    },
+                    width=11cm,
+                    height=6cm,
+                    xlabel={Excitation energy $[\si{\hartree}]$},
+                ]
+                    \nextgroupplot[
+                        grid=major,
+                        title={Absorption spectra of \ch{CO} (STO-3G)},
+                        ylabel={Intensity},
+                        enlarge x limits=false,
+                        xmax=2,
+                    ]
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_co_sto-3g_tdhf_both_real.dat};
+                        \addlegendentry{HF}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_co_sto-3g_oatdccd_both_real.dat};
+                        \addlegendentry{OA}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                            dashed,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_co_sto-3g_tdhf_up_real.dat};
+                        \addlegendentry{HF (up)}
+
+                        \addplot+[
+                            mark=none,
+                            thick,
+                            dashed,
+                        ]
+                        table
+                        {results/benchmarks/isborn/dat/fft_co_sto-3g_oatdccd_up_real.dat};
+                        \addlegendentry{OA (up)}
+                \end{groupplot}
+            \end{tikzpicture}
+            \caption{In these figures we've plotted the absorption spectra of
+            \ch{CO} subject to a laser field using the TDHF (HF) and the OATDCCD
+            (OA) methods.
+            The label ``up'' denotes a spin-dependent field along one of the
+            spin-functions.
+            No extra label means that the field is spin-indepdenent.}
+            \label{fig:co-isborn}
+        \end{figure}
+        In \autoref{tab:co-isborn} we've tabulated the peaks from
+        \autoref{fig:co-isborn}.
+        The results from the TDHF-method, especially for the spin-dependent
+        field, are hard to make any sense from.
+        They seemingly only consist of noisy data and by comparing with the
+        results found by \citeauthor{isborn} we see that there are little to no
+        comparison of the results.
+        For OATDCCD we trust our data a little more, but it is again hard to
+        compare with the results from \citeauthor{isborn} as they use TDUHF and
+        TDDFT.
+        Also, what is strange is that we only see a single clear peak once the
+        spin-dependent field is active, and this values is much lower than any
+        results reported by \citeauthor{isborn}.
+        \begin{table}
+            \centering
+            \caption{Dipole transition energy levels for the \ch{CO}-molecule in
+            the STO-3G basis using TDHF and OATDCCD.
+            These results are found from the peaks in \autoref{fig:co-isborn}
+            with a threshold that the peaks must have a larger intensity than
+            $\num{0.05}$ for the OATDCCD-method and $\num{0.8}$ for the
+            TDHF-method.}
+            \renewcommand{\arraystretch}{1.3}
+            \begin{tabular}{@{}lllll@{}}
+                \toprule
+                Basis & Solver & Singlet allowed
+                & $\Delta \energy$ $[\si{\hartree}]$
+                & $\Delta \energy$ $[\si{\electronvolt}]$
+                \\
+                \midrule
+                STO-3G & TDHF & no & $0.0036$ & $0.0979$ \\
+                & & yes & $0.1690$ & $4.5996$ \\
+                & & yes & $0.7013$ & $19.0833$ \\
+                & & yes & $0.7912$ & $21.5299$ \\
+                & & yes & $0.9315$ & $25.3465$ \\
+                & OATDCCD & no & $0.0971$ & $2.6423$ \\
+                & & yes & $0.3453$ & $9.3949$ \\
+                & & yes & $0.6869$ & $18.6919$ \\
+                & & yes & $0.8092$ & $22.0193$ \\
+                & & yes & $0.9171$ & $24.9552$ \\
+                \bottomrule
+            \end{tabular}
+            \label{tab:co-isborn}
+        \end{table}
 
         The inclusion of a spin-dependent laser field demonstrates that we are
         able to take a step further and include magnetic fields with spin-orbit
