@@ -85,18 +85,18 @@
             Hamiltonian containing a potential built from the mean-field
             interaction in the many-body problem.
             The equations in \autoref{eq:roothan-hall-general} are known as the
-            \emph{Roothan-Hall} equations \cite{roothan, hall}.
-            The Roothan-Hall equations constitute a generalized eigenvalue
+            \emph{Roothaan-Hall} equations \cite{roothan, hall}.
+            The Roothaan-Hall equations constitute a generalized eigenvalue
             equation.\footnote{%
                 The grammar sounds highly speculative as we talk about the
-                Roothan-Hall \emph{equations} reducing to a single
+                Roothaan-Hall \emph{equations} reducing to a single
                 \emph{equation}.
             }
             These equations represent a computational improvement to the
             integro-differential equations that come from the canonical
             Hartree-Fock equations.
 
-            In Python we solve the Roothan-Hall equations using SymPy's linear
+            In Python we solve the Roothaan-Hall equations using SymPy's linear
             algebra routine \pyth{scipy.linalg.eigh} which solves both ordinary
             and generalized eigenvalue equations for symmetric and Hermitian
             matrices \cite{sympy}, viz.
@@ -250,19 +250,19 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
                 is a slice with the occupied indices.
 
 
-        \subsection{Self consistent field procedure}
-            Now, in order for us to solve the Roothan-Hall equations, we need an
+        \subsection{Self-consistent field procedure}
+            Now, in order for us to solve the Roothaan-Hall equations, we need an
             expression for the Fock matrix.
             However, the Fock matrix depends on the coefficients found from
-            solving the Roothan-Hall equations.
-            In order to get around this pickle, we use \emph{self consistent
+            solving the Roothaan-Hall equations.
+            In order to get around this pickle, we use \emph{self-consistent
             field iterations} to gradually converge towards a solution to the
-            Roothan-Hall equations.
+            Roothaan-Hall equations.
             We denote matrices at a specific step $i$ by a superscript $(i)$,
             e.g., the Fock matrix at step $i$ is denoted $\fockmat^{(i)}$.
             If there are no superscripts that means the matrix is independent of
-            the self consistent iterations.
-            The self consistent field method for the Roothan-Hall equations is
+            the self-consistent iterations.
+            The self-consistent field method for the Roothaan-Hall equations is
             then given by,
             \begin{align}
                 \fockmat^{(i)}\vfg{C}^{(i + 1)}
@@ -275,11 +275,11 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
             described in \autoref{subsec:ghf} yielding the coefficient matrix
             and the orbital eigenenergies for the next time step.
 
-            To start the self consistent iterations we need an initial value for
+            To start the self-consistent iterations we need an initial value for
             the Fock matrix.
             We choose $\fockmat^{(0)} = \vfg{\oneten}$, i.e., we set the initial
             Fock matrix to be the one-body Hamiltonian matrix.
-            The self consistent procedure can now be explained by the following
+            The self-consistent procedure can now be explained by the following
             steps:
             \begin{enumerate}
                 \item Construct the Fock matrix $\fockmat^{(i)}$ from
@@ -292,7 +292,7 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
                     \autoref{eq:ghf-density-matrix}.
                 \item Check for convergence.
             \end{enumerate}
-            The convergence of the self consistent iterations are determined by
+            The convergence of the self-consistent iterations are determined by
             the change in energy and the change in the density matrix between
             two consecutive steps.
             That is, for two given tolerances $\delta_E$ and $\delta_D$, we say
@@ -466,7 +466,7 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
             where $\brac{\chi_{\alpha}}$ is our spin-independent basis of $K$
             known atomic orbitals.
             By projecting the atomic orbitals onto the canonical Hartree-Fock
-            equations we will again be left with the Roothan-Hall equations as
+            equations we will again be left with the Roothaan-Hall equations as
             seen in \autoref{eq:roothan-hall-general}.
 
         \subsection{Constructing the restricted Fock matrix}
@@ -563,7 +563,7 @@ fock_matrix = (
             Furthermore, the one-body Hamiltonian \pyth{h} is now
             spin-independent.
             By proceeding with the self-consistent field iterations solving the
-            Roothan-Hall equations with \autoref{eq:atomic-fock-rhf} as the
+            Roothaan-Hall equations with \autoref{eq:atomic-fock-rhf} as the
             definition of the Fock matrix elements, we find the orbital
             coefficient matrix $\vfg{C} \in \mathbb{C}^{K \times L/2}$ which we
             use to transform to the restricted molecular orbitals.
@@ -862,7 +862,7 @@ energy = np.trace(np.dot(term, density_matrix))
             \end{gather}
             These coupled equations constitute the \emph{Pople-Nesbet
             equations}.
-            They resemble the Roothan-Hall equations seen in the two previous
+            They resemble the Roothaan-Hall equations seen in the two previous
             methods in that they are generalized eigenvalue equations, but now
             we solve two sets of eigenvalue equations simultaneously.
             Note that the coupling between the two spin-directions occurs in the
