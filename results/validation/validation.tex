@@ -23,7 +23,7 @@
     test-suites automatically and checks that known values are reproduced.
 
     The focus in this thesis is on time evolution of quantum mechanical systems,
-    and as such we will mainly look at time-dependent phenomenon with little
+    and as such we will mainly look at time-dependent phenomena with little
     focus on ground state solutions.
     However, note that several known ground state values, in particular for one-
     and two-dimensional quantum dots, are implemented as tests.
@@ -72,12 +72,17 @@
         $\epsilon = \num{1e-6}$.
 
         We will reproduce part of the study done by
-        \citeauthor{zanghellini_2004} using TDHF, TDCID, TDCISD, TDCCD, and
-        TDCCSD as well as the their ground state counterparts.
-        We do not include NOCCD nor OATDCCD, as part of the study is a
-        comparison of the time-dependent overlap which we have not implemented
-        for the latter method as dicussed in
-        \autoref{subsec:autocorrelation-oatdccd}.
+        \citeauthor{zanghellini_2004} using the following methods:
+        time-dependent Hartree-Fock (TDHF), time-dependent configuration
+        interaction with doubles and singles-and-doubles excitations (TDCID and
+        TDCISD), and time-dependent coupled-cluster with doubles and
+        singles-and-doubles excitations (TDCCD and TDCCSD), as well as the their
+        ground state counterparts.
+        We do not include the non-orthogonal coupled-cluster doubles (NOCCD) nor
+        the orbital-adaptive time-dependent coupled-cluster doubles (OATDCCD)
+        methods, as part of the study is a comparison of the time-dependent
+        overlap which we have not implemented for the latter method as dicussed
+        in \autoref{subsec:autocorrelation-oatdccd}.
         In \autoref{fig:one-body-density-zanghellini} we plot the ground state
         particle densities using the general Hartree-Fock method and CISD, i.e.,
         full configuration interaction for two particles.
@@ -264,7 +269,7 @@
             \citeauthor{zanghellini_2004} \cite{zanghellini_2004}.
             In the lower figure we show the absolute difference in the
             overlap between the time-dependent full configuration
-            interaction method the time-dependent coupled cluster method
+            interaction method and the time-dependent coupled cluster method
             with singles and doubles.}
             \label{fig:overlap-zanghellini}
         \end{figure}
@@ -360,10 +365,11 @@
                 \end{groupplot}
             \end{tikzpicture}
             \caption{In this figure we try to reproduce
-            \autoref{fig:one-body-density-zanghellini} using plain CID and CID with
-            Hartree-Fock basis.
+            \autoref{fig:one-body-density-zanghellini} using plain CID and CID
+            with a Hartree-Fock basis.
             The lower figure shows the absolute difference between CCD and CID
-            with harmonic oscillator (HO) basis and Hartree-Fock (HF) basis.}
+            with a harmonic oscillator (HO) basis and a Hartree-Fock (HF)
+            basis.}
             \label{fig:one-body-density-doubles-zanghellini}
         \end{figure}
 
@@ -380,8 +386,9 @@
         properly depicting the dynamics.
         In fact, comparing with \autoref{fig:overlap-zanghellini} we see that
         TDHF gives a qualitatively much better approximation to the exact
-        results which demonstrates that the singles approximation is essential
-        for the laser driven dynamics we explore.
+        results.
+        This demonstrates that the singles approximation is essential for the
+        laser driven dynamics we explore.
 
         \begin{figure}
             \centering
@@ -523,37 +530,10 @@
         $\lambda = \SI{456}{\nano\meter}$.
         We run the simulation for a total of $t_f = \SI{225}{\hslash/\hartree}$
         with the laser turned on from the start.
-        We use the Gauss-integrator with $s = 3$ a fix-point convergence
-        threshold of $\epsilon = \num{1e-6}$ and an integration time step of
+        We use the Gauss-integrator as discussed in
+        \autoref{subsec:gauss-legendre} with $s = 3$, a fix-point convergence
+        threshold of $\epsilon = \num{1e-6}$, and an integration time step of
         $\Delta t = \SI{1e-2}{\hslash/\hartree}$.
-        %A plot of the laser field during the simulation is shown in
-        %\autoref{fig:li-laser}.
-        %\begin{figure}
-        %    \centering
-        %    \begin{tikzpicture}
-        %        \begin{axis}[
-        %            width=11cm,
-        %            height=6cm,
-        %            xlabel={$t$ $[\si{\hslash/\hartree}]$},
-        %            ylabel={$E(t)$ $[\si{\hartree}]$},
-        %            grid=major,
-        %            enlarge x limits=false,
-        %            enlarge y limits=false,
-        %        ]
-        %            \addplot+[
-        %                mark=none,
-        %                thick,
-        %            ]
-        %            table
-        %            {results/benchmarks/li/dat/li_laser.dat};
-        %        \end{axis}
-        %    \end{tikzpicture}
-        %    \caption{In this figure we've plotted the laser field from
-        %    \autoref{eq:li-field} with the envelope described in
-        %    \autoref{eq:li-laser} as done in the study by
-        %    \citeauthor{li_2005} \cite{li_2005}.}
-        %    \label{fig:li-laser}
-        %\end{figure}
         In our programs the dipole moment is defined with a positive sign,
         which means that we need to introduce a negative sign in the
         envelope or the polarization vector to include the negative charge
