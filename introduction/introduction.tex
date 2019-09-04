@@ -3,7 +3,7 @@
     nature.
     Given the wave function $\psi(x, t)$ we can in principle compute all there
     is to know about the underlying system described by the Hamiltonian
-    $\hamil(t)$.
+    $\hamil(x, t)$, where $x$ is a spatial coordinate and $t$ the time.
     If we know the wave function at a given initial time $t_0$ we can from the
     time-dependent Schrödinger equation,
     \begin{align}
@@ -18,11 +18,12 @@
     However, moving to the time-independent Schrödinger equation we can find the
     spectrum of wave functions by solving the eigenvalue equation,
     \begin{align}
-        \hamil\psi_k(x) = \energy_k\psi_k(x).
+        \hamil\psi_k(x) = \energy_k\psi_k(x),
     \end{align}
+    where $\energy_k$ is the eigenenergy of the eigenstate $\psi_k(x)$.
     We can then build the time-dependent wave function from a linear combination
     of these stationary states.
-    The inclusion of many particles -- or the so-called many-body problem -- are
+    The inclusion of many particles -- or the so-called many-body problem -- is
     of great interest in quantum chemistry and nuclear physics, but this
     severely complicates the matter of solving the time-independent Schrödinger
     equation, and not to say, the time-dependent Schrödinger equation.
@@ -38,7 +39,7 @@
     as a solved system.
     However, such a description fails to explain the dynamics of a system.
 
-    Real-time methods lets us simulate experiments and describes the physics as
+    Real-time methods let us simulate experiments and describe the physics as
     they occur.
     These methods provide a way to explore the evolution of particles in time as
     they respond to interactions from external stimuli \cite{joshua-magnus}.
@@ -157,9 +158,9 @@
                 effects such as spin-dependent laser fields and ionization.
         \end{enumerate}
         A note to the expert reader; a large part of this thesis has been
-        dedicated to the author desire at understanding much of the underlying
+        dedicated to the author's desire at understanding much of the underlying
         theory and mathematics of the implemented methods.
-        This has lead to a rather extensive tome of work without necessarily
+        This has led to a rather extensive tome of work without necessarily
         highlighting the important discoveries done.
         The expert reader can therefore consider chapters 2 and 3 more as a
         review of known quantum mechanics and many-body theories.
