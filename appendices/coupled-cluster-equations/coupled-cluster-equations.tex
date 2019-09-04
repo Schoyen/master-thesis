@@ -22,20 +22,20 @@
         construction.
         Looking at the energy contribution linear in the cluster operator we get
         \begin{align}
-            \mel{\slat}{
+            \mel*{\slat}{
                 \brak{
                     \hamil_N
                     \clust
                 }_c
             }{\slat}
             &=
-            \mel{\slat}{
+            \mel*{\slat}{
                 \brak{
                     \hamil_N
                     \clust_1
                 }_c
             }{\slat}
-            + \mel{\slat}{
+            + \mel*{\slat}{
                 \brak{
                     \hamil_N
                     \clust_2
@@ -43,13 +43,13 @@
             }{\slat}
             \\
             &=
-            \mel{\slat}{
+            \mel*{\slat}{
                 \brak{
                     \fock_N
                     \clust_1
                 }_c
             }{\slat}
-            + \mel{\slat}{
+            + \mel*{\slat}{
                 \brak{
                     \twohamil_N
                     \clust_2
@@ -65,14 +65,14 @@
         two-body-operator.
         Looking at each operator pair separately we get
         \begin{align}
-            \mel{\slat}{
+            \mel*{\slat}{
                 \brak{
                     \fock_N\clust_1
                 }_c
             }{\slat}
             &=
             \fockten^{p}_{q}\clustamp^{a}_{i}
-            \mel{\slat}{
+            \mel*{\slat}{
                 \normalord{
                     \ccr{p}\can{q}
                 }\normalord{
@@ -82,7 +82,7 @@
             }{\slat}
             =
             \fockten^{p}_{q}\clustamp^{a}_{i}
-            \mel{\slat}{
+            \mel*{\slat}{
                 \wick{
                     \normalord{
                         \c2 {\ccr{p}}
@@ -100,12 +100,12 @@
         \end{align}
         The doubles cluster operator on the two-body Hamiltonian yields
         \begin{align}
-            \mel{\slat}{\brak{
+            \mel*{\slat}{\brak{
                 \twohamil_N \clust_2
             }_c}{\slat}
             &=
             \frac{1}{16}\twoten^{pq}_{rs}\clustamp^{ab}_{ij}
-            \mel{\slat}{
+            \mel*{\slat}{
                 \normalord{
                     \ccr{p}
                     \ccr{q}
@@ -216,7 +216,7 @@
         Inserting the Kronecker-delta functions back into the energy
         contribution and summing, we get
         \begin{align}
-            \mel{\slat}{
+            \mel*{\slat}{
                 \brak{
                     \twohamil_N \clust_2
                 }_c
@@ -242,14 +242,14 @@
         operator.
         We are thus left with
         \begin{align}
-            \mel{\slat}{
+            \mel*{\slat}{
                 \brak{
                     \twohamil_N \clust_1^2
                 }_c
             }{\slat}
             &=
             \frac{1}{4}\twoten^{pq}_{rs}\clustamp^{a}_{i}\clustamp^{b}_{j}
-            \mel{\slat}{
+            \mel*{\slat}{
                 \normalord{
                     \ccr{p}
                     \ccr{q}
@@ -273,15 +273,15 @@
         performed for the squared cluster operators.
         Collecting all the contributions to the correlation energy we get
         \begin{align}
-            \mel{\slat}{\simhamil_N}{\slat}
+            \mel*{\slat}{\simhamil_N}{\slat}
             &=
-            \mel{\slat}{
+            \mel*{\slat}{
                 \brak{
                     \hamil_N\clust
                 }_{c}
             }{\slat}
             + \frac{1}{2!}
-            \mel{\slat}{
+            \mel*{\slat}{
                 \brak{
                     \hamil_N\clust^2
                 }_{c}
