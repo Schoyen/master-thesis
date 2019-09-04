@@ -471,6 +471,12 @@
             This method is described in depth in their text
             \citetitle{pedersen2018symplectic} \cite{pedersen2018symplectic} and
             will not be renditioned in this work.
-            % TODO: Discuss the parameters to the integrator.
+            However, we will state that the order of the Gauss-integrator is
+            determined by a parameter $s \in \brac{1, 2, 3}$ deciding the order
+            of the Gauss-Legendre polynomial used in the integrator.
+            Furthermore, the integrator uses fix-point iterations in each time
+            step.
+            This means that we have to set a tolerance $\epsilon$ for when the
+            iteration is considered converged.
 
 \clearemptydoublepage
