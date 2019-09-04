@@ -7,7 +7,7 @@
     If we know the wave function at a given initial time $t_0$ we can from the
     time-dependent Schrödinger equation,
     \begin{align}
-        i\hslash\dpd{}{t}\psi(x, t) = \hamil(t)\psi(x, t),
+        i\hslash\dpd{}{t}\psi(x, t) = \hamil(x, t)\psi(x, t),
     \end{align}
     compute all there is to know about the system for all future and earlier
     times.
@@ -24,7 +24,7 @@
     We can then build the time-dependent wave function from a linear combination
     of these stationary states.
     The inclusion of many particles -- or the so-called many-body problem -- is
-    of great interest in quantum chemistry and nuclear physics, but this
+    of great interest in many fields of physics and quantum chemistry, but this
     severely complicates the matter of solving the time-independent Schrödinger
     equation, and not to say, the time-dependent Schrödinger equation.
     As a result there exists a plethora of approximate methods, e.g.,
@@ -100,7 +100,7 @@
     \section{Our contribution}
         There already exists a plethora of many-body codes, but almost none
         concerning real-time solutions to the electronic many-body problem.
-        To the authors knowledge there are no existing implementations of the
+        To the author's knowledge there are no existing implementations of the
         orbital-adaptive time-dependent coupled-cluster method applicable to
         general many-body problems.
         Our main contribution is therefore an implementation of this novel
@@ -118,7 +118,7 @@
         We have implemented interfaces towards the libraries PySCF \cite{pyscf}
         and Psi4 \cite{psi4}.
         This opens for usage of different types of basis sets and systems.
-        The time evolution of our systems are general, but we have only
+        The time evolution of our systems is general, but we have only
         implemented a description of an external laser field in the dipole
         approximation.
         This should be extensible to other types of time evolution, e.g., a
@@ -181,9 +181,10 @@
         ways.
 
         The novelty and applicability of the libraries we have developed has
-        spawned interest with researchers at the Hylleraas Centre at the
-        University of Oslo which has led to several researchers using the code.
-        As a consequence they have provided us with much feedback on the code
+        spawned interest with researchers at the Hylleraas Center at the
+        University of Oslo.
+        This has led to several researchers using the code, and as a consequence
+        they have provided us with valuable feedback.
         thus making the implementation more robust.
         Furthermore, we have received working implementations of the
         non-orthogonal coupled-cluster doubles (NOCCD) method \cite{rolf-nocc},
