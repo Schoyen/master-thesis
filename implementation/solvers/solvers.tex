@@ -81,7 +81,7 @@
             The orbital eigenenergies are indeed energies, but they are
             \emph{not} the eigenenergy of the total Hamiltonian.
             Rather they are similar to the eigenergies of the one-body
-            Hamiltonian, but with a the Fock operator representing a one-body
+            Hamiltonian, but with the Fock operator representing a one-body
             Hamiltonian containing a potential built from the mean-field
             interaction in the many-body problem.
             The equations in \autoref{eq:roothan-hall-general} are known as the
@@ -122,10 +122,10 @@ epsilon, C = scipy.linalg.eigh(fock_matrix, s)
                 \mel*{\chi_{\alpha}\phi_j}{\twohamil}{\chi_{\beta}\phi_j}_{AS},
             \end{align}
             where $j$ only sums over the occupied indices in the molecular
-            orbital basis.
+            orbital basis as discussed in \autoref{subsec:fermi-vacuum}.
             We notice that only the antisymmetric two-body elements depend on
             the molecular orbitals.
-            Formulating the matrix elements in terms of he known atomic orbitals
+            Formulating the matrix elements in terms of the known atomic orbitals
             and the coefficient matrix we get
             \begin{align}
                 \mel*{\chi_{\alpha}\phi_j}{\twohamil}{\chi_{\beta}\phi_j}
@@ -155,7 +155,7 @@ epsilon, C = scipy.linalg.eigh(fock_matrix, s)
 o = slice(0, n)
 density_matrix = C[:, o] @ C[:, 0].conj().T
             \end{python}
-            where \pyth{n} is he number of occupied particles and \pyth{o} is a
+            where \pyth{n} is the number of occupied particles and \pyth{o} is a
             slice with the indices of the occupied states.
             We can then write the matrix elements of the Fock operator in terms
             of the atomic orbitals and the density matrix as
@@ -315,7 +315,7 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
             problems.
             We define $\fockmat^{(i)}$ as the measured quantity, and the newly
             built $\fockmat^{(i + 1)}$ as our predicted quantity.
-            The error vector is contstructed from
+            The error vector is constructed from
             \begin{align}
                 \vfg{e}_i
                 = \fockmat^{(i)} \vfg{D}^{(i)} \vfg{S}
@@ -341,7 +341,7 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
             To be even more specific, we will look at the \emph{closed-shell
             restricted Hartree-Fock} method, i.e., each spin-orbital \emph{must}
             be doubly occupied and each energy shell must be completely filled.
-            This corresponds the spin-restricted spin-orbitals from
+            This corresponds to the spin-restricted spin-orbitals from
             \autoref{eq:restricted-spin-orbital}.
             For a basis of $L$ spin-orbitals we get $L/2$ orbitals, where $L$
             must be an even number.
@@ -419,8 +419,8 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
             \begin{align}
                 \braket*{\nu}{\nu} = \delta_{\nu\nu} = 2.
             \end{align}
-            The second term in the antisymmetric two body elements yields the
-            exchange operator to be
+            The second term in the antisymmetric two-body elements is the
+            exchange operator
             \begin{align}
                 \mel*{\phi_P\phi_J}{\twohamil}{\phi_J\phi_Q}
                 &= \braket*{\sigma}{\nu}\braket*{\nu}{\tau}
@@ -428,7 +428,7 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
                 = \delta_{\sigma\tau}
                 \mel*{\varphi_p}{\hat{K}}{\varphi_q},
             \end{align}
-            where we have used the completness relation for the spin of the
+            where we have used the completeness relation for the spin of the
             occupied molecular orbitals, viz.
             \begin{align}
                 \dyad*{\nu}
@@ -647,7 +647,7 @@ energy = np.trace(np.dot(term, density_matrix))
             orbital $\varphi^{\sigma}_{p}$ and the spin-function $\sigma(m_s)$.
             We can collect the orbitals in two sets
             $\bigl\{\varphi^{\sigma}_{p}\bigr\}$, one for each spin direction.
-            The ground state Slater determinant can then be written
+            The ground state Slater determinant can then be written as
             \begin{align}
                 \ket*{\slat}
                 &=
@@ -982,8 +982,8 @@ energy = np.trace(np.dot(term, density_matrix))
             array back to the two-dimensional form.
 
         \subsection{Time-dependent energy}
-            The time-dependent energy is computed in exactly same way as for the
-            general Hartree-Fock method.
+            The time-dependent energy is computed in exactly the same way as for
+            the general Hartree-Fock method.
             We therefore reuse this functionality, but use the time-dependent
             coefficients for the density matrices.
             % TODO: Consider adding normalization
@@ -1013,7 +1013,7 @@ energy = np.trace(np.dot(term, density_matrix))
         solver where we create the full Slater determinant space and store it in
         memory.
         From this we also create the full Hamiltonian matrix $\hamilmat$.
-        Our implementation thus quickly absorb too much memory and therefore
+        Our implementation thus quickly absorbs too much memory and therefore
         limits the number of particles and basis functions that can be explored.
         To improve on the current scheme, an implementation of the \emph{direct
         CI} methods \cite{helgaker-molecular, olsen2012full} along with only
@@ -1068,13 +1068,13 @@ energy = np.trace(np.dot(term, density_matrix))
             In \autoref{tab:num-slater-determinants} we demonstrate how the
             number of Slater determinants increase as a function of truncation
             for a fixed number of particles.
-            The storage cost of the Hamiltonian matrix $\hamilmat$ is uncanny
-            going from CIS to CISDTQ as the storage increases by $7$ orders of
-            magnitude.
+            The storage cost of the Hamiltonian matrix $\hamilmat$ explodes when
+            going from the CIS truncation to the CISDTQ level as the memory cost
+            increases by $7$ orders of magnitude.
             \begin{table}
                 \centering
                 \caption{In this table we demonstrate how the number of
-                Slater determinants $N_s$ increase as a function of truncation
+                Slater determinants $N_s$ increases as a function of truncation
                 level for $N = 4$ and $L = 80$.
                 We have also included the number of bytes needed to store the
                 Slater determinants using \pyth{np.uint64}, i.e., 64-bit
@@ -1083,7 +1083,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 numbers as elements.
                 The storage cost of the Hamiltonian matrix for CIS was
                 $\SI{0.001}{\giga\byte}$, which does not show up in the
-                designated one decimal point.}
+                designated decimal point.}
                 \renewcommand{\arraystretch}{1.3}
                 \begin{tabular}{@{}lrrr@{}}
                     \toprule
@@ -1269,7 +1269,6 @@ energy = np.trace(np.dot(term, density_matrix))
                 first (\pyth{0}), second (\pyth{1}), or higher, set bits.}
                 \label{alg:get-index}
             \end{algorithm}
-            % TODO: Add the implementation of the Slater-Condon rules?
 
 
         \subsection{Diagonalization}
@@ -1322,14 +1321,14 @@ energy = np.trace(np.dot(term, density_matrix))
                 \mel*{\slat_J}{\ccr{p}\can{q}}{\slat_K}.
                 \label{eq:ci-one-body-density}
             \end{align}
-            As matrix elements of the one-body density matrix is given by a pair
+            As matrix elements of the one-body density matrix are given by a pair
             of creation and annihilation operators we can use the Slater-Condon
             rules for one-body operators to evaluate the overlap.
             This results in virtually the same implementation as for the
             one-body Hamiltonian, but with a new one-body operator given by the
             coefficient vector $\vfg{c}_I$ for a specific eigenstate
             $\ket*{\Psi_I}$.
-            Do note that $\vfg{c}_I \in \mathbb{C}^{N_s}$ and that the indices
+            Note that $\vfg{c}_I \in \mathbb{C}^{N_s}$ and that the indices
             into this vector is given by the same indices as for the Slater
             determinants, unlike the single-particle indices used for the
             one-body density matrix and the one-body Hamiltonian.
