@@ -4,38 +4,36 @@
     time $t_0$ to a later time $t$ by
     \begin{align}
         P(t_0 \to t)
-        \equiv \abs{\braket{\psi(t)}{\psi(t_0)}}^2.
+        \equiv \abs{\braket*{\psi(t)}{\psi(t_0)}}^2.
     \end{align}
     That is, we compute the squared overlap between the initial state
-    $\ket{\psi(t_0)}$ and the final state $\ket{\psi(t)}$.
-    % TODO: This should be in the theory section.
+    $\ket*{\psi(t_0)}$ and the final state $\ket*{\psi(t)}$.
     In the bi-variational formulation of Hilbert space, where the left- and
     right-hand states of the coupled-cluster wave function differ, some care
     must be taken as to how the autocorrelation should be computed.
     \begin{align}
         P(t_0 \to t)
-        &\equiv \abs{\braket{\tilde{\Psi}(t)}{\Psi(t_0)}}^2
-        = \braket{\tilde{\Psi}(t)}{\Psi(t_0)}
-        \braket{\tilde{\Psi}(t_0)}{\Psi(t)},
+        &\equiv \abs{\braket*{\tilde{\Psi}(t)}{\Psi(t_0)}}^2
+        = \braket*{\tilde{\Psi}(t)}{\Psi(t_0)}
+        \braket*{\tilde{\Psi}(t_0)}{\Psi(t)},
     \end{align}
-    where we note that the two latter terms no loner a complex conjugates of one
-    another.
-    This is a consequence of treating the two different Hilbert spaces
-    indepedently.
-    For clarity we set $t_0 = 0$ and define $\ket{\Psi(0)}$ as the coupled
-    cluster ground state, and $\bra{\tilde{\Psi}(0)}$ as the left-hand ground
+    where we note that the two latter terms no logner are complex conjugates of
+    one another.
+    This is a consequence of the bi-variational principle.
+    For clarity we set $t_0 = 0$ and define $\ket*{\Psi(0)}$ as the coupled
+    cluster ground state, and $\bra*{\tilde{\Psi}(0)}$ as the left-hand ground
     state.
     % TODO: Refer to the autocorrelation for the orbital-adaptive method.
     Restricting ourselves to the case of time-independent spin-orbitals, we need
     to evolve the $\clustlamp$- and $\clustamp$-amplitudes in time.
     We thus have to find an expression for the inner product of
     \begin{gather}
-        \braket{\tilde{\Psi}(t)}{\Psi(0)}
+        \braket*{\tilde{\Psi}(t)}{\Psi(0)}
         =
-        \mel{\slat}{
+        \mel*{\slat}{
             \brak{\1 + \clustl(t)}
-            \exp[-\clust(t)]
-            \exp[\clust]
+            \exponential(-\clust(t))
+            \exponential(\clust)
         }{\slat},
     \end{gather}
     and where the second inner product can be found by replacing the
@@ -51,21 +49,21 @@
         time-dependent and not the creation nor the annihilation operators.
     } only terms with a combination of $\clustl$ and $\clust$ will survive.
     \begin{align}
-        \braket{\tilde{\Psi}(t)}{\Psi(0)}
+        \braket*{\tilde{\Psi}(t)}{\Psi(0)}
         &=
         1
         +
-        \mel{\slat}{
+        \mel*{\slat}{
             \clustl(t)
-            \exp[-\clust(t)]
-            \exp[\clust]
+            \exponential(-\clust(t))
+            \exponential(\clust)
         }{\slat}
         \\
         &=
         1
         + \sum_{n = 0}^{\infty}\sum_{m = 0}^{\infty}
         \frac{(-1)^{n}}{n!m!}
-        \mel{\slat}{
+        \mel*{\slat}{
             \clustl(t)
             \clust^n(t)
             \clust^m
@@ -88,9 +86,9 @@
         thus annihilating the overlap.
         This leaves us with
         \begin{gather}
-            \braket{\tilde{\Psi}(t)}{\Psi(0)}
+            \braket*{\tilde{\Psi}(t)}{\Psi(0)}
             = 1
-            + \mel{\slat}{
+            + \mel*{\slat}{
                 \clustl(t)\brak{
                     -\clust(t) + \clust
                 }
@@ -99,7 +97,7 @@
         Using SymPy \cite{sympy} to compute Wick's theorem and only keeping
         fully contracted terms, we get
         \begin{gather}
-            \braket{\tilde{\Psi}(t)}{\Psi(0)}
+            \braket*{\tilde{\Psi}(t)}{\Psi(0)}
             = 1
             + \frac{1}{4}\clustamp^{ab}_{ij} \clustlamp^{ij}_{ab}(t)
             - \frac{1}{4}\clustlamp^{ij}_{ab}(t) \clustamp^{ab}_{ij}(t).
@@ -118,9 +116,9 @@
         vacuum.
         We are then left with
         \begin{align}
-            \braket{\tilde{\Psi}(t)}{\Psi(0)}
+            \braket*{\tilde{\Psi}(t)}{\Psi(0)}
             &= 1
-            + \mel{\slat}{
+            + \mel*{\slat}{
                 \clustl(t)\brak{
                     - \clust(t) + \clust - \clust(t)\clust
                     + \half \clust(t)^2 + \half \clust^2
@@ -130,7 +128,7 @@
         Using SymPy \cite{sympy} to compute this expression using Wick's theorem
         and only keeping the fully contracted terms, we find
         \begin{align}
-            \braket{\tilde{\Psi}(t)}{\Psi(0)}
+            \braket*{\tilde{\Psi}(t)}{\Psi(0)}
             &=
             1
             + \clustlamp^{i}_{a}(t) \brak{
@@ -148,3 +146,5 @@
         \end{align}
         and the bi-variational conjugate of this equation by switching the
         time-dependence of the amplitudes.
+
+\clearemptydoublepage
