@@ -190,7 +190,7 @@
         \end{align}
         where $\tilde{\phi}_q(x)$ is the bi-variational dual state of
         $\phi_p(x)$.
-        For the Hartree-Fock methods and configuration-interaction solvers we
+        For the Hartree-Fock methods and configuration interaction solvers we
         choose $\tilde{\phi}_q(x) = \phi^{*}_q(x)$ and we have recovered the
         original expression for the particle density as seen in
         \autoref{eq:particle-density}.
@@ -413,7 +413,7 @@ class QuantumSystem:
         spin-orbitals are ordered.
         We've chosen a solution which is far from optimal, but which is
         reasonable as long as we have an even number of particles with the same
-        amount of particles in each spin-direction.
+        amount of particles in each spin direction.
         We use the convention that orbitals are ordered in an increasing order
         based on their single-particle eigenenergy.\footnote{%
             This is the ordering that is returned by NumPy when diagonalizing
@@ -425,7 +425,7 @@ class QuantumSystem:
         } the one-body- and two-body Hamiltonians, and all other matrix
         elements.
         Next we repeat each orbital twice so that even indices correspond to a
-        certain spin-direction and odd indices to the other direction.
+        certain spin direction and odd indices to the other direction.
         We are able to achieve this quite succintly using the Kronecker-product
         and slicing in NumPy.
         In \autoref{alg:spin-doubling-spf} we demonstrate a snippet which adds
@@ -488,9 +488,9 @@ def add_spin_two_body(_u):
         \end{algorithm}
 
         A more general solution -- and which should be implemented in the future
-        -- is to create spin-blocks with each spin-direction following each
+        -- is to create spin-blocks with each spin direction following each
         other as this allows for an unequal number of particles in each
-        spin-direction.
+        spin direction.
         This is the solution that needs to be taken for the unrestricted
         Hartree-Fock method when changing basis.
 

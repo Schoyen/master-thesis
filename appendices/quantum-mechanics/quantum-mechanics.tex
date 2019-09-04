@@ -182,8 +182,8 @@
 
     \section{Positive definite overlap matrix}
         \label{app:positive-definite-overlap}
-        Consider an atomic orbital basis $\brac{\chi_{\alpha}}_{\alpha = 1}^{L}$
-        where the overlap is given by
+        Consider an atomic orbital basis of $L$ single-particle states
+        $\brac{\chi_{\alpha}}$ where the overlap is given by
         \begin{align}
             \overlapten_{\alpha\beta}
             = \braket{\chi_{\alpha}}{\chi_{\beta}}
@@ -239,10 +239,10 @@
         \label{sec:orbital-rotations}
         We prove \autoref{lemma:unitary-transformation-slater}.
         \begin{proof}
-            Let $\brac{\phi_i}_{i = 1}^{L}$ be an orthonormal basis of
+            Let $\brac{\phi_i}$ be an orthonormal basis of $L$
             atomic orbitals.
             We can then do a unitary transformation from this basis to a new
-            basis $\brac{\ket{\psi_i}}_{i = 1}^{L}$ by
+            basis $\brac{\psi_i}$ of $L$ single-particle states by
             \begin{align}
                 \ket{\psi_i} = U_{ji}\ket{\phi_j},
                 \label{eq:unitary_transformation}
@@ -325,9 +325,10 @@
 
     \section{Deriving the reference energy}
         \label{sec:deriving-the-reference-energy}
-        For the orthormal basis $\brac{\ket{\phi_p}}_{p = 1}^{L}$ with the $N$
-        first states occupied in the reference state $\ket{\refslat}$, we
-        compute the reference energy from \autoref{eq:reference-energy}.
+        Let $\brac{\phi_p}$ be an orthonormal basis of $L$ single-particle
+        states with the $N$ first states occupied in the reference state
+        $\ket*{\refslat}$, we compute the reference energy from
+        \autoref{eq:reference-energy}.
         We use Wick's theorem with normal ordering relative to the Fermi vacuum,
         that is, we treat the reference state as our vacuum state.
         Starting with the one-body operator, we get
@@ -571,10 +572,10 @@
 
     \section{The normal-ordered Hamiltonian}
         \label{app:normal-ordered-hamiltonian}
-        Given an orthonormal basis $\brac{\ket{\phi_p}}_{p = 1}^{L}$, with the
-        $N$ first states occupied in the reference state $\ket{\slat}$, we
-        can construct the normal-ordered Hamiltonian, $\hamil_N$, relative to
-        the Fermi vacuum by using Wick's theorem.
+        Given an orthonormal basis of $L$ single-particle states
+        $\brac{\phi_p}$, with the $N$ first states occupied in the reference
+        state $\ket{\slat}$, we can construct the normal-ordered Hamiltonian,
+        $\hamil_N$, relative to the Fermi vacuum by using Wick's theorem.
         Starting with the one-body Hamiltonian, we know from
         \autoref{eq:one-hamil-wick} that we can write the one-body Hamiltonian
         as

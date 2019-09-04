@@ -399,21 +399,21 @@
             \end{definition}
 
             We will be working with a finite basis set of $L$ orthonormal
-            single-particle states, $\brac{\ket{p}}_{p = 1}^{L}$, which means
-            that we truncate the infinite direct sum over the tensor products of
-            $H$ constructing the truncated Fock space $F_{\nu}(L)$.
+            single-particle states $\brac{\ket*{p}}$, which means that we
+            truncate the infinite direct sum over the tensor products of $H$
+            constructing the truncated Fock space $F_{\nu}(L)$.
             A Fock state\footnote{%
                 Also known as an occupation number vector
                 \cite{helgaker-molecular}.
-            } $\ket{\vfg{n}} \in F_{\nu}(L)$ is denoted
+            } $\ket*{\vfg{n}} \in F_{\nu}(L)$ is denoted
             \begin{align}
-                \ket{\vfg{n}}
-                &\equiv \ket{n_1, n_2, \dots, n_L},
+                \ket*{\vfg{n}}
+                &\equiv \ket*{n_1, n_2, \dots, n_L},
             \end{align}
-            where $n_i$ denotes how many of state $\ket{i}$ are contained in
-            $\ket{\vfg{n}}$.\footnote{%
+            where $n_i$ denotes how many of state $\ket*{i}$ are contained in
+            $\ket*{\vfg{n}}$.\footnote{%
                 This must not be confused with a \emph{product state} as
-                $\ket{\vfg{n}}$ is either a symmetric ($\nu = +$) or an
+                $\ket*{\vfg{n}}$ is either a symmetric ($\nu = +$) or an
                 antisymmetric ($\nu = -$) state.%
             }
             We've defined the set $\vf{n}$ as the set containing all $n_i$.
@@ -428,7 +428,7 @@
                 \end{cases}
             \end{align}
             where $n_i = 0$ means that the state is unoccupied and $n_i \geq 1$
-            means that state $\ket{i}$ can be occupied by that amount of
+            means that state $\ket*{i}$ can be occupied by that amount of
             particles.
             We can decompose the truncated Fock space $F_{\nu}(L)$ into a direct
             sum of subspaces $F_{\nu}(L, N)$
@@ -438,7 +438,7 @@
                 F_{\nu}(L, N),
             \end{align}
             where $F_{\nu}(L, N)$ is the Fock space with all Fock states
-            $\ket{\vfg{n}}$ where $\abs{\vfg{n}} = N$, i.e., all states where
+            $\ket*{\vfg{n}}$ where $\abs{\vfg{n}} = N$, i.e., all states where
             all $N$ particles have been distributed among all $L$ basis states
             \cite{helgaker-molecular}.
             Due to the particles being indistinguishable we have
@@ -449,10 +449,10 @@
             \end{gather}
             where the bosonic Fock states are in a much greater number as they
             are not subject to the Pauli exclusion principle.
-            The inner product between two Fock states $\ket{\vfg{n}},
-            \ket{\vfg{m}} \in F_{\nu}(L)$ is given by
+            The inner product between two Fock states $\ket*{\vfg{n}},
+            \ket*{\vfg{m}} \in F_{\nu}(L)$ is given by
             \begin{align}
-                \braket{\vfg{n}}{\vfg{m}} = \prod_{i = 1}^{L} \delta_{pq}
+                \braket*{\vfg{n}}{\vfg{m}} = \prod_{i = 1}^{L} \delta_{pq}
                 \equiv \delta_{\vfg{n}\vfg{m}}.
                 \label{eq:inner-product-fock}
             \end{align}
@@ -469,12 +469,12 @@
                 \1 = \dyad{\vfg{n}}{\vfg{n}},
                 \label{eq:fock-identity}
             \end{align}
-            where we sum over over all $\ket{\vfg{n}} \in F_{\nu}(L)$.
-            Of particular interest is the \emph{vacuum state} $\ket{\vac} \in
+            where we sum over over all $\ket*{\vfg{n}} \in F_{\nu}(L)$.
+            Of particular interest is the \emph{vacuum state} $\ket*{\vac} \in
             F_{\nu}(L, 0)$ as the state with no particles.
             \begin{align}
-                \ket{\vac} \equiv \ket{\vfg{0}}
-                = \ket{0_1, 0_2, \dots, 0_L}.
+                \ket*{\vac} \equiv \ket*{\vfg{0}}
+                = \ket*{0_1, 0_2, \dots, 0_L}.
             \end{align}
             From \autoref{eq:inner-product-fock} we have that the vacuum state
             is normalized to unity.
@@ -490,16 +490,16 @@
                 Fock states in $F_{\nu}(L)$.
                 It is a mapping $\acr{p}: F_{\nu}(L, N) \mapsto F_{\nu}(L, N +
                 1)$.
-                Its action on a Fock state $\ket{\vfg{n}} \in F_{\nu}(L, N)$ is
+                Its action on a Fock state $\ket*{\vfg{n}} \in F_{\nu}(L, N)$ is
                 defined as
                 \begin{align}
-                    \acr{p}\ket{\vfg{n}}
+                    \acr{p}\ket*{\vfg{n}}
                     = (\Gamma_{\nu})^{\vfg{n}}_{p}
                     \sqrt{n_p + 1}
-                    \ket{n_1, \dots, n_p + 1, \dots, n_L}
+                    \ket*{n_1, \dots, n_p + 1, \dots, n_L}
                     = (\Gamma_{\nu})^{\vfg{n}}_{p}
                     \sqrt{n_p + 1}
-                    \ket{\vfg{n}'},
+                    \ket*{\vfg{n}'},
                     \label{eq:general_creation}
                 \end{align}
                 where $(\Gamma_{\nu})^{\vfg{n}}_{p}$ is a phase factor which
@@ -526,12 +526,12 @@
             We therefore introduce \emph{canonical ordering} with respect to the
             particle indices,
             \begin{align}
-                \ket{\vfg{n}}
+                \ket*{\vfg{n}}
                 \equiv \brak{
                     \prod_{p = 1}^{L}
                     \para{\ccr{p}}^{n_p}
-                }\ket{\vac}
-                = \para{\ccr{1}}^{n_1}\dots\para{\ccr{L}}^{n_L}\ket{\vac},
+                }\ket*{\vac}
+                = \para{\ccr{1}}^{n_1}\dots\para{\ccr{L}}^{n_L}\ket*{\vac},
                 \label{eq:canonical-fock-state}
             \end{align}
             that is, we order the single-particle states in an increasing order.
@@ -563,33 +563,33 @@
             The action can be inferred by utilizing the spectral decomposition
             of the identity in \autoref{eq:fock-identity}.
             \begin{align}
-                \aan{p}\ket{\vfg{n}}
-                = \ket{\vfg{m}}\mel{\vfg{m}}{\aan{p}}{\vfg{n}}
+                \aan{p}\ket*{\vfg{n}}
+                = \ket*{\vfg{m}}\mel*{\vfg{m}}{\aan{p}}{\vfg{n}}
                 =
-                \ket{\vfg{m}}
+                \ket*{\vfg{m}}
                 \para{
-                    \mel{\vfg{n}}{\acr{p}}{\vfg{m}}
+                    \mel*{\vfg{n}}{\acr{p}}{\vfg{m}}
                 }^{*}
                 = \para{\Gamma_{\nu}}^{\vfg{m}}_{p}
                 \delta_{\vfg{n}\vfg{m}'}
                 \sqrt{m_p + 1}
-                \ket{\vfg{m}},
+                \ket*{\vfg{m}},
             \end{align}
             where
             \begin{align}
-                \acr{p}\ket{\vfg{m}}
+                \acr{p}\ket*{\vfg{m}}
                 = \para{\Gamma_{\nu}}^{\vfg{m}}_{p}
                 \sqrt{m_p + 1}
-                \ket{\vfg{m}'}.
+                \ket*{\vfg{m}'}.
             \end{align}
-            In order for the overlap between $\ket{\vfg{n}}$ and
-            $\acr{p}\ket{\vfg{m}}$ to be non-zero we have to have $\abs{\vfg{n}
-            - \vfg{m}} = 1$, that is, the two states $\ket{\vfg{n}}$ and
-            $\ket{\vfg{m}}$ can only differ by a single state.
-            Furthermore, as we are acting on $\ket{\vfg{m}}$ with $\acr{p}$ we
-            have that $n_p = m_p + 1$, i.e., $\ket{\vfg{n}}$ has one more
-            particle state $\ket{p}$ than $\ket{\vfg{m}}$.
-            As all other states in $\ket{\vfg{n}}$ and $\ket{\vfg{m}}$ are the
+            In order for the overlap between $\ket*{\vfg{n}}$ and
+            $\acr{p}\ket*{\vfg{m}}$ to be non-zero we have to have $\abs{\vfg{n}
+            - \vfg{m}} = 1$, that is, the two states $\ket*{\vfg{n}}$ and
+            $\ket*{\vfg{m}}$ can only differ by a single state.
+            Furthermore, as we are acting on $\ket*{\vfg{m}}$ with $\acr{p}$ we
+            have that $n_p = m_p + 1$, i.e., $\ket*{\vfg{n}}$ has one more
+            particle state $\ket*{p}$ than $\ket*{\vfg{m}}$.
+            As all other states in $\ket*{\vfg{n}}$ and $\ket*{\vfg{m}}$ are the
             same, we have that $(\Gamma_{\nu})^{\vfg{m}}_{p} =
             (\Gamma_{\nu})^{\vfg{n}}_{p}$
             and $\sqrt{n_p} = \sqrt{m_p + 1}$.
@@ -599,16 +599,16 @@
                 \delta_{\vfg{n}\vfg{m}'}
                 \sqrt{m_p + 1}
                 =
-                \para{\mel{\vfg{n}}{\acr{p}}{\vfg{m}}}^{*}
+                \para{\mel*{\vfg{n}}{\acr{p}}{\vfg{m}}}^{*}
                 =
-                \mel{\vfg{m}}{\aan{p}}{\vfg{n}}
+                \mel*{\vfg{m}}{\aan{p}}{\vfg{n}}
                 =
                 (\Gamma_{\nu})^{\vfg{n}}_{p}
                 \sqrt{n_p}
                 \delta_{\vfg{n}'\vfg{m}},
             \end{align}
-            where $\ket{\vfg{n}'}$ is the state $\ket{\vfg{n}}$ with state
-            $\ket{p}$ removed.
+            where $\ket*{\vfg{n}'}$ is the state $\ket*{\vfg{n}}$ with state
+            $\ket*{p}$ removed.
             We are thus left with our annihilation operator.
             \begin{definition}
                 \label{def:annihilation_1}
@@ -616,16 +616,16 @@
                 on Fock states in $F_{\nu}(L)$.
                 It is a mapping $\aan{p}: F_{\nu}(L, N) \mapsto F_{\nu}(L, N -
                 1)$.
-                Its action on a Fock state $\ket{\vfg{n}} \in F_{\nu}(L, N)$ is
+                Its action on a Fock state $\ket*{\vfg{n}} \in F_{\nu}(L, N)$ is
                 defined as
                 \begin{align}
-                    \aan{p}\ket{\vfg{n}}
+                    \aan{p}\ket*{\vfg{n}}
                     = (\Gamma_{\nu})^{\vfg{n}}_{p}
                     \sqrt{n_p}
-                    \ket{n_1, \dots, n_p - 1, \dots, n_L}
+                    \ket*{n_1, \dots, n_p - 1, \dots, n_L}
                     = (\Gamma_{\nu})^{\vfg{n}}_{p}
                     \sqrt{n_p}
-                    \ket{\vfg{n}'},
+                    \ket*{\vfg{n}'},
                 \end{align}
                 where $(\Gamma_{\nu})^{\vfg{n}}_{p}$ is the same phase factor as
                 in \autoref{def:creation_1}.
@@ -650,10 +650,10 @@
             These relations can be seen by taking the Hermitian conjugate of the
             commutation and anitcommutation relation for the creation operators.
             If the annihilation operator $\aan{p}$ acts on a Fock state
-            $\ket{\vfg{n}}$ which does not contain the state $\ket{p}$, then
+            $\ket*{\vfg{n}}$ which does not contain the state $\ket*{p}$, then
             \begin{align}
-                \aan{p}\ket{\vfg{n}}
-                = \aan{p}\ket{n_1, \dots, 0_p, \dots, n_L}
+                \aan{p}\ket*{\vfg{n}}
+                = \aan{p}\ket*{n_1, \dots, 0_p, \dots, n_L}
                 = 0.
             \end{align}
             As a consequence, any annihilation operator will annihilate the
@@ -665,25 +665,25 @@
             For the bosonic operators we have
             \begin{align}
                 \begin{drcases}
-                    \ban{p}\bcr{p}\ket{\vfg{n}}
-                    &= (n_p + 1)\ket{\vfg{n}}
+                    \ban{p}\bcr{p}\ket*{\vfg{n}}
+                    &= (n_p + 1)\ket*{\vfg{n}}
                     \\
-                    \bcr{p}\ban{p}\ket{\vfg{n}}
-                    &= n_p \ket{\vfg{n}}
+                    \bcr{p}\ban{p}\ket*{\vfg{n}}
+                    &= n_p \ket*{\vfg{n}}
                 \end{drcases}
                 \implies
                 \com{\ban{p}}{\bcr{p}}
                 = (n_p + 1) - n_p = 1,
             \end{align}
-            when we create and remove the same particle state $\ket{p}$.
+            when we create and remove the same particle state $\ket*{p}$.
             When $p \neq q$ we have
             \begin{align}
                 \begin{drcases}
-                    \ban{p}\bcr{q}\ket{\vfg{n}}
-                    &= \sqrt{n_p}\sqrt{n_q + 1}\ket{\vfg{n}'}
+                    \ban{p}\bcr{q}\ket*{\vfg{n}}
+                    &= \sqrt{n_p}\sqrt{n_q + 1}\ket*{\vfg{n}'}
                     \\
-                    \bcr{q}\ban{p}\ket{\vfg{n}}
-                    &= \sqrt{n_p}\sqrt{n_q + 1}\ket{\vfg{n}'}
+                    \bcr{q}\ban{p}\ket*{\vfg{n}}
+                    &= \sqrt{n_p}\sqrt{n_q + 1}\ket*{\vfg{n}'}
                 \end{drcases}
                 \implies
                 \com{\ban{p}}{\bcr{q}}
@@ -700,11 +700,11 @@
             that the fermionic phase factor squared is $1$.
             \begin{align}
                 \begin{drcases}
-                    \can{p}\ccr{p}\ket{\vfg{n}}
-                    &= \delta_{n_p0}\ket{\vfg{n}}
+                    \can{p}\ccr{p}\ket*{\vfg{n}}
+                    &= \delta_{n_p0}\ket*{\vfg{n}}
                     \\
-                    \ccr{p}\can{p}\ket{\vfg{n}}
-                    &= \delta_{n_p1}\ket{\vfg{n}}
+                    \ccr{p}\can{p}\ket*{\vfg{n}}
+                    &= \delta_{n_p1}\ket*{\vfg{n}}
                 \end{drcases}
                 \implies
                 \acom{\can{p}}{\ccr{p}}
@@ -715,23 +715,23 @@
             expression are dummy indices.
             When $p \neq q$ we have
             \begin{align}
-                \can{p}\ccr{q}\ket{\vfg{n}}
+                \can{p}\ccr{q}\ket*{\vfg{n}}
                 &=
                 (\Gamma_{+})^{\vfg{n}^{(1)}}_{p}
                 (\Gamma_{+})^{\vfg{n}}_{q}
                 \delta_{n_p 1} \delta_{n_q 0}
-                \ket{\vfg{n}^{(3)}}
+                \ket*{\vfg{n}^{(3)}}
                 \\
-                \ccr{q}\can{p}\ket{\vfg{n}}
+                \ccr{q}\can{p}\ket*{\vfg{n}}
                 &=
                 (\Gamma_{+})^{\vfg{n}^{(2)}}_{q}
                 (\Gamma_{+})^{\vfg{n}}_{p}
                 \delta_{n_q 0} \delta_{n_p 1}
-                \ket{\vfg{n}^{(3)}}
+                \ket*{\vfg{n}^{(3)}}
             \end{align}
-            where we've defined the state $\ket{\vfg{n}^{(3)}}$ as state
-            $\ket{\vfg{n}}$ with the single-particle states $\ket{q}$ added and
-            $\ket{p}$ removed.
+            where we've defined the state $\ket*{\vfg{n}^{(3)}}$ as state
+            $\ket*{\vfg{n}}$ with the single-particle states $\ket*{q}$ added and
+            $\ket*{p}$ removed.
             Collecting the creation and annihilation pair into an anticommutator
             relation we have
             \begin{align}
@@ -750,7 +750,7 @@
             to find expressions for the phases
             $(\Gamma_{+})^{\vfg{n}^{(1)}}_{p}$ and
             $(\Gamma_{+})^{\vfg{n}^{(2)}}_{q}$ relative to the original state
-            $\ket{\vfg{n}}$.
+            $\ket*{\vfg{n}}$.
             We have two situations that needs to be explored, namely when $p >
             q$ and the opposite situation when $p < q$.
             Now, when $p > q$ we have
@@ -762,10 +762,10 @@
                 (\Gamma_{+})^{\vfg{n}}_{p}
                 (\Gamma_{+})^{\vfg{n}}_{q},
             \end{align}
-            as $\ccr{q}$ inserts an extra state $\ket{q}$ between $n_1$ and
+            as $\ccr{q}$ inserts an extra state $\ket*{q}$ between $n_1$ and
             $n_p$.
             Conversely, this sign change does not occur for the reverse
-            situation when $\ccr{q}\can{p}$ acts on $\ket{\vfg{n}}$ and we get
+            situation when $\ccr{q}\can{p}$ acts on $\ket*{\vfg{n}}$ and we get
             $(\Gamma_{+})^{\vfg{n}^{(2)}}_{p} = (\Gamma_{+})^{\vfg{n}}_{p}$.
             Thus, in total we have
             \begin{align}
@@ -826,7 +826,7 @@
         operators on normal-ordered form, that is, $\hat{A} = \normalord{\hat{A}}$,
         we will then have
         \begin{align}
-            \normalord{\hat{A}}\ket{\vac} = 0,
+            \normalord{\hat{A}}\ket*{\vac} = 0,
         \end{align}
         as all the annihilation operators will annihilate the vacuum.
         Note that the normal-ordered form is not unique.
@@ -848,7 +848,7 @@
             \end{align}
             where $\normalord{\hat{A}\hat{B}}$ is the normal-ordered form of the
             operator pair $\hat{A}\hat{B}$ relative to the vacuum state
-            $\ket{\vac}$.
+            $\ket*{\vac}$.
         \end{definition}
         Similarly to the anticommutation relations, we can find contraction
         relations for the second quantized operators.
@@ -983,25 +983,25 @@
                 normal-ordered strings.
             \end{theorem}
             To see the usefulness of Wick's theorem, we consider the evaluation
-            of a matrix element between two Fock states $\ket{\vfg{k}},
-            \ket{\vfg{n}} \in F_{-}(L, N)$ on the operator $\hat{A}$ consisting
+            of a matrix element between two Fock states $\ket*{\vfg{k}},
+            \ket*{\vfg{n}} \in F_{-}(L, N)$ on the operator $\hat{A}$ consisting
             of a string of creation and annihilation operators.
             We have that
             \begin{align}
-                \ket{\vfg{n}}
+                \ket*{\vfg{n}}
                 = \brak{
                     \prod_{p = 1}^{L}\para{
                         \ccr{p}
                     }^{n_p}
-                }\ket{\vac},
+                }\ket*{\vac},
             \end{align}
             which is already on normal-ordered form.
             The Hermitian conjugate of this state is also on normal-ordered
             form.
             Now, the matrix element of $\hat{A}$ is given by
             \begin{align}
-                \mel{\vfg{k}}{\hat{A}}{\vfg{n}}
-                = \mel{\vac}{
+                \mel*{\vfg{k}}{\hat{A}}{\vfg{n}}
+                = \mel*{\vac}{
                     \brak{
                         \prod_{p = 1}^{L}
                         \para{\can{p}}^{k_p}
@@ -1032,9 +1032,9 @@
         We call the spatial representation of the single-particle functions an
         \emph{orbital} and combined with spin, we have the \emph{spin-orbital},
         \begin{align}
-            \braket{x}{\psi} = \psi(x)
+            \braket*{x}{\psi} = \psi(x)
             \equiv \psi(\vf{r}, m_s)
-            = \braket{\vf{r}, m_s}{\psi},
+            = \braket*{\vf{r}, m_s}{\psi},
         \end{align}
         where $x = (\vf{r}, m_s)$ is a generalized coordinate of both
         position, $\vf{r}$, and spin quantum number, $m_s$.
@@ -1053,7 +1053,7 @@
             \qquad
             \psi_2(\vf{r}) \equiv \psi\para{\vf{r}, \downspin},
         \end{align}
-        for the two different spin-directions.
+        for the two different spin directions.
         We can thus represent the generalized spin-orbital $\psi(x)$ as a
         two-dimensional vector
         \begin{align}
@@ -1099,7 +1099,7 @@
         \end{align}
         % TODO: Consider adding theory on spin as in Mayer.
         We will for the most part work with spin-orbitals in a definite
-        spin-direction, viz.
+        spin direction, viz.
         \begin{align}
             \psi(x) = \phi(\vf{r})\sigma(m_s),
             \label{eq:spin-orbital}
@@ -1123,7 +1123,7 @@
         In the spin basis shown in \autoref{eq:spin-basis} we have that the
         inner product of two spin functions is given by
         \begin{align}
-            \braket{\sigma}{\tau}
+            \braket*{\sigma}{\tau}
             &=
             \sigma(\upspin)\tau(\upspin)
             + \sigma(\downspin)\tau(\downspin)
@@ -1133,8 +1133,8 @@
         The inner product of two spin-orbitals from \autoref{eq:spin-orbital} is
         then separated into an orbital and a spin inner product,
         \begin{align}
-            \braket{\psi_P}{\psi_Q}
-            &= \braket{\phi_p}{\phi_q}\braket{\sigma}{\tau}
+            \braket*{\psi_P}{\psi_Q}
+            &= \braket*{\phi_p}{\phi_q}\braket*{\sigma}{\tau}
             = \delta_{\sigma\tau}
             \int\dd\vf{r}\phi^{*}_{p}(\vf{r})\phi_{q}(\vf{r}).
             \label{eq:inner-spin-orbital}
@@ -1143,24 +1143,24 @@
         spin decouples from the spatial part of the wave function.
         Spin-$1/2$ is a two-level system that can be represented as a vector
         in a two-dimensional Hilbert space.
-        Unless an operator contains a spin-coupling, the two spin-directions are
+        Unless an operator contains a spin-coupling, the two spin directions are
         completely independent of one another.
         For example, given a spin-independent operator, $\hat{O}$, the
         matrix element between two spin-orbitals become
         \begin{align}
-            \mel{\psi_P}{\hat{O}}{\psi_Q}
-            &= \mel{\phi_p}{\hat{O}}{\phi_q}\braket{\sigma}{\tau}
+            \mel*{\psi_P}{\hat{O}}{\psi_Q}
+            &= \mel*{\phi_p}{\hat{O}}{\phi_q}\braket*{\sigma}{\tau}
             = \delta_{\sigma\tau}
             \int\dd\vf{r}\phi^{*}_{p}(\vf{r})O(\vf{r})\phi_q(\vf{r}).
             \label{eq:example-spin-decoupling}
         \end{align}
         This motivates the coordinate independent notation
         \begin{align}
-            \ket{\psi_P}
-            &= \ket{\phi_p}\otimes\ket{\sigma},
+            \ket*{\psi_P}
+            &= \ket*{\phi_p}\otimes\ket*{\sigma},
         \end{align}
         where the tensor product combines the two-dimensional Hilbert space from
-        the spin $\ket{\sigma}$ and the one-dimensional Hilbert space containing
+        the spin $\ket*{\sigma}$ and the one-dimensional Hilbert space containing
         the orbital basis function.
         % TODO: Are these Hilbert spaces?
         % Aren't spin defined in R^2?
@@ -1177,10 +1177,10 @@
         % TODO: Verify that this is Hilbert space.
         The matrix elements of this operator can be computed by
         \begin{align}
-            \mel{\psi_{P}}{\hat{O}}{\psi_{Q}}
+            \mel*{\psi_{P}}{\hat{O}}{\psi_{Q}}
             &=
-            \mel{\phi_p}{\hat{R}_i}{\phi_q}
-            \mel{\sigma}{\hat{S}_j}{\tau}.
+            \mel*{\phi_p}{\hat{R}_i}{\phi_q}
+            \mel*{\sigma}{\hat{S}_j}{\tau}.
         \end{align}
         Looking back at \autoref{eq:example-spin-decoupling} we see that a
         spin-independent operator $\hat{O}$ corresponds to $\hat{S}_j = \1$.
@@ -1200,7 +1200,7 @@
                         \label{eq:general-spin-orbital}
                     \end{align}
                     These spin-orbitals can lead to mixing between both
-                    spin-directions, known as spin-contamination, that is, the
+                    spin directions, known as spin-contamination, that is, the
                     spin-orbitals are no longer eigenstates of the
                     spin-projection operator $\spinproj$.
                     % TODO: Is this correct?
@@ -1214,10 +1214,10 @@
                         \label{eq:unrestricted-spin-orbital}
                     \end{align}
                     where the orbital $\psi_{\sigma}$ depends on the
-                    spin-direction $\sigma$.
+                    spin direction $\sigma$.
                     Often this type of spin-orbitals are dubbed unrestricted
                     spin-orbitals, which is somewhat of a misnomer as the
-                    spin-orbitals are restricted in the choice of spin-direction
+                    spin-orbitals are restricted in the choice of spin direction
                     as opposed to the (truly) unrestricted generalized
                     spin-orbitals shown in \autoref{eq:general-spin-orbital}.
                 \item The spin-restricted spin-orbital is given by
@@ -1238,13 +1238,12 @@
             \label{subsec:basis-transformation}
             Much of what will be done in this thesis boils down to basis
             transformations of spin-orbitals.
-            For a given basis of spin-orbitals
-            $\brac{\chi_{\alpha}}_{\alpha = 1}^{L}$, a basis
-            transformation to a new basis $\brac{\phi_{i}}_{i = 1}^{K}$ is
-            done by
+            For a given basis of $L$ spin-orbitals $\brac{\chi_{\alpha}}$, a
+            basis transformation to a new basis of $K$ spin-orbitals
+            $\brac{\phi_{i}}$ is done by
             \begin{align}
-                \ket{\phi_{i}}
-                = C_{\alpha i}\ket{\chi_{\alpha}},
+                \ket*{\phi_{i}}
+                = C_{\alpha i}\ket*{\chi_{\alpha}},
             \end{align}
             where we for the sake of generality allow the two basis sets to be
             of differing sizes.
@@ -1252,78 +1251,6 @@
             defines the transformation.
             We will often denote the known set of spin-orbitals as \emph{atomic
             orbitals} as done in the field of quantum chemistry.
-
-            %If the basis of atomic orbitals is non-orthogonal, that is,
-            %\begin{align}
-            %    \braket{\chi_{\alpha}}{\chi_{\beta}}
-            %    = \overlapten_{\alpha\beta}
-            %    \neq \delta_{\alpha\beta},
-            %\end{align}
-            %where $\overlapten_{\alpha\beta}$ is an element in the overlap
-            %matrix $\overlapmat \in \mathbb{C}^{L \times L}$, we can transform
-            %to a new basis of orthonormal basis states $\brac{\xi_{\mu}}_{\mu =
-            %1}^{L}$ \cite{szabo1996modern, mayer2002lowdin}.
-            %The transformation from the atomic orbitals to the orthonormal basis
-            %states is given by
-            %\begin{align}
-            %    \ket{\chi_{\mu}}
-            %    = X_{\alpha\mu}\ket{\chi_{\alpha}},
-            %\end{align}
-            %where $\vfg{X} \in \mathbb{C}^{L \times L}$ is the coefficient
-            %matrix.
-            %In order for the new basis set to be othonormal, we require
-            %\begin{align}
-            %    \braket{\xi_{\mu}}{\xi_{\nu}}
-            %    = X^{*}_{\alpha\mu}\overlapten_{\alpha\beta} X_{\beta\nu}
-            %    = \delta_{\mu\nu}
-            %    \implies
-            %    \vfg{X}^{\dagger}\overlapmat\vfg{X}
-            %    = \1.
-            %\end{align}
-            %Furthermore, we have that $\vfg{X}$ must be non-singular as we need
-            %to compute the inverse $\vfg{X}^{-1}$ which we'll see shortly.
-            %The overlap matrix $\overlapmat$ is Hermitian by construction, and
-            %we can therefore diagonalize $\overlapmat$ by a unitary matrix
-            %$\vfg{U}$, viz.
-            %\begin{align}
-            %    \vfg{U}^{\dagger}\overlapmat\vfg{U} = \vfg{s},
-            %\end{align}
-            %where $\vfg{s} = \diag(\lambda_1, \dots, \lambda_L)$ is a diagonal
-            %matrix with the eigenvalues $\lambda_i$ of $\overlapmat$.
-            %We know that the eigenvalues $\lambda_i > 0$ as the overlap matrix
-            %is positive definite.
-            %For a proof of the overlap matrix being positive definite see
-            %\autoref{app:positive-definite-overlap}.
-
-            %To find an equation for $\vfg{X}$ we wil use a procedure known as
-            %\emph{symmetric orthogonalization} \cite{szabo1996modern,
-            %mayer2002lowdin}.
-            %We define
-            %\begin{align}
-            %    \vfg{X} \equiv \overlapmat^{-1/2}
-            %    = \vfg{U}\vfg{s}^{-1/2}\vfg{U}^{\dagger},
-            %\end{align}
-            %where the square root is defined as the square root of the
-            %eigenvalues of $\overlapmat$ as seen in the last equality.
-            %Now, since $\overlapmat$ is positive definite, the square root and
-            %inverse of $\overlapmat$ will always be defined.
-
-            %We are now in a position to return to the original basis
-            %transformation by
-            %\begin{align}
-            %    \ket{\phi_i}
-            %    = C_{\alpha i}\ket{\chi_{\alpha}}
-            %    = C_{\alpha i}\para{X^{-1}}_{\mu \alpha}
-            %    \ket{\xi_{\mu}}
-            %    = C_{\mu i}' \ket{\xi_{\mu}},
-            %\end{align}
-            %where we've defined the transformed coefficient matrix
-            %\begin{align}
-            %    \vfg{C}'
-            %    = \vfg{X}^{-1}\vfg{C},
-            %\end{align}
-            %where $\vfg{C}' \in \mathbb{C}^{L \times K}$.
-
             \begin{lemma}
                 \label{lemma:unitary-transformation-orthonormality}
                 Let $\brac{\xi_{\mu}}$ be an orthonormal set of $L$
@@ -1334,18 +1261,18 @@
             \end{lemma}
             \begin{proof}
                 Performing a unitary transformation from the orthonormal basis
-                of atomic orbitals $\brac{\xi_{\mu}}_{\mu = 1}^{L}$ to a new
-                basis set $\brac{\phi_p}_{p = 1}^{L}$ is done via
+                of $L$ atomic orbitals $\brac{\xi_{\mu}}$ to a new basis set of
+                $L$ atomic orbitals $\brac{\phi_p}$ is done via
                 \begin{align}
-                    \ket{\phi_p} = U_{\mu p}\ket{\xi_{\mu}},
+                    \ket*{\phi_p} = U_{\mu p}\ket*{\xi_{\mu}},
                 \end{align}
                 where $U_{\mu p}$ is an element in the unitary matrix $\vfg{U}
                 \in \mathbb{C}^{L \times L}$.
                 As the atomic orbitals are orthonormal, we find
                 \begin{align}
-                    \braket{\phi_{p}}{\phi_{q}}
+                    \braket*{\phi_{p}}{\phi_{q}}
                     =
-                    U^{*}_{\mu p} \braket{\xi_{\mu}}{\xi_{\nu}}
+                    U^{*}_{\mu p} \braket*{\xi_{\mu}}{\xi_{\nu}}
                     U_{\nu q}
                     = U^{*}_{\mu p} U_{\mu q}
                     = \delta_{pq},
@@ -1373,31 +1300,31 @@
         \end{align}
         where $\onehamil_i$ is a one-body Hamiltonian acting on particle $i$. We
         are able to find the spectrum of $\onehamil$, and we can use the $N$
-        first eigenstates $\ket{\psi_i}$ as a basis of spin-orbitals.
+        first eigenstates $\ket*{\psi_i}$ as a basis of spin-orbitals.
         This lets us construct a many-body wave function as a product state from
         these spin-orbitals, viz.
         \begin{align}
-            \ket{\Psi}
-            = \bigotimes_{i = 1}^{N}\ket{\psi_i}
-            = \ket{\psi_1}\otimes\dots\otimes\ket{\psi_n}.
+            \ket*{\Psi}
+            = \bigotimes_{i = 1}^{N}\ket*{\psi_i}
+            = \ket*{\psi_1}\otimes\dots\otimes\ket*{\psi_n}.
         \end{align}
         The coordinate representation of this state can be found by
         \begin{align}
-            \braket{x_1, \dots, x_n}{\Psi}
+            \braket*{x_1, \dots, x_n}{\Psi}
             = \psi_1(x_1)\dots\psi_n(x_n),
         \end{align}
         where $\psi_i(x_i)$ is the coordinate representation of the
         spin-orbitals.
-        Since each eigenstate $\ket{\psi_i}$ is an eigenstate of the one-body
+        Since each eigenstate $\ket*{\psi_i}$ is an eigenstate of the one-body
         Hamiltonian with eigenenergy $\epsilon_i$ we can find the total energy
         of the full Hamiltonian by
         \begin{align}
-            \hamil\ket{\Psi}
-            = E\ket{\Psi}
+            \hamil\ket*{\Psi}
+            = E\ket*{\Psi}
             = \brak{
                 \sum_{i = 1}^{N}
                 \epsilon_i
-            }\ket{\Psi}.
+            }\ket*{\Psi}.
         \end{align}
         This particular product state is in quantum chemistry and nuclear
         physics often known as the \emph{Hartree product}.
@@ -1411,9 +1338,9 @@
         Defining the action of the permutation operator on the product state to
         be
         \begin{align}
-            \hat{P}_{\sigma}\ket{\Psi}
-            = \hat{P}_{\sigma}\bigotimes_{i = 1}^{N}\ket{\psi_i}
-            = \bigotimes_{i = 1}^{N}\ket{\psi_{\sigma(i)}},
+            \hat{P}_{\sigma}\ket*{\Psi}
+            = \hat{P}_{\sigma}\bigotimes_{i = 1}^{N}\ket*{\psi_i}
+            = \bigotimes_{i = 1}^{N}\ket*{\psi_{\sigma(i)}},
         \end{align}
         where $\sigma(i)$ is a permutation.
         Now we construct the \emph{antisymmetrizer} $\hat{A}$ defined as the
@@ -1423,16 +1350,16 @@
         \end{align}
         that is, the operator that performs all $N!$ permutations in $S_{N}$.
         Using the antisymmetrizer we can construct a totally antisymmetric wave
-        function $\ket{\Phi}$ by
+        function $\ket*{\Phi}$ by
         \begin{align}
-            \ket{\Phi}
-            = \sqrt{N!}\hat{A}\ket{\Psi}
+            \ket*{\Phi}
+            = \sqrt{N!}\hat{A}\ket*{\Psi}
             = \frac{1}{\sqrt{N!}}\sum_{\sigma \in S_{N}}
             \hat{P}_{\sigma}
-            \bigotimes_{i = 1}^{N}\ket{\psi_i},
+            \bigotimes_{i = 1}^{N}\ket*{\psi_i},
             \label{eq:slater-determinant-abstract}
         \end{align}
-        where the factor $\sqrt{N!}$ is added to ensure that $\ket{\Phi}$ is
+        where the factor $\sqrt{N!}$ is added to ensure that $\ket*{\Phi}$ is
         normalized.
         As the non-interacting many-body Hamiltonian only acts on a single
         spin-orbital at a time, the ordering does not matter.
@@ -1440,14 +1367,14 @@
         \begin{align}
             \com{\hamil}{\hat{P}_{\sigma}} = 0,
         \end{align}
-        and the state $\ket{\Phi}$ is also an eigenstate of $\hamil$ with the
-        same energy $E$ as the product state $\ket{\Psi}$.
-        The coordinate representation of $\ket{\Phi}$ now takes on the familiar
+        and the state $\ket*{\Phi}$ is also an eigenstate of $\hamil$ with the
+        same energy $E$ as the product state $\ket*{\Psi}$.
+        The coordinate representation of $\ket*{\Phi}$ now takes on the familiar
         form of a determinant,
         \begin{align}
             \Phi(x_1, \dots, x_N)
             &=
-            \braket{x_1, \dots, x_N}{\Phi}
+            \braket*{x_1, \dots, x_N}{\Phi}
             = \frac{1}{\sqrt{N!}}
             \sum_{\sigma \in S_{N}}
             \prod_{i = 1}^{N}
@@ -1478,7 +1405,7 @@
         determinant.
 
         In Fock space the Slater determinants are represented as the occupation
-        number vectors $\ket{\vfg{n}}$, that is, projecting the occupation
+        number vectors $\ket*{\vfg{n}}$, that is, projecting the occupation
         number vectors on a spatial basis yields the Slater determinants.
         This is somewhat of a misnomer where an abstract occupation number
         vector is named a Slater determinant which stricly speaking is defined
@@ -1495,7 +1422,7 @@
 
         \subsection{Reference determinant}
             When working with many-body methods we typically start from a single
-            Slater determinant $\ket{\slat}$ called the \emph{reference state}
+            Slater determinant $\ket*{\slat}$ called the \emph{reference state}
             or \emph{reference determinant} and build a basis of Slater
             determinants using the creation and annihilation operators to create
             \emph{excited determinants}.
@@ -1503,11 +1430,11 @@
             energy in the non-interacting case.
             Using canonical ordering it is given by
             \begin{align}
-                \ket{\slat}
+                \ket*{\slat}
                 = \brak{
                     \prod_{i = 1}^{N} \ccr{i}
-                } \ket{\vac}
-                = \ccr{N}\dots\ccr{1}\ket{\vac},
+                } \ket*{\vac}
+                = \ccr{N}\dots\ccr{1}\ket*{\vac},
             \end{align}
             where $N$ is the number of particles in the system we are exploring.
 
@@ -1517,9 +1444,9 @@
             consisting of the $N$ lowest single-particle states, and being the
             determinant that all other higher-order determinants are built from,
             we define a ``new vacuum'' called the \emph{Fermi vacuum}.
-            That is, for a given basis of single-particle states
-            $\brac{\phi_{p}}_{p = 1}^{L}$, we split the basis into an
-            \emph{occupied} basis and a \emph{virtual} basis,
+            That is, for a given basis of $L$ single-particle states
+            $\brac{\phi_{p}}$, we split the basis into an \emph{occupied} basis
+            and a \emph{virtual} basis,
             \begin{align}
                 \brac{\phi_{p}}_{p = 1}^{L}
                 = \brac{\phi_{i}}_{i = 1}^{N}
@@ -1527,9 +1454,9 @@
                 \brac{\phi_{a}}_{a = N + 1}^{L},
             \end{align}
             where $N$ is the number of particles in our reference determinant
-            $\ket{\slat}$.
+            $\ket*{\slat}$.
             The occupied states are single-particle states that are contained in
-            the reference determinant $\ket{\slat}$.
+            the reference determinant $\ket*{\slat}$.
             We denote the occupied index set by $o = \brac{1, \dots, N}$.
             The virtual states are all $M = L - N$ other states in the
             single-particle basis that are not contained in the reference
@@ -1556,21 +1483,21 @@
             This means that $\ccr{i}$ and $\can{a}$ will be our new annihilation
             operators as
             \begin{align}
-                \ccr{i}\ket{\slat} = \can{a}\ket{\slat} = 0.
+                \ccr{i}\ket*{\slat} = \can{a}\ket*{\slat} = 0.
             \end{align}
             Our new creation operators will be $\ccr{a}$ and $\can{i}$ as their
             action on the reference state will either add or remove a
             single-particle state without annihilating the determinant.
             \begin{gather}
-                \ccr{a}\ket{\slat}
-                = \para{\Gamma_{-}}^{\slat}_{a}\ket{\slat'},
+                \ccr{a}\ket*{\slat}
+                = \para{\Gamma_{-}}^{\slat}_{a}\ket*{\slat'},
                 \\
-                \can{i}\ket{\slat}
-                = \para{\Gamma_{-}}^{\slat}_{i}\ket{\slat''},
+                \can{i}\ket*{\slat}
+                = \para{\Gamma_{-}}^{\slat}_{i}\ket*{\slat''},
             \end{gather}
-            where $\ket{\slat'}$ is $\ket{\slat}$ with particle state $\ket{a}$
-            added and $\ket{\slat''}$ is $\ket{\slat}$ with particle state
-            $\ket{i}$ removed.
+            where $\ket*{\slat'}$ is $\ket*{\slat}$ with particle state $\ket*{a}$
+            added and $\ket*{\slat''}$ is $\ket*{\slat}$ with particle state
+            $\ket*{i}$ removed.
 
             From the Fermi vacuum formalism we can extend the anticommutation
             relations by splitting up into occupied and virtual states.
@@ -1629,8 +1556,8 @@
             \end{align}
             where we denote the excited state by $\ket*{\slat^{a}_{i}}$.
             If $\ket*{\slat} \in F_{-}(L, N)$ we see that $\ket*{\slat} \in
-            F_{-}(L, N)$ as we remove state $\ket{i}$ and inserts state
-            $\ket{a}$ thus preserving the number of particles $N$ in the excited
+            F_{-}(L, N)$ as we remove state $\ket*{i}$ and inserts state
+            $\ket*{a}$ thus preserving the number of particles $N$ in the excited
             state.
             From the Fermi vacuum formalism we have $i < a$ which means that
             neither the excitation nor the relaxation operator incurs a sign
@@ -1687,7 +1614,7 @@
             the expectation values of an operator $\hat{Q}$ as an integral, viz.
             \begin{align}
                 \expval{Q}
-                = \mel{\Phi}{\hat{Q}}{\Phi}
+                = \mel*{\Phi}{\hat{Q}}{\Phi}
                 = \int\dd\vfg{x}\Phi^{*}(\vfg{x})\hat{Q}\Phi(\vfg{x}),
             \end{align}
             but this quickly becomes tedious as the $dN$-dimensional integral --
@@ -1715,12 +1642,12 @@
             \begin{gather}
                 q^{p}_{q}
                 \equiv
-                \mel{\phi_p}{\hat{Q}_1}{\phi_q}
+                \mel*{\phi_p}{\hat{Q}_1}{\phi_q}
                 = \int\dd x \phi^{*}_{p}(x)\hat{Q}_1\phi_q(x),
                 \\
                 q^{pq}_{rs}
                 \equiv
-                \mel{\phi_p\phi_q}{\hat{Q}_2}{\phi_r\phi_s}
+                \mel*{\phi_p\phi_q}{\hat{Q}_2}{\phi_r\phi_s}
                 =
                 \int\dd x_1\dd x_2
                 \phi^{*}_{p}(x_1)\phi^{*}_{q}(x_2)
@@ -1755,15 +1682,15 @@
 
             We will use the occupation number representation of the Slater
             determinants to describe the Slater-Condon rules.
-            Thus, $\ket{\vfg{n}}$ describes a Slater determinant containing the
+            Thus, $\ket*{\vfg{n}}$ describes a Slater determinant containing the
             states in the set $\vfg{n}$.
             To denote an index being contained in a given set we use the
             Kronecker-Delta notation $\delta_{p \in \vfg{n}}$ which is read as
             ``all states $p$ in the set $\vfg{n}$''.
             In the jargon of the Fermi vacuum, this corresponds to the occupied
-            states in $\ket{\vfg{n}}$.
-            The difference in the number of states in two states $\ket{\vfg{n}}$
-            and $\ket{\vfg{m}}$ is given by $\abs{\vfg{n} - \vfg{m}}$.
+            states in $\ket*{\vfg{n}}$.
+            The difference in the number of states in two states $\ket*{\vfg{n}}$
+            and $\ket*{\vfg{m}}$ is given by $\abs{\vfg{n} - \vfg{m}}$.
             Note that we only look at states with the same number of particles
             $N$, which means that the difference between two states will always
             be an even number as an excitation is done by replacing
@@ -1771,16 +1698,16 @@
             We are now ready to state the Slater-Condon rules.
             \begin{lemma}
                 \label{lemma:slater-condon-one-body}
-                Given two Fock states $\ket{\vfg{n}}, \ket{\vfg{m}} \in F_{-}(L,
+                Given two Fock states $\ket*{\vfg{n}}, \ket*{\vfg{m}} \in F_{-}(L,
                 N)$ and a one-body operator on the form
                 \begin{align}
                     \hat{g} = g^{p}_{q}\ccr{p}\can{q},
                 \end{align}
                 the Slater-Condon rules for this operator gives the value of the
-                matrix elements $\mel{\vfg{n}}{\hat{g}}{\vfg{m}}$.
+                matrix elements $\mel*{\vfg{n}}{\hat{g}}{\vfg{m}}$.
                 The three cases are:
                 \begin{gather}
-                    \mel{\vfg{n}}{\hat{g}}{\vfg{m}}
+                    \mel*{\vfg{n}}{\hat{g}}{\vfg{m}}
                     = \begin{cases}
                         g^{p}_{p}\delta_{p \in \vfg{m}},
                         & \abs{\vfg{n} - \vfg{m}} = 0,
@@ -1807,7 +1734,7 @@
             on one-body operators.
             \begin{lemma}
                 \label{lemma:slater-condon-two-body}
-                Given two Fock states $\ket{\vfg{n}}, \ket{\vfg{m}} \in F_{-}(L,
+                Given two Fock states $\ket*{\vfg{n}}, \ket*{\vfg{m}} \in F_{-}(L,
                 N)$ and a two-body operator on the form
                 \begin{align}
                     \hat{g} = \frac{1}{4}g^{pq}_{rs}\ccr{p}\ccr{q}\can{r}\can{s},
@@ -1816,14 +1743,14 @@
                 are antisymmetric, that is,
                 \begin{align}
                     g^{pq}_{rs}
-                    = \mel{\phi_p\phi_q}{\hat{g}}{\phi_r\phi_s}
-                    - \mel{\phi_p\phi_q}{\hat{g}}{\phi_s\phi_r}.
+                    = \mel*{\phi_p\phi_q}{\hat{g}}{\phi_r\phi_s}
+                    - \mel*{\phi_p\phi_q}{\hat{g}}{\phi_s\phi_r}.
                 \end{align}
                 The Slater-Condon rules for this operator gives the value of the
-                matrix elements $\mel{\vfg{n}}{\hat{g}}{\vfg{m}}$.
+                matrix elements $\mel*{\vfg{n}}{\hat{g}}{\vfg{m}}$.
                 The four cases are:
                 \begin{gather}
-                    \mel{\vfg{n}}{\hat{g}}{\vfg{m}}
+                    \mel*{\vfg{n}}{\hat{g}}{\vfg{m}}
                     = \begin{cases}
                         \half g^{pq}_{pq}(1 - \delta_{pq})
                         \delta_{p \in \vfg{m}}
@@ -1873,15 +1800,15 @@
             transformation.
             \begin{lemma}
                 \label{lemma:unitary-transformation-slater}
-                Let $\ket{\slat}$ be a Slater determinant built from $N$
-                single-particle states from an orthonormal basis
-                $\brac{\phi_i}_{i = 1}^{L}$.
+                Let $\ket*{\slat}$ be a Slater determinant built from $N$
+                single-particle states from an orthonormal basis of $L$ states
+                $\brac{\phi_i}$.
                 We can then perform a unitary transformation to a new
-                orthonormal basis $\brac{\psi_i}_{i = 1}^{L}$ building a new
-                $N$-particle Slater determinant $\ket{\Psi}$, where the
-                single-particle states in $\ket{\Psi}$ are obtained by the
-                unitary transformation of the $N$ single-particle states in
-                $\ket{\slat}$.
+                orthonormal basis of $L$ single-particle states $\brac{\psi_i}$
+                building a new $N$-particle Slater determinant $\ket*{\Psi}$,
+                where the single-particle states in $\ket*{\Psi}$ are obtained by
+                the unitary transformation of the $N$ single-particle states in
+                $\ket*{\slat}$.
                 This unitary transformation will leave the determinant invariant
                 up to a complex phase.
             \end{lemma}
@@ -1892,12 +1819,12 @@
             \cite{thouless1960225}.
             \begin{theorem}
                 \label{theorem:thouless}
-                Given an $N$-particle Slater determinant $\ket{\slat}$, we can
-                write any other $N$-particle Slater determinant $\ket{\Psi}$
-                where $\braket{\slat}{\Psi} \neq 0$, by
+                Given an $N$-particle Slater determinant $\ket*{\slat}$, we can
+                write any other $N$-particle Slater determinant $\ket*{\Psi}$
+                where $\braket*{\slat}{\Psi} \neq 0$, by
                 \begin{align}
-                    \ket{\Psi}
-                    = \exp[\clust]\ket{\slat},
+                    \ket*{\Psi}
+                    = \exponential(\clust)\ket*{\slat},
                 \end{align}
                 where $\clust = \clustamp^{a}_{i}\hat{X}^{a}_{i}$ is a singles
                 excitation operator with the coefficients $\clustamp^{a}_{i}$
@@ -1905,8 +1832,8 @@
             \end{theorem}
             % TODO: Add proof in appendix
             Stated in words, Thouless theorem tells us that we can construct any
-            other $N$-particle determinant $\ket{\Psi}$ from an arbitrary
-            $N$-particle determinant $\ket{\slat}$ using an exponential singles
+            other $N$-particle determinant $\ket*{\Psi}$ from an arbitrary
+            $N$-particle determinant $\ket*{\slat}$ using an exponential singles
             excitation operator as long as the two determinants are not
             orthogonal to one another.
 
@@ -1923,21 +1850,21 @@
             the same underlying basis.
             Consider the two spin-orbital expansions
             \begin{gather}
-                \ket{\phi_i} = C_{\alpha i}\ket{\chi_{\alpha}}, \\
-                \ket{\psi_i} = D_{\alpha i}\ket{\chi_{\alpha}},
+                \ket*{\phi_i} = C_{\alpha i}\ket*{\chi_{\alpha}}, \\
+                \ket*{\psi_i} = D_{\alpha i}\ket*{\chi_{\alpha}},
             \end{gather}
-            where $\brac{\ket{\chi_{\alpha}}}_{\alpha = 1}^{L}$ is an underlying
+            where $\brac{\ket*{\chi_{\alpha}}}_{\alpha = 1}^{L}$ is an underlying
             basis of spin-orbitals with overlap
             \begin{align}
                 \overlapten_{\alpha\beta}
-                = \braket{\chi_{\alpha}}{\chi_{\beta}},
+                = \braket*{\chi_{\alpha}}{\chi_{\beta}},
             \end{align}
             not necessarily orthonormal.
             The overlap between the two spin-orbital expansions is thus given by
             \begin{align}
-                \braket{\psi_i}{\phi_j}
+                \braket*{\psi_i}{\phi_j}
                 = D^{*}_{\alpha i}
-                \braket{\chi_{\alpha}}{\chi_{\beta}}
+                \braket*{\chi_{\alpha}}{\chi_{\beta}}
                 C_{\beta j}
                 = D^{*}_{\alpha i}
                 \overlapten_{\alpha\beta}
@@ -1952,19 +1879,19 @@
             \begin{align}
                 \vfg{T} = \vfg{D}^{\dagger}\overlapmat\vfg{C}.
             \end{align}
-            We now construct two Slater determinants $\ket{\slat}$ and
-            $\ket{\Psi}$ from the $N$ first spin-orbitals $\ket{\phi_i}$ and
-            $\ket{\psi_i}$, respectively.
+            We now construct two Slater determinants $\ket*{\slat}$ and
+            $\ket*{\Psi}$ from the $N$ first spin-orbitals $\ket*{\phi_i}$ and
+            $\ket*{\psi_i}$, respectively.
             Using the antisymmetrizer, the overlap between the two determinants
             is given by
             \begin{align}
-                \braket{\Psi}{\slat}
+                \braket*{\Psi}{\slat}
                 &=
                 \frac{1}{N!}
                 \sum_{\sigma, \tau \in S_N}
                 (-1)^{\abs{\sigma}\abs{\tau}}
                 \prod_{i = 1}^{N}
-                \braket{\psi_{\sigma(i)}}{\phi_{\tau(i)}}
+                \braket*{\psi_{\sigma(i)}}{\phi_{\tau(i)}}
                 \\
                 &=
                 \frac{1}{N!}
@@ -1982,7 +1909,7 @@
             multiplying by $N!$.
             This leaves us with
             \begin{align}
-                \braket{\Psi}{\slat}
+                \braket*{\Psi}{\slat}
                 &=
                 \frac{1}{N!} N!
                 \sum_{\sigma \in S_N}
@@ -2009,11 +1936,11 @@
         We can compute the energy, i.e., the expectation value of the
         Hamiltonian, by
         \begin{align}
-            \mel{\psi}{\hamil}{\psi}
-            &= \sum_{i = 0}^{\infty} \mel{\psi}{\hamil_i}{\psi}
-            = \mel{\psi}{\hamil_0}{\psi}
-            + \mel{\psi}{\hamil_1}{\psi}
-            + \mel{\psi}{\hamil_2}{\psi}
+            \mel*{\psi}{\hamil}{\psi}
+            &= \sum_{i = 0}^{\infty} \mel*{\psi}{\hamil_i}{\psi}
+            = \mel*{\psi}{\hamil_0}{\psi}
+            + \mel*{\psi}{\hamil_1}{\psi}
+            + \mel*{\psi}{\hamil_2}{\psi}
             + \dots,
         \end{align}
         where each term involves the \emph{interaction} between $i$ particles.
@@ -2060,10 +1987,10 @@
             wave function can approximately be separated into an electronic and
             a nuclear part, viz.
             \begin{align}
-                \ket{\Psi} \approx \ket{\Psi_e}\otimes\ket{\Psi_n},
+                \ket*{\Psi} \approx \ket*{\Psi_e}\otimes\ket*{\Psi_n},
             \end{align}
-            where we denote the electronic wave function by $\ket{\Psi_e}$ and
-            the nuclear counterpart as $\ket{\Psi_n}$.
+            where we denote the electronic wave function by $\ket*{\Psi_e}$ and
+            the nuclear counterpart as $\ket*{\Psi_n}$.
             This lets us separate the full Hamiltonian in a nuclear Hamiltonian
             and an electronic Hamiltonian.
             We say that this approximation is valid as the electrons move much
@@ -2310,31 +2237,31 @@
         interaction.
         Consider the Hermitian operator $\hat{Q}$ from
         \autoref{eq:many-body-operator}, then for a normalized, pure state
-        $\ket{\psi}$, we are able to compute the expectation value of the
+        $\ket*{\psi}$, we are able to compute the expectation value of the
         operator $\hat{Q}$ by
         \begin{align}
-            \expval{Q} &= \mel{\psi}{\hat{Q}}{\psi}
+            \expval{Q} &= \mel*{\psi}{\hat{Q}}{\psi}
             = \tr(\density \hat{Q}),
         \end{align}
-        where we've introduced the density operator $\ket{\psi}$ by
+        where we've introduced the density operator $\ket*{\psi}$ by
         \begin{align}
             \density = \dyad{\psi}{\psi}.
         \end{align}
-        Now, if $\ket{\psi}$ is a wave function describing a system of $N$
+        Now, if $\ket*{\psi}$ is a wave function describing a system of $N$
         particles, we can write the expectation value of the operator $\hat{Q}$
         as
         \begin{align}
             \expval{Q}
             &= \tr(\density \hat{Q})
-            = \braket{\psi}\mel{\psi}{\hat{Q}}{\psi}
-            = \sum_{i = 0}^{N} \mel{\psi}{\hat{Q}_i}{\psi}
+            = \braket*{\psi}\mel*{\psi}{\hat{Q}}{\psi}
+            = \sum_{i = 0}^{N} \mel*{\psi}{\hat{Q}_i}{\psi}
             \\
             &=
-            Q_0 \mel{\psi}{\1}{\psi}
-            + Q^{p}_{q}\mel{\psi}{\ccr{p}\can{q}}{\psi}
+            Q_0 \mel*{\psi}{\1}{\psi}
+            + Q^{p}_{q}\mel*{\psi}{\ccr{p}\can{q}}{\psi}
             + \frac{1}{2!}
             Q^{pq}_{rs}
-            \mel{\psi}{\ccr{p}\ccr{q}\can{s}\can{r}}{\psi}
+            \mel*{\psi}{\ccr{p}\ccr{q}\can{s}\can{r}}{\psi}
             + \dots
             \\
             &= Q_0 + Q^{p}_{q}\densityten^{q}_{p}
@@ -2352,11 +2279,11 @@
         by
         \begin{gather}
             \rho^{q}_{p}
-            = \mel{\psi}{\ccr{p}\can{q}}{\psi},
+            = \mel*{\psi}{\ccr{p}\can{q}}{\psi},
             \label{eq:one-body-density-elements}
             \\
             \rho^{rs}_{pq}
-            = \mel{\psi}{\ccr{p}\ccr{q}\can{s}\can{r}}{\psi},
+            = \mel*{\psi}{\ccr{p}\ccr{q}\can{s}\can{r}}{\psi},
             \label{eq:two-body-density-elements}
             \\
             \vdots
@@ -2376,8 +2303,8 @@
             This can be seen from the elements by
             \begin{align}
                 (\densityten^{q}_{p})^{*}
-                = \mel{\psi}{\ccr{p}\can{q}}{\psi}^{*}
-                = \mel{\psi}{\ccr{q}\can{p}}{\psi}
+                = \mel*{\psi}{\ccr{p}\can{q}}{\psi}^{*}
+                = \mel*{\psi}{\ccr{q}\can{p}}{\psi}
                 = \densityten^{p}_{q}.
             \end{align}
             The one-body density is positive semidefinite, which means it
@@ -2389,10 +2316,10 @@
             \begin{align}
                 \tr(\density_1)
                 &= \densityten^{p}_{p}
-                = \mel{\psi}{\ccr{p}\can{p}}{\psi}
+                = \mel*{\psi}{\ccr{p}\can{p}}{\psi}
                 = N,
             \end{align}
-            where $N$ is the number of particles contained in $\ket{\psi}$.
+            where $N$ is the number of particles contained in $\ket*{\psi}$.
             The formalism of the one-body density operator can also be extended
             to a mixed many-body states similar to the general density operator.
 
@@ -2467,8 +2394,8 @@
             The two-body density operator is also Hermitian in the sense that
             \begin{align}
                 (\densityten^{rs}_{pq})^{*}
-                = \mel{\psi}{\ccr{p}\ccr{q}\can{s}\can{r}}{\psi}^{*}
-                = \mel{\psi}{\ccr{r}\ccr{s}\can{q}\can{p}}{\psi}
+                = \mel*{\psi}{\ccr{p}\ccr{q}\can{s}\can{r}}{\psi}^{*}
+                = \mel*{\psi}{\ccr{r}\ccr{s}\can{q}\can{p}}{\psi}
                 = \densityten^{pq}_{rs}.
             \end{align}
             The two-body density operator is also positive semidefinite in the
@@ -2476,15 +2403,15 @@
             The normalization of the two-body density operator can be found from
             \begin{align}
                 \densityten^{pq}_{pq}
-                &= \mel{\psi}{\ccr{p}\ccr{q}\can{q}\can{p}}{\psi}
-                = -\mel{\psi}{\ccr{p}\ccr{q}\can{p}\can{q}}{\psi}
-                = -\mel{\psi}{
+                &= \mel*{\psi}{\ccr{p}\ccr{q}\can{q}\can{p}}{\psi}
+                = -\mel*{\psi}{\ccr{p}\ccr{q}\can{p}\can{q}}{\psi}
+                = -\mel*{\psi}{
                     \ccr{p}(\delta_{pq} - \can{p}\ccr{q})\can{q}
                 }{\psi}
                 \\
                 &=
-                \mel{\psi}{\nop{p}\nop{q}}{\psi}
-                - \mel{\psi}{\nop{p}}{\psi}
+                \mel*{\psi}{\nop{p}\nop{q}}{\psi}
+                - \mel*{\psi}{\nop{p}}{\psi}
                 = N^2 - N
                 = N(N - 1).
             \end{align}
@@ -2505,22 +2432,22 @@
         As an example, consider the Lithium atom with three electrons, thus
         requiring a fourth electron in order to get a closed shell.
         In the case of a non-interacting Lithium atom in a given spin-orbital
-        basis $\brac{\ket{\psi_i}}_{i = 1}^{L}$, the ground state will consist
+        basis $\brac{\ket*{\psi_i}}_{i = 1}^{L}$, the ground state will consist
         of the two Slater determinants
         \begin{align}
-            \ket{\slat_1} &= \ket{\psi_1\psi_2\psi_3}, \\
-            \ket{\slat_2} &= \ket{\psi_1\psi_2\psi_4},
+            \ket*{\slat_1} &= \ket*{\psi_1\psi_2\psi_3}, \\
+            \ket*{\slat_2} &= \ket*{\psi_1\psi_2\psi_4},
         \end{align}
         where both states will have the same eigenenergy $E_1 = E_2$ from the
         non-interacting Hamiltonian $\onehamil$.
         The true ground state of this system will then be a linear combination
         of these two Fock states yielding
         \begin{align}
-            \ket{\Psi}
+            \ket*{\Psi}
             = \frac{1}{\sqrt{2}}\brak{
-                \ket{\slat_1}
+                \ket*{\slat_1}
                 \pm
-                \ket{\slat_2}
+                \ket*{\slat_2}
             }.
         \end{align}
         % TODO: Check if this is correct.

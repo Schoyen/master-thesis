@@ -331,7 +331,7 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
         \subsection{The restricted Hartree-Fock method}
             \label{subsec:rhf}
             In the restricted Hartree-Fock method we make the assumption that
-            each spin-direction is doubly occupied by an orbital.
+            each spin direction is doubly occupied by an orbital.
             This can be a valid assumption if the Hamiltonian is
             spin-independent\footnote{%
                 We write \emph{can} as there are situations where the
@@ -623,7 +623,7 @@ energy = np.trace(np.dot(term, density_matrix))
 
         \subsection{The unrestricted Hartree-Fock method}
             The unrestricted Hartree-Fock method allows the molecular orbitals
-            to have independent orbitals for each spin-direction.
+            to have independent orbitals for each spin direction.
             Hence, we assume that the molecular orbitals can be described by
             spin-unrestricted spin-orbitals as seen in
             \autoref{eq:unrestricted-spin-orbital}.
@@ -646,7 +646,7 @@ energy = np.trace(np.dot(term, density_matrix))
             Note that there is no implicit sum over the label $\sigma$ in the
             orbital $\varphi^{\sigma}_{p}$ and the spin-function $\sigma(m_s)$.
             We can collect the orbitals in two sets
-            $\bigl\{\varphi^{\sigma}_{p}\bigr\}$, one for each spin-direction.
+            $\bigl\{\varphi^{\sigma}_{p}\bigr\}$, one for each spin direction.
             The ground state Slater determinant can then be written
             \begin{align}
                 \ket*{\slat}
@@ -678,7 +678,7 @@ energy = np.trace(np.dot(term, density_matrix))
             \end{align}
             where the overlap between two orbitals with differing spin is not
             necessarily zero.
-            However, if the two spin-directions are the same, i.e., $\sigma =
+            However, if the two spin directions are the same, i.e., $\sigma =
             \tau$, we get
             \begin{align}
                 \braket*{\varphi^{\sigma}_{p}}{\varphi^{\sigma}_{q}}
@@ -698,7 +698,7 @@ energy = np.trace(np.dot(term, density_matrix))
             general different from $\epsilon^{\beta}_{p}$.
             By projecting onto another molecular orbital as in
             \autoref{eq:mo-fock-elements} we demonstrate how the spin yields two
-            separate Fock matrices, one for each spin-direction.\footnote{%
+            separate Fock matrices, one for each spin direction.\footnote{%
                 Note that this assumes a spin-independent Hamiltonian.
             }
             The one-body elements in the molecular orbital basis is given by
@@ -722,7 +722,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 }{\varphi^{\sigma}_{q}}.
             \end{align}
             We note that this term provides a coupling between the orbitals in
-            both spin-directions as we get a sum over the two spin-directions.
+            both spin directions as we get a sum over the two spin directions.
             This is not the case for the exchange operator from the
             antisymmetric two-body elements.
             We have
@@ -780,7 +780,7 @@ energy = np.trace(np.dot(term, density_matrix))
             where the spin label on the Fock matrix corresponds to the spin
             label of the exchange operator.
             We now look for a set of coefficients for the orbitals in each
-            spin-direction in terms of our original atomic orbital basis,
+            spin direction in terms of our original atomic orbital basis,
             \begin{align}
                 \ket*{\varphi^{\sigma}_{p}}
                 &= C^{\sigma}_{\kappa p} \ket*{\chi_{\kappa}},
@@ -828,7 +828,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 D^{\sigma}_{\nu\mu}
                 \twotensym^{\kappa\mu}_{\nu\lambda},
             \end{align}
-            where the density matrix along a certain spin-direction is defined
+            where the density matrix along a certain spin direction is defined
             similarly to the density matrices in the general Hartree-Fock
             method.
             Left-projecting the atomic orbital basis on the canonical
@@ -865,11 +865,11 @@ energy = np.trace(np.dot(term, density_matrix))
             They resemble the Roothaan-Hall equations seen in the two previous
             methods in that they are generalized eigenvalue equations, but now
             we solve two sets of eigenvalue equations simultaneously.
-            Note that the coupling between the two spin-directions occurs in the
+            Note that the coupling between the two spin directions occurs in the
             Fock matrix via the Coulomb operator.
             The self-consistent field iterations for the unrestricted
             Hartree-Fock method remains the same, but now we iterate equations
-            for both spin-directions at the same time.
+            for both spin directions at the same time.
 
             \subsubsection{The unrestricted Hartree-Fock energy}
                 Inserting our expression for the molecular orbitals into the
@@ -2336,3 +2336,6 @@ class OACCVector(AmplitudeContainer):
             levels of a system.
             However, we are still able to compute the energy transitions using
             the dipole moment.
+
+
+\clearemptydoublepage
