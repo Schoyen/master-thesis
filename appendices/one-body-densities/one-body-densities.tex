@@ -141,6 +141,64 @@
         therefore leaving the reference oddly excited or relaxed thus
         annihilating the overlap.
 
+    \section{Doubles two-body density matrix}
+        \label{app:ccd-two-body-density-matrix}
+        We find the two-body density matrix in the doubles approximation from
+        the article by \citeauthor{kvaal2012ab} \cite{kvaal2012ab}.
+        These are given by \autoref{eq:cc-two-body-density}.
+        Using the same block format as \citeauthor{kvaal2012ab}
+        \cite{kvaal2012ab}, we have
+        \begin{align}
+            \densityten^{kl}_{ij}
+            &=
+            P(ij) \delta_{ki} \delta_{lj}
+            - \half P(ij) P(kl)
+            \delta_{ki} \clustlamp^{lm}_{cd} \clustamp^{cd}_{jm}
+            + \half \clustlamp^{kl}_{cd} \clustamp^{cd}_{ij},
+        \end{align}
+        for the occupied block, and we stress that $m$ and $n$ are occupied
+        indices in the Fermi vacuum sense.
+        We then have
+        \begin{align}
+            \densityten^{ab}_{ij}
+            &= -\half P(ab) \clustlamp^{kl}_{cd} \clustamp^{ac}_{ij}
+            \clustamp^{bd}_{kl}
+            + P(ij) \clustlamp^{kl}_{cd}\clustamp^{ac}_{ik}
+            \clustamp^{bd}_{jl}
+            \nonumber \\
+            &\qquad
+            + \half P(ij) \clustlamp^{kl}_{cd}
+            \clustamp^{ab}_{il} \clustamp^{cd}_{jk}
+            + \frac{1}{4} \clustlamp^{kl}_{cd} \clustamp^{ab}_{kl}
+            \clustamp^{cd}_{ij}
+            + \clustamp^{ab}_{ij}, \\
+            \densityten^{jb}_{ia}
+            &=
+            \half \delta_{ji} \clustlamp^{kl}_{ac}
+            \clustamp^{bc}_{kl}
+            - \clustlamp^{jk}_{ac} \clustamp^{bc}_{ik},
+        \end{align}
+        where the antisymmetry of the two-body density matrix elements yield
+        \begin{align}
+            \densityten^{jb}_{ia}
+            &=
+            -\densityten^{bj}_{ia}
+            =
+            -\densityten^{jb}_{ai}
+            =
+            \densityten^{bj}_{ai}.
+        \end{align}
+        The two final terms are
+        \begin{gather}
+            \densityten^{ij}_{ab}
+            = \clustlamp^{ij}_{ab},
+            \qquad
+            \densityten^{cd}_{ab}
+            = \half \clustlamp^{ij}_{ab}
+            \clustamp^{cd}_{ij}.
+        \end{gather}
+
+
     \section{Singles-and-doubles one-body density matrix}
         For coupled-cluster singles-and-doubles \autoref{eq:densityten_q_p_lambda_part}
         will truncate at the double commutator as written. Employing
