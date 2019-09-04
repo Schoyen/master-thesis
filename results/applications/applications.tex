@@ -88,7 +88,7 @@
         The electric field strength from the intensity is found to be $E =
         \SI{9.986533e-4}{\hartree/(\elementarycharge \bohr)}$.
 
-        We repeat the study for the \ch{LiH}-molecule as done by
+        We repeat the study for the \ch{LiH} molecule as done by
         \citeauthor{nest} \cite{nest}.
         We use a bond-length of $\SI{3.08}{\bohr}$ in the $z$-direction
         between the lithium and the hydrogen atoms with the basis 6-31G*.
@@ -104,8 +104,8 @@
         In \autoref{fig:fft_dipole_nest} we have included the Fourier
         transform of the sampled dipole moment in $x$- and $z$-direction in
         time, respectively.
-        These plots show the absorption spectra for the \ch{LiH}-molecule.
-        For the $z$-direction it is important to note that the \ch{LiH}-molecule
+        These plots show the absorption spectra for the \ch{LiH} molecule.
+        For the $z$-direction it is important to note that the \ch{LiH} molecule
         with the bonding set in the $z$-direction has a non-zero dipole moment.
         This makes the absorption spectra include a constant zero frequency
         component.
@@ -189,7 +189,7 @@
                 \end{groupplot}
             \end{tikzpicture}
             \caption{In these figures we show the Fourier transform of the
-            dipole moment in $x$-and $y$-direction of the \ch{LiH}-molecule
+            dipole moment in $x$-and $y$-direction of the \ch{LiH} molecule
             using time-dependent Hartree-Fock, time-dependent coupled-cluster
             with singles and doubles, orbital-adaptive time-dependent coupled
             cluster with doubles excitations.
@@ -308,7 +308,7 @@
         should be interpreted as an elementwise absolute value for each spatial
         component in $\vfg{d}^{p}_{q}$.
         Using these techniques to locate allowed transitions, we map the
-        lowest lying allowed dipole transitions for the \ch{LiH}-molecule using
+        lowest lying allowed dipole transitions for the \ch{LiH} molecule using
         CISD in the restricted Hartree-Fock basis in
         \autoref{tab:dipole_transition_cisd}.
         \begin{table}
@@ -343,7 +343,7 @@
         in excellent agreement with the transition energies from the spectrum of
         the CISD-Hamiltonian.
         However, there are small discrepancies which we expect as all three
-        methods approximate the four-particle system of \ch{LiH}-molecule with
+        methods approximate the four-particle system of \ch{LiH} molecule with
         at most two-particle excitation operators.
         We also see that OATDCCD and TDCCSD yields exactly the same dipole
         transition energies within the precision that we have kept for these
@@ -374,7 +374,7 @@
             \energy_0 = \SI{-8.9772}{\hartree}.
         \end{align}
         The methods therefore seemingly perform just as well on the
-        \ch{LiH}-system.
+        \ch{LiH} system.
         However, we see that we are able to achieve a lower ground state energy
         than reported by \citeauthor{nest} \cite{nest}.
 
@@ -398,8 +398,8 @@
         the main goals in this thesis, and that is to prove that the implemented
         methods are able to explore larger systems than what can achieved with
         the full configuration interaction method.
-        We therefore wish to demonstrate some simulations for the \ch{Ne}- and
-        \ch{Ar}-atoms in exactly the same laser field as in the study done by
+        We therefore wish to demonstrate some simulations for the \ch{Ne} and
+        \ch{Ar} atoms in exactly the same laser field as in the study done by
         \citeauthor{nest} \cite{nest} shown in \autoref{eq:nest-laser}, but with
         a higher frequency.
         We have chosen a frequency $\omega$ corresponding to a laser wavelength
@@ -529,7 +529,7 @@
             \end{tikzpicture}
             \caption{In this figure we have plotted the Fourier transform of the
             expectation value of the dipole moment in $z$-direction of the
-            \ch{Ne}-atom in both cc-pVDZ and aug-cc-pVDZ using OATDCCD.
+            \ch{Ne} atom in both cc-pVDZ and aug-cc-pVDZ using OATDCCD.
             The results for TDCCSD are visually indistinguishable and we have
             therefore refrained from plotting these.
             The peaks for both basis sets and using both solvers are listed in
@@ -567,7 +567,7 @@
         \end{table}
 
         Mostly as a test of the applicability of our developed codes, we repeat
-        the same study we did for \ch{Ne} on the \ch{Ar}-atom.
+        the same study we did for \ch{Ne} on the \ch{Ar} atom.
         We restrict our attention to the OATDCCD method for no other reason than
         time limitations.\footnote{%
             The inclusion of results using TDCCSD should absolutely have been
@@ -617,7 +617,7 @@
             \end{tikzpicture}
             \caption{In this figure we have plotted the Fourier transform of the
             expectation value of the dipole moment in $z$-direction of the
-            \ch{Ar}-atom in both cc-pVDZ and aug-cc-pVDZ using OATDCCD.
+            \ch{Ar} atom in both cc-pVDZ and aug-cc-pVDZ using OATDCCD.
             The peaks for both basis sets and using both solvers are listed in
             \autoref{tab:dipole-ar}.}
             \label{fig:dipole-ar}
@@ -712,7 +712,7 @@
         solution where we set the dipole moment matrix elements corresponding to
         a specific spin direction to zero and leave the other spin direction as
         it is.
-        A demonstration of the dipole matrix elements of the \ch{H2}-molecule in
+        A demonstration of the dipole matrix elements of the \ch{H2} molecule in
         the 6-31G** basis is shown in \autoref{fig:dipole-matrices}.
         By using the matrix elements on the right in
         \autoref{fig:dipole-matrices} we effectively use a spin-dependent laser
@@ -903,7 +903,7 @@
         from the peaks in \autoref{fig:h2-isborn}.
         \begin{table}
             \centering
-            \caption{Dipole transition energy levels for the \ch{H2}-molecule in
+            \caption{Dipole transition energy levels for the \ch{H2} molecule in
             both the STO-3G and the 6-31G** basis sets using TDHF and OATDCCD.
             These results are found from the visible peaks in
             \autoref{fig:h2-isborn}.}
@@ -927,7 +927,7 @@
             \end{tabular}
             \label{tab:h2-isborn}
         \end{table}
-        For the \ch{H2}-molecule we can use CISD, i.e., FCI in this case, to
+        For the \ch{H2} molecule we can use CISD, i.e., FCI in this case, to
         compute the entire spectrum and locate the allowed dipole transitions
         using the same technique as discussed in \autoref{sec:nest}.
         Furthermore, using the spin-reduced dipole matrix elements we should
@@ -996,7 +996,7 @@
         explore.
 
 
-        Repeating the same exercise for the \ch{LiH}-system we have the
+        Repeating the same exercise for the \ch{LiH} system we have the
         absorption spectra for both the spin-dependent and spin-independent
         fields in the STO-3G and the 6-31G** basis sets in
         \autoref{fig:lih-isborn}.
@@ -1110,7 +1110,7 @@
         shown in \autoref{tab:lih-isborn}.
         \begin{table}
             \centering
-            \caption{Dipole transition energy levels for the \ch{LiH}-molecule in
+            \caption{Dipole transition energy levels for the \ch{LiH} molecule in
             both the STO-3G and the 6-31G** basis sets using TDHF and OATDCCD.
             These results are found from the peaks in \autoref{fig:lih-isborn}
             with a threshold that the peaks must have a larger intensity than
@@ -1146,7 +1146,7 @@
             \end{tabular}
             \label{tab:lih-isborn}
         \end{table}
-        Unlike the \ch{H2}-molecule we see that the values in
+        Unlike the \ch{H2} molecule we see that the values in
         \autoref{tab:lih-isborn} contains significantly more noise, especially
         for the transition energies found using the TDHF-method.
         The transition energy in \autoref{tab:lih-isborn} denoted with a
@@ -1288,7 +1288,7 @@
         results reported by \citeauthor{isborn} \cite{isborn}.
         \begin{table}
             \centering
-            \caption{Dipole transition energy levels for the \ch{CO}-molecule in
+            \caption{Dipole transition energy levels for the \ch{CO} molecule in
             the STO-3G basis using TDHF and OATDCCD.
             These results are found from the peaks in \autoref{fig:co-isborn}
             with a threshold that the peaks must have a larger intensity than
@@ -1571,7 +1571,7 @@
             \end{tikzpicture}
             \caption{In these figures we plot the particle density for the
             initial ground state, after half the simulation has been run and for
-            the final state of the one-dimensional \ch{Be}-system.
+            the final state of the one-dimensional \ch{Be} system.
             For these figures we have $L = 20$ spin-orbitals, that is, $L /
             2 = 10$ orbitals.
             The $y$-axis has been truncated at $y = \num{1e-4}$ to avoid
@@ -1579,7 +1579,7 @@
             \label{fig:one-particle-density-miyagi}
         \end{figure}
         Looking at \autoref{fig:one-particle-density-miyagi-l=40} we see the
-        same one-dimensional \ch{Be}-system with a basis set of $L = 40$
+        same one-dimensional \ch{Be} system with a basis set of $L = 40$
         spin-orbitals.
         It is apparent that the system undergoes a larger degree of ionization
         with more of the particle density further away from the central
