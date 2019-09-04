@@ -884,7 +884,6 @@
             There exists several methods that include orbital rotations in the
             coupled-cluster formalism, such as, the orbital optimized coupled
             cluster method, and the Brueckner coupled-cluster method.
-            % TODO: Add citations from Rolf to these?
             These methods do suffer from certain defects, where the former does
             not converge to the full configuration interaction method in the
             untruncated limit, and the latter yields unphysical results in the
@@ -1145,9 +1144,9 @@
             \qquad
             \dpd{L[\Psi, \tilde{\Psi}]}{\clustamp_{\mu}} = 0.
         \end{align}
-        The former of these two equations yield the time evolution of the
-        $\clustamp_{\mu}$-amplitudes whereas the latter yield the
-        time evolution for the $\clustlamp_{\mu}$-amplitudes.
+        The former equation yields the time evolution of the
+        $\clustamp_{\mu}$-amplitudes whereas the latter yield the time evolution
+        for the $\clustlamp_{\mu}$-amplitudes.
         For the former equation we find
         \begin{gather}
             \dpd{L[\Psi, \tilde{\Psi}]}{\clustlamp_{\mu}}
@@ -1246,7 +1245,6 @@
             \braket*{\tilde{\slat}_{\mu}(t)}{\slat_{\nu}(t)}
             = \delta_{\mu\nu}.
         \end{align}
-
         In order to avoid two sets of second quantized operators, we
         transform from the atomic orbital basis in a similar fashion as done
         in the non-orthogonal coupled-cluster method.
@@ -2107,17 +2105,6 @@
             \label{eq:oatdcc-coeff-identity}
         \end{align}
         where this product runs over all indices $p$ and $q$.
-        %We therefore expect that $N(t) = 1$ for all times $t$, but due to
-        %integration errors in the numerical differential equation solvers we
-        %will observe a time-dependent drift.
-        %By measuring the time-dependent norm from \autoref{eq:norm-oatdcc}
-        %and the preservation of the identity for the coefficients from
-        %\autoref{eq:oatdcc-coeff-identity} in the orbital-adaptive regime,
-        %we can make an educated guess as to when the integration breaks.
-        %This motivates the need for good differential equation integrators
-        %which preserve the norm.
-        % TODO: If this should be left in the text, we must include some
-        % results demonstrating this.
 
     \section{The quality of the reference state in time}
         \label{sec:cc-phase}
@@ -2173,14 +2160,14 @@
         Frustratingly enough the formulation of the time-dependent
         coupled-cluster method with static spin-orbitals is seemingly not
         able to solve this problem.
-        % TODO: Add snide remark on lowering the integration time step?
         When
         \begin{align}
             \braket*{\slat}{\Psi(t)} \to 0,
         \end{align}
         the magnitude of the amplitudes sky-rocket, the energy is no longer
-        conserved (when the time-dependence in the Hamiltonian is turned
-        off), and the data produced can no longer be trusted
+        conserved,\footnote{%
+           When the time-dependence in the Hamiltonian is turned off.
+        } and the data produced can no longer be trusted
         \cite{pedersen2018symplectic}.
         Luckily, the orbital-adaptive time-dependent coupled-cluster method
         seems to remove much of these problems.
@@ -2191,7 +2178,6 @@
         However, the orbital-adaptive formulation does not seem to solve all
         stability problems, and an ongoing study into this is being
         conducted by \citeauthor{oa-stability} \cite{oa-stability}.
-        % TODO: Should we include any study at all of the stability?
 
         But, before we try to solve the problem, we can formulate a
         ``zero-order'' amplitude for the time-dependent coupled-cluster wave

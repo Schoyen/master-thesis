@@ -68,85 +68,14 @@
                     \braket*{\phi_i}{\phi_j}
                     - \delta_{ij}
                 },
+                \label{eq:hf-lagrangian}
             \end{align}
             where $\lambda_{ji}$ are Lagrange multipliers, one for each
             constraint.
             As the Lagrangian functional is real and the constraint is
             Hermitian, the Lagrange multipliers can be chosen Hermitian as well.
-
-            \begin{proof}[%
-                    Proof that the Lagrange multipliers can be chosen Hermitian%
-                ]
-                We follow closely the derivation done by Mayer
-                \cite{mayer2003simple}, we start by noticing that the constraint is
-                Hermitian, i.e.,
-                \begin{align}
-                    \braket*{\phi_i}{\phi_j} - \delta_{ij}
-                    = \braket*{\phi_j}{\phi_i}^{*} - \delta_{ji}.
-                \end{align}
-                As of now we have two independent Lagrange multipliers; one for
-                the overlap $\braket*{\phi_i}{\phi_j}$ and another for the the
-                complex conjugate $\braket*{\phi_j}{\phi_i}$.
-                We can formulate the constraint for the real and imaginary part
-                separately,
-                \begin{align}
-                    \Re\brac{
-                        \braket*{\phi_i}{\phi_j}
-                    }
-                    &=
-                    \half\brac{
-                        \braket*{\phi_i}{\phi_j}
-                        + \braket*{\phi_j}{\phi_i}
-                    }
-                    = 0,
-                    \\
-                    \Im\brac{
-                        \braket*{\phi_i}{\phi_j}
-                    }
-                    &=
-                    \frac{1}{2i}\brac{
-                        \braket*{\phi_i}{\phi_j}
-                        - \braket*{\phi_j}{\phi_i}
-                    }
-                    = 0.
-                \end{align}
-                Introducing two separate Lagrange multipliers $\mu_{ij}$ and
-                $\nu_{ij}$ for the two latter conditions, we get
-                \begin{align}
-                    \mu_{ij}\Re\brac{
-                        \braket*{\phi_i}{\phi_j}
-                    }
-                    + \nu_{ij}\Im\brac{
-                        \braket*{\phi_i}{\phi_j}
-                    }
-                    &=
-                    \half\brak{
-                        \mu_{ij} - i\nu_{ij}
-                    }
-                    \braket*{\phi_i}{\phi_j}
-                    \nonumber
-                    \\
-                    &\qquad
-                    + \half\brak{
-                        \mu_{ij} + i\nu_{ij}
-                    }
-                    \braket*{\phi_j}{\phi_i}.
-                \end{align}
-                We now choose our combined Lagrange multipliers to be
-                \begin{align}
-                    \lambda_{ji} &=
-                    -\half\brak{
-                        \mu_{ij} - i\nu_{ij}
-                    }, \\
-                    \lambda_{ij} &=
-                    -\half\brak{
-                        \mu_{ij} + i\nu_{ij}
-                    },
-                \end{align}
-                which implies that $\lambda_{ji} = \lambda_{ij}^{*}$, which is
-                what we wanted to show.
-            \end{proof}
-
+            See \autoref{app:hermitian-lagrange-multipliers} for a proof of this
+            fact.
             We are now interested in finding a stationary point of the
             Lagrangian with respect to small variations in functional
             dependency, that is, the molecular orbitals and the Lagrange
