@@ -1,7 +1,4 @@
 \chapter{Quantum mechanics}
-    \epigraph{No fair! You changed the outcome by measuring it!}
-    {--- Hubert J. Farnsworth, Futurama}
-
     We start our journey by reviewing parts of quantum mechanics that we deem
     necessary in order to understand the thesis.
     We will in this chapter discuss the general theory of quantum mechanics
@@ -94,8 +91,6 @@
                     \hat{Q}\ket*{\psi},
                 \end{align}
                 which is often denoted a ``wave function collapse''.
-                The quote at the top of this chapter is a joke on this
-                phenomenon.
         \end{enumerate}
 
     \section{Time-independent Schrödinger equation}
@@ -1816,37 +1811,5 @@
             \end{tabular}
             \label{tab:atomic-units}
         \end{table}
-
-        We will now list some common conversions that are used in this work.
-        In laser physics it is common to work with the intensity of the laser
-        field in units of $\si{\watt/\cm^2}$.
-        Consider a given intensity $I$ measured in $\si{\watt/\cm^2}$.
-        To convert this to an electric field strength $E$ in atomic units of
-        electric field, we compute
-        \begin{align}
-            E = \sqrt{\frac{2 I / I_a}{\epsilon_0 c}},
-            \label{eq:intnsity-to-au-electric-field}
-        \end{align}
-        where $I_a$ is the atomic unit of intensity from
-        \autoref{tab:atomic-units}.
-        Furthermore, it is common to describe a laser by its wavelength
-        $\lambda$ in nanometers\footnote{%
-            We will work with lasers in the visible and low energy ultraviolet
-            spectrum.
-        } or the photon energy $E_{\nu}$ in electronvolt when characterising the
-        frequency.
-        To convert from a wavelength $\lambda$ measured in SI units to an
-        angular frequency $\omega$ in atomic units, we use
-        \begin{align}
-            \omega = \frac{2\pi c}{\lambda}\frac{1}{\omega_a}.
-        \end{align}
-        To go from a photon energy $E_{nu}$ in electronvolt to angular frequency
-        $\omega$ in atomic units we compute
-        \begin{align}
-            \omega = \frac{E_{\nu}}{\hslash}\frac{1}{\omega_a}
-            = \frac{E_{\nu}}{E_h},
-        \end{align}
-        where $E_h \approx \SI{27.2}{\electronvolt}$.
-        % TODO: Review the formulas.
 
 \clearemptydoublepage
