@@ -9,31 +9,31 @@
     However, due to the novelty of the OATDCCD method this thesis diverged to a
     new set of goals.
     We therefore switched focus to the stability of real-time coupled-cluster
-    methods -- which in itself is a rather new research area -- with researchers
-    at the Hylleraas Centre which became the start of an ongoing article
-    \cite{oa-stability}.
-    This led to a larger focus on atoms and molecules as these systems are more
-    applicable and common among quantum chemists than quantum dots.
+    methods -- which in itself is a rather new research area -- with
+    collaborators at the Hylleraas Center.
+    This will lead to a forthcoming publication \cite{oa-stability}.
+    The focus is on atoms and molecules as these systems are more applicable and
+    common among quantum chemists than quantum dots.
     Also, due to the close collaboration with \citeauthor{greg-winther} this
     proved a natural divergence on the systems to be explored on our separate
     theses.
     To fully challenge and explore the coupled-cluster methods we've implemented
     a set of Hartree-Fock (HF/RHF/UHF/TDHF) solvers and configuration
-    interaction (CISD\dots/TDCISD\dots) methods which lets us improve and
+    interaction (CISD\dots/TDCISD\dots) methods which allow us to improve and
     compare results from the coupled-cluster solvers.
 
     In this thesis we've described the implementation of the TDHF, TDCI and
     TDCC/OATDCCD methods along with descriptions on how to represent the quantum
     systems we are exploring.
     We've demonstrated that our methods work as expected by comparing with known
-    results from literature.
+    results from the scientific literature.
     We've also compared the various truncation levels of the
     coupled-cluster\footnote{%
         Up to and including the CCSD truncation level.
     }
-    and configuration interaction methods and demonstrated how Hartree-Fock can
-    be used to improve on these results by providing an optimal single reference
-    state.
+    and the configuration interaction methods, and demonstrated how the
+    Hartree-Fock approach can be used to improve these results by providing an
+    optimal single reference state.
     We then moved on to demonstrate that orbital-adaptive time-dependent
     coupled-cluster doubles is more stable than time-dependent coupled-cluster
     singles-and-doubles subject to very intense fields.
@@ -50,19 +50,21 @@
             polarized along the $x$- and $z$-direction and measured absorption
             energies using TDHF, TDCCSD, and OATDCCD.
             This was a study done by \citeauthor{nest} \cite{nest}, and we were
-            able to get comparable results.
+            able to reproduce their results.
             We also used CISD to compute all dipole-allowed transition energies
-            from the ground state to a higher excited state which let us compare
-            higher energy transitions than reported by \citeauthor{nest}.
+            from the ground state to higher excited states.
+            This allows us to compare the coupled-cluster results with
+            transitions from higher lying levels than reported by
+            \citeauthor{nest} \cite{nest}.
         \item We then set out to demonstrate that the coupled-cluster
             formulation lets us explore systems that are much larger than what
-            is possible using full configuration interaction.
+            is possible using full configuration interaction theory.
             We chose to explore the absorption energies of \ch{Ne} and \ch{Ar},
             that is, atoms with $N = 10$ and $N = 18$ particles respectively.
             We used two different basis sets and thereby also demonstrated that
             in order to get good results we require a diffuse correlation
             consistent basis set (aug-cc-pVDZ).
-            The results for \ch{Ne} was compared with literature.
+            The results for \ch{Ne} were compared with existing works.
             We were unable to find comparable results for \ch{Ar}, but we report
             the first dipole allowed transition in the aug-cc-pVDZ basis to be
             $\Delta\energy = \SI{0.4677}{\hartree}$.
@@ -72,8 +74,8 @@
             \citeauthor{isborn} \cite{isborn}.
             We were able to achieve comparable results using OATDCCD, but we
             also showed how the general TDHF-method failed to reproduce the
-            results from TDUHF reported by \citeauthor{isborn} for the larger
-            molecules.
+            results from TDUHF reported by \citeauthor{isborn} \cite{isborn} for
+            larger molecules.
         \item Finally we explored ionization in a one-dimensional Beryllium
             atom.
             We demonstrated how the choice of basis limits the amount of
@@ -135,10 +137,8 @@
                     Diffeqpy on the other hand do contain quite a few solvers
                     which are symplectic.
                     A proper interface towards either or both of these libraries
-                    should be implemented and a thorough study of the effect of
+                    should be implemented and a thorough study of the effects of
                     various solvers can be explored.
-                    Especially all things lowering the amount of right-hand side
-                    evlauations for the time evolution is to be desired.
                 \item To properly study ionization we should investigate
                     grid-based basis sets \cite{takeshi, miyagi_and_madsen,
                     hochstuhl2014time}.
@@ -161,9 +161,9 @@
                     We've stressed a philosophy where all methods should behave
                     in a similar way, that is, they compute the ground state,
                     and they open up for propagation.
-                    All quantities should have a similar interace when it comes
+                    All quantities should have a similar interface when it comes
                     to measurement, but occasionally time and lack of creativity
-                    has hindered this philosophy leading to small discrepancies
+                    have hindered this philosophy leading to small discrepancies
                     in the interfaces between the different methods.
                     This is frustrating as each sampling script must be tailored
                     to fit each method.
@@ -217,8 +217,9 @@
                     transitions.
                 \item Studies of nuclear systems and nuclear reactions such as
                     fission and fusion are immensely interesting.
-                    The exploration of such phenomenon using real-time
-                    coupled-cluster methods would be fascinating.
+                    The exploration of such phenomena using real-time
+                    coupled-cluster methods holds great promise for applying
+                    \emph{ab initio} approaches to these challenging topics.
                 \item In \autoref{sec:noble-gasses} we demonstrated the
                     importance of basis sets when it comes to the quality of the
                     results achieved from dynamical systems.

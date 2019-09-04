@@ -51,19 +51,37 @@
     done in the laboratory \cite{joachain2012atoms}.
     Due to the interest being in the many-body realm -- as we study atoms and
     molecules -- we must use an appropriate many-body method.
-    However, as both the interaction between particles and the intense strength
-    of these laser pulses a physicists favorite tool, namely perturbation
-    theory, fails to properly describe the physics.
-    Coupled-cluster theory is a rather novel method to be applied in the
-    real-time analysis of strongly correlated systems.
-    In this thesis we shall explore this formalism.
+    However, for interacting fermionic systems under the influence of strong,
+    time-dependent, external pertubations, e.g., intense laser pulses, many of
+    the widely used many-body methods like perturbation theory fail to describe
+    the physics of the systems.
+    This leads us to study more advanced \emph{ab initio} methods like
+    coupled-cluster theory.
+    Coupled-cluster theory allows for a systematic inclusion of many-body
+    correlations.
+    Compared to for example large scale diagonalization methods coupled-cluster
+    theory resums to infinite order selected and important correlations,
+    allowing us to study larger basis sets and a higher number of interacting
+    particles.
 
 
     \section{Goals}
-        The main goal of this thesis is to implement the orbital-adaptive
-        time-dependent coupled-cluster method with doubles excitations (OATDCCD)
-        \cite{kvaal2012ab}, and apply it to one- and two-dimensional quantum
-        dots, and atoms and molecules.
+        Studies of time-dependent quantum mechanical systems present several
+        challenges to traditional many-body methods, and the main goal of this
+        thesis is thus to implement a stable and efficient approach to
+        time-evolving systems.
+        We have chosen to work with coupled-cluster theory, a widely used and
+        popular method in several fields of physics and quantum chemistry
+        \cite{coester1958421, shavitt2009many, Hagen_2014, gauss1995coupled,
+        lohne, kvaal2012ab, kvaal2013variational, hjorth2017advanced,
+        helgaker-molecular}.
+        In particular we have implemented -- for the first time -- the
+        orbital-adaptive time-dependent coupled-cluster method with doubles
+        excitations (OATDCCD) \cite{kvaal2012ab}.
+        We have developed a versatile framework which allows to study several
+        types of quantum mechanical systems.
+        In this thesis we focus on studies of atoms and molecules subject to
+        intense laser pulses.
         To simulate a time-evolving system we need an initial condition to start
         the simulation.
         Typically we choose the ground state of the system to be our initial
@@ -79,8 +97,8 @@
         comparison.
 
     \section{Our contribution}
-        There already exists a plethora of many-body codes, but few exists that
-        concern real-time solutions to the electronic many-body problem.
+        There already exists a plethora of many-body codes, but almost none
+        concerning real-time solutions to the electronic many-body problem.
         To the authors knowledge there are no existing implementations of the
         orbital-adaptive time-dependent coupled-cluster method applicable to
         general many-body problems.
@@ -97,10 +115,11 @@
         potentials, two-dimensional quantum dots in single and double wells
         along with magnetic fields \cite{greg-winther}.
         We've implemented interfaces towards the libraries PySCF \cite{pyscf}
-        and Psi4 \cite{psi4} which opens for usage of their implemented basis
-        sets and systems.
+        and Psi4 \cite{psi4}.
+        This opens for usage of different types of basis sets and systems.
         The time evolution of our systems are general, but we've only
-        implemented a description of an external laser field.
+        implemented a description of an external laser field in the dipole
+        approximation.
         This should be extensible to other types of time evolution, e.g., a
         time-dependent potential.
 
@@ -110,9 +129,10 @@
             \item The theory part reviewing central parts of quantum mechanics
                 and many-body quantum mechanics that we deem important for an
                 understanding of what has been done in this thesis.
-                The three last chapters of this part describes both the ground
-                state and time-dependent theories for Hartree-Fock,
-                configuration interaction and coupled-cluster.
+                The three last chapters of this part describe both the ground
+                state and time-dependent theories for the Hartree-Fock, the
+                configuration interaction, and the coupled-cluster many-body
+                methods.
                 We've tried to keep these chapters as general as possible
                 without a discussion of numerical and computational
                 implementations.
@@ -129,15 +149,15 @@
             \item Part three contains the results and discussions from the work
                 in this thesis.
                 The first chapter demonstrates the validity of our code.
-                The second chapter discuss the stability of the novel
+                In the second chapter we discuss the stability of the novel
                 OATDCCD-method.
-                In the third chapter we strut the quality of the implemented
+                In the third chapter we display the quality of the implemented
                 code by studying systems explored in the literature.
                 We demonstrate how the methods can be used to explore exotic
                 effects such as spin-dependent laser fields and ionization.
         \end{enumerate}
         A note to the expert reader; a large part of this thesis has been
-        dedicated to the authors desire at understanding much of the underlying
+        dedicated to the author desire at understanding much of the underlying
         theory and mathematics of the implemented methods.
         This has lead to a rather extensive tome of work without necessarily
         highlighting the important discoveries done.
