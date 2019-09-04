@@ -89,7 +89,7 @@
         \SI{9.986533e-4}{\hartree/(\elementarycharge \bohr)}$.
 
         We repeat the study for the \ch{LiH}-molecule as done by
-        \citeauthor{nest}.
+        \citeauthor{nest} \cite{nest}.
         We use a bond-length of $\SI{3.08}{\bohr}$ in the $z$-direction
         between the lithium and the hydrogen atoms with the basis 6-31G*.
         To specify this basis in PySCF we pass in the string \pyth{"6-31Gs"}.
@@ -376,7 +376,7 @@
         The methods therefore seemingly perform just as well on the
         \ch{LiH}-system.
         However, we see that we are able to achieve a lower ground state energy
-        than reported by \citeauthor{nest}.
+        than reported by \citeauthor{nest} \cite{nest}.
 
         There is no doubt that TDHF is quite far off in terms of the dipole
         transition energies when loooking at \autoref{tab:fft_dipole_nest_x} and
@@ -478,12 +478,14 @@
         }
         For the ground state energies we have used the exact same methods, i.e.,
         the CCSD and NOCCD ground state solvers, and we see that we agree with
-        the results found by \citeauthor{gauge-invariant-thomas-2} to three
-        decimal places for \ch{Ne} in the aug-cc-pVDZ basis.
+        the results found by \citeauthor{gauge-invariant-thomas-2}
+        \cite{gauge-invariant-thomas-2} to three decimal places for \ch{Ne} in
+        the aug-cc-pVDZ basis.
         In \autoref{tab:dipole-ne} we also see that OATDCCD and TDCCSD report
         similar values for the first allowed dipole transition of \ch{Ne} in
         aug-cc-pVDZ basis as reported by \citeauthor{gauge-invariant-thomas-2}
-        using linear response theory with CCSD and NOCCD.
+        \cite{gauge-invariant-thomas-2} using linear response theory with CCSD
+        and NOCCD.
         The time-dependent NOCCD-method should be equal to OATDCCD if we let the
         right-hand side of the $Q$-space equations in OATDCCD be
         zero.\footnote{%
@@ -491,8 +493,9 @@
             solver for OATDCCD.
         }
         We also see the same behvior as reported by
-        \citeauthor{gauge-invariant-thomas-2} that OATDCCD reports a higher
-        value for the transition energy than TDCCSD.
+        \citeauthor{gauge-invariant-thomas-2} \cite{gauge-invariant-thomas-2}
+        that OATDCCD reports a higher value for the transition energy than
+        TDCCSD.
         However, the second allowed dipole transition in \autoref{tab:dipole-ne}
         for \ch{Ne} in the aug-cc-pVDZ basis is not reported elsewhere.
         \begin{figure}
@@ -649,18 +652,18 @@
         $N = 18$ (\ch{Ar}) in a modest basis set.
         However, we now wish to demonstrate that our implemented methods are
         able to simulate systems with a \emph{spin-dependent} Hamiltonian.
-        Doing this will demonstrate that we should be able to simulate systems
-        with a spin-dependent magnetic field.
+        Doing this will demonstrate that we are able to simulate systems with a
+        spin-dependent magnetic field.
 
         In a study by \citeauthor{isborn} \cite{isborn}, the authors explored a
         spin-dependent laser field to see singlet-triplet transitions which are
         invisible to a spin-symmetric field.
         This study is performed using the time-dependent unrestricted
         Hartree-Fock (TDUHF) method and time-dependent density functional theory.
-        We've yet to implement a TDUHF-method and will therefore use regular
-        TDHF with general spin-orbitals and the OATDCCD-method.
+        We have not implemented a TDUHF-method and will therefore use our
+        regular TDHF code with general spin-orbitals and the OATDCCD-method.
 
-        The laser pulse used by \citeauthor{isborn} is given by
+        The laser pulse used by \citeauthor{isborn} \cite{isborn} is given by
         \begin{align}
             \vfg{E}(t)
             = E_m \vfg{\epsilon} \sine(\omega t),
@@ -681,10 +684,10 @@
         6-31G** basis using OATDCCD being deleted.
         Thus, our results for \ch{CO} will only be in the smaller STO-3G basis
         set.
-        A frutstrating fact in the article by \citeauthor{isborn} is that the
-        bonding length of the molecules used are not reported.
-        We therefore assume that \citeauthor{isborn} used the equilibrium
-        bond-lengths in the $z$-direction for all three molecules.
+        A frutstrating fact in the article by \citeauthor{isborn} \cite{isborn}
+        is that the bonding length of the molecules used are not reported.
+        We therefore assume that \citeauthor{isborn} \cite{isborn} used the
+        equilibrium bond-lengths in the $z$-direction for all three molecules.
         These are listed in \autoref{tab:bond-length-isborn}.
         \begin{table}
             \centering
@@ -707,7 +710,7 @@
         \end{table}
         In order to make the applied field spin-dependent we have chosen a
         solution where we set the dipole moment matrix elements corresponding to
-        a specific spin-direction to zero and leave the other spin-direction as
+        a specific spin direction to zero and leave the other spin direction as
         it is.
         A demonstration of the dipole matrix elements of the \ch{H2}-molecule in
         the 6-31G** basis is shown in \autoref{fig:dipole-matrices}.
@@ -788,9 +791,9 @@
         \ch{H2} using both basis sets and both TDHF and OATDCCD.
         We've also included absorption spectra using a spin-dependent field as
         the dashed lines in \autoref{fig:h2-isborn}.
-        As expected from the study done by \citeauthor{isborn} we see that the
-        spin-dependency adds an extra peak at a lower energy level than the
-        first allowed dipole transition.
+        As expected from the study done by \citeauthor{isborn} \cite{isborn} we
+        see that the spin-dependency adds an extra peak at a lower energy level
+        than the first allowed dipole transition.
         This is the first singlet to triplet allowed dipole transition in
         \ch{H2}.
 
@@ -928,7 +931,7 @@
         compute the entire spectrum and locate the allowed dipole transitions
         using the same technique as discussed in \autoref{sec:nest}.
         Furthermore, using the spin-reduced dipole matrix elements we should
-        locate the allowed singlet-triplet transitions.
+        be able to locate the allowed singlet-triplet transitions.
         In \autoref{tab:h2-isborn-transitions} we've listed all allowed
         dipole transitions in both basis sets for \ch{H2}.
         We've denoted singlet allowed transitions -- where it is understood that
@@ -971,15 +974,15 @@
         particles -- but as the methods for discovering these energy transitions
         are so vastly different as discussed in \autoref{sec:nest} we conclude
         that these energies are the same.
-        % TODO: Find out about resolution of FFT!
-        Comparing with the results from \citeauthor{isborn} we see that TDHF is
-        close to their results using TDUHF.
+        Comparing with the results from \citeauthor{isborn} \cite{isborn} we see
+        that TDHF is close to their results using TDUHF.
         However, we conjecture that the discrepancies are mainly a result of
-        \citeauthor{isborn} using the presumably more stable TDUHF method for
-        spin-dependent laser fields.
+        \citeauthor{isborn} \cite{isborn} using the presumably more stable TDUHF
+        method for spin-dependent laser fields.
         We also note that our results using the more exact methods OATDCCD and
-        CISD are higher than the results achieved from TDHF.
-        It seems that both TDHF and TDUHF predicts a lower transition energy
+        CISD have higher transition energies than the results achieved from
+        TDHF.
+        It seems that both TDHF and TDUHF predict a lower transition energy
         than what is correct.
 
         From \autoref{tab:h2-isborn-transitions} we see that the degenerate
@@ -1102,7 +1105,7 @@
             No extra label means that the field is spin-indepdenent.}
             \label{fig:lih-isborn}
         \end{figure}
-        We see that the signal from these simulations are rather noisy.
+        We see that the signal from these simulations is rather noisy.
         Tabulating the values in \autoref{fig:lih-isborn} we get the results
         shown in \autoref{tab:lih-isborn}.
         \begin{table}
@@ -1144,14 +1147,14 @@
             \label{tab:lih-isborn}
         \end{table}
         Unlike the \ch{H2}-molecule we see that the values in
-        \autoref{tab:lih-isborn} contain significantly more noise, especially
+        \autoref{tab:lih-isborn} contains significantly more noise, especially
         for the transition energies found using the TDHF-method.
-        Looking at the transition in \autoref{tab:lih-isborn} denoted with a
-        ``$\dagger$'' -- found using the OATDCCD-method -- is included as it is,
-        but we conjecture that it should really be the singlet-allowed
-        transition listed below as the peaks in the upper palette of
-        \autoref{fig:lih-isborn} show that the two peaks coincide, but due to
-        few samples they do not overlap perfectly.
+        The transition energy in \autoref{tab:lih-isborn} denoted with a
+        ``$\dagger$'' is included as it is, but we conjecture that it should
+        really be the singlet-allowed transition listed just below.
+        This as the peaks in the upper palette of \autoref{fig:lih-isborn} show
+        that the two peaks coincide, but due to few samples they do not overlap
+        perfectly.
         The values for TDHF in \autoref{tab:lih-isborn} denoted with a
         ``$\ddagger$'' are clearly noise.
         Furthermore, comparing with \citeauthor{isborn} \cite{isborn} we see
@@ -1165,13 +1168,12 @@
         measurements we believe that the usage of a TDUHF-method would recover
         the desired results.
         This would be an interesting study to explore, but we've not had the
-        time to implement the TDUHF-method and are therefore left as a future
-        project.
-        % TODO: Discuss the spin-mixing-thingy?
+        time to implement the TDUHF-method.
         The values in \autoref{tab:lih-isborn} marked with a ``$\diamond$'' are
-        most likely a result of dipole transitions between two excited states.
-        We see that they are present in plots of \citeauthor{isborn} as well,
-        and we leave them as they are.
+        most likely the results of dipole transitions between two excited
+        states.
+        We see that they are present in plots of \citeauthor{isborn}
+        \cite{isborn} as well, and we leave them as they are.
 
         Computing the dipole allowed transitions using the CISD-method we get
         the results shown in \autoref{tab:lih-isborn-transitions}.
@@ -1274,16 +1276,16 @@
         In \autoref{tab:co-isborn} we've tabulated the peaks from
         \autoref{fig:co-isborn}.
         The results from the TDHF-method, especially for the spin-dependent
-        field, are hard to make any sense from.
+        field, are hard to make sense of.
         They seemingly only consist of noisy data and by comparing with the
-        results found by \citeauthor{isborn} we see that there are little to no
-        comparison of the results.
+        results found by \citeauthor{isborn} \cite{isborn} we see that there are
+        little to no comparison of the results.
         For OATDCCD we trust our data a little more, but it is again hard to
-        compare with the results from \citeauthor{isborn} as they use TDUHF and
-        TDDFT.
+        compare with the results from \citeauthor{isborn} \cite{isborn} as they
+        use TDUHF and TDDFT.
         Also, what is strange is that we only see a single clear peak once the
-        spin-dependent field is active, and this values is much lower than any
-        results reported by \citeauthor{isborn}.
+        spin-dependent field is active, and this value is much lower than any
+        results reported by \citeauthor{isborn} \cite{isborn}.
         \begin{table}
             \centering
             \caption{Dipole transition energy levels for the \ch{CO}-molecule in
@@ -1338,7 +1340,7 @@
         atoms subject to a dipole laser.
         This study provides us with an excellent benchmark to observe a form
         of ionization and see if this is reproducible in our formalism.
-        Note that \citeauthor{miyagi_and_madsen} uses a
+        Note that \citeauthor{miyagi_and_madsen} \cite{miyagi_and_madsen} use a
         discrete-variable-representation basis (DVR) \cite{miyagi_and_madsen,
         takeshi} which is why they include an absorbing potential.
         Our solution differs from this as we use the static one-dimensional
@@ -1382,16 +1384,17 @@
                 + \frac{2\pi}{T}
                 \cos\para{\frac{\pi t}{T}}
                 \sin(\omega t)
-            }.
+            },
             \label{eq:miyagi-laser}
         \end{align}
         where the field is active for $t \in [0, T]$.
         The Coulomb interaction is given by \autoref{eq:shielded-coulomb} with a
         shielding parameter of $a = 1$ and $\alpha = 1$.
-        To compare with the study by \citeauthor{miyagi_and_madsen} we will run
-        for $T = \SI{331}{\hslash/\hartree}$ with $\Delta t =
-        \SI{1e-2}{\hslash/\hartree}$ which corresponds to $n_t = 33100$
-        time steps.
+        To compare with the study by \citeauthor{miyagi_and_madsen}
+        \cite{miyagi_and_madsen} we will run for $T =
+        \SI{331}{\hslash/\hartree}$ with $\Delta t =
+        \SI{1e-2}{\hslash/\hartree}$ which corresponds to $n_t = 33100$ time
+        steps.
         This computation is rather involved and we will therefore limit
         ourselves to the time-dependent Hartree-Fock method and the
         orbital-adaptive time-dependent coupled cluster method as the
@@ -1403,9 +1406,9 @@
         configuration interaction method which is out of scope for this thesis.
 
 
-        Using the same definition as \citeauthor{takeshi}, we define
-        ionization as all components outside a radius of $\SI{20}{\bohr}$ from
-        the center of the nucleus \cite{hochstuhl2014time, takeshi}.
+        Using the same definition as \citeauthor{takeshi} \cite{takeshi}, we
+        define ionization as all components outside a radius of $\SI{20}{\bohr}$
+        from the center of the nucleus \cite{hochstuhl2014time, takeshi}.
         We can then measure the amount of ionization by computing the particle
         density outside this radius, or conversely, the amount of particle
         density still inside the nucleus.
@@ -1421,8 +1424,8 @@
                 \begin{axis}[
                     width=11cm,
                     height=8cm,
-                    xlabel={$x$ $[\text{a.u.}]$},
-                    ylabel={$E$ $[\text{a.u.}]$},
+                    xlabel={$x$ $[\si{\bohr}]$},
+                    ylabel={$E$ $[\si{\hartree}]$},
                     xmin=-100,
                     xmax=100,
                     ymin=-0.25,
@@ -1722,4 +1725,4 @@
         be used to describe these type of effects.
 
 
-\clearpage
+\clearemptydoublepage
