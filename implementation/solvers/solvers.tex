@@ -32,7 +32,7 @@
             We can transform from the known atomic orbital basis to the unknown
             molecular orbital basis by
             \begin{align}
-                \ket*{\phi_p} = C_{\alpha p}\ket{\chi_{\alpha}},
+                \ket*{\phi_p} = C_{\alpha p}\ket*{\chi_{\alpha}},
             \end{align}
             where $\vfg{C} \in \mathbb{C}^{K\times L}$ is now our unknown
             coefficient matrix.
@@ -407,14 +407,14 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
             We start with the Coulomb operator giving
             \begin{align}
                 \mel*{\phi_P\phi_J}{\twohamil}{\phi_Q\phi_J}
-                &= \braket*{\sigma}{\tau}\braket{\nu}{\nu}
+                &= \braket*{\sigma}{\tau}\braket*{\nu}{\nu}
                 \mel*{\varphi_p\varphi_j}{\twohamil}{\varphi_q\varphi_j}
                 = 2 \delta_{\sigma\tau}
                 \mel*{\varphi_p}{\hat{J}}{\varphi_q},
             \end{align}
             where we've introduced the restricted Coulomb operator from
             \autoref{eq:coulomb-operator}, and summed over the spin-dependence
-            $\ket{\nu}$ from the two occupied orbitals in the two-body elements.
+            $\ket*{\nu}$ from the two occupied orbitals in the two-body elements.
             That is,
             \begin{align}
                 \braket*{\nu}{\nu} = \delta_{\nu\nu} = 2.
@@ -423,7 +423,7 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
             exchange operator to be
             \begin{align}
                 \mel*{\phi_P\phi_J}{\twohamil}{\phi_J\phi_Q}
-                &= \braket*{\sigma}{\nu}\braket{\nu}{\tau}
+                &= \braket*{\sigma}{\nu}\braket*{\nu}{\tau}
                 \mel*{\varphi_p\varphi_j}{\twohamil}{\varphi_j\varphi_q}
                 = \delta_{\sigma\tau}
                 \mel*{\varphi_p}{\hat{K}}{\varphi_q},
@@ -796,14 +796,14 @@ energy = np.trace(np.dot(term, density_matrix))
             \begin{align}
                 \fockten^{\sigma}_{\kappa\lambda}
                 &\equiv
-                \mel{\chi_{\kappa}}{\fock^{\sigma}}{\chi_{\lambda}}
+                \mel*{\chi_{\kappa}}{\fock^{\sigma}}{\chi_{\lambda}}
                 %=
                 %\oneten_{\kappa\lambda}
                 %+ \sum_{\rho \in \brac{\alpha, \beta}}
-                %\mel{\chi_{\kappa}}{
+                %\mel*{\chi_{\kappa}}{
                 %    \hat{J}^{\rho}
                 %}{\chi_{\lambda}}
-                %- \mel{\chi_{\kappa}}{
+                %- \mel*{\chi_{\kappa}}{
                 %    \hat{K}^{\sigma}
                 %}{\chi_{\lambda}}
                 %\\
@@ -877,27 +877,27 @@ energy = np.trace(np.dot(term, density_matrix))
                 \begin{align}
                     \energy
                     %&=
-                    %\mel{\slat}{\hamil}{\slat}
+                    %\mel*{\slat}{\hamil}{\slat}
                     %=
-                    %\mel{\phi_I}{\onehamil}{\phi_I}
+                    %\mel*{\phi_I}{\onehamil}{\phi_I}
                     %+
                     %\half
-                    %\mel{\phi_I\phi_J}{
+                    %\mel*{\phi_I\phi_J}{
                     %    \twohamil
                     %}{\phi_I\phi_J}_{AS}
                     %\\
                     %&=
                     %\sum_{\sigma \in \brac{\alpha, \beta}}\brac{
-                    %    \mel{\varphi^{\sigma}_{i}}{
+                    %    \mel*{\varphi^{\sigma}_{i}}{
                     %        \onehamil
                     %    }{\varphi^{\sigma}_{i}}
                     %    + \half\brak{
                     %        \sum_{\tau \in \brac{\alpha, \beta}}
-                    %        \mel{\varphi^{\sigma}_{i}}{
+                    %        \mel*{\varphi^{\sigma}_{i}}{
                     %            \hat{J}^{\tau}
                     %        }{\varphi^{\sigma}_{i}}
                     %        -
-                    %        \mel{\varphi^{\sigma}_{i}}{
+                    %        \mel*{\varphi^{\sigma}_{i}}{
                     %            \hat{K}^{\sigma}
                     %        }{\varphi^{\sigma}_{i}}
                     %    }
@@ -1198,9 +1198,9 @@ energy = np.trace(np.dot(term, density_matrix))
                     as defined in \autoref{def:creation_1}.
                 \item The Kronecker-Delta $\delta_{p \in \vfg{n}}$ checking if
                     the single-particle state $p$ is an occupied state in
-                    $\ket{\vfg{n}}$.
+                    $\ket*{\vfg{n}}$.
                 \item The difference $\abs{\vfg{n} - \vfg{m}}$, between the two
-                    determinants $\ket{\vfg{n}}$ and $\ket{\vfg{m}}$.
+                    determinants $\ket*{\vfg{n}}$ and $\ket*{\vfg{m}}$.
                 \item The position of a set bit to a single-particle index $p$
                     in order to find the correct matrix elements in
                     $\oneten^{p}_{q}$ and $\twoten^{pq}_{rs}$.
@@ -1244,7 +1244,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 \label{alg:popcount_64}
             \end{algorithm}
             Now, counting the number of set bits in the difference-state from
-            $\ket{\vfg{n}} \text{XOR} \ket{\vfg{m}}$ yields the difference
+            $\ket*{\vfg{n}} \text{XOR} \ket*{\vfg{m}}$ yields the difference
             $\abs{\vfg{n} - \vfg{m}}$.
             The function in \autoref{alg:state-diff} computes the difference
             between two determinants.
@@ -1576,7 +1576,7 @@ energy = np.trace(np.dot(term, density_matrix))
             That is,
             \begin{align}
                 \Omega_{\mu}(\vfg{\clustamp}, \vfg{\clustlamp}^{(i)})
-                = \mel{\slat}{
+                = \mel*{\slat}{
                     (\1 + \clustl^{(i)})
                     \exponential(-\clust)
                     \com{\hamil}{\hat{X}_{\mu}}
@@ -1966,7 +1966,7 @@ class AmplitudeContainer:
             \autoref{eq:cc-energy-functional}.
 
         \subsection{Time-dependent overlap}
-            Due to the dual state of $\ket{\Psi}$ in coupled-cluster not being
+            Due to the dual state of $\ket*{\Psi}$ in coupled-cluster not being
             the adjoint, we have that
             \begin{align}
                 \braket*{\tilde{\Psi}}{\Psi}
