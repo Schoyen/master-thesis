@@ -109,7 +109,7 @@
         with the bonding set in the $z$-direction has a non-zero dipole moment.
         This makes the absorption spectra include a constant zero frequency
         component.
-        We've removed this component from the figures by using the function
+        We have removed this component from the figures by using the function
         \pyth{scipy.signal.detrend} \cite{scipy}.
         \begin{figure}
             \centering
@@ -197,13 +197,13 @@
             in $z$-direction.}
             \label{fig:fft_dipole_nest}
         \end{figure}
-        In \autoref{tab:fft_dipole_nest_x} we've used the function
+        In \autoref{tab:fft_dipole_nest_x} we have used the function
         \pyth{scipy.signal.find_peaks} \cite{scipy} to locate the transition
         energies for the Fourier specter of the dipole moment polarized along
         the $x$-direction.
-        We've done the same in \autoref{tab:fft_dipole_nest_z} for the
+        We have done the same in \autoref{tab:fft_dipole_nest_z} for the
         $z$-direction.
-        Note that we've set a threshold for the minimum height of the peaks to
+        Note that we have set a threshold for the minimum height of the peaks to
         $\num{5e-3}$ to avoid some noisy signals.\footnote{%
             This value was chosen by trial and error where we inspected the
             figures --especially for the $z$-direction -- in
@@ -315,7 +315,7 @@
             \centering
             \caption{Here we see the allowed dipole transitions from the ground
             state $I = 0$ to a higher excited state $J$.
-            We've only included results from the first $40$ states in the
+            We have only included results from the first $40$ states in the
             spectrum from the CISD-Hamiltonian.}
             \renewcommand{\arraystretch}{1.3}
             \begin{tabular}{@{}llll@{}}
@@ -346,7 +346,7 @@
         methods approximate the four-particle system of \ch{LiH}-molecule with
         at most two-particle excitation operators.
         We also see that OATDCCD and TDCCSD yields exactly the same dipole
-        transition energies within the precision that we've kept for these
+        transition energies within the precision that we have kept for these
         results.
         It is a little hard to determine if the coupled-cluster methods perform
         better than CISD as the energies are simultaneously higher and lower at
@@ -405,13 +405,13 @@
         We have chosen a frequency $\omega$ corresponding to a laser wavelength
         of $\lambda = \SI{200}{\nm}$ and let the envelope last for a full cycle,
         that is, $T = 2\pi / \omega$.
-        We've chosen this frequency as this lets us simulate a full cycle of the
+        We have chosen this frequency as this lets us simulate a full cycle of the
         laser in a relatively short time, thus letting the atoms oscillate for a
         long time after the laser is turned off.
 
         Due to the size of the atoms, $N = 10$ for \ch{Ne} and $N = 18$ for
         \ch{Ar}, the evolution of the system takes a substantial amount of time.
-        We've used two different basis sets: cc-pVDZ and aug-cc-pVDZ for both
+        We have used two different basis sets: cc-pVDZ and aug-cc-pVDZ for both
         atoms.
         We specify these basis sets in PySCF \cite{pyscf} by the strings
         \pyth{"ccpvdz"} and \pyth{"aug-ccpvdz"} respectively.
@@ -432,7 +432,7 @@
         We used the Gauss-integrator with $s = 3$ and $\epsilon = \num{1e-6}$ as
         convegence threshold for the fix-point iterations.
 
-        All runs are done using the OATDCCD-method and we've repeated the runs
+        All runs are done using the OATDCCD-method and we have repeated the runs
         for \ch{Ne} in both basis sets using TDCCSD as well.
         The ground state energies are listed in \autoref{tab:gs-noble-gasses}.
         \begin{table}
@@ -460,7 +460,7 @@
             \end{tabular}
             \label{tab:gs-noble-gasses}
         \end{table}
-        In \autoref{fig:dipole-ne} we've plotted the absorption spectra for
+        In \autoref{fig:dipole-ne} we have plotted the absorption spectra for
         \ch{Ne} using both basis sets.
         The corresponding dipole allowed transition energies are listed in
         \autoref{tab:dipole-ne}.
@@ -527,7 +527,7 @@
                     \addlegendentry{aug-cc-pVDZ}
                 \end{axis}
             \end{tikzpicture}
-            \caption{In this figure we've plotted the Fourier transform of the
+            \caption{In this figure we have plotted the Fourier transform of the
             expectation value of the dipole moment in $z$-direction of the
             \ch{Ne}-atom in both cc-pVDZ and aug-cc-pVDZ using OATDCCD.
             The results for TDCCSD are visually indistinguishable and we have
@@ -540,7 +540,7 @@
         \begin{table}
             \centering
             \caption{Dipole transitions for \ch{Ne} in both basis sets.
-            We've numbered the peaks from left to right from the plot in
+            We have numbered the peaks from left to right from the plot in
             \autoref{fig:dipole-ne}.}
             \renewcommand{\arraystretch}{1.3}
             \begin{tabular}{@{}lllll@{}}
@@ -578,7 +578,7 @@
         The results from the latter basis does not have a good resolution due to
         relatively few samples after the laser pulse was switched off, but we
         are able to see a trend.
-        In \autoref{tab:dipole-ar} we've listed the dipole allowed transition
+        In \autoref{tab:dipole-ar} we have listed the dipole allowed transition
         energies for all the peaks that we see in \autoref{fig:dipole-ar}.
         Recalling that the cc-pVDZ basis gave a much higher transition energy
         than for the aug-cc-pVDZ basis for \ch{Ne} we see the same result for
@@ -615,7 +615,7 @@
                     \addlegendentry{aug-cc-pVDZ}
                 \end{axis}
             \end{tikzpicture}
-            \caption{In this figure we've plotted the Fourier transform of the
+            \caption{In this figure we have plotted the Fourier transform of the
             expectation value of the dipole moment in $z$-direction of the
             \ch{Ar}-atom in both cc-pVDZ and aug-cc-pVDZ using OATDCCD.
             The peaks for both basis sets and using both solvers are listed in
@@ -648,7 +648,7 @@
         \label{sec:isborn}
         We have so far demonstrated that our implemented methods reproduce known
         results from the literature on a wide range of systems.
-        Furthermore, we've demonstrated that we can run large simulations up to
+        Furthermore, we have demonstrated that we can run large simulations up to
         $N = 18$ (\ch{Ar}) in a modest basis set.
         However, we now wish to demonstrate that our implemented methods are
         able to simulate systems with a \emph{spin-dependent} Hamiltonian.
@@ -774,14 +774,14 @@
                         {results/benchmarks/isborn/dat/h2_6-31gss_dip_mat_up.dat};
                 \end{groupplot}
             \end{tikzpicture}
-            \caption{In these figures we've plotted the dipole matrix elements along
+            \caption{In these figures we have plotted the dipole matrix elements along
             $z$-direction, that is, $z^{p}_{q}$, for \ch{H2} in the 6-31G**
             basis.
             The image on the left is of the full dipole matrix elements whereas
             the image on the left shows the same matrix elements, but with all
             odd indices set to zero which means that we are left with the dipole
             matrix elements for the spin-up direction.
-            Note that we've scaled the values to be between $0$ and $1$ by
+            Note that we have scaled the values to be between $0$ and $1$ by
             taking the elementwise absolute value of $\vfg{z}$ and dividing by
             the max value in the matrix.}
             \label{fig:dipole-matrices}
@@ -789,7 +789,7 @@
 
         In \autoref{fig:h2-isborn} we have plotted the absorption spectra of
         \ch{H2} using both basis sets and both TDHF and OATDCCD.
-        We've also included absorption spectra using a spin-dependent field as
+        We have also included absorption spectra using a spin-dependent field as
         the dashed lines in \autoref{fig:h2-isborn}.
         As expected from the study done by \citeauthor{isborn} \cite{isborn} we
         see that the spin-dependency adds an extra peak at a lower energy level
@@ -891,7 +891,7 @@
                         \addlegendentry{OA (up)}
                 \end{groupplot}
             \end{tikzpicture}
-            \caption{In these figures we've plotted the absorption spectra of
+            \caption{In these figures we have plotted the absorption spectra of
             \ch{H2} subject to a laser field using the TDHF (HF) and the OATDCCD
             (OA) methods.
             The label ``up'' denotes a spin-dependent field along one of the
@@ -899,7 +899,7 @@
             No extra label means that the field is spin-indepdenent.}
             \label{fig:h2-isborn}
         \end{figure}
-        In \autoref{tab:h2-isborn} we've listed the transition energies found
+        In \autoref{tab:h2-isborn} we have listed the transition energies found
         from the peaks in \autoref{fig:h2-isborn}.
         \begin{table}
             \centering
@@ -932,9 +932,9 @@
         using the same technique as discussed in \autoref{sec:nest}.
         Furthermore, using the spin-reduced dipole matrix elements we should
         be able to locate the allowed singlet-triplet transitions.
-        In \autoref{tab:h2-isborn-transitions} we've listed all allowed
+        In \autoref{tab:h2-isborn-transitions} we have listed all allowed
         dipole transitions in both basis sets for \ch{H2}.
-        We've denoted singlet allowed transitions -- where it is understood that
+        We have denoted singlet allowed transitions -- where it is understood that
         the same transition is allowed in the spin-dependent case as well --
         specifically to demonstrate which peaks we expect to see for the singlet
         only transitions.
@@ -944,7 +944,7 @@
             computed using CISD.
             The transition is from the ground state $I = 0$ to a higher excited
             state $J$.
-            We've limited the transition energies to $\Delta \energy \leq
+            We have limited the transition energies to $\Delta \energy \leq
             \SI{1}{\hartree}$ for the 6-31G** basis.
             Spin-independent transitions, i.e., singlet-to-singlet transitions,
             are denoted with a ``yes'' under the column ``Singlet allowed''.
@@ -1097,7 +1097,7 @@
                         \addlegendentry{OA (up)}
                 \end{groupplot}
             \end{tikzpicture}
-            \caption{In these figures we've plotted the absorption spectra of
+            \caption{In these figures we have plotted the absorption spectra of
             \ch{LiH} subject to a laser field using the TDHF (HF) and the OATDCCD
             (OA) methods.
             The label ``up'' denotes a spin-dependent field along one of the
@@ -1167,7 +1167,7 @@
         As \citeauthor{isborn} \cite{isborn} were able to get better
         measurements we believe that the usage of a TDUHF-method would recover
         the desired results.
-        This would be an interesting study to explore, but we've not had the
+        This would be an interesting study to explore, but we have not had the
         time to implement the TDUHF-method.
         The values in \autoref{tab:lih-isborn} marked with a ``$\diamond$'' are
         most likely the results of dipole transitions between two excited
@@ -1206,7 +1206,7 @@
             \label{tab:lih-isborn-transitions}
         \end{table}
         % TODO: Add CO maybe?
-        Finally, in \autoref{fig:co-isborn} we've listed the results from the
+        Finally, in \autoref{fig:co-isborn} we have listed the results from the
         \ch{CO} simulations in the STO-3G basis.
         Here we clearly see how TDHF really struggles with the spin-dependent
         field.
@@ -1265,7 +1265,7 @@
                         \addlegendentry{OA (up)}
                 \end{groupplot}
             \end{tikzpicture}
-            \caption{In these figures we've plotted the absorption spectra of
+            \caption{In these figures we have plotted the absorption spectra of
             \ch{CO} subject to a laser field using the TDHF (HF) and the OATDCCD
             (OA) methods.
             The label ``up'' denotes a spin-dependent field along one of the
@@ -1273,7 +1273,7 @@
             No extra label means that the field is spin-indepdenent.}
             \label{fig:co-isborn}
         \end{figure}
-        In \autoref{tab:co-isborn} we've tabulated the peaks from
+        In \autoref{tab:co-isborn} we have tabulated the peaks from
         \autoref{fig:co-isborn}.
         The results from the TDHF-method, especially for the spin-dependent
         field, are hard to make sense of.
@@ -1355,7 +1355,7 @@
             - iW(x),
         \end{align}
         where $Z = N_e$ -- the number of electrons in the system -- and $W(x)$
-        is the absorbing potential, which we'll set to zero.
+        is the absorbing potential, which we will set to zero.
         The second term gives rise to the naming of these systems as
         one-dimensional atoms as this term serves as the electron-nuclear
         interaction in the atomic Hamiltonian, but with the three-dimensional
@@ -1415,7 +1415,7 @@
         However, note that as we use static orbitals, we are dependent on having
         a large enough basis set to actually observe ionization.
         In \autoref{fig:spf-potential-miyagi} we see the highest lying
-        orbitals we've used in the one-dimensional Beryllium system.
+        orbitals we have used in the one-dimensional Beryllium system.
         We see that unless we include more than $10$ orbitals we will not
         include states that are outside the radius of $\SI{20}{\bohr}$.
         \begin{figure}
@@ -1464,10 +1464,10 @@
                     \addlegendentry{$\abs{\psi_{20}(x)}^2$};
                 \end{axis}
             \end{tikzpicture}
-            \caption{In this figure we've plotted some of the high lying
+            \caption{In this figure we have plotted some of the high lying
             single-particle functions squared and scaled by their
             eigenenergy inside the one-dimensional Beryllium potential.
-            We've only included a select few single-particle functions to
+            We have only included a select few single-particle functions to
             avoid the figure being too cluttered.}
             \label{fig:spf-potential-miyagi}
         \end{figure}

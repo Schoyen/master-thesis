@@ -5,7 +5,7 @@
         at the time of writing private and access is therefore limited to
         collaborators.
         However, please do request access by sending a mail to:
-        \href{mailto:o.s.schoyen@fys.uio.no}{o.s.schoyen@fys.uio.no}, and we'll
+        \href{mailto:o.s.schoyen@fys.uio.no}{o.s.schoyen@fys.uio.no}, and we will
         set you up.
     }
     These are:
@@ -42,7 +42,7 @@
             \url{https://schoyen.github.io/configuration-interaction/}.
         \item Hartree-Fock is a library containing ground state and
             time-dependent Hartree-Fock solvers.
-            We've implemented Hartree-Fock for general (HF/TDHF), restricted
+            We have implemented Hartree-Fock for general (HF/TDHF), restricted
             (RHF) and unrestricted spin-orbitals (UHF).
             The module uses quantum systems to get access to matrix elements.
             The code is located at
@@ -159,7 +159,7 @@
             \begin{align}
                 g^{ab}_{ij} = \clustamp^{ab}_{lj} W^{l}_{i},
             \end{align}
-            we've reduced the complexity to $\mathcal{O}(M^2 N^3)$.
+            we have reduced the complexity to $\mathcal{O}(M^2 N^3)$.
             This incurs a memory penalty from the temporary storage of
             $W^{l}_{i}$, but the gain in reduction of the number of FLOPS far
             exceeds this cost.
@@ -280,7 +280,7 @@
                 \norm{\bar{\vfg{e}}_i}^2
                 = c_k B_{kl} c_l,
             \end{align}
-            where we've defined the matrix elements
+            where we have defined the matrix elements
             \begin{align}
                 B_{kl} \equiv \vfg{e}_k^T\vfg{e}_l.
             \end{align}
@@ -327,8 +327,8 @@
 
     \section{Numerical integration}
         \label{sec:numerical-integration}
-        In this section we'll review a select few time-integration schemes for
-        solving time-dependent ordinary differential equations and we'll discuss the
+        In this section we will review a select few time-integration schemes for
+        solving time-dependent ordinary differential equations and we will discuss the
         applicability of each scheme.
 
         \subsection{Problem statement}
@@ -343,7 +343,7 @@
             evaluating the right-hand side of the first-order differential
             equation listed above.
             Most implemented integration schemes assume that the problem can
-            be formulated as in \autoref{eq:ode-problem}, but as we've seen the
+            be formulated as in \autoref{eq:ode-problem}, but as we have seen the
             time-dependent Hartree-Fock method is defined in terms of a matrix,
             and the time-dependet coupled-cluster methods as two sets of
             amplitudes of different sizes and coefficient matrices for the
@@ -397,7 +397,7 @@
             \cite{julia-diff} we need to reverse the order, or add extra
             parameters.
             This process will be discussed more in \autoref{sec:future-work} as
-            we've not implemented an interface towards these libraries in this
+            we have not implemented an interface towards these libraries in this
             work.
 
             Discretizing time with a constant step $\Delta t$ such that $t_n
@@ -418,7 +418,7 @@
             differential equation solvers formulated in a familiar way.
 
             As a first approximation to solving the time-dependent equations,
-            we've implemented the Runge-Kutta 4 algorithm.
+            we have implemented the Runge-Kutta 4 algorithm.
             A rendition of this algorithm can be found in
             \citetitle{morken2017notes} \cite{morken2017notes} and will not be
             repeated in this text as all results are achieved using the more

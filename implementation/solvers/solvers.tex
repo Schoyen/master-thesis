@@ -1,5 +1,5 @@
 \chapter{Solver implementations}
-    In this chapter we'll discuss various implementation aspects of the \emph{ab
+    In this chapter we will discuss various implementation aspects of the \emph{ab
     initio} solvers discussed in \autoref{chap:hf} through \autoref{chap:ci} and
     \autoref{chap:cc}.
 
@@ -12,14 +12,14 @@
         We will in the following demonstrate three different procedures related
         to the restrictions put on the spin-orbitals as discussed in
         \autoref{subsec:restrictions-on-spin-orbitals}.
-        First we'll discuss a general Hartree-Fock method which puts no
+        First we will discuss a general Hartree-Fock method which puts no
         restrictions on the molecular orbitals.
         This method leads to the molecular orbitals being described as general
         spin-orbitals as shown in \autoref{eq:general-spin-orbital}.
         The second method is known as the \emph{restricted Hartree-Fock} method
         as it limits the molecuar orbitals to restricted spin-orbitals as
         in \autoref{eq:restricted-spin-orbital}.
-        Finally, we'll demonstrate the \emph{unrestricted Hartree-Fock method}
+        Finally, we will demonstrate the \emph{unrestricted Hartree-Fock method}
         yielding unrestricted spin-orbitals for the molecular orbitals as
         shown in \autoref{eq:unrestricted-spin-orbital}.
 
@@ -65,7 +65,7 @@
                 \fockmat \vfg{C} = \overlapmat \vfg{C} \vfg{\epsilon},
                 \label{eq:roothan-hall-general}
             \end{gather}
-            where we've denoted the matrix elements of the Fock operator in the
+            where we have denoted the matrix elements of the Fock operator in the
             atomic orbital basis by
             \begin{align}
                 \mel*{\chi_{\alpha}}{\fock}{\chi_{\beta}}
@@ -147,7 +147,7 @@ epsilon, C = scipy.linalg.eigh(fock_matrix, s)
                 \vfg{D} = \vfg{C}_{o}\vfg{C}^{\dagger}_{o},
                 \label{eq:ghf-density-matrix}
             \end{align}
-            where $\vfg{D} \in \mathbb{C}^{K \times K}$, and we've denoted the
+            where $\vfg{D} \in \mathbb{C}^{K \times K}$, and we have denoted the
             occupied coefficient matrices by $\vfg{C}_o \in \mathbb{C}^{K \times
             N}$.
             We can compute the density matrix in Python by
@@ -200,7 +200,7 @@ fock_matrix = (
                     }{\chi_{\gamma}\chi_{\delta}}_{AS},
                     \label{eq:general-hartree-fock-energy}
                 \end{align}
-                where we've contracted the occupied coefficient matrices into
+                where we have contracted the occupied coefficient matrices into
                 density matrices.
                 In Python we compute the energy by
                 \begin{python}
@@ -412,7 +412,7 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
                 = 2 \delta_{\sigma\tau}
                 \mel*{\varphi_p}{\hat{J}}{\varphi_q},
             \end{align}
-            where we've introduced the restricted Coulomb operator from
+            where we have introduced the restricted Coulomb operator from
             \autoref{eq:coulomb-operator}, and summed over the spin-dependence
             $\ket*{\nu}$ from the two occupied orbitals in the two-body elements.
             That is,
@@ -428,7 +428,7 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
                 = \delta_{\sigma\tau}
                 \mel*{\varphi_p}{\hat{K}}{\varphi_q},
             \end{align}
-            where we've used the completness relation for the spin of the
+            where we have used the completness relation for the spin of the
             occupied molecular orbitals, viz.
             \begin{align}
                 \dyad*{\nu}
@@ -509,7 +509,7 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
                 C^{*}_{j\gamma} C_{j\delta}
                 \twotensym^{\alpha\gamma}_{\delta\beta},
             \end{gather}
-            where we've introduced the tensor notation for the elements of the
+            where we have introduced the tensor notation for the elements of the
             two-body operator to be
             \begin{align}
                 \twotensym^{\alpha\beta}_{\gamma\delta}
@@ -1055,7 +1055,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 \end{cases}
             \end{align}
             Here $N$ is the number of particles, $M = L - N$ is the number of
-            virtual states, and we've denoted the order $S$ as an integer where
+            virtual states, and we have denoted the order $S$ as an integer where
             $1$ represents singles, $2$ doubles, and so forth.
             This formula counts the number of ways $N$ particles can be
             distributed among $M$ positions moving $S$ particles at a time.
@@ -1076,7 +1076,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 \caption{In this table we demonstrate how the number of
                 Slater determinants $N_s$ increase as a function of truncation
                 level for $N = 4$ and $L = 80$.
-                We've also included the number of bytes needed to store the
+                We have also included the number of bytes needed to store the
                 Slater determinants using \pyth{np.uint64}, i.e., 64-bit
                 unsigned integers to represent the determinants, and the size of
                 the Hamiltonian matrix in bytes where we assume 128-bit complex
@@ -1367,7 +1367,7 @@ energy = np.trace(np.dot(term, density_matrix))
             Therefore, by only including time-dependent one-body operators, an
             optimization is to store two copies of the full Hamiltonian
             matrix,\footnote{%
-                This might seem a little odd as we've already argued at length
+                This might seem a little odd as we have already argued at length
                 of how the Hamiltonian matrix is the bottleneck of the
                 implementation, but remember that our focus is on the dynamics
                 of quantum-mechanical systems and we are therefore quite limited
@@ -1407,7 +1407,7 @@ energy = np.trace(np.dot(term, density_matrix))
                     \braket*{\Psi(t)}
                 },
             \end{align}
-            where we've included an explicit normalization due to potential
+            where we have included an explicit normalization due to potential
             drift in the coefficients from the time evolution using numerical
             integrators.
             Expanding the time-evolved state in the static basis of Slater
@@ -1823,7 +1823,7 @@ energy = np.trace(np.dot(term, density_matrix))
                     \exponential(\clust(t))
                 }{\slat},
             \end{gather}
-            where we've set $\hslash = 1$ in atomic units.
+            where we have set $\hslash = 1$ in atomic units.
             Sans the imaginary number and sign these are just the $\clustamp$-
             and $\clustlamp$-amplitude equations as used in the time-independent
             case.
@@ -1839,11 +1839,11 @@ energy = np.trace(np.dot(term, density_matrix))
             NumPy to represent them as a one-dimensional array.
             We then concatenate the arrays as a single long one-dimensional
             array.
-            However, we've formulated all our amplitude equations using the rank
+            However, we have formulated all our amplitude equations using the rank
             $2$ and $4$ tensors and we must transform the input vector with
             amplitudes from the integration schemes to the correct shape of the
             amplitudes when solving the right-hand sides.
-            To do this we've created a Python class called
+            To do this we have created a Python class called
             \pyth{AmplitudeContainer} which defines convenience functions
             handling the reshaping of the amplitudes.
             This class was originally intended to provide operators such as
@@ -1989,7 +1989,7 @@ class AmplitudeContainer:
                 P(t, t_0)
                 = \abs{A(t, t_0)}^2.
             \end{align}
-            In \autoref{app:cc-autocorrelation} we've added explicit tensor
+            In \autoref{app:cc-autocorrelation} we have added explicit tensor
             contractions for both CCD and CCSD in order to compute the
             coupled-cluster autocorrelation.
 
@@ -2142,7 +2142,7 @@ class AmplitudeContainer:
                 \\
                 -i\tilde{\vfg{\eta}}\vfg{A}_l = \tilde{\vfg{R}},
             \end{gather}
-            where we've marked the virtual-occupied block of $\eta^{p}_{q}$ by a
+            where we have marked the virtual-occupied block of $\eta^{p}_{q}$ by a
             tilde to distinguish it from merely the transpose of the
             occupied-virtual block.
             Solving both these equations yield the two non-zero blocks of
@@ -2270,7 +2270,7 @@ class OACCVector(AmplitudeContainer):
                 \implies
                 \bican{p}(t) = \tilde{C}_{p \alpha}(t) \bican{\alpha}(0),
             \end{gather}
-            where we've expressed the time-evolved biorthonormal second
+            where we have expressed the time-evolved biorthonormal second
             quantized operators as a linear combination of the initial
             operators.
             Now, the biorthonormality condition is only maintained at equal
@@ -2292,7 +2292,7 @@ class OACCVector(AmplitudeContainer):
                 \bican{\delta}(0)\bican{\gamma}(0),
                 \label{eq:transformed-cluster-operator}
             \end{align}
-            where we've defined the transformed cluster amplitudes
+            where we have defined the transformed cluster amplitudes
             \begin{align}
                 \clustamp^{\alpha \beta}_{\gamma \delta}(t)
                 \equiv

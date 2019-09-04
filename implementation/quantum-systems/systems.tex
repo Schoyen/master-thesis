@@ -1,7 +1,7 @@
 \chapter{Quantum systems}
-    In this chapter we'll discuss the different quantum systems which will be
+    In this chapter we will discuss the different quantum systems which will be
     explored in this thesis.
-    We'll discuss how we represent a general quantum system via the class
+    We will discuss how we represent a general quantum system via the class
     \pyth{QuantumSystem} and the methods that this class incorporates.
     Before delving into the mathematics of quantum dots, and atoms and
     molecules, we will discuss what we want from our basis sets.
@@ -98,7 +98,7 @@
         \end{align}
         where atomic units are assumed.
         Note that we sum over all nuclei $A$.
-        Here we've left out the internuclear repulsion and the Coulomb
+        Here we have left out the internuclear repulsion and the Coulomb
         interaction.
         Furthermore, in the Born-Oppenheimer approximation we treat the nuclei
         as being frozen and therefore ignore the kinetic energy contribution of
@@ -143,14 +143,14 @@
                 basis set.
         \end{itemize}
         To reuse the basis sets from PySCF \cite{pyscf} and Psi4 \cite{psi4}
-        we've created a class \pyth{CustomSystem} which lets us build a
+        we have created a class \pyth{CustomSystem} which lets us build a
         \pyth{QuantumSystem}-class by manually setting the matrix elements.
         We can thus ask PySCF and Psi4 to use their well-optimized methods to
         generate basis sets and reuse these in our solvers.
         In this thesis we will only use basis sets from PySCF and we therefore
         only describe the interface towards this library.
 
-        We've created three interface functions which sets up a
+        We have created three interface functions which sets up a
         \pyth{CustomSystem} of atomic orbitals, restricted molecular orbitals,
         and unrestricted molecular orbitals respectively.
         The two latter methods use the restricted and unrestricted Hartree-Fock
@@ -194,7 +194,7 @@
         choose $\tilde{\phi}_q(x) = \phi^{*}_q(x)$ and we have recovered the
         original expression for the particle density as seen in
         \autoref{eq:particle-density}.
-        In \autoref{alg:particle-density} we've included the code used to
+        In \autoref{alg:particle-density} we have included the code used to
         compute the particle density given a one-body density matrix denoted
         \pyth{rho_qp}, and the set of orbitals \pyth{bra_spf} and \pyth{ket_spf}
         as the bra- and ket-states respectively.
@@ -214,7 +214,7 @@ def compute_particle_density(rho_qp, bra_spf, ket_spf):
 
     return rho
             \end{python}
-            \caption{In this listing we've added a function computing the
+            \caption{In this listing we have added a function computing the
             particle density on an arbitrary grid that the orbitals are
             evaluated on.}
             \label{alg:particle-density}
@@ -401,17 +401,17 @@ class QuantumSystem:
         reusing the doubly occupied orbitals.
         We will use this to some extent for the restricted Hartree-Fock solver
         which will be discussed in \autoref{subsec:rhf}.
-        However, most of the methods we've implemented make no assumption on the
+        However, most of the methods we have implemented make no assumption on the
         spin-orbitals other than there being two spin-components, and therefore
         allow general spin-orbitals as discussed in
         \autoref{subsec:restrictions-on-spin-orbitals}.
-        This means that after we've created our basis sets, we include spin by
+        This means that after we have created our basis sets, we include spin by
         making the system doubly degenerate in each orbital.
 
         The ordering of the spin-orbitals are important as some solvers
         exploit the spin-degeneracy and therefore need to know how the
         spin-orbitals are ordered.
-        We've chosen a solution which is far from optimal, but which is
+        We have chosen a solution which is far from optimal, but which is
         reasonable as long as we have an even number of particles with the same
         amount of particles in each spin direction.
         We use the convention that orbitals are ordered in an increasing order
@@ -497,7 +497,7 @@ def add_spin_two_body(_u):
     \section{Time evolution operators}
         The only time evolution operators used in this thesis are dipole lasers
         in the length gauge.
-        We've implemented this by allowing \pyth{QuantumSystem} to have a
+        We have implemented this by allowing \pyth{QuantumSystem} to have a
         pointer to a \pyth{TimeEvolutionOperator}-class, where \pyth{LaserField}
         is a subclass.
         The \pyth{LaserField}-class takes in the parameter \pyth{laser_pulse}
