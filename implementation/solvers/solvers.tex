@@ -1541,7 +1541,6 @@ energy = np.trace(np.dot(term, density_matrix))
             means that we can get instabillities if we approach a system that is
             almost degenerate across the Fermi vacuum, that is, if we are almost
             in a multireference situation.
-            % TODO: This sounds kinda sketchy!
             We are now able to compute the next iteration of the cluster
             amplitudes by
             \begin{align}
@@ -1708,6 +1707,8 @@ energy = np.trace(np.dot(term, density_matrix))
                 \right\rvert_{\noccten = 0},
             \end{gather}
             where the index placement of the $\vfg{D}$-matrix should be noted.
+            The stationary conditions for $\noccten^{u}$ and $\noccten^{d}$ are
+            listed in \autoref{app:kappa-equations}.
             This lets us compute the next iteration of the rotations in the
             quasi-Newton method by
             \begin{gather}
@@ -1786,7 +1787,7 @@ energy = np.trace(np.dot(term, density_matrix))
             \autoref{eq:cc-energy-functional}.
             This Lagrangian can also be used for the CCD- and CCSD-methods once
             we have found the optimal values for $\vfg{\clustlamp}$.
-            % TODO: Refer to full expression in appendix
+            These are listed in \autoref{app:cc-lagrangian}.
 
         \subsection{Density matrices}
             Having found the converged $\clustamp$- and $\clustlamp$-amplitudes

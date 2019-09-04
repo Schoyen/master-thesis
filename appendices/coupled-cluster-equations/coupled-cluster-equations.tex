@@ -296,7 +296,7 @@
         \end{align}
         which is what we wanted to show.
 
-    \section{Coupled-cluster $\clustamp$-amplitude equations}
+p   \section{Coupled-cluster $\clustamp$-amplitude equations}
         \label{app:cc-tau-amplitudes}
         We use the amplitude expressions from the book
         \citetitle{shavitt2009many} \cite{shavitt2009many} for the
@@ -800,8 +800,284 @@
                 & $\mathcal{O}(M^3 N^2)$
                 \\
 
+                D7a
+                &
+                & $\fockten^{i}_{a} \clustlamp^{j}_{b} P(ab) P(ij)$
+                & $\mathcal{O}(M^2 N^2)$
+                \\
+
+                D7b
+                & $W^{i}_{k} = \fockten^{i}_{c} \clustamp^{c}_{k}$
+                & $W^{i}_{k} \clustlamp^{jk}_{ab} P(ij)$
+                & $\mathcal{O}(M^2 N^3)$
+                \\
+
+                D7c
+                & $W^{c}_{a} = \clustamp^{c}_{k} \fockten^{k}_{a}$
+                & $\clustlamp^{ij}_{bc} W^{c}_{a} P(ab)$
+                & $\mathcal{O}(M^3 N^2)$
+                \\
+
+                D8a
+                & $W^{i}_{k} = \clustlamp^{i}_{c} \clustamp^{c}_{k}$
+                & $W^{i}_{k} \twoten^{jk}_{ab} P(ij)$
+                & $\mathcal{O}(M^2 N^3)$
+                \\
+
+                D8b
+                & $W^{c}_{a} = \clustamp^{c}_{k} \clustlamp^{k}_{a}$
+                & $\twoten^{ij}_{bc} W^{c}_{a} P(ab)$
+                & $\mathcal{O}(M^3 N^2)$
+                \\
+
+                D8c
+                & $W^{c}_{b} = \clustamp^{d}_{k} \twoten^{ck}_{bd}$
+                & $\clustlamp^{ij}_{ac} W^{c}_{b} P(ab)$
+                & $\mathcal{O}(M^3 N^2)$
+                \\
+
+                D8d
+                & $W^{j}_{k} = \clustamp^{c}_{\clustlamp} \twoten^{jl}_{ck}$
+                & $W^{j}_{k} \clustlamp^{ik}_{ab} P(ij)$
+                & $\mathcal{O}(M^2 N^3)$
+                \\
+
+                D10a
+                & $W^{dl}_{ab} = -\half \clustamp^{d}_{k} \clustlamp^{kl}_{ab}$
+                \\
+                & $W^{cd}_{ab} = \clustamp^{c}_{\clustlamp} W^{dl}_{ab}$
+                & $\twoten^{ij}_{cd} W^{cd}_{ab}$
+                & $\mathcal{O}(M^4 N^2)$
+                \\
+
+                D10b
+                & $W^{ij}_{dl} = -\half \clustlamp^{ij}_{cd} \clustamp^{c}_{\clustlamp}$
+                \\
+                & $W^{ij}_{lk} = W^{ij}_{dl} \clustamp^{d}_{k}$
+                & $W^{ij}_{lk} \twoten^{kl}_{ab}$
+                & $\mathcal{O}(M^2 N^4)$
+                \\
+
+                D11a
+                & $W^{j}_{b} = \clustamp^{c}_{k} \twoten^{jk}_{bc}$
+                & $\clustlamp^{i}_{a} W^{j}_{b} P(ab) P(ij)$
+                & $\mathcal{O}(M^2 N^3)$
+                \\
+
+                D11b
+                & $W^{di}_{ac} = \clustamp^{d}_{k} \clustlamp^{ik}_{ac}$
+                & $W^{di}_{ac} \twoten^{jc}_{bd} P(ab) P(ij)$
+                & $\mathcal{O}(M^4 N^2)$
+                \\
+
+                D11c
+                & $W^{ik}_{al} = - \clustlamp^{ik}_{ac} \clustamp^{c}_{\clustlamp}$
+                & $W^{ik}_{al} \twoten^{jl}_{bk} P(ab) P(ij)$
+                & $\mathcal{O}(M^2 N^4)$
+                \\
+
+                D12a
+                & $W^{k}_{b} = -\clustamp^{d}_{\clustlamp} \twoten^{kl}_{bd}$
+                \\
+                & $W^{c}_{b} = \clustamp^{c}_{k} W^{k}_{b}$
+                & $\clustlamp^{ij}_{ac} W^{c}_{b} P(ab)$
+                & $\mathcal{O}(M^3 N^2)$
+                \\
+
+                D12b
+                & $W^{j}_{c} = - \clustamp^{d}_{\clustlamp} \twoten^{jl}_{cd}$
+                \\
+                & $W^{j}_{k} = W^{j}_{c} \clustamp^{c}_{k}$
+                & $\clustlamp^{ik}_{ab} W^{j}_{k} P(ij)$
+                & $\mathcal{O}(M^2 N^3)$
+                \\
+
+
+                D12c
+                & $W^{jl}_{bk} = -\twoten^{jl}_{bd} \clustamp^{d}_{k}$
+                \\
+                & $W^{cj}_{bk} = \clustamp^{c}_{\clustlamp} W^{jl}_{bk}$
+                & $\clustlamp^{ik}_{ac} W^{cj}_{bk} P(ab) P(ij)$
+                & $\mathcal{O}(M^3 N^3)$
+                \\
             \end{longtable}
         \end{center}
+
+    \section{Coupled-cluster Lagrangian}
+        \label{app:cc-lagrangian}
+        The coupled-cluster doubles Lagrangian is given by
+        \begin{align}
+            L(\vfg{\clustamp}, \vfg{\clustlamp})
+            &=
+            \frac{\clustlamp^{ij}_{ab} \twoten^{ab}_{ij}}{4}
+            + \frac{\clustamp^{ab}_{ij} \twoten^{ij}_{ab}}{4}
+            + \frac{\fockten^{a}_{b} \clustlamp^{ij}_{ac} \clustamp^{bc}_{ij}}{2}
+            \nonumber \\
+            \qquad &
+            - \clustlamp^{ij}_{ab} \clustamp^{ac}_{ik} \twoten^{bk}_{cj}
+            - \frac{\fockten^{j}_{i} \clustlamp^{ik}_{ab} \clustamp^{ab}_{jk}}{2}
+            + \frac{\clustlamp^{ij}_{ab} \clustamp^{ab}_{kl} \twoten^{kl}_{ij}}{8}
+            \nonumber \\
+            \qquad &
+            + \frac{\clustlamp^{ij}_{ab} \clustamp^{cd}_{ij} \twoten^{ab}_{cd}}{8}
+            - \frac{\clustlamp^{ij}_{ab} \clustamp^{ac}_{jk} \clustamp^{bd}_{il} \twoten^{kl}_{cd}}{2}
+            - \frac{\clustlamp^{ij}_{ab} \clustamp^{ac}_{kl} \clustamp^{bd}_{ij} \twoten^{kl}_{cd}}{4}
+            \nonumber \\
+            \qquad &
+            + \frac{\clustlamp^{ij}_{ab} \clustamp^{ab}_{il} \clustamp^{cd}_{jk} \twoten^{kl}_{cd}}{8}
+            + \frac{\clustlamp^{ij}_{ab} \clustamp^{ab}_{jk} \clustamp^{cd}_{il} \twoten^{kl}_{cd}}{8}
+            + \frac{\clustlamp^{ij}_{ab} \clustamp^{ab}_{kl} \clustamp^{cd}_{ij} \twoten^{kl}_{cd}}{16}.
+        \end{align}
+        The coupled-cluster singles-and-doubles Lagrangian is given by
+        \begin{align}
+            L(\vfg{\clustamp}, \vfg{\clustlamp})
+            &=
+            \fockten^{a}_{i} \clustlamp^{i}_{a}
+            + \fockten^{i}_{a} \clustamp^{a}_{i}
+            + \frac{\clustlamp^{ij}_{ab} \twoten^{ab}_{ij}}{4}
+            + \frac{\clustamp^{ab}_{ij} \twoten^{ij}_{ab}}{4}
+            + \fockten^{a}_{b} \clustlamp^{i}_{a} \clustamp^{b}_{i}
+            \nonumber \\
+            &\qquad
+            + \fockten^{i}_{a} \clustlamp^{j}_{b} \clustamp^{ab}_{ij}
+            + \frac{\fockten^{a}_{b} \clustlamp^{ij}_{ac} \clustamp^{bc}_{ij}}{2}
+            + \frac{\clustlamp^{i}_{a} \clustamp^{ab}_{jk} \twoten^{jk}_{bi}}{2}
+            + \frac{\clustlamp^{i}_{a} \clustamp^{bc}_{ij} \twoten^{aj}_{bc}}{2}
+            \nonumber \\
+            &\qquad
+            + \frac{\clustlamp^{ij}_{ab} \clustamp^{a}_{k} \twoten^{bk}_{ij}}{2}
+            + \frac{\clustlamp^{ij}_{ab} \clustamp^{c}_{i} \twoten^{ab}_{cj}}{2}
+            - \fockten^{j}_{i} \clustlamp^{i}_{a} \clustamp^{a}_{j}
+            - \clustlamp^{i}_{a} \clustamp^{b}_{j} \twoten^{aj}_{bi}
+            \nonumber \\
+            &\qquad
+            - \clustlamp^{ij}_{ab} \clustamp^{ac}_{ik} \twoten^{bk}_{cj}
+            - \frac{\fockten^{j}_{i} \clustlamp^{ik}_{ab} \clustamp^{ab}_{jk}}{2}
+            - \frac{\clustamp^{a}_{j} \clustamp^{b}_{i} \twoten^{ij}_{ab}}{2}
+            + \frac{\clustlamp^{ij}_{ab} \clustamp^{ab}_{kl} \twoten^{kl}_{ij}}{8}
+            \nonumber \\
+            &\qquad
+            + \frac{\clustlamp^{ij}_{ab} \clustamp^{cd}_{ij} \twoten^{ab}_{cd}}{8}
+            + \clustlamp^{i}_{a} \clustamp^{a}_{j} \clustamp^{b}_{k} \twoten^{jk}_{bi}
+            + \clustlamp^{i}_{a} \clustamp^{b}_{i} \clustamp^{c}_{j} \twoten^{aj}_{bc}
+            + \clustlamp^{i}_{a} \clustamp^{b}_{j} \clustamp^{ac}_{ik} \twoten^{jk}_{bc}
+            \nonumber \\
+            &\qquad
+            + \clustlamp^{ij}_{ab} \clustamp^{a}_{k} \clustamp^{c}_{i} \twoten^{bk}_{cj}
+            - \fockten^{i}_{a} \clustlamp^{j}_{b} \clustamp^{a}_{j} \clustamp^{b}_{i}
+            - \clustlamp^{ij}_{ab} \clustamp^{a}_{k} \clustamp^{bc}_{il} \twoten^{kl}_{cj}
+            - \clustlamp^{ij}_{ab} \clustamp^{c}_{i} \clustamp^{ad}_{jk} \twoten^{bk}_{cd}
+            \nonumber \\
+            &\qquad
+            - \frac{\fockten^{i}_{a} \clustlamp^{jk}_{bc} \clustamp^{a}_{j} \clustamp^{bc}_{ik}}{2}
+            - \frac{\fockten^{i}_{a} \clustlamp^{jk}_{bc} \clustamp^{b}_{i} \clustamp^{ac}_{jk}}{2}
+            - \frac{\clustlamp^{i}_{a} \clustamp^{a}_{j} \clustamp^{bc}_{ik} \twoten^{jk}_{bc}}{2}
+            - \frac{\clustlamp^{i}_{a} \clustamp^{b}_{i} \clustamp^{ac}_{jk} \twoten^{jk}_{bc}}{2}
+            \nonumber \\
+            &\qquad
+            - \frac{\clustlamp^{ij}_{ab} \clustamp^{c}_{k} \clustamp^{ab}_{il} \twoten^{kl}_{cj}}{2}
+            - \frac{\clustlamp^{ij}_{ab} \clustamp^{c}_{k} \clustamp^{ad}_{ij} \twoten^{bk}_{cd}}{2}
+            - \frac{\clustlamp^{ij}_{ab} \clustamp^{ac}_{jk} \clustamp^{bd}_{il} \twoten^{kl}_{cd}}{2}
+            \nonumber \\
+            &\qquad
+            - \frac{\clustlamp^{ij}_{ab} \clustamp^{a}_{l} \clustamp^{b}_{k} \twoten^{kl}_{ij}}{4}
+            - \frac{\clustlamp^{ij}_{ab} \clustamp^{c}_{j} \clustamp^{d}_{i} \twoten^{ab}_{cd}}{4}
+            - \frac{\clustlamp^{ij}_{ab} \clustamp^{ac}_{kl} \clustamp^{bd}_{ij} \twoten^{kl}_{cd}}{4}
+            \nonumber \\
+            &\qquad
+            + \frac{\clustlamp^{ij}_{ab} \clustamp^{a}_{k} \clustamp^{cd}_{ij} \twoten^{bk}_{cd}}{4}
+            + \frac{\clustlamp^{ij}_{ab} \clustamp^{c}_{i} \clustamp^{ab}_{kl} \twoten^{kl}_{cj}}{4}
+            + \frac{\clustlamp^{ij}_{ab} \clustamp^{ab}_{il} \clustamp^{cd}_{jk} \twoten^{kl}_{cd}}{8}
+            \nonumber \\
+            &\qquad
+            + \frac{\clustlamp^{ij}_{ab} \clustamp^{ab}_{jk} \clustamp^{cd}_{il} \twoten^{kl}_{cd}}{8}
+            + \frac{\clustlamp^{ij}_{ab} \clustamp^{ab}_{kl} \clustamp^{cd}_{ij} \twoten^{kl}_{cd}}{16}
+            - \clustlamp^{i}_{a} \clustamp^{a}_{k} \clustamp^{b}_{j} \clustamp^{c}_{i} \twoten^{jk}_{bc}
+            \nonumber \\
+            &\qquad
+            - \clustlamp^{ij}_{ab} \clustamp^{a}_{k} \clustamp^{c}_{i} \clustamp^{bd}_{jl} \twoten^{kl}_{cd}
+            - \frac{\clustlamp^{ij}_{ab} \clustamp^{a}_{k} \clustamp^{c}_{j} \clustamp^{d}_{i} \twoten^{bk}_{cd}}{2}
+            - \frac{\clustlamp^{ij}_{ab} \clustamp^{a}_{k} \clustamp^{c}_{l} \clustamp^{bd}_{ij} \twoten^{kl}_{cd}}{2}
+            \nonumber \\
+            &\qquad
+            - \frac{\clustlamp^{ij}_{ab} \clustamp^{a}_{l} \clustamp^{b}_{k} \clustamp^{c}_{i} \twoten^{kl}_{cj}}{2}
+            - \frac{\clustlamp^{ij}_{ab} \clustamp^{c}_{i} \clustamp^{d}_{k} \clustamp^{ab}_{jl} \twoten^{kl}_{cd}}{2}
+            - \frac{\clustlamp^{ij}_{ab} \clustamp^{a}_{l} \clustamp^{b}_{k} \clustamp^{cd}_{ij} \twoten^{kl}_{cd}}{8}
+            \nonumber \\
+            &\qquad
+            - \frac{\clustlamp^{ij}_{ab} \clustamp^{c}_{j} \clustamp^{d}_{i} \clustamp^{ab}_{kl} \twoten^{kl}_{cd}}{8}
+            \frac{\clustlamp^{ij}_{ab} \clustamp^{a}_{l} \clustamp^{b}_{k}
+            \clustamp^{c}_{j} \clustamp^{d}_{i} \twoten^{kl}_{cd}}{4}.
+        \end{align}
+        The same consideration in terms of intermediates should used when
+        computing the Lagrangian as well.
+
+    \section{Non-orthogonal orbital equations}
+        \label{app:kappa-equations}
+        Here we list the stationary conditions for $\noccten^{u}$ and
+        $\noccten^{d}$ as used in the non-orthogonal coupled-cluster doubles
+        method.
+        For $\Delta \noccten^{d}$ we have \cite{rolf-nocc}
+        \begin{align}
+            (\Delta \noccten^{d})^{I}_{A}
+            &= - \frac{\clustlamp^{lk}_{cd} \clustamp^{cd}_{mk}}{2} \twoten^{Im}_{Al}
+            - \frac{\clustlamp^{lk}_{cd} \clustamp^{ec}_{lk}}{2} \twoten^{Id}_{Ae}
+            + \frac{\clustlamp^{lk}_{Ac} \clustamp^{cd}_{lk}}{2} \fockten^{I}_{d}
+            \nonumber \\
+            &\qquad
+            - \clustlamp^{lk}_{Ac} \clustamp^{cd}_{mk} \twoten^{Im}_{dl}
+            - \frac{\clustlamp^{lk}_{Ac} \clustamp^{ed}_{lk}}{4} \twoten^{Ic}_{ed}
+            - \frac{\clustlamp^{lk}_{Ac} \twoten^{Ic}_{lk}}{2}
+            \nonumber \\
+            &\qquad
+            - \frac{\clustlamp^{Ik}_{cd} \clustamp^{cd}_{lk}}{2} \fockten^{l}_{A}
+            + \frac{\clustlamp^{Ik}_{cd} \clustamp^{cd}_{ml}}{4} \twoten^{ml}_{Ak}
+            - \clustlamp^{Ik}_{cd} \clustamp^{ec}_{lk} \twoten^{dl}_{Ae}
+            \nonumber \\
+            &\qquad
+            + \frac{\clustlamp^{Ik}_{cd} \twoten^{cd}_{Ak}}{2} +
+            \fockten^{I}_{A},
+        \end{align}
+        where \citeauthor{rolf-nocc} \cite{rolf-nocc} uses capital letters to
+        denote indices which will not get contracted.
+        For $\Delta \noccten^{u}$ we get \cite{rolf-nocc}
+        \begin{align}
+            (\Delta \noccten^{u})^{A}_{I}
+            &=
+            \frac{\clustlamp^{lk}_{cd} \clustamp^{cd}_{mk}}{4} \clustamp^{ef}_{Il} \twoten^{Am}_{ef}
+            - \frac{\clustlamp^{lk}_{cd} \clustamp^{Ae}_{ln}}{2} \clustamp^{cd}_{mk} \twoten^{mn}_{Ie}
+            + \frac{\clustlamp^{lk}_{cd} \clustamp^{cd}_{mk}}{2} \twoten^{Am}_{Il}
+            \nonumber \\
+            &\qquad
+            + \frac{\clustlamp^{lk}_{cd} \clustamp^{Ae}_{lk}}{8} \clustamp^{cd}_{mn} \twoten^{mn}_{Ie}
+            + \frac{\clustlamp^{lk}_{cd} \clustamp^{cd}_{Ik}}{2} \fockten^{A}_{l}
+            + \frac{\clustlamp^{lk}_{cd} \clustamp^{cd}_{Il}}{4} \clustamp^{ef}_{mk} \twoten^{Am}_{ef}
+            \nonumber \\
+            &\qquad
+            - \frac{\clustlamp^{lk}_{cd} \clustamp^{cd}_{Im}}{8} \clustamp^{ef}_{lk} \twoten^{Am}_{ef}
+            - \frac{\clustlamp^{lk}_{cd} \clustamp^{cd}_{Im}}{4} \twoten^{Am}_{lk}
+            + \frac{\clustlamp^{lk}_{cd} \clustamp^{ec}_{lk}}{2} \clustamp^{fd}_{Im} \twoten^{Am}_{ef}
+            \nonumber \\
+            &\qquad
+            + \frac{\clustlamp^{lk}_{cd} \clustamp^{Ad}_{mn}}{4} \clustamp^{ec}_{lk} \twoten^{mn}_{Ie}
+            + \frac{\clustlamp^{lk}_{cd} \clustamp^{ec}_{lk}}{2} \twoten^{Ad}_{Ie}
+            - \clustlamp^{lk}_{cd} \clustamp^{ec}_{mk} \clustamp^{fd}_{Il} \twoten^{Am}_{ef}
+            \nonumber \\
+            &\qquad
+            - \clustlamp^{lk}_{cd} \clustamp^{ec}_{mk} \clustamp^{Ad}_{ln} \twoten^{mn}_{Ie}
+            + \frac{\clustlamp^{lk}_{cd} \clustamp^{Ad}_{lk}}{4} \clustamp^{ec}_{mn} \twoten^{mn}_{Ie}
+            + \clustlamp^{lk}_{cd} \clustamp^{ec}_{Ik} \twoten^{Ad}_{el}
+            \nonumber \\
+            &\qquad
+            - \frac{\clustlamp^{lk}_{cd} \clustamp^{Ac}_{lk}}{2} \fockten^{d}_{I}
+            + \clustlamp^{lk}_{cd} \clustamp^{Ac}_{mk} \twoten^{dm}_{Il}
+            + \frac{\clustlamp^{lk}_{cd} \clustamp^{Ae}_{lk}}{4} \twoten^{cd}_{Ie}
+            \nonumber \\
+            &\qquad
+            - \frac{\clustamp^{cd}_{Ik} \twoten^{Ak}_{cd}}{2}
+            + \frac{\clustamp^{Ac}_{lk} \twoten^{lk}_{Ic}}{2}
+            - \fockten^{A}_{I}.
+        \end{align}
 
     \section{Untruncated $Q$-space equations}
         \label{app:untruncated-q-space}
@@ -868,3 +1144,4 @@
         Hamiltonian terms in \autoref{eq:bra-q}.
 
 \clearemptydoublepage
+
