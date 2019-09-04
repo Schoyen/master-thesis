@@ -10,17 +10,25 @@
             two-body matrix elements of the Hamiltonian, and potentially the
             nuclear repulsion energy.
             That is, we need to find values for $\oneten^{p}_{q}$ and
-            $\twoten^{pq}_{rs}$.
+            $\twoten^{pq}_{rs}$ as defined in \autoref{eq:h_pq} and
+            \autoref{eq:u_pqrs} respectively.
             In case of a non-orthonormal basis set we also need the overlap
-            matrix $\overlapten^{p}_{q}$.
+            matrix elements $\overlapten^{p}_{q}$ between the single-particle
+            states.
         \item For time evolution, using a dipole laser we need the dipole matrix
-            elements $\vfg{d}^{p}_{q}$.
+            elements $\vfg{d}^{p}_{q}$ given by
+            \begin{align}
+                \vfg{d}^{p}_{q}
+                = \mel*{\psi_p}{\hat{\vfg{d}}}{\psi_q},
+            \end{align}
+            as defined in \autoref{eq:dipole-moment}.
         \item For visualization of the particle density we need the
-            single-particle states.
+            single-particle states themselves, or at least the ability to
+            evaluate the single-particle states on some grid.
     \end{enumerate}
     If our only interest is the ground state energy, we can get far with point 1
     listed above.
-    However, for us to include interaction with a laser field we also need the
+    However, for us to include interactions with a laser field we also need the
     dipole matrix elements as we are working in the dipole approximation.
     The single-particle states are necessary for visualization of the system on
     a grid either via the particle density or by themselves.
@@ -37,7 +45,7 @@
     Often the limitation of basis sets comes from the calculation of the
     two-body matrix elements as these integrals will in many cases be the
     computational bottleneck.
-    This is the reason why we often seek systems with closed form solutions to
+    This is the reason why we often seek systems with analytical solutions to
     the most intensive integrals -- or easier integral evaluation -- and then do
     a basis transformation using the variational method, and eventually
     Hartree-Fock to build more complicated systems.
@@ -59,7 +67,8 @@
     existing libraries PySCF \cite{pyscf} and Psi4 \cite{psi4} in order to get
     access to good and efficient basis sets for atoms and molecules.
     Furthermore, we will explore \emph{bound systems} which we take to mean that
-    the underlying basis set will be fixed in time.
+    the underlying basis set will be trapped in a potential well and that the
+    states will be held fixed in time.
     All time evolution occurs in the coefficients and amplitudes of the solver
     methods.
     This means that we will have a hard time modelling ionization as this
@@ -100,9 +109,7 @@
             Even in the Born-Oppenheimer approximation.
         } is a far fetched goal for all but the smallest systems to say the
         least.
-        Similar to the procedure we did for the double-well in
-        \autoref{subsec:tddw} we can solve the molecular Hamiltonian in an
-        approximate basis set.
+        We can solve the molecular Hamiltonian in an approximate basis set.
         We can then diagonalize the one-body Hamiltonian and express the
         matrix elements in this new basis.
         As a consequence a lot of effort in the quantum chemistry field has been
@@ -527,3 +534,5 @@ def add_spin_two_body(_u):
         one-body density matrix and the dipole moment.
         This yields a time-dependent dipole moment.
         Note also that we choose a specific axis of the dipole moment.
+
+\clearemptydoublepage

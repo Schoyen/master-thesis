@@ -44,8 +44,8 @@
         \end{align}
         where we've ignored labels on the eigenpair $(\epsilon, \psi(x))$ for
         now to avoid clutter.
-        However, do be aware that we are looking for the spectrum of the
-        one-body Hamiltonian.
+        However, be aware that we are looking for the spectrum of the one-body
+        Hamiltonian.
         We use the central finite difference scheme for the kinetic term in the
         one-body Hamiltonian, that is,
         \begin{align}
@@ -80,7 +80,7 @@
             x_{i + 1} = x_i + \Delta x,
         \end{align}
         with $\Delta x$ being the step-size between the grid points.
-        There exists smarter grid choices than the uniform grid, but for our
+        There are smarter grid choices than the uniform grid, but for our
         simulations the uniform grid is sufficient.
         Collecting the wave function evaluated at the same grid points in the
         time-independent Schrödinger equation we can write the equation as
@@ -208,8 +208,18 @@
         Numba \cite{numba} to speed up explicit for-loops, but Numba does not
         support the usage of already implemented integrators.
         Thus, by writing the trapezoidal rule by hand and using Numba to
-        jit-compile the function, we gain a significant speed-up over regular
-        Python.
+        \emph{just-in-time}-compile\footnote{%
+            Just-in-time compilation, or just ``jit'' compilation, is a
+            technique where code is compiled during execution.
+            As Python is an interpreted language Numba \cite{numba} can be used
+            to compile certain functions to LLVM (Low Level Virtual Machine)
+            \cite{llvm} once they are encountered.
+            After the initial hold-up from the compilation, this can lead to a
+            truly impressive speed-up of the original code.
+            For a small demonstration of this see:
+            \url{https://github.com/Schoyen/Mandelbrot}.
+        } the function, we gain a significant speed-up
+        over regular Python.
         It is however, not the best integrator there is and more precise
         solutions should be considered.
 
