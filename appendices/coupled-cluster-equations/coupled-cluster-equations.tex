@@ -296,7 +296,7 @@
         \end{align}
         which is what we wanted to show.
 
-p   \section{Coupled-cluster $\clustamp$-amplitude equations}
+    \section{Coupled-cluster $\clustamp$-amplitude equations}
         \label{app:cc-tau-amplitudes}
         We use the amplitude expressions from the book
         \citetitle{shavitt2009many} \cite{shavitt2009many} for the
@@ -744,6 +744,184 @@ p   \section{Coupled-cluster $\clustamp$-amplitude equations}
                 & $W^{d}_{b} = \half \clustlamp^{kl}_{bc} \clustamp^{dc}_{kl}$
                 & $-W^{d}_{b} \twoten^{ij}_{ad} P(ab)$
                 & $\mathcal{O}(M^3 N^2)$
+                \\
+
+            \end{longtable}
+        \end{center}
+
+        \begin{center}
+            \renewcommand{\arraystretch}{1.5}
+            \begin{longtable}{@{}llll@{}}
+                \caption{Terms included in the CCSD
+                $\clustlamp_1$-amplitudes.
+                Empty lines continue from the line above.}
+                \label{tab:ccsd-lambda-1-amplitude-terms} \\
+                \toprule
+
+                Label & Intermediate & Term & Complexity \\
+                \midrule
+
+                \endfirsthead
+                \caption{(continued)} \\
+                \toprule
+
+                Label & Intermediate & Term & Complexity \\
+                \midrule
+
+                \endhead
+
+                \bottomrule
+
+                \endfoot
+
+                S1
+                &
+                & $\fockten^{i}_{a}$
+                & $\mathcal{O}(M N)$
+                \\
+
+                S2a
+                &
+                & $\clustlamp^{i}_{b} \fockten^{b}_{a}$
+                & $\mathcal{O}(M^2 N)$
+                \\
+
+                S2b
+                &
+                & $\fockten^{i}_{j} \clustlamp^{j}_{a}$
+                & $\mathcal{O}(M N^2)$
+                \\
+
+                S3a
+                &
+                & $\clustlamp^{j}_{b} \twoten^{ib}_{aj}$
+                & $\mathcal{O}(M^2 N^2)$
+                \\
+
+                S3b
+                &
+                & $- t^{b}_{j} u^{ij}_{ab}$
+                & $\mathcal{O}(M^2 N^2)$
+                \\
+
+                S4a
+                &
+                & $\half l^{ij}_{bc} u^{bc}_{aj}$
+                & $\mathcal{O}(M^3 N^2)$
+                \\
+
+                S4b
+                &
+                & $-\half l^{jk}_{ab} u^{ib}_{jk}$
+                & $\mathcal{O}(M^2 N^3)$
+                \\
+
+                S5a
+                & $W^{b}_{a} = t^{c}_{j} u^{bj}_{ac}$
+                & $l^{i}_{b} W^{b}_{a}$
+                & $\mathcal{O}(M^3 N)$
+                \\
+
+                S5b
+                & $W^{i}_{j} = t^{b}_{k} u^{ik}_{bj}$
+                & $W^{i}_{j} l^{j}_{a}$
+                & $\mathcal{O}(M N^3)$
+                \\
+
+                S5c
+                & $W^{c}_{b} = t^{c}_{j} l^{j}_{b}$
+                & $u^{ib}_{ac} W^{c}_{b}$
+                & $\mathcal{O}(M^3 N)$
+                \\
+
+                S5d
+                & $W^{j}_{k} = (-1) l^{j}_{b} t^{b}_{k}$
+                & $u^{ik}_{aj} W^{j}_{k}$
+                & $\mathcal{O}(M N^3)$
+                \\
+
+                S6a
+                & $W^{ij}_{ck} = l^{ij}_{bc} t^{b}_{k}$
+                & $W^{ij}_{ck} u^{ck}_{aj}$
+                & $\mathcal{O}(M^2 N^3)$
+                \\
+
+                S6b
+                & $W^{ij}_{ad} = (0.5) l^{ij}_{bc} u^{bc}_{ad}$
+                & $W^{ij}_{ad} t^{d}_{j}$
+                & $\mathcal{O}(M^4 N^2)$
+                \\
+
+                S6c
+                & $W^{jk}_{al} = 0.5 l^{jk}_{ab} t^{b}_{l}$
+                & $u^{il}_{jk} W^{jk}_{al}$
+                & $\mathcal{O}(M N^4)$
+                \\
+
+                S6d
+                & $W^{d}_{c} = 0.5 t^{bd}_{jk} l^{jk}_{bc}$
+                & $u^{ic}_{ad} W^{d}_{c}$
+                & $\mathcal{O}(M^3 N^2)$
+                \\
+
+                S7
+                & $W^{c}_{k} = l^{j}_{b} t^{bc}_{jk}$
+                & $W^{c}_{k} u^{ik}_{ac}$
+                & $\mathcal{O}(M^2 N^2)$
+                \\
+
+                S8a
+                & $W^{b}_{a} = -t^{b}_{j} l^{j}_{a}$
+                & $f^{i}_{b} W^{b}_{a}$
+                & $\mathcal{O}(M^2 N)$
+                \\
+
+                S8b
+                & $W^{i}_{j} = (-1) l^{i}_{b} t^{b}_{j}$
+                & $W^{i}_{j} f^{j}_{a}$
+                & $\mathcal{O}(M N^2)$
+                \\
+
+                S9a
+                & $W^{ic}_{dk} = (-1) l^{ij}_{bc} t^{bd}_{jk}$
+                & $W^{ic}_{dk} u^{ck}_{ad}$
+                & $\mathcal{O}(M^3 N^3)$
+                \\
+
+                S9b
+                & $W^{ck}_{ab} = (-1) t^{c}_{j} l^{jk}_{ab}$
+                & $u^{ib}_{ck} W^{ck}_{ab}$
+                & $\mathcal{O}(M^3 N^2)$
+                \\
+
+                S9c
+                & $W^{ka}_{cl} = (-1) l^{jk}_{ab} t^{bc}_{jl}$
+                & $u^{il}_{ck} W^{ka}_{cl}$
+                & $\mathcal{O}(M^3 N^3)$
+                \\
+
+                S10a
+                & $W^{b}_{a} = (-0.5) t^{bc}_{jk} l^{jk}_{ac}$
+                & $f^{i}_{b} W^{b}_{a}$
+                & $\mathcal{O}(M^3 N^2)$
+                \\
+
+                S10b
+                & $W^{i}_{j} = (-0.5) l^{ik}_{bc} t^{bc}_{jk}$
+                & $W^{i}_{j} f^{j}_{a}$
+                & $\mathcal{O}(M^2 N^3)$
+                \\
+
+                S10c
+                & $W^{b}_{a} = -0.5 t^{bc}_{jk} u^{jk}_{ac}$
+                & $l^{i}_{b} W^{b}_{a}$
+                & $\mathcal{O}(M^3 N^2)$
+                \\
+
+                S10d
+                & $W^{i}_{j} = -0.5 u^{ik}_{bc} t^{bc}_{jk}$
+                & $W^{i}_{j} l^{j}_{a}$
+                & $\mathcal{O}(M^2 N^3)$
                 \\
 
             \end{longtable}
