@@ -21,7 +21,7 @@ p:
 	make presentation
 
 presentation:
-	latexmk -lualatex -bibtex -shell-escape -g presentation
+	latexmk -lualatex -bibtex -shell-escape -g -pvc presentation
 
 
 .PHONY: clean clean-figures

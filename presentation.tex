@@ -42,25 +42,83 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{The challenge}
+    \frametitle{Quantum mechanical system}
+    Described by the wave function $\Psi(\vfg{x}, t)$ and the Hamiltonian
+    $\hamil(\vfg{x}, t)$.
+    Satisfies the time-dependent Schrödinger equation
+    \begin{align}
+        i\hslash \partial_t\Psi(\vfg{x}, t)
+        = \hamil(\vfg{x}, t)\Psi(\vfg{x}, t).
+    \end{align}
 \end{frame}
 
-\section{Methods}
+\begin{frame}
+    \frametitle{Real-time simulations}
+    \begin{enumerate}
+        \item Model of a physical system executing at the same rate as ``wall
+            clock'' time.
+            Not realistic for us.
+        \item Resembling an experiment.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Large systems}
+    In our case, anything with more than $2$ particles.
+    Wave function $\Psi(\vfg{x}, t)$ describes $N$ particles.
+\end{frame}
+
+\begin{frame}
+    \frametitle{The challenge}
+    \begin{enumerate}
+        \item How do we represent a quantum mechanical system?
+        \item How do we solve the Schrödinger equation?
+    \end{enumerate}
+\end{frame}
+
+\section{Implementation}
+
+\begin{frame}
+    \frametitle{Quantum systems}
+    Represented in a basis of $L$ single-particle states $\brac{\chi_{\alpha}}$.
+    \begin{itemize}
+        \item One-body Hamiltonian elements
+            \begin{align}
+                \oneten^{\alpha}_{\beta}
+                \equiv \mel*{\chi_{\alpha}}{\onehamil}{\chi_{\beta}}.
+                %= \int\dd x \chi^{*}_{\alpha}(x)\onehamil(x)\chi_{\beta}(x).
+            \end{align}
+        \item Two-body Coulomb interaction elements
+            \begin{align}
+                \twotensym^{\alpha\beta}_{\gamma\delta}
+                \equiv
+                \mel*{\chi_{\alpha}\chi_{\beta}}{
+                    \twohamil
+                }{\chi_{\gamma}\chi_{\delta}}.
+            \end{align}
+        \item Dipole moment elements
+            \begin{align}
+                \vfg{d}^{\alpha}_{\beta}
+                \equiv
+                \mel*{\chi_{\alpha}}{\hat{\vfg{d}}}{\chi_{\beta}}.
+            \end{align}
+    \end{itemize}
+\end{frame}
 
 \begin{frame}
     \frametitle{Methods}
     \begin{enumerate}
         \item Hartree-Fock wave function
             \begin{align}
-                \ket*{\Psi} = \ket*{\slat}.
+                \ket*{\Psi} \equiv \ket*{\slat}.
             \end{align}
         \item Configuration interaction wave function
             \begin{align}
-                \ket*{\Psi} = C_{I}\ket*{\slat_I}.
+                \ket*{\Psi} \equiv \hat{C}_{I}\ket*{\slat}.
             \end{align}
         \item Coupled-cluster wave function
             \begin{align}
-                \ket*{\Psi} = \exponential(\clust)\ket*{\slat}.
+                \ket*{\Psi} \equiv \exponential(\clust)\ket*{\slat}.
             \end{align}
     \end{enumerate}
 \end{frame}
