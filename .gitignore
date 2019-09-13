@@ -17,6 +17,10 @@ main.pdf
 main.figlist
 main.makefile
 
+*.nav
+presentation.pdf
+*.snm
+
 # Figure output
 figures/main-figure*
 

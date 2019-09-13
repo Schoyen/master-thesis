@@ -1,0 +1,87 @@
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+\usefonttheme{serif}
+\usepackage{fontspec}
+
+\usepackage{packages-presentation}
+
+
+\pgfplotsset{compat=newest}
+
+\usetikzlibrary{external}
+\usetikzlibrary{arrows}
+\usetikzlibrary{pgfplots.colorbrewer}
+\usepgfplotslibrary{groupplots}
+\usepgfplotslibrary{colorbrewer}
+\usepgfplotslibrary{polar}
+
+\tikzexternalize[prefix=figures/, mode=list and make]
+
+\addbibresource{references.bib}
+
+\author{Øyvind Sigmundson Schøyen}
+\title{Real-time quantum many-body dynamics}
+\institute{University of Oslo}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+\begin{frame}
+    \frametitle{Overview}
+    \tableofcontents
+\end{frame}
+
+\section{Topic}
+
+\begin{frame}
+    \frametitle{Topic}
+    Real-time simulations of ``large'' quantum mechanical systems.
+\end{frame}
+
+\begin{frame}
+    \frametitle{The challenge}
+\end{frame}
+
+\section{Methods}
+
+\begin{frame}
+    \frametitle{Methods}
+    \begin{enumerate}
+        \item Hartree-Fock wave function
+            \begin{align}
+                \ket*{\Psi} = \ket*{\slat}.
+            \end{align}
+        \item Configuration interaction wave function
+            \begin{align}
+                \ket*{\Psi} = C_{I}\ket*{\slat_I}.
+            \end{align}
+        \item Coupled-cluster wave function
+            \begin{align}
+                \ket*{\Psi} = \exponential(\clust)\ket*{\slat}.
+            \end{align}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+\end{frame}
+
+\section{Results and discussion}
+
+\begin{frame}
+    \frametitle{Results}
+\end{frame}
+
+\section{Summary remarks}
+
+\begin{frame}
+    \frametitle{Summary remarks}
+\end{frame}
+
+\begin{frame}
+    Hello \footcite{pedersen2018symplectic}
+\end{frame}
+
+\end{document}

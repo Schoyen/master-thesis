@@ -1,0 +1,169 @@
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+%\usepackage[breaklinks=true, pdfusetitle]{hyperref}
+
+%\usepackage[top=4cm,bottom=4cm,left=2.8cm,right=3.75cm,asymmetric,twoside]{geometry}
+
+\usepackage{fancyhdr}
+
+\usepackage[font=small,labelfont=bf,width=0.9\textwidth]{caption}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[sc, osf]{mathpazo}
+\usepackage[euler-digits]{eulervm}
+\usepackage[style=authortitle]{biblatex}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{enumerate}
+\usepackage{xifthen}
+\usepackage{epigraph}
+\usepackage{booktabs}
+\usepackage{commath}
+\usepackage{physics}
+\usepackage{chemformula}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+% Include font for the identity operator
+\usepackage{dsfont}
+\usepackage[binary-units=true]{siunitx}
+% Include wick contractions
+\usepackage[sep=3pt, offset=1.3em]{simpler-wick}
+\usepackage{pythonhighlight}
+\usepackage{rotating}
+
+% Give autoref a counter and a name for the algorithm environment
+\newcommand{\algorithmautorefname}{Program}
+
+% Change caption name of algorithm environment
+\makeatletter
+\renewcommand{\ALG@name}{Program}
+\makeatother
+
+\newcommand{\vf}[1]{\boldsymbol{#1}}
+\newcommand{\vfg}[1]{\boldsymbol{#1}}
+\newcommand{\1}{\mathds{1}}
+\newcommand{\upspin}{\uparrow}
+\newcommand{\downspin}{\downarrow}
+\DeclareMathOperator{\diag}{diag}
+
+\newcommand{\densitymatrix}{\hat{\rho}}
+
+\newcommand{\acr}[1]{\hat{a}_{#1}^{\dagger}}
+\newcommand{\aan}[1]{\hat{a}_{#1}}
+\newcommand{\ccr}[1]{\hat{c}_{#1}^{\dagger}}
+\newcommand{\can}[1]{\hat{c}_{#1}}
+\newcommand{\bcr}[1]{\hat{b}_{#1}^{\dagger}}
+\newcommand{\ban}[1]{\hat{b}_{#1}}
+\newcommand{\bican}[1]{\hat{\tilde{d}}_{#1}}
+\newcommand{\biccr}[1]{\hat{d}^{\dagger}_{#1}}
+\newcommand{\nop}[1]{\hat{N}_{#1}}
+
+\newcommand{\dfd}[2][]{
+    \frac{\delta #1}{\delta #2}
+}
+
+\newcommand{\com}[2]{\left[#1, #2\right]}
+\newcommand{\acom}[2]{\left\{#1, #2\right\}}
+
+\newcommand{\para}[1]{\left( #1 \right)}
+\newcommand{\brak}[1]{\left[ #1 \right]}
+\newcommand{\brac}[1]{\left\{ #1 \right\}}
+
+\newcommand{\half}{\frac{1}{2}}
+
+\newcommand{\vac}{-}
+
+% Commands for the coupled cluster method
+\newcommand{\cc}{\Psi_{\text{CC}}}
+\newcommand{\bicc}{\tilde{\Psi}_{\text{CC}}}
+\newcommand{\ketcc}{\ket{\cc}}
+\newcommand{\bracc}{\bra{\bicc}}
+
+\newcommand{\clust}{\hat{T}}
+\newcommand{\clustamp}{\tau}
+
+\newcommand{\clustl}{\hat{\Lambda}}
+\newcommand{\clustlamp}{\lambda}
+
+\newcommand{\energy}{E}
+\newcommand{\energyref}{E_{0}}
+\newcommand{\energycc}{E_{\text{CC}}}
+\newcommand{\energyccd}{E_{\text{CCD}}}
+\newcommand{\energyccsd}{E_{\text{CCSD}}}
+\newcommand{\energyccdt}{E_{\text{CCDT}}}
+
+\newcommand{\HN}{H_N}
+
+\newcommand{\spinproj}[1][z]{\hat{S}_{#1}}
+
+% Commands for the reference Slater
+\newcommand{\refslat}{\Phi_{0}}
+\newcommand{\slat}{\Phi}
+\newcommand{\bislat}{\tilde{\slat}}
+\newcommand{\ketslat}{\ket{\slat}}
+\newcommand{\braslat}{\bra{\slat}}
+\newcommand{\brabislat}{\bra{\bislat}}
+
+\newcommand{\ketslate}[2]{\ket{\slat^{#1}_{#2}}}
+\newcommand{\braslate}[2]{\bra{\slat^{#1}_{#2}}}
+
+% Commands for the configuration interaction method
+\newcommand{\ci}{\Psi_{\text{CI}}}
+\newcommand{\ketci}{\ket{\ci}}
+
+% Commands for many-body operators
+\newcommand{\hamilten}{H} % Hamiltonian matrix elements
+\newcommand{\hamilmat}{\vfg{\hamilten}} % Hamiltonian matrix
+\newcommand{\hamil}{\hat{\hamilten}} % Hamiltonian
+\newcommand{\simhamil}{\bar{\hamilten}} % Similarity transformed Hamiltonian
+\newcommand{\momentum}{\hat{p}} % Momentum operator
+\newcommand{\position}[1][x]{\hat{#1}} % Position operator
+\newcommand{\momentumvec}{\hat{\vfg{p}}}
+\newcommand{\positionvec}{\hat{\vfg{r}}}
+\newcommand{\oneten}{h} % One-body tensor
+\newcommand{\onemat}{\vfg{\oneten}}
+\newcommand{\onehamil}{\hat{\oneten}} % One-body Hamiltonian
+\newcommand{\fockten}{f} % Fock tensor
+\newcommand{\fock}{\hat{\fockten}} % Fock operator
+\newcommand{\fockmat}{\vfg{F}} % Fock matrix
+\newcommand{\twoten}{u} % Two-body antisymmetric tensor
+\newcommand{\twotensym}{I} % Two-body repulsion integrals
+\newcommand{\twohamil}{\hat{\twoten}} % Two-body Hamiltonian
+\newcommand{\overlapten}{s}
+\newcommand{\overlapmat}{\vfg{S}}
+\newcommand{\kinetic}{\hat{t}}
+\newcommand{\potential}{\hat{v}}
+\newcommand{\laserfield}{\hat{f}}
+\newcommand{\noccten}{\kappa}
+\newcommand{\nocc}{\hat{\noccten}}
+\newcommand{\noccmat}{\vfg{\noccten}}
+
+\newcommand{\densityten}{\rho} % Density tensor
+\newcommand{\density}{\hat{\rho}}
+\newcommand{\densitymat}{\vfg{\densityten}}
+
+% Commands for Hartree-Fock
+\newcommand{\ao}[1]{\chi_{#1}} % Atomic orbital functions
+\newcommand{\mo}[1]{\phi_{#1}} % Molecular orbital functions
+\newcommand{\energyfunc}[1]{E[#1]}
+\newcommand{\lagrangian}{L}
+\newcommand{\lagrangianfunc}[1]{\lagrangian[#1]}
+\newcommand{\energygs}{E_0}
+
+%\newtheorem{theorem}{Theorem}[chapter]
+%\newtheorem{lemma}{Lemma}[chapter]
+%\newcommand{\lemmaautorefname}{Lemma}
+%\newtheorem{definition}{Definition}[chapter]
+%\newcommand{\definitionautorefname}{Definition}
+
+\definecolor{alice}{HTML}{107896}
+\definecolor{darkerindigo}{HTML}{0C374D}
+\definecolor{darkerruby}{HTML}{AD2A1A}
+
+\newcommand{\normalord}[1]{\bigl\{ #1 \bigr\}}
+
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}

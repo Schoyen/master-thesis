@@ -17,6 +17,12 @@ watch: main.makefile
 	make -j4 -f main.makefile
 	latexmk -lualatex -bibtex -shell-escape -pvc -g -view=none
 
+p:
+	make presentation
+
+presentation:
+	latexmk -lualatex -bibtex -shell-escape -g presentation
+
 
 .PHONY: clean clean-figures
 
