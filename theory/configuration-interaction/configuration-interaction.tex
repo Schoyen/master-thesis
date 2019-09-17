@@ -3,24 +3,23 @@
     The most natural approach to take in quantum mechanics when creating a wave
     function is to create a linear combination of all possible states contained
     in the space one is exploring.
-    In configuration interaction the many-body wave function is written as a
-    linear combination of all possible Slater determinants in the basis of
+    In configuration interaction theory the many-body wave function is written
+    as a linear combination of all possible Slater determinants in the basis of
     spin-orbitals,
     \begin{align}
-        \ket{\Psi}
-        &= C\ket{\slat}
-        + C^a_i\ket{\slat^{a}_{i}}
-        + \frac{1}{4}C^{ab}_{ij}\ket{\slat^{ab}_{ij}}
+        \ket*{\Psi}
+        &= C\ket*{\slat}
+        + C^a_i\ket*{\slat^{a}_{i}}
+        + \frac{1}{4}C^{ab}_{ij}\ket*{\slat^{ab}_{ij}}
         + \dots.
-        \label{eq:ci_wavefunction}
+        \label{eq:ci_wave_function}
     \end{align}
-    The factor $4$ in the double sum is included to avoid over counting as both
+    The factor $4$ in the doubles sum is included to avoid overcounting as both
     the coefficients and the excited determinants are antisymmetric.
     By including all excited Slater determinants of $N$-particles, we get a
     method which is exact within the given space of single-particle states.
     When this is the case we call the method \emph{full configuration
-    interaction}.
-
+    interaction} (FCI) theory.
     There is however a significant catch to the configuration interaction
     method, and that is its computational scaling.
     The number of Slater determinants $N_{s}$ for a given basis of $L$
@@ -38,11 +37,11 @@
     excitation indices $a, b, \dots$ and $i, j, \dots$ when labelling excited
     Slater determinants, but rather label the coefficients and the Slater
     determinants by capital letters $I, J, K, \dots$.
-    That is, we can write \autoref{eq:ci_wavefunction} on the short form
+    That is, we can write \autoref{eq:ci_wave_function} on the short form
     \begin{align}
-        \ket{\Psi}
-        &= C_{I}\ket{\Phi_I}
-        = C_{I}\hat{X}_I\ket{\slat}.
+        \ket*{\Psi}
+        &= C_{I}\ket*{\Phi_I}
+        = C_{I}\hat{X}_I\ket*{\slat}.
     \end{align}
     The capital indices will then run over the total number of Slater
     determinants $N_s$ in the full Slater determinant basis.
@@ -50,28 +49,28 @@
     \section{Time-independent configuration interaction}
         We start with the time-independent Schrödinger equation
         \begin{align}
-            \hamil\ket{\Psi_J} = \energy_J\ket{\Psi_J},
+            \hamil\ket*{\Psi_J} = \energy_J\ket*{\Psi_J},
             \label{eq:ci_tise}
         \end{align}
-        where $(E_J, \ket{\Psi_J})$ is an eigenpair for $\hamil$.
-        Expanding the CI wavefunction in a Slater determinant basis,
+        where $(E_J, \Psi_J)$ is an eigenpair of $\hamil$.
+        Expanding the CI wave function in a Slater determinant basis,
         \begin{align}
-            \ket{\Psi_J} = C_{KJ}\ket{\Phi_K},
-            \label{eq:expanded_ci_wavefunction}
+            \ket*{\Psi_J} = C_{KJ}\ket*{\Phi_K},
+            \label{eq:expanded_ci_wave_function}
         \end{align}
         where $C_{KJ}$ are the amplitudes for a certain excitation $K$ for a
         specific energy level $J$.
-        Inserting \autoref{eq:expanded_ci_wavefunction} into
-        \autoref{eq:ci_tise} and left projecting on a state $\ket{\Phi_I}$ we
+        Inserting \autoref{eq:expanded_ci_wave_function} into
+        \autoref{eq:ci_tise} and left projecting on a state $\ket*{\Phi_I}$ we
         get
         \begin{align}
-            \mel{\Phi_I}{\hamil}{\Phi_K}C_{KJ}
-            = E_J\braket{\Phi_I}{\Phi_K}C_{KJ}.
+            \mel*{\Phi_I}{\hamil}{\Phi_K}C_{KJ}
+            = E_J\braket*{\Phi_I}{\Phi_K}C_{KJ}.
         \end{align}
         We denote the matrix elements of the Hamiltonian by
         \begin{align}
             \hamilten_{IK}
-            = \mel{\Phi_I}{\hamil}{\Phi_J}.
+            = \mel*{\Phi_I}{\hamil}{\Phi_J}.
         \end{align}
         The Hamiltonian matrix will have a dimensionality of $\hamilmat \in
         \mathbb{C}^{N_s \times N_s}$.
@@ -81,7 +80,7 @@
         determinants.
         We denote the overlap between the determinants by
         \begin{align}
-            S_{IK} = \braket{\Phi_I}{\Phi_K}.
+            S_{IK} = \braket*{\Phi_I}{\Phi_K}.
         \end{align}
         The overlap matrix will have the same dimensionality as the Hamiltonian,
         that is, $\overlapmat \in \mathbb{C}^{N_s \times N_s}$.
@@ -109,9 +108,8 @@
         single-particle functions which means that $S_{IK} = \delta_{IK}$.
         If the original atomic orbital basis is non-orthogonal, we can make the
         basis orthonormal by either transforming to the Hartree-Fock basis or by
-        performgin a orthogonalization procedure, e.g., symmetric
-        orthogonalization.
-        % TODO: Refer to orthogonalization procedure.
+        performing an orthogonalization procedure, for example, symmetric
+        orthogonalization \cite{mayer2002lowdin, szabo1996modern}.
         Thus, in the remainder of this chapter, we restrict ourselves to
         orthonormal Slater determinants.
         The generalized eigenvalue equation therefore reduces to the eigenvalue
@@ -121,22 +119,19 @@
         \end{align}
         The configuration interaction method can thus be summarized as follows:
         construct the Hamiltonian matrix $\hamilmat$ from the matrix elements
-        $\hamilten_{IJ}$, then diagonalize the matrix to get the coefficients to
+        $\hamilten_{IJ}$, then diagonalize the matrix to get the coefficients of
         the eigenstates $\vfg{C}_I$ and the eigenenergies $E_I$
         \cite{karwowski}.
         As the diagonalization yields the full spectrum, configuration
-        interaction is a method which yields higher order states unlike methods
+        interaction is a method which yields higher-order states unlike methods
         such as the coupled-cluster method which requires extra steps in order
         to get anything but the ground state.
 
         \subsection{Truncated configuration interaction}
             \label{sub:truncated-configuration-interaction}
-            % TODO: Demonstrate truncated configuration interaction and discuss
-            % its disadvantages such as lack of size extensivity and size
-            % consistency.
-            As discussed at the top of this chapter, the full configuration
-            interaction method quickly encounters exponential scaling and
-            becomes intractable.
+            As discussed in the beginning of this chapter, the full
+            configuration interaction method quickly encounters exponential
+            scaling and becomes intractable.
             A common technique utilized to lower the cost of the method is to
             only include Slater determinants based on their excitation.
             For example, by only including the doubly excited Slater
@@ -158,26 +153,24 @@
             \begin{align}
                 N_s = \mathcal{O}(N^2 M^2),
             \end{align}
-            which is significant decrease in computational complexity.
+            which is a significant decrease in computational complexity.
             However, due to the truncation of the wave function not only do we
             decrease the quality of the method in terms of closeness to the
-            exact energy solution given by full configuration interaction
+            exact energy solution given by the full configuration interaction
             method, we also lose size-extensivity and size-consistency
             \cite{crawford2000introduction, helgaker-molecular}.
-            % TODO: List and explain the properties lost, e.g., multi-reference,
-            % size-exensivity, size consistency.
 
             %\subsubsection{The singles approximation on a small basis}
             %    As an example of <size extensivity/size consistency> we demonstrate
             %    the troubles arising when we restrict ourselves to a system of two
             %    particles and four basis functions.
-            %    Our basis thus consists of the spin-orbitals $\brac{\ket{\phi_p},
+            %    Our basis thus consists of the spin-orbitals $\brac{\ket*{\phi_p},
             %    }_{p = 1}^{4}$, with the reference Slater determinant
             %    \begin{align}
-            %        \ket{\Phi}
+            %        \ket*{\Phi}
             %        &= \frac{1}{\sqrt{2}}\brac{
-            %            \ket{\phi_1\phi_2}
-            %            - \ket{\phi_2\phi_1}
+            %            \ket*{\phi_1\phi_2}
+            %            - \ket*{\phi_2\phi_1}
             %        }.
             %        % TODO: It might not be necessary to show what the determinant
             %        % looks like.
@@ -185,21 +178,21 @@
             %    Using truncated configuration interaction with singles excitations
             %    only, we get the many-body wave function
             %    \begin{align}
-            %        \ket{\Psi}
-            %        &= C\ket{\Phi}
-            %        + C^{a}_{i}\ket{\Phi^{a}_{i}}
-            %        = C\ket{\Phi}
-            %        + C^{3}_{1}\ket{\Phi^{3}_{1}}
-            %        + C^{4}_{1}\ket{\Phi^{4}_{1}}
-            %        + C^{3}_{2}\ket{\Phi^{3}_{2}}
-            %        + C^{4}_{2}\ket{\Phi^{4}_{2}}.
+            %        \ket*{\Psi}
+            %        &= C\ket*{\Phi}
+            %        + C^{a}_{i}\ket*{\Phi^{a}_{i}}
+            %        = C\ket*{\Phi}
+            %        + C^{3}_{1}\ket*{\Phi^{3}_{1}}
+            %        + C^{4}_{1}\ket*{\Phi^{4}_{1}}
+            %        + C^{3}_{2}\ket*{\Phi^{3}_{2}}
+            %        + C^{4}_{2}\ket*{\Phi^{4}_{2}}.
             %        \label{eq:cis_wave_function}
             %    \end{align}
             %    Graphically we can represent the full space of the Slater determinants
             %    by \autoref{fig:tiny-slater-basis}.
             %    Comparing with \autoref{eq:cis_wave_function} we see that the only
             %    determinant missing in the truncated wave function is the doubly
-            %    excited determinant $\ket{\Phi^{34}_{12}}$.
+            %    excited determinant $\ket*{\Phi^{34}_{12}}$.
             %    Stated a little differently, truncated configuration interaction is
             %    not able to exploit the full space of Slater determinants.
             %    The method also fails in ``removing all trace`` of the reference
@@ -296,8 +289,8 @@
             %        \end{center}
             %        \caption{In this figure we can see the six possible Slater
             %        determinants, i.e., all the basis Slater determinants, made from
-            %        the four basis functions $\brac{\ket{\phi_1}, \ket{\phi_2},
-            %        \ket{\phi_3}, \ket{\phi_4}}$ with two particles.}
+            %        the four basis functions $\brac{\ket*{\phi_1}, \ket*{\phi_2},
+            %        \ket*{\phi_3}, \ket*{\phi_4}}$ with two particles.}
             %        \label{fig:tiny-slater-basis}
             %    \end{figure}
 
@@ -316,14 +309,14 @@
                 There is just no interaction between the particles in system $A$
                 with particles in system $B$, and vice versa.
             }
-            This tells us that the sum of the energy of the two consituent parts
-            should equal the total energy of the combined system.
+            This tells us that the sum of the energy of the two constituent
+            parts should equal the total energy of the combined system.
             A similar concept is size-extensivity \cite{shavitt2009many}, which
             is often a consequence of size-consistency.
             In fact these two concepts tend to be discussed interchangeably
             \cite{size-extensivity, helgaker-molecular}.
-            We will limit our attention to the case for size-consistency.
-            We can in this case write the idealized compound Hamiltonian as
+            We will limit our attention to the case of size-consistency.
+            We can then write the idealized compound Hamiltonian as
             \begin{align}
                 \hamil_{AB}
                 = \hamil_A + \hamil_B,
@@ -334,8 +327,8 @@
             \begin{align}
                 \acom{\can{{p_A}}}{\ccr{{q_B}}} = 0,
             \end{align}
-            and that the Hamiltonian of a given subsystem only contains
-            operators for that system.
+            and that the Hamiltonian of a given subsystem only contain operators
+            for that system.
             We can now formulate \autoref{eq:size-consistency} from the
             expectation value of the Hamiltonian by
             \begin{align}
@@ -351,7 +344,7 @@
             \begin{align}
                 E(A) = \mel*{\Psi^{A}}{\hamil_{A}}{\Psi^{A}},
             \end{align}
-            for all the systems.
+            for both the systems.
             We can thus formulate the requirements necessary for a
             size-consistent method: the energy must be \emph{additively
             separable}, viz. \autoref{eq:size-consistency}; the wave function
@@ -365,13 +358,14 @@
             where the product of the two states is understood as each state
             acting on a subsystem.
             This last requirement is enough to demonstrate that truncated
-            configuration interaction is \emph{not size-consistent}.
+            configuration interaction is \emph{not size-consistent}
+            \cite{helgaker-molecular}.
             Consider the truncated doubles wave function
             \begin{align}
-                \ket{\Psi} = \para{\1 + \hat{C}}\ket{\slat},
+                \ket*{\Psi} = \para{\1 + \hat{C}}\ket*{\slat},
             \end{align}
-            where we've assumed intermediate normalization of the wave function
-            and we've denoted the doubles operator by
+            where we have assumed intermediate normalization of the wave function
+            and we have denoted the doubles operator by
             \begin{align}
                 \hat{C} \equiv \frac{1}{4}C^{ab}_{ij}\hat{X}^{ab}_{ij},
             \end{align}
@@ -392,12 +386,12 @@
                 \pm \hat{C}^{A}\ket*{\slat^{A}}\hat{C}^{B}\ket*{\slat^{B}},
             \end{align}
             where we repeat that the second quantized operators of the two
-            subsystems anticommute and we've included a possible sign change due
+            subsystems anticommute and we have included a possible sign change due
             to an odd number of particles in subsystem $A$ and hence an odd
             number of creation operators in this determinant.
             What is important to note in the last equation is that the last term
             consists of a \emph{quadruply} excited state as both determinants in
-            each subsystem is excited at the same time.
+            each subsystem are excited at the same time.
             For the left-hand side of \autoref{eq:multiplicately-separable} we
             have that the doubles wave function for the combined subsystem is
             restricted to
@@ -429,26 +423,26 @@
 
     \section{Time-dependent configuration interaction}
         Starting from the time-dependent Schrödinger equation, we can formulate
-        the time-evolution of the configuration interaction wave function,
+        the time evolution of the configuration interaction wave function as
         \begin{align}
-            i\hslash \dod[]{}{t}\ket{\Psi(t)}
-            = \hamil(t)\ket{\Psi(t)},
+            i\hslash \dod[]{}{t}\ket*{\Psi(t)}
+            = \hamil(t)\ket*{\Psi(t)},
             \label{eq:ci_tdse}
         \end{align}
-        Here the time-dependent wave function $\ket{\Psi(t)}$ is expanded as a
+        Here the time-dependent wave function $\ket*{\Psi(t)}$ is expanded as a
         linear combination of a finite number of Slater determinants
         \begin{align}
-            \ket{\Psi(t)} = c_{I}(t) \ket{\slat_I},
+            \ket*{\Psi(t)} = c_{I}(t) \ket*{\slat_I},
             \label{eq:ci_td_wave}
         \end{align}
         where the orbitals in the Slater determinants are time-independent.
-        Our choice of initial state $\ket{\Psi(0)}$ is to a large degree
+        Our choice of initial state $\ket*{\Psi(0)}$ is to a large degree
         arbitrary as long as the coefficients are normalized and the
         determinants span the entire space we are looking at.
         For example, we can choose a single Slater determinant from our basis of
         determinants as an initial guess.
-        In this thesis we will choose $\ket{\Psi(0)} = \ket{\Psi_J}$, where
-        $\ket{\Psi_J}$ is an eigenstate from the time-independent Schrödinger
+        In this thesis we will choose $\ket*{\Psi(0)} = \ket*{\Psi_J}$, where
+        $\ket*{\Psi_J}$ is an eigenstate from the time-independent Schrödinger
         equation in \autoref{eq:ci_tise}.
         Specifically we will choose the ground state as our initial state, that
         is, $J = 0$.
@@ -458,20 +452,22 @@
         The coefficient vector is then $\vfg{c} \in \mathbb{C}^{N_s}$.
 
         Inserting \autoref{eq:ci_td_wave} into the time-dependent Schrödinger
-        equation we get an equation for the time-evolution of the coefficients,
+        equation we get an equation for the time evolution of the coefficients,
         \begin{align}
-            i\hslash \dod[]{}{t}c_{J}(t)\ket{\slat_J}
-            = \hamil(t) c_{J}(t)\ket{\slat_J}.
+            i\hslash \dod[]{}{t}c_{J}(t)\ket*{\slat_J}
+            = \hamil(t) c_{J}(t)\ket*{\slat_J}.
         \end{align}
-        Left-projecting with a Slater determinant $\ket{\slat_I}$ then yields
+        Left-projecting with a Slater determinant $\ket*{\slat_I}$ then yields
         \begin{gather}
             i\hslash \dod[]{}{t}c_{J}(t)
             = \hamilten_{IJ}(t) c_{J}(t),
             \label{eq:tdci}
         \end{gather}
-        where we've used that the Slater determinants are orthonormal.
+        where we have used that the Slater determinants are orthonormal.
         The matrix elements of the time-dependent Hamiltonian is denoted by
         $\hamilten_{IJ}(t)$.
         As the initial coefficients $\vfg{c}(0)$ are known, we need to compute
         the matrix elements of the time-dependent Hamiltonian at each time step
-        before using a time-evolution scheme to solve \autoref{eq:tdci}.
+        before using a time evolution scheme to solve \autoref{eq:tdci}.
+
+\clearemptydoublepage

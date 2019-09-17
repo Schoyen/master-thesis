@@ -1,46 +1,46 @@
-\chapter{Coupled cluster density matrices}
+\chapter{Coupled-cluster density matrices}
     \label{app:cc-density-matrices}
-    From \autoref{eq:cc-one-body-density} we have an expression for the coupled
-    cluster one-body density matrices $\densityten^q_p$ from the left- and
-    right-hand coupled cluster wave functions.
+    From \autoref{eq:cc-one-body-density} we have an expression for the
+    coupled-cluster one-body density matrices $\densityten^q_p$ from the left-
+    and right-hand coupled-cluster wave functions,
     \begin{align}
         \densityten^{q}_{p}
-        &= \mel{\tilde{\Psi}}{\ccr{p}\can{q}}{\Psi}
-        = \mel{\slat}{
+        &= \mel*{\tilde{\Psi}}{\ccr{p}\can{q}}{\Psi}
+        = \mel*{\slat}{
             (\1 + \clustl)
-            \exp[-\clust]
+            \exponential(-\clust)
             \ccr{p}\can{q}
-            \exp[\clust]
+            \exponential(\clust)
         }{\slat}.
     \end{align}
     Note that we here restrict ourselves to the case of static orbitals,
     however, the expressions turn out to be the same for the case of
-    orbital-adaptive orbitals due to the bi-orthonormality of the bivariational
+    orbital-adaptive orbitals due to the bi-orthonormality of the bi-variational
     second quantized operators.
     In order to find an expression for the one-body density matrices in terms of
     the $\clustlamp$- and $\clustamp$-amplitudes we wish to use Wick's theorem.
     We start by splitting up the left-hand wave function into two terms.
     \begin{align}
         \densityten^q_p
-        &= \mel{\slat}{
-            \exp[-\clust]
+        &= \mel*{\slat}{
+            \exponential(-\clust)
             \ccr{p}\can{q}
-            \exp[\clust]
+            \exponential(\clust)
         }{\slat}
-        + \mel{\slat}{
+        + \mel*{\slat}{
             \clustl
-            \exp[-\clust]
+            \exponential(-\clust)
             \ccr{p}\can{q}
-            \exp[\clust]
+            \exponential(\clust)
         }{\slat}.
     \end{align}
     Next we expand the exponentials and use the Baker-Campbell-Hausdorff
     formula.
     This lets us write
     \begin{align}
-        \exp[-\clust]
+        \exponential(-\clust)
         \ccr{p}\can{q}
-        \exp[\clust]
+        \exponential(\clust)
         &= \ccr{p}\can{q}
         + \com{\ccr{p}\can{q}}{\clust}
         + \frac{1}{2!}\com{\com{\ccr{p}\can{q}}{\clust}}{\clust}
@@ -58,59 +58,59 @@
     leave the reference unchanged after applying the total operator product.
     For the first term in $\densityten^q_p$ this leaves us with
     \begin{align}
-        \mel{\slat}{
-            \exp[-\clust]
+        \mel*{\slat}{
+            \exponential(-\clust)
             \ccr{p}\can{q}
-            \exp[\clust]
+            \exponential(\clust)
         }{\slat}
-        &= \mel{\slat}{
+        &= \mel*{\slat}{
             \ccr{p}\can{q}
         }{\slat}
-        + \mel{\slat}{
+        + \mel*{\slat}{
             \ccr{p}\can{q}\clust
         }{\slat},
     \end{align}
-    where we've only kept the first term in the first commutator for the
+    where we have only kept the first term in the first commutator for the
     Baker-Campbell-Hausdorff expansion as the second term in the first
     commutator will leave the state excited thus annihilating the overlap.
     For the term in the one-body density matrix with the Lagrange multipliers,
     we find
     \begin{align}
-        \mel{\slat}{
+        \mel*{\slat}{
             \clustl
-            \exp[-\clust]
+            \exponential(-\clust)
             \ccr{p}\can{q}
-            \exp[\clust]
+            \exponential(\clust)
         }{\slat}
-        &= \mel{\slat}{
+        &= \mel*{\slat}{
             \clustl
             \ccr{p}\can{q}
         }{\slat}
-        + \mel{\slat}{
+        + \mel*{\slat}{
             \clustl
             \com{\ccr{p}\can{q}}{\clust}
         }{\slat}
         \nonumber \\
         &\qquad
         + \frac{1}{2!}
-        \mel{\slat}{
+        \mel*{\slat}{
             \clustl
             \com{\com{\ccr{p}\can{q}}{\clust}}{\clust}
         }{\slat}
         + \dots.
         \label{eq:densityten_q_p_lambda_part}
     \end{align}
-    Depending on the truncation level of the coupled cluster equations, e.g.,
+    Depending on the truncation level of the coupled-cluster equations, e.g.,
     singles, doubles etc, this will provide a natural truncation for
     \autoref{eq:densityten_q_p_lambda_part}.
 
-    \section{Doubles density matrices}
+    \section{Doubles one-body density matrix}
         \label{app:ccd-density-matrices}
         In the doubles truncation, the only contribution to
         \autoref{eq:densityten_q_p_lambda_part} will be
         \begin{align}
-            \bra{\slat}\clustl e^{-\clust}\ccr{p}\can{q}e^{\clust}\ket{\slat}
-            &= \bra{\slat}\clustl \com{\ccr{p}\can{q}}{\clust}\ket{\slat}.
+            \bra*{\slat}\clustl e^{-\clust}\ccr{p}\can{q}e^{\clust}\ket*{\slat}
+            &= \bra*{\slat}\clustl \com{\ccr{p}\can{q}}{\clust}\ket*{\slat}.
         \end{align}
         This happens as the first term in \autoref{eq:densityten_q_p_lambda_part} will
         at best leave the reference relaxed by $1$ as $\ccr{p}\can{q}$ can only
@@ -122,9 +122,9 @@
         cluster doubles is then
         \begin{align}
             \densityten^{q}_{p}
-            &= \bra{\slat}\ccr{p}\can{q}\ket{\slat}
-            + \bra{\slat}\com{\ccr{p}\can{q}}{\clust}\ket{\slat}
-            + \bra{\slat}\clustl \com{\ccr{p}\can{q}}{\clust}\ket{\slat}
+            &= \bra*{\slat}\ccr{p}\can{q}\ket*{\slat}
+            + \bra*{\slat}\com{\ccr{p}\can{q}}{\clust}\ket*{\slat}
+            + \bra*{\slat}\clustl \com{\ccr{p}\can{q}}{\clust}\ket*{\slat}
             \\
             &=
             \delta^{q}_{j} \delta^{i}_{p} \para{
@@ -141,21 +141,79 @@
         therefore leaving the reference oddly excited or relaxed thus
         annihilating the overlap.
 
-    \section{The one-body density matrix for singles and doubles excitations}
-        For coupled cluster singles-and-doubles \autoref{eq:densityten_q_p_lambda_part}
+    \section{Doubles two-body density matrix}
+        \label{app:ccd-two-body-density-matrix}
+        We find the two-body density matrix in the doubles approximation from
+        the article by \citeauthor{kvaal2012ab} \cite{kvaal2012ab}.
+        These are given by \autoref{eq:cc-two-body-density}.
+        Using the same block format as \citeauthor{kvaal2012ab}
+        \cite{kvaal2012ab}, we have
+        \begin{align}
+            \densityten^{kl}_{ij}
+            &=
+            P(ij) \delta_{ki} \delta_{lj}
+            - \half P(ij) P(kl)
+            \delta_{ki} \clustlamp^{lm}_{cd} \clustamp^{cd}_{jm}
+            + \half \clustlamp^{kl}_{cd} \clustamp^{cd}_{ij},
+        \end{align}
+        for the occupied block, and we stress that $m$ and $n$ are occupied
+        indices in the Fermi vacuum sense.
+        We then have
+        \begin{align}
+            \densityten^{ab}_{ij}
+            &= -\half P(ab) \clustlamp^{kl}_{cd} \clustamp^{ac}_{ij}
+            \clustamp^{bd}_{kl}
+            + P(ij) \clustlamp^{kl}_{cd}\clustamp^{ac}_{ik}
+            \clustamp^{bd}_{jl}
+            \nonumber \\
+            &\qquad
+            + \half P(ij) \clustlamp^{kl}_{cd}
+            \clustamp^{ab}_{il} \clustamp^{cd}_{jk}
+            + \frac{1}{4} \clustlamp^{kl}_{cd} \clustamp^{ab}_{kl}
+            \clustamp^{cd}_{ij}
+            + \clustamp^{ab}_{ij}, \\
+            \densityten^{jb}_{ia}
+            &=
+            \half \delta_{ji} \clustlamp^{kl}_{ac}
+            \clustamp^{bc}_{kl}
+            - \clustlamp^{jk}_{ac} \clustamp^{bc}_{ik},
+        \end{align}
+        where the antisymmetry of the two-body density matrix elements yield
+        \begin{align}
+            \densityten^{jb}_{ia}
+            &=
+            -\densityten^{bj}_{ia}
+            =
+            -\densityten^{jb}_{ai}
+            =
+            \densityten^{bj}_{ai}.
+        \end{align}
+        The two final terms are
+        \begin{gather}
+            \densityten^{ij}_{ab}
+            = \clustlamp^{ij}_{ab},
+            \qquad
+            \densityten^{cd}_{ab}
+            = \half \clustlamp^{ij}_{ab}
+            \clustamp^{cd}_{ij}.
+        \end{gather}
+
+
+    \section{Singles-and-doubles one-body density matrix}
+        For coupled-cluster singles-and-doubles \autoref{eq:densityten_q_p_lambda_part}
         will truncate at the double commutator as written. Employing
         SymPy\cite{sympy} we can compute an expression for the one-body density
         matrices.
         \begin{align}
             \densityten^{q}_{p}
-            &= \bra{\slat}\ccr{p}\can{q}\ket{\slat}
-            + \bra{\slat}\com{\ccr{p}\can{q}}{\clust}\ket{\slat}
-            + \bra{\slat}\clustl \ccr{p}\can{q}\ket{\slat}
+            &= \bra*{\slat}\ccr{p}\can{q}\ket*{\slat}
+            + \bra*{\slat}\com{\ccr{p}\can{q}}{\clust}\ket*{\slat}
+            + \bra*{\slat}\clustl \ccr{p}\can{q}\ket*{\slat}
             \nonumber \\
             &\qquad
-            + \bra{\slat}\clustl \com{\ccr{p}\can{q}}{\clust}\ket{\slat}
+            + \bra*{\slat}\clustl \com{\ccr{p}\can{q}}{\clust}\ket*{\slat}
             + \frac{1}{2!}
-            \bra{\slat}\clustl \com{\com{\ccr{p}\can{q}}{\clust}}{\clust}\ket{\slat}
+            \bra*{\slat}\clustl \com{\com{\ccr{p}\can{q}}{\clust}}{\clust}\ket*{\slat}
             \\
             &=
             \delta^a_p \delta^q_b \para{
@@ -183,3 +241,5 @@
         sets the indices arbitrarily so the expression shown in
         \autoref{eq:densityten_q_p_ccsd} has been factorized and had a relabeling of
         the indices for improved readability.
+
+\clearemptydoublepage

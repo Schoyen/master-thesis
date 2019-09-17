@@ -1,6 +1,6 @@
-\chapter{Stability of coupled-cluster methods}
+\chapter{Stability of the coupled-cluster methods}
     \label{chap:stability}
-    In this chapter we'll explore some aspects of the stability of the
+    In this chapter we will explore some aspects of the stability of the
     implemented coupled-cluster methods.
     We also seek to answer the question of why we should even consider the
     conceptually more complicated orbital-adaptive time-dependent
@@ -48,14 +48,14 @@
         We let the negative charge of the electrons occur in the polarization
         vector.
         The atoms we look at are \ch{He} (Helium) and \ch{Be} (Beryllium) in the
-        cc-pVDZ-basis, and we'll use TDFCI (TDCISDTQ) simulations as the ground
+        cc-pVDZ-basis, and we will use TDFCI (TDCISDTQ) simulations as the ground
         truth.
-        We'll run the simulations using both TDCCSD and OATDCCD with the
+        We will run the simulations using both TDCCSD and OATDCCD with the
         restricted Hartree-Fock reference determinant from PySCF as our
         reference state.
         We set $t_d = \SI{5}{\hslash/\hartree}$ and run the simulation for $t_f
         = \SI{10}{\hslash/\hartree}$.
-        We've chosen a rather crude time step of $\Delta t =
+        We have chosen a rather crude time step of $\Delta t =
         \SI{1e-2}{\hslash/\hartree}$, but for the Gauss-integrator with $s = 3$
         and $\epsilon = \num{1e-6}$ this should be acceptable.
         The frequency for \ch{He} is set to $\omega_{\ch{He}} =
@@ -125,12 +125,12 @@
         Therefore, as part of the stability analysis we will sample the
         Frobenius norm of the cluster amplitudes, and the time-dependent overlap
         with the reference determinant as discussed in \autoref{sec:cc-phase}.
-        We'll compare this with the weight of the reference determinant in the
+        We will compare this with the weight of the reference determinant in the
         TDFCI simulations, i.e., $\abs{c_0(t)}^2$, the zeroth compononent in the
         TDFCI coefficient vector.
 
         In \autoref{fig:he-stability} we see the results from the
-        \ch{He}-simulation.
+        simulation of \ch{He}.
         We see that the dashed line with the results from the TDCCSD-method for
         the time-dependent overlap and the time-dependent energy stops after a
         short time, at $t \approx \SI{0.87}{\hslash/\hartree}$.
@@ -141,7 +141,7 @@
         Furthermore, by looking at the lowermost palette we see a perfect
         correlation with the norm of the TDCCSD-amplitudes sky-rocketing when
         the overlap goes to zero.
-        We can push this simulation through by lowering the time step, but we've
+        We can push this simulation through by lowering the time step, but we have
         left this out of the study as we wish to demonstrate that OATDCCD is
         stable for the given time step.
         A too low time step would result in an extremely impractical simulation
@@ -277,19 +277,19 @@
 
                 \end{groupplot}
             \end{tikzpicture}
-            \caption{In these figures we've plotted the overlap with the
+            \caption{In these figures we have plotted the overlap with the
             reference state in time, and the real part of the time-dependent
             energy of the three solvers TDFCI (TDCISD), TDCCSD, and OATDCCD for
-            the \ch{He}-system.
-            In the lowermost palette we've plotted the magnitude of the cluster
+            the \ch{He} system.
+            In the lowermost palette we have plotted the magnitude of the cluster
             amplitudes and the Lagrange multipliers for OATDCCD (marked with a
             tilde) and TDCCSD.}
             \label{fig:he-stability}
         \end{figure}
 
-        In \autoref{fig:be-stability} the results from the \ch{Be}-simulation is
+        In \autoref{fig:be-stability} the results from the simulation of \ch{Be} is
         shown.
-        Again the same behaviour as for the \ch{He}-simulation is exhibited;
+        Again the same behaviour as for the simulation of \ch{He} is exhibited;
         once the overlap with the reference determinant becomes small, the
         amplitudes sky-rocket and the TDCCSD-method crashes.
         \begin{figure}
@@ -421,10 +421,10 @@
                         \addlegendentry{$\norm{\clustlamp_2}$}
                 \end{groupplot}
             \end{tikzpicture}
-            \caption{In these figures we've plotted the overlap with the
+            \caption{In these figures we have plotted the overlap with the
             reference state in time, and the real part of the time-dependent
             energy of the three solvers TDFCI (TDCISD), TDCCSD, and OATDCCD for
-            the \ch{Be}-system.
+            the \ch{Be} system.
             The lower palette exhibits the magnitude of the cluster amplitudes
             and the Lagrange multipliers for OATDCCD (marked with a tilde) and
             TDCCSD.}
@@ -445,7 +445,7 @@
         OATDCCD-method.
         The more optimal reference determinant seems to remove the stress from
         the amplitudes and OATDCCD does not seem to exhibit the same stability
-        issues in the simulations we've demonstrated in
+        issues in the simulations we have demonstrated in
         \autoref{fig:he-stability} and \autoref{fig:be-stability}.
 
         We do not however state that the OATDCCD-method is infinitely stable as
@@ -470,4 +470,4 @@
 
 
 
-\clearpage
+\clearemptydoublepage

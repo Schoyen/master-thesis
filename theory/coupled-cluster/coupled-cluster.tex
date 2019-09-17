@@ -1,4 +1,4 @@
-\chapter{Coupled cluster theory}
+\chapter{Coupled-cluster theory}
     \label{chap:cc}
     In the previous chapter on the configuration interaction method we saw how
     the direct diagonalization of the full Slater determinant space led to an
@@ -15,7 +15,7 @@
 
     In lieu of these considerations, the coupled-cluster method provides an
     approximation to the exact many-body wave function by an exponential ansatz.
-    This method provides higher order correlations beyond the single determinant
+    This method provides higher-order correlations beyond the single determinant
     approximation given in the Hartree-Fock method, and maintains a polynomial
     scaling for the Slater determinant basis if the cluster operators are
     truncated.
@@ -230,15 +230,15 @@
                 The reference state is more or less always the Hartree-Fock
                 state in quantum chemistry computations.
             }
-            all energy contributions beyond the reference energy is known as
-            \emph{correlation energy}.
-            Next, we apply Baker-Campbell-Hausdorff formula to
-            \autoref{eq:sim-normal-hamil} and use generalized Wick's theorem to
-            contract the Hamiltonian and the cluster operators.
-            The only nonzero terms in this expansion will be the terms
+            all energy contributions beyond the reference energy are known as
+            contributions to the \emph{correlation energy}.
+            Next, we apply the Baker-Campbell-Hausdorff formula to
+            \autoref{eq:sim-normal-hamil} and use the generalized Wick's theorem
+            to contract the Hamiltonian and the cluster operators.
+            The only nonzero terms in this expansion are the terms
             containing at least one contraction between the normal-ordered
-            Hamiltonian and every cluster operator on its right.
-            This is called the ``connected cluster'' theorem and yields a
+            Hamiltonian and every cluster operator to their right.
+            This is called the ``connected cluster'' theorem, and it yields a
             natural truncation of the Baker-Campbell-Hausdorff expansion
             \cite{crawford2000introduction, shavitt2009many}.
             For a Hamiltonian with at most two-body interactions the expansion
@@ -256,12 +256,13 @@
                 }_c.
                 \label{eq:connected-hamil}
             \end{align}
-            Here the subscript $c$ signifies that we only include the terms that
-            are connected, i.e., that the Hamiltonian has at least one
-            contraction with every cluster operator to its right.
+            Here the subscript $c$ means that we only include the terms that are
+            connected, i.e., that the Hamiltonian has at least one contraction
+            with every cluster operator to its right.
             Note that the connected cluster theorem is a statement about the
             similarity transformed normal-ordered Hamiltonian.
-            It is therefore applicable to the amplitude equations as well.
+            It is therefore applicable to the amplitude equations as well
+            \cite{crawford2000introduction}.
 
         \subsection{Energy equations}
             \label{subsec:cc-energy-equations}
@@ -390,18 +391,17 @@
                 }{\slat}
                 = 0,
             \end{align}
-            where we we've simplified by similarity transformed Hamiltonian
-            by inserting the normal ordered similiarty transformed Hamiltonian
-            as the overlap between the excited state and the reference state is
-            zero.
-            Furthermore, we've expressed the excited determinant via the
+            where we are left with the normal-ordered similarity transformed
+            Hamiltonian as the overlap between the excited state and the
+            reference state is zero.
+            Furthermore, we have expressed the excited determinant via the
             relaxation operator from \autoref{def:excitation-operator}.
             As the operator $\hat{X}^{\dagger}_{\mu}$ relaxes the incoming state
             from the right by an order $\mu$ we need only keep terms from the
             normal-ordered similarity transformed Hamiltonian that leaves the
             reference state excited at $\mu$.
             We will therefore look for terms in \autoref{eq:connected-hamil}
-            that yields
+            that yield
             \begin{align}
                 \simhamil_N\ket*{\slat}
                 &\propto \ket*{\slat_{\mu}},
@@ -432,7 +432,7 @@
                 }{\slat}
                 = 0.
             \end{gather}
-            We'll describe both the process of finding amplitude equations and
+            We will describe both the process of finding amplitude equations and
             how we can solve these equations in \autoref{sec:cc-solver}.
 
 
@@ -464,7 +464,7 @@
                 \ket*{\Psi^{AB}}
                 &= \exponential(\clust^{AB})\ket*{\slat^{AB}}
                 =
-                \exponential(\clust^{A})\exp(\clust^{B})
+                \exponential(\clust^{A})\exponential(\clust^{B})
                 \ket*{\slat^{A}}\ket*{\slat^{B}}
                 \\
                 &=
@@ -580,7 +580,7 @@
             Replacing the Hamiltonian in \autoref{eq:cc_energy_sim} with the
             operator of the observable in question, we do get an expression for
             the observable.
-            However, we return to the problem of computing first order
+            However, we return to the problem of computing first-order
             properties being a cumbersome problem as the Hellmann-Feynman
             theorem is still not satisfied \cite{helgaker-molecular,
             kvaal2013variational}.
@@ -614,7 +614,7 @@
             \end{align}
             We find the optimized energy of \autoref{eq:cc-perturbed-energy} by
             \begin{align}
-                E(g) &= E(g, \vfg{\clustamp}^{*})
+                E(g) &= E(g, \vfg{\clustamp}^{*}),
             \end{align}
             where $\vfg{\clustamp}^{*}$ for a given $g$ represents the solution
             to the set of amplitude equations
@@ -688,9 +688,9 @@
                 }{\slat},
                 \label{eq:cc-perturbed-lagrangian}
             \end{align}
-            where we've introduced the relaxation operator $\clustl$ from the
+            where we have introduced the relaxation operator $\clustl$ from the
             Lagrange multipliers along with the string of relaxation operators
-            from the excited state $\ket{\slat_{\mu}}$ we project onto in the
+            from the excited state $\ket*{\slat_{\mu}}$ we project onto in the
             amplitude equations.
             That is,
             \begin{align}
@@ -707,7 +707,7 @@
             cluster operators $\clust$.
             Optimizing \autoref{eq:cc-perturbed-lagrangian} with respect to the
             parameters $\vfg{\clustamp}$ and $\vfg{\clustlamp}$ we get equations
-            which lets us find the stationary points $\vfg{\clustamp}^{*}$ and
+            which let us find the stationary points $\vfg{\clustamp}^{*}$ and
             $\vfg{\clustlamp}^{*}$,
             \begin{gather}
                 \dpd[]{L(g, \vfg{\clustamp}, \vfg{\clustlamp})}
@@ -754,10 +754,10 @@
             \end{align}
             which we interpret as the variational coupled-cluster energy
             function.
-            Here we've denoted the right- and left-hand coupled-cluster wave
+            Here we have denoted the right- and left-hand coupled-cluster wave
             functions by
             \begin{gather}
-                \ket*{\Psi} = \exponential(\clust)\ket{\slat},
+                \ket*{\Psi} = \exponential(\clust)\ket*{\slat},
                 \label{eq:cc-ket}
                 \\
                 \bra*{\tilde{\Psi}} = \bra*{\slat}(\1 + \clustl)
@@ -802,8 +802,8 @@
             \begin{align}
                 \tr(\density)
                 &= \tr{\dyad*{\Psi}{\tilde{\Psi}}}
-                = \bra*{\tilde{\Psi}}\ket{\Psi}
-                \bra*{\tilde{\Psi}}\ket{\Psi}
+                = \bra*{\tilde{\Psi}}\ket*{\Psi}
+                \bra*{\tilde{\Psi}}\ket*{\Psi}
                 = 1,
             \end{align}
             which shows that the probabilities sum up to unity.
@@ -815,7 +815,7 @@
             \begin{align}
                 \density^2
                 = \density\density
-                = \ket{\Psi}\braket*{\tilde{\Psi}}{\Psi}
+                = \ket*{\Psi}\braket*{\tilde{\Psi}}{\Psi}
                 \bra*{\tilde{\Psi}}
                 = \dyad*{\Psi}{\tilde{\Psi}}
                 = \density,
@@ -854,7 +854,7 @@
                 \twoten^{pq}_{rs}
                 \densityten^{rs}_{pq},
             \end{align}
-            where the density matrices are treated as first order properties of
+            where the density matrices are treated as first-order properties of
             the energy function.
             Defining the coupled-cluster one- and two-body density matrices by
             \begin{align}
@@ -884,7 +884,6 @@
             There exists several methods that include orbital rotations in the
             coupled-cluster formalism, such as, the orbital optimized coupled
             cluster method, and the Brueckner coupled-cluster method.
-            % TODO: Add citations from Rolf to these?
             These methods do suffer from certain defects, where the former does
             not converge to the full configuration interaction method in the
             untruncated limit, and the latter yields unphysical results in the
@@ -912,11 +911,11 @@
             \cite{helgaker-molecular, rolf-nocc}
             \begin{gather}
                 \biccr{p}
-                = \exp(-\nocc)\ccr{p}\exp(\nocc),
+                = \exponential(-\nocc)\ccr{p}\exponential(\nocc),
                 \label{eq:biccr}
                 \\
                 \bican{p}
-                = \exp(-\nocc)\can{p}\exp(\nocc).
+                = \exponential(-\nocc)\can{p}\exponential(\nocc).
                 \label{eq:bican}
             \end{gather}
             The approach taken in the orthogonal coupled-cluster method is to
@@ -951,7 +950,7 @@
                 \equiv
                 \nocc^{u} + \nocc^{d},
             \end{align}
-            where we've introduced the labels $u$ and $d$ for up and down
+            where we have introduced the labels $u$ and $d$ for up and down
             respectively \cite{rolf-nocc}.
             Constructing the bi-variational non-orthogonal coupled-cluster
             Lagrangian
@@ -968,11 +967,11 @@
                 }{\slat},
                 \label{eq:nocc-lagrangian}
             \end{align}
-            where we've introduced the left reference state
+            where we have introduced the left reference state
             \begin{align}
                 \bra*{\tilde{\slat}}
                 = \bra*{\tilde{\phi}_1, \dots, \tilde{\phi}_N}
-                = \bra{\vac}\bican{1}\dots\bican{N},
+                = \bra*{\vac}\bican{1}\dots\bican{N},
             \end{align}
             as the biorthogonal dual state of the right reference state defined
             in the normal way.
@@ -984,22 +983,21 @@
             operator.
             In the non-orthogonal formulation $\exp[\nocc]$ contains both an
             excitation and an annihilation operator.
-            This makes the method include the singles ampitudes, and open up for
+            This makes the method include the singles ampitudes, and opens for
             more degrees of freedom for the relaxation operator.
             By including the relaxation operator the method opens up for two
             sets of spin-orbitals unlike Thouless theorem which only rotates a
             single set of spin-orbitals \cite{helgaker-molecular}.
-            % TODO: Verify this.
             In fact, by incorporating the singles excitations as an orbital
-            transformation of the Hamiltonian, we can ignore the $\clust_1$
-            contribution to the coupled-cluster amplitudes.
-            This also applies for the non-orthogonal formulation and we have the
-            doubles excitations with $\clust_2$ and $\clustl_2$ will be equally
-            good as the singles-and-doubles excitations.
+            transformation of the Hamiltonian, we can ignore the $\clust_1$ and
+            the $\clustl_1$ contributions to the coupled-cluster amplitudes.
+            This also applies for the non-orthogonal formulation and we have
+            that the doubles excitations with $\clust_2$ and $\clustl_2$ will be
+            equally good as the singles-and-doubles excitations.
 
             Returning to the process of finding the stationary conditions of the
             non-orthogonal coupled-cluster Lagrangian, we require that
-            $\bra*{\tilde{\Psi}}$ and $\ket{\Psi}$ must satisfy the standard
+            $\bra*{\tilde{\Psi}}$ and $\ket*{\Psi}$ must satisfy the standard
             coupled-cluster equations \cite{rolf-nocc}.
             As $\nocc$ does not commute with $\clust$ and $\clustl$ we express
             the amplitude equations in the optimized basis where $\nocc = 0$
@@ -1063,11 +1061,11 @@
             \exponential(-\clust(t))
             \partial_t
             \exponential(\clust(t))
-            \ket{\slat}
+            \ket*{\slat}
             = \exponential(-\clust(t))
             \hamil(t)
             \exponential(\clust(t))
-            \ket{\slat},
+            \ket*{\slat},
         \end{align}
         which in many ways is the ``natural'' approach to take as this is the
         analog to the projected time-independent Schrödinger equation for the
@@ -1084,13 +1082,13 @@
         \begin{align}
             i\hslash\partial_t
             \exponential(\clust(t))
-            \ket{\slat}
+            \ket*{\slat}
             = i\hslash \para{
                 \partial_t\clustamp_{\mu}(t)
             }
             \hat{X}_{\mu}
             \exponential(\clust(t))
-            \ket{\slat}.
+            \ket*{\slat}.
         \end{align}
         Left-projecting with an excited state we find that
         \begin{align}
@@ -1106,7 +1104,7 @@
             \clustamp_{\mu}(t).
             \label{eq:td-clustamp}
         \end{align}
-        This means that the time-evolution of the amplitudes is given by the
+        This means that the time evolution of the amplitudes is given by the
         amplitude equations in time as their right-hand sides.
         The time-dependent formulation described above suffers in that it is not
         variational \cite{tdcc-hoodbhoy, tdcc-hoodbhoy-2, tdcc-huber} and the
@@ -1146,9 +1144,9 @@
             \qquad
             \dpd{L[\Psi, \tilde{\Psi}]}{\clustamp_{\mu}} = 0.
         \end{align}
-        The former of these two equations yield the time-evolution of the
-        $\clustamp_{\mu}$-amplitudes whereas the latter yield the
-        time-evolution for the $\clustlamp_{\mu}$-amplitudes.
+        The former equation yields the time evolution of the
+        $\clustamp_{\mu}$-amplitudes whereas the latter yield the time evolution
+        for the $\clustlamp_{\mu}$-amplitudes.
         For the former equation we find
         \begin{gather}
             \dpd{L[\Psi, \tilde{\Psi}]}{\clustlamp_{\mu}}
@@ -1205,7 +1203,7 @@
         The commutator comes from the left and right exponential cluster
         operators.
         Now, \autoref{eq:time-evolution-tau} and
-        \autoref{eq:time-evolution-lambda} yields a variational formulation of
+        \autoref{eq:time-evolution-lambda} yield a variational formulation of
         the time-dependent coupled-cluster methods where $\mu$ decides the
         truncation level.
         For \autoref{eq:time-evolution-tau} we can reuse the regular
@@ -1238,7 +1236,7 @@
         \end{align}
         where we denote the bra states by tilde to distinguish it from the
         adjoint state.
-        In general we have $\ket{\phi_p(t)}^{\dagger} \neq
+        In general we have $\ket*{\phi_p(t)}^{\dagger} \neq
         \bra*{\tilde{\phi}_p(t)}$ as the two orbitals are defined in two
         separate Hilbert spaces \cite{kvaal2012ab}.
         This extends through to the Slater determinants being biorthogonal
@@ -1247,7 +1245,6 @@
             \braket*{\tilde{\slat}_{\mu}(t)}{\slat_{\nu}(t)}
             = \delta_{\mu\nu}.
         \end{align}
-
         In order to avoid two sets of second quantized operators, we
         transform from the atomic orbital basis in a similar fashion as done
         in the non-orthogonal coupled-cluster method.
@@ -1271,8 +1268,8 @@
         corresponds to replacing all static second quantized operators by
         the biorthogonal operators.
         Instead of going through a description of the time-dependent
-        bivariational principle \cite{kvaal2012ab, arponen1983311}, we
-        define the bivariational form of the coupled-cluster wave functions
+        bi-variational principle \cite{kvaal2012ab, arponen1983311}, we
+        define the bi-variational form of the coupled-cluster wave functions
         to be
         \begin{gather}
             \ket*{\Psi(t)} = \exponential(\clust(t))\ket*{\slat(t)}, \\
@@ -1284,7 +1281,7 @@
         \begin{align}
             \braket*{\tilde{\Psi}(t)}{\Psi(t)} = 1.
         \end{align}
-        From here on out we remove the explicit time-dependence on the
+        From here on and out we remove the explicit time-dependence on the
         states and operators to avoid too much clutter.
         We now define the action-like functional\footnote{%
             This must not be mistaken for an actual action functional
@@ -1332,7 +1329,7 @@
             \hat{\eta}
             = \mel*{\tilde{\phi}_p}{\partial_t}{\phi_q}
             \biccr{p}\bican{q}
-            = \eta^{p}_{q}\biccr{p}\bican{q}
+            = \eta^{p}_{q}\biccr{p}\bican{q},
         \end{align}
         which is a one-body operator similar to the projected one-body
         Hamiltonian.
@@ -1449,16 +1446,16 @@
             and virtual-occupied pairs.
             We can thus construct the two sets of orbital variations
             \begin{gather}
-                \ket{\delta\phi_i}
-                = \epsilon^{a}_{i}\ket{\phi_a}
-                + \hat{Q}\ket{\delta\phi_i},
+                \ket*{\delta\phi_i}
+                = \epsilon^{a}_{i}\ket*{\phi_a}
+                + \hat{Q}\ket*{\delta\phi_i},
                 \\
-                \ket{\delta\phi_a}
-                = \epsilon^{a}_{i}\ket{\phi_i}
-                + \hat{Q}\ket{\delta\phi_a},
+                \ket*{\delta\phi_a}
+                = \epsilon^{a}_{i}\ket*{\phi_i}
+                + \hat{Q}\ket*{\delta\phi_a},
             \end{gather}
             where $\epsilon^{a}_{i}$ is an arbitrary function of time.
-            Furthermore, the functions $\hat{Q}\ket{\delta\phi_p}$ are also
+            Furthermore, the functions $\hat{Q}\ket*{\delta\phi_p}$ are also
             arbitrary and independent of $\epsilon^{a}_{i}$.
             We denote the equations from the variations over the first and
             second term as $P$-space equations and $Q$-space equations
@@ -1469,9 +1466,9 @@
         \subsection{$P$-space equations}
             We start by defining the variations over the orbitals to be
             \begin{align}
-                \ket{\delta\phi_i} = \epsilon\ket{\phi_a},
+                \ket*{\delta\phi_i} = \epsilon\ket*{\phi_a},
                 \qquad
-                \ket{\delta\phi_a} = \epsilon\ket{\phi_i},
+                \ket*{\delta\phi_a} = \epsilon\ket*{\phi_i},
             \end{align}
             where $\epsilon(t)$ is now an arbitrary function of time that is
             independent of the labels $i$ and $a$.
@@ -1743,7 +1740,7 @@
                 -i\hslash\eta^{b}_{j}
                 A^{ja}_{bi},
             \end{gather}
-            where we've defined the coefficient matrix $\vfg{A}$.
+            where we have defined the coefficient matrix $\vfg{A}$.
             What remains is to evaluate the commutators with the Hamiltonian
             matrix on the right-hand side.
             For brevity we restrict ourselves to only looking at the operator
@@ -1873,7 +1870,7 @@
             Solving both \autoref{eq:eta-jb} and \autoref{eq:eta-bj} we are able
             to construct the $\vfg{\eta}$ matrix.
             We shall in the following derivation of the $Q$-space equations see
-            how this gives an expression for the time-evolution of the orbitals.
+            how this gives an expression for the time evolution of the orbitals.
 
         \subsection{$Q$-space equations}
             For the $Q$-space equations we define the variation over the
@@ -1931,9 +1928,9 @@
                     \twohamil
                 }{\phi_r\phi_s}_{AS},
             \end{align}
-            where we've written out the explicit orbital dependencies in the
+            where we have written out the explicit orbital dependencies in the
             one- and two-body Hamiltonian and the time-derivative.
-            Requiring that the first order variations over the orbitals should
+            Requiring that the first-order variations over the orbitals should
             make the action functional disappear, we have
             \begin{align}
                 \delta S
@@ -1966,12 +1963,12 @@
             As the variation must be valid for all $\bra*{\theta}\hat{Q}$ we are
             left with
             \begin{align}
-                i\hslash\densityten^{q}_{p}\hat{Q}\partial_t\ket{\phi_q}
-                = \densityten^{q}_{p}\hat{Q}\onehamil\ket{\phi_q}
-                + \densityten^{rs}_{pq}\hat{Q}\hat{W}^{q}_{s}\ket{\phi_{r}},
+                i\hslash\densityten^{q}_{p}\hat{Q}\partial_t\ket*{\phi_q}
+                = \densityten^{q}_{p}\hat{Q}\onehamil\ket*{\phi_q}
+                + \densityten^{rs}_{pq}\hat{Q}\hat{W}^{q}_{s}\ket*{\phi_{r}},
                 \label{eq:ket-q}
             \end{align}
-            where we've defined the mean-field potential $W^{q}_{s}$ to be
+            where we have defined the mean-field potential $W^{q}_{s}$ to be
             \cite{kvaal2012ab}
             \begin{align}
                 \mel*{\tilde{\phi}_p}{
@@ -2007,7 +2004,7 @@
             \end{align}
             where now $q$ in the first term and $r$ in the second term are free
             indices.
-            This variation must be valid for all $\hat{Q}\ket{\theta}$ and we
+            This variation must be valid for all $\hat{Q}\ket*{\theta}$ and we
             get the equation
             \begin{align}
                 -i\hslash\densityten^{q}_{p}\para{
@@ -2027,9 +2024,9 @@
             $P$-space equations provide the equations of motion for the orbital
             rotations.
 
-            When \citeauthor{kvaal2012ab} formulated the orbital-adaptive
-            coupled-cluster method the intention was to provide an approximation
-            to the multi-configuration Hartree-Fock method.
+            When \citeauthor{kvaal2012ab} \cite{kvaal2012ab} formulated the
+            orbital-adaptive coupled-cluster method the intention was to provide
+            an approximation to the multi-configuration Hartree-Fock method.
             The latter method approximates the full configuration interaction
             method by truncating the single-particle basis beyond the originally
             truncated basis set.
@@ -2067,7 +2064,7 @@
         where we assume that the reference determinant is normalized to
         unity.
         We can then see that the static formulation of the coupled-cluster
-        methods are, by construction, normalized to unity.
+        methods is, by construction, normalized to unity.
         However, for the orbital-adaptive methods where the orbitals are
         allowed to vary in time, the picture changes.
         We then have
@@ -2108,17 +2105,6 @@
             \label{eq:oatdcc-coeff-identity}
         \end{align}
         where this product runs over all indices $p$ and $q$.
-        We therefore expect that $N(t) = 1$ for all times $t$, but due to
-        integration errors in the numerical differential equation solvers we
-        will observe a time-dependent drift.
-        By measuring the time-dependent norm from \autoref{eq:norm-oatdcc}
-        and the preservation of the identity for the coefficients from
-        \autoref{eq:oatdcc-coeff-identity} in the orbital-adaptive regime,
-        we can make an educated guess as to when the integration breaks.
-        This motivates the need for good differential equation integrators
-        which preserve the norm.
-        % TODO: If this should be left in the text, we must include some
-        % results demonstrating this.
 
     \section{The quality of the reference state in time}
         \label{sec:cc-phase}
@@ -2133,7 +2119,7 @@
         \begin{align}
             \braket*{\psi(t)}{\psi(0)} \to 0,
         \end{align}
-        where $\ket{\psi(0)}$ is some initial state and $\ket{\psi(t)}$ is
+        where $\ket*{\psi(0)}$ is some initial state and $\ket*{\psi(t)}$ is
         the time-evolved state at a later time $t$.
         In time-dependent configuration interaction theory this is handled
         automatically by the zero-order amplitude, viz.
@@ -2150,7 +2136,7 @@
         In time-dependent coupled-cluster theory where we assume
         intermediate normalization, there is however a different story to be
         told.
-        For the time-dependent coupled-cluster wavefunction we have that
+        For the time-dependent coupled-cluster wave function we have that
         \begin{gather}
             \ket*{\Psi(t)}
             = \exponential(\clust(t))\ket*{\slat}
@@ -2163,7 +2149,7 @@
             \braket*{\slat}{\Psi(t)} = 1.
         \end{gather}
         This might not look like much, but for strong fields, or long
-        time-evolution, we can find states which have very little overlap
+        time evolution, we can find states which have very little overlap
         with the reference state.
         In numerical simulations the lack of infinite precision leads to
         numerial problems when the overlap goes to zero.
@@ -2174,14 +2160,14 @@
         Frustratingly enough the formulation of the time-dependent
         coupled-cluster method with static spin-orbitals is seemingly not
         able to solve this problem.
-        % TODO: Add snide remark on lowering the integration time step?
         When
         \begin{align}
             \braket*{\slat}{\Psi(t)} \to 0,
         \end{align}
         the magnitude of the amplitudes sky-rocket, the energy is no longer
-        conserved (when the time-dependence in the Hamiltonian is turned
-        off), and the data produced can no longer be trusted
+        conserved,\footnote{%
+           When the time-dependence in the Hamiltonian is turned off.
+        } and the data produced can no longer be trusted
         \cite{pedersen2018symplectic}.
         Luckily, the orbital-adaptive time-dependent coupled-cluster method
         seems to remove much of these problems.
@@ -2192,7 +2178,6 @@
         However, the orbital-adaptive formulation does not seem to solve all
         stability problems, and an ongoing study into this is being
         conducted by \citeauthor{oa-stability} \cite{oa-stability}.
-        % TODO: Should we include any study at all of the stability?
 
         But, before we try to solve the problem, we can formulate a
         ``zero-order'' amplitude for the time-dependent coupled-cluster wave
@@ -2265,3 +2250,5 @@
         energy in the time-independent coupled-cluster method if the
         explicit time-dependence is removed from the Hamiltonian and the
         cluster amplitudes.
+
+\clearemptydoublepage

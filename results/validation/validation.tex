@@ -5,7 +5,7 @@
 
     As the quote by E. W. Dijkstra so succintly puts, testing will only reveal
     the presence of bugs and there are most likely bugs present in the developed
-    code.
+    code that we are unable to locate.
     However, continuous testing over time will help make sure that new additions
     and evolution of existing code will not break at a later time.
     Our codes have contribution from several authors and we have therefore
@@ -22,8 +22,8 @@
     This means that all changes to the git-repositories run through the
     test-suites automatically and checks that known values are reproduced.
 
-    The focus in this thesis is on time-evolution of quantum mechanical systems,
-    and as such we will mainly look at time-dependent phenomenon with little
+    The focus in this thesis is on time evolution of quantum mechanical systems,
+    and as such we will mainly look at time-dependent phenomena with little
     focus on ground state solutions.
     However, note that several known ground state values, in particular for one-
     and two-dimensional quantum dots, are implemented as tests.
@@ -39,7 +39,7 @@
         explores the multi-configuration time-dependent Hartree-Fock method on
         the one-dimensional harmonic oscillator system for two particles
         compared to a semi-analytic result.\footnote{%
-            Semi-analytic as the time-evolution is solved numerically.
+            Semi-analytic as the time evolution is solved numerically.
         }
         In this study the confining potential is given by the harmonic
         oscillator potential,
@@ -62,7 +62,7 @@
         We use a relatively small basis of $L = 20$ spin-orbitals, that is, the
         $L / 2 = 10$ first one-dimensional harmonic oscillator orbitals found by
         diagonalizing the one-body Hamiltonian.
-        The time-evolution is run for $t = 4\tau$ where $\tau$ is a cycle of the
+        The time evolution is run for $t = 4\tau$ where $\tau$ is a cycle of the
         laser given by
         \begin{align}
             \tau = \frac{2\pi}{\Omega}.
@@ -72,12 +72,17 @@
         $\epsilon = \num{1e-6}$.
 
         We will reproduce part of the study done by
-        \citeauthor{zanghellini_2004} using TDHF, TDCID, TDCISD, TDCCD, and
-        TDCCSD as well as the their ground state counterparts.
-        We do not include NOCCD nor OATDCCD, as part of the study is a
-        comparison of the time-dependent overlap which we have not implemented
-        for the latter method as dicussed in
-        \autoref{subsec:autocorrelation-oatdccd}.
+        \citeauthor{zanghellini_2004} using the following methods:
+        time-dependent Hartree-Fock (TDHF), time-dependent configuration
+        interaction with doubles and singles-and-doubles excitations (TDCID and
+        TDCISD), and time-dependent coupled-cluster with doubles and
+        singles-and-doubles excitations (TDCCD and TDCCSD), as well as the their
+        ground state counterparts.
+        We do not include the non-orthogonal coupled-cluster doubles (NOCCD) nor
+        the orbital-adaptive time-dependent coupled-cluster doubles (OATDCCD)
+        methods, as part of the study is a comparison of the time-dependent
+        overlap which we have not implemented for the latter method as dicussed
+        in \autoref{subsec:autocorrelation-oatdccd}.
         In \autoref{fig:one-body-density-zanghellini} we plot the ground state
         particle densities using the general Hartree-Fock method and CISD, i.e.,
         full configuration interaction for two particles.
@@ -90,7 +95,7 @@
             \abs{\Delta \densityten(x, 0)}
             = \abs{\densityten_{CISD}(x, 0) - \densityten_{CCSD}(x, 0)}.
         \end{align}
-        We've listed the ground state energies in \autoref{tab:gs-zanghellini}
+        We have listed the ground state energies in \autoref{tab:gs-zanghellini}
         for the different solver methods.
         We compute the relative error by
         \begin{align}
@@ -179,14 +184,13 @@
             \end{tikzpicture}
             \caption{In the top figure we have reproduced Figure 1. in the
             study done by \citeauthor{zanghellini_2004}
-            \cite{zanghellini_2004}, that is, we have plotted the one-body
-            particle density two one-dimensional quantum dots in an harmonic
+            \cite{zanghellini_2004}, that is, we have plotted the
+            particle density for two one-dimensional quantum dots in an harmonic
             oscillator trap using full-configuration interaction and a
             general Hartree-Fock solver.
-            In the lower figure we have plotted the absolute difference
-            between the one-body particle densities from the
-            full-configuration interaction and coupled cluster with singles
-            and doubles methods.}
+            In the lower figure we have plotted the absolute difference between
+            the particle densities from the full-configuration interaction and
+            coupled-cluster with singles-and-doubles methods.}
             \label{fig:one-body-density-zanghellini}
         \end{figure}
 
@@ -197,7 +201,7 @@
         We also show how TDCCSD reproduces the exact TDCISD solution to a large
         degree by computing the absolute difference between the overlap from
         TDCISD and TDCCSD.
-        By inspection we see that both the one-body particle density in
+        By inspection we see that both the particle density in
         \autoref{fig:one-body-density-zanghellini} and the time-dependent
         overlap in \autoref{fig:overlap-zanghellini} resembles the results from
         \citeauthor{zanghellini_2004} \cite{zanghellini_2004}, and we conclude
@@ -264,7 +268,7 @@
             \citeauthor{zanghellini_2004} \cite{zanghellini_2004}.
             In the lower figure we show the absolute difference in the
             overlap between the time-dependent full configuration
-            interaction method the time-dependent coupled cluster method
+            interaction method and the time-dependent coupled-cluster method
             with singles and doubles.}
             \label{fig:overlap-zanghellini}
         \end{figure}
@@ -276,10 +280,10 @@
         singles excitation operator.
         Looking at \autoref{fig:one-body-density-doubles-zanghellini} we can see
         how the doubles approximations CID and CCD with the harmonic oscillator
-        basis are quite far from the full configuration-interaction benchmark.
+        basis are quite far from the full configuration interaction benchmark.
         Performing a Hartree-Fock calulation and transforming to the new
         molecular orbital basis we see that CID and CCD are much better at
-        reproducing the full configuration-interaction result.
+        reproducing the full configuration interaction result.
         This demonstrates the effectiveness of Brillouin's theorem by moving to
         the optimal single-reference determinant found in Hartree-Fock.
         However, we see that this does not completely remove the need for a
@@ -360,10 +364,11 @@
                 \end{groupplot}
             \end{tikzpicture}
             \caption{In this figure we try to reproduce
-            \autoref{fig:one-body-density-zanghellini} using plain CID and CID with
-            Hartree-Fock basis.
+            \autoref{fig:one-body-density-zanghellini} using plain CID and CID
+            with a Hartree-Fock basis.
             The lower figure shows the absolute difference between CCD and CID
-            with harmonic oscillator (HO) basis and Hartree-Fock (HF) basis.}
+            with a harmonic oscillator (HO) basis and a Hartree-Fock (HF)
+            basis.}
             \label{fig:one-body-density-doubles-zanghellini}
         \end{figure}
 
@@ -372,7 +377,7 @@
         reconstruction of the exact solution from full configuration
         interaction.
         The lack of singles excitations become glaringly apparent once we start
-        the time-evolution of the system.
+        the time evolution of the system.
         This can be seen as an effect of the laser field being described by a
         singles operator.
         It is therefore likely that a singles-excitation operator best describes
@@ -380,8 +385,9 @@
         properly depicting the dynamics.
         In fact, comparing with \autoref{fig:overlap-zanghellini} we see that
         TDHF gives a qualitatively much better approximation to the exact
-        results which demonstrates that the singles approximation is essential
-        for the laser driven dynamics we explore.
+        results.
+        This demonstrates that the singles approximation is essential for the
+        laser driven dynamics we explore.
 
         \begin{figure}
             \centering
@@ -482,7 +488,7 @@
         We will therefore reproduce parts of the study done by
         \citeauthor{li_2005} using TDHF, TDCISD, TDCCSD, and OATDCCD.
 
-        We'll look at the smallest molecule \ch{H2}, that is, the
+        We will look at the smallest molecule \ch{H2}, that is, the
         Hydrogen-molecule with two electrons.
         This means that TDCISD, TDCCSD, and OATDCCD should produce exact
         results for the single-particle basis that is used.
@@ -498,7 +504,7 @@
         We perform a ground state calculation using the general Hartree-Fock
         solver and transform to this basis.
         We then do ground state computations using the time-independent version
-        of the specific solvers berfore starting the time-evolution.
+        of the specific solvers berfore starting the time evolution.
         The laser pulse used by \citeauthor{li_2005} is
         \begin{align}
             \vfg{E}(t)
@@ -523,37 +529,10 @@
         $\lambda = \SI{456}{\nano\meter}$.
         We run the simulation for a total of $t_f = \SI{225}{\hslash/\hartree}$
         with the laser turned on from the start.
-        We use the Gauss-integrator with $s = 3$ a fix-point convergence
-        threshold of $\epsilon = \num{1e-6}$ and an integration time step of
+        We use the Gauss-integrator as discussed in
+        \autoref{subsec:gauss-legendre} with $s = 3$, a fix-point convergence
+        threshold of $\epsilon = \num{1e-6}$, and an integration time step of
         $\Delta t = \SI{1e-2}{\hslash/\hartree}$.
-        %A plot of the laser field during the simulation is shown in
-        %\autoref{fig:li-laser}.
-        %\begin{figure}
-        %    \centering
-        %    \begin{tikzpicture}
-        %        \begin{axis}[
-        %            width=11cm,
-        %            height=6cm,
-        %            xlabel={$t$ $[\si{\hslash/\hartree}]$},
-        %            ylabel={$E(t)$ $[\si{\hartree}]$},
-        %            grid=major,
-        %            enlarge x limits=false,
-        %            enlarge y limits=false,
-        %        ]
-        %            \addplot+[
-        %                mark=none,
-        %                thick,
-        %            ]
-        %            table
-        %            {results/benchmarks/li/dat/li_laser.dat};
-        %        \end{axis}
-        %    \end{tikzpicture}
-        %    \caption{In this figure we've plotted the laser field from
-        %    \autoref{eq:li-field} with the envelope described in
-        %    \autoref{eq:li-laser} as done in the study by
-        %    \citeauthor{li_2005} \cite{li_2005}.}
-        %    \label{fig:li-laser}
-        %\end{figure}
         In our programs the dipole moment is defined with a positive sign,
         which means that we need to introduce a negative sign in the
         envelope or the polarization vector to include the negative charge
@@ -660,12 +639,12 @@
     \section{Summing up the validation}
         We have now demonstrated that the bulk of our methods perform as
         expected and give satisfying results for small systems.
-        Furthermore, we've demonstrated that the self-made one-dimensional
+        Furthermore, we have demonstrated that the self-made one-dimensional
         system and the interface towards PySCF \cite{pyscf} are working.
-        We've also demonstrated that we support several dipole laser fields and
+        We have also demonstrated that we support several dipole laser fields and
         that we can compute various quantities from all methods.
         Recalling the words of E. W. Dijkstra we do note that we have not proven
         our methods to be free of bugs, but at least we have demonstrated that a
         wide range of our code works as expected.
 
-\clearpage
+\clearemptydoublepage

@@ -1,5 +1,5 @@
 \chapter{Solver implementations}
-    In this chapter we'll discuss various implementation aspects of the \emph{ab
+    In this chapter we will discuss various implementation aspects of the \emph{ab
     initio} solvers discussed in \autoref{chap:hf} through \autoref{chap:ci} and
     \autoref{chap:cc}.
 
@@ -12,14 +12,14 @@
         We will in the following demonstrate three different procedures related
         to the restrictions put on the spin-orbitals as discussed in
         \autoref{subsec:restrictions-on-spin-orbitals}.
-        First we'll discuss a general Hartree-Fock method which puts no
+        First we will discuss a general Hartree-Fock method which puts no
         restrictions on the molecular orbitals.
         This method leads to the molecular orbitals being described as general
         spin-orbitals as shown in \autoref{eq:general-spin-orbital}.
         The second method is known as the \emph{restricted Hartree-Fock} method
         as it limits the molecuar orbitals to restricted spin-orbitals as
         in \autoref{eq:restricted-spin-orbital}.
-        Finally, we'll demonstrate the \emph{unrestricted Hartree-Fock method}
+        Finally, we will demonstrate the \emph{unrestricted Hartree-Fock method}
         yielding unrestricted spin-orbitals for the molecular orbitals as
         shown in \autoref{eq:unrestricted-spin-orbital}.
 
@@ -32,7 +32,7 @@
             We can transform from the known atomic orbital basis to the unknown
             molecular orbital basis by
             \begin{align}
-                \ket*{\phi_p} = C_{\alpha p}\ket{\chi_{\alpha}},
+                \ket*{\phi_p} = C_{\alpha p}\ket*{\chi_{\alpha}},
             \end{align}
             where $\vfg{C} \in \mathbb{C}^{K\times L}$ is now our unknown
             coefficient matrix.
@@ -65,7 +65,7 @@
                 \fockmat \vfg{C} = \overlapmat \vfg{C} \vfg{\epsilon},
                 \label{eq:roothan-hall-general}
             \end{gather}
-            where we've denoted the matrix elements of the Fock operator in the
+            where we have denoted the matrix elements of the Fock operator in the
             atomic orbital basis by
             \begin{align}
                 \mel*{\chi_{\alpha}}{\fock}{\chi_{\beta}}
@@ -81,22 +81,22 @@
             The orbital eigenenergies are indeed energies, but they are
             \emph{not} the eigenenergy of the total Hamiltonian.
             Rather they are similar to the eigenergies of the one-body
-            Hamiltonian, but with a the Fock operator representing a one-body
+            Hamiltonian, but with the Fock operator representing a one-body
             Hamiltonian containing a potential built from the mean-field
             interaction in the many-body problem.
             The equations in \autoref{eq:roothan-hall-general} are known as the
-            \emph{Roothan-Hall} equations \cite{roothan, hall}.
-            The Roothan-Hall equations constitute a generalized eigenvalue
+            \emph{Roothaan-Hall} equations \cite{roothan, hall}.
+            The Roothaan-Hall equations constitute a generalized eigenvalue
             equation.\footnote{%
                 The grammar sounds highly speculative as we talk about the
-                Roothan-Hall \emph{equations} reducing to a single
+                Roothaan-Hall \emph{equations} reducing to a single
                 \emph{equation}.
             }
             These equations represent a computational improvement to the
             integro-differential equations that come from the canonical
             Hartree-Fock equations.
 
-            In Python we solve the Roothan-Hall equations using SymPy's linear
+            In Python we solve the Roothaan-Hall equations using SymPy's linear
             algebra routine \pyth{scipy.linalg.eigh} which solves both ordinary
             and generalized eigenvalue equations for symmetric and Hermitian
             matrices \cite{sympy}, viz.
@@ -122,10 +122,10 @@ epsilon, C = scipy.linalg.eigh(fock_matrix, s)
                 \mel*{\chi_{\alpha}\phi_j}{\twohamil}{\chi_{\beta}\phi_j}_{AS},
             \end{align}
             where $j$ only sums over the occupied indices in the molecular
-            orbital basis.
+            orbital basis as discussed in \autoref{subsec:fermi-vacuum}.
             We notice that only the antisymmetric two-body elements depend on
             the molecular orbitals.
-            Formulating the matrix elements in terms of he known atomic orbitals
+            Formulating the matrix elements in terms of the known atomic orbitals
             and the coefficient matrix we get
             \begin{align}
                 \mel*{\chi_{\alpha}\phi_j}{\twohamil}{\chi_{\beta}\phi_j}
@@ -147,7 +147,7 @@ epsilon, C = scipy.linalg.eigh(fock_matrix, s)
                 \vfg{D} = \vfg{C}_{o}\vfg{C}^{\dagger}_{o},
                 \label{eq:ghf-density-matrix}
             \end{align}
-            where $\vfg{D} \in \mathbb{C}^{K \times K}$, and we've denoted the
+            where $\vfg{D} \in \mathbb{C}^{K \times K}$, and we have denoted the
             occupied coefficient matrices by $\vfg{C}_o \in \mathbb{C}^{K \times
             N}$.
             We can compute the density matrix in Python by
@@ -155,7 +155,7 @@ epsilon, C = scipy.linalg.eigh(fock_matrix, s)
 o = slice(0, n)
 density_matrix = C[:, o] @ C[:, 0].conj().T
             \end{python}
-            where \pyth{n} is he number of occupied particles and \pyth{o} is a
+            where \pyth{n} is the number of occupied particles and \pyth{o} is a
             slice with the indices of the occupied states.
             We can then write the matrix elements of the Fock operator in terms
             of the atomic orbitals and the density matrix as
@@ -200,7 +200,7 @@ fock_matrix = (
                     }{\chi_{\gamma}\chi_{\delta}}_{AS},
                     \label{eq:general-hartree-fock-energy}
                 \end{align}
-                where we've contracted the occupied coefficient matrices into
+                where we have contracted the occupied coefficient matrices into
                 density matrices.
                 In Python we compute the energy by
                 \begin{python}
@@ -250,19 +250,19 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
                 is a slice with the occupied indices.
 
 
-        \subsection{Self consistent field procedure}
-            Now, in order for us to solve the Roothan-Hall equations, we need an
+        \subsection{Self-consistent field procedure}
+            Now, in order for us to solve the Roothaan-Hall equations, we need an
             expression for the Fock matrix.
             However, the Fock matrix depends on the coefficients found from
-            solving the Roothan-Hall equations.
-            In order to get around this pickle, we use \emph{self consistent
+            solving the Roothaan-Hall equations.
+            In order to get around this pickle, we use \emph{self-consistent
             field iterations} to gradually converge towards a solution to the
-            Roothan-Hall equations.
+            Roothaan-Hall equations.
             We denote matrices at a specific step $i$ by a superscript $(i)$,
             e.g., the Fock matrix at step $i$ is denoted $\fockmat^{(i)}$.
             If there are no superscripts that means the matrix is independent of
-            the self consistent iterations.
-            The self consistent field method for the Roothan-Hall equations is
+            the self-consistent iterations.
+            The self-consistent field method for the Roothaan-Hall equations is
             then given by,
             \begin{align}
                 \fockmat^{(i)}\vfg{C}^{(i + 1)}
@@ -275,11 +275,11 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
             described in \autoref{subsec:ghf} yielding the coefficient matrix
             and the orbital eigenenergies for the next time step.
 
-            To start the self consistent iterations we need an initial value for
+            To start the self-consistent iterations we need an initial value for
             the Fock matrix.
             We choose $\fockmat^{(0)} = \vfg{\oneten}$, i.e., we set the initial
             Fock matrix to be the one-body Hamiltonian matrix.
-            The self consistent procedure can now be explained by the following
+            The self-consistent procedure can now be explained by the following
             steps:
             \begin{enumerate}
                 \item Construct the Fock matrix $\fockmat^{(i)}$ from
@@ -292,7 +292,7 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
                     \autoref{eq:ghf-density-matrix}.
                 \item Check for convergence.
             \end{enumerate}
-            The convergence of the self consistent iterations are determined by
+            The convergence of the self-consistent iterations are determined by
             the change in energy and the change in the density matrix between
             two consecutive steps.
             That is, for two given tolerances $\delta_E$ and $\delta_D$, we say
@@ -315,7 +315,7 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
             problems.
             We define $\fockmat^{(i)}$ as the measured quantity, and the newly
             built $\fockmat^{(i + 1)}$ as our predicted quantity.
-            The error vector is contstructed from
+            The error vector is constructed from
             \begin{align}
                 \vfg{e}_i
                 = \fockmat^{(i)} \vfg{D}^{(i)} \vfg{S}
@@ -331,7 +331,7 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
         \subsection{The restricted Hartree-Fock method}
             \label{subsec:rhf}
             In the restricted Hartree-Fock method we make the assumption that
-            each spin-direction is doubly occupied by an orbital.
+            each spin direction is doubly occupied by an orbital.
             This can be a valid assumption if the Hamiltonian is
             spin-independent\footnote{%
                 We write \emph{can} as there are situations where the
@@ -341,7 +341,7 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
             To be even more specific, we will look at the \emph{closed-shell
             restricted Hartree-Fock} method, i.e., each spin-orbital \emph{must}
             be doubly occupied and each energy shell must be completely filled.
-            This corresponds the spin-restricted spin-orbitals from
+            This corresponds to the spin-restricted spin-orbitals from
             \autoref{eq:restricted-spin-orbital}.
             For a basis of $L$ spin-orbitals we get $L/2$ orbitals, where $L$
             must be an even number.
@@ -407,28 +407,28 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
             We start with the Coulomb operator giving
             \begin{align}
                 \mel*{\phi_P\phi_J}{\twohamil}{\phi_Q\phi_J}
-                &= \braket*{\sigma}{\tau}\braket{\nu}{\nu}
+                &= \braket*{\sigma}{\tau}\braket*{\nu}{\nu}
                 \mel*{\varphi_p\varphi_j}{\twohamil}{\varphi_q\varphi_j}
                 = 2 \delta_{\sigma\tau}
                 \mel*{\varphi_p}{\hat{J}}{\varphi_q},
             \end{align}
-            where we've introduced the restricted Coulomb operator from
+            where we have introduced the Coulomb operator from
             \autoref{eq:coulomb-operator}, and summed over the spin-dependence
-            $\ket{\nu}$ from the two occupied orbitals in the two-body elements.
+            $\ket*{\nu}$ from the two occupied orbitals in the two-body elements.
             That is,
             \begin{align}
                 \braket*{\nu}{\nu} = \delta_{\nu\nu} = 2.
             \end{align}
-            The second term in the antisymmetric two body elements yields the
-            exchange operator to be
+            The second term in the antisymmetric two-body elements is the
+            exchange operator
             \begin{align}
                 \mel*{\phi_P\phi_J}{\twohamil}{\phi_J\phi_Q}
-                &= \braket*{\sigma}{\nu}\braket{\nu}{\tau}
+                &= \braket*{\sigma}{\nu}\braket*{\nu}{\tau}
                 \mel*{\varphi_p\varphi_j}{\twohamil}{\varphi_j\varphi_q}
                 = \delta_{\sigma\tau}
                 \mel*{\varphi_p}{\hat{K}}{\varphi_q},
             \end{align}
-            where we've used the completness relation for the spin of the
+            where we have used the completeness relation for the spin of the
             occupied molecular orbitals, viz.
             \begin{align}
                 \dyad*{\nu}
@@ -466,7 +466,7 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
             where $\brac{\chi_{\alpha}}$ is our spin-independent basis of $K$
             known atomic orbitals.
             By projecting the atomic orbitals onto the canonical Hartree-Fock
-            equations we will again be left with the Roothan-Hall equations as
+            equations we will again be left with the Roothaan-Hall equations as
             seen in \autoref{eq:roothan-hall-general}.
 
         \subsection{Constructing the restricted Fock matrix}
@@ -509,7 +509,7 @@ rho_qp[o, o] = C[:, o].conj().T @ s @ C[:, o]
                 C^{*}_{j\gamma} C_{j\delta}
                 \twotensym^{\alpha\gamma}_{\delta\beta},
             \end{gather}
-            where we've introduced the tensor notation for the elements of the
+            where we have introduced the tensor notation for the elements of the
             two-body operator to be
             \begin{align}
                 \twotensym^{\alpha\beta}_{\gamma\delta}
@@ -563,7 +563,7 @@ fock_matrix = (
             Furthermore, the one-body Hamiltonian \pyth{h} is now
             spin-independent.
             By proceeding with the self-consistent field iterations solving the
-            Roothan-Hall equations with \autoref{eq:atomic-fock-rhf} as the
+            Roothaan-Hall equations with \autoref{eq:atomic-fock-rhf} as the
             definition of the Fock matrix elements, we find the orbital
             coefficient matrix $\vfg{C} \in \mathbb{C}^{K \times L/2}$ which we
             use to transform to the restricted molecular orbitals.
@@ -623,7 +623,7 @@ energy = np.trace(np.dot(term, density_matrix))
 
         \subsection{The unrestricted Hartree-Fock method}
             The unrestricted Hartree-Fock method allows the molecular orbitals
-            to have independent orbitals for each spin-direction.
+            to have independent orbitals for each spin direction.
             Hence, we assume that the molecular orbitals can be described by
             spin-unrestricted spin-orbitals as seen in
             \autoref{eq:unrestricted-spin-orbital}.
@@ -646,8 +646,8 @@ energy = np.trace(np.dot(term, density_matrix))
             Note that there is no implicit sum over the label $\sigma$ in the
             orbital $\varphi^{\sigma}_{p}$ and the spin-function $\sigma(m_s)$.
             We can collect the orbitals in two sets
-            $\bigl\{\varphi^{\sigma}_{p}\bigr\}$, one for each spin-direction.
-            The ground state Slater determinant can then be written
+            $\bigl\{\varphi^{\sigma}_{p}\bigr\}$, one for each spin direction.
+            The ground state Slater determinant can then be written as
             \begin{align}
                 \ket*{\slat}
                 &=
@@ -678,7 +678,7 @@ energy = np.trace(np.dot(term, density_matrix))
             \end{align}
             where the overlap between two orbitals with differing spin is not
             necessarily zero.
-            However, if the two spin-directions are the same, i.e., $\sigma =
+            However, if the two spin directions are the same, i.e., $\sigma =
             \tau$, we get
             \begin{align}
                 \braket*{\varphi^{\sigma}_{p}}{\varphi^{\sigma}_{q}}
@@ -698,7 +698,7 @@ energy = np.trace(np.dot(term, density_matrix))
             general different from $\epsilon^{\beta}_{p}$.
             By projecting onto another molecular orbital as in
             \autoref{eq:mo-fock-elements} we demonstrate how the spin yields two
-            separate Fock matrices, one for each spin-direction.\footnote{%
+            separate Fock matrices, one for each spin direction.\footnote{%
                 Note that this assumes a spin-independent Hamiltonian.
             }
             The one-body elements in the molecular orbital basis is given by
@@ -722,7 +722,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 }{\varphi^{\sigma}_{q}}.
             \end{align}
             We note that this term provides a coupling between the orbitals in
-            both spin-directions as we get a sum over the two spin-directions.
+            both spin directions as we get a sum over the two spin directions.
             This is not the case for the exchange operator from the
             antisymmetric two-body elements.
             We have
@@ -780,7 +780,7 @@ energy = np.trace(np.dot(term, density_matrix))
             where the spin label on the Fock matrix corresponds to the spin
             label of the exchange operator.
             We now look for a set of coefficients for the orbitals in each
-            spin-direction in terms of our original atomic orbital basis,
+            spin direction in terms of our original atomic orbital basis,
             \begin{align}
                 \ket*{\varphi^{\sigma}_{p}}
                 &= C^{\sigma}_{\kappa p} \ket*{\chi_{\kappa}},
@@ -796,14 +796,14 @@ energy = np.trace(np.dot(term, density_matrix))
             \begin{align}
                 \fockten^{\sigma}_{\kappa\lambda}
                 &\equiv
-                \mel{\chi_{\kappa}}{\fock^{\sigma}}{\chi_{\lambda}}
+                \mel*{\chi_{\kappa}}{\fock^{\sigma}}{\chi_{\lambda}}
                 %=
                 %\oneten_{\kappa\lambda}
                 %+ \sum_{\rho \in \brac{\alpha, \beta}}
-                %\mel{\chi_{\kappa}}{
+                %\mel*{\chi_{\kappa}}{
                 %    \hat{J}^{\rho}
                 %}{\chi_{\lambda}}
-                %- \mel{\chi_{\kappa}}{
+                %- \mel*{\chi_{\kappa}}{
                 %    \hat{K}^{\sigma}
                 %}{\chi_{\lambda}}
                 %\\
@@ -828,7 +828,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 D^{\sigma}_{\nu\mu}
                 \twotensym^{\kappa\mu}_{\nu\lambda},
             \end{align}
-            where the density matrix along a certain spin-direction is defined
+            where the density matrix along a certain spin direction is defined
             similarly to the density matrices in the general Hartree-Fock
             method.
             Left-projecting the atomic orbital basis on the canonical
@@ -862,14 +862,14 @@ energy = np.trace(np.dot(term, density_matrix))
             \end{gather}
             These coupled equations constitute the \emph{Pople-Nesbet
             equations}.
-            They resemble the Roothan-Hall equations seen in the two previous
+            They resemble the Roothaan-Hall equations seen in the two previous
             methods in that they are generalized eigenvalue equations, but now
             we solve two sets of eigenvalue equations simultaneously.
-            Note that the coupling between the two spin-directions occurs in the
+            Note that the coupling between the two spin directions occurs in the
             Fock matrix via the Coulomb operator.
             The self-consistent field iterations for the unrestricted
             Hartree-Fock method remains the same, but now we iterate equations
-            for both spin-directions at the same time.
+            for both spin directions at the same time.
 
             \subsubsection{The unrestricted Hartree-Fock energy}
                 Inserting our expression for the molecular orbitals into the
@@ -877,27 +877,27 @@ energy = np.trace(np.dot(term, density_matrix))
                 \begin{align}
                     \energy
                     %&=
-                    %\mel{\slat}{\hamil}{\slat}
+                    %\mel*{\slat}{\hamil}{\slat}
                     %=
-                    %\mel{\phi_I}{\onehamil}{\phi_I}
+                    %\mel*{\phi_I}{\onehamil}{\phi_I}
                     %+
                     %\half
-                    %\mel{\phi_I\phi_J}{
+                    %\mel*{\phi_I\phi_J}{
                     %    \twohamil
                     %}{\phi_I\phi_J}_{AS}
                     %\\
                     %&=
                     %\sum_{\sigma \in \brac{\alpha, \beta}}\brac{
-                    %    \mel{\varphi^{\sigma}_{i}}{
+                    %    \mel*{\varphi^{\sigma}_{i}}{
                     %        \onehamil
                     %    }{\varphi^{\sigma}_{i}}
                     %    + \half\brak{
                     %        \sum_{\tau \in \brac{\alpha, \beta}}
-                    %        \mel{\varphi^{\sigma}_{i}}{
+                    %        \mel*{\varphi^{\sigma}_{i}}{
                     %            \hat{J}^{\tau}
                     %        }{\varphi^{\sigma}_{i}}
                     %        -
-                    %        \mel{\varphi^{\sigma}_{i}}{
+                    %        \mel*{\varphi^{\sigma}_{i}}{
                     %            \hat{K}^{\sigma}
                     %        }{\varphi^{\sigma}_{i}}
                     %    }
@@ -920,10 +920,10 @@ energy = np.trace(np.dot(term, density_matrix))
                     \Biggr\}.
                 \end{align}
 
-        \subsection{Time-evolution}
+        \subsection{Time evolution}
             Due to time limitations we have only implemented a time-dependent
             general Hartree-Fock method.
-            From \autoref{eq:tdhf} we know that we can write the time-evolution
+            From \autoref{eq:tdhf} we know that we can write the time evolution
             of the molecular orbitals by,
             \begin{align}
                 i\hslash\dpd{}{t}\ket*{\phi_i(t)}
@@ -931,7 +931,7 @@ energy = np.trace(np.dot(term, density_matrix))
             \end{align}
             We can now insert the linear combination for the molecular orbitals in
             terms of the known atomic orbital basis.
-            The time-evolution of the molecular orbitals is kept in the
+            The time evolution of the molecular orbitals is kept in the
             coefficients leaving the atomic orbital basis static in time.
             This gives
             \begin{align}
@@ -971,7 +971,7 @@ energy = np.trace(np.dot(term, density_matrix))
             In case of non-orthogonal atomic orbitals, the orthonormalization
             procedure described in \autoref{subsec:basis-transformation} can be
             used to make the orbitals orthonormal prior to starting the
-            time-evolution.
+            time evolution.
             As discussed in \autoref{sec:numerical-integration} we need to
             convert $\dot{\vfg{C}}$ to a vector.
             Using NumPy we store the result from the right-hand side as a
@@ -982,8 +982,8 @@ energy = np.trace(np.dot(term, density_matrix))
             array back to the two-dimensional form.
 
         \subsection{Time-dependent energy}
-            The time-dependent energy is computed in exactly same way as for the
-            general Hartree-Fock method.
+            The time-dependent energy is computed in exactly the same way as for
+            the general Hartree-Fock method.
             We therefore reuse this functionality, but use the time-dependent
             coefficients for the density matrices.
             % TODO: Consider adding normalization
@@ -1013,7 +1013,7 @@ energy = np.trace(np.dot(term, density_matrix))
         solver where we create the full Slater determinant space and store it in
         memory.
         From this we also create the full Hamiltonian matrix $\hamilmat$.
-        Our implementation thus quickly absorb too much memory and therefore
+        Our implementation thus quickly absorbs too much memory and therefore
         limits the number of particles and basis functions that can be explored.
         To improve on the current scheme, an implementation of the \emph{direct
         CI} methods \cite{helgaker-molecular, olsen2012full} along with only
@@ -1055,7 +1055,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 \end{cases}
             \end{align}
             Here $N$ is the number of particles, $M = L - N$ is the number of
-            virtual states, and we've denoted the order $S$ as an integer where
+            virtual states, and we have denoted the order $S$ as an integer where
             $1$ represents singles, $2$ doubles, and so forth.
             This formula counts the number of ways $N$ particles can be
             distributed among $M$ positions moving $S$ particles at a time.
@@ -1068,22 +1068,22 @@ energy = np.trace(np.dot(term, density_matrix))
             In \autoref{tab:num-slater-determinants} we demonstrate how the
             number of Slater determinants increase as a function of truncation
             for a fixed number of particles.
-            The storage cost of the Hamiltonian matrix $\hamilmat$ is uncanny
-            going from CIS to CISDTQ as the storage increases by $7$ orders of
-            magnitude.
+            The storage cost of the Hamiltonian matrix $\hamilmat$ explodes when
+            going from the CIS truncation to the CISDTQ level as the memory cost
+            increases by $7$ orders of magnitude.
             \begin{table}
                 \centering
                 \caption{In this table we demonstrate how the number of
-                Slater determinants $N_s$ increase as a function of truncation
+                Slater determinants $N_s$ increases as a function of truncation
                 level for $N = 4$ and $L = 80$.
-                We've also included the number of bytes needed to store the
+                We have also included the number of bytes needed to store the
                 Slater determinants using \pyth{np.uint64}, i.e., 64-bit
                 unsigned integers to represent the determinants, and the size of
                 the Hamiltonian matrix in bytes where we assume 128-bit complex
                 numbers as elements.
                 The storage cost of the Hamiltonian matrix for CIS was
                 $\SI{0.001}{\giga\byte}$, which does not show up in the
-                designated one decimal point.}
+                designated decimal point.}
                 \renewcommand{\arraystretch}{1.3}
                 \begin{tabular}{@{}lrrr@{}}
                     \toprule
@@ -1159,7 +1159,7 @@ energy = np.trace(np.dot(term, density_matrix))
             truncation level.
 
         \subsection{Constructing the Hamiltonian matrix}
-            The arguably most effective ``first order'' optimization that can be
+            The arguably most effective ``first-order'' optimization that can be
             performed for the configuration interaction method is to implement
             the Slater-Condon rules when evaluating matrix elements of operator
             strings, as opposed to brute force evaluation of the action of the
@@ -1198,9 +1198,9 @@ energy = np.trace(np.dot(term, density_matrix))
                     as defined in \autoref{def:creation_1}.
                 \item The Kronecker-Delta $\delta_{p \in \vfg{n}}$ checking if
                     the single-particle state $p$ is an occupied state in
-                    $\ket{\vfg{n}}$.
+                    $\ket*{\vfg{n}}$.
                 \item The difference $\abs{\vfg{n} - \vfg{m}}$, between the two
-                    determinants $\ket{\vfg{n}}$ and $\ket{\vfg{m}}$.
+                    determinants $\ket*{\vfg{n}}$ and $\ket*{\vfg{m}}$.
                 \item The position of a set bit to a single-particle index $p$
                     in order to find the correct matrix elements in
                     $\oneten^{p}_{q}$ and $\twoten^{pq}_{rs}$.
@@ -1244,7 +1244,7 @@ energy = np.trace(np.dot(term, density_matrix))
                 \label{alg:popcount_64}
             \end{algorithm}
             Now, counting the number of set bits in the difference-state from
-            $\ket{\vfg{n}} \text{XOR} \ket{\vfg{m}}$ yields the difference
+            $\ket*{\vfg{n}} \text{XOR} \ket*{\vfg{m}}$ yields the difference
             $\abs{\vfg{n} - \vfg{m}}$.
             The function in \autoref{alg:state-diff} computes the difference
             between two determinants.
@@ -1269,7 +1269,6 @@ energy = np.trace(np.dot(term, density_matrix))
                 first (\pyth{0}), second (\pyth{1}), or higher, set bits.}
                 \label{alg:get-index}
             \end{algorithm}
-            % TODO: Add the implementation of the Slater-Condon rules?
 
 
         \subsection{Diagonalization}
@@ -1322,19 +1321,19 @@ energy = np.trace(np.dot(term, density_matrix))
                 \mel*{\slat_J}{\ccr{p}\can{q}}{\slat_K}.
                 \label{eq:ci-one-body-density}
             \end{align}
-            As matrix elements of the one-body density matrix is given by a pair
+            As matrix elements of the one-body density matrix are given by a pair
             of creation and annihilation operators we can use the Slater-Condon
             rules for one-body operators to evaluate the overlap.
             This results in virtually the same implementation as for the
             one-body Hamiltonian, but with a new one-body operator given by the
             coefficient vector $\vfg{c}_I$ for a specific eigenstate
             $\ket*{\Psi_I}$.
-            Do note that $\vfg{c}_I \in \mathbb{C}^{N_s}$ and that the indices
+            Note that $\vfg{c}_I \in \mathbb{C}^{N_s}$ and that the indices
             into this vector is given by the same indices as for the Slater
             determinants, unlike the single-particle indices used for the
             one-body density matrix and the one-body Hamiltonian.
 
-        \subsection{Time-evolution}
+        \subsection{Time evolution}
             Having solved the ground state problem, we move on to the dynamics
             of the configuration interaction method.
             Choosing an initial state with a given coefficient vector
@@ -1367,7 +1366,7 @@ energy = np.trace(np.dot(term, density_matrix))
             Therefore, by only including time-dependent one-body operators, an
             optimization is to store two copies of the full Hamiltonian
             matrix,\footnote{%
-                This might seem a little odd as we've already argued at length
+                This might seem a little odd as we have already argued at length
                 of how the Hamiltonian matrix is the bottleneck of the
                 implementation, but remember that our focus is on the dynamics
                 of quantum-mechanical systems and we are therefore quite limited
@@ -1407,8 +1406,8 @@ energy = np.trace(np.dot(term, density_matrix))
                     \braket*{\Psi(t)}
                 },
             \end{align}
-            where we've included an explicit normalization due to potential
-            drift in the coefficients from the time-evolution using numerical
+            where we have included an explicit normalization due to potential
+            drift in the coefficients from the time evolution using numerical
             integrators.
             Expanding the time-evolved state in the static basis of Slater
             determinants with time-dependent coefficients, $\vfg{c}(t)$, we find
@@ -1449,7 +1448,7 @@ energy = np.trace(np.dot(term, density_matrix))
             where we again include an explicit normalization term in case of
             drift in the normalization due to the integrator.
 
-    \section{Coupled cluster}
+    \section{Coupled-cluster}
         \label{sec:cc-solver}
         In this thesis we have implemented a set of coupled-cluster solvers,
         they are:
@@ -1542,7 +1541,6 @@ energy = np.trace(np.dot(term, density_matrix))
             means that we can get instabillities if we approach a system that is
             almost degenerate across the Fermi vacuum, that is, if we are almost
             in a multireference situation.
-            % TODO: This sounds kinda sketchy!
             We are now able to compute the next iteration of the cluster
             amplitudes by
             \begin{align}
@@ -1576,7 +1574,7 @@ energy = np.trace(np.dot(term, density_matrix))
             That is,
             \begin{align}
                 \Omega_{\mu}(\vfg{\clustamp}, \vfg{\clustlamp}^{(i)})
-                = \mel{\slat}{
+                = \mel*{\slat}{
                     (\1 + \clustl^{(i)})
                     \exponential(-\clust)
                     \com{\hamil}{\hat{X}_{\mu}}
@@ -1709,6 +1707,8 @@ energy = np.trace(np.dot(term, density_matrix))
                 \right\rvert_{\noccten = 0},
             \end{gather}
             where the index placement of the $\vfg{D}$-matrix should be noted.
+            The stationary conditions for $\noccten^{u}$ and $\noccten^{d}$ are
+            listed in \autoref{app:kappa-equations}.
             This lets us compute the next iteration of the rotations in the
             quasi-Newton method by
             \begin{gather}
@@ -1787,7 +1787,7 @@ energy = np.trace(np.dot(term, density_matrix))
             \autoref{eq:cc-energy-functional}.
             This Lagrangian can also be used for the CCD- and CCSD-methods once
             we have found the optimal values for $\vfg{\clustlamp}$.
-            % TODO: Refer to full expression in appendix
+            These are listed in \autoref{app:cc-lagrangian}.
 
         \subsection{Density matrices}
             Having found the converged $\clustamp$- and $\clustlamp$-amplitudes
@@ -1800,7 +1800,7 @@ energy = np.trace(np.dot(term, density_matrix))
             density matrix for the CCSD-method in
             \autoref{app:cc-density-matrices}.
 
-        \subsection{Time-evolution with static orbitals}
+        \subsection{Time evolution with static orbitals}
             \label{subsec:tdcc-implementation}
             From \autoref{eq:time-evolution-tau} and
             \autoref{eq:time-evolution-lambda} we find the equations of motion
@@ -1823,7 +1823,7 @@ energy = np.trace(np.dot(term, density_matrix))
                     \exponential(\clust(t))
                 }{\slat},
             \end{gather}
-            where we've set $\hslash = 1$ in atomic units.
+            where we have set $\hslash = 1$ in atomic units.
             Sans the imaginary number and sign these are just the $\clustamp$-
             and $\clustlamp$-amplitude equations as used in the time-independent
             case.
@@ -1839,11 +1839,11 @@ energy = np.trace(np.dot(term, density_matrix))
             NumPy to represent them as a one-dimensional array.
             We then concatenate the arrays as a single long one-dimensional
             array.
-            However, we've formulated all our amplitude equations using the rank
+            However, we have formulated all our amplitude equations using the rank
             $2$ and $4$ tensors and we must transform the input vector with
             amplitudes from the integration schemes to the correct shape of the
             amplitudes when solving the right-hand sides.
-            To do this we've created a Python class called
+            To do this we have created a Python class called
             \pyth{AmplitudeContainer} which defines convenience functions
             handling the reshaping of the amplitudes.
             This class was originally intended to provide operators such as
@@ -1964,9 +1964,11 @@ class AmplitudeContainer:
             in exactly the same way as for the variational ground state solvers,
             that is, by computing the Lagrangian from
             \autoref{eq:cc-energy-functional}.
+            We have listed the Lagrangian for CCD and CCSD in
+            \autoref{app:cc-lagrangian}.
 
         \subsection{Time-dependent overlap}
-            Due to the dual state of $\ket{\Psi}$ in coupled-cluster not being
+            Due to the dual state of $\ket*{\Psi}$ in coupled-cluster not being
             the adjoint, we have that
             \begin{align}
                 \braket*{\tilde{\Psi}}{\Psi}
@@ -1989,11 +1991,11 @@ class AmplitudeContainer:
                 P(t, t_0)
                 = \abs{A(t, t_0)}^2.
             \end{align}
-            In \autoref{app:cc-autocorrelation} we've added explicit tensor
+            In \autoref{app:cc-autocorrelation} we have added explicit tensor
             contractions for both CCD and CCSD in order to compute the
             coupled-cluster autocorrelation.
 
-        \subsection{Orbital-adaptive time-evolution}
+        \subsection{Orbital-adaptive time evolution}
             \label{subsec:oatdcc-implementation}
             We have in this thesis implemented the doubles truncation of the
             orbital-adaptive time-dependent coupled-cluster family; the
@@ -2006,7 +2008,6 @@ class AmplitudeContainer:
             and $\tilde{\vfg{S}}$ as coefficient matrices with the latter
             serving as the left-hand coefficients.
 
-            % TODO: Explain that D_0 is zero for OATDCCD
             To propagate the cluster amplitudes and the orbitals in time we
             start by noticing that
             \begin{align}
@@ -2142,12 +2143,11 @@ class AmplitudeContainer:
                 \\
                 -i\tilde{\vfg{\eta}}\vfg{A}_l = \tilde{\vfg{R}},
             \end{gather}
-            where we've marked the virtual-occupied block of $\eta^{p}_{q}$ by a
+            where we have marked the virtual-occupied block of $\eta^{p}_{q}$ by a
             tilde to distinguish it from merely the transpose of the
             occupied-virtual block.
             Solving both these equations yield the two non-zero blocks of
             $\eta^{p}_{q}$.
-            % TODO: Add code example of this? The compute_eta-function maybe?
 
             Having found $\eta^{p}_{q}$ we can now solve the $Q$-space
             equations found in \autoref{eq:ket-q} and \autoref{eq:bra-q}.
@@ -2270,7 +2270,7 @@ class OACCVector(AmplitudeContainer):
                 \implies
                 \bican{p}(t) = \tilde{C}_{p \alpha}(t) \bican{\alpha}(0),
             \end{gather}
-            where we've expressed the time-evolved biorthonormal second
+            where we have expressed the time-evolved biorthonormal second
             quantized operators as a linear combination of the initial
             operators.
             Now, the biorthonormality condition is only maintained at equal
@@ -2292,7 +2292,7 @@ class OACCVector(AmplitudeContainer):
                 \bican{\delta}(0)\bican{\gamma}(0),
                 \label{eq:transformed-cluster-operator}
             \end{align}
-            where we've defined the transformed cluster amplitudes
+            where we have defined the transformed cluster amplitudes
             \begin{align}
                 \clustamp^{\alpha \beta}_{\gamma \delta}(t)
                 \equiv
@@ -2336,3 +2336,6 @@ class OACCVector(AmplitudeContainer):
             levels of a system.
             However, we are still able to compute the energy transitions using
             the dipole moment.
+
+
+\clearemptydoublepage

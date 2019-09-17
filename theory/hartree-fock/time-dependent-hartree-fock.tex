@@ -1,10 +1,10 @@
 \section{Time-dependent Hartree-Fock theory}
     Time-dependent Hartree-Fock continues with the ansatz that the full
-    many-body wave function $\ket{\Psi(t)}$ is described by a single Slater
+    many-body wave function $\ket*{\Psi(t)}$ is described by a single Slater
     determinant of $N$ single-particle states, viz.
     \begin{align}
-        \ket{\Psi(t)} = \ket{\slat(t)}
-        = \ket{\phi_1(t) \phi_2(t)\dots \phi_N(t)},
+        \ket*{\Psi(t)} = \ket*{\slat(t)}
+        = \ket*{\phi_1(t) \phi_2(t)\dots \phi_N(t)},
     \end{align}
     where $\brac{\phi_p}$ is a basis of time-dependent molecular orbitals
     subject to the constraint that they are orthonormal in time.
@@ -13,18 +13,18 @@
     The Lagrangian of the system is given by
     \begin{align}
         \lagrangianfunc{\slat, \slat^{*}, \lambda}
-        = \mel{\slat(t)}{\para{
+        = \mel*{\slat(t)}{\para{
             i\hslash\partial_t
             - \hamil(t)
         }}{\slat(t)}
         - \lambda_{ji}\para{
-            \braket{\phi_i(t)}{\phi_j(t)}
+            \braket*{\phi_i(t)}{\phi_j(t)}
             - \delta_{ij}
         },
         \label{eq:lagrangian-tdhf}
     \end{align}
     where we keep the orthonormality condition in the time-dependent case as
-    well, and we've ignored the explicit time-dependence in the functional
+    well, and we have ignored the explicit time-dependence in the functional
     arguments to the Lagrangian.
     The action functional of the time-dependent variational principle is given
     by
@@ -33,7 +33,7 @@
         =
         \int \dd t \lagrangianfunc{\slat, \slat^{*}, \lambda},
     \end{align}
-    with the stationary condition over the first order variations found from
+    with the stationary condition over the first-order variations found from
     \begin{align}
         \delta S
         = \int\dd t \delta \lagrangianfunc{\slat, \slat^{*}, \lambda}
@@ -49,8 +49,8 @@
     As the time-derivative is a Hermitian, single-particle operator, we find the
     expectation value to be
     \begin{align}
-        \mel{\slat(t)}{\partial_t}{\slat(t)}
-        = \mel{\phi_i(t)}{\partial_t}{\phi_i(t)}.
+        \mel*{\slat(t)}{\partial_t}{\slat(t)}
+        = \mel*{\phi_i(t)}{\partial_t}{\phi_i(t)}.
     \end{align}
     % TODO: Prove this in the appendix.
     Performing variations over a single molecular orbital at a time we have
@@ -67,9 +67,9 @@
     the time-independent case is the variation over the time-derivative.
     We find
     \begin{align}
-        \mel{\tilde{\slat}(t)}{\partial_t}{\slat(t)}
-        = \mel{\phi_i(t)}{\partial_t}{\phi_i(t)}
-        + \epsilon\mel{\eta(t)}{\partial_t}{\phi_k(t)}.
+        \mel*{\tilde{\slat}(t)}{\partial_t}{\slat(t)}
+        = \mel*{\phi_i(t)}{\partial_t}{\phi_i(t)}
+        + \epsilon\mel*{\eta(t)}{\partial_t}{\phi_k(t)}.
     \end{align}
     From the stationary conditions of the action functional we find
     \begin{gather}
@@ -78,9 +78,9 @@
         - \lagrangianfunc{\slat, \slat^{*}, \lambda}
         = 0 \\
         \implies
-        i\hslash\mel{\eta}{\partial_t}{\phi_k}
-        -\mel{\eta}{\fock}{\phi_k}
-        = \lambda_{jk}\braket{\eta}{\phi_j},
+        i\hslash\mel*{\eta}{\partial_t}{\phi_k}
+        -\mel*{\eta}{\fock}{\phi_k}
+        = \lambda_{jk}\braket*{\eta}{\phi_j},
     \end{gather}
     where we now for the sake of brevity removed the explicit time-dependence of
     the orbitals and the operators.
@@ -89,9 +89,9 @@
     As $\eta(x, t)$ was arbitrary, this must be valid for all choices of
     $\eta(x, t)$ and we can formulate the stationary condition as
     \begin{align}
-        i\hslash\partial_t\ket{\phi_k}
-        - \fock\ket{\phi_k}
-        = \lambda_{jk}\ket{\phi_j}.
+        i\hslash\partial_t\ket*{\phi_k}
+        - \fock\ket*{\phi_k}
+        = \lambda_{jk}\ket*{\phi_j}.
         \label{eq:stationary-condition-1}
     \end{align}
     Projecting onto $\phi_l(x, t)$ and applying the constraint that the
@@ -99,16 +99,16 @@
     multipliers,
     \begin{align}
         \lambda_{lk}
-        = i\hslash\mel{\phi_l}{\partial_t}{\phi_k}
-        - \mel{\phi_l}{\fock}{\phi_k}.
+        = i\hslash\mel*{\phi_l}{\partial_t}{\phi_k}
+        - \mel*{\phi_l}{\fock}{\phi_k}.
     \end{align}
     We now insert this expression for the Lagrange multipliers back into the
     stationary condition in \autoref{eq:stationary-condition-1}.
     This yields
     \begin{align}
         \hat{P}\brak{
-            i\hslash\partial_t\ket{\phi_k}
-            - \fock\ket{\phi_k}
+            i\hslash\partial_t\ket*{\phi_k}
+            - \fock\ket*{\phi_k}
         }
         = 0,
     \end{align}
@@ -119,15 +119,15 @@
     and we see that we have gotten rid of the Lagrange multipliers.
     Solving for the time-derivative of the molecular orbitals we find
     \begin{align}
-        i\hslash\hat{P}\partial_t\ket{\phi_k}
-        = \hat{P}\fock\ket{\phi_k}.
+        i\hslash\hat{P}\partial_t\ket*{\phi_k}
+        = \hat{P}\fock\ket*{\phi_k}.
     \end{align}
     We now define an arbitrary time-dependent, Hermitian operator $\hat{Q}$
     in terms of a unitary transformation \cite{hochstuhl2014time}
     \begin{align}
-        i\hslash\mel{\phi_i}{\partial_t}{\phi_j}
+        i\hslash\mel*{\phi_i}{\partial_t}{\phi_j}
         \equiv
-        \mel{\phi_i}{\hat{Q}}{\phi_j}.
+        \mel*{\phi_i}{\hat{Q}}{\phi_j}.
     \end{align}
     We know that  Slater determinants are invariant up to a complex phase under
     unitary transformations, as seen in
@@ -138,8 +138,11 @@
     Expanding the projection operator and inserting this choice, we get the
     time-dependent Hartree-Fock equations
     \begin{align}
-        i\hslash\partial_t\ket{\phi_k(t)}
-        = \fock(t)\ket{\phi_k(t)},
+        i\hslash\partial_t\ket*{\phi_k(t)}
+        = \fock(t)\ket*{\phi_k(t)},
         \label{eq:tdhf}
     \end{align}
     where the molecular orbitals stays orthonormal in time.
+
+
+\clearemptydoublepage

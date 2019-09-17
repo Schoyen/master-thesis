@@ -1,6 +1,6 @@
 \chapter{Quantum Mechanics}
-    In this appendix we'll add proofs and derivations of expressions arising
-    from the theory section on quantum mechanics and many-body theory.
+    In this appendix we will add proofs and derivations of expressions arising
+    from the theory chapters on quantum mechanics and many-body theory.
 
     \section{Gauge invariant electromagnetic Hamiltonian}
         \label{app:gauge-invariant-electromagnetic-hamiltonian}
@@ -133,7 +133,7 @@
             +
             q\phi\psi,
         \end{align}
-        where we've used the notation $\supset$ to denote a term in the right-hand
+        where we have used the notation $\supset$ to denote a term in the right-hand
         side of the Schrödinger equation, and included the potential term.
         To go from here we collect all terms that contain the function $f$.
         For the kinetic term we have
@@ -146,8 +146,7 @@
                 - \frac{iq\hslash}{2m}\para{\vfg{\nabla}^2f}
             }\psi,
         \end{align}
-        where we've multiplied in the constant factor to recognizing equal
-        terms.
+        where we have multiplied in the constant factor to recognize equal terms.
         \begin{align}
             \frac{iq\hslash}{2m}\brak{
                 \vfg{A}'\cdot\vfg{\nabla}
@@ -174,19 +173,19 @@
             }\psi.
         \end{align}
         We are thus able to see that all terms containing the function $f$
-        cancels and can conclude that
-        \autoref{eq:gauge-invariant-vector-potential} to
+        cancel and can conclude that
+        \autoref{eq:gauge-invariant-vector-potential} through
         \autoref{eq:gauge-invariant-wave-function} are gauge transformations for
         the electromagnetic potentials and the wave function that leave the
         time-dependent Schrödinger equation invariant.
 
     \section{Positive definite overlap matrix}
         \label{app:positive-definite-overlap}
-        Consider an atomic orbital basis $\brac{\chi_{\alpha}}_{\alpha = 1}^{L}$
-        where the overlap is given by
+        Consider an atomic orbital basis of $L$ single-particle states
+        $\brac{\chi_{\alpha}}$ where the overlap is given by
         \begin{align}
             \overlapten_{\alpha\beta}
-            = \braket{\chi_{\alpha}}{\chi_{\beta}}
+            = \braket*{\chi_{\alpha}}{\chi_{\beta}}
             = \int\dd x \chi^{*}_{\alpha}(x)\chi_{\beta}(x)
             \neq \delta_{\alpha\beta}.
         \end{align}
@@ -224,7 +223,7 @@
                 \psi^{*}_i(x)
                 \psi_i(x)
                 =
-                \braket{\psi_i}{\psi_i}
+                \braket*{\psi_i}{\psi_i}
                 = \lambda_i
                 > 0,
             \end{align}
@@ -239,12 +238,12 @@
         \label{sec:orbital-rotations}
         We prove \autoref{lemma:unitary-transformation-slater}.
         \begin{proof}
-            Let $\brac{\phi_i}_{i = 1}^{L}$ be an orthonormal basis of
+            Let $\brac{\phi_i}$ be an orthonormal basis of $L$
             atomic orbitals.
             We can then do a unitary transformation from this basis to a new
-            basis $\brac{\ket{\psi_i}}_{i = 1}^{L}$ by
+            basis $\brac{\psi_i}$ of $L$ single-particle states by
             \begin{align}
-                \ket{\psi_i} = U_{ji}\ket{\phi_j},
+                \ket*{\psi_i} = U_{ji}\ket*{\phi_j},
                 \label{eq:unitary_transformation}
             \end{align}
             where $U_{ji}$ is an element in the unitary matrix $\vfg{U} \in
@@ -253,7 +252,7 @@
             write
             \begin{align}
                 \psi_{ij} \equiv \psi_j(x_i)
-                = \braket{x_i}{\psi_j},
+                = \braket*{x_i}{\psi_j},
             \end{align}
             and equivalently for $\phi_{ij}$. Projecting onto the coordinate
             basis we can write \autoref{eq:unitary_transformation} as
@@ -288,7 +287,7 @@
             can now be found by
             \begin{align}
                 \Psi(\vfg{x})
-                = \braket{\vfg{x}}{\Psi}
+                = \braket*{\vfg{x}}{\Psi}
                 = \frac{1}{\sqrt{N!}}\det(\vfg{\Psi}),
             \end{align}
             and similarly for $\Phi(\vfg{x})$.
@@ -314,9 +313,9 @@
             In other words, $\Psi(\vfg{x})$ will differ from $\Phi(\vfg{x})$
             by at most a complex phase factor and
             \begin{align}
-                \braket{\Psi}
-                = \norm{\det(U)}^2\braket{\Phi}
-                = \braket{\Phi}
+                \braket*{\Psi}
+                = \norm{\det(U)}^2\braket*{\Phi}
+                = \braket*{\Phi}
                 = \1,
             \end{align}
             and the lemma is proved.
@@ -325,9 +324,10 @@
 
     \section{Deriving the reference energy}
         \label{sec:deriving-the-reference-energy}
-        For the orthormal basis $\brac{\ket{\phi_p}}_{p = 1}^{L}$ with the $N$
-        first states occupied in the reference state $\ket{\refslat}$, we
-        compute the reference energy from \autoref{eq:reference-energy}.
+        Let $\brac{\phi_p}$ be an orthonormal basis of $L$ single-particle
+        states with the $N$ first states occupied in the reference state
+        $\ket*{\slat}$, we compute the reference energy from
+        \autoref{eq:reference-energy}.
         We use Wick's theorem with normal ordering relative to the Fermi vacuum,
         that is, we treat the reference state as our vacuum state.
         Starting with the one-body operator, we get
@@ -340,7 +340,7 @@
             =
             \oneten^{p}_{q}
             \para{
-                \brac{
+                \normalord{
                     \ccr{p}
                     \can{q}
                 }
@@ -352,7 +352,7 @@
             }
             =
             \oneten^{p}_{q}
-            \brac{
+            \normalord{
                 \ccr{p}
                 \can{q}
             }
@@ -370,7 +370,7 @@
         \citetitle{crawford2000introduction}\cite{crawford2000introduction}.
         We call the first term, the \emph{normal-ordered one-body Hamiltonian},
         \begin{align}
-            \onehamil_N \equiv \oneten^{p}_{q}\brac{
+            \onehamil_N \equiv \oneten^{p}_{q}\normalord{
                 \ccr{p}
                 \can{q}
             }.
@@ -379,14 +379,14 @@
         Computing the expectation value of the one-body Hamiltonian on the
         reference state, we get
         \begin{align}
-            \bra{\refslat}\onehamil\ket{\refslat}
+            \mel*{\slat}{\onehamil}{\slat}
             =
-            \bra{\refslat}\onehamil_N\ket{\refslat}
+            \mel*{\slat}{\onehamil_N}{\slat}
             +
             \oneten^{p}_{q}
             \delta_{p \in O}
             \delta_{pq}
-            \braket{\refslat}{\refslat}
+            \braket*{\slat}{\slat}
             = 0 + \oneten^{i}_{i}.
         \end{align}
         To see why the former term becomes zero, we have to consider the four
@@ -400,10 +400,10 @@
         not in the reference state.
         The expectation value of the two-body term is given by
         \begin{align}
-            \bra{\refslat}\twohamil\ket{\refslat}
+            \mel*{\slat}{\twohamil}{\slat}
             &=
             \frac{1}{4}u^{pq}_{rs}
-            \bra{\refslat}\ccr{p}\ccr{q}\can{s}\can{r}\ket{\refslat}.
+            \mel*{\slat}{\ccr{p}\ccr{q}\can{s}\can{r}}{\slat}.
         \end{align}
         For brevity, we will only write out the operator strings.
         \begin{align}
@@ -422,7 +422,7 @@
                 \c1 {\can{s}}
                 \c2 {\can{r}}
             }
-            + \brac{
+            + \normalord{
                 \wick{
                     \c {\ccr{p}}
                     {\ccr{q}}
@@ -430,7 +430,7 @@
                     {\can{r}}
                 }
             }
-            + \brac{
+            + \normalord{
                 \wick{
                     \c {\ccr{p}}
                     {\ccr{q}}
@@ -440,7 +440,7 @@
             }
             \nonumber \\
             &\qquad
-            + \brac{
+            + \normalord{
                 \wick{
                     {\ccr{p}}
                     \c {\ccr{q}}
@@ -448,7 +448,7 @@
                     {\can{r}}
                 }
             }
-            + \brac{
+            + \normalord{
                 \wick{
                     {\ccr{p}}
                     \c {\ccr{q}}
@@ -456,7 +456,7 @@
                     \c {\can{r}}
                 }
             }
-            + \brac{
+            + \normalord{
                 {\ccr{p}}
                 {\ccr{q}}
                 {\can{s}}
@@ -474,7 +474,7 @@
             \delta_{qs}
             - \delta_{p \in O}
             \delta_{ps}
-            \brac{
+            \normalord{
                 \ccr{q}
                 \can{r}
             }
@@ -482,25 +482,25 @@
             &\qquad
             + \delta_{p \in O}
             \delta_{pr}
-            \brac{
+            \normalord{
                 \ccr{q}
                 \can{s}
             }
             + \delta_{q \in O}
             \delta_{qs}
-            \brac{
+            \normalord{
                 \ccr{p}
                 \can{r}
             }
             - \delta_{q \in O}
             \delta_{qr}
-            \brac{
+            \normalord{
                 \ccr{p}
                 \can{s}
             }
             \nonumber \\
             &\qquad
-            + \brac{
+            + \normalord{
                 {\ccr{p}}
                 {\ccr{q}}
                 {\can{s}}
@@ -519,14 +519,14 @@
         This occurs when both creation operators act on virtual states and the
         two annihilation operators act on occupied states, viz.
         \begin{align}
-            \brac{
+            \normalord{
                 {\ccr{a}}
                 {\ccr{b}}
                 {\can{j}}
                 {\can{i}}
             }
-            \ket{\refslat}
-            = A\ket{\slat^{ab}_{ij}},
+            \ket*{\slat}
+            = A\ket*{\slat^{ab}_{ij}},
         \end{align}
         where $A$ is some phase factor.
         In other words, this combination of operators will leave the reference
@@ -534,7 +534,7 @@
         overlap between the reference state and the excited state will be zero.
         We are thus left with
         \begin{align}
-            \bra{\refslat}\twohamil\ket{\refslat}
+            \mel*{\slat}{\twohamil}{\slat}
             &=
             \frac{1}{4}\twoten^{pq}_{rs}\brac{
                 -\delta_{p \in O}
@@ -545,24 +545,24 @@
                 \delta_{q \in O}
                 \delta_{pr}
                 \delta_{qs}
-            }\braket{\refslat}{\refslat}
+            }\braket*{\slat}{\slat}
             \\
             &=
             -\frac{1}{4} \twoten^{ij}_{ji}
             + \frac{1}{4} \twoten^{ij}_{ij}
             = \half \twoten^{ij}_{ij},
         \end{align}
-        where we've used the anti-symmetry of the two-body tensor to collect the
+        where we have used the anti-symmetry of the two-body tensor to collect the
         two remaining terms, that is, $\twoten^{ij}_{ij} =-\twoten^{ij}_{ji}$.
         In total we are left with the reference energy of the electronic
         Hamiltonian
         \begin{align}
             \energyref
             &=
-            \bra{\refslat}\hamil\ket{\refslat}
+            \mel*{\slat}{\hamil}{\slat}
             =
-            \bra{\refslat}\onehamil\ket{\refslat}
-            + \bra{\refslat}\twohamil\ket{\refslat}
+            \mel*{\slat}{\onehamil}{\slat}
+            + \mel*{\slat}{\twohamil}{\slat}
             =
             \oneten^{i}_{i}
             + \half \twoten^{ij}_{ij},
@@ -571,10 +571,10 @@
 
     \section{The normal-ordered Hamiltonian}
         \label{app:normal-ordered-hamiltonian}
-        Given an orthonormal basis $\brac{\ket{\phi_p}}_{p = 1}^{L}$, with the
-        $N$ first states occupied in the reference state $\ket{\slat}$, we
-        can construct the normal-ordered Hamiltonian, $\hamil_N$, relative to
-        the Fermi vacuum by using Wick's theorem.
+        Given an orthonormal basis of $L$ single-particle states
+        $\brac{\phi_p}$, with the $N$ first states occupied in the reference
+        state $\ket*{\slat}$, we can construct the normal-ordered Hamiltonian,
+        $\hamil_N$, relative to the Fermi vacuum by using Wick's theorem.
         Starting with the one-body Hamiltonian, we know from
         \autoref{eq:one-hamil-wick} that we can write the one-body Hamiltonian
         as
@@ -677,7 +677,7 @@
                 \can{r}
             },
         \end{align}
-        where we've collected the constant terms, the one-body terms and the
+        where we have collected the constant terms, the one-body terms and the
         two-body term.
         We recognize the two first constant terms as the reference energy from
         \autoref{eq:reference-energy}.
@@ -739,9 +739,9 @@
         The normal-ordered Hamiltonian relative to the Fermi vacuum is defined
         in such a manner that
         \begin{align}
-            \bra{\slat}\hamil_N\ket{\slat}
-            = \bra{\slat}\fock_N\ket{\slat}
-            + \bra{\slat}\twohamil_N\ket{\slat}
+            \mel*{\slat}{\hamil_N}{\slat}
+            = \mel*{\slat}{\fock_N}{\slat}
+            + \mel*{\slat}{\twohamil_N}{\slat}
             = 0.
         \end{align}
         You can convince yourself of this by noting that the only terms that
@@ -774,15 +774,15 @@
         \end{align}
         that is, a tensor product of identity operators except for position $i$
         where the one-body operator $\hat{q}$ is located.
-        Let $\brac{\phi_p}_{p = 1}^{L}$ be a basis of single-particle states.
+        Let $\brac{\phi_p}$ be a basis of $L$ single-particle states.
         We can then find the action of $\hat{q}$ on a single-particle state,
         \begin{align}
-            \hat{q}\ket{\phi_i}
-            = \sum_{p = 1}^{L}\ket{\phi_{p}}\mel{\phi_p}{\hat{q}}{\phi_i}
-            \equiv \sum_{p = 1}^{L} q^{p}_{i}\ket{\phi_p},
+            \hat{q}\ket*{\phi_i}
+            = \sum_{p = 1}^{L}\ket*{\phi_{p}}\mel*{\phi_p}{\hat{q}}{\phi_i}
+            \equiv \sum_{p = 1}^{L} q^{p}_{i}\ket*{\phi_p},
         \end{align}
-        where we've used the resolution of the identity.
-        Furthermore, we've re-instated explicit sums for the moment to avoid
+        where we have used the resolution of the identity.
+        Furthermore, we have re-instated explicit sums for the moment to avoid
         confusion.
         As the one-body operator acts on a single single-particle state at a
         time, the operator will commute with the permutation operator
@@ -792,9 +792,9 @@
         \autoref{eq:slater-determinant-abstract}.
         Acting with $\hat{Q}_1$ on the Slater determinant, we get
         \begin{align}
-            \hat{Q}_1\ket{\slat}
+            \hat{Q}_1\ket*{\slat}
             &=
-            \hat{Q}_1\ket{\phi_1\dots\phi_N}
+            \hat{Q}_1\ket*{\phi_1\dots\phi_N}
             =
             \frac{1}{\sqrt{N!}}
             \sum_{\sigma \in S_N}
@@ -802,10 +802,10 @@
             \hat{P}_{\sigma}
             \sum_{i = 1}^{N}\hat{q}(i)
             \bigotimes_{j = 1}^{N}
-            \ket{\phi_j},
+            \ket*{\phi_j},
         \end{align}
-        where we've moved the one-body operator to the far right.
-        We've also represented the Slater determinant as a single ket with the
+        where we have moved the one-body operator to the far right.
+        We have also represented the Slater determinant as a single ket with the
         occupied single-particle states inside, similar to the occupation number
         representation in the section on Fock space.
         Concentrating on the action of the one-body operator on the product
@@ -813,31 +813,31 @@
         \begin{align}
             \sum_{i = 1}^{N}\hat{q}(i)
             \bigotimes_{j = 1}^{N}
-            \ket{\phi_j}
+            \ket*{\phi_j}
             =
             \sum_{i = 1}^{N}
             \sum_{p = 1}^{L}
             q^{p}_{i}
             \para{
                 \bigotimes_{j = 1}^{i - 1}
-                \ket{\phi_j}
+                \ket*{\phi_j}
             }
-            \otimes \ket{\phi_p}
+            \otimes \ket*{\phi_p}
             \otimes \para{
                 \bigotimes_{j = i + 1}^{N}
-                \ket{\phi_j}
+                \ket*{\phi_j}
             },
         \end{align}
-        where the single-particle state $\ket{\phi_i}$ has been replaced in the
-        product state by the single-particle state $\ket{\phi_p}$.
+        where the single-particle state $\ket*{\phi_i}$ has been replaced in the
+        product state by the single-particle state $\ket*{\phi_p}$.
         Moving the matrix elements outside the antisymmetrizer we get a sum over
         Slater determinants which we write
         \begin{align}
-            \hat{Q}_1\ket{\slat}
+            \hat{Q}_1\ket*{\slat}
             &=
             \sum_{p = 1}^{L}
             \sum_{i = 1}^{N}q^{p}_{i}
-            \ket{\phi_1\dots\phi_p\dots\phi_N},
+            \ket*{\phi_1\dots\phi_p\dots\phi_N},
         \end{align}
         where the placement of $\phi_p$ depends on the index $i$ as we replace
         $\phi_i$ with $\phi_p$.
@@ -848,20 +848,20 @@
         Having moved the matrix elements of $\hat{q}(i)$ outside the
         antisymmetrizer we see that
         \begin{align}
-            \ket{\phi_1\dots\phi_{i - 1}\phi_p\phi_{i + 1}\dots\phi_N}
-            = \ccr{p}\can{i}\ket{\phi_1\dots\phi_N}
-            = \ccr{p}\can{i}\ket{\slat}
-            = \ccr{p}\can{q}\ket{\slat},
+            \ket*{\phi_1\dots\phi_{i - 1}\phi_p\phi_{i + 1}\dots\phi_N}
+            = \ccr{p}\can{i}\ket*{\phi_1\dots\phi_N}
+            = \ccr{p}\can{i}\ket*{\slat}
+            = \ccr{p}\can{q}\ket*{\slat},
         \end{align}
-        where we in the last equality used that $\can{a}\ket{\slat} = 0$ using
-        the Fermi vacuum formalism and therefore $\can{i}\ket{\slat} =
-        \can{q}\ket{\slat}$.
+        where we in the last equality used that $\can{a}\ket*{\slat} = 0$ using
+        the Fermi vacuum formalism and therefore $\can{i}\ket*{\slat} =
+        \can{q}\ket*{\slat}$.
         We also see that the sum over $p$ is independent of the sum over
         $q$ (where we went from $i \to q$), and we write
         \begin{align}
-            \hat{Q}_1\ket{\slat}
+            \hat{Q}_1\ket*{\slat}
             = \sum_{p = 1}^{L}\sum_{q = 1}^{L}q^{p}_{q}
-            \ccr{p}\can{q}\ket{\slat},
+            \ccr{p}\can{q}\ket*{\slat},
         \end{align}
         Removing the explicit sums and extracting the operator without the
         reference determinant, we then have
@@ -873,7 +873,7 @@
         \begin{align}
             q^{p}_{q}
             \equiv
-            \mel{\phi_p}{\hat{q}}{\phi_q}
+            \mel*{\phi_p}{\hat{q}}{\phi_q}
             = \int\dd x\phi^{*}_{p}(x)\hat{q}\phi_{q}(x),
         \end{align}
         which is what we wanted to show.
@@ -894,18 +894,18 @@
         We will therefore describe the action of the two-body operator on a
         product state of two single-particle states by
         \begin{align}
-            \hat{q}(i, j)\ket{\phi_i}\otimes\ket{\phi_j}
+            \hat{q}(i, j)\ket*{\phi_i}\otimes\ket*{\phi_j}
             = \sum_{p, q = 1}^{L}
             q^{pq}_{ij}
-            \ket{\phi_p}\otimes\ket{\phi_q},
+            \ket*{\phi_p}\otimes\ket*{\phi_q},
         \end{align}
-        where we've used the resolution of the identity for both single-particle
+        where we have used the resolution of the identity for both single-particle
         states in the product state.
-        The two-body matrix elements is given by
+        The two-body matrix elements are given by
         \begin{align}
             q^{pq}_{ij}
             &\equiv
-            \mel{\phi_p\phi_q}{\hat{q}(i, j)}{\phi_i\phi_j}
+            \mel*{\phi_p\phi_q}{\hat{q}(i, j)}{\phi_i\phi_j}
             \\
             &=
             \int\dd x_1 \dd x_2
@@ -914,8 +914,8 @@
             \phi_i(x_1)\phi_j(x_2),
         \end{align}
         where some care must be shown for the notation of the matrix elements in
-        the definition of the two-body elements as we use $\ket{\phi_i\phi_j} =
-        \ket{\phi_i}\otimes\ket{\phi_j}$ to denote a product state in the matrix
+        the definition of the two-body elements as we use $\ket*{\phi_i\phi_j} =
+        \ket*{\phi_i}\otimes\ket*{\phi_j}$ to denote a product state in the matrix
         elements.
         However, outside the matrix elements, this notation will denote a Slater
         determinant in the occupation number representation.
@@ -931,9 +931,9 @@
         The action of the two-body operator on a Slater determinant can thus be
         written
         \begin{align}
-            \hat{Q}_2\ket{\slat}
+            \hat{Q}_2\ket*{\slat}
             = \sum_{i < j}^{N}\sum_{p, q = 1}^{L}
-            q^{pq}_{ij}\ket{\phi_1\dots\phi_p\dots\phi_q\dots\phi_N},
+            q^{pq}_{ij}\ket*{\phi_1\dots\phi_p\dots\phi_q\dots\phi_N},
             \label{eq:temp-action-two-body}
         \end{align}
         where $\phi_p$ is at position $i$ and $\phi_q$ at $j$.
@@ -946,7 +946,7 @@
         $\phi_q$ and then $\phi_p$.\footnote{%
             Note the ordering of the annihilation operators.
         }
-        This ensures that after the total operator string has been evaluted, no
+        This ensures that after the total operator string has been evaluated, no
         sign-change has occured.
         Now, including $i = j$ introduces no extra elements as $\can{j}\can{i}$
         will destroy the reference determinant.
@@ -961,10 +961,10 @@
         In total we can then write the action of the two-body operator on a
         Slater determinant,
         \begin{align}
-            \hat{Q}_2\ket{\slat}
-            = q^{pq}_{rs} \ccr{p}\ccr{q}\can{s}\can{r}\ket{\slat},
+            \hat{Q}_2\ket*{\slat}
+            = q^{pq}_{rs} \ccr{p}\ccr{q}\can{s}\can{r}\ket*{\slat},
         \end{align}
-        where we've removed the explicit summations and all sums run over the
+        where we have removed the explicit summations and all sums run over the
         entire number of basis states.
         Without the determinant we have the operator given by
         \begin{align}
@@ -973,6 +973,81 @@
         \end{align}
         which is the same form as in the second term of
         \autoref{eq:many-body-operator}.
+
+    \section{Hermitian Lagrange multipliers}
+        \label{app:hermitian-lagrange-multipliers}
+        We prove that the Lagrange mutlipliers in \autoref{eq:hf-lagrangian} can
+        be chosen Hermitian.
+        \begin{proof}
+            We follow closely the derivation done by Mayer
+            \cite{mayer2003simple}, we start by noticing that the constraint is
+            Hermitian, i.e.,
+            \begin{align}
+                \braket*{\phi_i}{\phi_j} - \delta_{ij}
+                = \braket*{\phi_j}{\phi_i}^{*} - \delta_{ji}.
+            \end{align}
+            As of now we have two independent Lagrange multipliers; one for
+            the overlap $\braket*{\phi_i}{\phi_j}$ and another for the the
+            complex conjugate $\braket*{\phi_j}{\phi_i}$.
+            We can formulate the constraint for the real and imaginary part
+            separately,
+            \begin{align}
+                \Re\brac{
+                    \braket*{\phi_i}{\phi_j}
+                }
+                &=
+                \half\brac{
+                    \braket*{\phi_i}{\phi_j}
+                    + \braket*{\phi_j}{\phi_i}
+                }
+                = 0,
+                \\
+                \Im\brac{
+                    \braket*{\phi_i}{\phi_j}
+                }
+                &=
+                \frac{1}{2i}\brac{
+                    \braket*{\phi_i}{\phi_j}
+                    - \braket*{\phi_j}{\phi_i}
+                }
+                = 0.
+            \end{align}
+            Introducing two separate Lagrange multipliers $\mu_{ij}$ and
+            $\nu_{ij}$ for the two latter conditions, we get
+            \begin{align}
+                \mu_{ij}\Re\brac{
+                    \braket*{\phi_i}{\phi_j}
+                }
+                + \nu_{ij}\Im\brac{
+                    \braket*{\phi_i}{\phi_j}
+                }
+                &=
+                \half\brak{
+                    \mu_{ij} - i\nu_{ij}
+                }
+                \braket*{\phi_i}{\phi_j}
+                \nonumber
+                \\
+                &\qquad
+                + \half\brak{
+                    \mu_{ij} + i\nu_{ij}
+                }
+                \braket*{\phi_j}{\phi_i}.
+            \end{align}
+            We now choose our combined Lagrange multipliers to be
+            \begin{align}
+                \lambda_{ji} &=
+                -\half\brak{
+                    \mu_{ij} - i\nu_{ij}
+                }, \\
+                \lambda_{ij} &=
+                -\half\brak{
+                    \mu_{ij} + i\nu_{ij}
+                },
+            \end{align}
+            which implies that $\lambda_{ji} = \lambda_{ij}^{*}$, which is
+            what we wanted to show.
+        \end{proof}
 
     %\section{Deriving the dimensionless Hamiltonian}
     %    \label{app:two-dim-ho-dimensionless}
@@ -1001,7 +1076,7 @@
     %        + \frac{1}{a^2 r^2}\dpd[2]{}{\phi}
     %        = \frac{1}{a^2}\para{\vfg{\nabla}'}^2,
     %    \end{align}
-    %    where we've dropped the particle indices for the sake of brevity.
+    %    where we have dropped the particle indices for the sake of brevity.
     %    Thus, the one-body part of the Hamiltonian becomes
     %    \begin{align}
     %        \oneten(\vfg{r})
@@ -1056,7 +1131,7 @@
     %        - \frac{R}{r^2}\dpd[2]{}{\phi}\Phi
     %        + r^2 R \Phi = \epsilon R \Phi,
     %    \end{gather}
-    %    where we've expressed the Laplace operator in polar coordinates.
+    %    where we have expressed the Laplace operator in polar coordinates.
     %    Next we divide by $R\Phi$ on both sides and multiply by $-r^2$.
     %    This yields
     %    \begin{gather}
@@ -1072,7 +1147,7 @@
     %        = 0,
     %    \end{gather}
     %    which has now been reduced to two separate differential equations as
-    %    we've decoupled radial and the azimuthal dependence.
+    %    we have decoupled radial and the azimuthal dependence.
     %    Introducing a dependent variable $m^2$ we can write the two equations
     %    as
     %    \begin{gather}
@@ -1351,7 +1426,7 @@
 
     %\section{Coulomb elements}
     %    \label{app:coulomb-elements}
-    %    In this section we'll write out the closed form solution to the Coulomb
+    %    In this section we will write out the closed form solution to the Coulomb
     %    elements for the two-dimensional harmonic oscillator in polar
     %    coordinates \cite{anisimovas1998energy}.
     %    The eigenstates are given by \autoref{eq:eigenstate-tdho} and the
@@ -1394,7 +1469,7 @@
     %    We will only look at the orbital part of the elements, as the
     %    spin-symmetry can be added afterwards.
     %    \begin{align}
-    %        \mel{ij}{\hat{u}}{kl}
+    %        \mel*{ij}{\hat{u}}{kl}
     %        &= \lambda
     %        \mathcal{I}^{ij}_{kl},
     %    \end{align}
@@ -1424,7 +1499,7 @@
     %        \abs{\cos(\phi)}
     %        \exp[-i\Delta m_{pq} \phi],
     %    \end{align}
-    %    where we've again introduced the difference in the angular quantum
+    %    where we have again introduced the difference in the angular quantum
     %    number as in \autoref{eq:diff-m-tdqd}.
     %    We split up the integrals in three parts where $\cos(\phi) \geq 0$ to
     %    get rid of the absolute value.
@@ -1586,3 +1661,5 @@
     %        }
     %        = 0.
     %    \end{align}
+
+\clearemptydoublepage

@@ -1,7 +1,7 @@
 \chapter{Quantum systems}
-    In this chapter we'll discuss the different quantum systems which will be
+    In this chapter we will discuss the different quantum systems which will be
     explored in this thesis.
-    We'll discuss how we represent a general quantum system via the class
+    We will discuss how we represent a general quantum system via the class
     \pyth{QuantumSystem} and the methods that this class incorporates.
     Before delving into the mathematics of quantum dots, and atoms and
     molecules, we will discuss what we want from our basis sets.
@@ -10,17 +10,25 @@
             two-body matrix elements of the Hamiltonian, and potentially the
             nuclear repulsion energy.
             That is, we need to find values for $\oneten^{p}_{q}$ and
-            $\twoten^{pq}_{rs}$.
+            $\twoten^{pq}_{rs}$ as defined in \autoref{eq:h_pq} and
+            \autoref{eq:u_pqrs} respectively.
             In case of a non-orthonormal basis set we also need the overlap
-            matrix $\overlapten^{p}_{q}$.
-        \item For time-evolution, using a dipole laser we need the dipole matrix
-            elements $\vfg{d}^{p}_{q}$.
+            matrix elements $\overlapten^{p}_{q}$ between the single-particle
+            states.
+        \item For time evolution, using a dipole laser we need the dipole matrix
+            elements $\vfg{d}^{p}_{q}$ given by
+            \begin{align}
+                \vfg{d}^{p}_{q}
+                = \mel*{\psi_p}{\hat{\vfg{d}}}{\psi_q},
+            \end{align}
+            as defined in \autoref{eq:dipole-moment}.
         \item For visualization of the particle density we need the
-            single-particle states.
+            single-particle states themselves, or at least the ability to
+            evaluate the single-particle states on some grid.
     \end{enumerate}
     If our only interest is the ground state energy, we can get far with point 1
     listed above.
-    However, for us to include interaction with a laser field we also need the
+    However, for us to include interactions with a laser field we also need the
     dipole matrix elements as we are working in the dipole approximation.
     The single-particle states are necessary for visualization of the system on
     a grid either via the particle density or by themselves.
@@ -37,7 +45,7 @@
     Often the limitation of basis sets comes from the calculation of the
     two-body matrix elements as these integrals will in many cases be the
     computational bottleneck.
-    This is the reason why we often seek systems with closed form solutions to
+    This is the reason why we often seek systems with analytical solutions to
     the most intensive integrals -- or easier integral evaluation -- and then do
     a basis transformation using the variational method, and eventually
     Hartree-Fock to build more complicated systems.
@@ -59,8 +67,9 @@
     existing libraries PySCF \cite{pyscf} and Psi4 \cite{psi4} in order to get
     access to good and efficient basis sets for atoms and molecules.
     Furthermore, we will explore \emph{bound systems} which we take to mean that
-    the underlying basis set will be fixed in time.
-    All time-evolution occurs in the coefficients and amplitudes of the solver
+    the underlying basis set will be trapped in a potential well and that the
+    states will be held fixed in time.
+    All time evolution occurs in the coefficients and amplitudes of the solver
     methods.
     This means that we will have a hard time modelling ionization as this
     requires the inclusion of continuum states to allow particles to move out of
@@ -89,7 +98,7 @@
         \end{align}
         where atomic units are assumed.
         Note that we sum over all nuclei $A$.
-        Here we've left out the internuclear repulsion and the Coulomb
+        Here we have left out the internuclear repulsion and the Coulomb
         interaction.
         Furthermore, in the Born-Oppenheimer approximation we treat the nuclei
         as being frozen and therefore ignore the kinetic energy contribution of
@@ -100,9 +109,7 @@
             Even in the Born-Oppenheimer approximation.
         } is a far fetched goal for all but the smallest systems to say the
         least.
-        Similar to the procedure we did for the double-well in
-        \autoref{subsec:tddw} we can solve the molecular Hamiltonian in an
-        approximate basis set.
+        We can solve the molecular Hamiltonian in an approximate basis set.
         We can then diagonalize the one-body Hamiltonian and express the
         matrix elements in this new basis.
         As a consequence a lot of effort in the quantum chemistry field has been
@@ -123,8 +130,7 @@
                 sets \cite{cc-pVXZ}.
                 These basis sets are better tuned for post Hartree-Fock methods.
                 The $X$ parameter decides the number of functions for the
-                valence electrons, e.g., $D$ for double-zeta, $T$ for
-                triple-zeta, etc.
+                valence electrons \cite{cc-pVXZ}.
             \item The augmented correlation-consistent (aug-cc-pV$X$Z) basis
                 sets \cite{aug-cc-pVXZ}.
                 The cc-pV$X$Z basis sets are designed for ground state
@@ -137,14 +143,14 @@
                 basis set.
         \end{itemize}
         To reuse the basis sets from PySCF \cite{pyscf} and Psi4 \cite{psi4}
-        we've created a class \pyth{CustomSystem} which lets us build a
+        we have created a class \pyth{CustomSystem} which lets us build a
         \pyth{QuantumSystem}-class by manually setting the matrix elements.
         We can thus ask PySCF and Psi4 to use their well-optimized methods to
         generate basis sets and reuse these in our solvers.
         In this thesis we will only use basis sets from PySCF and we therefore
         only describe the interface towards this library.
 
-        We've created three interface functions which sets up a
+        We have created three interface functions which sets up a
         \pyth{CustomSystem} of atomic orbitals, restricted molecular orbitals,
         and unrestricted molecular orbitals respectively.
         The two latter methods use the restricted and unrestricted Hartree-Fock
@@ -158,7 +164,7 @@
         be included.
         In the case of diatomic molecules we can then specify a bond distance
         along a specific axis, e.g., \pyth{f"h 0 0 0; h 0 0 1.2"} for the
-        \ch{H2}-molecule with the bond distance $1.2$ specified in atomic units
+        \ch{H2} molecule with the bond distance $1.2$ specified in atomic units
         along the $z$-axis.
         The basis strings share the same format as discussed above, e.g., to
         specify the usage of aug-cc-pVDZ, we pass in the string
@@ -184,11 +190,11 @@
         \end{align}
         where $\tilde{\phi}_q(x)$ is the bi-variational dual state of
         $\phi_p(x)$.
-        For the Hartree-Fock methods and configuration-interaction solvers we
+        For the Hartree-Fock methods and configuration interaction solvers we
         choose $\tilde{\phi}_q(x) = \phi^{*}_q(x)$ and we have recovered the
         original expression for the particle density as seen in
         \autoref{eq:particle-density}.
-        In \autoref{alg:particle-density} we've included the code used to
+        In \autoref{alg:particle-density} we have included the code used to
         compute the particle density given a one-body density matrix denoted
         \pyth{rho_qp}, and the set of orbitals \pyth{bra_spf} and \pyth{ket_spf}
         as the bra- and ket-states respectively.
@@ -208,7 +214,7 @@ def compute_particle_density(rho_qp, bra_spf, ket_spf):
 
     return rho
             \end{python}
-            \caption{In this listing we've added a function computing the
+            \caption{In this listing we have added a function computing the
             particle density on an arbitrary grid that the orbitals are
             evaluated on.}
             \label{alg:particle-density}
@@ -395,19 +401,19 @@ class QuantumSystem:
         reusing the doubly occupied orbitals.
         We will use this to some extent for the restricted Hartree-Fock solver
         which will be discussed in \autoref{subsec:rhf}.
-        However, most of the methods we've implemented make no assumption on the
+        However, most of the methods we have implemented make no assumption on the
         spin-orbitals other than there being two spin-components, and therefore
         allow general spin-orbitals as discussed in
         \autoref{subsec:restrictions-on-spin-orbitals}.
-        This means that after we've created our basis sets, we include spin by
+        This means that after we have created our basis sets, we include spin by
         making the system doubly degenerate in each orbital.
 
         The ordering of the spin-orbitals are important as some solvers
         exploit the spin-degeneracy and therefore need to know how the
         spin-orbitals are ordered.
-        We've chosen a solution which is far from optimal, but which is
+        We have chosen a solution which is far from optimal, but which is
         reasonable as long as we have an even number of particles with the same
-        amount of particles in each spin-direction.
+        amount of particles in each spin direction.
         We use the convention that orbitals are ordered in an increasing order
         based on their single-particle eigenenergy.\footnote{%
             This is the ordering that is returned by NumPy when diagonalizing
@@ -419,7 +425,7 @@ class QuantumSystem:
         } the one-body- and two-body Hamiltonians, and all other matrix
         elements.
         Next we repeat each orbital twice so that even indices correspond to a
-        certain spin-direction and odd indices to the other direction.
+        certain spin direction and odd indices to the other direction.
         We are able to achieve this quite succintly using the Kronecker-product
         and slicing in NumPy.
         In \autoref{alg:spin-doubling-spf} we demonstrate a snippet which adds
@@ -482,16 +488,16 @@ def add_spin_two_body(_u):
         \end{algorithm}
 
         A more general solution -- and which should be implemented in the future
-        -- is to create spin-blocks with each spin-direction following each
+        -- is to create spin-blocks with each spin direction following each
         other as this allows for an unequal number of particles in each
-        spin-direction.
+        spin direction.
         This is the solution that needs to be taken for the unrestricted
         Hartree-Fock method when changing basis.
 
-    \section{Time-evolution operators}
-        The only time-evolution operators used in this thesis are dipole lasers
+    \section{Time evolution operators}
+        The only time evolution operators used in this thesis are dipole lasers
         in the length gauge.
-        We've implemented this by allowing \pyth{QuantumSystem} to have a
+        We have implemented this by allowing \pyth{QuantumSystem} to have a
         pointer to a \pyth{TimeEvolutionOperator}-class, where \pyth{LaserField}
         is a subclass.
         The \pyth{LaserField}-class takes in the parameter \pyth{laser_pulse}
@@ -521,9 +527,11 @@ def add_spin_two_body(_u):
             = \densityten^{q}_{p}(t)\vfg{d}^{p}_{q},
         \end{align}
         where the time-dependence is kept in the one-body density matrix.
-        For the time-dependent Hartree-Fock method and the orbital-adaptive
+        For the time-dependent Hartree-Fock method and for the orbital-adaptive
         time-dependent coupled-cluster methods we have to make sure that we
         change basis at each time step before computing the trace of the
         one-body density matrix and the dipole moment.
         This yields a time-dependent dipole moment.
         Note also that we choose a specific axis of the dipole moment.
+
+\clearemptydoublepage

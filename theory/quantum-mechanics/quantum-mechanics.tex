@@ -1,13 +1,10 @@
 \chapter{Quantum mechanics}
-    \epigraph{No fair! You changed the outcome by measuring it!}
-    {--- Hubert J. Farnsworth, Futurama}
-
     We start our journey by reviewing parts of quantum mechanics that we deem
     necessary in order to understand the thesis.
     We will in this chapter discuss the general theory of quantum mechanics
     without any concern for the number of particles in a specific system.
-    In the following chapters we will discuss more specialized theories that
-    will utilize many of the results discusesed herein.
+    In the following chapters we move on to more specialized theories that will
+    utilize many of the results from this chapter.
 
     \section{The postulates of quantum mechanics}
         In order to make sure that we have a common understanding of how to
@@ -73,14 +70,14 @@
                 \begin{align}
                     \expval*{Q} = \expval*{\hat{Q}}{\psi}.
                 \end{align}
-            \item The time-evolution of a state $\ket*{\psi(t)}$ is defined by
+            \item The time evolution of a state $\ket*{\psi(t)}$ is defined by
                 the Schrödinger equation
                 \begin{align}
                     i\hslash \dod[]{}{t}\ket*{\psi(t)} = \hamil\ket*{\psi(t)},
                 \end{align}
                 where the Hamiltonian of the system $\hamil$ is a linear,
                 Hermitian operator.
-                The Hamiltonian describes a unitary time-evolution of the state
+                The Hamiltonian describes a unitary time evolution of the state
                 $\ket*{\psi(t)}$.
             \item The ideal measurement of $\hat{Q}$ on a state $\ket*{\psi}$
                 projects the state onto the subspace spanned by the eigenstates
@@ -94,8 +91,6 @@
                     \hat{Q}\ket*{\psi},
                 \end{align}
                 which is often denoted a ``wave function collapse''.
-                The quote at the top of this chapter is a joke on this
-                phenomenon.
         \end{enumerate}
 
     \section{Time-independent Schrödinger equation}
@@ -121,7 +116,7 @@
         where the total time-derivative in the Schrödinger equation has been
         replaced by a partial derivative with respect to time.
         The Hamiltonian is replaced by the kinetic term represented as a Laplace
-        operator and we've included the external potential $\hat{v}(\vfg{r},
+        operator and we have included the external potential $\hat{v}(\vfg{r},
         t)$.
         For a time-independent potential $\hat{v}(\vfg{r})$ we can solve the
         Schrödinger equation in \autoref{eq:coordinate-tdse} using the method of
@@ -147,7 +142,7 @@
             + \hat{v}(\vfg{r}) = E,
         \end{gather}
         and we can solve the two equations independently.
-        The former equation can be solved as a first order, ordinary
+        The former equation can be solved as a first-order, ordinary
         differential equation.
         The solution is given by
         \begin{align}
@@ -156,7 +151,7 @@
         This is a solution which we will discuss in more depth in
         \autoref{sec:time-evolution-operators}.
         Multiplying by $\psi(\vfg{r})$ on both sides in the second equation we
-        find the \emph{time-indepedent Schrödinger equation},
+        find the \emph{time-independent Schrödinger equation},
         \begin{align}
             -\frac{\hslash^2}{2m}\vfg{\nabla}^2\psi + \hat{v}(\vfg{r})\psi
             = \energy\psi.
@@ -173,11 +168,11 @@
         by diagonalizing the Hamiltonian we find the spectrum of the system with
         the eigenpairs $(\psi_n, E_n)$.
         Once the spectrum is found we say that the problem is solved as the
-        time-evolution of the wave function can be expressed as a linear
+        time evolution of the wave function can be expressed as a linear
         combination of the eigenstates $\psi_n$.
         However, we will see in this thesis that finding the spectrum of a
         many-body Hamiltonian proves a challenge indeed and therefore
-        complicates the matter of the time-evolution.
+        complicates the matter of the time evolution.
 
     \section{Density operators}
         \label{sec:density-operators}
@@ -318,7 +313,7 @@
         the energy functional in the variational principle will be an eigenstate
         of the time-independent Schrödinger equation.
         \begin{proof}
-            Consider a small first order variation in the trial wave function
+            Consider a small first-order variation in the trial wave function
             \begin{align}
                 \ket*{\tilde{\psi}} = \ket{\psi} + \ket{\delta\psi},
                 \label{eq:wave-variation}
@@ -345,9 +340,8 @@
                 + \dots.
             \end{align}
             Using the method of \emph{functional derivatives}
-            \cite{wiki:functional-derivative, kvaal2017notes}, we can write
-            the derivatives of the energy functionals, and hence the stationary
-            conditions to be
+            \cite{kvaal2017notes}, we can write the derivatives of the energy
+            functionals, and hence the stationary conditions to be
             \begin{gather}
                 \left.
                 \dpd{E[\tilde{\psi}, \psi^{*}]}{\epsilon}
@@ -420,11 +414,11 @@
                 },
             \end{align}
             where we no longer require that the wave functions are normalized,
-            and we've used the relation
+            and we have used the relation
             \begin{align}
                 \frac{1}{1 + x} = 1 - x + \mathcal{O}(x^2).
             \end{align}
-            Keeping only first order variations in $\delta\psi$ we can write the
+            Keeping only first-order variations in $\delta\psi$ we can write the
             energy functional as
             \begin{align}
                 E[\tilde{\psi}, \psi^{*}]
@@ -546,7 +540,7 @@
             We do this by demanding that
             \begin{gather}
                 \dpd[]{E(\vfg{c})}{c_{\alpha}} = 0,
-				\qquad
+                \qquad
                 \dmd{E(\vfg{c})}{2}{c_{\alpha}}{}{c_{\beta}}{} = 0,
             \end{gather}
             where the first variation locates the stationary point and the
@@ -569,7 +563,7 @@
                 \mel*{\psi}{\hamil}{\psi}
                 - E(\vfg{c}) \para{\braket{\psi}{\psi} - 1},
             \end{align}
-            where we've introduced the normalization condition for the trial
+            where we have introduced the normalization condition for the trial
             wave function as a constraint.
             Optimizing this function for the first variation we find
             \begin{align}
@@ -633,7 +627,7 @@
                 = E(\vfg{c}) \overlapmat \vfg{c},
                 \label{eq:variational-eigenvalue}
             \end{gather}
-            where we've defined the overlap matrix $\overlapmat$ from the
+            where we have defined the overlap matrix $\overlapmat$ from the
             overlap integrals between the known basis elements
             $\ket{\chi_{\alpha}}$ by
             \begin{align}
@@ -657,7 +651,7 @@
 
     \section{The Hellmann-Feynman theorem}
         The Hellmann-Feynman theorem provides us with a method of calculating
-        first-order changes (also known as a first order property) in the energy
+        first-order changes (also known as a first-order property) in the energy
         due to a perturbation \cite{helgaker-molecular}.
         \begin{theorem}
             If $\ket{\psi}$ is a normalized eigenstate of the Hamiltonian
@@ -760,9 +754,9 @@
             = \hamil(t)\ket*{\psi(t)}.
             \label{eq:tdse}
         \end{align}
-        Given an initial state $\ket*{\psi(t_0)}$ at an initial time $t_0$, the
-        time-dependent Schrödinger equation will determine $\ket*{\psi(t)}$ for
-        all earlier and later times.
+        Given an initial state $\ket*{\psi(t_0)}$ at an initial time $t_0$, we
+        can use the time-dependent Schrödinger equation to determine
+        $\ket*{\psi(t)}$ for all earlier and later times.
         A point to note is that the time-dependent Schrödinger equation does not
         require that the initial state $\ket*{\psi(t)}$ be a ``meaningfull
         state'', the equation will evolve this state -- whatever it is -- in
@@ -842,12 +836,12 @@
         \begin{align}
             \ket*{\psi(t)} = \sum_{n}c_n(t)\ket*{\psi_n},
         \end{align}
-        where we've absorbed the time-dependency into the coefficients, and
+        where we have absorbed the time-dependency into the coefficients, and
         require that the squared sum of the coefficients should equal unity.
         This means that even though the Hamiltonian is time-independent, the
         states themselves are not stationary.
-        Now, all observables that commute with the time-independent Hamiltonian
-        will still be time-indepedent for $\ket*{\psi(t)}$.
+        All observables that commute with the time-independent Hamiltonian will
+        still be time-independent for $\ket*{\psi(t)}$.
         We can see this by looking at a time-independent observable $\hat{Q}$
         which commutes with the time-independent Hamiltonian such that the
         eigenstate of the Hamiltonian will be eigenstates of $\hat{Q}$ with
@@ -883,8 +877,8 @@
         where $\mathcal{T}$ is the time-ordering operator.
         As an extra complicating factor, the time-dependent Hamiltonian might
         not commute with itself at different times.
-        The time-evolution operator shown in \autoref{eq:td-evolution} serve as
-        a theoretical foundation for the time-evolution.
+        The time evolution operator shown in \autoref{eq:td-evolution} serve as
+        a theoretical foundation for the time evolution.
         However, we will see later in the thesis how one can approximate this
         operator using known numerical integration methods.
 
@@ -916,7 +910,7 @@
         stays real as the differential operator $i\partial_t$ does not stay
         Hermitian along with the normalization condition
         \cite{kramer1981geometry}.
-        By requiring that the first order variations
+        By requiring that the first-order variations
         \begin{align}
             \delta S
             = \int_{t_1}^{t_2}\dd t \delta L
@@ -1077,7 +1071,7 @@
                 \hamil
                 = \hamil_{p} + \hamil_{e} + \hamil_{ep},
             \end{align}
-            where we've denoted the particle (or, matter) contribution by
+            where we have denoted the particle (or, matter) contribution by
             $\hamil_p$, the electromagnetic contribution by $\hamil_e$ and
             finally the interaction between particles and the electromagnetic
             field by $\hamil_{ep}$.
@@ -1116,7 +1110,7 @@
                 = \frac{\momentumvec^2}{2m}
                 + v(\vfg{r}),
             \end{align}
-            where we've ignored particle-particle interaction in this
+            where we have ignored particle-particle interaction in this
             discussion.
             However, when we do include the Coulomb interaction in the chapter
             on many-body quantum mechanics, this will be included to $\hamil_p$
@@ -1288,7 +1282,7 @@
                 \vfg{A}(t)
                 = \vfg{\epsilon}\mathcal{A}_0\sin(\omega_k t + \phi),
             \end{align}
-            where $\phi$ is a phase factor and we've defined
+            where $\phi$ is a phase factor and we have defined
             \begin{gather}
                 2\Re(A_0) = \mathcal{A}_0\sin(\phi), \\
                 2\Im(A_0) = \mathcal{A}_0\cos(\phi),
@@ -1312,11 +1306,7 @@
                 \psi'
                 = \exp[-\frac{iq}{\hslash}\vfg{A}(t)\cdot\vfg{r}]\psi,
             \end{gather}
-            % TODO: Should care be taken to handle the modified wave function,
-            % or is this included in the evolution of the
-            % coefficients/amplitudes?
-            % I think maybe this gets included...
-            where we've inserted the electric field $-\vfg{E} = \dot{\vfg{A}}$
+            where we have inserted the electric field $-\vfg{E} = \dot{\vfg{A}}$
             in the dipole approximation in the gauge transformation for the
             scalar potential.
             Inserted into the time-dependent Schrödinger equation we then find
@@ -1335,6 +1325,7 @@
                 \hat{\vfg{d}}
                 \equiv
                 q\positionvec,
+                \label{eq:dipole-moment}
             \end{align}
             For the plane-wave solution of the vector potential we get the
             corresponding electric field
@@ -1342,7 +1333,7 @@
                 \vfg{E}
                 = \vfg{\epsilon}\mathcal{E}_0\cos(\omega_k t + \phi),
             \end{align}
-            where we've defined the constant
+            where we have defined the constant
             \begin{align}
                 \mathcal{E}_0 = -\omega_k \mathcal{A}_0.
                 \label{eq:electric-field-constant}
@@ -1426,7 +1417,7 @@
         where we treat $\omega_k$ and $\phi$ constant in time over the response
         of the system.
         The function $F(t) \in \brak{0, 1}$ is known as the \emph{envelope} of the
-        pulse and we'll discuss it in due time.
+        pulse and we will discuss it in due time.
         We find the electric field of the dipole laser from
         \autoref{eq:electric-field-dipole}.
         \begin{align}
@@ -1507,8 +1498,8 @@
                             },
                             width=6cm,
                             height=6cm,
-                            xlabel={$t$ $[\text{a.u.}]$},
-                            ylabel={$E(t)$ $[\text{a.u.}]$},
+                            xlabel={$t$},
+                            ylabel={$E(t)$},
                         ]
 
                         % Sine
@@ -1598,7 +1589,8 @@
                 envelope.
                 We have used $\mathcal{E}_0 = 1$, $\omega_k = 4$, $T =
                 10\pi/\omega_k$ (giving five cycles of the laser pulse inside
-                the envelope) on a grid with $t \in [-30, 30]$.
+                the envelope) on a grid with $t \in [-30, 30]$ in dimensionless
+                units.
                 The choice of the strength $\mathcal{E}_0$ and the frequency is
                 such that the figures look presentable.
                 Note that the figures for the sine- and cosine-squared envelopes
@@ -1647,7 +1639,7 @@
             In terms of measurements, the state $\ket{\psi(T)}$ will be our
             initial state as this is a thermalized state from some initial
             eigenstate $\ket{\phi_k}$.
-            The time-evolution of an arbitrary state $\ket{\psi(t)}$ can be
+            The time evolution of an arbitrary state $\ket{\psi(t)}$ can be
             described by
             \begin{align}
                 \ket{\psi(t \geq T)}
@@ -1655,7 +1647,7 @@
                 = \sum_{k = 0}^{\infty}
                 c_k(T) e^{-i\energy_k t/\hslash}\ket{\phi_k},
             \end{align}
-            where the time-evolution is kept in the coefficients.
+            where the time evolution is kept in the coefficients.
             There are now two quantities which are of interest as they provide
             information on the energy transitions in a system and we will look
             at these separately.
@@ -1687,7 +1679,7 @@
                     \abs{c_i(T)}^2 e^{-i E_i t/\hslash},
                     \label{eq:autocorrelation}
                 \end{align}
-                where we've used that the eigenstates of the time-independent
+                where we have used that the eigenstates of the time-independent
                 Hamiltonian are orthonormal.
 
             \subsubsection{Dipole moment}
@@ -1707,14 +1699,14 @@
                     c^{*}_i(0)c_j(0) e^{i \omega_{ij} t}
                     \vfg{d}_{ij},
                 \end{align}
-                where we've defined the energy transition frequency by
+                where we have defined the energy transition frequency by
                 \begin{align}
                     \omega_{ij} \equiv \frac{E_i - E_j}{\hslash},
                 \end{align}
                 and the matrix elements of the dipole moment using the
                 eigenstates by $\vfg{d}_{ij}$.
                 Note that we typically measure along one direction in the dipole
-                moment, but we've kept the vector notation to demonstrate that
+                moment, but we have kept the vector notation to demonstrate that
                 we can choose whichever axis of the dipole moment we like.
                 % TODO: Consider moving the subsubsections into defintions.
 
@@ -1820,36 +1812,4 @@
             \label{tab:atomic-units}
         \end{table}
 
-        We will now list some common conversions that are used in this work.
-        In laser physics it is common to work with the intensity of the laser
-        field in units of $\si{\watt/\cm^2}$.
-        Consider a given intensity $I$ measured in $\si{\watt/\cm^2}$.
-        To convert this to an electric field strength $E$ in atomic units of
-        electric field, we compute
-        \begin{align}
-            E = \sqrt{\frac{2 I / I_a}{\epsilon_0 c}},
-            \label{eq:intnsity-to-au-electric-field}
-        \end{align}
-        where $I_a$ is the atomic unit of intensity from
-        \autoref{tab:atomic-units}.
-        Furthermore, it is common to describe a laser by its wavelength
-        $\lambda$ in nanometers\footnote{%
-            We will work with lasers in the visible and low energy ultraviolet
-            spectrum.
-        } or the photon energy $E_{\nu}$ in electronvolt when characterising the
-        frequency.
-        To convert from a wavelength $\lambda$ measured in SI units to an
-        angular frequency $\omega$ in atomic units, we use
-        \begin{align}
-            \omega = \frac{2\pi c}{\lambda}\frac{1}{\omega_a}.
-        \end{align}
-        To go from a photon energy $E_{nu}$ in electronvolt to angular frequency
-        $\omega$ in atomic units we compute
-        \begin{align}
-            \omega = \frac{E_{\nu}}{\hslash}\frac{1}{\omega_a}
-            = \frac{E_{\nu}}{E_h},
-        \end{align}
-        where $E_h \approx \SI{27.2}{\electronvolt}$.
-        % TODO: Review the formulas.
-
-\clearpage
+\clearemptydoublepage
