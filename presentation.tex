@@ -45,10 +45,15 @@
     \frametitle{Quantum mechanical system}
     Described by the wave function $\Psi(\vfg{x}, t)$ and the Hamiltonian
     $\hamil(\vfg{x}, t)$.
-    Satisfies the time-dependent Schrödinger equation
+    The wave function is a solution to the time-dependent Schrödinger equation
     \begin{align}
         i\hslash \partial_t\Psi(\vfg{x}, t)
-        = \hamil(\vfg{x}, t)\Psi(\vfg{x}, t).
+        = \hamil(\vfg{x}, t)\Psi(\vfg{x}, t),
+    \end{align}
+    with the initial condition $\Psi(\vfg{x})$ chosen as the ground state found
+    from the time-independent Schrödinger equation
+    \begin{align}
+        \hamil(\vfg{x})\Psi(\vfg{x}) = \energy\Psi(\vfg{x}).
     \end{align}
 \end{frame}
 
@@ -65,14 +70,16 @@
 \begin{frame}
     \frametitle{Large systems}
     In our case, anything with more than $2$ particles.
-    Wave function $\Psi(\vfg{x}, t)$ describes $N$ particles.
+    The wave function $\Psi(\vfg{x}, t)$ describes $N$ particles with $\vfg{x}$
+    a set of $N$ coordinates with spin and position.
 \end{frame}
 
 \begin{frame}
     \frametitle{The challenge}
     \begin{enumerate}
         \item How do we represent a quantum mechanical system?
-        \item How do we solve the Schrödinger equation?
+        \item How do we solve the time-independent Schrödinger equation?
+        \item How do we solve the time-dependent Schrödinger equation?
     \end{enumerate}
 \end{frame}
 
@@ -80,6 +87,35 @@
 
 \begin{frame}
     \frametitle{Quantum systems}
+    Described by the molecular Hamiltonian in the Born-Oppenheimer approximation
+    using a dipole laser field, viz.
+    % TODO: Cite Hamiltonian, Born-Oppenheimer, and dipole laser.
+    \begin{align}
+        \hamil(\vfg{x}, t)
+        = \text{Such physics}.
+    \end{align}
+    \textbf{Unsolvable system!}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Slater determinants}
+    The ground state solution to the non-interacting system is given by the
+    reference Slater determinant
+    \begin{align}
+        \ket{\slat}
+        = \frac{1}{\sqrt{N}}
+        \sum_{\sigma \in S_N}
+        \hat{P}_{\sigma}
+        \bigotimes_{i = 1}^{N}
+        \ket{\psi_i}.
+    \end{align}
+    Creating a basis of higher excited determinants lets us build a (many-body)
+    wave function from a linear combination of this basis.
+    This wave function will be antisymmetric and therefore describe fermions.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Second quantization}
     Represented in a basis of $L$ single-particle states $\brac{\chi_{\alpha}}$.
     \begin{itemize}
         \item One-body Hamiltonian elements
