@@ -70,8 +70,14 @@
 \begin{frame}
     \frametitle{Large systems}
     In our case, anything with more than $2$ particles.
-    The wave function $\Psi(\vfg{x}, t)$ describes $N$ particles with $\vfg{x}$
-    a set of $N$ coordinates with spin and position.
+    The wave function $\Psi(\vfg{x}, t)$ describes $N$ particles with $\vfg{x} =
+    (x_1, \dots x_N)$ a set of $N$ coordinates with spin and position.
+    We denote
+    \begin{align}
+        x_i \equiv (\vfg{r}_i, m_s),
+    \end{align}
+    where $\vfg{r}_i$ is the spatial position $i$ and $m_s$ the spin quantum
+    number.
 \end{frame}
 
 \begin{frame}
@@ -92,37 +98,78 @@
     % TODO: Cite Hamiltonian, Born-Oppenheimer, and dipole laser.
     \begin{align}
         \hamil(\vfg{x}, t)
-        = \text{Such physics}.
+        = \hat{t}(\vfg{x})
+        + \hat{v}(\vfg{x})
+        + \hat{f}(\vfg{x}, t)
+        + \hat{u}(\vfg{x})
+        + \hat{h}_0.
     \end{align}
-    \textbf{Unsolvable system!}
+    We use atomic units with $\hslash = m_e = e = (4\pi\epsilon_0)^{-1} = 1$.
+    \begin{itemize}
+        \item Kinetic energy term
+            \begin{align}
+                \hat{t}(\vfg{x})
+                = \sum_{i}-\half\nabla^{2}_i.
+            \end{align}
+        \item Nuclear-nuclear repulsion energy term
+            \begin{align}
+                \hat{h}_0
+                = \sum_{i < j}\frac{Z_i Z_j}{\abs{\vfg{R}_I - \vfg{R}_J}}.
+            \end{align}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \begin{itemize}
+        \item Nuclear potential energy term
+            \begin{align}
+                \hat{v}(\vfg{x})
+                = - \sum_{i, j}\frac{Z_i}{\abs{\vfg{R}_i - \positionvec_i}}.
+            \end{align}
+        \item Dipole Laser field term
+            \begin{align}
+                \hat{f}(\vfg{x}, t)
+                = \sum_{i} \hat{\vfg{d}}(\vfg{r}_i)\cdot\vfg{E}(t).
+            \end{align}
+        \item Coulomb interaction
+            \begin{align}
+                \hat{u}(\vfg{x})
+                = \frac{1}{\abs{\positionvec_i - \positionvec_j}}.
+            \end{align}
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{Slater determinants}
-    The ground state solution to the non-interacting system is given by the
-    reference Slater determinant
+    The ground state solution to the non-interacting, time-independent system
+    for fermions is given by the reference Slater determinant
     \begin{align}
-        \ket{\slat}
+        \slat(\vfg{x})
         = \frac{1}{\sqrt{N}}
-        \sum_{\sigma \in S_N}
-        \hat{P}_{\sigma}
-        \bigotimes_{i = 1}^{N}
-        \ket{\psi_i}.
+        \begin{vmatrix}
+            \phi_1(x_1) & \dots & \phi_N(x_1) \\
+            \vdots & \ddots & \vdots \\
+            \phi_1(x_N) & \dots & \phi_N(x_N)
+        \end{vmatrix}.
     \end{align}
-    Creating a basis of higher excited determinants lets us build a (many-body)
-    wave function from a linear combination of this basis.
-    This wave function will be antisymmetric and therefore describe fermions.
+    Here $\brac{\phi_i}$ will be a basis of $L$ single-particle states.
 \end{frame}
 
 \begin{frame}
     \frametitle{Second quantization}
     Represented in a basis of $L$ single-particle states $\brac{\chi_{\alpha}}$.
     \begin{itemize}
+        \item Overlap elements
+            \begin{align}
+                \overlapten^{\alpha}_{\beta}
+                \equiv \braket*{\chi_{\alpha}}{\chi_{\beta}}.
+            \end{align}
         \item One-body Hamiltonian elements
             \begin{align}
                 \oneten^{\alpha}_{\beta}
-                \equiv \mel*{\chi_{\alpha}}{\onehamil}{\chi_{\beta}}.
-                %= \int\dd x \chi^{*}_{\alpha}(x)\onehamil(x)\chi_{\beta}(x).
+                \equiv \mel*{\chi_{\alpha}}{\onehamil}{\chi_{\beta}}
+                = \mel*{\chi_{\alpha}}{\hat{t}}{\chi_{\beta}}
+                + \mel*{\chi_{\alpha}}{\hat{v}}{\chi_{\beta}}.
             \end{align}
         \item Two-body Coulomb interaction elements
             \begin{align}
@@ -144,15 +191,16 @@
 \begin{frame}
     \frametitle{Methods}
     \begin{enumerate}
-        \item Hartree-Fock wave function
+        \item Hartree-Fock wave function \footcite{szabo1996modern}
             \begin{align}
                 \ket*{\Psi} \equiv \ket*{\slat}.
             \end{align}
         \item Configuration interaction wave function
+            \footcite{helgaker-molecular}
             \begin{align}
                 \ket*{\Psi} \equiv \hat{C}_{I}\ket*{\slat}.
             \end{align}
-        \item Coupled-cluster wave function
+        \item Coupled-cluster wave function \footcite{coester1958421}
             \begin{align}
                 \ket*{\Psi} \equiv \exponential(\clust)\ket*{\slat}.
             \end{align}
@@ -160,6 +208,44 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{Hartree-Fock}
+    % TODO: Discuss that $C$ only describes a single Slater determinant!!!
+    Ground state solution
+    \begin{gather}
+        \fock\ket*{\phi_i} = \epsilon_i\ket*{\phi_i}
+        \implies
+        \fockmat\vfg{C}
+        = \overlapmat\vfg{C}\vfg{\epsilon}.
+    \end{gather}
+    Time-evolution
+    \begin{gather}
+        i\hslash\partial_t\ket*{\phi_i(t)}
+        = \fock(t)\ket*{\phi_i(t)}
+        \implies
+        \dot{\vfg{C}} = -i\vfg{F}(t)\vfg{C}(t).
+    \end{gather}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Configuration interaction}
+    % TODO: Explain the difference between the coefficient matrices in HF and
+    % CI.
+    Ground state solution (more precisely, spectrum)
+    \begin{align}
+        \hamilmat\vfg{C} = \vfg{\energy}\vfg{C}.
+    \end{align}
+    Time-evolution
+    \begin{align}
+        \dot{\vfg{c}}(t) = -\hamilmat(t)\vfg{c}(t).
+    \end{align}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Coupled-cluster}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Orbital-adaptive coupled-cluster}
 \end{frame}
 
 \section{Results and discussion}
