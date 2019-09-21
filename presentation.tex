@@ -229,14 +229,18 @@
 \end{frame}
 
 \begin{frame}
+    Hartree-Fock Lagrangian:
+    \begin{align}
+        L[\slat, \slat^{*}, \vfg{\lambda}]
+        = \mel*{\slat}{\hamil}{\slat}
+        - \lambda_{ji}(\braket*{\phi_i}{\phi_j} - \delta_{ij})
+    \end{align}
     Ground state solution:
     \begin{gather}
-        \fock\ket*{\phi_i} = \epsilon_i\ket*{\phi_i}
-        \implies
-        \fockmat\vfg{C}
-        = \overlapmat\vfg{C}\vfg{\epsilon}.
+        \fock\ket*{\phi_i}
+        = (\onehamil + \hat{J} - \hat{K})\ket*{\phi_i}
+        = \epsilon_i\ket*{\phi_i}.
     \end{gather}
-    % TODO: Discuss mean-field approximation
 \end{frame}
 
 \begin{frame}
