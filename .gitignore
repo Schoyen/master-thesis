@@ -19,10 +19,13 @@ main.makefile
 
 *.nav
 presentation.pdf
+presentation.figlist
+presentation.makefile
 *.snm
 
 # Figure output
 figures/main-figure*
+figures/presentation-figure*
 
 # Swap files
 *.swp

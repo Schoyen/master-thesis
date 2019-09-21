@@ -17,10 +17,15 @@ watch: main.makefile
 	make -j4 -f main.makefile
 	latexmk -lualatex -bibtex -shell-escape -pvc -g -view=none
 
-p:
-	make presentation
+presentation.makefile:
+	lualatex -shell-escape presentation.tex
 
-presentation:
+buildp: presentation.makefile
+	make -j4 -f presentation.makefile
+	latexmk -lualatex -bibtex -shell-escape
+
+p: presentation.makefile
+	make -j4 -f presentation.makefile
 	latexmk -lualatex -bibtex -shell-escape -g -pvc presentation
 
 
@@ -30,6 +35,7 @@ presentation:
 clean:
 	latexmk -C
 	$(RM) main.bbl main.makefile main.figlist main.run.xml betterbib_cache.sqlite
+	$(RM) presentation.bbl presentation.makefile presentation.figlist presentation.run.xml
 
 
 clean-figures:

@@ -225,6 +225,7 @@
     \begin{align}
         \ket*{\phi_i} = C_{\alpha i}\ket*{\chi_{\alpha}}.
     \end{align}
+    Important basis for all \emph{post Hartree-Fock methods}.
 \end{frame}
 
 \begin{frame}
@@ -290,14 +291,78 @@
         \bra*{\tilde{\Psi}} \equiv
         \bra*{\slat}(\1 + \clustl)\exponential(\clust).
     \end{gather}
+    Cluster operators:
+    \begin{gather}
+        \clust \equiv \clustamp_0
+        + \clustamp^{a}_{i}\ccr{a}\can{i}
+        + \frac{1}{4}\clustamp^{ab}_{ij}\ccr{a}\ccr{b}\can{j}\can{i}
+        + \dots
+        = \clustamp_{\mu}\hat{X}_{\mu},
+        \\
+        \clustl \equiv
+        \clustlamp^{i}_{a}\ccr{i}\can{a}
+        + \frac{1}{4}\clustlamp^{ij}_{ab}\ccr{i}\ccr{j}\can{b}\can{a}
+        + \dots
+        = \clustlamp_{\mu}\hat{X}^{\dagger}_{\mu}.
+    \end{gather}
 \end{frame}
 
 \begin{frame}
+    Coupled-cluster Lagrangian:
+    \begin{align}
+        L(\vfg{\clustamp}, \vfg{\clustlamp})
+        = \mel*{\tilde{\Psi}}{\hamil}{\Psi}.
+    \end{align}
     Ground state solutions:
+    \begin{gather}
+        \dpd{L}{\clustlamp_{\mu}}
+        = \mel*{\slat_{\mu}}{
+            \exponential(-\clust)
+            \hamil
+            \exponential(\clust)
+        }{\slat}
+        = 0, \\
+        \dpd{L}{\clustamp_{\mu}}
+        = \mel*{\slat}{
+            (\1 + \clustl)
+            \exponential(-\clust)
+            \com{\hamil}{\hat{X}_{\mu}}
+            \exponential(\clust)
+        }{\slat}
+        = 0.
+    \end{gather}
 \end{frame}
 
 \begin{frame}
-    Time-evolution:
+    Time-dependent bi-variational principle:
+    \begin{align}
+        S[\Psi, \tilde{\Psi}]
+        =
+        \int \dd t
+        \mel*{\tilde{\Psi}(t)}{
+            (i\hslash\partial_t - \hamil(t))
+        }{\Psi(t)}
+        = \int \dd t
+        L[\Psi, \tilde{\Psi}].
+    \end{align}
+    Time dependence in amplitudes and Hamiltonian.
+    Equations of motion:
+    \begin{gather}
+        i\hslash\partial_t\clustamp_{\mu}
+        = \mel*{\slat_{\mu}}{
+            \exponential(-\clust)
+            \hamil
+            \exponential(\clust)
+        }{\slat},
+        \\
+        -i\hslash\partial_t\clustlamp_{\mu}
+        = \mel*{\slat}{
+            (\1 + \clustl)
+            \exponential(-\clust)
+            \com{\hamil}{\hat{X}_{\mu}}
+            \exponential(\clust)
+        }{\slat}.
+    \end{gather}
 \end{frame}
 
 \begin{frame}
@@ -308,10 +373,317 @@
 
 \begin{frame}
     \frametitle{Validation}
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            \begin{groupplot}[
+                    group style={
+                        group size=1 by 2,
+                        vertical sep=30pt,
+                        xlabels at=edge bottom,
+                    },
+                    width=10cm,
+                    height=4cm,
+                    xlabel={$x$ $[\si{\bohr}]$},
+                ]
+                \nextgroupplot[
+                        grid=major,
+                        ylabel={$\densityten(x, 0)$},
+                        restrict x to domain=-6:6,
+                        enlarge x limits=false,
+                        ymin=0,
+                        ymax=0.4,
+                        enlarge y limits=false,
+                        title={Ground state particle density},
+                    ]
+                    \addplot+ [
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/benchmarks/zanghellini/dat/rho_tdcisd_real.dat};
+                    \addlegendentry{TDCISD}
+
+                    \addplot+ [
+                        mark=none,
+                        thick,
+                        dashed,
+                    ]
+                    table
+                    {results/benchmarks/zanghellini/dat/rho_tdhf_real.dat};
+                    \addlegendentry{TDHF}
+                \nextgroupplot[
+                        ymode=log,
+                        grid=major,
+                        ylabel={$\abs{\Delta\densityten(x, 0)}$},
+                        restrict x to domain=-6:6,
+                        enlarge x limits=false,
+                    ]
+                    \addplot+ [
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/benchmarks/zanghellini/dat/rho_diff_tdccsd_tdcisd.dat};
+            \end{groupplot}
+        \end{tikzpicture}
+        \label{fig:one-body-density-zanghellini}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            \begin{groupplot}[
+                    group style={
+                        group size=1 by 2,
+                        vertical sep=30pt,
+                        xlabels at=edge bottom,
+                    },
+                    width=10cm,
+                    height=4cm,
+                    xlabel={$\Omega t / (2\pi)$},
+                ]
+                \nextgroupplot[
+                        grid=major,
+                        ylabel={$\abs{\braket*{\Psi(t)}{\Psi(0)}}^2$},
+                        enlarge x limits=false,
+                        title={Time-dependent overlap},
+                    ]
+                    \addplot+ [
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/benchmarks/zanghellini/dat/overlap_tdcisd_real.dat};
+                    \addlegendentry{TDCISD}
+
+                    \addplot+ [
+                        mark=none,
+                        thick,
+                        dashed,
+                    ]
+                    table
+                    {results/benchmarks/zanghellini/dat/overlap_tdhf_real.dat};
+                    \addlegendentry{TDHF}
+                \nextgroupplot[
+                        ymode=log,
+                        grid=major,
+                        ylabel={$\Delta\abs{\braket*{\Psi(t)}{\Psi(0)}}^2$},
+                        restrict x to domain=-6:6,
+                        enlarge x limits=false,
+                    ]
+                    \addplot+ [
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/benchmarks/zanghellini/dat/overlap_diff_tdccsd_tdcisd.dat};
+            \end{groupplot}
+        \end{tikzpicture}
+        \label{fig:overlap-zanghellini}
+    \end{figure}
 \end{frame}
 
 \begin{frame}
     \frametitle{Stability}
+
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            \begin{groupplot}[
+                group style={
+                    group size=1 by 2,
+                    vertical sep=30pt,
+                    xlabels at=edge bottom,
+                },
+                width=10cm,
+                height=4cm,
+                xlabel={$t$ $[\si{\hslash/\hartree}]$},
+            ]
+                \nextgroupplot[
+                    grid=major,
+                    ylabel={$\abs{\braket*{\slat}{\Psi(t)}}^2$},
+                    enlarge x limits=false,
+                    title={Helium-simulation},
+                ]
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/he_tdfci_phase_real.dat};
+                    \addlegendentry{TDFCI}
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/he_oatdccd_phase_real.dat};
+                    \addlegendentry{OATDCCD}
+
+                    \addplot+[
+                        mark=none,
+                        ultra thick,
+                        dashed,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/he_tdccsd_phase_real.dat};
+                    \addlegendentry{TDCCSD}
+
+                \nextgroupplot[
+                    grid=major,
+                    ylabel={Magnitude},
+                    enlarge x limits=false,
+                ]
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/he_oatdccd_norm_t2_real.dat};
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/he_oatdccd_norm_l2_real.dat};
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/he_tdccsd_norm_t1_real.dat};
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/he_tdccsd_norm_t2_real.dat};
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/he_tdccsd_norm_l1_real.dat};
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/he_tdccsd_norm_l2_real.dat};
+
+            \end{groupplot}
+        \end{tikzpicture}
+        \label{fig:he-stability}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            \begin{groupplot}[
+                group style={
+                    group size=1 by 2,
+                    vertical sep=30pt,
+                    xlabels at=edge bottom,
+                },
+                width=10cm,
+                height=4cm,
+                xlabel={$t$ $[\si{\hslash/\hartree}]$},
+            ]
+                \nextgroupplot[
+                    grid=major,
+                    ylabel={$\abs{\braket*{\slat}{\Psi(t)}}^2$},
+                    enlarge x limits=false,
+                    title={Beryllium-simulation},
+                ]
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/be_tdfci_phase_real.dat};
+                    \addlegendentry{TDFCI}
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/be_oatdccd_phase_real.dat};
+                    \addlegendentry{OATDCCD}
+
+                    \addplot+[
+                        mark=none,
+                        ultra thick,
+                        dashed,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/be_tdccsd_phase_real.dat};
+                    \addlegendentry{TDCCSD}
+
+                \nextgroupplot[
+                    grid=major,
+                    ylabel={Magnitude},
+                    enlarge x limits=false,
+                ]
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/be_oatdccd_norm_t2_real.dat};
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/be_oatdccd_norm_l2_real.dat};
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/be_tdccsd_norm_t1_real.dat};
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/be_tdccsd_norm_t2_real.dat};
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/be_tdccsd_norm_l1_real.dat};
+
+                    \addplot+[
+                        mark=none,
+                        thick,
+                    ]
+                    table
+                    {results/stability/stability-runs/dat/be_tdccsd_norm_l2_real.dat};
+            \end{groupplot}
+        \end{tikzpicture}
+        \label{fig:be-stability}
+    \end{figure}
 \end{frame}
 
 \begin{frame}
