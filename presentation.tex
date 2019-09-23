@@ -241,17 +241,40 @@
         = (\onehamil + \hat{J} - \hat{K})\ket*{\phi_i}
         = \epsilon_i\ket*{\phi_i}.
     \end{gather}
+    In a basis of atomic orbitals:
+    \begin{gather}
+        \fockmat\vfg{C} = \overlapmat\vfg{C}\vfg{\epsilon}.
+    \end{gather}
 \end{frame}
 
 \begin{frame}
-    Time-evolution:
+    Time-dependent Lagrangian:
+    \begin{align}
+        L[\slat, \slat^{*}, \vfg{\lambda}]
+        &=
+        \mel*{\slat(t)}{
+            (i\hslash\partial_t - \hamil(t))
+        }{\slat(t)}
+        \nonumber \\
+        &\qquad
+        - \lambda_{ji}
+        (\braket*{\phi_i(t)}{\phi_j(t)} - \delta_{ij})
+    \end{align}
+    Time-dependent variational principle:
+    \begin{align}
+        S[\slat, \slat^{*}]
+        = \int \dd t
+        L[\slat, \slat^{*}, \vfg{\lambda}]
+    \end{align}
+    The stationary conditions yield the equations of motion:
     \begin{gather}
         i\hslash\partial_t\ket*{\phi_i(t)}
-        = \fock(t)\ket*{\phi_i(t)}
-        \implies
+        = \fock(t)\ket*{\phi_i(t)}.
+    \end{gather}
+    In a basis of atomic orbitals:
+    \begin{gather}
         \dot{\vfg{C}} = -i\vfg{F}(t)\vfg{C}(t).
     \end{gather}
-    % TODO: Discuss time-dependence in coefficients
 \end{frame}
 
 \begin{frame}
@@ -261,9 +284,9 @@
         \ket*{\Psi} \equiv C_0\ket*{\slat}
         + C^{a}_{i}\ket*{\slat^{a}_{i}}
         + \frac{1}{4}C^{ab}_{ij}\ket*{\slat^{ab}_{ij}}
-        + \dots,
+        + \dots.
     \end{align}
-    where we assume orthonormal Slater determinants.
+    Exact within the truncated single-particle space.
     % TODO: Explain the difference between the coefficient matrices in HF and
     % CI.
     % TODO: Explain that CI is ``exact''.
@@ -272,12 +295,14 @@
 \begin{frame}
     Ground state solution:
     \begin{align}
-        \hamilmat\vfg{C} = \vfg{\energy}\vfg{C}.
+        \hamilmat\vfg{C} = \vfg{\energy}\vfg{C},
     \end{align}
+    where we assume orthonormal Slater determinants.
+    Here $\vfg{C}$ includes \emph{all many-body states}.
 \end{frame}
 
 \begin{frame}
-    Time-evolution
+    Time-evolution of a single many-body state:
     \begin{align}
         \dot{\vfg{c}}(t) = -\hamilmat(t)\vfg{c}(t).
     \end{align}
@@ -287,14 +312,21 @@
 \end{frame}
 
 \begin{frame}
+    Exponential complexity.
+
+    Truncated configuration interaction is not \emph{size consistent}.
+\end{frame}
+
+\begin{frame}
     \frametitle{Coupled-cluster theory}
-    Bi-variational\footcite{arponen1983311} ansatz:
+    Lagrangian ansatz:\footcite{helgaker1989}
     \begin{gather}
         \ket*{\Psi} \equiv \exponential(\clust)\ket*{\slat},
         \\
         \bra*{\tilde{\Psi}} \equiv
         \bra*{\slat}(\1 + \clustl)\exponential(\clust).
     \end{gather}
+    This is a \emph{bi-variational}\footcite{arponen1983311} formulation.
     Cluster operators:
     \begin{gather}
         \clust \equiv \clustamp_0
@@ -345,9 +377,7 @@
         \int \dd t
         \mel*{\tilde{\Psi}(t)}{
             (i\hslash\partial_t - \hamil(t))
-        }{\Psi(t)}
-        = \int \dd t
-        L[\Psi, \tilde{\Psi}].
+        }{\Psi(t)}.
     \end{align}
     Time dependence in amplitudes and Hamiltonian.
     Equations of motion:
