@@ -41,180 +41,208 @@
 
 \begin{frame}
     \frametitle{Topic}
-    Real-time simulations of ``large'' quantum mechanical systems.
+    Real-time simulations of large quantum mechanical systems.
 \end{frame}
 
 \begin{frame}
     \frametitle{Quantum mechanical system}
-    Described by the wave function $\Psi(\vfg{x}, t)$ and the Hamiltonian
-    $\hamil(\vfg{x}, t)$.
-    The wave function is a solution to the time-dependent Schrödinger equation
-    \begin{align}
-        i\hslash \partial_t\Psi(\vfg{x}, t)
-        = \hamil(\vfg{x}, t)\Psi(\vfg{x}, t),
-    \end{align}
-    with the initial condition $\Psi(\vfg{x})$ chosen as the ground state found
-    from the time-independent Schrödinger equation
-    \begin{align}
-        \hamil(\vfg{x})\Psi(\vfg{x}) = \energy\Psi(\vfg{x}).
-    \end{align}
+    \begin{itemize}
+        \item Described by the wave function $\Psi(\vfg{x}, t)$ and the Hamiltonian
+            $\hamil(\vfg{x}, t)$.
+        \item The wave function is a solution to the time-dependent Schrödinger
+            equation
+            \begin{align}
+                i\hslash \partial_t\Psi(\vfg{x}, t)
+                = \hamil(\vfg{x}, t)\Psi(\vfg{x}, t).
+            \end{align}
+        \item Initial condition $\Psi(\vfg{x})$ chosen as the ground state found
+            from the time-independent Schrödinger equation
+            \begin{align}
+                \hamil(\vfg{x})\Psi(\vfg{x}) = \energy\Psi(\vfg{x}).
+            \end{align}
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{Real-time simulations}
-    \begin{enumerate}
+    \begin{itemize}
         \item Model of a physical system executing at the same rate as ``wall
             clock'' time.
             Not realistic for us.
         \item Resembling an experiment.
-    \end{enumerate}
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{Large systems}
     In our case, anything with more than $2$ particles.
-    The wave function $\Psi(\vfg{x}, t)$ describes $N$ particles with $\vfg{x} =
-    (x_1, \dots x_N)$ a set of $N$ coordinates with spin and position.
 \end{frame}
 
-\begin{frame}
-    \frametitle{The challenge}
-    \begin{enumerate}
-        \item How do we represent a quantum mechanical system?
-        \item How do we solve the time-independent Schrödinger equation?
-        \item How do we solve the time-dependent Schrödinger equation?
-    \end{enumerate}
-\end{frame}
+%\begin{frame}
+%    \frametitle{The challenge}
+%    \begin{enumerate}
+%        \item How do we represent a quantum mechanical system?
+%        \item How do we solve the time-independent Schrödinger equation?
+%        \item How do we solve the time-dependent Schrödinger equation?
+%    \end{enumerate}
+%\end{frame}
 
-\section{Many-body intermezzo}
-
-\begin{frame}
-    \frametitle{Many-body intermezzo}
-    \begin{itemize}
-        \item Single-particle states $\brac{\phi_i}$.
-            These states are solutions to the one-body Hamiltonian.
-        \item Many-body states $\brac{\Psi_K}$.
-            Solutions to the many-body Hamiltonian including interactions.
-    \end{itemize}
-    Many-body states are built from single-particle states.
-\end{frame}
-
-
-\begin{frame}
-    \frametitle{Slater determinants}
-    The ground state solution to the non-interacting, time-independent system
-    for fermions is given by the reference Slater determinant
-    \begin{align}
-        \slat(\vfg{x})
-        = \frac{1}{\sqrt{N}}
-        \begin{vmatrix}
-            \phi_1(x_1) & \dots & \phi_N(x_1) \\
-            \vdots & \ddots & \vdots \\
-            \phi_1(x_N) & \dots & \phi_N(x_N)
-        \end{vmatrix}.
-    \end{align}
-    Here $\brac{\phi_i}$ will be a basis of $L$ single-particle states.
-\end{frame}
-
-\begin{frame}
-    \frametitle{Second quantization}
-    Represented in a basis of $L$ single-particle states $\brac{\chi_{\alpha}}$.
-    \begin{itemize}
-        \item Overlap elements
-            \begin{align}
-                \overlapten^{\alpha}_{\beta}
-                \equiv \braket*{\chi_{\alpha}}{\chi_{\beta}}.
-            \end{align}
-        \item One-body Hamiltonian elements
-            \begin{align}
-                \oneten^{\alpha}_{\beta}
-                \equiv \mel*{\chi_{\alpha}}{\onehamil}{\chi_{\beta}}
-                = \mel*{\chi_{\alpha}}{\hat{t}}{\chi_{\beta}}
-                + \mel*{\chi_{\alpha}}{\hat{v}}{\chi_{\beta}}.
-            \end{align}
-        \item Two-body Coulomb interaction elements
-            \begin{align}
-                \twotensym^{\alpha\beta}_{\gamma\delta}
-                \equiv
-                \mel*{\chi_{\alpha}\chi_{\beta}}{
-                    \twohamil
-                }{\chi_{\gamma}\chi_{\delta}}.
-            \end{align}
-        \item Dipole moment elements
-            \begin{align}
-                \vfg{d}^{\alpha}_{\beta}
-                \equiv
-                \mel*{\chi_{\alpha}}{\hat{\vfg{d}}}{\chi_{\beta}}.
-            \end{align}
-    \end{itemize}
-\end{frame}
+%\section{Many-body intermezzo}
+%
+%\begin{frame}
+%    \frametitle{Many-body intermezzo}
+%    \begin{itemize}
+%        \item Single-particle states $\brac{\phi_i}$.
+%            These states are solutions to the one-body Hamiltonian.
+%        \item Many-body states $\brac{\Psi_K}$.
+%            Solutions to the many-body Hamiltonian including interactions.
+%    \end{itemize}
+%    Many-body states are built from single-particle states.
+%\end{frame}
+%
+%
+%\begin{frame}
+%    \frametitle{Slater determinants}
+%    The ground state solution to the non-interacting, time-independent system
+%    for fermions is given by the reference Slater determinant
+%    \begin{align}
+%        \slat(\vfg{x})
+%        = \frac{1}{\sqrt{N}}
+%        \begin{vmatrix}
+%            \phi_1(x_1) & \dots & \phi_N(x_1) \\
+%            \vdots & \ddots & \vdots \\
+%            \phi_1(x_N) & \dots & \phi_N(x_N)
+%        \end{vmatrix}.
+%    \end{align}
+%    Here $\brac{\phi_i}$ will be a basis of $L$ single-particle states.
+%\end{frame}
+%
+%\begin{frame}
+%    \frametitle{Second quantization}
+%    Represented in a basis of $L$ single-particle states $\brac{\chi_{\alpha}}$.
+%    \begin{itemize}
+%        \item Overlap elements
+%            \begin{align}
+%                \overlapten^{\alpha}_{\beta}
+%                \equiv \braket*{\chi_{\alpha}}{\chi_{\beta}}.
+%            \end{align}
+%        \item One-body Hamiltonian elements
+%            \begin{align}
+%                \oneten^{\alpha}_{\beta}
+%                \equiv \mel*{\chi_{\alpha}}{\onehamil}{\chi_{\beta}}
+%                = \mel*{\chi_{\alpha}}{\hat{t}}{\chi_{\beta}}
+%                + \mel*{\chi_{\alpha}}{\hat{v}}{\chi_{\beta}}.
+%            \end{align}
+%        \item Two-body Coulomb interaction elements
+%            \begin{align}
+%                \twotensym^{\alpha\beta}_{\gamma\delta}
+%                \equiv
+%                \mel*{\chi_{\alpha}\chi_{\beta}}{
+%                    \twohamil
+%                }{\chi_{\gamma}\chi_{\delta}}.
+%            \end{align}
+%        \item Dipole moment elements
+%            \begin{align}
+%                \vfg{d}^{\alpha}_{\beta}
+%                \equiv
+%                \mel*{\chi_{\alpha}}{\hat{\vfg{d}}}{\chi_{\beta}}.
+%            \end{align}
+%    \end{itemize}
+%\end{frame}
 
 \section{Implementation}
 
-\begin{frame}
-    \frametitle{Quantum systems}
-    \begin{itemize}
-        \item One-dimensional quantum dots.
-        \item Atoms and molecules.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{One-dimensional quantum dots}
+\begin{frame}[plain, c]
+    \begin{center}
+        \usebeamerfont*{frametitle}
+        \usebeamercolor[fg]{frametitle}
+        \Huge Implementation
+    \end{center}
 \end{frame}
 
 \begin{frame}
     \frametitle{Atoms and molecules}
-    Described by the molecular Hamiltonian in the Born-Oppenheimer approximation
-    using a dipole laser field, viz.
-    % TODO: Cite Hamiltonian, Born-Oppenheimer, and dipole laser.
-    We use PySCF\footcite{pyscf} to get matrix elements.
-    \begin{align}
-        \hamil(\vfg{x}, t)
-        = \hat{t}(\vfg{x})
-        + \hat{v}(\vfg{x})
-        + \hat{f}(\vfg{x}, t)
-        + \hat{u}(\vfg{x})
-        + \hat{h}_0.
-    \end{align}
-    We use atomic units with $\hslash = m_e = e = (4\pi\epsilon_0)^{-1} = 1$.
     \begin{itemize}
-        \item Kinetic energy term
-            \begin{align}
-                \hat{t}(\vfg{x})
-                = \sum_{i}-\half\nabla^{2}_i.
-            \end{align}
-        \item Nuclear-nuclear repulsion energy term
-            \begin{align}
-                \hat{h}_0
-                = \sum_{i < j}\frac{Z_i Z_j}{\abs{\vfg{R}_I - \vfg{R}_J}}.
-            \end{align}
+        \item Molecular Hamiltonian.
+        \item Born-Oppenheimer approximation.
+        \item Semi-classical dipole laser field.
+    \end{itemize}
+    Matrix elements from PySCF.\footcite{pyscf}
+\end{frame}
+
+%\begin{frame}
+%    \frametitle{Quantum systems}
+%    \begin{itemize}
+%        \item One-dimensional quantum dots.
+%        \item Atoms and molecules.
+%    \end{itemize}
+%\end{frame}
+
+%\begin{frame}
+%    \frametitle{One-dimensional quantum dots}
+%\end{frame}
+
+%\begin{frame}
+%    \frametitle{Atoms and molecules}
+%    Described by the molecular Hamiltonian in the Born-Oppenheimer approximation
+%    using a dipole laser field, viz.
+%    % TODO: Cite Hamiltonian, Born-Oppenheimer, and dipole laser.
+%    We use PySCF\footcite{pyscf} to get matrix elements.
+%    \begin{align}
+%        \hamil(\vfg{x}, t)
+%        = \hat{t}(\vfg{x})
+%        + \hat{v}(\vfg{x})
+%        + \hat{f}(\vfg{x}, t)
+%        + \hat{u}(\vfg{x})
+%        + \hat{h}_0.
+%    \end{align}
+%    We use atomic units with $\hslash = m_e = e = (4\pi\epsilon_0)^{-1} = 1$.
+%    \begin{itemize}
+%        \item Kinetic energy term
+%            \begin{align}
+%                \hat{t}(\vfg{x})
+%                = \sum_{i}-\half\nabla^{2}_i.
+%            \end{align}
+%        \item Nuclear-nuclear repulsion energy term
+%            \begin{align}
+%                \hat{h}_0
+%                = \sum_{i < j}\frac{Z_i Z_j}{\abs{\vfg{R}_I - \vfg{R}_J}}.
+%            \end{align}
+%    \end{itemize}
+%\end{frame}
+%
+%\begin{frame}
+%    \begin{itemize}
+%        \item Nuclear potential energy term
+%            \begin{align}
+%                \hat{v}(\vfg{x})
+%                = - \sum_{i, j}\frac{Z_i}{\abs{\vfg{R}_i - \positionvec_i}}.
+%            \end{align}
+%        \item Dipole Laser field term
+%            \begin{align}
+%                \hat{f}(\vfg{x}, t)
+%                = \sum_{i} \hat{\vfg{d}}(\vfg{r}_i)\cdot\vfg{E}(t).
+%            \end{align}
+%        \item Coulomb interaction
+%            \begin{align}
+%                \hat{u}(\vfg{x})
+%                = \frac{1}{\abs{\positionvec_i - \positionvec_j}}.
+%            \end{align}
+%    \end{itemize}
+%\end{frame}
+
+\begin{frame}
+    \frametitle{Methods}
+    \begin{itemize}
+        \item Hartree-Fock theory.
+        \item Configuration interaction.
+        \item Coupled-cluster theory.
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \begin{itemize}
-        \item Nuclear potential energy term
-            \begin{align}
-                \hat{v}(\vfg{x})
-                = - \sum_{i, j}\frac{Z_i}{\abs{\vfg{R}_i - \positionvec_i}}.
-            \end{align}
-        \item Dipole Laser field term
-            \begin{align}
-                \hat{f}(\vfg{x}, t)
-                = \sum_{i} \hat{\vfg{d}}(\vfg{r}_i)\cdot\vfg{E}(t).
-            \end{align}
-        \item Coulomb interaction
-            \begin{align}
-                \hat{u}(\vfg{x})
-                = \frac{1}{\abs{\positionvec_i - \positionvec_j}}.
-            \end{align}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Hartree-Fock}
-    Ansatz:\footcite{szabo1996modern}
+    \frametitle{Hartree-Fock theory}
+    Ansatz:
     \begin{align}
         \ket*{\Psi} \equiv \ket*{\slat}
         = \ket*{\phi_1 \dots \phi_N},
@@ -225,108 +253,155 @@
     \begin{align}
         \ket*{\phi_i} = C_{\alpha i}\ket*{\chi_{\alpha}}.
     \end{align}
-    Important basis for all \emph{post Hartree-Fock methods}.
+    \begin{itemize}
+        \item Mean-field approximation.
+        \item Optimal Slater determinant for single-reference problems.
+        \item Time-evolution of spin-orbitals.
+        \item Computationally inexpensive method.
+        \item No correlations.
+    \end{itemize}
+    Excellent reference state for \emph{post Hartree-Fock} methods.
 \end{frame}
 
-\begin{frame}
-    Hartree-Fock Lagrangian:
-    \begin{align}
-        L[\slat, \slat^{*}, \vfg{\lambda}]
-        = \mel*{\slat}{\hamil}{\slat}
-        - \lambda_{ji}(\braket*{\phi_i}{\phi_j} - \delta_{ij})
-    \end{align}
-    Ground state solution:
-    \begin{gather}
-        \fock\ket*{\phi_i}
-        = (\onehamil + \hat{J} - \hat{K})\ket*{\phi_i}
-        = \epsilon_i\ket*{\phi_i}.
-    \end{gather}
-    In a basis of atomic orbitals:
-    \begin{gather}
-        \fockmat\vfg{C} = \overlapmat\vfg{C}\vfg{\epsilon}.
-    \end{gather}
-\end{frame}
+%\begin{frame}
+%    \frametitle{Hartree-Fock}
+%    Ansatz:
+%    \begin{align}
+%        \ket*{\Psi} \equiv \ket*{\slat}
+%        = \ket*{\phi_1 \dots \phi_N},
+%        \quad
+%        \braket*{\phi_i}{\phi_j} = \delta_{ij}.
+%    \end{align}
+%    Molecular orbitals:
+%    \begin{align}
+%        \ket*{\phi_i} = C_{\alpha i}\ket*{\chi_{\alpha}}.
+%    \end{align}
+%    Ground state solution:
+%    \begin{gather}
+%        \fockmat\vfg{C} = \overlapmat\vfg{C}\vfg{\epsilon}.
+%    \end{gather}
+%    Important basis for all \emph{post Hartree-Fock methods}.
+%\end{frame}
 
-\begin{frame}
-    Time-dependent Lagrangian:
-    \begin{align}
-        L[\slat, \slat^{*}, \vfg{\lambda}]
-        &=
-        \mel*{\slat(t)}{
-            (i\hslash\partial_t - \hamil(t))
-        }{\slat(t)}
-        \nonumber \\
-        &\qquad
-        - \lambda_{ji}
-        (\braket*{\phi_i(t)}{\phi_j(t)} - \delta_{ij})
-    \end{align}
-    Time-dependent variational principle:
-    \begin{align}
-        S[\slat, \slat^{*}]
-        = \int \dd t
-        L[\slat, \slat^{*}, \vfg{\lambda}]
-    \end{align}
-    The stationary conditions yield the equations of motion:
-    \begin{gather}
-        i\hslash\partial_t\ket*{\phi_i(t)}
-        = \fock(t)\ket*{\phi_i(t)}.
-    \end{gather}
-    In a basis of atomic orbitals:
-    \begin{gather}
-        \dot{\vfg{C}} = -i\vfg{F}(t)\vfg{C}(t).
-    \end{gather}
-\end{frame}
+%\begin{frame}
+%    Hartree-Fock Lagrangian:
+%    \begin{align}
+%        L[\slat, \slat^{*}, \vfg{\lambda}]
+%        = \mel*{\slat}{\hamil}{\slat}
+%        - \lambda_{ji}(\braket*{\phi_i}{\phi_j} - \delta_{ij})
+%    \end{align}
+%    Ground state solution:
+%    \begin{gather}
+%        \fock\ket*{\phi_i}
+%        = (\onehamil + \hat{J} - \hat{K})\ket*{\phi_i}
+%        = \epsilon_i\ket*{\phi_i}.
+%    \end{gather}
+%    In a basis of atomic orbitals:
+%    \begin{gather}
+%        \fockmat\vfg{C} = \overlapmat\vfg{C}\vfg{\epsilon}.
+%    \end{gather}
+%\end{frame}
+
+%\begin{frame}
+%    Time-dependent Lagrangian:
+%    \begin{align}
+%        L[\slat, \slat^{*}, \vfg{\lambda}]
+%        &=
+%        \mel*{\slat(t)}{
+%            (i\hslash\partial_t - \hamil(t))
+%        }{\slat(t)}
+%        \nonumber \\
+%        &\qquad
+%        - \lambda_{ji}
+%        (\braket*{\phi_i(t)}{\phi_j(t)} - \delta_{ij})
+%    \end{align}
+%    Time-dependent variational principle:
+%    \begin{align}
+%        S[\slat, \slat^{*}]
+%        = \int \dd t
+%        L[\slat, \slat^{*}, \vfg{\lambda}]
+%    \end{align}
+%    The stationary conditions yield the equations of motion:
+%    \begin{gather}
+%        i\hslash\partial_t\ket*{\phi_i(t)}
+%        = \fock(t)\ket*{\phi_i(t)}.
+%    \end{gather}
+%    In a basis of atomic orbitals:
+%    \begin{gather}
+%        \dot{\vfg{C}} = -i\vfg{F}(t)\vfg{C}(t).
+%    \end{gather}
+%\end{frame}
+
 
 \begin{frame}
     \frametitle{Configuration interaction}
-    Ansatz:\footcite{helgaker-molecular}
+    Ansatz:
     \begin{align}
         \ket*{\Psi} \equiv C_0\ket*{\slat}
         + C^{a}_{i}\ket*{\slat^{a}_{i}}
         + \frac{1}{4}C^{ab}_{ij}\ket*{\slat^{ab}_{ij}}
         + \dots.
     \end{align}
-    Exact within the truncated single-particle space.
-    % TODO: Explain the difference between the coefficient matrices in HF and
-    % CI.
-    % TODO: Explain that CI is ``exact''.
+    \begin{itemize}
+        \item The ``natural'' approach.
+        \item Exact within the given single-particle basis.
+        \item Includes the full spectrum of the Hamiltonian.
+        \item Time-evolution of determinant coefficients.
+        \item Exponential computational complexity.
+        \item Truncated configuration interaction is not size-consistent.
+    \end{itemize}
 \end{frame}
 
-\begin{frame}
-    Ground state solution:
-    \begin{align}
-        \hamilmat\vfg{C} = \vfg{\energy}\vfg{C},
-    \end{align}
-    where we assume orthonormal Slater determinants.
-    Here $\vfg{C}$ includes \emph{all many-body states}.
-\end{frame}
+%\begin{frame}
+%    \frametitle{Configuration interaction}
+%    Ansatz:\footcite{helgaker-molecular}
+%    \begin{align}
+%        \ket*{\Psi} \equiv C_0\ket*{\slat}
+%        + C^{a}_{i}\ket*{\slat^{a}_{i}}
+%        + \frac{1}{4}C^{ab}_{ij}\ket*{\slat^{ab}_{ij}}
+%        + \dots.
+%    \end{align}
+%    Exact within the truncated single-particle space.
+%    % TODO: Explain the difference between the coefficient matrices in HF and
+%    % CI.
+%    % TODO: Explain that CI is ``exact''.
+%\end{frame}
+%
+%\begin{frame}
+%    Ground state solution:
+%    \begin{align}
+%        \hamilmat\vfg{C} = \vfg{\energy}\vfg{C},
+%    \end{align}
+%    where we assume orthonormal Slater determinants.
+%    Here $\vfg{C}$ includes \emph{all many-body states}.
+%\end{frame}
+%
+%\begin{frame}
+%    Time-evolution of a single many-body state:
+%    \begin{align}
+%        \dot{\vfg{c}}(t) = -\hamilmat(t)\vfg{c}(t).
+%    \end{align}
+%    % TODO: Comment on the time-dependence being in the coefficients.
+%    % TODO: Note (in the Stability section) that CI allows zero overlap with the
+%    % reference state.
+%\end{frame}
+%
+%\begin{frame}
+%    Exponential complexity.
+%
+%    Truncated configuration interaction is not \emph{size consistent}.
+%\end{frame}
 
-\begin{frame}
-    Time-evolution of a single many-body state:
-    \begin{align}
-        \dot{\vfg{c}}(t) = -\hamilmat(t)\vfg{c}(t).
-    \end{align}
-    % TODO: Comment on the time-dependence being in the coefficients.
-    % TODO: Note (in the Stability section) that CI allows zero overlap with the
-    % reference state.
-\end{frame}
-
-\begin{frame}
-    Exponential complexity.
-
-    Truncated configuration interaction is not \emph{size consistent}.
-\end{frame}
 
 \begin{frame}
     \frametitle{Coupled-cluster theory}
-    Lagrangian ansatz:\footcite{helgaker1989}
+    Ansatz:
     \begin{gather}
         \ket*{\Psi} \equiv \exponential(\clust)\ket*{\slat},
-        \\
+        \quad
         \bra*{\tilde{\Psi}} \equiv
         \bra*{\slat}(\1 + \clustl)\exponential(\clust).
     \end{gather}
-    This is a \emph{bi-variational}\footcite{arponen1983311} formulation.
     Cluster operators:
     \begin{gather}
         \clust \equiv \clustamp_0
@@ -341,72 +416,139 @@
         + \dots
         = \clustlamp_{\mu}\hat{X}^{\dagger}_{\mu}.
     \end{gather}
+    \begin{itemize}
+        \item Size-consistent.
+        \item Higher correlations than Hartree-Fock.
+        \item Polynomial scaling.
+        \item Described by two sets of amplitudes $\vfg{\clustamp}$ and
+            $\vfg{\clustlamp}$.
+        \item Time-evolution of amplitudes.
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
-    Coupled-cluster Lagrangian:
-    \begin{align}
-        L(\vfg{\clustamp}, \vfg{\clustlamp})
-        = \mel*{\tilde{\Psi}}{\hamil}{\Psi}.
-    \end{align}
-    Ground state solutions:
+    \frametitle{Orbital-adaptive coupled-cluster theory}
+    Opens up for orbital rotations.
     \begin{gather}
-        \dpd{L}{\clustlamp_{\mu}}
-        = \mel*{\slat_{\mu}}{
-            \exponential(-\clust)
-            \hamil
-            \exponential(\clust)
-        }{\slat}
-        = 0, \\
-        \dpd{L}{\clustamp_{\mu}}
-        = \mel*{\slat}{
-            (\1 + \clustl)
-            \exponential(-\clust)
-            \com{\hamil}{\hat{X}_{\mu}}
-            \exponential(\clust)
-        }{\slat}
-        = 0.
+        \ket*{\phi_p} = C_{\alpha p}\ket*{\chi_{\alpha}}, \\
+        \bra*{\tilde{\phi}_{p}} = \tilde{C}_{p \alpha} \bra*{\chi_{\alpha}}.
     \end{gather}
+    \begin{itemize}
+        \item More flexible description than ``regular'' coupled-cluster theory
+            with static orbitals.
+        \item Same scaling.
+        \item Time-evolution of both amplitudes and coefficients.
+    \end{itemize}
 \end{frame}
 
-\begin{frame}
-    Time-dependent bi-variational principle:
-    \begin{align}
-        S[\Psi, \tilde{\Psi}]
-        =
-        \int \dd t
-        \mel*{\tilde{\Psi}(t)}{
-            (i\hslash\partial_t - \hamil(t))
-        }{\Psi(t)}.
-    \end{align}
-    Time dependence in amplitudes and Hamiltonian.
-    Equations of motion:
-    \begin{gather}
-        i\hslash\partial_t\clustamp_{\mu}
-        = \mel*{\slat_{\mu}}{
-            \exponential(-\clust)
-            \hamil
-            \exponential(\clust)
-        }{\slat},
-        \\
-        -i\hslash\partial_t\clustlamp_{\mu}
-        = \mel*{\slat}{
-            (\1 + \clustl)
-            \exponential(-\clust)
-            \com{\hamil}{\hat{X}_{\mu}}
-            \exponential(\clust)
-        }{\slat}.
-    \end{gather}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Orbital-adaptive coupled-cluster}
-\end{frame}
+%
+%\begin{frame}
+%    \frametitle{Coupled-cluster theory}
+%    Lagrangian ansatz:\footcite{helgaker1989}
+%    \begin{gather}
+%        \ket*{\Psi} \equiv \exponential(\clust)\ket*{\slat},
+%        \\
+%        \bra*{\tilde{\Psi}} \equiv
+%        \bra*{\slat}(\1 + \clustl)\exponential(\clust).
+%    \end{gather}
+%    This is a \emph{bi-variational}\footcite{arponen1983311} formulation.
+%    Cluster operators:
+%    \begin{gather}
+%        \clust \equiv \clustamp_0
+%        + \clustamp^{a}_{i}\ccr{a}\can{i}
+%        + \frac{1}{4}\clustamp^{ab}_{ij}\ccr{a}\ccr{b}\can{j}\can{i}
+%        + \dots
+%        = \clustamp_{\mu}\hat{X}_{\mu},
+%        \\
+%        \clustl \equiv
+%        \clustlamp^{i}_{a}\ccr{i}\can{a}
+%        + \frac{1}{4}\clustlamp^{ij}_{ab}\ccr{i}\ccr{j}\can{b}\can{a}
+%        + \dots
+%        = \clustlamp_{\mu}\hat{X}^{\dagger}_{\mu}.
+%    \end{gather}
+%\end{frame}
+%
+%\begin{frame}
+%    Coupled-cluster Lagrangian:
+%    \begin{align}
+%        L(\vfg{\clustamp}, \vfg{\clustlamp})
+%        = \mel*{\tilde{\Psi}}{\hamil}{\Psi}.
+%    \end{align}
+%    Ground state solutions:
+%    \begin{gather}
+%        \dpd{L}{\clustlamp_{\mu}}
+%        = \mel*{\slat_{\mu}}{
+%            \exponential(-\clust)
+%            \hamil
+%            \exponential(\clust)
+%        }{\slat}
+%        = 0, \\
+%        \dpd{L}{\clustamp_{\mu}}
+%        = \mel*{\slat}{
+%            (\1 + \clustl)
+%            \exponential(-\clust)
+%            \com{\hamil}{\hat{X}_{\mu}}
+%            \exponential(\clust)
+%        }{\slat}
+%        = 0.
+%    \end{gather}
+%\end{frame}
+%
+%\begin{frame}
+%    Time-dependent bi-variational principle:
+%    \begin{align}
+%        S[\Psi, \tilde{\Psi}]
+%        =
+%        \int \dd t
+%        \mel*{\tilde{\Psi}(t)}{
+%            (i\hslash\partial_t - \hamil(t))
+%        }{\Psi(t)}.
+%    \end{align}
+%    Time dependence in amplitudes and Hamiltonian.
+%    Equations of motion:
+%    \begin{gather}
+%        i\hslash\partial_t\clustamp_{\mu}
+%        = \mel*{\slat_{\mu}}{
+%            \exponential(-\clust)
+%            \hamil
+%            \exponential(\clust)
+%        }{\slat},
+%        \\
+%        -i\hslash\partial_t\clustlamp_{\mu}
+%        = \mel*{\slat}{
+%            (\1 + \clustl)
+%            \exponential(-\clust)
+%            \com{\hamil}{\hat{X}_{\mu}}
+%            \exponential(\clust)
+%        }{\slat}.
+%    \end{gather}
+%\end{frame}
+%
+%\begin{frame}
+%    \frametitle{Orbital-adaptive coupled-cluster}
+%\end{frame}
 
 \section{Results and discussion}
 
+\begin{frame}[plain, c]
+    \begin{center}
+        \usebeamerfont*{frametitle}
+        \usebeamercolor[fg]{frametitle}
+        \Huge Results and discussion
+    \end{center}
+\end{frame}
+
 \begin{frame}
     \frametitle{Validation}
+    \begin{itemize}
+        \item Two one-dimensional harmonic oscillators explored by
+            \citeauthor{zanghellini_2004}.\footcite{zanghellini_2004}
+        \item Hydrogen molecule explored by
+            \citeauthor{li_2005}.\footcite{li_2005}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \begin{figure}
         \centering
         \begin{tikzpicture}
@@ -522,7 +664,14 @@
 
 \begin{frame}
     \frametitle{Stability}
+    \citeauthor{pedersen2018symplectic}
+    \footcite{pedersen2018symplectic} reports how TDCCSD breaks down under
+    extreme conditions.
+    In an ongoing article \footcite{oa-stability} we demonstrate that OATDCCD is
+    more stable during these simulations.
+\end{frame}
 
+\begin{frame}
     \begin{figure}
         \centering
         \begin{tikzpicture}
@@ -722,12 +871,84 @@
 
 \begin{frame}
     \frametitle{Applications}
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            \begin{axis}[
+                width=10cm,
+                height=6cm,
+                title={Absorption spectra for Neon},
+                xlabel={Excitation energy $[\si{\hartree}]$},
+                grid=major,
+                ylabel={Intensity},
+                enlarge x limits=false,
+                xmax=6,
+            ]
+                \addplot+[
+                    mark=none,
+                    thick,
+                ]
+                table
+                {results/atoms-and-molecules/time-evolution-noble-gasses/dat/fft_ne_ccpvdz_oatdccd_new_real.dat};
+                \addlegendentry{cc-pVDZ}
+                \addplot+[
+                    mark=none,
+                    thick,
+                ]
+                table
+                {results/atoms-and-molecules/time-evolution-noble-gasses/dat/fft_ne_aug-ccpvdz_oatdccd_new_real.dat};
+                \addlegendentry{aug-cc-pVDZ}
+            \end{axis}
+        \end{tikzpicture}
+        \label{fig:dipole-ne}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            \begin{axis}[
+                width=10cm,
+                height=6cm,
+                title={Absorption spectra for Argon},
+                xlabel={Excitation energy $[\si{\hartree}]$},
+                grid=major,
+                ylabel={Intensity},
+                enlarge x limits=false,
+                xmax=3,
+            ]
+                \addplot+[
+                    mark=none,
+                    thick,
+                ]
+                table
+                {results/atoms-and-molecules/time-evolution-noble-gasses/dat/fft_ar_ccpvdz_oatdccd_new_real.dat};
+                \addlegendentry{cc-pVDZ}
+                \addplot+[
+                    mark=none,
+                    thick,
+                ]
+                table
+                {results/atoms-and-molecules/time-evolution-noble-gasses/dat/fft_ar_aug-ccpvdz_oatdccd_new_real.dat};
+                \addlegendentry{aug-cc-pVDZ}
+            \end{axis}
+        \end{tikzpicture}
+        \label{fig:dipole-ar}
+    \end{figure}
 \end{frame}
 
 \section{Summary remarks}
 
 \begin{frame}
     \frametitle{Summary remarks}
+    \begin{itemize}
+        \item We have implemented a highly flexibly framework for quantum
+            many-body dynamics.
+        \item We have demonstrated how the orbital-adaptive formulation of
+            the coupled-cluster method is more suitable for time-evolution than
+            the static formulation.
+    \end{itemize}
 \end{frame}
 
 \end{document}
