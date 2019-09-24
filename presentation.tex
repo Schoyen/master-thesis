@@ -68,7 +68,6 @@
     \begin{itemize}
         \item Model of a physical system executing at the same rate as ``wall
             clock'' time.
-            Not realistic for us.
         \item Resembling an experiment.
     \end{itemize}
 \end{frame}
@@ -165,6 +164,7 @@
     \begin{itemize}
         \item Molecular Hamiltonian.
         \item Born-Oppenheimer approximation.
+        \item Coulomb interaction.
         \item Semi-classical dipole laser field.
     \end{itemize}
     Matrix elements from PySCF.\footcite{pyscf}
@@ -418,7 +418,7 @@
     \end{gather}
     \begin{itemize}
         \item Size-consistent.
-        \item Higher correlations than Hartree-Fock.
+        \item Correlations beyond Hartree-Fock.
         \item Polynomial scaling.
         \item Described by two sets of amplitudes $\vfg{\clustamp}$ and
             $\vfg{\clustlamp}$.
@@ -646,7 +646,7 @@
                 \nextgroupplot[
                         ymode=log,
                         grid=major,
-                        ylabel={$\Delta\abs{\braket*{\Psi(t)}{\Psi(0)}}^2$},
+                        ylabel={$\abs{\Delta\braket*{\Psi(t)}{\Psi(0)}}^2$},
                         restrict x to domain=-6:6,
                         enlarge x limits=false,
                     ]
@@ -871,6 +871,17 @@
 
 \begin{frame}
     \frametitle{Applications}
+    \begin{itemize}
+        \item Study of \ch{LiH}-molecule by \citeauthor{nest}.\footcite{nest}
+        \item Study of \ch{Ne} and \ch{Ar} atoms.
+        \item Spin-dependent laser field by
+            \citeauthor{isborn}.\footcite{isborn}
+        \item Ionization of one-dimensional \ch{Be}-atom by
+            \citeauthor{miyagi_and_madsen}.\footcite{miyagi_and_madsen}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \begin{figure}
         \centering
         \begin{tikzpicture}
